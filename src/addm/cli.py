@@ -2,9 +2,10 @@
 
 import argparse
 from pathlib import Path
+from typing import List, Optional
 
 
-def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run ADDM experiments")
 
     parser.add_argument("--data", required=True, help="Path to dataset (jsonl/json)")

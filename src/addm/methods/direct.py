@@ -2,7 +2,6 @@
 
 from typing import Dict, Any
 
-from addm.data.curation import build_context
 from addm.data.types import Sample
 from addm.llm import LLMService
 from addm.methods.base import Method
@@ -13,7 +12,7 @@ class DirectMethod(Method):
     name = "direct"
 
     async def run_sample(self, sample: Sample, llm: LLMService) -> Dict[str, Any]:
-        context = build_context(sample)
+        context = sample.context or ""
         messages = build_direct_prompt(sample, context)
         response = await llm.call_async(messages)
         return {

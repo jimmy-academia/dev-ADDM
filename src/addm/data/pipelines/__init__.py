@@ -1,5 +1,11 @@
 """Data pipeline modules."""
 
-from addm.data.pipelines.yelp_context import build_context_dataset, build_context_dataset_from_dir
+from addm.data.pipelines.yelp_selection import run_selection, SelectionConfig
+from addm.data.pipelines.yelp_dataset import build_datasets, DatasetBuildConfig
 
-__all__ = ["build_context_dataset", "build_context_dataset_from_dir"]
+__all__ = [
+    "run_selection",
+    "SelectionConfig",
+    "build_datasets",
+    "DatasetBuildConfig",
+]
