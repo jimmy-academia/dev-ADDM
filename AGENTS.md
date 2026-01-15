@@ -35,6 +35,7 @@ Git history shows only `Initial commit`, so no conventions are established.
 
 - Suggested commit style: `type(scope): summary` (e.g., `feat(api): add health check`).
 - PRs should include: purpose, summary of changes, how to test, and any relevant screenshots/logs.
+- The `dogit` skill can be invoked by the user to commit and push changes quickly.
 
 ## Security & Configuration Tips
 - Keep secrets out of the repo; use `.env` for local settings (already ignored by `.gitignore`).
