@@ -9,6 +9,24 @@ uv pip install -e .
 python main.py --data path/to/dataset.jsonl --method direct --provider openai --model gpt-4o-mini --eval
 ```
 
+```bash
+# Yelp keyword search -> topic-aware selection
+.venv/bin/python scripts/search_restaurants.py --group G1
+.venv/bin/python scripts/select_topic_restaurants.py --target 100
+
+# Build review datasets (K=25/50/100/200)
+.venv/bin/python scripts/build_dataset.py --data yelp --selection data/selected/yelp/topic_100.json
+```
+
+```bash
+# Extract L0 judgments and compute ground truth
+.venv/bin/python -m addm.tasks.cli.extract --task G1a --domain yelp --k 50
+.venv/bin/python -m addm.tasks.cli.compute_gt --task G1a --domain yelp --k 50
+
+# Run a direct LLM baseline on a task (Yelp)
+.venv/bin/python -m addm.tasks.cli.run_baseline --task G1a --k 50 -n 5
+```
+
 ## Project Structure
 
 ```
@@ -21,28 +39,12 @@ python main.py --data path/to/dataset.jsonl --method direct --provider openai --
 
 ## CLI Basics
 
-```bash
-uv pip install -e .
-python main.py --data data.jsonl --method direct --eval
-```
-
 Use `--help` to see all arguments.
-
-## Data Creation (Yelp)
-
-```bash
-# Select core 100 businesses
-.venv/bin/python scripts/select_contexts.py --data yelp
-
-# Build review datasets (K=25/50/100/200)
-.venv/bin/python scripts/build_dataset.py --data yelp
-```
-
-See `docs/specs/data_creation.md` for the full workflow.
+See [Data Creation Workflow (docs/specs/data_creation.md)](docs/specs/data_creation.md) for the full workflow.
 
 ## Documentation
 
-- `docs/specs/cli.md` for arguments
-- `docs/specs/datasets.md` for dataset schema
-- `docs/specs/outputs.md` for results schema
-- `docs/architecture.md` for the pipeline overview
+- [CLI Reference (docs/specs/cli.md)](docs/specs/cli.md) for arguments
+- [Dataset Schema (docs/specs/datasets.md)](docs/specs/datasets.md) for dataset schema
+- [Results Schema (docs/specs/outputs.md)](docs/specs/outputs.md) for results schema
+- [Architecture Overview (docs/architecture.md)](docs/architecture.md) for the pipeline overview
