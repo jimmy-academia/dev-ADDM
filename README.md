@@ -11,7 +11,6 @@ python main.py --data path/to/dataset.jsonl --method direct --provider openai --
 ```
 
 ```bash
-source .venv/bin/activate
 # Yelp keyword search -> topic-aware selection
 python scripts/search_restaurants.py --group G1
 python scripts/select_topic_restaurants.py --target 100
@@ -21,7 +20,6 @@ python scripts/build_dataset.py --data yelp --selection data/selected/yelp/topic
 ```
 
 ```bash
-source .venv/bin/activate
 # Extract L0 judgments and compute ground truth
 python -m addm.tasks.cli.extract --task G1a --domain yelp --k 50
 python -m addm.tasks.cli.compute_gt --task G1a --domain yelp --k 50
