@@ -95,8 +95,11 @@ total_usage = self._accumulate_usage([usage1, usage2, ...])
 - Run baseline: `.venv/bin/python -m addm.tasks.cli.run_baseline --task G1a -n 5`
 - Compute GT: `.venv/bin/python -m addm.tasks.cli.compute_gt --task G1a --domain yelp --k 50`
 - Extract judgments: `.venv/bin/python -m addm.tasks.cli.extract --task G1a`
+- Verify formulas: `.venv/bin/python scripts/verify_formulas.py`
 
 ## Current Status
 
-- G1a: Complete (formula + cache + ground truth)
-- All other 71 tasks: Prompts exist, need formula + ground truth
+- **Formula modules**: ✅ All 72 complete (G1a-G6l)
+- **Verification**: ✅ All pass - see `scripts/verify_formulas.py`
+- **Manual review**: See `scripts/manual_review.txt`
+- **Ground truth**: Pending
