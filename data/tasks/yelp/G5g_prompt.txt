@@ -1,0 +1,212 @@
+============================================================
+Agenda
+============================================================
+
+Help assess the restaurant's order execution accuracy and handling.
+
+Analyze each review to identify mentions of order accuracy, special requests, and error handling.
+For each record, extract the L0 primitives defined below.
+
+This task uses complex formula with weighted execution factors.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+ORDER_ACCURACY
+- perfect: order exactly as requested
+- correct: order was correct
+- minor_error: small mistake (wrong side, missing condiment)
+- major_error: significant mistake (wrong dish, missing item)
+- completely_wrong: order totally incorrect
+- not_mentioned: accuracy not discussed
+
+SPECIAL_REQUEST_HANDLING
+- exceeded: went above and beyond for request
+- honored: request was accommodated
+- partial: request partially fulfilled
+- ignored: request was ignored
+- refused: request was refused without reason
+- not_mentioned: special requests not discussed
+
+TIMING_COORDINATION
+- perfectly_timed: all dishes arrived together as expected
+- well_coordinated: good timing between courses
+- acceptable: timing was fine
+- poorly_timed: dishes arrived at wrong times
+- chaotic: completely uncoordinated
+- not_mentioned: timing not discussed
+
+COMMUNICATION_CLARITY
+- excellent: clear communication throughout
+- good: adequate communication
+- unclear: confusing or unclear communication
+- poor: significant communication issues
+- not_mentioned: communication not discussed
+
+ERROR_RECOVERY
+- excellent: error fixed quickly and professionally
+- good: error addressed satisfactorily
+- slow: error fixed but took too long
+- poor: error handling was inadequate
+- none: error not acknowledged
+- not_applicable: no errors occurred
+
+ORDER_MODIFICATION
+- easy: modifications handled easily
+- accommodated: modifications accepted
+- difficult: modifications were problematic
+- refused: modifications not allowed
+- not_mentioned: modifications not discussed
+
+============================================================
+L1: Composites (derived per review) - COMPLEX
+============================================================
+
+Accuracy Score:
+  perfect = +4.0
+  correct = +2.0
+  minor_error = -0.5
+  major_error = -3.0
+  completely_wrong = -5.0
+  not_mentioned = 0
+
+Request Score:
+  exceeded = +3.0
+  honored = +1.5
+  partial = -0.5
+  ignored = -2.5
+  refused = -3.0
+  not_mentioned = 0
+
+Timing Score:
+  perfectly_timed = +2.5
+  well_coordinated = +1.5
+  acceptable = 0
+  poorly_timed = -2.0
+  chaotic = -4.0
+  not_mentioned = 0
+
+Communication Score:
+  excellent = +2.0
+  good = +1.0
+  unclear = -1.0
+  poor = -2.5
+  not_mentioned = 0
+
+Recovery Score:
+  excellent = +2.5
+  good = +1.5
+  slow = 0
+  poor = -2.0
+  none = -3.0
+  not_applicable = 0
+
+Modification Score:
+  easy = +1.5
+  accommodated = +0.5
+  difficult = -1.0
+  refused = -2.0
+  not_mentioned = 0
+
+L1_EXECUTION_SCORE = ACCURACY_SCORE + REQUEST_SCORE + TIMING_SCORE + COMMUNICATION_SCORE + RECOVERY_SCORE + MODIFICATION_SCORE
+
+COMPLETE_FAILURE_PENALTY:
+  If ORDER_ACCURACY = completely_wrong AND ERROR_RECOVERY in {poor, none}: -3.0
+  Else: 0
+
+FLAWLESS_EXECUTION_BONUS:
+  If ORDER_ACCURACY = perfect AND TIMING_COORDINATION = perfectly_timed AND SPECIAL_REQUEST_HANDLING in {exceeded, honored}: +2.0
+  Else: 0
+
+L1_TOTAL_SCORE = L1_EXECUTION_SCORE + COMPLETE_FAILURE_PENALTY + FLAWLESS_EXECUTION_BONUS
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_EXECUTION_REVIEWS = count of reviews with any execution-related primitives
+  N_MAJOR_ERROR = count where ORDER_ACCURACY in {major_error, completely_wrong}
+  N_FLAWLESS = count where FLAWLESS_EXECUTION_BONUS > 0
+  N_POOR_RECOVERY = count where ERROR_RECOVERY in {poor, none}
+
+Confidence Level:
+  if N_EXECUTION_REVIEWS == 0: none
+  elif N_EXECUTION_REVIEWS <= 2: low
+  elif N_EXECUTION_REVIEWS <= 5: medium
+  else: high
+
+Aggregation:
+  SUM_L1_SCORE = sum of L1_TOTAL_SCORE across all execution reviews
+  MEAN_L1_SCORE = SUM_L1_SCORE / max(N_EXECUTION_REVIEWS, 1)
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  ADJUSTED_SCORE = MEAN_L1_SCORE
+  RAW_SCORE = BASE_SCORE + ADJUSTED_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Excellent Execution
+  - >= 5.5 AND < 7.5 => Good Execution
+  - >= 3.5 AND < 5.5 => Average Execution
+  - < 3.5 => Poor Execution
+
+Overrides:
+  - If N_MAJOR_ERROR >= 2 => max Average Execution
+  - If N_FLAWLESS >= 2 AND N_MAJOR_ERROR == 0 => min Good Execution
+  - If N_POOR_RECOVERY >= 2 => include recovery warning
+  - If MEAN_L1_SCORE < -3 => Poor Execution
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per execution-related review ... ],
+  L1_composites: [
+    {
+      review_id,
+      accuracy_score,
+      request_score,
+      timing_score,
+      communication_score,
+      recovery_score,
+      modification_score,
+      l1_execution_score,
+      complete_failure_penalty,
+      flawless_execution_bonus,
+      l1_total_score
+    },
+    ...
+  ],
+  L2_aggregates: {
+    N_EXECUTION_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_MAJOR_ERROR, N_FLAWLESS, N_POOR_RECOVERY,
+    SUM_L1_SCORE,
+    MEAN_L1_SCORE,
+    BASE_SCORE,
+    ADJUSTED_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    recovery_warning (if applicable)
+  },
+  decision_evidence: {
+    high_score_reviews: [ {review_id, l1_total_score, quote}, ... ],
+    low_score_reviews: [ {review_id, l1_total_score, quote}, ... ],
+    error_incidents: [ {review_id, error_type, recovery, quote}, ... ]
+  }
+}

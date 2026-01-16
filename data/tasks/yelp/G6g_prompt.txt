@@ -1,0 +1,216 @@
+============================================================
+Agenda
+============================================================
+
+Help assess how this restaurant compares to alternatives and competitors.
+
+Analyze each review to identify mentions of comparisons to other restaurants, competitive positioning, and relative value.
+For each record, extract the L0 primitives defined below.
+
+This task uses complex formula with weighted comparison factors.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+COMPETITOR_MENTION
+- favorable: compares favorably to named competitor
+- unfavorable: compares unfavorably to competitor
+- similar: similar to competitor
+- different: deliberately different from competitor
+- not_mentioned: no competitor comparison
+
+CATEGORY_RANKING
+- best_in_category: best of this type in area
+- top_tier: among the best options
+- competitive: holds its own against others
+- middle_pack: average among competitors
+- bottom_tier: worse than most alternatives
+- not_mentioned: ranking not discussed
+
+PRICE_COMPARISON
+- best_value: better value than competitors
+- fair_value: value comparable to alternatives
+- overpriced: more expensive than comparable options
+- underpriced: cheaper than expected for quality
+- not_mentioned: price comparison not made
+
+QUALITY_COMPARISON
+- superior: higher quality than alternatives
+- comparable: similar quality to competitors
+- inferior: lower quality than competitors
+- not_mentioned: quality comparison not made
+
+CONVENIENCE_COMPARISON
+- more_convenient: easier/more convenient than alternatives
+- equally_convenient: similar convenience to others
+- less_convenient: harder to access than alternatives
+- not_mentioned: convenience not compared
+
+RECOMMENDATION_CONTEXT
+- over_competitor: recommends over specific alternative
+- for_specific_need: best for specific purpose
+- general_recommendation: general positive recommendation
+- conditional: recommendation with caveats
+- not_recommended: doesn't recommend over alternatives
+- not_mentioned: no recommendation context
+
+SWITCH_LIKELIHOOD
+- switched_to: reviewer switched from competitor to here
+- would_switch: would switch from competitor
+- loyal_to_other: prefers competitor but tried this
+- switched_from: left for competitor
+- not_mentioned: switching not discussed
+
+============================================================
+L1: Composites (derived per review) - COMPLEX
+============================================================
+
+Competitor Score:
+  favorable = +3.0
+  different = +1.0
+  similar = 0
+  unfavorable = -3.0
+  not_mentioned = 0
+
+Ranking Score:
+  best_in_category = +4.0
+  top_tier = +2.5
+  competitive = +1.0
+  middle_pack = -0.5
+  bottom_tier = -3.0
+  not_mentioned = 0
+
+Price Score:
+  best_value = +3.0
+  underpriced = +2.0
+  fair_value = +0.5
+  overpriced = -2.5
+  not_mentioned = 0
+
+Quality Score:
+  superior = +3.5
+  comparable = +0.5
+  inferior = -3.0
+  not_mentioned = 0
+
+Convenience Score:
+  more_convenient = +2.0
+  equally_convenient = +0.5
+  less_convenient = -1.5
+  not_mentioned = 0
+
+Recommendation Score:
+  over_competitor = +3.0
+  for_specific_need = +2.0
+  general_recommendation = +1.5
+  conditional = 0
+  not_recommended = -2.5
+  not_mentioned = 0
+
+Switch Score:
+  switched_to = +3.0
+  would_switch = +2.0
+  loyal_to_other = -1.0
+  switched_from = -3.0
+  not_mentioned = 0
+
+L1_COMPARISON_SCORE = COMPETITOR_SCORE + RANKING_SCORE + PRICE_SCORE + QUALITY_SCORE + CONVENIENCE_SCORE + RECOMMENDATION_SCORE + SWITCH_SCORE
+
+BEST_IN_CLASS_BONUS:
+  If CATEGORY_RANKING = best_in_category AND QUALITY_COMPARISON = superior: +2.0
+  Else: 0
+
+L1_TOTAL_SCORE = L1_COMPARISON_SCORE + BEST_IN_CLASS_BONUS
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_COMPARISON_REVIEWS = count of reviews with any comparison-related primitives
+  N_BEST_IN_CATEGORY = count where CATEGORY_RANKING = best_in_category
+  N_BOTTOM_TIER = count where CATEGORY_RANKING = bottom_tier
+  N_SWITCHED_TO = count where SWITCH_LIKELIHOOD = switched_to
+  N_SWITCHED_FROM = count where SWITCH_LIKELIHOOD = switched_from
+
+Confidence Level:
+  if N_COMPARISON_REVIEWS == 0: none
+  elif N_COMPARISON_REVIEWS <= 2: low
+  elif N_COMPARISON_REVIEWS <= 5: medium
+  else: high
+
+Aggregation:
+  SUM_L1_SCORE = sum of L1_TOTAL_SCORE across all comparison reviews
+  MEAN_L1_SCORE = SUM_L1_SCORE / max(N_COMPARISON_REVIEWS, 1)
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  ADJUSTED_SCORE = MEAN_L1_SCORE
+  RAW_SCORE = BASE_SCORE + ADJUSTED_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Category Leader
+  - >= 5.5 AND < 7.5 => Strong Competitor
+  - >= 3.5 AND < 5.5 => Average Competitor
+  - < 3.5 => Weak Competitor
+
+Overrides:
+  - If N_BEST_IN_CATEGORY >= 2 => min Strong Competitor
+  - If N_SWITCHED_FROM >= 2 => include churn warning
+  - If N_BOTTOM_TIER >= 2 => max Average Competitor
+  - If MEAN_L1_SCORE < -3 => Weak Competitor
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per comparison-related review ... ],
+  L1_composites: [
+    {
+      review_id,
+      competitor_score,
+      ranking_score,
+      price_score,
+      quality_score,
+      convenience_score,
+      recommendation_score,
+      switch_score,
+      l1_comparison_score,
+      best_in_class_bonus,
+      l1_total_score
+    },
+    ...
+  ],
+  L2_aggregates: {
+    N_COMPARISON_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_BEST_IN_CATEGORY, N_BOTTOM_TIER,
+    N_SWITCHED_TO, N_SWITCHED_FROM,
+    SUM_L1_SCORE,
+    MEAN_L1_SCORE,
+    BASE_SCORE,
+    ADJUSTED_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    churn_warning (if applicable)
+  },
+  decision_evidence: {
+    high_score_reviews: [ {review_id, l1_total_score, quote}, ... ],
+    low_score_reviews: [ {review_id, l1_total_score, quote}, ... ],
+    competitive_positioning: [ {review_id, ranking, quote}, ... ]
+  }
+}

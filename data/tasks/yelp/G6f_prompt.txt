@@ -1,0 +1,198 @@
+============================================================
+Agenda
+============================================================
+
+Help assess how this restaurant compares to alternatives and competitors.
+
+Analyze each review to identify mentions of comparisons to other restaurants, competitive positioning, and relative value.
+For each record, extract the L0 primitives defined below.
+
+This task adds L1.5 comparison-dimension grouping to identify competitive strengths.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+COMPETITOR_MENTION
+- favorable: compares favorably to named competitor
+- unfavorable: compares unfavorably to competitor
+- similar: similar to competitor
+- different: deliberately different from competitor
+- not_mentioned: no competitor comparison
+
+CATEGORY_RANKING
+- best_in_category: best of this type in area
+- top_tier: among the best options
+- competitive: holds its own against others
+- middle_pack: average among competitors
+- bottom_tier: worse than most alternatives
+- not_mentioned: ranking not discussed
+
+PRICE_COMPARISON
+- best_value: better value than competitors
+- fair_value: value comparable to alternatives
+- overpriced: more expensive than comparable options
+- underpriced: cheaper than expected for quality
+- not_mentioned: price comparison not made
+
+QUALITY_COMPARISON
+- superior: higher quality than alternatives
+- comparable: similar quality to competitors
+- inferior: lower quality than competitors
+- not_mentioned: quality comparison not made
+
+CONVENIENCE_COMPARISON
+- more_convenient: easier/more convenient than alternatives
+- equally_convenient: similar convenience to others
+- less_convenient: harder to access than alternatives
+- not_mentioned: convenience not compared
+
+RECOMMENDATION_CONTEXT
+- over_competitor: recommends over specific alternative
+- for_specific_need: best for specific purpose
+- general_recommendation: general positive recommendation
+- conditional: recommendation with caveats
+- not_recommended: doesn't recommend over alternatives
+- not_mentioned: no recommendation context
+
+============================================================
+L1: Composites (derived per review)
+============================================================
+
+POSITIVE_COMPARISON = true iff ANY:
+  - COMPETITOR_MENTION = favorable
+  - CATEGORY_RANKING in {best_in_category, top_tier}
+  - PRICE_COMPARISON in {best_value, underpriced}
+  - QUALITY_COMPARISON = superior
+Else POSITIVE_COMPARISON = false
+
+NEGATIVE_COMPARISON = true iff ANY:
+  - COMPETITOR_MENTION = unfavorable
+  - CATEGORY_RANKING = bottom_tier
+  - PRICE_COMPARISON = overpriced
+  - QUALITY_COMPARISON = inferior
+Else NEGATIVE_COMPARISON = false
+
+============================================================
+L1.5: Comparison Dimension Grouping
+============================================================
+
+Group reviews by comparison dimension:
+  VALUE_DIMENSION = price_comparison data
+  QUALITY_DIMENSION = quality_comparison data
+  CONVENIENCE_DIMENSION = convenience_comparison data
+
+For each dimension bucket, compute:
+  BUCKET_N_REVIEWS = count of reviews comparing this dimension
+  BUCKET_N_FAVORABLE = count with positive comparison in dimension
+  BUCKET_N_UNFAVORABLE = count with negative comparison in dimension
+  BUCKET_WIN_RATE = BUCKET_N_FAVORABLE / max(BUCKET_N_FAVORABLE + BUCKET_N_UNFAVORABLE, 1)
+
+Competitive Pattern Analysis:
+  STRONGEST_DIMENSION = bucket with highest WIN_RATE
+  WEAKEST_DIMENSION = bucket with lowest WIN_RATE
+  N_DIMENSIONS_WINNING = count of buckets where WIN_RATE >= 0.6
+
+  COMPETITIVE_PATTERN:
+    if N_DIMENSIONS_WINNING >= 3: "market_leader"
+    elif VALUE_DIMENSION WIN_RATE >= 0.7: "value_leader"
+    elif QUALITY_DIMENSION WIN_RATE >= 0.7: "quality_leader"
+    elif CONVENIENCE_DIMENSION WIN_RATE >= 0.7: "convenience_leader"
+    elif N_DIMENSIONS_WINNING >= 1: "selective_advantage"
+    elif all dimensions have WIN_RATE < 0.4: "struggling_competitor"
+    else: "undifferentiated"
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_COMPARISON_REVIEWS = count of reviews with any comparison-related primitives
+  N_POSITIVE = count where POSITIVE_COMPARISON = true
+  N_NEGATIVE = count where NEGATIVE_COMPARISON = true
+
+Confidence Level:
+  if N_COMPARISON_REVIEWS == 0: none
+  elif N_COMPARISON_REVIEWS <= 2: low
+  elif N_COMPARISON_REVIEWS <= 5: medium
+  else: high
+
+L1.5 Dimension Analysis:
+  STRONGEST_DIMENSION
+  STRONGEST_WIN_RATE
+  WEAKEST_DIMENSION
+  COMPETITIVE_PATTERN
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  WIN_RATE = N_POSITIVE / max(N_POSITIVE + N_NEGATIVE, 1)
+
+  POSITIVE_SCORE = N_POSITIVE * 1.5
+  NEGATIVE_SCORE = N_NEGATIVE * 1.5
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Category Leader
+  - >= 5.5 AND < 7.5 => Strong Competitor
+  - >= 3.5 AND < 5.5 => Average Competitor
+  - < 3.5 => Weak Competitor
+
+Overrides:
+  - If COMPETITIVE_PATTERN = "market_leader" => min Strong Competitor
+  - If COMPETITIVE_PATTERN = "struggling_competitor" => max Average Competitor
+  - Include strength note based on STRONGEST_DIMENSION
+  - Include weakness note based on WEAKEST_DIMENSION if WIN_RATE < 0.4
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per comparison-related review ... ],
+  L1_composites: [ ... one record per comparison-related review ... ],
+  L1_5_dimension_buckets: {
+    value: { n_reviews, n_favorable, n_unfavorable, win_rate },
+    quality: { n_reviews, n_favorable, n_unfavorable, win_rate },
+    convenience: { n_reviews, n_favorable, n_unfavorable, win_rate },
+    strongest_dimension,
+    strongest_win_rate,
+    weakest_dimension,
+    n_dimensions_winning,
+    competitive_pattern
+  },
+  L2_aggregates: {
+    N_COMPARISON_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_POSITIVE, N_NEGATIVE,
+    WIN_RATE,
+    POSITIVE_SCORE,
+    NEGATIVE_SCORE,
+    BASE_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    strength_note (if applicable),
+    weakness_note (if applicable)
+  },
+  decision_evidence: {
+    favorable_comparisons: [ {review_id, dimension, quote}, ... ],
+    unfavorable_comparisons: [ {review_id, dimension, quote}, ... ],
+    dimension_evidence: {
+      strongest_dimension,
+      weakest_dimension,
+      competitive_pattern
+    }
+  }
+}

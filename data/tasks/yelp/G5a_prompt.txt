@@ -1,0 +1,157 @@
+============================================================
+Agenda
+============================================================
+
+Help assess the restaurant's ability to handle customer volume and capacity.
+
+Analyze each review to identify mentions of crowding, wait times, and staffing levels.
+For each record, extract the L0 primitives defined below.
+
+This task uses simple formula (basic scoring without weighting).
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+CROWD_LEVEL
+- empty: restaurant was nearly empty
+- comfortable: good amount of space, not crowded
+- busy: noticeably busy but manageable
+- packed: very crowded, limited space
+- overwhelming: chaotically crowded
+- not_mentioned: crowd level not discussed
+
+WAIT_TIME
+- none: seated immediately
+- short: brief wait (under 15 min)
+- moderate: reasonable wait (15-30 min)
+- long: extended wait (30-60 min)
+- excessive: unreasonable wait (over 60 min)
+- not_mentioned: wait time not discussed
+
+TABLE_AVAILABILITY
+- abundant: plenty of tables available
+- adequate: sufficient tables
+- limited: few tables available
+- none: no tables, had to wait
+- not_mentioned: not discussed
+
+RESERVATION_SYSTEM
+- excellent: reservation honored perfectly
+- good: reservation worked well
+- problematic: issues with reservation
+- failed: reservation lost or not honored
+- not_mentioned: reservations not discussed
+
+STAFF_COVERAGE
+- excellent: plenty of staff, attentive
+- adequate: sufficient staff
+- stretched: staff seemed overwhelmed
+- insufficient: clearly understaffed
+- not_mentioned: staffing not discussed
+
+PEAK_HANDLING
+- excellent: handled rush smoothly
+- good: managed rush adequately
+- struggling: visible strain during rush
+- failing: service collapsed during rush
+- not_mentioned: peak handling not discussed
+
+============================================================
+L1: Composites (derived per review)
+============================================================
+
+POSITIVE_CAPACITY = true iff ANY:
+  - CROWD_LEVEL in {empty, comfortable}
+  - WAIT_TIME in {none, short}
+  - STAFF_COVERAGE in {excellent, adequate}
+  - RESERVATION_SYSTEM in {excellent, good}
+Else POSITIVE_CAPACITY = false
+
+NEGATIVE_CAPACITY = true iff ANY:
+  - CROWD_LEVEL in {packed, overwhelming}
+  - WAIT_TIME in {long, excessive}
+  - STAFF_COVERAGE in {stretched, insufficient}
+  - RESERVATION_SYSTEM in {problematic, failed}
+Else NEGATIVE_CAPACITY = false
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_CAPACITY_REVIEWS = count of reviews with any capacity-related primitives
+  N_POSITIVE = count where POSITIVE_CAPACITY = true
+  N_NEGATIVE = count where NEGATIVE_CAPACITY = true
+  N_EXCESSIVE_WAIT = count where WAIT_TIME = excessive
+  N_UNDERSTAFFED = count where STAFF_COVERAGE = insufficient
+  N_RESERVATION_FAILED = count where RESERVATION_SYSTEM = failed
+
+Confidence Level:
+  if N_CAPACITY_REVIEWS == 0: none
+  elif N_CAPACITY_REVIEWS <= 2: low
+  elif N_CAPACITY_REVIEWS <= 5: medium
+  else: high
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  POSITIVE_SCORE = (N_POSITIVE * 1.5)
+  NEGATIVE_SCORE = (N_NEGATIVE * 1.5) + (N_EXCESSIVE_WAIT * 1.0) + (N_UNDERSTAFFED * 1.0)
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Excellent Capacity Management
+  - >= 5.5 AND < 7.5 => Good Capacity Management
+  - >= 3.5 AND < 5.5 => Average Capacity Management
+  - < 3.5 => Poor Capacity Management
+
+Overrides:
+  - If N_EXCESSIVE_WAIT >= 2 => max Average Capacity Management
+  - If N_UNDERSTAFFED >= 2 => max Average Capacity Management
+  - If N_RESERVATION_FAILED >= 1 => include reservation warning
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per capacity-related review ... ],
+  L1_composites: [
+    {
+      review_id,
+      positive_capacity,
+      negative_capacity
+    },
+    ...
+  ],
+  L2_aggregates: {
+    N_CAPACITY_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_POSITIVE, N_NEGATIVE,
+    N_EXCESSIVE_WAIT, N_UNDERSTAFFED, N_RESERVATION_FAILED,
+    POSITIVE_SCORE,
+    NEGATIVE_SCORE,
+    BASE_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    reservation_warning (if applicable)
+  },
+  decision_evidence: {
+    positive_capacity_mentions: [ {review_id, aspect, quote}, ... ],
+    negative_capacity_mentions: [ {review_id, aspect, quote}, ... ],
+    staffing_concerns: [ {review_id, severity, quote}, ... ]
+  }
+}

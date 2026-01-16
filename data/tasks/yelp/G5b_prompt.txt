@@ -1,0 +1,200 @@
+============================================================
+Agenda
+============================================================
+
+Help assess the restaurant's ability to handle customer volume and capacity.
+
+Analyze each review to identify mentions of crowding, wait times, and staffing levels.
+For each record, extract the L0 primitives defined below.
+
+This task adds L1.5 time-period grouping to identify peak handling patterns.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+CROWD_LEVEL
+- empty: restaurant was nearly empty
+- comfortable: good amount of space, not crowded
+- busy: noticeably busy but manageable
+- packed: very crowded, limited space
+- overwhelming: chaotically crowded
+- not_mentioned: crowd level not discussed
+
+WAIT_TIME
+- none: seated immediately
+- short: brief wait (under 15 min)
+- moderate: reasonable wait (15-30 min)
+- long: extended wait (30-60 min)
+- excessive: unreasonable wait (over 60 min)
+- not_mentioned: wait time not discussed
+
+TABLE_AVAILABILITY
+- abundant: plenty of tables available
+- adequate: sufficient tables
+- limited: few tables available
+- none: no tables, had to wait
+- not_mentioned: not discussed
+
+RESERVATION_SYSTEM
+- excellent: reservation honored perfectly
+- good: reservation worked well
+- problematic: issues with reservation
+- failed: reservation lost or not honored
+- not_mentioned: reservations not discussed
+
+STAFF_COVERAGE
+- excellent: plenty of staff, attentive
+- adequate: sufficient staff
+- stretched: staff seemed overwhelmed
+- insufficient: clearly understaffed
+- not_mentioned: staffing not discussed
+
+VISIT_TIMING
+- peak_dinner: dinner rush (6-8pm, weekends)
+- peak_lunch: lunch rush (12-1pm)
+- off_peak: non-rush hours
+- special_event: holiday, game day, event nearby
+- not_mentioned: timing not clear
+
+============================================================
+L1: Composites (derived per review)
+============================================================
+
+POSITIVE_CAPACITY = true iff ANY:
+  - CROWD_LEVEL in {empty, comfortable}
+  - WAIT_TIME in {none, short}
+  - STAFF_COVERAGE in {excellent, adequate}
+  - RESERVATION_SYSTEM in {excellent, good}
+Else POSITIVE_CAPACITY = false
+
+NEGATIVE_CAPACITY = true iff ANY:
+  - CROWD_LEVEL in {packed, overwhelming}
+  - WAIT_TIME in {long, excessive}
+  - STAFF_COVERAGE in {stretched, insufficient}
+  - RESERVATION_SYSTEM in {problematic, failed}
+Else NEGATIVE_CAPACITY = false
+
+============================================================
+L1.5: Time Period Grouping
+============================================================
+
+Group reviews by visit timing:
+  PEAK_HOURS = peak_dinner, peak_lunch
+  OFF_PEAK = off_peak
+  SPECIAL_EVENTS = special_event
+
+For each time bucket, compute:
+  BUCKET_N_REVIEWS = count of reviews in this bucket
+  BUCKET_N_POSITIVE = count with POSITIVE_CAPACITY in bucket
+  BUCKET_N_NEGATIVE = count with NEGATIVE_CAPACITY in bucket
+  BUCKET_SUCCESS_RATE = BUCKET_N_POSITIVE / max(BUCKET_N_POSITIVE + BUCKET_N_NEGATIVE, 1)
+
+Capacity Pattern Analysis:
+  BEST_TIME = bucket with highest SUCCESS_RATE
+  WORST_TIME = bucket with lowest SUCCESS_RATE
+  PEAK_VS_OFFPEAK_GAP = PEAK_HOURS SUCCESS_RATE - OFF_PEAK SUCCESS_RATE
+
+  CAPACITY_PATTERN:
+    if PEAK_HOURS SUCCESS_RATE >= 0.7 AND OFF_PEAK SUCCESS_RATE >= 0.7: "consistently_managed"
+    elif PEAK_HOURS SUCCESS_RATE >= 0.7: "peak_specialist"
+    elif OFF_PEAK SUCCESS_RATE >= 0.7 AND PEAK_HOURS SUCCESS_RATE < 0.5: "struggles_at_peak"
+    elif SPECIAL_EVENTS bucket N_NEGATIVE > N_POSITIVE: "event_challenged"
+    elif abs(PEAK_VS_OFFPEAK_GAP) > 0.3: "inconsistent_handling"
+    else: "capacity_issues"
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_CAPACITY_REVIEWS = count of reviews with any capacity-related primitives
+  N_POSITIVE = count where POSITIVE_CAPACITY = true
+  N_NEGATIVE = count where NEGATIVE_CAPACITY = true
+
+Confidence Level:
+  if N_CAPACITY_REVIEWS == 0: none
+  elif N_CAPACITY_REVIEWS <= 2: low
+  elif N_CAPACITY_REVIEWS <= 5: medium
+  else: high
+
+L1.5 Time Analysis:
+  BEST_TIME
+  BEST_TIME_RATE
+  WORST_TIME
+  CAPACITY_PATTERN
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  SATISFACTION_RATE = N_POSITIVE / max(N_POSITIVE + N_NEGATIVE, 1)
+
+  POSITIVE_SCORE = N_POSITIVE * 1.5
+  NEGATIVE_SCORE = N_NEGATIVE * 1.5
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Excellent Capacity Management
+  - >= 5.5 AND < 7.5 => Good Capacity Management
+  - >= 3.5 AND < 5.5 => Average Capacity Management
+  - < 3.5 => Poor Capacity Management
+
+Overrides:
+  - If CAPACITY_PATTERN = "consistently_managed" => min Good Capacity Management
+  - If CAPACITY_PATTERN = "struggles_at_peak" => include peak warning
+  - Include strength note based on CAPACITY_PATTERN
+  - Include timing recommendation based on BEST_TIME
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per capacity-related review ... ],
+  L1_composites: [ ... one record per capacity-related review ... ],
+  L1_5_time_buckets: {
+    peak_hours: { n_reviews, n_positive, n_negative, success_rate },
+    off_peak: { n_reviews, n_positive, n_negative, success_rate },
+    special_events: { n_reviews, n_positive, n_negative, success_rate },
+    best_time,
+    best_time_rate,
+    worst_time,
+    peak_vs_offpeak_gap,
+    capacity_pattern
+  },
+  L2_aggregates: {
+    N_CAPACITY_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_POSITIVE, N_NEGATIVE,
+    SATISFACTION_RATE,
+    POSITIVE_SCORE,
+    NEGATIVE_SCORE,
+    BASE_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    strength_note (if applicable),
+    timing_recommendation (if applicable),
+    peak_warning (if applicable)
+  },
+  decision_evidence: {
+    positive_capacity_mentions: [ {review_id, time_bucket, quote}, ... ],
+    negative_capacity_mentions: [ {review_id, time_bucket, quote}, ... ],
+    time_evidence: {
+      best_time,
+      worst_time,
+      capacity_pattern
+    }
+  }
+}

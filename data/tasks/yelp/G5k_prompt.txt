@@ -1,0 +1,224 @@
+============================================================
+Agenda
+============================================================
+
+Help assess the restaurant's consistency across multiple visits.
+
+Analyze each review to identify mentions of consistency, changes over time, and repeat visit experiences.
+For each record, extract the L0 primitives defined below.
+
+This task uses complex formula with weighted consistency factors.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+VISIT_TYPE
+- first_visit: first time at restaurant
+- repeat_visit: has been before
+- regular: visits frequently
+- returning_after_gap: returned after long absence
+- not_mentioned: visit history not discussed
+
+FOOD_CONSISTENCY
+- always_excellent: food consistently great
+- consistent: food quality steady
+- variable: quality varies between visits
+- declining: quality has gotten worse
+- improving: quality has gotten better
+- not_mentioned: food consistency not discussed
+
+SERVICE_CONSISTENCY
+- always_excellent: service consistently great
+- consistent: service quality steady
+- variable: service varies between visits
+- declining: service has gotten worse
+- improving: service has gotten better
+- not_mentioned: service consistency not discussed
+
+TIMING_CONSISTENCY
+- always_prompt: timing consistently good
+- consistent: wait times steady
+- variable: timing varies between visits
+- declining: waits have gotten longer
+- improving: waits have gotten shorter
+- not_mentioned: timing consistency not discussed
+
+OVERALL_CHANGE
+- better_than_before: improved since last visit
+- same_as_before: no change noticed
+- worse_than_before: declined since last visit
+- not_applicable: first visit or no comparison
+- not_mentioned: no comparison made
+
+EXPECTATION_MATCH
+- exceeded: better than expected based on past
+- met: matched expectations
+- disappointed: worse than expected
+- not_applicable: no prior expectations
+- not_mentioned: expectations not discussed
+
+RECOMMENDATION_CHANGE
+- would_return: planning to come back
+- might_return: uncertain about returning
+- wont_return: won't be back
+- lost_customer: was a regular, now done
+- not_mentioned: return intention not discussed
+
+============================================================
+L1: Composites (derived per review) - COMPLEX
+============================================================
+
+Food Consistency Score:
+  always_excellent = +3.0
+  consistent = +2.0
+  improving = +1.5
+  variable = -1.5
+  declining = -3.0
+  not_mentioned = 0
+
+Service Consistency Score:
+  always_excellent = +3.0
+  consistent = +2.0
+  improving = +1.5
+  variable = -1.5
+  declining = -3.0
+  not_mentioned = 0
+
+Timing Consistency Score:
+  always_prompt = +2.0
+  consistent = +1.5
+  improving = +1.0
+  variable = -1.0
+  declining = -2.0
+  not_mentioned = 0
+
+Change Score:
+  better_than_before = +2.5
+  same_as_before = +1.0
+  worse_than_before = -2.5
+  not_applicable = 0
+  not_mentioned = 0
+
+Expectation Score:
+  exceeded = +2.0
+  met = +0.5
+  disappointed = -2.5
+  not_applicable = 0
+  not_mentioned = 0
+
+Loyalty Score:
+  would_return = +2.0
+  might_return = 0
+  wont_return = -2.5
+  lost_customer = -4.0
+  not_mentioned = 0
+
+L1_CONSISTENCY_SCORE = FOOD_CONSISTENCY_SCORE + SERVICE_CONSISTENCY_SCORE + TIMING_CONSISTENCY_SCORE + CHANGE_SCORE + EXPECTATION_SCORE + LOYALTY_SCORE
+
+REPEAT_VISITOR_WEIGHT:
+  If VISIT_TYPE = regular: 1.5
+  Elif VISIT_TYPE in {repeat_visit, returning_after_gap}: 1.2
+  Else: 1.0
+
+L1_WEIGHTED_SCORE = L1_CONSISTENCY_SCORE * REPEAT_VISITOR_WEIGHT
+
+LOST_REGULAR_PENALTY:
+  If VISIT_TYPE = regular AND RECOMMENDATION_CHANGE = lost_customer: -3.0
+  Else: 0
+
+L1_TOTAL_SCORE = L1_WEIGHTED_SCORE + LOST_REGULAR_PENALTY
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_CONSISTENCY_REVIEWS = count of reviews with any consistency-related primitives
+  N_REPEAT_VISITORS = count where VISIT_TYPE in {repeat_visit, regular, returning_after_gap}
+  N_REGULARS = count where VISIT_TYPE = regular
+  N_DECLINING = count where FOOD_CONSISTENCY = declining OR SERVICE_CONSISTENCY = declining
+  N_LOST_CUSTOMERS = count where RECOMMENDATION_CHANGE = lost_customer
+
+Confidence Level:
+  if N_CONSISTENCY_REVIEWS == 0: none
+  elif N_CONSISTENCY_REVIEWS <= 2: low
+  elif N_CONSISTENCY_REVIEWS <= 5: medium
+  else: high
+
+Aggregation:
+  SUM_L1_SCORE = sum of L1_TOTAL_SCORE across all consistency reviews
+  MEAN_L1_SCORE = SUM_L1_SCORE / max(N_CONSISTENCY_REVIEWS, 1)
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  ADJUSTED_SCORE = MEAN_L1_SCORE
+  RAW_SCORE = BASE_SCORE + ADJUSTED_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Excellent Consistency
+  - >= 5.5 AND < 7.5 => Good Consistency
+  - >= 3.5 AND < 5.5 => Variable Consistency
+  - < 3.5 => Poor Consistency
+
+Overrides:
+  - If N_LOST_CUSTOMERS >= 2 => max Variable Consistency + loyalty warning
+  - If N_REGULARS >= 3 AND MEAN_L1_SCORE >= 3 => min Good Consistency
+  - If N_DECLINING >= 2 => include decline warning
+  - If MEAN_L1_SCORE < -3 => Poor Consistency
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per consistency-related review ... ],
+  L1_composites: [
+    {
+      review_id,
+      food_consistency_score,
+      service_consistency_score,
+      timing_consistency_score,
+      change_score,
+      expectation_score,
+      loyalty_score,
+      l1_consistency_score,
+      repeat_visitor_weight,
+      l1_weighted_score,
+      lost_regular_penalty,
+      l1_total_score
+    },
+    ...
+  ],
+  L2_aggregates: {
+    N_CONSISTENCY_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_REPEAT_VISITORS, N_REGULARS,
+    N_DECLINING, N_LOST_CUSTOMERS,
+    SUM_L1_SCORE,
+    MEAN_L1_SCORE,
+    BASE_SCORE,
+    ADJUSTED_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    loyalty_warning (if applicable),
+    decline_warning (if applicable)
+  },
+  decision_evidence: {
+    high_score_reviews: [ {review_id, visit_type, l1_total_score, quote}, ... ],
+    low_score_reviews: [ {review_id, visit_type, l1_total_score, quote}, ... ],
+    declining_reports: [ {review_id, area, quote}, ... ]
+  }
+}

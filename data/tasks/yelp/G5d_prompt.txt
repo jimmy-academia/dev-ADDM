@@ -1,0 +1,272 @@
+============================================================
+Agenda
+============================================================
+
+Help assess the restaurant's ability to handle customer volume and capacity.
+
+Analyze each review to identify mentions of crowding, wait times, and staffing levels.
+For each record, extract the L0 primitives defined below.
+
+This task combines complex formula (weighted factors, interactions)
+with L1.5 time-period grouping for pattern detection.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+CROWD_LEVEL
+- empty: restaurant was nearly empty
+- comfortable: good amount of space, not crowded
+- busy: noticeably busy but manageable
+- packed: very crowded, limited space
+- overwhelming: chaotically crowded
+- not_mentioned: crowd level not discussed
+
+WAIT_TIME
+- none: seated immediately
+- short: brief wait (under 15 min)
+- moderate: reasonable wait (15-30 min)
+- long: extended wait (30-60 min)
+- excessive: unreasonable wait (over 60 min)
+- not_mentioned: wait time not discussed
+
+TABLE_AVAILABILITY
+- abundant: plenty of tables available
+- adequate: sufficient tables
+- limited: few tables available
+- none: no tables, had to wait
+- not_mentioned: not discussed
+
+RESERVATION_SYSTEM
+- excellent: reservation honored perfectly
+- good: reservation worked well
+- problematic: issues with reservation
+- failed: reservation lost or not honored
+- not_mentioned: reservations not discussed
+
+STAFF_COVERAGE
+- excellent: plenty of staff, attentive
+- adequate: sufficient staff
+- stretched: staff seemed overwhelmed
+- insufficient: clearly understaffed
+- not_mentioned: staffing not discussed
+
+VISIT_TIMING
+- peak_dinner: dinner rush (6-8pm, weekends)
+- peak_lunch: lunch rush (12-1pm)
+- off_peak: non-rush hours
+- special_event: holiday, game day, event nearby
+- not_mentioned: timing not clear
+
+SPACE_COMFORT
+- spacious: plenty of room between tables
+- comfortable: adequate spacing
+- tight: tables close together
+- cramped: uncomfortably close
+- not_mentioned: spacing not discussed
+
+============================================================
+L1: Composites (derived per review) - COMPLEX
+============================================================
+
+Crowd Score:
+  empty = +1.0
+  comfortable = +2.0
+  busy = +0.5
+  packed = -1.5
+  overwhelming = -3.0
+  not_mentioned = 0
+
+Wait Score:
+  none = +2.5
+  short = +1.5
+  moderate = 0
+  long = -2.0
+  excessive = -4.0
+  not_mentioned = 0
+
+Table Score:
+  abundant = +1.5
+  adequate = +0.5
+  limited = -1.0
+  none = -2.0
+  not_mentioned = 0
+
+Reservation Score:
+  excellent = +2.0
+  good = +1.0
+  problematic = -2.0
+  failed = -4.0
+  not_mentioned = 0
+
+Staff Score:
+  excellent = +2.5
+  adequate = +1.0
+  stretched = -1.5
+  insufficient = -3.5
+  not_mentioned = 0
+
+Space Score:
+  spacious = +1.5
+  comfortable = +0.5
+  tight = -0.5
+  cramped = -1.5
+  not_mentioned = 0
+
+L1_CAPACITY_SCORE = CROWD_SCORE + WAIT_SCORE + TABLE_SCORE + RESERVATION_SCORE + STAFF_SCORE + SPACE_SCORE
+
+CHAOS_PENALTY (interaction effect):
+  If CROWD_LEVEL in {packed, overwhelming} AND STAFF_COVERAGE in {stretched, insufficient}: -2.0
+  Else: 0
+
+L1_TOTAL_SCORE = L1_CAPACITY_SCORE + CHAOS_PENALTY
+
+============================================================
+L1.5: Time Period Grouping
+============================================================
+
+Group reviews by visit timing:
+  PEAK_HOURS = peak_dinner, peak_lunch
+  OFF_PEAK = off_peak
+  SPECIAL_EVENTS = special_event
+
+For each time bucket, compute:
+  BUCKET_N_REVIEWS = count of reviews in this bucket
+  BUCKET_SUM_SCORE = sum of L1_TOTAL_SCORE in bucket
+  BUCKET_MEAN_SCORE = BUCKET_SUM_SCORE / max(BUCKET_N_REVIEWS, 1)
+  BUCKET_N_EXCELLENT = count with L1_TOTAL_SCORE >= 5 in bucket
+  BUCKET_N_POOR = count with L1_TOTAL_SCORE < -2 in bucket
+
+Capacity Pattern Analysis:
+  BEST_TIME = bucket with highest MEAN_SCORE
+  BEST_TIME_SCORE = MEAN_SCORE of BEST_TIME
+  WORST_TIME = bucket with lowest MEAN_SCORE
+  WORST_TIME_SCORE = MEAN_SCORE of WORST_TIME
+  PEAK_VS_OFFPEAK_GAP = PEAK_HOURS MEAN_SCORE - OFF_PEAK MEAN_SCORE
+  N_TIMES_EXCELLENT = count of buckets where MEAN_SCORE >= 2.0
+
+  CAPACITY_PATTERN:
+    if N_TIMES_EXCELLENT >= 3: "capacity_excellence"
+    elif PEAK_HOURS MEAN_SCORE >= 3.0: "peak_master"
+    elif OFF_PEAK MEAN_SCORE >= 3.0 AND PEAK_HOURS MEAN_SCORE < 1.0: "off_peak_only"
+    elif SPECIAL_EVENTS MEAN_SCORE < -1.0: "event_vulnerable"
+    elif BEST_TIME_SCORE - WORST_TIME_SCORE > 3.0: "time_dependent"
+    elif N_TIMES_EXCELLENT >= 1: "selective_capacity"
+    else: "capacity_challenged"
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_CAPACITY_REVIEWS = count of reviews with any capacity-related primitives
+  N_EXCESSIVE_WAIT = count where WAIT_TIME = excessive
+  N_UNDERSTAFFED = count where STAFF_COVERAGE = insufficient
+  N_RESERVATION_FAILED = count where RESERVATION_SYSTEM = failed
+
+Confidence Level:
+  if N_CAPACITY_REVIEWS == 0: none
+  elif N_CAPACITY_REVIEWS <= 2: low
+  elif N_CAPACITY_REVIEWS <= 5: medium
+  else: high
+
+L1.5 Time Aggregation:
+  TOTAL_TIME_SCORE = sum of BUCKET_MEAN_SCORE across all time buckets
+  N_TIME_BUCKETS_ACTIVE = count of buckets where N_REVIEWS > 0
+  MEAN_TIME_SCORE = TOTAL_TIME_SCORE / max(N_TIME_BUCKETS_ACTIVE, 1)
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  Pattern Multiplier (based on capacity pattern):
+    if CAPACITY_PATTERN = "capacity_excellence": PATTERN_MULT = 1.2
+    elif CAPACITY_PATTERN = "peak_master": PATTERN_MULT = 1.15
+    elif CAPACITY_PATTERN in {"off_peak_only", "event_vulnerable"}: PATTERN_MULT = 0.9
+    elif CAPACITY_PATTERN = "capacity_challenged": PATTERN_MULT = 0.75
+    else: PATTERN_MULT = 1.0
+
+  ADJUSTED_SCORE = MEAN_TIME_SCORE * PATTERN_MULT
+  RAW_SCORE = BASE_SCORE + ADJUSTED_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Excellent Capacity Management
+  - >= 5.5 AND < 7.5 => Good Capacity Management
+  - >= 3.5 AND < 5.5 => Average Capacity Management
+  - < 3.5 => Poor Capacity Management
+
+Overrides:
+  - If N_EXCESSIVE_WAIT >= 2 => max Average Capacity Management
+  - If CAPACITY_PATTERN = "capacity_excellence" => min Good Capacity Management
+  - If CAPACITY_PATTERN = "event_vulnerable" AND N_RESERVATION_FAILED >= 1 => max Average + event warning
+  - Include strength note based on BEST_TIME
+  - Include timing recommendation based on CAPACITY_PATTERN
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per capacity-related review ... ],
+  L1_composites: [
+    {
+      review_id,
+      crowd_score,
+      wait_score,
+      table_score,
+      reservation_score,
+      staff_score,
+      space_score,
+      l1_capacity_score,
+      chaos_penalty,
+      l1_total_score
+    },
+    ...
+  ],
+  L1_5_time_buckets: {
+    peak_hours: { n_reviews, sum_score, mean_score, n_excellent, n_poor },
+    off_peak: { n_reviews, sum_score, mean_score, n_excellent, n_poor },
+    special_events: { n_reviews, sum_score, mean_score, n_excellent, n_poor },
+    best_time,
+    best_time_score,
+    worst_time,
+    worst_time_score,
+    peak_vs_offpeak_gap,
+    n_times_excellent,
+    capacity_pattern
+  },
+  L2_aggregates: {
+    N_CAPACITY_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_EXCESSIVE_WAIT, N_UNDERSTAFFED, N_RESERVATION_FAILED,
+    TOTAL_TIME_SCORE,
+    MEAN_TIME_SCORE,
+    PATTERN_MULT,
+    BASE_SCORE,
+    ADJUSTED_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    strength_note (if applicable),
+    timing_recommendation (if applicable),
+    event_warning (if applicable)
+  },
+  decision_evidence: {
+    high_score_reviews: [ {review_id, time_bucket, l1_total_score, quote}, ... ],
+    low_score_reviews: [ {review_id, time_bucket, l1_total_score, quote}, ... ],
+    time_evidence: {
+      best_time,
+      worst_time,
+      capacity_pattern
+    }
+  }
+}

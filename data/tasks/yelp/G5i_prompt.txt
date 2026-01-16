@@ -1,0 +1,158 @@
+============================================================
+Agenda
+============================================================
+
+Help assess the restaurant's consistency across multiple visits.
+
+Analyze each review to identify mentions of consistency, changes over time, and repeat visit experiences.
+For each record, extract the L0 primitives defined below.
+
+This task uses simple formula (basic scoring without weighting).
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+VISIT_TYPE
+- first_visit: first time at restaurant
+- repeat_visit: has been before
+- regular: visits frequently
+- returning_after_gap: returned after long absence
+- not_mentioned: visit history not discussed
+
+FOOD_CONSISTENCY
+- always_excellent: food consistently great
+- consistent: food quality steady
+- variable: quality varies between visits
+- declining: quality has gotten worse
+- improving: quality has gotten better
+- not_mentioned: food consistency not discussed
+
+SERVICE_CONSISTENCY
+- always_excellent: service consistently great
+- consistent: service quality steady
+- variable: service varies between visits
+- declining: service has gotten worse
+- improving: service has gotten better
+- not_mentioned: service consistency not discussed
+
+OVERALL_CHANGE
+- better_than_before: improved since last visit
+- same_as_before: no change noticed
+- worse_than_before: declined since last visit
+- not_applicable: first visit or no comparison
+- not_mentioned: no comparison made
+
+EXPECTATION_MATCH
+- exceeded: better than expected based on past
+- met: matched expectations
+- disappointed: worse than expected
+- not_applicable: no prior expectations
+- not_mentioned: expectations not discussed
+
+RECOMMENDATION_CHANGE
+- would_return: planning to come back
+- might_return: uncertain about returning
+- wont_return: won't be back
+- lost_customer: was a regular, now done
+- not_mentioned: return intention not discussed
+
+============================================================
+L1: Composites (derived per review)
+============================================================
+
+POSITIVE_CONSISTENCY = true iff ANY:
+  - FOOD_CONSISTENCY in {always_excellent, consistent, improving}
+  - SERVICE_CONSISTENCY in {always_excellent, consistent, improving}
+  - OVERALL_CHANGE = better_than_before
+  - EXPECTATION_MATCH = exceeded
+Else POSITIVE_CONSISTENCY = false
+
+NEGATIVE_CONSISTENCY = true iff ANY:
+  - FOOD_CONSISTENCY in {variable, declining}
+  - SERVICE_CONSISTENCY in {variable, declining}
+  - OVERALL_CHANGE = worse_than_before
+  - RECOMMENDATION_CHANGE in {wont_return, lost_customer}
+Else NEGATIVE_CONSISTENCY = false
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_CONSISTENCY_REVIEWS = count of reviews with any consistency-related primitives
+  N_POSITIVE = count where POSITIVE_CONSISTENCY = true
+  N_NEGATIVE = count where NEGATIVE_CONSISTENCY = true
+  N_REPEAT_VISITORS = count where VISIT_TYPE in {repeat_visit, regular, returning_after_gap}
+  N_DECLINING = count where FOOD_CONSISTENCY = declining OR SERVICE_CONSISTENCY = declining
+  N_LOST_CUSTOMERS = count where RECOMMENDATION_CHANGE = lost_customer
+
+Confidence Level:
+  if N_CONSISTENCY_REVIEWS == 0: none
+  elif N_CONSISTENCY_REVIEWS <= 2: low
+  elif N_CONSISTENCY_REVIEWS <= 5: medium
+  else: high
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  POSITIVE_SCORE = (N_POSITIVE * 1.5)
+  NEGATIVE_SCORE = (N_NEGATIVE * 1.5) + (N_DECLINING * 1.0) + (N_LOST_CUSTOMERS * 2.0)
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Excellent Consistency
+  - >= 5.5 AND < 7.5 => Good Consistency
+  - >= 3.5 AND < 5.5 => Variable Consistency
+  - < 3.5 => Poor Consistency
+
+Overrides:
+  - If N_LOST_CUSTOMERS >= 2 => max Variable Consistency
+  - If N_DECLINING >= 2 => include decline warning
+  - If N_REPEAT_VISITORS < 2 => low confidence note (limited repeat visit data)
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per consistency-related review ... ],
+  L1_composites: [
+    {
+      review_id,
+      positive_consistency,
+      negative_consistency
+    },
+    ...
+  ],
+  L2_aggregates: {
+    N_CONSISTENCY_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_POSITIVE, N_NEGATIVE,
+    N_REPEAT_VISITORS, N_DECLINING, N_LOST_CUSTOMERS,
+    POSITIVE_SCORE,
+    NEGATIVE_SCORE,
+    BASE_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    decline_warning (if applicable),
+    confidence_note (if applicable)
+  },
+  decision_evidence: {
+    positive_consistency_mentions: [ {review_id, aspect, quote}, ... ],
+    negative_consistency_mentions: [ {review_id, aspect, quote}, ... ],
+    declining_reports: [ {review_id, area, quote}, ... ]
+  }
+}

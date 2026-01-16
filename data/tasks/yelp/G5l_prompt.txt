@@ -1,0 +1,259 @@
+============================================================
+Agenda
+============================================================
+
+Help assess the restaurant's consistency across multiple visits.
+
+Analyze each review to identify mentions of consistency, changes over time, and repeat visit experiences.
+For each record, extract the L0 primitives defined below.
+
+This task combines complex formula (weighted factors, interactions)
+with L1.5 consistency-aspect grouping for pattern detection.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+VISIT_TYPE
+- first_visit: first time at restaurant
+- repeat_visit: has been before
+- regular: visits frequently
+- returning_after_gap: returned after long absence
+- not_mentioned: visit history not discussed
+
+FOOD_CONSISTENCY
+- always_excellent: food consistently great
+- consistent: food quality steady
+- variable: quality varies between visits
+- declining: quality has gotten worse
+- improving: quality has gotten better
+- not_mentioned: food consistency not discussed
+
+SERVICE_CONSISTENCY
+- always_excellent: service consistently great
+- consistent: service quality steady
+- variable: service varies between visits
+- declining: service has gotten worse
+- improving: service has gotten better
+- not_mentioned: service consistency not discussed
+
+TIMING_CONSISTENCY
+- always_prompt: timing consistently good
+- consistent: wait times steady
+- variable: timing varies between visits
+- declining: waits have gotten longer
+- improving: waits have gotten shorter
+- not_mentioned: timing consistency not discussed
+
+OVERALL_CHANGE
+- better_than_before: improved since last visit
+- same_as_before: no change noticed
+- worse_than_before: declined since last visit
+- not_applicable: first visit or no comparison
+- not_mentioned: no comparison made
+
+RECOMMENDATION_CHANGE
+- would_return: planning to come back
+- might_return: uncertain about returning
+- wont_return: won't be back
+- lost_customer: was a regular, now done
+- not_mentioned: return intention not discussed
+
+============================================================
+L1: Composites (derived per review) - COMPLEX
+============================================================
+
+Food Consistency Score:
+  always_excellent = +3.0
+  consistent = +2.0
+  improving = +1.5
+  variable = -1.5
+  declining = -3.0
+  not_mentioned = 0
+
+Service Consistency Score:
+  always_excellent = +3.0
+  consistent = +2.0
+  improving = +1.5
+  variable = -1.5
+  declining = -3.0
+  not_mentioned = 0
+
+Timing Consistency Score:
+  always_prompt = +2.0
+  consistent = +1.5
+  improving = +1.0
+  variable = -1.0
+  declining = -2.0
+  not_mentioned = 0
+
+Change Score:
+  better_than_before = +2.5
+  same_as_before = +1.0
+  worse_than_before = -2.5
+  not_applicable = 0
+  not_mentioned = 0
+
+Loyalty Score:
+  would_return = +2.0
+  might_return = 0
+  wont_return = -2.5
+  lost_customer = -4.0
+  not_mentioned = 0
+
+L1_CONSISTENCY_SCORE = FOOD_CONSISTENCY_SCORE + SERVICE_CONSISTENCY_SCORE + TIMING_CONSISTENCY_SCORE + CHANGE_SCORE + LOYALTY_SCORE
+
+REPEAT_VISITOR_WEIGHT:
+  If VISIT_TYPE = regular: 1.5
+  Elif VISIT_TYPE in {repeat_visit, returning_after_gap}: 1.2
+  Else: 1.0
+
+L1_TOTAL_SCORE = L1_CONSISTENCY_SCORE * REPEAT_VISITOR_WEIGHT
+
+============================================================
+L1.5: Consistency Aspect Grouping
+============================================================
+
+Group reviews by consistency aspect:
+  FOOD_ASPECT = food_consistency data
+  SERVICE_ASPECT = service_consistency data
+  TIMING_ASPECT = timing_consistency data
+
+For each aspect bucket, compute:
+  BUCKET_N_REVIEWS = count of reviews discussing this aspect
+  BUCKET_SUM_SCORE = sum of relevant consistency scores in bucket
+  BUCKET_MEAN_SCORE = BUCKET_SUM_SCORE / max(BUCKET_N_REVIEWS, 1)
+  BUCKET_N_EXCELLENT = count with {always_excellent, always_prompt}
+  BUCKET_N_DECLINING = count with declining status
+
+Consistency Pattern Analysis:
+  MOST_CONSISTENT_ASPECT = bucket with highest MEAN_SCORE
+  MOST_CONSISTENT_SCORE = MEAN_SCORE of MOST_CONSISTENT_ASPECT
+  LEAST_CONSISTENT_ASPECT = bucket with lowest MEAN_SCORE
+  LEAST_CONSISTENT_SCORE = MEAN_SCORE of LEAST_CONSISTENT_ASPECT
+  N_ASPECTS_STRONG = count of buckets where MEAN_SCORE >= 1.5
+
+  CONSISTENCY_PATTERN:
+    if N_ASPECTS_STRONG >= 3: "total_reliability"
+    elif FOOD_ASPECT MEAN_SCORE >= 2.5: "kitchen_consistency"
+    elif SERVICE_ASPECT MEAN_SCORE >= 2.5: "service_consistency"
+    elif TIMING_ASPECT MEAN_SCORE >= 2.0: "timing_reliability"
+    elif MOST_CONSISTENT_SCORE - LEAST_CONSISTENT_SCORE > 3.0: "uneven_consistency"
+    elif any bucket has N_DECLINING >= 2: "trending_down"
+    elif N_ASPECTS_STRONG >= 1: "selective_reliability"
+    else: "consistency_issues"
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_CONSISTENCY_REVIEWS = count of reviews with any consistency-related primitives
+  N_REPEAT_VISITORS = count where VISIT_TYPE in {repeat_visit, regular, returning_after_gap}
+  N_LOST_CUSTOMERS = count where RECOMMENDATION_CHANGE = lost_customer
+
+Confidence Level:
+  if N_CONSISTENCY_REVIEWS == 0: none
+  elif N_CONSISTENCY_REVIEWS <= 2: low
+  elif N_CONSISTENCY_REVIEWS <= 5: medium
+  else: high
+
+L1.5 Aspect Aggregation:
+  TOTAL_ASPECT_SCORE = sum of BUCKET_MEAN_SCORE across all aspect buckets
+  N_ASPECT_BUCKETS_ACTIVE = count of buckets where N_REVIEWS > 0
+  MEAN_ASPECT_SCORE = TOTAL_ASPECT_SCORE / max(N_ASPECT_BUCKETS_ACTIVE, 1)
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  Pattern Multiplier (based on consistency pattern):
+    if CONSISTENCY_PATTERN = "total_reliability": PATTERN_MULT = 1.2
+    elif CONSISTENCY_PATTERN in {"kitchen_consistency", "service_consistency", "timing_reliability"}: PATTERN_MULT = 1.1
+    elif CONSISTENCY_PATTERN = "trending_down": PATTERN_MULT = 0.85
+    elif CONSISTENCY_PATTERN = "consistency_issues": PATTERN_MULT = 0.75
+    else: PATTERN_MULT = 1.0
+
+  ADJUSTED_SCORE = MEAN_ASPECT_SCORE * PATTERN_MULT
+  RAW_SCORE = BASE_SCORE + ADJUSTED_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Excellent Consistency
+  - >= 5.5 AND < 7.5 => Good Consistency
+  - >= 3.5 AND < 5.5 => Variable Consistency
+  - < 3.5 => Poor Consistency
+
+Overrides:
+  - If N_LOST_CUSTOMERS >= 2 => max Variable Consistency + loyalty warning
+  - If CONSISTENCY_PATTERN = "total_reliability" => min Good Consistency
+  - If CONSISTENCY_PATTERN = "trending_down" => include trend warning
+  - Include strength note based on MOST_CONSISTENT_ASPECT
+  - Include improvement note based on LEAST_CONSISTENT_ASPECT if score < 0
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per consistency-related review ... ],
+  L1_composites: [
+    {
+      review_id,
+      food_consistency_score,
+      service_consistency_score,
+      timing_consistency_score,
+      change_score,
+      loyalty_score,
+      l1_consistency_score,
+      repeat_visitor_weight,
+      l1_total_score
+    },
+    ...
+  ],
+  L1_5_aspect_buckets: {
+    food: { n_reviews, sum_score, mean_score, n_excellent, n_declining },
+    service: { n_reviews, sum_score, mean_score, n_excellent, n_declining },
+    timing: { n_reviews, sum_score, mean_score, n_excellent, n_declining },
+    most_consistent_aspect,
+    most_consistent_score,
+    least_consistent_aspect,
+    least_consistent_score,
+    n_aspects_strong,
+    consistency_pattern
+  },
+  L2_aggregates: {
+    N_CONSISTENCY_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_REPEAT_VISITORS, N_LOST_CUSTOMERS,
+    TOTAL_ASPECT_SCORE,
+    MEAN_ASPECT_SCORE,
+    PATTERN_MULT,
+    BASE_SCORE,
+    ADJUSTED_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    strength_note (if applicable),
+    improvement_note (if applicable),
+    loyalty_warning (if applicable),
+    trend_warning (if applicable)
+  },
+  decision_evidence: {
+    high_score_reviews: [ {review_id, aspect, l1_total_score, quote}, ... ],
+    low_score_reviews: [ {review_id, aspect, l1_total_score, quote}, ... ],
+    aspect_evidence: {
+      most_consistent_aspect,
+      least_consistent_aspect,
+      consistency_pattern
+    }
+  }
+}
