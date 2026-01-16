@@ -10,6 +10,8 @@ uv pip install -e .
 python main.py --data path/to/dataset.jsonl --method direct --provider openai --model gpt-4o-mini --eval
 ```
 
+### Yelp Data Pipeline (example; switch domain as needed)
+
 ```bash
 # Yelp keyword search -> topic-aware selection
 python scripts/search_restaurants.py --group G1
@@ -18,6 +20,8 @@ python scripts/select_topic_restaurants.py --target 100
 # Build review datasets (K=25/50/100/200)
 python scripts/build_dataset.py --data yelp --selection data/selected/yelp/topic_100.json
 ```
+
+### Ground Truth Creation (Yelp example; switch task/domain as needed)
 
 ```bash
 # Extract L0 judgments and compute ground truth
