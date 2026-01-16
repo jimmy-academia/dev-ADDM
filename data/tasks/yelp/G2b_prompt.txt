@@ -123,13 +123,22 @@ L1.5 Occasion Analysis:
 Formulas & Decision Policy
 ============================================================
 
-Formulas:
+Formulas (extends G2a with L1.5 romance versatility bonus):
   SUCCESS_RATE = N_POSITIVE / max(N_POSITIVE + N_NEGATIVE, 1)
 
   POSITIVE_SCORE = N_POSITIVE * 2
   NEGATIVE_SCORE = N_NEGATIVE * 2
 
-  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  # L1.5 Romance Versatility Bonus (NEW in G2b)
+  ROMANCE_VERSATILITY_BONUS:
+    if ROMANCE_VERSATILITY = "versatile": +2.0
+    elif ROMANCE_VERSATILITY = "special_occasion_specialist": +1.5
+    elif ROMANCE_VERSATILITY = "date_night_favorite": +1.0
+    elif ROMANCE_VERSATILITY = "first_date_friendly": +0.5
+    elif ROMANCE_VERSATILITY = "situational": 0.0
+    else: -1.0
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE + ROMANCE_VERSATILITY_BONUS
   FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
 
 Decision Thresholds on FINAL_SCORE:
@@ -139,8 +148,7 @@ Decision Thresholds on FINAL_SCORE:
   - < 3.5 => Not Romantic (not recommended for romantic occasions)
 
 Overrides:
-  - If ROMANCE_VERSATILITY = "versatile" => min Romantic
-  - If ROMANCE_VERSATILITY = "special_occasion_specialist" => min Somewhat Romantic + occasion recommendation
+  - None (L1.5 bonus now directly affects score)
   - If ROMANCE_VERSATILITY = "not_recommended" AND N_NEGATIVE >= 2 => Not Romantic
   - If SPECIAL_OCCASION bucket has N_NEGATIVE >= 2 => max Somewhat Romantic
 

@@ -116,9 +116,18 @@ L1.5 Issue Analysis:
 Formulas & Decision Policy
 ============================================================
 
-Formulas:
+Formulas (extends G1i with L1.5 hygiene pattern bonus):
   ISSUE_SCORE = (N_MINOR * 1) + (N_MODERATE * 3) + (N_SEVERE * 8)
-  RAW_RISK = BASE_RISK + ISSUE_SCORE
+
+  # L1.5 Hygiene Pattern Bonus (NEW in G1j)
+  HYGIENE_PATTERN_BONUS:
+    if HYGIENE_PATTERN = "illness_concern": +5.0
+    elif HYGIENE_PATTERN = "pest_issue": +4.0
+    elif HYGIENE_PATTERN = "systemic": +3.0
+    elif HYGIENE_PATTERN = "isolated": +1.0
+    else: 0.0
+
+  RAW_RISK = BASE_RISK + ISSUE_SCORE + HYGIENE_PATTERN_BONUS
   FINAL_RISK_SCORE = clamp(RAW_RISK, 0.0, 20.0)
 
 Decision Thresholds on FINAL_RISK_SCORE:
@@ -128,9 +137,6 @@ Decision Thresholds on FINAL_RISK_SCORE:
   - >= 12.0 => Critical Risk (avoid)
 
 Overrides:
-  - If HYGIENE_PATTERN = "illness_concern" => Critical Risk
-  - If HYGIENE_PATTERN = "pest_issue" => min High Risk
-  - If HYGIENE_PATTERN = "systemic" => min Moderate Risk
   - If N_SEVERE >= 2 => Critical Risk
 
 ============================================================

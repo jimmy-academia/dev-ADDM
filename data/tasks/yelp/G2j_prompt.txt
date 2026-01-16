@@ -130,13 +130,22 @@ L1.5 Group Analysis:
 Formulas & Decision Policy
 ============================================================
 
-Formulas:
+Formulas (extends G2i with L1.5 group versatility bonus):
   SUCCESS_RATE = N_SUCCESS / max(N_SUCCESS + N_FAILED, 1)
 
   POSITIVE_SCORE = N_SUCCESS * 2
   NEGATIVE_SCORE = N_FAILED * 2.5
 
-  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  # L1.5 Group Versatility Bonus (NEW in G2j)
+  GROUP_VERSATILITY_BONUS:
+    if GROUP_VERSATILITY = "all_groups_welcome": +2.0
+    elif GROUP_VERSATILITY = "family_friendly": +1.5
+    elif GROUP_VERSATILITY = "great_for_celebrations": +1.0
+    elif GROUP_VERSATILITY = "handles_work_events": +1.0
+    elif GROUP_VERSATILITY = "situational": 0.0
+    else: -1.0
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE + GROUP_VERSATILITY_BONUS
   FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
 
 Decision Thresholds on FINAL_SCORE:

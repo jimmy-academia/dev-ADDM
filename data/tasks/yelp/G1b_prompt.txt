@@ -124,12 +124,20 @@ L1.5 Allergen Analysis:
 Formulas & Decision Policy
 ============================================================
 
-Formulas (same as G1a):
+Formulas (extends G1a with L1.5 allergen pattern bonus):
   INCIDENT_AGE = CURRENT_YEAR - MOST_RECENT_INCIDENT_YEAR
   RECENCY_DECAY = max(0.3, 1.0 - (INCIDENT_AGE * 0.15))
   CUISINE_IMPACT = CUISINE_MODIFIER * 0.5
   INCIDENT_SCORE = (N_MILD * 2) + (N_MODERATE * 5) + (N_SEVERE * 15)
-  RAW_RISK = BASE_RISK + (INCIDENT_SCORE * RECENCY_DECAY) + CUISINE_IMPACT
+
+  # L1.5 Allergen Pattern Bonus (NEW in G1b)
+  ALLERGEN_PATTERN_BONUS:
+    if ALLERGEN_PATTERN = "systemic": 3.0
+    elif ALLERGEN_PATTERN = "specific_high_risk": 2.0
+    elif ALLERGEN_PATTERN = "specific_moderate_risk": 1.0
+    else: 0.0
+
+  RAW_RISK = BASE_RISK + (INCIDENT_SCORE * RECENCY_DECAY) + CUISINE_IMPACT + ALLERGEN_PATTERN_BONUS
   FINAL_RISK_SCORE = clamp(RAW_RISK, 0.0, 20.0)
 
 Decision Thresholds on FINAL_RISK_SCORE:
@@ -140,8 +148,6 @@ Decision Thresholds on FINAL_RISK_SCORE:
 Overrides:
   - If N_SEVERE >= 1 => Critical Risk
   - If N_FALSE_ASSURANCE >= 1 => min High Risk
-  - If ALLERGEN_PATTERN = "systemic" => min High Risk (multiple allergen types have incidents)
-  - If ALLERGEN_PATTERN = "specific_high_risk" => bump one level
 
 ============================================================
 Output Schema

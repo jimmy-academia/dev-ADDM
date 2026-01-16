@@ -137,13 +137,23 @@ L1.5 Type Analysis:
 Formulas & Decision Policy
 ============================================================
 
-Formulas:
+Formulas (extends G6i with L1.5 loyalty pattern bonus):
   LOYALTY_RATE = N_POSITIVE / max(N_POSITIVE + N_NEGATIVE, 1)
 
   POSITIVE_SCORE = N_POSITIVE * 1.5
   NEGATIVE_SCORE = N_NEGATIVE * 1.5
 
-  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  # L1.5 Loyalty Pattern Bonus (NEW in G6j)
+  LOYALTY_PATTERN_BONUS:
+    if LOYALTY_PATTERN = "true_loyalty": +2.0
+    elif LOYALTY_PATTERN = "habitual_loyalty": +1.5
+    elif LOYALTY_PATTERN = "emotional_attachment": +1.5
+    elif LOYALTY_PATTERN = "brand_ambassador": +1.5
+    elif LOYALTY_PATTERN = "partial_loyalty": +0.5
+    elif LOYALTY_PATTERN = "at_risk": -1.5
+    else: -1.0
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE + LOYALTY_PATTERN_BONUS
   FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
 
 Decision Thresholds on FINAL_SCORE:

@@ -131,13 +131,22 @@ L1.5 Time Analysis:
 Formulas & Decision Policy
 ============================================================
 
-Formulas:
+Formulas (extends G5a with L1.5 capacity pattern bonus):
   SATISFACTION_RATE = N_POSITIVE / max(N_POSITIVE + N_NEGATIVE, 1)
 
   POSITIVE_SCORE = N_POSITIVE * 1.5
   NEGATIVE_SCORE = N_NEGATIVE * 1.5
 
-  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  # L1.5 Capacity Pattern Bonus (NEW in G5b)
+  CAPACITY_PATTERN_BONUS:
+    if CAPACITY_PATTERN = "consistently_managed": +2.0
+    elif CAPACITY_PATTERN = "peak_specialist": +1.5
+    elif CAPACITY_PATTERN = "struggles_at_peak": -0.5
+    elif CAPACITY_PATTERN = "event_challenged": -1.0
+    elif CAPACITY_PATTERN = "inconsistent_handling": -0.5
+    else: -1.0
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE + CAPACITY_PATTERN_BONUS
   FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
 
 Decision Thresholds on FINAL_SCORE:

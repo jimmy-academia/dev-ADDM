@@ -120,11 +120,19 @@ L1.5 Cost Analysis:
 Formulas & Decision Policy
 ============================================================
 
-Formulas:
+Formulas (extends G3e with L1.5 cost pattern bonus):
   POSITIVE_SCORE = N_TRANSPARENT * 1
   NEGATIVE_SCORE = N_HIDDEN_ISSUES * 1.5
 
-  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  # L1.5 Cost Pattern Bonus (NEW in G3f)
+  COST_PATTERN_BONUS:
+    if COST_PATTERN = "generally_transparent": +1.5
+    elif COST_PATTERN = "specific_fee_issue": -0.5
+    elif COST_PATTERN = "menu_price_issues": -1.0
+    elif COST_PATTERN = "hidden_mandatory_fees": -2.0
+    else: -3.0
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE + COST_PATTERN_BONUS
   FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
 
 Decision Thresholds on FINAL_SCORE:

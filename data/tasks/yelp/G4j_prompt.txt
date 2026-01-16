@@ -131,13 +131,22 @@ L1.5 Aspect Analysis:
 Formulas & Decision Policy
 ============================================================
 
-Formulas:
+Formulas (extends G4i with L1.5 environment pattern bonus):
   SATISFACTION_RATE = N_POSITIVE / max(N_POSITIVE + N_NEGATIVE, 1)
 
   POSITIVE_SCORE = N_POSITIVE * 1.5
   NEGATIVE_SCORE = N_NEGATIVE * 1.5
 
-  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  # L1.5 Environment Pattern Bonus (NEW in G4j)
+  ENVIRONMENT_PATTERN_BONUS:
+    if ENVIRONMENT_PATTERN = "complete_package": +2.0
+    elif ENVIRONMENT_PATTERN = "beautiful_space": +1.5
+    elif ENVIRONMENT_PATTERN = "comfortable_dining": +1.0
+    elif ENVIRONMENT_PATTERN = "spotless_venue": +1.5
+    elif ENVIRONMENT_PATTERN = "partial_strengths": 0.0
+    else: -1.0
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE + ENVIRONMENT_PATTERN_BONUS
   FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
 
 Decision Thresholds on FINAL_SCORE:

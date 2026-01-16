@@ -130,13 +130,23 @@ L1.5 Dimension Analysis:
 Formulas & Decision Policy
 ============================================================
 
-Formulas:
+Formulas (extends G6e with L1.5 competitive pattern bonus):
   WIN_RATE = N_POSITIVE / max(N_POSITIVE + N_NEGATIVE, 1)
 
   POSITIVE_SCORE = N_POSITIVE * 1.5
   NEGATIVE_SCORE = N_NEGATIVE * 1.5
 
-  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  # L1.5 Competitive Pattern Bonus (NEW in G6f)
+  COMPETITIVE_PATTERN_BONUS:
+    if COMPETITIVE_PATTERN = "market_leader": +2.0
+    elif COMPETITIVE_PATTERN = "value_leader": +1.5
+    elif COMPETITIVE_PATTERN = "quality_leader": +1.5
+    elif COMPETITIVE_PATTERN = "convenience_leader": +1.0
+    elif COMPETITIVE_PATTERN = "selective_advantage": +0.5
+    elif COMPETITIVE_PATTERN = "struggling_competitor": -1.5
+    else: -1.0
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE + COMPETITIVE_PATTERN_BONUS
   FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
 
 Decision Thresholds on FINAL_SCORE:

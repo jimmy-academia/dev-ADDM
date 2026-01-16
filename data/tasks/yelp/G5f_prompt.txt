@@ -124,13 +124,23 @@ L1.5 Error Analysis:
 Formulas & Decision Policy
 ============================================================
 
-Formulas:
+Formulas (extends G5e with L1.5 execution pattern bonus):
   SATISFACTION_RATE = N_POSITIVE / max(N_POSITIVE + N_NEGATIVE, 1)
 
   POSITIVE_SCORE = N_POSITIVE * 1.5
   NEGATIVE_SCORE = N_NEGATIVE * 1.5
 
-  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  # L1.5 Execution Pattern Bonus (NEW in G5f)
+  EXECUTION_PATTERN_BONUS:
+    if EXECUTION_PATTERN = "execution_excellence": +2.0
+    elif EXECUTION_PATTERN = "recovers_well": +1.5
+    elif EXECUTION_PATTERN = "timing_challenged": -0.5
+    elif EXECUTION_PATTERN = "communication_gaps": -0.5
+    elif EXECUTION_PATTERN = "systemic_issues": -1.5
+    elif EXECUTION_PATTERN = "isolated_weakness": -0.5
+    else: -1.0
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE + EXECUTION_PATTERN_BONUS
   FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
 
 Decision Thresholds on FINAL_SCORE:

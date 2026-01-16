@@ -131,13 +131,23 @@ L1.5 Category Analysis:
 Formulas & Decision Policy
 ============================================================
 
-Formulas:
+Formulas (extends G6a with L1.5 uniqueness pattern bonus):
   UNIQUENESS_RATE = N_POSITIVE / max(N_POSITIVE + N_NEGATIVE, 1)
 
   POSITIVE_SCORE = N_POSITIVE * 1.5
   NEGATIVE_SCORE = N_NEGATIVE * 1.5
 
-  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  # L1.5 Uniqueness Pattern Bonus (NEW in G6b)
+  UNIQUENESS_PATTERN_BONUS:
+    if UNIQUENESS_PATTERN = "total_original": +2.0
+    elif UNIQUENESS_PATTERN = "culinary_innovator": +1.5
+    elif UNIQUENESS_PATTERN = "atmosphere_destination": +1.5
+    elif UNIQUENESS_PATTERN = "experience_pioneer": +1.5
+    elif UNIQUENESS_PATTERN = "selective_distinction": +0.5
+    elif UNIQUENESS_PATTERN = "cookie_cutter": -1.5
+    else: -1.0
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE + UNIQUENESS_PATTERN_BONUS
   FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
 
 Decision Thresholds on FINAL_SCORE:

@@ -133,13 +133,23 @@ L1.5 Aspect Analysis:
 Formulas & Decision Policy
 ============================================================
 
-Formulas:
+Formulas (extends G5i with L1.5 consistency pattern bonus):
   SATISFACTION_RATE = N_POSITIVE / max(N_POSITIVE + N_NEGATIVE, 1)
 
   POSITIVE_SCORE = N_POSITIVE * 1.5
   NEGATIVE_SCORE = N_NEGATIVE * 1.5
 
-  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  # L1.5 Consistency Pattern Bonus (NEW in G5j)
+  CONSISTENCY_PATTERN_BONUS:
+    if CONSISTENCY_PATTERN = "rock_solid": +2.0
+    elif CONSISTENCY_PATTERN = "reliable_kitchen": +1.5
+    elif CONSISTENCY_PATTERN = "reliable_service": +1.5
+    elif CONSISTENCY_PATTERN = "reliable_timing": +1.0
+    elif CONSISTENCY_PATTERN = "partial_reliability": 0.0
+    elif CONSISTENCY_PATTERN = "highly_variable": -1.5
+    else: -1.0
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE + CONSISTENCY_PATTERN_BONUS
   FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
 
 Decision Thresholds on FINAL_SCORE:

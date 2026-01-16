@@ -124,13 +124,22 @@ L1.5 Meeting Analysis:
 Formulas & Decision Policy
 ============================================================
 
-Formulas:
+Formulas (extends G2e with L1.5 business versatility bonus):
   SUCCESS_RATE = N_SUCCESS / max(N_SUCCESS + N_FAILED, 1)
 
   POSITIVE_SCORE = N_SUCCESS * 2
   NEGATIVE_SCORE = N_FAILED * 2
 
-  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  # L1.5 Business Versatility Bonus (NEW in G2f)
+  BUSINESS_VERSATILITY_BONUS:
+    if BUSINESS_VERSATILITY = "all_purpose_business": +2.0
+    elif BUSINESS_VERSATILITY = "client_meeting_specialist": +1.5
+    elif BUSINESS_VERSATILITY = "great_for_remote_work": +1.0
+    elif BUSINESS_VERSATILITY = "team_lunch_favorite": +1.0
+    elif BUSINESS_VERSATILITY = "situational": 0.0
+    else: -1.0
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE + BUSINESS_VERSATILITY_BONUS
   FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
 
 Decision Thresholds on FINAL_SCORE:
@@ -140,10 +149,7 @@ Decision Thresholds on FINAL_SCORE:
   - < 3.5 => Not Suitable
 
 Overrides:
-  - If BUSINESS_VERSATILITY = "all_purpose_business" => min Good for Business
-  - If BUSINESS_VERSATILITY = "client_meeting_specialist" => min Acceptable + meeting recommendation
   - If HIGH_STAKES bucket N_FAILED >= 2 => max Acceptable
-  - If BUSINESS_VERSATILITY = "not_recommended" AND N_FAILED >= 2 => Not Suitable
 
 ============================================================
 Output Schema

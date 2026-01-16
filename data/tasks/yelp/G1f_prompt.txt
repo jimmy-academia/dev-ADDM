@@ -114,14 +114,21 @@ L1.5 Diet Analysis:
 Formulas & Decision Policy
 ============================================================
 
-Formulas:
+Formulas (extends G1e with L1.5 accommodation pattern bonus):
   SUCCESS_RATE = N_SUCCESS / max(N_SUCCESS + N_FAILURE + N_PARTIAL, 1)
   FAILURE_RATE = N_FAILURE / max(N_SUCCESS + N_FAILURE + N_PARTIAL, 1)
 
   POSITIVE_SCORE = (N_SUCCESS * 2)
   NEGATIVE_SCORE = (N_FAILURE * 3) + (N_PARTIAL * 1)
 
-  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  # L1.5 Accommodation Pattern Bonus (NEW in G1f)
+  ACCOMMODATION_PATTERN_BONUS:
+    if ACCOMMODATION_PATTERN = "comprehensive": +2.0
+    elif ACCOMMODATION_PATTERN = "selective": +1.0
+    elif ACCOMMODATION_PATTERN = "inconsistent": -1.0
+    else: 0.0
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE + ACCOMMODATION_PATTERN_BONUS
   FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
 
 Decision Thresholds on FINAL_SCORE:
@@ -132,8 +139,6 @@ Decision Thresholds on FINAL_SCORE:
 
 Overrides:
   - If N_FAILURE >= 3 => Very Poor
-  - If ACCOMMODATION_PATTERN = "comprehensive" => min Adequate
-  - If ACCOMMODATION_PATTERN = "selective" AND BEST_DIET_SUCCESS_RATE >= 0.9 => Verdict includes diet recommendation
   - If FAILURE_RATE >= 0.5 => max Poor
 
 ============================================================

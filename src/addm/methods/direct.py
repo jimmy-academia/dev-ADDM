@@ -8,6 +8,15 @@ from addm.methods.base import Method
 from addm.methods.prompts import build_direct_prompt
 
 
+def build_direct_prompt(sample: Sample, context: str) -> list[dict[str, str]]:
+    system = "You are a precise evaluator. Answer strictly based on the provided context."
+    user = f"Query: {sample.query}\n\nContext:\n{context}\n\nReturn answer required by the Query.".strip()
+    return [
+        {"role": "system", "content": system},
+        {"role": "user", "content": user},
+    ]
+
+
 class DirectMethod(Method):
     name = "direct"
 

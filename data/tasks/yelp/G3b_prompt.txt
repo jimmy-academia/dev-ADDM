@@ -126,13 +126,22 @@ L1.5 Meal Analysis:
 Formulas & Decision Policy
 ============================================================
 
-Formulas:
+Formulas (extends G3a with L1.5 value pattern bonus):
   VALUE_RATE = N_POSITIVE / max(N_POSITIVE + N_NEGATIVE, 1)
 
   POSITIVE_SCORE = N_POSITIVE * 1.5
   NEGATIVE_SCORE = N_NEGATIVE * 1.5
 
-  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  # L1.5 Value Pattern Bonus (NEW in G3b)
+  VALUE_PATTERN_BONUS:
+    if VALUE_PATTERN = "consistently_good_value": +2.0
+    elif VALUE_PATTERN = "lunch_special_value": +1.0
+    elif VALUE_PATTERN = "dinner_worth_splurge": +1.5
+    elif VALUE_PATTERN = "great_for_casual": +1.0
+    elif VALUE_PATTERN = "meal_dependent": 0.0
+    else: -1.0
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE + VALUE_PATTERN_BONUS
   FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
 
 Decision Thresholds on FINAL_SCORE:
