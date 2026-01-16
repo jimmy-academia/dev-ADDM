@@ -1,0 +1,1985 @@
+[
+  {
+    "business_id": "4_-IcMpkF_sBRHomWZHNzA",
+    "name": "Bistrot La Minette",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 619,
+    "categories": "Restaurants, French, Breakfast & Brunch",
+    "topic_coverage": {
+      "G2_business": 25,
+      "G2_romance": 141,
+      "G4_kitchen": 112,
+      "G4_server": 230,
+      "G6_loyalty": 178,
+      "G6_uniqueness": 93
+    },
+    "topic_count": 6,
+    "group_coverage": 3,
+    "total_hits": 779,
+    "selection_score": 666.6592939196836,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 1
+  },
+  {
+    "business_id": "wUnLSg_GKfEIQ5CQQ770_g",
+    "name": "Vetri Cucina",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 489,
+    "categories": "Italian, Cuban, Restaurants",
+    "topic_coverage": {
+      "G2_group": 126,
+      "G2_romance": 157,
+      "G3_price_worth": 142,
+      "G4_kitchen": 164,
+      "G6_comparison": 48,
+      "G6_uniqueness": 159
+    },
+    "topic_count": 6,
+    "group_coverage": 2,
+    "total_hits": 796,
+    "selection_score": 646.6808546787902,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 2
+  },
+  {
+    "business_id": "RTwDv2oLE3gzAZlf63OPXA",
+    "name": "Rat's Restaurant",
+    "city": "Hamilton",
+    "state": "NJ",
+    "stars": 3.5,
+    "review_count": 603,
+    "categories": "Bars, French, Restaurants, Nightlife, Breakfast & Brunch",
+    "topic_coverage": {
+      "G2_business": 30,
+      "G2_group": 107,
+      "G2_romance": 107,
+      "G3_price_worth": 145,
+      "G4_environment": 204,
+      "G6_uniqueness": 101
+    },
+    "topic_count": 6,
+    "group_coverage": 1,
+    "total_hits": 694,
+    "selection_score": 626.5439118455648,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 3
+  },
+  {
+    "business_id": "0oSSjekU-3GR8gselReWnA",
+    "name": "Butcher and Singer",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 1290,
+    "categories": "Restaurants, Steakhouses, American (Traditional)",
+    "topic_coverage": {
+      "G2_business": 37,
+      "G2_romance": 104,
+      "G4_environment": 217,
+      "G4_server": 224,
+      "G6_uniqueness": 96
+    },
+    "topic_count": 5,
+    "group_coverage": 2,
+    "total_hits": 678,
+    "selection_score": 546.5206211275587,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 6
+  },
+  {
+    "business_id": "y1Z9tymuBGVDZnYZoLk-2Q",
+    "name": "Fork",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 640,
+    "categories": "Burgers, American (New), Restaurants, Breakfast & Brunch",
+    "topic_coverage": {
+      "G2_business": 28,
+      "G2_romance": 97,
+      "G4_kitchen": 133,
+      "G4_server": 224,
+      "G6_uniqueness": 94
+    },
+    "topic_count": 5,
+    "group_coverage": 2,
+    "total_hits": 576,
+    "selection_score": 546.3578422665081,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 7
+  },
+  {
+    "business_id": "e3Y3hDpwHc9RmQlJtIgHuw",
+    "name": "Lacroix Restaurant at The Rittenhouse",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 434,
+    "categories": "Restaurants, Breakfast & Brunch, Brazilian, American (New), French, Asian Fusion",
+    "topic_coverage": {
+      "G2_business": 27,
+      "G2_romance": 104,
+      "G4_kitchen": 195,
+      "G6_comparison": 49,
+      "G6_uniqueness": 128
+    },
+    "topic_count": 5,
+    "group_coverage": 2,
+    "total_hits": 503,
+    "selection_score": 546.2225762680714,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 8
+  },
+  {
+    "business_id": "BJOGo_upuBElDT_xOaurIA",
+    "name": "Fleming\u2019s Prime Steakhouse & Wine Bar",
+    "city": "Tucson",
+    "state": "AZ",
+    "stars": 4.5,
+    "review_count": 472,
+    "categories": "Nightlife, Seafood, Steakhouses, Bars, Restaurants, Wine Bars",
+    "topic_coverage": {
+      "G2_business": 31,
+      "G2_group": 104,
+      "G2_romance": 132,
+      "G3_price_worth": 145,
+      "G6_uniqueness": 122
+    },
+    "topic_count": 5,
+    "group_coverage": 1,
+    "total_hits": 534,
+    "selection_score": 526.282266746896,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 12
+  },
+  {
+    "business_id": "JPfe9B-RLrE5Nz75kcKImQ",
+    "name": "Govinda's Vegetarian",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 3.5,
+    "review_count": 476,
+    "categories": "Vegan, Cheesesteaks, Restaurants, Vegetarian, Sandwiches",
+    "topic_coverage": {
+      "G1_allergy": 30,
+      "G1_dietary": 329,
+      "G1_hygiene": 33,
+      "G5_consistency": 26,
+      "G6_comparison": 49
+    },
+    "topic_count": 5,
+    "group_coverage": 1,
+    "total_hits": 467,
+    "selection_score": 526.1484682959176,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 13
+  },
+  {
+    "business_id": "GVWcwqUD-ekCMQ0x2Ke6Ww",
+    "name": "Ocean Prime",
+    "city": "Tampa",
+    "state": "FL",
+    "stars": 4.5,
+    "review_count": 781,
+    "categories": "Steakhouses, Seafood, Restaurants, Desserts, American (New), Food",
+    "topic_coverage": {
+      "G1_allergy": 38,
+      "G2_business": 42,
+      "G2_group": 101,
+      "G2_romance": 110,
+      "G3_price_worth": 144
+    },
+    "topic_count": 5,
+    "group_coverage": 1,
+    "total_hits": 435,
+    "selection_score": 526.077642243349,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 14
+  },
+  {
+    "business_id": "8A5LSwsKK5vXDH1M3_Tf1w",
+    "name": "The Ritz-Carlton Bacara, Santa Barbara",
+    "city": "Santa Barbara",
+    "state": "CA",
+    "stars": 3.5,
+    "review_count": 1383,
+    "categories": "Restaurants, Beauty & Spas, American (New), Event Planning & Services, Hotels, Massage, Resorts, Day Spas, Hotels & Travel, Venues & Event Spaces",
+    "topic_coverage": {
+      "G2_business": 39,
+      "G2_romance": 98,
+      "G5_capacity": 109,
+      "G5_execution": 16
+    },
+    "topic_count": 4,
+    "group_coverage": 2,
+    "total_hits": 262,
+    "selection_score": 445.57215403217776,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 16
+  },
+  {
+    "business_id": "dtU_DsHVOCi-2-mWe7gabw",
+    "name": "Charlie Gitto's On the Hill",
+    "city": "St. Louis",
+    "state": "MO",
+    "stars": 4.5,
+    "review_count": 678,
+    "categories": "Restaurants, Italian",
+    "topic_coverage": {
+      "G2_group": 108,
+      "G2_romance": 113,
+      "G4_server": 233,
+      "G6_uniqueness": 95
+    },
+    "topic_count": 4,
+    "group_coverage": 1,
+    "total_hits": 549,
+    "selection_score": 426.3099182782265,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 23
+  },
+  {
+    "business_id": "wbDRmtxaKRpBOjutvV6TEA",
+    "name": "Barclay Prime",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 789,
+    "categories": "Steakhouses, Restaurants",
+    "topic_coverage": {
+      "G2_group": 113,
+      "G2_romance": 126,
+      "G4_environment": 191,
+      "G6_uniqueness": 109
+    },
+    "topic_count": 4,
+    "group_coverage": 1,
+    "total_hits": 539,
+    "selection_score": 426.2915691395583,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 24
+  },
+  {
+    "business_id": "ClEUgRru8zSwV4gB32bHFQ",
+    "name": "Bimini Steakhouse",
+    "city": "Reno",
+    "state": "NV",
+    "stars": 4.5,
+    "review_count": 561,
+    "categories": "Steakhouses, Restaurants",
+    "topic_coverage": {
+      "G2_business": 30,
+      "G2_group": 104,
+      "G2_romance": 103,
+      "G4_server": 281
+    },
+    "topic_count": 4,
+    "group_coverage": 1,
+    "total_hits": 518,
+    "selection_score": 426.2519038831659,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 25
+  },
+  {
+    "business_id": "mc9V_wG4QyRYew9_S8R44A",
+    "name": "Eddie V's Prime Seafood",
+    "city": "Tampa",
+    "state": "FL",
+    "stars": 4.5,
+    "review_count": 748,
+    "categories": "Jazz & Blues, Nightlife, Bars, Arts & Entertainment, Lounges, Restaurants, Seafood, Steakhouses",
+    "topic_coverage": {
+      "G2_business": 34,
+      "G2_group": 121,
+      "G2_romance": 120,
+      "G4_server": 240
+    },
+    "topic_count": 4,
+    "group_coverage": 1,
+    "total_hits": 515,
+    "selection_score": 426.24610676548156,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 26
+  },
+  {
+    "business_id": "RleiW2_QLyxgNjFfqDoZpw",
+    "name": "Modo Mio",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 492,
+    "categories": "Italian, Gluten-Free, Food, Restaurants",
+    "topic_coverage": {
+      "G2_group": 99,
+      "G3_price_worth": 141,
+      "G6_loyalty": 173,
+      "G6_uniqueness": 96
+    },
+    "topic_count": 4,
+    "group_coverage": 1,
+    "total_hits": 509,
+    "selection_score": 426.23441072571836,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 27
+  },
+  {
+    "business_id": "9gObo5ltOMo6UgsaXaHPWA",
+    "name": "R2L",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 3.5,
+    "review_count": 787,
+    "categories": "American (New), Lounges, Nightlife, Cocktail Bars, Bars, Restaurants",
+    "topic_coverage": {
+      "G2_business": 25,
+      "G2_group": 113,
+      "G2_romance": 130,
+      "G3_price_worth": 155
+    },
+    "topic_count": 4,
+    "group_coverage": 1,
+    "total_hits": 423,
+    "selection_score": 426.04973345523194,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 33
+  },
+  {
+    "business_id": "Wtr51cNrv1pYyIRg_IawYQ",
+    "name": "The Victor Cafe",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 437,
+    "categories": "Restaurants, Bars, Performing Arts, Gluten-Free, Wine Bars, Nightlife, Italian, Arts & Entertainment",
+    "topic_coverage": {
+      "G2_business": 32,
+      "G2_group": 118,
+      "G2_romance": 120,
+      "G6_uniqueness": 124
+    },
+    "topic_count": 4,
+    "group_coverage": 1,
+    "total_hits": 394,
+    "selection_score": 425.9788857649011,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 34
+  },
+  {
+    "business_id": "gjFUrbSMo1rA1jgG5IhA2A",
+    "name": "Chima Steakhouse",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 3.5,
+    "review_count": 697,
+    "categories": "Brazilian, Food, Desserts, Restaurants, Barbeque, Chinese, American (New), Dim Sum, Steakhouses",
+    "topic_coverage": {
+      "G2_group": 122,
+      "G5_execution": 15,
+      "G6_comparison": 62,
+      "G6_loyalty": 166
+    },
+    "topic_count": 4,
+    "group_coverage": 1,
+    "total_hits": 365,
+    "selection_score": 425.90263333340135,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 36
+  },
+  {
+    "business_id": "h_gdl9cq1CFKcKukneRdVw",
+    "name": "Studio Movie Grill",
+    "city": "Indianapolis",
+    "state": "IN",
+    "stars": 2.5,
+    "review_count": 485,
+    "categories": "Cinema, Arts & Entertainment, Bars, American (Traditional), Restaurants, Nightlife",
+    "topic_coverage": {
+      "G1_hygiene": 78,
+      "G3_hidden_costs": 10,
+      "G3_time_value": 54,
+      "G5_execution": 21
+    },
+    "topic_count": 4,
+    "group_coverage": 1,
+    "total_hits": 163,
+    "selection_score": 425.0998664278242,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 39
+  },
+  {
+    "business_id": "a3N9erjaLER_cH9rhsADEA",
+    "name": "Atlantis Bistro Napa",
+    "city": "Reno",
+    "state": "NV",
+    "stars": 4.5,
+    "review_count": 492,
+    "categories": "Nightlife, American (New), Wine Bars, Restaurants, Hotels & Travel, Bars, Seafood",
+    "topic_coverage": {
+      "G2_business": 27,
+      "G3_price_worth": 222,
+      "G4_server": 222,
+      "G6_loyalty": 166
+    },
+    "topic_count": 4,
+    "group_coverage": 0,
+    "total_hits": 637,
+    "selection_score": 406.4583382833448,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 40
+  },
+  {
+    "business_id": "kxKai8GE5oDMPevV7oxvbA",
+    "name": "Tequilas Restaurant",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 753,
+    "categories": "Restaurants, Bars, Nightlife, Mexican",
+    "topic_coverage": {
+      "G2_group": 100,
+      "G3_price_worth": 148,
+      "G4_server": 227,
+      "G6_comparison": 47
+    },
+    "topic_count": 4,
+    "group_coverage": 0,
+    "total_hits": 522,
+    "selection_score": 406.2595814640649,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 41
+  },
+  {
+    "business_id": "PWlShgXsJ8Yj3ucD7n8kdA",
+    "name": "The Ranstead Room",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 478,
+    "categories": "Bars, Lounges, Nightlife",
+    "topic_coverage": {
+      "G2_romance": 146,
+      "G3_time_value": 65,
+      "G4_environment": 223,
+      "G6_comparison": 48
+    },
+    "topic_count": 4,
+    "group_coverage": 0,
+    "total_hits": 482,
+    "selection_score": 406.18001665365256,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 42
+  },
+  {
+    "business_id": "zljfjg_zTL3ceGi_Vr4OFw",
+    "name": "Sheraton New Orleans Hotel",
+    "city": "New Orleans",
+    "state": "LA",
+    "stars": 3.0,
+    "review_count": 673,
+    "categories": "Cajun/Creole, Hotels, Venues & Event Spaces, Hotels & Travel, Event Planning & Services, Restaurants",
+    "topic_coverage": {
+      "G1_hygiene": 41,
+      "G2_business": 35,
+      "G3_time_value": 87,
+      "G5_execution": 19
+    },
+    "topic_count": 4,
+    "group_coverage": 0,
+    "total_hits": 182,
+    "selection_score": 405.2094861528414,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 45
+  },
+  {
+    "business_id": "u-wkhjV7CfvGJVY7hGULjw",
+    "name": "Hilton New Orleans Riverside",
+    "city": "New Orleans",
+    "state": "LA",
+    "stars": 3.0,
+    "review_count": 559,
+    "categories": "Event Planning & Services, Hotels & Travel, Hotels, Venues & Event Spaces, Restaurants",
+    "topic_coverage": {
+      "G1_hygiene": 48,
+      "G2_business": 32,
+      "G3_time_value": 63,
+      "G5_execution": 15
+    },
+    "topic_count": 4,
+    "group_coverage": 0,
+    "total_hits": 158,
+    "selection_score": 405.0689042022202,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 46
+  },
+  {
+    "business_id": "feWbeHR9_O0yhxJqmyACXw",
+    "name": "Sinema",
+    "city": "Nashville",
+    "state": "TN",
+    "stars": 4.0,
+    "review_count": 542,
+    "categories": "American (Traditional), Event Planning & Services, Cocktail Bars, Venues & Event Spaces, Nightlife, Restaurants, Bars, American (New)",
+    "topic_coverage": {
+      "G2_group": 103,
+      "G4_environment": 227,
+      "G4_server": 232
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 562,
+    "selection_score": 326.3332796281397,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 47
+  },
+  {
+    "business_id": "j4KA-BujEH7xmG6bD5E-gQ",
+    "name": "Sacred Pepper",
+    "city": "Tampa",
+    "state": "FL",
+    "stars": 4.0,
+    "review_count": 548,
+    "categories": "Restaurants, American (Traditional), Food, American (New)",
+    "topic_coverage": {
+      "G2_group": 101,
+      "G2_romance": 98,
+      "G4_environment": 285
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 484,
+    "selection_score": 326.1841488909375,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 49
+  },
+  {
+    "business_id": "H3EK1Q8tqRGqPBps05Uahw",
+    "name": "Tashan",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 395,
+    "categories": "Asian Fusion, Indian, Modern European, Restaurants, Vegetarian",
+    "topic_coverage": {
+      "G4_kitchen": 154,
+      "G4_server": 226,
+      "G6_comparison": 48
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 428,
+    "selection_score": 326.061456918928,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 54
+  },
+  {
+    "business_id": "woTZpX92uByUgliPrh39Mg",
+    "name": "Ocean Prime",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 513,
+    "categories": "Cocktail Bars, American (New), Bars, Restaurants, Steakhouses, Seafood, Nightlife",
+    "topic_coverage": {
+      "G2_business": 27,
+      "G2_group": 128,
+      "G4_server": 269
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 424,
+    "selection_score": 326.0520891689244,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 55
+  },
+  {
+    "business_id": "FqOCC8Y9xryaX7sIBJcrxA",
+    "name": "Vic Sushi Bar",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 884,
+    "categories": "Japanese, Sushi Bars, Restaurants",
+    "topic_coverage": {
+      "G3_price_worth": 171,
+      "G6_comparison": 47,
+      "G6_uniqueness": 180
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 398,
+    "selection_score": 325.9889614168899,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 57
+  },
+  {
+    "business_id": "mUIBtlWNPD7sz3rGGWQ1RA",
+    "name": "Kanella",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 579,
+    "categories": "Mediterranean, Food, Greek, Restaurants, Breakfast & Brunch",
+    "topic_coverage": {
+      "G4_kitchen": 111,
+      "G6_loyalty": 177,
+      "G6_uniqueness": 96
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 384,
+    "selection_score": 325.9532433342878,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 58
+  },
+  {
+    "business_id": "8wf4qYhu0miI6FzhZ5_mLQ",
+    "name": "Maggiano's Little Italy",
+    "city": "King of Prussia",
+    "state": "PA",
+    "stars": 3.5,
+    "review_count": 491,
+    "categories": "Italian, Nightlife, Restaurants, Venues & Event Spaces, Event Planning & Services, Bars",
+    "topic_coverage": {
+      "G2_business": 27,
+      "G2_group": 117,
+      "G4_server": 221
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 365,
+    "selection_score": 325.90263333340135,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 61
+  },
+  {
+    "business_id": "4R2KR_-FybS7oegGrXjHVg",
+    "name": "Del Frisco's Double Eagle Steakhouse",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 1129,
+    "categories": "Food, Restaurants, Seafood, Specialty Food, Steakhouses, American (Traditional)",
+    "topic_coverage": {
+      "G2_business": 37,
+      "G2_romance": 94,
+      "G4_server": 222
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 353,
+    "selection_score": 325.8692969131338,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 63
+  },
+  {
+    "business_id": "CYKj959PZDjweV-CSpssCg",
+    "name": "The Steak House at Western Village",
+    "city": "Sparks",
+    "state": "NV",
+    "stars": 4.5,
+    "review_count": 544,
+    "categories": "Steakhouses, Food, Salad, Desserts, Restaurants",
+    "topic_coverage": {
+      "G2_group": 112,
+      "G2_romance": 121,
+      "G6_uniqueness": 100
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 333,
+    "selection_score": 325.8111409929767,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 65
+  },
+  {
+    "business_id": "1Efjww8n7WtKtKTgDqjgdA",
+    "name": "Founding Farmers King of Prussia",
+    "city": "King of Prussia",
+    "state": "PA",
+    "stars": 3.5,
+    "review_count": 1140,
+    "categories": "American (New), Breakfast & Brunch, Food, Restaurants, Desserts",
+    "topic_coverage": {
+      "G4_server": 239,
+      "G5_capacity": 62,
+      "G5_execution": 22
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 323,
+    "selection_score": 325.7807435157923,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 66
+  },
+  {
+    "business_id": "05ev984NYfimRN0UiFrxaA",
+    "name": "Osteria",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 877,
+    "categories": "Nightlife, Restaurants, Italian, Bars, Wine Bars",
+    "topic_coverage": {
+      "G2_group": 98,
+      "G2_romance": 95,
+      "G6_uniqueness": 125
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 318,
+    "selection_score": 325.76519110278485,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 67
+  },
+  {
+    "business_id": "XrikSy0DQ_fhVCaRRBJI-g",
+    "name": "Kayne Prime",
+    "city": "Nashville",
+    "state": "TN",
+    "stars": 4.0,
+    "review_count": 987,
+    "categories": "Restaurants, Steakhouses",
+    "topic_coverage": {
+      "G2_group": 104,
+      "G2_romance": 108,
+      "G6_uniqueness": 104
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 316,
+    "selection_score": 325.75890177387726,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 68
+  },
+  {
+    "business_id": "ZbvSN-_WutRkxhO_abGR2g",
+    "name": "The Black Pearl",
+    "city": "Dunedin",
+    "state": "FL",
+    "stars": 4.5,
+    "review_count": 328,
+    "categories": "American (New), Restaurants, French",
+    "topic_coverage": {
+      "G2_business": 28,
+      "G2_romance": 163,
+      "G6_uniqueness": 124
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 315,
+    "selection_score": 325.7557422135869,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 69
+  },
+  {
+    "business_id": "q2gRx1K1mbk6zHV4ZOCChQ",
+    "name": "Eleven Eleven Mississippi",
+    "city": "Saint Louis",
+    "state": "MO",
+    "stars": 4.0,
+    "review_count": 576,
+    "categories": "Restaurants, American (Traditional), American (New), Sandwiches, Wine Bars, Tuscan, Vegetarian, Bars, French, Beer, Wine & Spirits, Food, Nightlife, Italian",
+    "topic_coverage": {
+      "G2_business": 29,
+      "G2_romance": 129,
+      "G6_uniqueness": 122
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 280,
+    "selection_score": 325.63835466933375,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 70
+  },
+  {
+    "business_id": "ORL4JE6tz3rJxVqkdKfegA",
+    "name": "Gaylord Opryland Resort & Convention Center",
+    "city": "Nashville",
+    "state": "TN",
+    "stars": 3.0,
+    "review_count": 1639,
+    "categories": "Venues & Event Spaces, Performing Arts, Arts & Entertainment, Hotels & Travel, Food, Convenience Stores, American (New), Beauty & Spas, Restaurants, Museums, Event Planning & Services, Hotels, Cinema, Resorts, Day Spas",
+    "topic_coverage": {
+      "G2_business": 25,
+      "G3_price_worth": 170,
+      "G3_time_value": 69
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 264,
+    "selection_score": 325.57972982598625,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 71
+  },
+  {
+    "business_id": "JcdsERaKlWNY9CT5Tl8LvA",
+    "name": "Victory Brewing Company Downingtown",
+    "city": "Downingtown",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 592,
+    "categories": "Brewpubs, Restaurants, Food, American (Traditional), Breweries",
+    "topic_coverage": {
+      "G5_capacity": 61,
+      "G5_consistency": 27,
+      "G6_loyalty": 168
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 256,
+    "selection_score": 325.5490760848952,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 72
+  },
+  {
+    "business_id": "20-EyTyDc2-a30iDAQj64g",
+    "name": "City Diner",
+    "city": "Saint Louis",
+    "state": "MO",
+    "stars": 3.0,
+    "review_count": 372,
+    "categories": "American (Traditional), Local Flavor, Restaurants, Diners, Food",
+    "topic_coverage": {
+      "G1_hygiene": 32,
+      "G5_consistency": 42,
+      "G5_execution": 14
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 88,
+    "selection_score": 324.48863636973215,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 80
+  },
+  {
+    "business_id": "VKgK7Z0WR9YIxtAAC63eUA",
+    "name": "Sushi Pier Midtown",
+    "city": "Reno",
+    "state": "NV",
+    "stars": 3.0,
+    "review_count": 569,
+    "categories": "Japanese, Restaurants, Sushi Bars, Buffets",
+    "topic_coverage": {
+      "G1_hygiene": 36,
+      "G5_consistency": 30,
+      "G5_execution": 17
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 83,
+    "selection_score": 324.4308167988433,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 82
+  },
+  {
+    "business_id": "qsm7SkX60JsajT7Yz248FA",
+    "name": "Caf\u00e9 Soho",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 800,
+    "categories": "Coffee & Tea, Food, Japanese, Restaurants, Chicken Wings, Korean, Asian Fusion",
+    "topic_coverage": {
+      "G5_consistency": 18,
+      "G5_execution": 14,
+      "G6_comparison": 47
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 79,
+    "selection_score": 324.3820266346739,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 83
+  },
+  {
+    "business_id": "6gCQvovXf3wmrfwuTyeLlQ",
+    "name": "Taco Bus",
+    "city": "Saint Petersburg",
+    "state": "FL",
+    "stars": 3.0,
+    "review_count": 399,
+    "categories": "Food Trucks, Restaurants, Street Vendors, Food, Mexican",
+    "topic_coverage": {
+      "G1_hygiene": 32,
+      "G5_consistency": 24,
+      "G5_execution": 14
+    },
+    "topic_count": 3,
+    "group_coverage": 1,
+    "total_hits": 70,
+    "selection_score": 324.2626798770413,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 84
+  },
+  {
+    "business_id": "nQeu2F4xOiKoXIp-9engUw",
+    "name": "5th & Taylor",
+    "city": "Nashville",
+    "state": "TN",
+    "stars": 4.5,
+    "review_count": 1088,
+    "categories": "Southern, Bars, Nightlife, Restaurants, Breakfast & Brunch, American (New), American (Traditional)",
+    "topic_coverage": {
+      "G2_romance": 127,
+      "G4_environment": 245,
+      "G6_loyalty": 176
+    },
+    "topic_count": 3,
+    "group_coverage": 0,
+    "total_hits": 548,
+    "selection_score": 306.3080984415095,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 86
+  },
+  {
+    "business_id": "17MK8qagV374AuUA4sXuIA",
+    "name": "XIX Nineteen",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 3.5,
+    "review_count": 611,
+    "categories": "Cafes, Lounges, Bars, American (New), American (Traditional), Restaurants, Nightlife, Seafood",
+    "topic_coverage": {
+      "G2_romance": 112,
+      "G3_price_worth": 169,
+      "G4_environment": 192
+    },
+    "topic_count": 3,
+    "group_coverage": 0,
+    "total_hits": 473,
+    "selection_score": 306.1612073216951,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 90
+  },
+  {
+    "business_id": "6_T2xzR74JqGCTPefAD8Tw",
+    "name": "Morimoto",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 1914,
+    "categories": "Japanese, American (Traditional), American (New), Restaurants, Sushi Bars, Asian Fusion",
+    "topic_coverage": {
+      "G3_price_worth": 148,
+      "G4_kitchen": 204,
+      "G6_uniqueness": 120
+    },
+    "topic_count": 3,
+    "group_coverage": 0,
+    "total_hits": 472,
+    "selection_score": 306.15909538849195,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 91
+  },
+  {
+    "business_id": "iH9fT2RCB0u4cVl2HLDtqg",
+    "name": "The Franklin Bar",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 823,
+    "categories": "Cocktail Bars, Nightlife, Lounges, Bars",
+    "topic_coverage": {
+      "G2_romance": 108,
+      "G3_price_worth": 138,
+      "G4_environment": 200
+    },
+    "topic_count": 3,
+    "group_coverage": 0,
+    "total_hits": 446,
+    "selection_score": 306.1025585946136,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 93
+  },
+  {
+    "business_id": "_nqrmx5xKLQyrbmjhwiiuA",
+    "name": "The Catbird Seat",
+    "city": "Nashville",
+    "state": "TN",
+    "stars": 4.5,
+    "review_count": 415,
+    "categories": "American (New), Restaurants",
+    "topic_coverage": {
+      "G2_romance": 102,
+      "G4_kitchen": 181,
+      "G6_uniqueness": 143
+    },
+    "topic_count": 3,
+    "group_coverage": 0,
+    "total_hits": 426,
+    "selection_score": 306.05678401322865,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 97
+  },
+  {
+    "business_id": "OChSrnaj5tQ1-wm7zoVT4w",
+    "name": "Gyu-Kaku Japanese BBQ",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 3.5,
+    "review_count": 569,
+    "categories": "Tapas/Small Plates, Restaurants, Barbeque, Japanese, Asian Fusion",
+    "topic_coverage": {
+      "G3_price_worth": 148,
+      "G4_server": 248,
+      "G5_execution": 17
+    },
+    "topic_count": 3,
+    "group_coverage": 0,
+    "total_hits": 413,
+    "selection_score": 306.0258659738253,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 99
+  },
+  {
+    "business_id": "dsfRniRgfbDjC8os848B6A",
+    "name": "Bern's Steak House",
+    "city": "Tampa",
+    "state": "FL",
+    "stars": 4.5,
+    "review_count": 2924,
+    "categories": "Arts & Entertainment, Steakhouses, Restaurants",
+    "topic_coverage": {
+      "G2_romance": 96,
+      "G4_kitchen": 189,
+      "G6_uniqueness": 95
+    },
+    "topic_count": 3,
+    "group_coverage": 0,
+    "total_hits": 380,
+    "selection_score": 305.9427993751267,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 103
+  },
+  {
+    "business_id": "OMT709IPPEwN91CAXpe9dw",
+    "name": "Downtown Kitchen + Cocktails",
+    "city": "Tucson",
+    "state": "AZ",
+    "stars": 4.0,
+    "review_count": 571,
+    "categories": "Cocktail Bars, American (New), Restaurants, American (Traditional), Bars, Nightlife",
+    "topic_coverage": {
+      "G1_allergy": 41,
+      "G3_price_worth": 157,
+      "G4_kitchen": 178
+    },
+    "topic_count": 3,
+    "group_coverage": 0,
+    "total_hits": 376,
+    "selection_score": 305.932245187448,
+    "quadrant": "HighVol_LowStars",
+    "global_rank": 104
+  },
+  {
+    "business_id": "Bq0CQcwk5R8yhm-MGfHxCA",
+    "name": "Chef Alisah's",
+    "city": "Tucson",
+    "state": "AZ",
+    "stars": 4.5,
+    "review_count": 479,
+    "categories": "Middle Eastern, Turkish, Restaurants, Serbo Croatian, Mediterranean, Modern European",
+    "topic_coverage": {
+      "G3_hidden_costs": 10,
+      "G4_kitchen": 255,
+      "G6_uniqueness": 108
+    },
+    "topic_count": 3,
+    "group_coverage": 0,
+    "total_hits": 373,
+    "selection_score": 305.92425579741456,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 106
+  },
+  {
+    "business_id": "mNw3UU6PPUAeS31VKgM-qw",
+    "name": "Claim Jumper Steakhouse & Bar",
+    "city": "Reno",
+    "state": "NV",
+    "stars": 3.0,
+    "review_count": 441,
+    "categories": "American (New), Restaurants, Seafood, Nightlife, Bars, American (Traditional), Steakhouses",
+    "topic_coverage": {
+      "G2_group": 108,
+      "G4_server": 227,
+      "G5_consistency": 20
+    },
+    "topic_count": 3,
+    "group_coverage": 0,
+    "total_hits": 355,
+    "selection_score": 305.87493073085204,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 107
+  },
+  {
+    "business_id": "MiAG-Q8SjjHNEnN5MaEEjw",
+    "name": "Benihana",
+    "city": "Indianapolis",
+    "state": "IN",
+    "stars": 2.5,
+    "review_count": 337,
+    "categories": "Nightlife, Japanese, Sushi Bars, Restaurants",
+    "topic_coverage": {
+      "G1_hygiene": 40,
+      "G2_group": 145,
+      "G4_kitchen": 130
+    },
+    "topic_count": 3,
+    "group_coverage": 0,
+    "total_hits": 315,
+    "selection_score": 305.7557422135869,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 110
+  },
+  {
+    "business_id": "zJmp_J8SUNosLxk6borpFg",
+    "name": "The Wild Cow",
+    "city": "Nashville",
+    "state": "TN",
+    "stars": 4.5,
+    "review_count": 993,
+    "categories": "American (New), Vegan, Restaurants, Vegetarian",
+    "topic_coverage": {
+      "G1_allergy": 33,
+      "G1_dietary": 323
+    },
+    "topic_count": 2,
+    "group_coverage": 1,
+    "total_hits": 356,
+    "selection_score": 225.87773578177965,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 124
+  },
+  {
+    "business_id": "qcguEeAMP0XwFLYqhwX2hg",
+    "name": "Sweet Freedom Bakery",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 3.5,
+    "review_count": 316,
+    "categories": "Gluten-Free, Food, Bakeries, Restaurants, Vegan",
+    "topic_coverage": {
+      "G1_allergy": 85,
+      "G1_dietary": 209
+    },
+    "topic_count": 2,
+    "group_coverage": 1,
+    "total_hits": 294,
+    "selection_score": 225.68697535633981,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 125
+  },
+  {
+    "business_id": "0OJ6J4AoqpxjwQPp159lcg",
+    "name": "Pisces Sushi and Global Bistro",
+    "city": "Dunedin",
+    "state": "FL",
+    "stars": 4.5,
+    "review_count": 528,
+    "categories": "Asian Fusion, Restaurants, Seafood, Diners, Sushi Bars",
+    "topic_coverage": {
+      "G6_loyalty": 164,
+      "G6_uniqueness": 111
+    },
+    "topic_count": 2,
+    "group_coverage": 1,
+    "total_hits": 275,
+    "selection_score": 225.62040086571716,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 126
+  },
+  {
+    "business_id": "ctHjyadbDQAtUFfkcAFEHw",
+    "name": "Zahav",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 3065,
+    "categories": "Nightlife, Bars, Food, Ethnic Food, Middle Eastern, Vegetarian, Specialty Food, Israeli, Restaurants",
+    "topic_coverage": {
+      "G6_loyalty": 175,
+      "G6_uniqueness": 97
+    },
+    "topic_count": 2,
+    "group_coverage": 1,
+    "total_hits": 272,
+    "selection_score": 225.60947179518496,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 127
+  },
+  {
+    "business_id": "phsLOuBeiYI43hglvWK96Q",
+    "name": "P S & Co",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 437,
+    "categories": "Food, Vegetarian, Coffee & Tea, Bakeries, Juice Bars & Smoothies, Food Delivery Services, Gluten-Free, Cafes, Restaurants, Breakfast & Brunch, Vegan",
+    "topic_coverage": {
+      "G1_allergy": 44,
+      "G1_dietary": 204
+    },
+    "topic_count": 2,
+    "group_coverage": 1,
+    "total_hits": 248,
+    "selection_score": 225.5174528964647,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 128
+  },
+  {
+    "business_id": "I-nrEtjboBLoEvGiSAcmvw",
+    "name": "Bourbon Steak by Michael Mina",
+    "city": "Nashville",
+    "state": "TN",
+    "stars": 4.5,
+    "review_count": 379,
+    "categories": "Bars, Cocktail Bars, Desserts, Steakhouses, Seafood, Food, American (New), Restaurants, Nightlife, Lounges",
+    "topic_coverage": {
+      "G2_group": 117,
+      "G2_romance": 97
+    },
+    "topic_count": 2,
+    "group_coverage": 1,
+    "total_hits": 214,
+    "selection_score": 225.37063802812767,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 132
+  },
+  {
+    "business_id": "6djwQL1FOoe0SZONQHjhrw",
+    "name": "Chandlers",
+    "city": "Boise",
+    "state": "ID",
+    "stars": 4.5,
+    "review_count": 499,
+    "categories": "Nightlife, Restaurants, Seafood, Cocktail Bars, Jazz & Blues, Food, Steakhouses, Arts & Entertainment, Bars, Lounges, Adult Entertainment, Wine Bars",
+    "topic_coverage": {
+      "G2_business": 39,
+      "G2_romance": 115
+    },
+    "topic_count": 2,
+    "group_coverage": 1,
+    "total_hits": 154,
+    "selection_score": 225.04342511691925,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 134
+  },
+  {
+    "business_id": "eirHDiyhPn2YSo08G1tt6g",
+    "name": "The Capital Grille",
+    "city": "King Of Prussia",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 370,
+    "categories": "Restaurants, American (Traditional), Seafood, Bars, Food, Wine Bars, Steakhouses, American (New), Nightlife",
+    "topic_coverage": {
+      "G2_business": 28,
+      "G2_group": 122
+    },
+    "topic_count": 2,
+    "group_coverage": 1,
+    "total_hits": 150,
+    "selection_score": 225.01727983681494,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 135
+  },
+  {
+    "business_id": "V55PSC6ffUzXTsv7JFVOqQ",
+    "name": "The Oceanaire Seafood Room",
+    "city": "Indianapolis",
+    "state": "IN",
+    "stars": 4.0,
+    "review_count": 413,
+    "categories": "Seafood, Restaurants, Venues & Event Spaces, American (Traditional), Event Planning & Services",
+    "topic_coverage": {
+      "G2_business": 27,
+      "G2_romance": 100
+    },
+    "topic_count": 2,
+    "group_coverage": 1,
+    "total_hits": 127,
+    "selection_score": 224.85203026391963,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 139
+  },
+  {
+    "business_id": "YQT53_5tc_sp3_Xp4c5Ehw",
+    "name": "Takamatsu",
+    "city": "Tucson",
+    "state": "AZ",
+    "stars": 3.0,
+    "review_count": 376,
+    "categories": "Restaurants, Japanese, Korean, Sushi Bars, Vietnamese",
+    "topic_coverage": {
+      "G5_consistency": 19,
+      "G5_execution": 19
+    },
+    "topic_count": 2,
+    "group_coverage": 1,
+    "total_hits": 38,
+    "selection_score": 223.66356164612964,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 141
+  },
+  {
+    "business_id": "-3AooxIkg38UyUdlz5oXdw",
+    "name": "Chase Restaurant",
+    "city": "Santa Barbara",
+    "state": "CA",
+    "stars": 3.0,
+    "review_count": 436,
+    "categories": "Event Planning & Services, Restaurants, Nightlife, Caterers, Italian, Bars",
+    "topic_coverage": {
+      "G5_consistency": 17,
+      "G5_execution": 15
+    },
+    "topic_count": 2,
+    "group_coverage": 1,
+    "total_hits": 32,
+    "selection_score": 223.49650756146647,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 143
+  },
+  {
+    "business_id": "VNvJuCTMdGBj4lwC0L1Ghg",
+    "name": "Tree House Vegetarian Restaurant",
+    "city": "Saint Louis",
+    "state": "MO",
+    "stars": 4.5,
+    "review_count": 473,
+    "categories": "Vegan, Coffee & Tea, Breakfast & Brunch, Vegetarian, Restaurants, Food",
+    "topic_coverage": {
+      "G1_dietary": 308,
+      "G6_loyalty": 174
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 482,
+    "selection_score": 206.18001665365256,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 144
+  },
+  {
+    "business_id": "6CUkqed0rhHtFwQ2i7Otsw",
+    "name": "Barcelona Wine Bar Passyunk",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 608,
+    "categories": "Nightlife, Bars, Restaurants, Wine Bars, Tapas/Small Plates, Spanish",
+    "topic_coverage": {
+      "G4_server": 225,
+      "G6_loyalty": 189
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 414,
+    "selection_score": 206.02827852023069,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 151
+  },
+  {
+    "business_id": "PVVFos1LDfD7iETY0w4vaA",
+    "name": "Su Xing House",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 417,
+    "categories": "Kosher, Chinese, Restaurants, Vegetarian, Vegan",
+    "topic_coverage": {
+      "G1_dietary": 244,
+      "G3_price_worth": 146
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 390,
+    "selection_score": 205.96870755998538,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 155
+  },
+  {
+    "business_id": "vUrTGX_7HxqeoQ_6QCVz6g",
+    "name": "Suraya",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 1121,
+    "categories": "Active Life, Beer Gardens, Grocery, Middle Eastern, Specialty Food, American (New), Parks, Cafes, Food, Nightlife, Restaurants, Coffee & Tea, Lebanese",
+    "topic_coverage": {
+      "G4_environment": 196,
+      "G6_loyalty": 175
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 371,
+    "selection_score": 205.91889385427314,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 160
+  },
+  {
+    "business_id": "CMnrIvac5TRbYnUJgKHupQ",
+    "name": "Hotel Tango",
+    "city": "Indianapolis",
+    "state": "IN",
+    "stars": 4.5,
+    "review_count": 488,
+    "categories": "Nightlife, Bars, Distilleries, Cocktail Bars, Food, Beer, Wine & Spirits",
+    "topic_coverage": {
+      "G2_romance": 115,
+      "G4_environment": 246
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 361,
+    "selection_score": 205.89164421182576,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 166
+  },
+  {
+    "business_id": "IhrTLL6az3q192ik4P05IQ",
+    "name": "The Chef and I",
+    "city": "Nashville",
+    "state": "TN",
+    "stars": 4.5,
+    "review_count": 469,
+    "categories": "Tapas/Small Plates, Nightlife, Bars, Food Delivery Services, American (New), Southern, Restaurants, Tapas Bars, Food, Cooking Classes, Arts & Crafts, American (Traditional), Event Planning & Services, Wine Bars, Caterers, Shopping",
+    "topic_coverage": {
+      "G4_kitchen": 253,
+      "G6_uniqueness": 104
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 357,
+    "selection_score": 205.8805329864007,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 169
+  },
+  {
+    "business_id": "8kh6Z3c8UHQKmsy0_TbOnA",
+    "name": "Carmo",
+    "city": "New Orleans",
+    "state": "LA",
+    "stars": 4.5,
+    "review_count": 1164,
+    "categories": "Asian Fusion, Vegetarian, Vegan, Seafood, Restaurants, Brazilian, Latin American, Caribbean",
+    "topic_coverage": {
+      "G1_dietary": 257,
+      "G6_uniqueness": 99
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 356,
+    "selection_score": 205.87773578177965,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 170
+  },
+  {
+    "business_id": "LImOqXSWUq-E_eNZhTUzmQ",
+    "name": "Coyote Crossing",
+    "city": "Conshohocken",
+    "state": "PA",
+    "stars": 3.0,
+    "review_count": 489,
+    "categories": "Mexican, Restaurants",
+    "topic_coverage": {
+      "G3_price_worth": 157,
+      "G4_environment": 198
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 355,
+    "selection_score": 205.87493073085204,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 171
+  },
+  {
+    "business_id": "WqteSM1GLr8FXefQcIqT5w",
+    "name": "The Italian Barrel",
+    "city": "New Orleans",
+    "state": "LA",
+    "stars": 4.0,
+    "review_count": 488,
+    "categories": "Personal Chefs, Nightlife, Event Planning & Services, Bars, Italian, Wine Bars, Restaurants",
+    "topic_coverage": {
+      "G2_romance": 115,
+      "G4_server": 234
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 349,
+    "selection_score": 205.85793315448345,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 172
+  },
+  {
+    "business_id": "QP6GAA_I8wNkVyw7tlLy9g",
+    "name": "La Strada",
+    "city": "Reno",
+    "state": "NV",
+    "stars": 4.0,
+    "review_count": 483,
+    "categories": "Food, Beer, Wine & Spirits, Restaurants, Italian, American (New)",
+    "topic_coverage": {
+      "G2_romance": 95,
+      "G4_server": 254
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 349,
+    "selection_score": 205.85793315448345,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 173
+  },
+  {
+    "business_id": "-0TffRSXXIlBYVbb5AwfTg",
+    "name": "IndeBlue Modern Indian Food & Spirits",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 1097,
+    "categories": "Cocktail Bars, Food Delivery Services, Nightlife, Breakfast & Brunch, Food, Bars, Event Planning & Services, Caterers, Restaurants, Indian",
+    "topic_coverage": {
+      "G3_price_worth": 152,
+      "G6_loyalty": 182
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 334,
+    "selection_score": 205.81413053182507,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 180
+  },
+  {
+    "business_id": "TjAsf2vHEYh_mCHpQqGgDA",
+    "name": "Iozzo's Garden of Italy",
+    "city": "Indianapolis",
+    "state": "IN",
+    "stars": 4.5,
+    "review_count": 526,
+    "categories": "Italian, Restaurants",
+    "topic_coverage": {
+      "G2_romance": 105,
+      "G4_server": 221
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 326,
+    "selection_score": 205.78996017089725,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 185
+  },
+  {
+    "business_id": "_gVyuTRb_6HM-SNtqbpevQ",
+    "name": "Taste Bar",
+    "city": "Saint Louis",
+    "state": "MO",
+    "stars": 4.5,
+    "review_count": 531,
+    "categories": "Dive Bars, Cocktail Bars, Restaurants, American (Traditional), Nightlife, Bars, Food, Tapas Bars, Specialty Food",
+    "topic_coverage": {
+      "G2_romance": 146,
+      "G6_loyalty": 173
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 319,
+    "selection_score": 205.76832099579377,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 191
+  },
+  {
+    "business_id": "mqKz51qAxfcBaUhNCGcysg",
+    "name": "Great Full Gardens - South",
+    "city": "Reno",
+    "state": "NV",
+    "stars": 4.5,
+    "review_count": 486,
+    "categories": "Restaurants, Vegetarian, American (New), Cafes, Sandwiches, Breakfast & Brunch",
+    "topic_coverage": {
+      "G1_dietary": 137,
+      "G6_loyalty": 171
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 308,
+    "selection_score": 205.73334127689773,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 194
+  },
+  {
+    "business_id": "iksVwRfpWymIUUFqw0tXpw",
+    "name": "Chubby Cattle",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 1128,
+    "categories": "Restaurants, Bars, Seafood, Japanese, Hot Pot, Nightlife, Chinese, Conveyor Belt Sushi, Mongolian, Asian Fusion",
+    "topic_coverage": {
+      "G3_time_value": 55,
+      "G4_server": 247
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 302,
+    "selection_score": 205.71373280550938,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 200
+  },
+  {
+    "business_id": "avivi8rQFEaR9iH_CZ1iBA",
+    "name": "Henrietta Red",
+    "city": "Nashville",
+    "state": "TN",
+    "stars": 4.0,
+    "review_count": 422,
+    "categories": "American (New), Bars, Seafood, Nightlife, Restaurants",
+    "topic_coverage": {
+      "G4_kitchen": 128,
+      "G6_loyalty": 164
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 292,
+    "selection_score": 205.68017260901706,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 202
+  },
+  {
+    "business_id": "uIZwBkvWicqyWraXvYOipw",
+    "name": "Sbraga",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 375,
+    "categories": "Restaurants, American (New)",
+    "topic_coverage": {
+      "G4_kitchen": 179,
+      "G6_uniqueness": 101
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 280,
+    "selection_score": 205.63835466933375,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 207
+  },
+  {
+    "business_id": "lqF0Q5vVLxY-_Cth6LtEdg",
+    "name": "The Gallery Pastry Shop",
+    "city": "Indianapolis",
+    "state": "IN",
+    "stars": 4.5,
+    "review_count": 485,
+    "categories": "Restaurants, Bakeries, Breakfast & Brunch, Food, Desserts, Specialty Food, French, Diners, Macarons, Pasta Shops",
+    "topic_coverage": {
+      "G4_kitchen": 116,
+      "G6_loyalty": 164
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 280,
+    "selection_score": 205.63835466933375,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 208
+  },
+  {
+    "business_id": "3Ce8r1K1O-2JKSMXdXID-w",
+    "name": "Linvilla Orchards",
+    "city": "Media",
+    "state": "PA",
+    "stars": 3.5,
+    "review_count": 405,
+    "categories": "Fruits & Veggies, Farmers Market, Food, Pick Your Own Farms, Arts & Entertainment, Shopping, Tours, Specialty Food, Nurseries & Gardening, Farms, Hotels & Travel, Home & Garden",
+    "topic_coverage": {
+      "G2_group": 180,
+      "G5_capacity": 88
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 268,
+    "selection_score": 205.59471137960185,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 214
+  },
+  {
+    "business_id": "n5i09tgSuzv9ZeIN9Qe5oQ",
+    "name": "Rooster & the Till",
+    "city": "Tampa",
+    "state": "FL",
+    "stars": 4.5,
+    "review_count": 601,
+    "categories": "Restaurants, American (New)",
+    "topic_coverage": {
+      "G4_kitchen": 160,
+      "G6_uniqueness": 98
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 258,
+    "selection_score": 205.55682806169955,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 220
+  },
+  {
+    "business_id": "Vf0inZOaad8sv1uG8mGIGw",
+    "name": "Kobe Japanese Steakhouse - Brandon",
+    "city": "Brandon",
+    "state": "FL",
+    "stars": 4.0,
+    "review_count": 314,
+    "categories": "Steakhouses, Sushi Bars, Restaurants, Japanese",
+    "topic_coverage": {
+      "G2_group": 107,
+      "G4_kitchen": 141
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 248,
+    "selection_score": 205.5174528964647,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 228
+  },
+  {
+    "business_id": "68YWxuIj8mUya0Hp0hD1_Q",
+    "name": "Centro Bar & Kitchen",
+    "city": "Reno",
+    "state": "NV",
+    "stars": 4.5,
+    "review_count": 496,
+    "categories": "Tapas Bars, Tapas/Small Plates, Restaurants",
+    "topic_coverage": {
+      "G1_hygiene": 74,
+      "G6_loyalty": 173
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 247,
+    "selection_score": 205.51342874616498,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 229
+  },
+  {
+    "business_id": "WzpWEuVWY-6Xh37wc44GiA",
+    "name": "Sidney Street Cafe",
+    "city": "Saint Louis",
+    "state": "MO",
+    "stars": 4.0,
+    "review_count": 357,
+    "categories": "Nightlife, Bars, Wine Bars, Soup, Restaurants, American (New)",
+    "topic_coverage": {
+      "G2_romance": 142,
+      "G6_uniqueness": 100
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 242,
+    "selection_score": 205.49306144334054,
+    "quadrant": "LowVol_LowStars",
+    "global_rank": 232
+  },
+  {
+    "business_id": "S_jfDqc2TUhkraTpeZgqjg",
+    "name": "Bakersfield",
+    "city": "Indianapolis",
+    "state": "IN",
+    "stars": 4.5,
+    "review_count": 1642,
+    "categories": "Bars, Mexican, Nightlife, Cocktail Bars, Restaurants, Tacos",
+    "topic_coverage": {
+      "G5_capacity": 71,
+      "G6_loyalty": 167
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 238,
+    "selection_score": 205.47646355193152,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 235
+  },
+  {
+    "business_id": "wQUBiBqlzC6cbdkX-GaBqQ",
+    "name": "Thai Lotus",
+    "city": "Reno",
+    "state": "NV",
+    "stars": 4.5,
+    "review_count": 891,
+    "categories": "Thai, Restaurants",
+    "topic_coverage": {
+      "G1_allergy": 50,
+      "G6_loyalty": 166
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 216,
+    "selection_score": 205.37989735354046,
+    "quadrant": "HighVol_HighStars",
+    "global_rank": 244
+  },
+  {
+    "business_id": "T_6e0SgNuKotySgVS8O1UQ",
+    "name": "Fond",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 350,
+    "categories": "American (New), Bars, Seafood, Restaurants, Nightlife",
+    "topic_coverage": {
+      "G2_romance": 101,
+      "G3_hidden_costs": 10
+    },
+    "topic_count": 2,
+    "group_coverage": 0,
+    "total_hits": 111,
+    "selection_score": 204.71849887129508,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 316
+  },
+  {
+    "business_id": "YVy2DgGfNmG5hWYbA7k8jg",
+    "name": "SweetArt",
+    "city": "Saint Louis",
+    "state": "MO",
+    "stars": 4.5,
+    "review_count": 477,
+    "categories": "Vegan, Arts & Entertainment, Shopping, Restaurants, Vegetarian, Art Galleries, Food, Cafes, Bakeries, Desserts",
+    "topic_coverage": {
+      "G1_dietary": 294
+    },
+    "topic_count": 1,
+    "group_coverage": 0,
+    "total_hits": 294,
+    "selection_score": 105.68697535633981,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 350
+  },
+  {
+    "business_id": "tLVnL8CqQYiMU6E_aayYog",
+    "name": "Graze Nashville",
+    "city": "Nashville",
+    "state": "TN",
+    "stars": 4.5,
+    "review_count": 467,
+    "categories": "Restaurants, Nightlife, Vegetarian, Vegan, Bars, Juice Bars & Smoothies, Food, American (New), Cocktail Bars, Breakfast & Brunch, Beer, Wine & Spirits",
+    "topic_coverage": {
+      "G1_dietary": 286
+    },
+    "topic_count": 1,
+    "group_coverage": 0,
+    "total_hits": 286,
+    "selection_score": 105.65948221575962,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 354
+  },
+  {
+    "business_id": "JpAjXYIqFQJyibItoZ_hOg",
+    "name": "Oak and Ola",
+    "city": "Tampa",
+    "state": "FL",
+    "stars": 4.5,
+    "review_count": 479,
+    "categories": "Nightlife, Modern European, Cocktail Bars, Bars, Restaurants, American (New)",
+    "topic_coverage": {
+      "G4_server": 238
+    },
+    "topic_count": 1,
+    "group_coverage": 0,
+    "total_hits": 238,
+    "selection_score": 105.47646355193152,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 383
+  },
+  {
+    "business_id": "7_1GqlDlbkShY0az7J0XNg",
+    "name": "LaCo",
+    "city": "Tucson",
+    "state": "AZ",
+    "stars": 4.5,
+    "review_count": 469,
+    "categories": "American (Traditional), Vegan, Restaurants, Vegetarian, Nightlife, Bars, American (New)",
+    "topic_coverage": {
+      "G4_environment": 229
+    },
+    "topic_count": 1,
+    "group_coverage": 0,
+    "total_hits": 229,
+    "selection_score": 105.4380793089232,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 403
+  },
+  {
+    "business_id": "9A5Gw0At6so0x-vWM0_JZw",
+    "name": "Grindcore House",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 338,
+    "categories": "Coffee & Tea, Vegetarian, Food, Restaurants, Vegan",
+    "topic_coverage": {
+      "G1_dietary": 208
+    },
+    "topic_count": 1,
+    "group_coverage": 0,
+    "total_hits": 208,
+    "selection_score": 105.34233425196481,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 443
+  },
+  {
+    "business_id": "hc0KmC42EzjXbC83eMIDMg",
+    "name": "Padmanadi Vegetarian Restaurant",
+    "city": "Edmonton",
+    "state": "AB",
+    "stars": 4.5,
+    "review_count": 271,
+    "categories": "Restaurants, Vegan, Indonesian, Vegetarian",
+    "topic_coverage": {
+      "G1_dietary": 200
+    },
+    "topic_count": 1,
+    "group_coverage": 0,
+    "total_hits": 200,
+    "selection_score": 105.30330490805908,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 454
+  },
+  {
+    "business_id": "iHdrLu8deF5GceB0V1rPhA",
+    "name": "Oliver's",
+    "city": "Santa Barbara",
+    "state": "CA",
+    "stars": 4.5,
+    "review_count": 313,
+    "categories": "American (Traditional), Vegan, Restaurants",
+    "topic_coverage": {
+      "G1_dietary": 189
+    },
+    "topic_count": 1,
+    "group_coverage": 0,
+    "total_hits": 189,
+    "selection_score": 105.24702407216049,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 476
+  },
+  {
+    "business_id": "m87qQsq2SMJruE9tVQTIrA",
+    "name": "Craft Kafe",
+    "city": "Saint Petersburg",
+    "state": "FL",
+    "stars": 4.5,
+    "review_count": 331,
+    "categories": "Restaurants, Gluten-Free, Coffee & Tea, Food, Bakeries",
+    "topic_coverage": {
+      "G1_dietary": 189
+    },
+    "topic_count": 1,
+    "group_coverage": 0,
+    "total_hits": 189,
+    "selection_score": 105.24702407216049,
+    "quadrant": "LowVol_HighStars",
+    "global_rank": 477
+  }
+]
