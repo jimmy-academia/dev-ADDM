@@ -158,6 +158,9 @@ def count_lines(file_path: str) -> int:
 def search_reviews_for_keywords(
     review_file: str,
     topics: List[str],
+    business_file: str = "data/raw/yelp/yelp_academic_dataset_business.json",
+    min_reviews: int = 20,
+    max_reviews_per_biz: int = 500,
     output_dir: Optional[Path] = None,
     save_interval: int = 500_000,
 ) -> Dict[str, Dict[str, List[Dict[str, Any]]]]:
@@ -167,12 +170,20 @@ def search_reviews_for_keywords(
     Args:
         review_file: Path to JSONL review file
         topics: List of topic names to search for
+        business_file: Path to business JSONL file (for filtering)
+        min_reviews: Minimum reviews a restaurant must have (default: 20)
+        max_reviews_per_biz: Max reviews to process per restaurant (default: 500)
         output_dir: If provided, save partial results every save_interval lines
         save_interval: Save partial results every N lines (default: 500k)
 
     Returns:
         Dict[topic][business_id] = list of matching reviews
     """
+    # Pre-load valid restaurant IDs
+    console.print(f"[bold]Loading valid restaurants (>={min_reviews} reviews)...[/bold]")
+    valid_biz_ids = get_valid_restaurant_ids(business_file, min_reviews)
+    console.print(f"[green]Found {len(valid_biz_ids):,} valid restaurants[/green]")
+
     # Compile patterns
     patterns = {topic: compile_topic_pattern(topic) for topic in topics}
 
@@ -180,6 +191,9 @@ def search_reviews_for_keywords(
     results: Dict[str, Dict[str, List[Dict]]] = {
         topic: defaultdict(list) for topic in topics
     }
+
+    # Track review count per business (for capping)
+    biz_review_count: Dict[str, int] = defaultdict(int)
 
     console.print(f"[bold]Scanning reviews for {len(topics)} topics...[/bold]")
     total_lines = count_lines(review_file)
@@ -213,8 +227,18 @@ def search_reviews_for_keywords(
                 line_count += 1
                 progress.advance(task)
                 review = orjson.loads(line)
-                text = review.get("text", "")
                 biz_id = review["business_id"]
+
+                # Skip if not a valid restaurant
+                if biz_id not in valid_biz_ids:
+                    continue
+
+                # Skip if already at max reviews for this business
+                if biz_review_count[biz_id] >= max_reviews_per_biz:
+                    continue
+
+                biz_review_count[biz_id] += 1
+                text = review.get("text", "")
 
                 for topic, pattern in patterns.items():
                     match = pattern.search(text)
@@ -262,6 +286,39 @@ def get_top_businesses(
     if top_n:
         return sorted_biz[:top_n]
     return sorted_biz
+
+
+def get_valid_restaurant_ids(
+    business_file: str,
+    min_reviews: int = 20,
+) -> set:
+    """
+    Get IDs of restaurants with at least min_reviews.
+
+    Args:
+        business_file: Path to business JSONL file
+        min_reviews: Minimum review count to include
+
+    Returns:
+        Set of valid business IDs
+    """
+    valid_ids = set()
+    with open(business_file) as f:
+        for line in f:
+            biz = json.loads(line)
+            cats = biz.get("categories", "") or ""
+
+            # Must be a restaurant
+            if not any(c in cats for c in ["Restaurant", "Food", "Cafe", "Bakery", "Bar"]):
+                continue
+
+            # Must have enough reviews
+            if biz.get("review_count", 0) < min_reviews:
+                continue
+
+            valid_ids.add(biz["business_id"])
+
+    return valid_ids
 
 
 def get_business_info(
@@ -312,6 +369,8 @@ def search_and_rank_restaurants(
     review_file: str = "data/raw/yelp/yelp_academic_dataset_review.json",
     business_file: str = "data/raw/yelp/yelp_academic_dataset_business.json",
     min_hits: int = 10,
+    min_reviews: int = 20,
+    max_reviews_per_biz: int = 500,
     top_n: int = 100,
     output_dir: Optional[Path] = None,
 ) -> Dict[str, List[Dict[str, Any]]]:
@@ -323,6 +382,8 @@ def search_and_rank_restaurants(
         review_file: Path to review JSONL
         business_file: Path to business JSONL
         min_hits: Minimum keyword hits to include
+        min_reviews: Minimum reviews a restaurant must have (default: 20)
+        max_reviews_per_biz: Max reviews to process per restaurant (default: 500)
         top_n: Number of top restaurants to return per topic
         output_dir: If provided, save partial results during scanning
 
@@ -330,7 +391,14 @@ def search_and_rank_restaurants(
         Dict[topic] = list of restaurant info with hit counts, sorted by hits descending
     """
     # Search reviews
-    all_hits = search_reviews_for_keywords(review_file, topics, output_dir=output_dir)
+    all_hits = search_reviews_for_keywords(
+        review_file,
+        topics,
+        business_file=business_file,
+        min_reviews=min_reviews,
+        max_reviews_per_biz=max_reviews_per_biz,
+        output_dir=output_dir,
+    )
 
     # Collect all business IDs that need info
     all_biz_ids = set()

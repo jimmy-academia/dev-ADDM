@@ -58,6 +58,8 @@ def main():
     parser.add_argument("--group", type=str, choices=GROUP_TOPICS.keys(), help="Task group (G1-G6)")
     parser.add_argument("--all", action="store_true", help="Search all topics")
     parser.add_argument("--min-hits", type=int, default=10, help="Minimum keyword hits (default: 10)")
+    parser.add_argument("--min-reviews", type=int, default=20, help="Minimum reviews per restaurant (default: 20)")
+    parser.add_argument("--max-reviews", type=int, default=500, help="Max reviews per restaurant (default: 500)")
     parser.add_argument("--top-n", type=int, default=100, help="Top N restaurants per topic (default: 100)")
     parser.add_argument("--output", type=str, help="Output directory (default: data/keyword_hits/yelp/)")
     parser.add_argument("--review-file", type=str,
@@ -89,8 +91,8 @@ def main():
     output_dir = Path(args.output) if args.output else Path("data/keyword_hits/yelp")
 
     console.print(f"[bold]Searching for topics:[/bold] {topics}")
-    console.print(f"[bold]Min hits:[/bold] {args.min_hits}, [bold]Top N:[/bold] {args.top_n}")
-    console.print(f"[bold]Output:[/bold] {output_dir}")
+    console.print(f"[bold]Min hits:[/bold] {args.min_hits}, [bold]Min reviews:[/bold] {args.min_reviews}, [bold]Max reviews:[/bold] {args.max_reviews}")
+    console.print(f"[bold]Top N:[/bold] {args.top_n}, [bold]Output:[/bold] {output_dir}")
     console.print("=" * 70)
 
     # Run search (saves partial results during scan)
@@ -99,6 +101,8 @@ def main():
         review_file=args.review_file,
         business_file=args.business_file,
         min_hits=args.min_hits,
+        min_reviews=args.min_reviews,
+        max_reviews_per_biz=args.max_reviews,
         top_n=args.top_n,
         output_dir=output_dir,
     )
