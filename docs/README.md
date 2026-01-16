@@ -49,6 +49,11 @@ Task prompts: `data/tasks/yelp/G{1-6}{a-l}_prompt.txt`
 
 - [Results Schema (specs/outputs.md)](specs/outputs.md) - Results and metrics schema
 
+## Data Analysis
+
+- [Keyword Search Analysis (data_analysis/keyword_search_analysis.md)](data_analysis/keyword_search_analysis.md)
+- [Selection Bias Analysis (data_analysis/selection_bias_analysis.md)](data_analysis/selection_bias_analysis.md)
+
 ## Project Structure
 
 ```

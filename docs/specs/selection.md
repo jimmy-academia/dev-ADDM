@@ -2,7 +2,7 @@
 
 This pipeline selects a stratified set of 100 businesses to reduce confounding variables.
 
-Strategy (ported from `../anot/explore/doc/DATA_STRATEGY.md`):
+Strategy (ported from `../anot/explore/docs/DATA_STRATEGY.md`):
 - Filter city (default: Philadelphia) and minimum review count.
 - Restrict to 5 anchor categories (Italian, Coffee & Tea, Pizza, Steakhouses, Chinese).
 - Stratify into 4 quadrants per category (high/low reviews × high/low stars).
