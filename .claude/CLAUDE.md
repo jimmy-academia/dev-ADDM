@@ -45,6 +45,32 @@ src/addm/
 .claude/                # Claude Code configuration
 ```
 
+## Usage Tracking
+
+**Output files per run:**
+```
+results/dev/{timestamp}_{name}/
+├── results.jsonl    # Per-sample with usage fields
+├── usage.json       # Run-level aggregation
+└── debug/           # Full prompts/responses
+    └── {sample_id}.jsonl
+```
+
+**Key modules:**
+- `src/addm/utils/usage.py` - UsageTracker singleton, MODEL_PRICING, compute_cost
+- `src/addm/utils/debug_logger.py` - DebugLogger for prompt/response capture
+
+**Usage in methods:**
+```python
+# Call with usage tracking
+response, usage = await llm.call_async_with_usage(messages, context={"sample_id": id})
+
+# Accumulate multiple calls
+total_usage = self._accumulate_usage([usage1, usage2, ...])
+```
+
+**Model pricing**: See `MODEL_PRICING` in `src/addm/utils/usage.py` or `docs/specs/usage_tracking.md`
+
 ## Benchmark: 72 Tasks
 
 **Structure:** 6 Groups × 3 Topics × 4 Variants

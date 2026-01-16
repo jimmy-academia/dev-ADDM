@@ -1,46 +1,88 @@
-# Repository Guidelines
+# ADDM Repository Guidelines
 
-## Project Structure & Module Organization
-This repository is currently a scaffold with only a `.gitignore`. As you add code, keep a clear, conventional layout. Suggested structure for a Python-first repo:
+## Git Rules
 
-- `src/`: application or library source code
-- `tests/`: unit/integration tests (mirror `src/` packages)
-- `scripts/`: runnable utilities and one-off tooling
-- `docs/`: architecture notes and user documentation
-- `assets/`: static files (fixtures, images, sample data)
+### NEVER do these:
+- **NEVER add "Co-Authored-By:" or similar co-author lines to commits**
+- Never use vague commit messages like "just another push for progress"
 
-## Build, Test, and Development Commands
-No build or test commands are committed yet. When you add tooling, document it here and in `README.md`. Common starting points:
+### Commit message format:
+```
+<type>: <short description>
 
-- `python -m venv .venv` + `source .venv/bin/activate`: create/activate a virtualenv
-- `pip install -r requirements.txt`: install dependencies
-- `pytest`: run tests (if you add pytest)
+[optional body explaining WHY]
+```
 
-## Coding Style & Naming Conventions
-No formatting or linting config is present. If you introduce Python code:
+Types: `feat`, `fix`, `refactor`, `docs`, `test`, `perf`, `chore`
 
-- Indentation: 4 spaces; UTF-8; keep lines <= 100 chars.
-- Naming: `snake_case` for functions/vars, `PascalCase` for classes, `UPPER_SNAKE_CASE` for constants.
-- Prefer adding `ruff` and `black` configs in `pyproject.toml` once code exists.
+## Python Environment
+
+- **Always use `.venv`** - Run Python with `.venv/bin/python`
+- Example: `.venv/bin/python -m pytest` or `.venv/bin/python src/addm/main.py`
+- Create venv: `python -m venv .venv`
+- Install deps: `.venv/bin/pip install -r requirements.txt`
+
+## Project Structure
+
+```
+data/
+├── raw/yelp/           # Raw Yelp academic dataset
+├── processed/yelp/     # Built datasets (K=25/50/100/200)
+└── tasks/yelp/         # Task prompts, cache, ground truth
+
+docs/
+├── README.md           # Doc index
+├── architecture.md     # System overview
+├── tasks/TAXONOMY.md   # 72 task definitions (6 groups × 12 tasks)
+└── specs/              # Detailed specifications
+
+src/addm/
+├── methods/            # LLM methods (direct, etc.)
+├── tasks/formulas/     # Formula modules per task
+├── tasks/              # Extraction, execution, CLI
+├── data/               # Dataset loaders
+├── eval/               # Evaluation metrics
+└── llm.py              # LLM service
+```
+
+## Benchmark: 72 Tasks
+
+**Structure:** 6 Groups × 3 Topics × 4 Variants
+
+| Group | Perspective | Topics |
+|-------|-------------|--------|
+| G1 | Customer | Allergy, Dietary, Hygiene |
+| G2 | Customer | Romance, Business, Group |
+| G3 | Customer | Price-Worth, Hidden Costs, Time-Value |
+| G4 | Owner | Server, Kitchen, Environment |
+| G5 | Owner | Capacity, Execution, Consistency |
+| G6 | Owner | Uniqueness, Comparison, Loyalty |
+
+**Variants (all produce different verdicts):**
+- **a** = simple formula
+- **b** = simple + L1.5 grouping
+- **c** = complex formula (credibility weighting)
+- **d** = complex + L1.5
+
+## Quick Reference
+
+- Run baseline: `.venv/bin/python -m addm.tasks.cli.run_baseline --task G1a -n 5`
+- Compute GT: `.venv/bin/python -m addm.tasks.cli.compute_gt --task G1a --domain yelp --k 50`
+- Extract judgments: `.venv/bin/python -m addm.tasks.cli.extract --task G1a`
+- Run tests: `.venv/bin/python -m pytest`
+
+## Coding Style
+
+- Indentation: 4 spaces; UTF-8; keep lines <= 100 chars
+- Naming: `snake_case` for functions/vars, `PascalCase` for classes, `UPPER_SNAKE_CASE` for constants
 
 ## Testing Guidelines
-Testing framework is not set yet. If you use pytest:
 
-- Place tests in `tests/` with names like `test_<module>.py`.
-- Name test functions `test_<behavior>()`.
-- Keep unit tests fast and deterministic; isolate external I/O behind mocks.
+- Place tests in `tests/` with names like `test_<module>.py`
+- Name test functions `test_<behavior>()`
+- Keep unit tests fast and deterministic; isolate external I/O behind mocks
 
-## Commit & Pull Request Guidelines
-Git history shows only `Initial commit`, so no conventions are established.
+## Current Status
 
-- Suggested commit style: `type(scope): summary` (e.g., `feat(api): add health check`).
-- PRs should include: purpose, summary of changes, how to test, and any relevant screenshots/logs.
-- The `dogit` skill can be invoked by the user to commit and push changes quickly.
-
-## Security & Configuration Tips
-- Keep secrets out of the repo; use `.env` for local settings (already ignored by `.gitignore`).
-- Add a `README.md` and `LICENSE` once the project scope is defined.
-
-# ExecPlans
- 
-When writing complex features or significant refactors, use an ExecPlan (as described in .agent/PLANS.md) from design to implementation.
+- G1a: Complete (formula + cache + ground truth)
+- All other 71 tasks: Prompts exist, need formula + ground truth

@@ -16,6 +16,8 @@ from addm.llm import LLMService
 from addm.methods import build_method_registry
 from addm.utils.async_utils import gather_with_concurrency
 from addm.utils.logging import setup_logging
+from addm.utils.usage import usage_tracker
+from addm.utils.debug_logger import DebugLogger, set_debug_logger
 
 
 async def _run_async(args) -> Dict[str, Any]:
@@ -41,6 +43,27 @@ async def _run_async(args) -> Dict[str, Any]:
         max_retries=args.max_retries,
     )
 
+    # Create run paths first so we can set up debug logging
+    manager = ExperimentManager(
+        run_name=args.run_name,
+        results_dir=args.results_dir,
+        benchmark=args.benchmark,
+        method=args.method,
+        dataset=dataset.name,
+        model=args.model,
+    )
+    run_paths = manager.create_run()
+
+    # Generate a unique run_id for usage tracking
+    run_id = run_paths.root.name
+
+    # Set up debug logger (writes to run_paths.debug_dir)
+    debug_logger = DebugLogger(output_dir=run_paths.root)
+    set_debug_logger(debug_logger)
+
+    # Clear usage tracker for this run (filter by run_id at end)
+    # Note: We use run_id in context to filter, not clearing globally
+
     log.info("Running %s on %d samples", args.method, len(dataset.samples))
 
     async def run_sample(sample):
@@ -65,15 +88,24 @@ async def _run_async(args) -> Dict[str, Any]:
         metrics = evaluator.evaluate(dataset, outputs)
         log.info("Accuracy: %.3f", metrics.get("accuracy", 0.0))
 
-    manager = ExperimentManager(
-        run_name=args.run_name,
-        results_dir=args.results_dir,
-        benchmark=args.benchmark,
-        method=args.method,
-        dataset=dataset.name,
-        model=args.model,
-    )
-    run_paths = manager.create_run()
+    # Compute usage summary from results
+    usage_summary = {
+        "run_id": run_id,
+        "total_samples": len(outputs),
+        "total_calls": sum(r.get("llm_calls", 0) for r in outputs),
+        "total_prompt_tokens": sum(r.get("prompt_tokens", 0) for r in outputs),
+        "total_completion_tokens": sum(r.get("completion_tokens", 0) for r in outputs),
+        "total_tokens": sum(r.get("total_tokens", 0) for r in outputs),
+        "total_cost_usd": sum(r.get("cost_usd", 0.0) for r in outputs),
+        "total_latency_ms": sum(r.get("latency_ms", 0.0) for r in outputs),
+    }
+
+    # Add by-model breakdown from global tracker
+    global_summary = usage_tracker.get_summary()
+    if global_summary.get("by_model"):
+        usage_summary["by_model"] = global_summary["by_model"]
+
+    # Save all outputs
     config = {
         "method": args.method,
         "dataset": dataset.name,
@@ -89,11 +121,22 @@ async def _run_async(args) -> Dict[str, Any]:
     manager.save_results(run_paths.results_path, outputs)
     if metrics:
         manager.save_metrics(run_paths.metrics_path, metrics)
+    manager.save_usage(run_paths.usage_path, usage_summary)
+
+    # Flush debug logs
+    debug_logger.flush()
 
     log.info("Results saved to %s", run_paths.root)
+    log.info(
+        "Usage: %d tokens ($%.4f)",
+        usage_summary["total_tokens"],
+        usage_summary["total_cost_usd"],
+    )
+
     return {
         "paths": run_paths,
         "metrics": metrics,
+        "usage": usage_summary,
     }
 
 

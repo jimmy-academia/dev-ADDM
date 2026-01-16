@@ -150,7 +150,7 @@ async def run_baseline(
     k: int = 50,
     n: int = 1,
     skip: int = 0,
-    model: str = "gpt-4o-mini",
+    model: str = "gpt-5-nano",
     verbose: bool = True,
 ) -> Dict[str, Any]:
     """Run baseline evaluation."""
@@ -289,7 +289,7 @@ def main() -> None:
     parser.add_argument("--k", type=int, default=50, help="Reviews per restaurant")
     parser.add_argument("-n", type=int, default=1, help="Number of restaurants (0=all)")
     parser.add_argument("--skip", type=int, default=0, help="Skip first N")
-    parser.add_argument("--model", type=str, default="gpt-4o-mini", help="Model")
+    parser.add_argument("--model", type=str, default="gpt-5-nano", help="Model")
     parser.add_argument("--quiet", action="store_true", help="Less verbose output")
 
     args = parser.parse_args()

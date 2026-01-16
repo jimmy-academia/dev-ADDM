@@ -5,7 +5,7 @@ import os
 import random
 import time
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 try:
     import openai
@@ -17,6 +17,7 @@ except ImportError:  # pragma: no cover - optional dependency
     anthropic = None
 
 from addm.utils.async_utils import gather_with_concurrency
+from addm.utils.usage import usage_tracker, compute_cost
 
 
 def _load_api_key():
@@ -42,7 +43,7 @@ class LLMService:
     def __init__(self) -> None:
         self._config: Dict[str, Any] = {
             "provider": "openai",
-            "model": "gpt-4o-mini",
+            "model": "gpt-5-nano",
             "temperature": 0.0,
             "max_tokens": None,
             "base_url": "",
@@ -101,7 +102,46 @@ class LLMService:
             "messages": [{"role": "user", "content": user}],
         }
 
-    async def call_async(self, messages: List[Dict[str, str]]) -> str:
+    async def call_async(
+        self,
+        messages: List[Dict[str, str]],
+        context: Optional[Dict[str, Any]] = None,
+    ) -> str:
+        """Call LLM asynchronously, returning just the response text.
+
+        Args:
+            messages: List of message dicts with 'role' and 'content'
+            context: Optional context for usage tracking (sample_id, run_id, etc.)
+
+        Returns:
+            Response text from the LLM
+        """
+        response, _ = await self._call_async_with_usage(messages, context)
+        return response
+
+    async def call_async_with_usage(
+        self,
+        messages: List[Dict[str, str]],
+        context: Optional[Dict[str, Any]] = None,
+    ) -> Tuple[str, Dict[str, Any]]:
+        """Call LLM asynchronously, returning response and usage info.
+
+        Args:
+            messages: List of message dicts with 'role' and 'content'
+            context: Optional context for usage tracking (sample_id, run_id, etc.)
+
+        Returns:
+            Tuple of (response_text, usage_dict)
+            usage_dict contains: prompt_tokens, completion_tokens, latency_ms, cost_usd
+        """
+        return await self._call_async_with_usage(messages, context)
+
+    async def _call_async_with_usage(
+        self,
+        messages: List[Dict[str, str]],
+        context: Optional[Dict[str, Any]] = None,
+    ) -> Tuple[str, Dict[str, Any]]:
+        """Internal method that performs the LLM call and tracks usage."""
         provider = self._config["provider"]
         model = self._config["model"]
         temperature = self._config["temperature"]
@@ -109,12 +149,26 @@ class LLMService:
         timeout = self._config["request_timeout"]
         max_retries = self._config["max_retries"]
 
+        start_time = time.perf_counter()
+
         for attempt in range(max_retries + 1):
             try:
                 if provider == "mock":
+                    latency_ms = (time.perf_counter() - start_time) * 1000
                     if self._mock_responder:
-                        return self._mock_responder(messages)
-                    return "mock-response"
+                        response = self._mock_responder(messages)
+                    else:
+                        response = "mock-response"
+                    # Mock usage - estimate based on message length
+                    prompt_chars = sum(len(m.get("content", "")) for m in messages)
+                    usage = {
+                        "prompt_tokens": prompt_chars // 4,  # rough estimate
+                        "completion_tokens": len(response) // 4,
+                        "latency_ms": latency_ms,
+                        "cost_usd": 0.0,
+                    }
+                    return response, usage
+
                 if provider == "openai":
                     client = self._get_openai_client(async_mode=True)
                     kwargs: Dict[str, Any] = {
@@ -126,7 +180,35 @@ class LLMService:
                     if max_tokens:
                         kwargs["max_tokens"] = max_tokens
                     resp = await client.chat.completions.create(**kwargs)
-                    return resp.choices[0].message.content
+                    latency_ms = (time.perf_counter() - start_time) * 1000
+                    response = resp.choices[0].message.content
+
+                    # Extract usage from response
+                    prompt_tokens = getattr(resp.usage, "prompt_tokens", 0) if resp.usage else 0
+                    completion_tokens = getattr(resp.usage, "completion_tokens", 0) if resp.usage else 0
+                    cost_usd = compute_cost(model, prompt_tokens, completion_tokens)
+
+                    # Record to global tracker
+                    prompt_preview = str(messages[-1].get("content", ""))[:200] if messages else ""
+                    usage_tracker.record(
+                        model=model,
+                        provider=provider,
+                        prompt_tokens=prompt_tokens,
+                        completion_tokens=completion_tokens,
+                        latency_ms=latency_ms,
+                        context=context,
+                        prompt_preview=prompt_preview,
+                        response_preview=str(response)[:200] if response else "",
+                    )
+
+                    usage = {
+                        "prompt_tokens": prompt_tokens,
+                        "completion_tokens": completion_tokens,
+                        "latency_ms": latency_ms,
+                        "cost_usd": cost_usd,
+                    }
+                    return response, usage
+
                 if provider == "anthropic":
                     client = self._get_anthropic_client(async_mode=True)
                     payload = self._build_anthropic_payload(messages)
@@ -140,7 +222,35 @@ class LLMService:
                     if payload["system"]:
                         kwargs["system"] = payload["system"]
                     resp = await client.messages.create(**kwargs)
-                    return resp.content[0].text
+                    latency_ms = (time.perf_counter() - start_time) * 1000
+                    response = resp.content[0].text
+
+                    # Extract usage from response
+                    prompt_tokens = getattr(resp.usage, "input_tokens", 0) if resp.usage else 0
+                    completion_tokens = getattr(resp.usage, "output_tokens", 0) if resp.usage else 0
+                    cost_usd = compute_cost(model, prompt_tokens, completion_tokens)
+
+                    # Record to global tracker
+                    prompt_preview = str(messages[-1].get("content", ""))[:200] if messages else ""
+                    usage_tracker.record(
+                        model=model,
+                        provider=provider,
+                        prompt_tokens=prompt_tokens,
+                        completion_tokens=completion_tokens,
+                        latency_ms=latency_ms,
+                        context=context,
+                        prompt_preview=prompt_preview,
+                        response_preview=str(response)[:200] if response else "",
+                    )
+
+                    usage = {
+                        "prompt_tokens": prompt_tokens,
+                        "completion_tokens": completion_tokens,
+                        "latency_ms": latency_ms,
+                        "cost_usd": cost_usd,
+                    }
+                    return response, usage
+
                 raise LLMServiceError(f"Unsupported provider: {provider}")
             except Exception as exc:  # pragma: no cover - network or SDK errors
                 if attempt >= max_retries:
@@ -158,7 +268,53 @@ class LLMService:
             return asyncio.run(self.call_async(messages))
         raise LLMServiceError("call() cannot be used from an active event loop; use call_async().")
 
-    async def batch_call(self, batch: List[List[Dict[str, str]]]) -> List[str]:
+    async def batch_call(
+        self,
+        batch: List[List[Dict[str, str]]],
+        context: Optional[Dict[str, Any]] = None,
+    ) -> List[str]:
+        """Call LLM for a batch of messages, returning just responses.
+
+        Args:
+            batch: List of message lists
+            context: Optional base context (will be augmented with batch_idx)
+
+        Returns:
+            List of response texts
+        """
         max_concurrent = self._config["max_concurrent"]
-        tasks = [self.call_async(messages) for messages in batch]
+
+        async def call_with_idx(idx: int, messages: List[Dict[str, str]]) -> str:
+            ctx = {**(context or {}), "batch_idx": idx}
+            return await self.call_async(messages, ctx)
+
+        tasks = [call_with_idx(i, messages) for i, messages in enumerate(batch)]
         return await gather_with_concurrency(max_concurrent, tasks)
+
+    async def batch_call_with_usage(
+        self,
+        batch: List[List[Dict[str, str]]],
+        context: Optional[Dict[str, Any]] = None,
+    ) -> Tuple[List[str], List[Dict[str, Any]]]:
+        """Call LLM for a batch of messages, returning responses and usage.
+
+        Args:
+            batch: List of message lists
+            context: Optional base context (will be augmented with batch_idx)
+
+        Returns:
+            Tuple of (list of response texts, list of usage dicts)
+        """
+        max_concurrent = self._config["max_concurrent"]
+
+        async def call_with_idx(
+            idx: int, messages: List[Dict[str, str]]
+        ) -> Tuple[str, Dict[str, Any]]:
+            ctx = {**(context or {}), "batch_idx": idx}
+            return await self.call_async_with_usage(messages, ctx)
+
+        tasks = [call_with_idx(i, messages) for i, messages in enumerate(batch)]
+        results = await gather_with_concurrency(max_concurrent, tasks)
+        responses = [r[0] for r in results]
+        usages = [r[1] for r in results]
+        return responses, usages

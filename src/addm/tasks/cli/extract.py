@@ -165,7 +165,7 @@ def main() -> None:
     parser.add_argument("--k", type=int, default=50, help="Dataset K value (default: 50)")
     parser.add_argument("--limit", type=int, help="Limit number of restaurants")
     parser.add_argument("--provider", type=str, default="openai", help="LLM provider")
-    parser.add_argument("--model", type=str, default="gpt-4o-mini", help="LLM model")
+    parser.add_argument("--model", type=str, default="gpt-5-nano", help="LLM model")
     parser.add_argument("--concurrency", type=int, default=8, help="Max concurrent requests")
     parser.add_argument("--verbose", action="store_true", help="Verbose output")
     parser.add_argument("--dry-run", action="store_true", help="Dry run (no API calls)")
