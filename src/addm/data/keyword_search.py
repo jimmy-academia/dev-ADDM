@@ -14,14 +14,10 @@ Usage:
     )
 """
 
-import os
 import re
 from collections import defaultdict
-from concurrent.futures import ProcessPoolExecutor, as_completed
-from queue import Queue
-from threading import Thread
 from pathlib import Path
-from typing import Dict, List, Optional, Any, Tuple
+from typing import Dict, List, Optional, Any
 
 import json
 import orjson
@@ -159,108 +155,46 @@ def count_lines(file_path: str) -> int:
     return int(result.stdout.strip().split()[0])
 
 
-def _process_batch(
-    args: Tuple[List[bytes], Dict[str, str]]
-) -> Dict[str, Dict[str, List[Dict]]]:
-    """
-    Process a batch of review lines (worker function for parallel processing).
-
-    Args:
-        args: (list of raw JSONL lines, topic_patterns_dict)
-
-    Returns:
-        Dict[topic][business_id] = list of matching reviews
-    """
-    lines, topic_patterns_str = args
-
-    # Compile patterns in worker process
-    patterns = {
-        topic: re.compile(pattern_str, re.IGNORECASE)
-        for topic, pattern_str in topic_patterns_str.items()
-    }
-
-    results: Dict[str, Dict[str, List[Dict]]] = {
-        topic: defaultdict(list) for topic in patterns
-    }
-
-    for line in lines:
-        review = orjson.loads(line)
-        text = review.get("text", "")
-        biz_id = review["business_id"]
-
-        for topic, pattern in patterns.items():
-            match = pattern.search(text)
-            if match:
-                results[topic][biz_id].append({
-                    "review_id": review["review_id"],
-                    "stars": review["stars"],
-                    "date": review["date"],
-                    "match": match.group(),
-                    "snippet": text[:200],
-                })
-
-    # Convert defaultdicts to regular dicts for pickling
-    return {topic: dict(hits) for topic, hits in results.items()}
-
-
 def search_reviews_for_keywords(
     review_file: str,
     topics: List[str],
-    n_workers: Optional[int] = None,
-    chunk_size: int = 100_000,
+    output_dir: Optional[Path] = None,
+    save_interval: int = 500_000,
 ) -> Dict[str, Dict[str, List[Dict[str, Any]]]]:
     """
-    Search reviews for keyword matches across multiple topics (parallel).
-
-    Reads file in a separate thread while processing chunks in parallel.
+    Search reviews for keyword matches across multiple topics.
 
     Args:
         review_file: Path to JSONL review file
         topics: List of topic names to search for
-        n_workers: Number of parallel workers (default: 2x CPU cores)
-        chunk_size: Lines per chunk (default: 100k)
+        output_dir: If provided, save partial results every save_interval lines
+        save_interval: Save partial results every N lines (default: 500k)
 
     Returns:
         Dict[topic][business_id] = list of matching reviews
     """
-    if n_workers is None:
-        n_workers = os.cpu_count() * 2  # 2x cores is usually optimal
+    # Compile patterns
+    patterns = {topic: compile_topic_pattern(topic) for topic in topics}
 
-    # Build pattern strings (can't pickle compiled patterns)
-    topic_patterns_str = {}
-    for topic in topics:
-        patterns = TOPIC_KEYWORDS[topic]
-        combined = "|".join(f"({p})" for p in patterns)
-        topic_patterns_str[topic] = combined
+    # Results: topic -> business_id -> list of review info
+    results: Dict[str, Dict[str, List[Dict]]] = {
+        topic: defaultdict(list) for topic in topics
+    }
 
+    console.print(f"[bold]Scanning reviews for {len(topics)} topics...[/bold]")
     total_lines = count_lines(review_file)
-    console.print(f"[bold]Processing {total_lines:,} reviews with {n_workers} workers...[/bold]")
 
-    # Queue for chunks (reader thread -> main thread)
-    chunk_queue: Queue = Queue(maxsize=n_workers * 2)
-    read_done = {"done": False, "lines_read": 0}
+    if output_dir:
+        output_dir.mkdir(parents=True, exist_ok=True)
 
-    def reader_thread():
-        """Read file and push chunks to queue."""
-        with open(review_file, "rb") as f:
-            batch = []
-            for line in f:
-                batch.append(line)
-                read_done["lines_read"] += 1
-                if len(batch) >= chunk_size:
-                    chunk_queue.put((batch, topic_patterns_str))
-                    batch = []
-            if batch:
-                chunk_queue.put((batch, topic_patterns_str))
-        read_done["done"] = True
-
-    # Start reader thread
-    reader = Thread(target=reader_thread, daemon=True)
-    reader.start()
-
-    # Process chunks as they arrive
-    merged: Dict[str, Dict[str, List[Dict]]] = {topic: defaultdict(list) for topic in topics}
-    futures = []
+    def save_partial():
+        """Save current results to disk."""
+        if not output_dir:
+            return
+        for topic in topics:
+            out_file = output_dir / f"{topic}_partial.json"
+            with open(out_file, "w") as f:
+                json.dump(dict(results[topic]), f)
 
     with Progress(
         SpinnerColumn(),
@@ -271,39 +205,36 @@ def search_reviews_for_keywords(
         TimeElapsedColumn(),
         console=console,
     ) as progress:
-        task = progress.add_task("Processing", total=total_lines)
+        task = progress.add_task("Scanning", total=total_lines)
+        line_count = 0
 
-        with ProcessPoolExecutor(max_workers=n_workers) as executor:
-            lines_submitted = 0
-            lines_processed = 0
+        with open(review_file, "rb") as f:
+            for line in f:
+                line_count += 1
+                progress.advance(task)
+                review = orjson.loads(line)
+                text = review.get("text", "")
+                biz_id = review["business_id"]
 
-            while True:
-                # Submit new chunks from queue
-                while not chunk_queue.empty():
-                    chunk = chunk_queue.get()
-                    lines_submitted += len(chunk[0])
-                    futures.append((executor.submit(_process_batch, chunk), len(chunk[0])))
+                for topic, pattern in patterns.items():
+                    match = pattern.search(text)
+                    if match:
+                        results[topic][biz_id].append({
+                            "review_id": review["review_id"],
+                            "stars": review["stars"],
+                            "date": review["date"],
+                            "match": match.group(),
+                            "snippet": text[:200],
+                        })
 
-                # Collect completed results
-                still_pending = []
-                for future, n_lines in futures:
-                    if future.done():
-                        chunk_result = future.result()
-                        for topic, hits in chunk_result.items():
-                            for biz_id, reviews in hits.items():
-                                merged[topic][biz_id].extend(reviews)
-                        lines_processed += n_lines
-                        progress.update(task, completed=lines_processed)
-                    else:
-                        still_pending.append((future, n_lines))
-                futures = still_pending
+                # Save partial results periodically
+                if output_dir and line_count % save_interval == 0:
+                    save_partial()
+                    console.print(f"[dim]Saved partial results at {line_count:,} lines[/dim]")
 
-                # Check if done
-                if read_done["done"] and chunk_queue.empty() and not futures:
-                    break
-
-    reader.join()
-    return {topic: dict(hits) for topic, hits in merged.items()}
+    # Final save
+    save_partial()
+    return {topic: dict(hits) for topic, hits in results.items()}
 
 
 def count_hits_by_business(
@@ -382,6 +313,7 @@ def search_and_rank_restaurants(
     business_file: str = "data/raw/yelp/yelp_academic_dataset_business.json",
     min_hits: int = 10,
     top_n: int = 100,
+    output_dir: Optional[Path] = None,
 ) -> Dict[str, List[Dict[str, Any]]]:
     """
     Search reviews and rank restaurants by keyword hits for multiple topics.
@@ -392,12 +324,13 @@ def search_and_rank_restaurants(
         business_file: Path to business JSONL
         min_hits: Minimum keyword hits to include
         top_n: Number of top restaurants to return per topic
+        output_dir: If provided, save partial results during scanning
 
     Returns:
         Dict[topic] = list of restaurant info with hit counts, sorted by hits descending
     """
     # Search reviews
-    all_hits = search_reviews_for_keywords(review_file, topics)
+    all_hits = search_reviews_for_keywords(review_file, topics, output_dir=output_dir)
 
     # Collect all business IDs that need info
     all_biz_ids = set()

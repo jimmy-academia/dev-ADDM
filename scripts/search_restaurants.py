@@ -85,25 +85,26 @@ def main():
         parser.print_help()
         sys.exit(1)
 
+    # Output directory - default to data/keyword_hits/yelp/
+    output_dir = Path(args.output) if args.output else Path("data/keyword_hits/yelp")
+
     console.print(f"[bold]Searching for topics:[/bold] {topics}")
     console.print(f"[bold]Min hits:[/bold] {args.min_hits}, [bold]Top N:[/bold] {args.top_n}")
+    console.print(f"[bold]Output:[/bold] {output_dir}")
     console.print("=" * 70)
 
-    # Run search
+    # Run search (saves partial results during scan)
     results = search_and_rank_restaurants(
         topics=topics,
         review_file=args.review_file,
         business_file=args.business_file,
         min_hits=args.min_hits,
         top_n=args.top_n,
+        output_dir=output_dir,
     )
 
     # Print summary
     print_topic_summary(results)
-
-    # Save results - default to data/keyword_hits/yelp/
-    output_dir = Path(args.output) if args.output else Path("data/keyword_hits/yelp")
-    output_dir.mkdir(parents=True, exist_ok=True)
 
     # Save each topic separately with group prefix (e.g., G1_allergy.json)
     for topic, restaurants in results.items():
