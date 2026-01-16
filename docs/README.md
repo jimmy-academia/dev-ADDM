@@ -16,13 +16,13 @@
 
 **72 Tasks** = 6 Groups x 3 Topics x 4 Variants
 
-- [Task Taxonomy](tasks/TAXONOMY.md) - Full task list and grouping
-- [G1 Health & Safety](tasks/groups/G1_health_safety.md)
-- [G2 Social Context](tasks/groups/G2_social_context.md)
-- [G3 Economic Value](tasks/groups/G3_economic_value.md)
-- [G4 Talent & Performance](tasks/groups/G4_talent_performance.md)
-- [G5 Operational Efficiency](tasks/groups/G5_operational.md)
-- [G6 Competitive Strategy](tasks/groups/G6_competitive.md)
+- [tasks/TAXONOMY.md](tasks/TAXONOMY.md) - Full task list and grouping
+- [tasks/groups/G1_health_safety.md](tasks/groups/G1_health_safety.md)
+- [tasks/groups/G2_social_context.md](tasks/groups/G2_social_context.md)
+- [tasks/groups/G3_economic_value.md](tasks/groups/G3_economic_value.md)
+- [tasks/groups/G4_talent_performance.md](tasks/groups/G4_talent_performance.md)
+- [tasks/groups/G5_operational.md](tasks/groups/G5_operational.md)
+- [tasks/groups/G6_competitive.md](tasks/groups/G6_competitive.md)
 
 | Group | Perspective | Topics |
 |-------|-------------|--------|
