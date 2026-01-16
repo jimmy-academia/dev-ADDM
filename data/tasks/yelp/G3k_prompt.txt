@@ -1,0 +1,231 @@
+============================================================
+Agenda
+============================================================
+
+Help assess time efficiency and wait times at this restaurant.
+
+Analyze each review to identify mentions of waiting, timing, and pacing.
+For each record, extract the L0 primitives defined below.
+
+This task uses complex formula with weighted time impact calculations.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+WAIT_FOR_TABLE
+- none: seated immediately or very quickly
+- short: reasonable wait (under 15 min)
+- moderate: noticeable wait (15-30 min)
+- long: significant wait (30-60 min)
+- excessive: very long wait (60+ min)
+- not_mentioned: wait time not discussed
+
+RESERVATION_ACCURACY
+- honored: reservation honored on time
+- slight_delay: 5-10 min past reservation time
+- significant_delay: 15+ min past reservation time
+- lost: reservation lost or not honored
+- not_applicable: no reservation made
+- not_mentioned: not discussed
+
+FOOD_DELIVERY_SPEED
+- fast: food arrived quickly
+- reasonable: normal timing
+- slow: took longer than expected
+- very_slow: excessive wait for food
+- not_mentioned: not discussed
+
+SERVICE_PACING
+- perfect: well-paced, not rushed or dragging
+- slightly_rushed: felt a bit hurried
+- very_rushed: pushed to leave quickly
+- too_slow: service dragged between courses
+- forgotten: felt forgotten by staff
+- not_mentioned: not discussed
+
+CHECKOUT_SPEED
+- fast: quick check and payment
+- reasonable: normal checkout time
+- slow: waited too long for check
+- not_mentioned: not discussed
+
+OCCASION_TYPE
+- quick_meal: time-sensitive dining
+- leisurely: no time pressure
+- business: professional context (time matters)
+- special_occasion: celebrating (less time sensitive)
+- not_specified: occasion not mentioned
+
+COMMUNICATION_ABOUT_WAIT
+- proactive: staff communicated expected wait times
+- upon_request: informed when asked
+- no_communication: no information given about delays
+- not_mentioned: not discussed
+
+============================================================
+L1: Composites (derived per review) - COMPLEX
+============================================================
+
+Occasion Sensitivity (how much timing matters):
+  quick_meal = 2.0 (very time sensitive)
+  business = 1.8
+  leisurely = 0.5
+  special_occasion = 0.7
+  not_specified = 1.0
+
+Wait Score:
+  none = +2.0
+  short = +1.0
+  moderate = 0
+  long = -1.5
+  excessive = -3.0
+  not_mentioned = 0
+
+Reservation Score:
+  honored = +1.5
+  slight_delay = 0
+  significant_delay = -1.5
+  lost = -4.0
+  not_applicable = 0
+  not_mentioned = 0
+
+Food Speed Score:
+  fast = +1.5
+  reasonable = +0.5
+  slow = -1.0
+  very_slow = -2.5
+  not_mentioned = 0
+
+Pacing Score:
+  perfect = +2.0
+  slightly_rushed = -0.5
+  very_rushed = -2.0
+  too_slow = -1.5
+  forgotten = -3.0
+  not_mentioned = 0
+
+Checkout Score:
+  fast = +1.0
+  reasonable = +0.5
+  slow = -1.0
+  not_mentioned = 0
+
+Communication Modifier:
+  proactive = +1.0 (reduces frustration)
+  upon_request = +0.5
+  no_communication = -0.5
+  not_mentioned = 0
+
+L1_TIME_SCORE = (WAIT_SCORE + RESERVATION_SCORE + FOOD_SPEED_SCORE + PACING_SCORE + CHECKOUT_SCORE + COMMUNICATION_MODIFIER)
+
+OCCASION_ADJUSTED_SCORE = L1_TIME_SCORE * OCCASION_SENSITIVITY
+
+LOST_RESERVATION_PENALTY (interaction):
+  If RESERVATION_ACCURACY = lost AND OCCASION_TYPE in {business, quick_meal}: -3.0
+  Else: 0
+
+FORGOTTEN_PENALTY (interaction):
+  If SERVICE_PACING = forgotten AND FOOD_DELIVERY_SPEED = very_slow: -2.0
+  Else: 0
+
+L1_TOTAL_SCORE = OCCASION_ADJUSTED_SCORE + LOST_RESERVATION_PENALTY + FORGOTTEN_PENALTY
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_TIME_REVIEWS = count of reviews with any time-related primitives mentioned
+  N_EXCESSIVE_WAIT = count where WAIT_FOR_TABLE = excessive
+  N_LOST_RESERVATION = count where RESERVATION_ACCURACY = lost
+  N_FORGOTTEN = count where SERVICE_PACING = forgotten
+  N_PROACTIVE_COMM = count where COMMUNICATION_ABOUT_WAIT = proactive
+
+Confidence Level:
+  if N_TIME_REVIEWS == 0: none
+  elif N_TIME_REVIEWS <= 2: low
+  elif N_TIME_REVIEWS <= 5: medium
+  else: high
+
+Aggregation:
+  SUM_L1_SCORE = sum of L1_TOTAL_SCORE across all time reviews
+  MEAN_L1_SCORE = SUM_L1_SCORE / max(N_TIME_REVIEWS, 1)
+  SUM_OCCASION_SENSITIVITY = sum of OCCASION_SENSITIVITY
+  WEIGHTED_MEAN = SUM_L1_SCORE / max(SUM_OCCASION_SENSITIVITY, 1)
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  ADJUSTED_SCORE = WEIGHTED_MEAN
+  RAW_SCORE = BASE_SCORE + ADJUSTED_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Excellent Timing
+  - >= 5.5 AND < 7.5 => Good Timing
+  - >= 3.5 AND < 5.5 => Variable Timing
+  - < 3.5 => Poor Timing
+
+Overrides:
+  - If N_LOST_RESERVATION >= 1 => max Variable Timing
+  - If N_FORGOTTEN >= 2 => Poor Timing
+  - If N_EXCESSIVE_WAIT >= 2 => Poor Timing
+  - If N_PROACTIVE_COMM >= 2 AND WEIGHTED_MEAN > 0 => min Good Timing
+  - If WEIGHTED_MEAN < -1.5 => Poor Timing
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per time-related review ... ],
+  L1_composites: [
+    {
+      review_id,
+      occasion_sensitivity,
+      wait_score,
+      reservation_score,
+      food_speed_score,
+      pacing_score,
+      checkout_score,
+      communication_modifier,
+      l1_time_score,
+      occasion_adjusted_score,
+      lost_reservation_penalty,
+      forgotten_penalty,
+      l1_total_score
+    },
+    ...
+  ],
+  L2_aggregates: {
+    N_TIME_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_EXCESSIVE_WAIT,
+    N_LOST_RESERVATION,
+    N_FORGOTTEN,
+    N_PROACTIVE_COMM,
+    SUM_L1_SCORE,
+    MEAN_L1_SCORE,
+    WEIGHTED_MEAN,
+    BASE_SCORE,
+    ADJUSTED_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT
+  },
+  decision_evidence: {
+    high_score_reviews: [ {review_id, occasion, l1_total_score, quote}, ... ],
+    low_score_reviews: [ {review_id, issue, l1_total_score, quote}, ... ],
+    reservation_issues: [ {review_id, accuracy, quote}, ... ]
+  }
+}

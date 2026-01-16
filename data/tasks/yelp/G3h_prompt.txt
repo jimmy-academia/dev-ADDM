@@ -1,0 +1,254 @@
+============================================================
+Agenda
+============================================================
+
+Help assess transparency of pricing and hidden costs at this restaurant.
+
+Analyze each review to identify mentions of unexpected fees or hidden costs.
+For each record, extract the L0 primitives defined below.
+
+This task combines complex formula (impact weighting, disclosure scoring)
+with L1.5 cost type grouping for pattern detection.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+COST_TYPE
+- service_charge: automatic service charge or gratuity
+- corkage_fee: fee for bringing own wine
+- split_plate_fee: charge for sharing dishes
+- bread_charge: charge for bread/water that's usually free
+- parking_fee: expensive or unexpected parking costs
+- reservation_fee: fee to hold reservation
+- minimum_spend: required minimum order amount
+- price_increase: prices higher than menu/online indicated
+- other_fee: other unexpected charges
+- none: no hidden costs mentioned
+
+DISCLOSURE_QUALITY
+- clear: fees clearly disclosed upfront (menu, website, verbal)
+- buried: disclosed but hard to find (fine print)
+- not_disclosed: discovered fees at bill time
+- not_mentioned: disclosure not discussed
+
+SURPRISE_LEVEL
+- expected: knew about fee in advance
+- mild_surprise: slightly unexpected
+- shocked: significantly surprised by charges
+- outraged: felt deceived or cheated
+- not_mentioned: reaction not discussed
+
+COST_AMOUNT
+- minor: small amount (under $5-10)
+- moderate: noticeable ($10-30)
+- significant: substantial ($30+)
+- percentage: percentage-based (e.g., 18% service charge)
+- not_specified: amount not mentioned
+
+STAFF_EXPLANATION
+- proactive: staff explained fees before ordering
+- upon_request: explained when asked
+- defensive: staff was defensive about charges
+- no_explanation: no explanation given
+- not_mentioned: not discussed
+
+============================================================
+L1: Composites (derived per review) - COMPLEX
+============================================================
+
+Cost Type Impact:
+  service_charge = 1.5
+  minimum_spend = 1.3
+  price_increase = 2.0
+  corkage_fee = 0.8
+  split_plate_fee = 1.0
+  bread_charge = 1.2
+  parking_fee = 0.6
+  reservation_fee = 1.0
+  other_fee = 1.0
+  none = 0
+
+Disclosure Score:
+  clear = +2.0
+  buried = -1.0
+  not_disclosed = -3.0
+  not_mentioned = 0
+
+Amount Multiplier:
+  minor = 0.5
+  moderate = 1.0
+  significant = 1.5
+  percentage = 1.3
+  not_specified = 1.0
+
+Surprise Modifier:
+  expected = +1.0
+  mild_surprise = 0
+  shocked = -1.5
+  outraged = -3.0
+  not_mentioned = 0
+
+Staff Modifier:
+  proactive = +1.5
+  upon_request = +0.5
+  defensive = -1.0
+  no_explanation = -0.5
+  not_mentioned = 0
+
+L1_TRANSPARENCY_SCORE = DISCLOSURE_SCORE + SURPRISE_MODIFIER + STAFF_MODIFIER
+L1_IMPACT_SCORE = COST_TYPE_IMPACT * AMOUNT_MULTIPLIER
+
+UNDISCLOSED_SIGNIFICANT (interaction penalty):
+  If DISCLOSURE_QUALITY = not_disclosed AND COST_AMOUNT = significant: -3.0
+  Else: 0
+
+L1_TOTAL_SCORE = L1_TRANSPARENCY_SCORE - L1_IMPACT_SCORE + UNDISCLOSED_SIGNIFICANT
+
+============================================================
+L1.5: Cost Type Grouping
+============================================================
+
+Group reviews by COST_TYPE category:
+  MANDATORY_FEES = service_charge, minimum_spend, reservation_fee
+  ADD_ONS = corkage_fee, split_plate_fee, bread_charge
+  EXTERNAL = parking_fee
+  PRICING = price_increase, other_fee
+
+For each cost bucket, compute:
+  BUCKET_N_REVIEWS = count of reviews in this bucket
+  BUCKET_SUM_SCORE = sum of L1_TOTAL_SCORE in bucket
+  BUCKET_MEAN_SCORE = BUCKET_SUM_SCORE / max(BUCKET_N_REVIEWS, 1)
+  BUCKET_N_NOT_DISCLOSED = count where DISCLOSURE_QUALITY = not_disclosed in bucket
+  BUCKET_N_OUTRAGED = count where SURPRISE_LEVEL = outraged in bucket
+  BUCKET_TOTAL_IMPACT = sum of L1_IMPACT_SCORE in bucket
+
+Cost Pattern Analysis:
+  WORST_COST_TYPE = bucket with lowest MEAN_SCORE (most problematic)
+  WORST_COST_SCORE = MEAN_SCORE of WORST_COST_TYPE
+  HIGHEST_IMPACT_TYPE = bucket with highest TOTAL_IMPACT
+  N_COST_TYPES_PROBLEMATIC = count of buckets where MEAN_SCORE < -1.0
+
+  COST_PATTERN:
+    if N_COST_TYPES_PROBLEMATIC >= 3: "systemic_transparency_issues"
+    elif MANDATORY_FEES bucket MEAN_SCORE < -2.0: "mandatory_fee_trap"
+    elif PRICING bucket N_NOT_DISCLOSED > 0: "price_bait_switch"
+    elif N_COST_TYPES_PROBLEMATIC >= 1 AND WORST_COST_SCORE < -2.0: "specific_fee_problem"
+    elif N_COST_TYPES_PROBLEMATIC >= 1: "minor_fee_issues"
+    else: "transparent_pricing"
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 7.0
+
+Counts:
+  N_COST_REVIEWS = count of reviews mentioning costs/fees
+  N_NOT_DISCLOSED = count where DISCLOSURE_QUALITY = not_disclosed
+  N_OUTRAGED = count where SURPRISE_LEVEL = outraged
+
+Confidence Level:
+  if N_COST_REVIEWS == 0: none
+  elif N_COST_REVIEWS <= 2: low
+  elif N_COST_REVIEWS <= 5: medium
+  else: high
+
+L1.5 Cost Aggregation:
+  TOTAL_COST_SCORE = sum of BUCKET_MEAN_SCORE across all cost buckets
+  N_COST_BUCKETS_ACTIVE = count of buckets where N_REVIEWS > 0
+  MEAN_COST_SCORE = TOTAL_COST_SCORE / max(N_COST_BUCKETS_ACTIVE, 1)
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  Pattern Multiplier (based on cost pattern):
+    if COST_PATTERN = "systemic_transparency_issues": PATTERN_MULT = 0.6
+    elif COST_PATTERN = "mandatory_fee_trap": PATTERN_MULT = 0.7
+    elif COST_PATTERN = "price_bait_switch": PATTERN_MULT = 0.7
+    elif COST_PATTERN = "specific_fee_problem": PATTERN_MULT = 0.85
+    elif COST_PATTERN = "minor_fee_issues": PATTERN_MULT = 0.95
+    else: PATTERN_MULT = 1.1
+
+  ADJUSTED_SCORE = MEAN_COST_SCORE * PATTERN_MULT
+  RAW_SCORE = BASE_SCORE + ADJUSTED_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 8.0 => Transparent
+  - >= 6.0 AND < 8.0 => Mostly Transparent
+  - >= 4.0 AND < 6.0 => Some Hidden Costs
+  - < 4.0 => Problematic
+
+Overrides:
+  - If COST_PATTERN = "systemic_transparency_issues" => Problematic
+  - If COST_PATTERN = "price_bait_switch" => max Some Hidden Costs + warning
+  - If N_OUTRAGED >= 2 => Problematic
+  - If COST_PATTERN = "transparent_pricing" AND N_NOT_DISCLOSED == 0 => min Mostly Transparent
+  - Include specific fee warning based on WORST_COST_TYPE
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per cost-related review ... ],
+  L1_composites: [
+    {
+      review_id,
+      cost_type,
+      cost_type_impact,
+      disclosure_score,
+      amount_multiplier,
+      surprise_modifier,
+      staff_modifier,
+      l1_transparency_score,
+      l1_impact_score,
+      undisclosed_significant,
+      l1_total_score
+    },
+    ...
+  ],
+  L1_5_cost_buckets: {
+    mandatory_fees: { n_reviews, sum_score, mean_score, n_not_disclosed, n_outraged, total_impact },
+    add_ons: { n_reviews, sum_score, mean_score, n_not_disclosed, n_outraged, total_impact },
+    external: { n_reviews, sum_score, mean_score, n_not_disclosed, n_outraged, total_impact },
+    pricing: { n_reviews, sum_score, mean_score, n_not_disclosed, n_outraged, total_impact },
+    worst_cost_type,
+    worst_cost_score,
+    highest_impact_type,
+    n_cost_types_problematic,
+    cost_pattern
+  },
+  L2_aggregates: {
+    N_COST_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_NOT_DISCLOSED,
+    N_OUTRAGED,
+    TOTAL_COST_SCORE,
+    MEAN_COST_SCORE,
+    PATTERN_MULT,
+    BASE_SCORE,
+    ADJUSTED_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    fee_warning (if applicable)
+  },
+  decision_evidence: {
+    high_impact_costs: [ {review_id, cost_type, l1_total_score, quote}, ... ],
+    disclosure_issues: [ {review_id, cost_type, quote}, ... ],
+    cost_evidence: {
+      worst_cost_type,
+      highest_impact_type,
+      cost_pattern
+    }
+  }
+}

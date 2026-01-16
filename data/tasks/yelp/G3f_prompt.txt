@@ -1,0 +1,183 @@
+============================================================
+Agenda
+============================================================
+
+Help assess transparency of pricing and hidden costs at this restaurant.
+
+Analyze each review to identify mentions of unexpected fees or hidden costs.
+For each record, extract the L0 primitives defined below.
+
+This task adds L1.5 cost-type grouping to identify problem areas.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+COST_TYPE
+- service_charge: automatic service charge or gratuity
+- corkage_fee: fee for bringing own wine
+- split_plate_fee: charge for sharing dishes
+- bread_charge: charge for bread/water that's usually free
+- parking_fee: expensive or unexpected parking costs
+- reservation_fee: fee to hold reservation
+- minimum_spend: required minimum order amount
+- price_increase: prices higher than menu/online indicated
+- other_fee: other unexpected charges
+- none: no hidden costs mentioned
+
+DISCLOSURE_QUALITY
+- clear: fees clearly disclosed upfront (menu, website, verbal)
+- buried: disclosed but hard to find (fine print)
+- not_disclosed: discovered fees at bill time
+- not_mentioned: disclosure not discussed
+
+SURPRISE_LEVEL
+- expected: knew about fee in advance
+- mild_surprise: slightly unexpected
+- shocked: significantly surprised by charges
+- outraged: felt deceived or cheated
+- not_mentioned: reaction not discussed
+
+COST_AMOUNT
+- minor: small amount (under $5-10)
+- moderate: noticeable ($10-30)
+- significant: substantial ($30+)
+- percentage: percentage-based (e.g., 18% service charge)
+- not_specified: amount not mentioned
+
+STAFF_EXPLANATION
+- proactive: staff explained fees before ordering
+- upon_request: explained when asked
+- defensive: staff was defensive about charges
+- no_explanation: no explanation given
+- not_mentioned: not discussed
+
+============================================================
+L1: Composites (derived per review)
+============================================================
+
+HIDDEN_COST_ISSUE = true iff ALL:
+  - COST_TYPE != none
+  - DISCLOSURE_QUALITY in {buried, not_disclosed}
+Else HIDDEN_COST_ISSUE = false
+
+TRANSPARENT_PRICING = true iff ANY:
+  - Explicitly states no hidden fees
+  - DISCLOSURE_QUALITY = clear AND COST_TYPE != none
+Else TRANSPARENT_PRICING = false
+
+============================================================
+L1.5: Cost Type Grouping
+============================================================
+
+Group reviews by COST_TYPE category:
+  MANDATORY_FEES = service_charge, minimum_spend, reservation_fee (required charges)
+  ADD_ONS = corkage_fee, split_plate_fee, bread_charge (optional extras)
+  EXTERNAL = parking_fee (outside restaurant control)
+  PRICING = price_increase, other_fee (menu accuracy issues)
+
+For each cost bucket, compute:
+  BUCKET_N_REVIEWS = count of reviews mentioning costs in this bucket
+  BUCKET_N_HIDDEN = count where HIDDEN_COST_ISSUE = true in bucket
+  BUCKET_N_SHOCKED = count where SURPRISE_LEVEL in {shocked, outraged} in bucket
+  BUCKET_TRANSPARENCY_RATE = 1 - (BUCKET_N_HIDDEN / max(BUCKET_N_REVIEWS, 1))
+
+Cost Pattern Analysis:
+  WORST_COST_TYPE = bucket with lowest TRANSPARENCY_RATE (if any issues)
+  N_COST_TYPES_PROBLEMATIC = count of buckets where TRANSPARENCY_RATE < 0.5
+
+  COST_PATTERN:
+    if N_COST_TYPES_PROBLEMATIC >= 3: "systemic_hidden_costs"
+    elif MANDATORY_FEES bucket TRANSPARENCY_RATE < 0.5: "hidden_mandatory_fees"
+    elif PRICING bucket N_HIDDEN > 0: "menu_price_issues"
+    elif N_COST_TYPES_PROBLEMATIC >= 1: "specific_fee_issue"
+    else: "generally_transparent"
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 7.0
+
+Counts:
+  N_COST_REVIEWS = count of reviews mentioning costs/fees
+  N_HIDDEN_ISSUES = count where HIDDEN_COST_ISSUE = true
+  N_TRANSPARENT = count where TRANSPARENT_PRICING = true
+
+Confidence Level:
+  if N_COST_REVIEWS == 0: none
+  elif N_COST_REVIEWS <= 2: low
+  elif N_COST_REVIEWS <= 5: medium
+  else: high
+
+L1.5 Cost Analysis:
+  WORST_COST_TYPE
+  N_COST_TYPES_PROBLEMATIC
+  COST_PATTERN
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  POSITIVE_SCORE = N_TRANSPARENT * 1
+  NEGATIVE_SCORE = N_HIDDEN_ISSUES * 1.5
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 8.0 => Transparent
+  - >= 6.0 AND < 8.0 => Mostly Transparent
+  - >= 4.0 AND < 6.0 => Some Hidden Costs
+  - < 4.0 => Problematic
+
+Overrides:
+  - If COST_PATTERN = "systemic_hidden_costs" => Problematic
+  - If COST_PATTERN = "hidden_mandatory_fees" => max Some Hidden Costs
+  - If COST_PATTERN = "menu_price_issues" => max Mostly Transparent + warning
+  - If COST_PATTERN = "generally_transparent" AND N_HIDDEN_ISSUES == 0 => min Mostly Transparent
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per cost-related review ... ],
+  L1_composites: [ ... one record per cost-related review ... ],
+  L1_5_cost_buckets: {
+    mandatory_fees: { n_reviews, n_hidden, n_shocked, transparency_rate },
+    add_ons: { n_reviews, n_hidden, n_shocked, transparency_rate },
+    external: { n_reviews, n_hidden, n_shocked, transparency_rate },
+    pricing: { n_reviews, n_hidden, n_shocked, transparency_rate },
+    worst_cost_type,
+    n_cost_types_problematic,
+    cost_pattern
+  },
+  L2_aggregates: {
+    N_COST_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_HIDDEN_ISSUES,
+    N_TRANSPARENT,
+    POSITIVE_SCORE,
+    NEGATIVE_SCORE,
+    BASE_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    cost_warning (if applicable)
+  },
+  decision_evidence: {
+    hidden_cost_mentions: [ {review_id, cost_type, quote}, ... ],
+    cost_evidence: {
+      worst_cost_type,
+      cost_pattern,
+      problematic_areas: [ cost_type, ... ]
+    }
+  }
+}

@@ -209,3 +209,6 @@ __marimo__/
 # Large raw datasets
 data/raw/
 data/raw/**
+
+# Keyword hit analysis results
+data/keyword_hits/

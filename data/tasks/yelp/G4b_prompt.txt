@@ -1,0 +1,190 @@
+============================================================
+Agenda
+============================================================
+
+Help assess the quality of server/staff service at this restaurant.
+
+Analyze each review to identify mentions of server interactions and service quality.
+For each record, extract the L0 primitives defined below.
+
+This task adds L1.5 service-aspect grouping to identify strengths and weaknesses.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+ATTENTIVENESS
+- excellent: proactively attentive, anticipated needs
+- good: responsive when needed
+- adequate: acceptable but not memorable
+- poor: had to flag down server repeatedly
+- neglectful: felt ignored or abandoned
+- not_mentioned: attentiveness not discussed
+
+MENU_KNOWLEDGE
+- expert: deep knowledge, great recommendations
+- good: answered questions well
+- limited: couldn't answer some questions
+- poor: gave wrong information
+- not_mentioned: knowledge not discussed
+
+FRIENDLINESS
+- warm: genuinely friendly, made guests feel welcome
+- professional: polite and courteous
+- neutral: neither friendly nor unfriendly
+- cold: unfriendly or unwelcoming
+- rude: actively rude or hostile
+- not_mentioned: friendliness not discussed
+
+ERROR_HANDLING
+- excellent: fixed mistakes gracefully, compensated
+- good: acknowledged and corrected errors
+- poor: defensive or dismissive about errors
+- denied: refused to acknowledge mistakes
+- no_errors: no errors to handle
+- not_mentioned: not discussed
+
+PROFESSIONALISM
+- exemplary: went above and beyond
+- professional: met expectations
+- unprofessional: inappropriate behavior noted
+- not_mentioned: not discussed
+
+============================================================
+L1: Composites (derived per review)
+============================================================
+
+POSITIVE_SERVICE = true iff ANY:
+  - ATTENTIVENESS in {excellent, good}
+  - FRIENDLINESS in {warm, professional}
+  - MENU_KNOWLEDGE in {expert, good}
+Else POSITIVE_SERVICE = false
+
+NEGATIVE_SERVICE = true iff ANY:
+  - ATTENTIVENESS in {poor, neglectful}
+  - FRIENDLINESS in {cold, rude}
+  - ERROR_HANDLING in {poor, denied}
+Else NEGATIVE_SERVICE = false
+
+============================================================
+L1.5: Service Aspect Grouping
+============================================================
+
+Group reviews by service aspect:
+  ATTENTIVENESS_ASPECT = reviews mentioning attentiveness
+  KNOWLEDGE_ASPECT = reviews mentioning menu knowledge
+  ATTITUDE_ASPECT = reviews mentioning friendliness or professionalism
+
+For each aspect bucket, compute:
+  BUCKET_N_REVIEWS = count of reviews in this bucket
+  BUCKET_N_POSITIVE = count with positive rating for this aspect
+  BUCKET_N_NEGATIVE = count with negative rating for this aspect
+  BUCKET_SATISFACTION_RATE = BUCKET_N_POSITIVE / max(BUCKET_N_POSITIVE + BUCKET_N_NEGATIVE, 1)
+
+Service Pattern Analysis:
+  BEST_ASPECT = bucket with highest SATISFACTION_RATE (if any data)
+  WORST_ASPECT = bucket with lowest SATISFACTION_RATE (if any data)
+  N_ASPECTS_STRONG = count of buckets where SATISFACTION_RATE >= 0.7
+
+  SERVICE_PATTERN:
+    if N_ASPECTS_STRONG >= 3: "consistently_excellent"
+    elif ATTITUDE_ASPECT SATISFACTION_RATE >= 0.8: "friendly_staff"
+    elif ATTENTIVENESS_ASPECT SATISFACTION_RATE >= 0.8: "attentive_service"
+    elif KNOWLEDGE_ASPECT SATISFACTION_RATE >= 0.8: "knowledgeable_staff"
+    elif N_ASPECTS_STRONG >= 1: "mixed_strengths"
+    else: "needs_improvement"
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_SERVICE_REVIEWS = count of reviews with any service-related primitives
+  N_POSITIVE = count where POSITIVE_SERVICE = true
+  N_NEGATIVE = count where NEGATIVE_SERVICE = true
+
+Confidence Level:
+  if N_SERVICE_REVIEWS == 0: none
+  elif N_SERVICE_REVIEWS <= 2: low
+  elif N_SERVICE_REVIEWS <= 5: medium
+  else: high
+
+L1.5 Aspect Analysis:
+  BEST_ASPECT
+  BEST_ASPECT_RATE
+  WORST_ASPECT
+  SERVICE_PATTERN
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  SATISFACTION_RATE = N_POSITIVE / max(N_POSITIVE + N_NEGATIVE, 1)
+
+  POSITIVE_SCORE = N_POSITIVE * 1.5
+  NEGATIVE_SCORE = N_NEGATIVE * 1.5
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Excellent Service
+  - >= 5.5 AND < 7.5 => Good Service
+  - >= 3.5 AND < 5.5 => Mixed Service
+  - < 3.5 => Poor Service
+
+Overrides:
+  - If SERVICE_PATTERN = "consistently_excellent" => min Good Service
+  - If SERVICE_PATTERN = "needs_improvement" AND N_NEGATIVE >= 3 => Poor Service
+  - Include strength note based on SERVICE_PATTERN
+  - Include weakness note based on WORST_ASPECT if rate < 0.5
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per service-related review ... ],
+  L1_composites: [ ... one record per service-related review ... ],
+  L1_5_aspect_buckets: {
+    attentiveness: { n_reviews, n_positive, n_negative, satisfaction_rate },
+    knowledge: { n_reviews, n_positive, n_negative, satisfaction_rate },
+    attitude: { n_reviews, n_positive, n_negative, satisfaction_rate },
+    best_aspect,
+    best_aspect_rate,
+    worst_aspect,
+    n_aspects_strong,
+    service_pattern
+  },
+  L2_aggregates: {
+    N_SERVICE_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_POSITIVE, N_NEGATIVE,
+    SATISFACTION_RATE,
+    POSITIVE_SCORE,
+    NEGATIVE_SCORE,
+    BASE_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    strength_note (if applicable),
+    weakness_note (if applicable)
+  },
+  decision_evidence: {
+    positive_service_mentions: [ {review_id, aspect, quote}, ... ],
+    negative_service_mentions: [ {review_id, aspect, quote}, ... ],
+    aspect_evidence: {
+      best_aspect,
+      worst_aspect,
+      service_pattern
+    }
+  }
+}

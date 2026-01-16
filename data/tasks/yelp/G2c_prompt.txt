@@ -1,0 +1,219 @@
+============================================================
+Agenda
+============================================================
+
+Help assess how suitable this restaurant is for romantic occasions.
+
+Analyze each review to identify mentions of romantic dining experiences.
+For each record, extract the L0 primitives defined below.
+
+This task uses complex formula with weighted factors and interaction effects.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+OCCASION_TYPE
+- date_night: casual romantic dinner
+- anniversary: special celebration of relationship milestone
+- proposal: engagement or special romantic gesture
+- first_date: getting to know someone
+- valentines: Valentine's Day or similar romantic holiday
+- general_romantic: romantic context without specific occasion
+- not_romantic: not a romantic context
+
+AMBIANCE_RATING
+- excellent: specifically praised as romantic, intimate, beautiful
+- good: pleasant atmosphere conducive to romance
+- neutral: adequate but not particularly romantic
+- poor: atmosphere detracts from romantic experience (loud, harsh lighting, etc.)
+- not_mentioned: ambiance not discussed
+
+PRIVACY_LEVEL
+- intimate: private booths, secluded seating, quiet corners
+- adequate: reasonable spacing between tables
+- lacking: crowded, tables too close, feels exposed
+- not_mentioned: privacy not discussed
+
+NOISE_LEVEL
+- quiet: easy to have intimate conversation
+- moderate: acceptable background noise
+- loud: difficult to converse, disruptive
+- not_mentioned: noise not discussed
+
+SERVICE_ATTENTIVENESS
+- attentive: staff was appropriately present without being intrusive
+- inattentive: staff was absent when needed
+- intrusive: staff interrupted too frequently
+- not_mentioned: service style not discussed
+
+ROMANTIC_ELEMENTS
+- present: candles, flowers, special touches, romantic music
+- absent: no romantic touches noted
+- negative: unromantic elements (TVs blaring, bright lights)
+- not_mentioned: not discussed
+
+OUTCOME_SENTIMENT
+- delighted: explicitly praised as perfect for romance
+- satisfied: had a good romantic experience
+- disappointed: romantic experience fell short
+- ruined: romantic occasion was negatively impacted
+- not_mentioned: outcome not discussed
+
+============================================================
+L1: Composites (derived per review) - COMPLEX
+============================================================
+
+Occasion Weight (higher stakes = more weight):
+  proposal = 2.0
+  anniversary = 1.8
+  valentines = 1.5
+  date_night = 1.0
+  first_date = 1.2 (important for impressions)
+  general_romantic = 1.0
+  not_romantic = 0
+
+Ambiance Score:
+  excellent = +3
+  good = +1.5
+  neutral = 0
+  poor = -2
+  not_mentioned = 0
+
+Privacy Score:
+  intimate = +2
+  adequate = +0.5
+  lacking = -1.5
+  not_mentioned = 0
+
+Noise Score:
+  quiet = +2
+  moderate = 0
+  loud = -3
+  not_mentioned = 0
+
+Service Score:
+  attentive = +1.5
+  inattentive = -1
+  intrusive = -1.5
+  not_mentioned = 0
+
+Romantic Elements Score:
+  present = +1.5
+  absent = 0
+  negative = -2
+  not_mentioned = 0
+
+Outcome Modifier:
+  delighted = +2
+  satisfied = +1
+  disappointed = -2
+  ruined = -4
+  not_mentioned = 0
+
+L1_REVIEW_SCORE = (AMBIANCE_SCORE + PRIVACY_SCORE + NOISE_SCORE + SERVICE_SCORE + ROMANTIC_ELEMENTS_SCORE + OUTCOME_MODIFIER) * OCCASION_WEIGHT
+
+RUINED_SPECIAL_OCCASION (interaction effect):
+  If OCCASION_TYPE in {proposal, anniversary} AND OUTCOME_SENTIMENT = ruined: -5.0
+  Else: 0
+
+PERFECT_PROPOSAL (interaction effect):
+  If OCCASION_TYPE = proposal AND OUTCOME_SENTIMENT = delighted: +3.0
+  Else: 0
+
+L1_TOTAL_SCORE = L1_REVIEW_SCORE + RUINED_SPECIAL_OCCASION + PERFECT_PROPOSAL
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_ROMANTIC_REVIEWS = count of reviews where OCCASION_TYPE != not_romantic
+  N_DELIGHTED = count where OUTCOME_SENTIMENT = delighted
+  N_RUINED = count where OUTCOME_SENTIMENT = ruined
+  N_SPECIAL_OCCASIONS = count where OCCASION_TYPE in {proposal, anniversary, valentines}
+  N_SPECIAL_SUCCESS = count where OCCASION_TYPE in {proposal, anniversary, valentines} AND OUTCOME_SENTIMENT in {delighted, satisfied}
+
+Confidence Level:
+  if N_ROMANTIC_REVIEWS == 0: none
+  elif N_ROMANTIC_REVIEWS <= 2: low
+  elif N_ROMANTIC_REVIEWS <= 5: medium
+  else: high
+
+Weighted Aggregation:
+  SUM_L1_SCORE = sum of L1_TOTAL_SCORE across all romantic reviews
+  SUM_OCCASION_WEIGHT = sum of OCCASION_WEIGHT across all romantic reviews
+  WEIGHTED_MEAN_SCORE = SUM_L1_SCORE / max(SUM_OCCASION_WEIGHT, 1)
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  ADJUSTED_SCORE = WEIGHTED_MEAN_SCORE
+  RAW_SCORE = BASE_SCORE + ADJUSTED_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Highly Romantic (perfect for special occasions)
+  - >= 5.5 AND < 7.5 => Romantic (good for dates)
+  - >= 3.5 AND < 5.5 => Somewhat Romantic (acceptable for casual dates)
+  - < 3.5 => Not Romantic (not recommended for romantic occasions)
+
+Overrides:
+  - If N_RUINED >= 1 AND OCCASION_TYPE was special => max Somewhat Romantic
+  - If N_DELIGHTED >= 3 AND N_RUINED == 0 => min Romantic
+  - If N_SPECIAL_SUCCESS >= 2 AND N_SPECIAL_OCCASIONS >= 2 => min Romantic
+  - If WEIGHTED_MEAN_SCORE < -2 => Not Romantic
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per romantic-related review ... ],
+  L1_composites: [
+    {
+      review_id,
+      occasion_weight,
+      ambiance_score,
+      privacy_score,
+      noise_score,
+      service_score,
+      romantic_elements_score,
+      outcome_modifier,
+      l1_review_score,
+      ruined_special_occasion,
+      perfect_proposal,
+      l1_total_score
+    },
+    ...
+  ],
+  L2_aggregates: {
+    N_ROMANTIC_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_DELIGHTED, N_RUINED,
+    N_SPECIAL_OCCASIONS,
+    N_SPECIAL_SUCCESS,
+    SUM_L1_SCORE,
+    SUM_OCCASION_WEIGHT,
+    WEIGHTED_MEAN_SCORE,
+    BASE_SCORE,
+    ADJUSTED_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT
+  },
+  decision_evidence: {
+    high_score_reviews: [ {review_id, occasion_type, l1_total_score, quote}, ... ],
+    low_score_reviews: [ {review_id, occasion_type, l1_total_score, quote}, ... ],
+    special_occasion_outcomes: [ {review_id, occasion_type, outcome, quote}, ... ]
+  }
+}

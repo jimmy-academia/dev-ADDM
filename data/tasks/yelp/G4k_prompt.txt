@@ -1,0 +1,245 @@
+============================================================
+Agenda
+============================================================
+
+Help assess the physical environment and atmosphere at this restaurant.
+
+Analyze each review to identify mentions of decor, cleanliness, and ambiance.
+For each record, extract the L0 primitives defined below.
+
+This task uses complex formula with weighted environment factors.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+CLEANLINESS
+- spotless: notably clean, immaculate
+- clean: acceptably clean
+- adequate: nothing concerning
+- dirty: cleanliness issues noted
+- very_dirty: significant hygiene concerns
+- not_mentioned: cleanliness not discussed
+
+DECOR_STYLE
+- stunning: beautiful, impressive decor
+- attractive: nice decor, pleasant aesthetic
+- average: typical decor, nothing special
+- dated: outdated or worn decor
+- unappealing: unpleasant aesthetic
+- not_mentioned: decor not discussed
+
+NOISE_LEVEL
+- quiet: peaceful, easy to converse
+- pleasant: comfortable background noise
+- moderate: acceptable noise level
+- loud: noticeably loud
+- very_loud: difficult to have conversation
+- not_mentioned: noise not discussed
+
+LIGHTING
+- perfect: ideal lighting for dining
+- good: pleasant lighting
+- adequate: acceptable lighting
+- too_dark: uncomfortably dark
+- too_bright: harsh, unflattering
+- not_mentioned: lighting not discussed
+
+SEATING_COMFORT
+- very_comfortable: comfortable seats noted
+- comfortable: acceptable seating
+- adequate: nothing special
+- uncomfortable: uncomfortable seating mentioned
+- not_mentioned: seating comfort not discussed
+
+TEMPERATURE
+- perfect: ideal temperature
+- comfortable: acceptable temperature
+- too_hot: uncomfortably warm
+- too_cold: uncomfortably cold
+- not_mentioned: temperature not discussed
+
+BATHROOM_CONDITION
+- excellent: clean, well-maintained restrooms
+- acceptable: adequate restrooms
+- poor: unclean or poorly maintained
+- not_mentioned: restrooms not discussed
+
+OUTDOOR_SPACE
+- excellent: great patio/outdoor seating
+- available: has outdoor option
+- limited: minimal outdoor space
+- none: no outdoor seating
+- not_mentioned: not discussed
+
+============================================================
+L1: Composites (derived per review) - COMPLEX
+============================================================
+
+Cleanliness Score:
+  spotless = +3.0
+  clean = +1.5
+  adequate = 0
+  dirty = -3.0
+  very_dirty = -5.0
+  not_mentioned = 0
+
+Decor Score:
+  stunning = +2.5
+  attractive = +1.5
+  average = 0
+  dated = -1.0
+  unappealing = -2.0
+  not_mentioned = 0
+
+Noise Score:
+  quiet = +2.0
+  pleasant = +1.0
+  moderate = 0
+  loud = -1.5
+  very_loud = -3.0
+  not_mentioned = 0
+
+Lighting Score:
+  perfect = +1.5
+  good = +0.5
+  adequate = 0
+  too_dark = -1.0
+  too_bright = -1.0
+  not_mentioned = 0
+
+Comfort Score:
+  very_comfortable = +2.0
+  comfortable = +1.0
+  adequate = 0
+  uncomfortable = -2.0
+  not_mentioned = 0
+
+Temperature Score:
+  perfect = +1.0
+  comfortable = +0.5
+  too_hot = -1.5
+  too_cold = -1.5
+  not_mentioned = 0
+
+Bathroom Modifier:
+  excellent = +1.0
+  acceptable = 0
+  poor = -2.0
+  not_mentioned = 0
+
+Outdoor Modifier:
+  excellent = +1.5
+  available = +0.5
+  limited = 0
+  none = 0
+  not_mentioned = 0
+
+L1_ENVIRONMENT_SCORE = CLEANLINESS_SCORE + DECOR_SCORE + NOISE_SCORE + LIGHTING_SCORE + COMFORT_SCORE + TEMPERATURE_SCORE + BATHROOM_MODIFIER + OUTDOOR_MODIFIER
+
+DIRTY_AND_LOUD (interaction penalty):
+  If CLEANLINESS in {dirty, very_dirty} AND NOISE_LEVEL in {loud, very_loud}: -2.0
+  Else: 0
+
+PERFECT_AMBIANCE (interaction bonus):
+  If DECOR_STYLE = stunning AND LIGHTING = perfect AND NOISE_LEVEL in {quiet, pleasant}: +2.0
+  Else: 0
+
+L1_TOTAL_SCORE = L1_ENVIRONMENT_SCORE + DIRTY_AND_LOUD + PERFECT_AMBIANCE
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_ENVIRONMENT_REVIEWS = count of reviews with any environment-related primitives
+  N_VERY_DIRTY = count where CLEANLINESS = very_dirty
+  N_DIRTY = count where CLEANLINESS in {dirty, very_dirty}
+  N_VERY_LOUD = count where NOISE_LEVEL = very_loud
+  N_STUNNING = count where DECOR_STYLE = stunning
+  N_POOR_BATHROOM = count where BATHROOM_CONDITION = poor
+
+Confidence Level:
+  if N_ENVIRONMENT_REVIEWS == 0: none
+  elif N_ENVIRONMENT_REVIEWS <= 2: low
+  elif N_ENVIRONMENT_REVIEWS <= 5: medium
+  else: high
+
+Aggregation:
+  SUM_L1_SCORE = sum of L1_TOTAL_SCORE across all environment reviews
+  MEAN_L1_SCORE = SUM_L1_SCORE / max(N_ENVIRONMENT_REVIEWS, 1)
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  ADJUSTED_SCORE = MEAN_L1_SCORE
+  RAW_SCORE = BASE_SCORE + ADJUSTED_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Excellent Environment
+  - >= 5.5 AND < 7.5 => Good Environment
+  - >= 3.5 AND < 5.5 => Average Environment
+  - < 3.5 => Poor Environment
+
+Overrides:
+  - If N_VERY_DIRTY >= 1 => max Average Environment
+  - If N_DIRTY >= 2 => Poor Environment
+  - If N_POOR_BATHROOM >= 2 => include bathroom warning
+  - If MEAN_L1_SCORE >= 4 AND N_STUNNING >= 2 => min Good Environment
+  - If MEAN_L1_SCORE < -2 => Poor Environment
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per environment-related review ... ],
+  L1_composites: [
+    {
+      review_id,
+      cleanliness_score,
+      decor_score,
+      noise_score,
+      lighting_score,
+      comfort_score,
+      temperature_score,
+      bathroom_modifier,
+      outdoor_modifier,
+      l1_environment_score,
+      dirty_and_loud,
+      perfect_ambiance,
+      l1_total_score
+    },
+    ...
+  ],
+  L2_aggregates: {
+    N_ENVIRONMENT_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_VERY_DIRTY, N_DIRTY,
+    N_VERY_LOUD, N_STUNNING,
+    N_POOR_BATHROOM,
+    SUM_L1_SCORE,
+    MEAN_L1_SCORE,
+    BASE_SCORE,
+    ADJUSTED_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    bathroom_warning (if applicable)
+  },
+  decision_evidence: {
+    high_score_reviews: [ {review_id, l1_total_score, quote}, ... ],
+    low_score_reviews: [ {review_id, l1_total_score, quote}, ... ],
+    cleanliness_concerns: [ {review_id, severity, quote}, ... ]
+  }
+}

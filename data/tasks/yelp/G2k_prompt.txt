@@ -1,0 +1,236 @@
+============================================================
+Agenda
+============================================================
+
+Help assess how suitable this restaurant is for group dining.
+
+Analyze each review to identify mentions of group dining experiences.
+For each record, extract the L0 primitives defined below.
+
+This task uses complex formula with weighted factors and interaction effects.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+GROUP_TYPE
+- family: family gathering, kids present
+- friends: friend group outing
+- celebration: birthday, graduation, special event
+- work_team: office party, team outing
+- large_party: generic large group (6+ people)
+- not_group: individual or couple dining
+
+GROUP_SIZE
+- small: 3-5 people
+- medium: 6-10 people
+- large: 11-20 people
+- very_large: 20+ people
+- not_mentioned: size not specified
+
+SEATING_ACCOMMODATION
+- excellent: easily seated large group, private room available
+- adequate: seated with some wait or rearrangement
+- difficult: long wait, split tables, cramped
+- refused: could not accommodate group size
+- not_mentioned: seating not discussed
+
+SERVICE_HANDLING
+- smooth: staff handled large party well
+- adequate: service was acceptable for group size
+- struggled: service noticeably worse with group
+- overwhelmed: major service issues due to group size
+- not_mentioned: service for group not discussed
+
+NOISE_TOLERANCE
+- welcomed: restaurant comfortable with lively groups
+- tolerated: group noise accepted
+- frowned_upon: received looks or comments about noise
+- not_mentioned: not discussed
+
+CHECK_SPLITTING
+- easy: split checks without issue
+- available: able to split but with some effort
+- refused: would not split checks
+- not_mentioned: not discussed
+
+KIDS_FRIENDLY (if GROUP_TYPE = family)
+- very_friendly: kids menu, highchairs, changing stations
+- accommodating: basic kid accommodations
+- not_suitable: not appropriate for children
+- not_mentioned: not discussed
+
+CELEBRATION_SUPPORT (if GROUP_TYPE = celebration)
+- excellent: cake, decorations, special treatment
+- basic: acknowledged the occasion
+- none: no special treatment
+- not_mentioned: not discussed
+
+============================================================
+L1: Composites (derived per review) - COMPLEX
+============================================================
+
+Group Size Weight (larger = harder to accommodate):
+  small = 1.0
+  medium = 1.5
+  large = 2.0
+  very_large = 2.5
+  not_mentioned = 1.0
+
+Seating Score:
+  excellent = +3
+  adequate = +1
+  difficult = -2
+  refused = -5
+  not_mentioned = 0
+
+Service Score:
+  smooth = +3
+  adequate = +1
+  struggled = -2
+  overwhelmed = -4
+  not_mentioned = 0
+
+Noise Score:
+  welcomed = +1.5
+  tolerated = +0.5
+  frowned_upon = -2
+  not_mentioned = 0
+
+Check Score:
+  easy = +1.5
+  available = +0.5
+  refused = -1.5
+  not_mentioned = 0
+
+Kids Score (for family groups):
+  very_friendly = +2
+  accommodating = +1
+  not_suitable = -2
+  not_mentioned = 0
+
+Celebration Score (for celebrations):
+  excellent = +2.5
+  basic = +1
+  none = -1
+  not_mentioned = 0
+
+L1_REVIEW_SCORE = (SEATING_SCORE + SERVICE_SCORE + NOISE_SCORE + CHECK_SCORE) * GROUP_SIZE_WEIGHT
+
+FAMILY_BONUS (interaction):
+  If GROUP_TYPE = family AND KIDS_FRIENDLY = very_friendly: +2.0
+  If GROUP_TYPE = family AND KIDS_FRIENDLY = not_suitable: -3.0
+  Else: 0
+
+CELEBRATION_BONUS (interaction):
+  If GROUP_TYPE = celebration AND CELEBRATION_SUPPORT = excellent: +2.0
+  Else: 0
+
+REFUSED_LARGE_GROUP (interaction):
+  If GROUP_SIZE in {large, very_large} AND SEATING_ACCOMMODATION = refused: -5.0
+  Else: 0
+
+L1_TOTAL_SCORE = L1_REVIEW_SCORE + FAMILY_BONUS + CELEBRATION_BONUS + REFUSED_LARGE_GROUP
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_GROUP_REVIEWS = count of reviews where GROUP_TYPE != not_group
+  N_LARGE_GROUPS = count where GROUP_SIZE in {large, very_large}
+  N_LARGE_SUCCESS = count where GROUP_SIZE in {large, very_large} AND SEATING_ACCOMMODATION in {excellent, adequate}
+  N_REFUSED = count where SEATING_ACCOMMODATION = refused
+  N_FAMILY = count where GROUP_TYPE = family
+  N_FAMILY_FRIENDLY = count where GROUP_TYPE = family AND KIDS_FRIENDLY = very_friendly
+  N_CELEBRATIONS = count where GROUP_TYPE = celebration
+  N_CELEBRATION_SUCCESS = count where GROUP_TYPE = celebration AND CELEBRATION_SUPPORT = excellent
+
+Confidence Level:
+  if N_GROUP_REVIEWS == 0: none
+  elif N_GROUP_REVIEWS <= 2: low
+  elif N_GROUP_REVIEWS <= 5: medium
+  else: high
+
+Weighted Aggregation:
+  SUM_L1_SCORE = sum of L1_TOTAL_SCORE across all group reviews
+  SUM_SIZE_WEIGHT = sum of GROUP_SIZE_WEIGHT across all group reviews
+  WEIGHTED_MEAN_SCORE = SUM_L1_SCORE / max(SUM_SIZE_WEIGHT, 1)
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  ADJUSTED_SCORE = WEIGHTED_MEAN_SCORE
+  RAW_SCORE = BASE_SCORE + ADJUSTED_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Excellent for Groups
+  - >= 5.5 AND < 7.5 => Good for Groups
+  - >= 3.5 AND < 5.5 => Limited
+  - < 3.5 => Not Suitable
+
+Overrides:
+  - If N_REFUSED >= 1 => max Limited
+  - If N_LARGE_SUCCESS >= 2 => min Good for Groups
+  - If N_FAMILY_FRIENDLY >= 2 => note family-friendly
+  - If N_CELEBRATION_SUCCESS >= 2 => note celebration-friendly
+  - If WEIGHTED_MEAN_SCORE < -2 => Not Suitable
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per group-related review ... ],
+  L1_composites: [
+    {
+      review_id,
+      group_size_weight,
+      seating_score,
+      service_score,
+      noise_score,
+      check_score,
+      kids_score,
+      celebration_score,
+      l1_review_score,
+      family_bonus,
+      celebration_bonus,
+      refused_large_group,
+      l1_total_score
+    },
+    ...
+  ],
+  L2_aggregates: {
+    N_GROUP_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_LARGE_GROUPS, N_LARGE_SUCCESS,
+    N_REFUSED,
+    N_FAMILY, N_FAMILY_FRIENDLY,
+    N_CELEBRATIONS, N_CELEBRATION_SUCCESS,
+    SUM_L1_SCORE,
+    SUM_SIZE_WEIGHT,
+    WEIGHTED_MEAN_SCORE,
+    BASE_SCORE,
+    ADJUSTED_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    family_note (if applicable),
+    celebration_note (if applicable)
+  },
+  decision_evidence: {
+    high_score_reviews: [ {review_id, group_type, group_size, l1_total_score, quote}, ... ],
+    low_score_reviews: [ {review_id, group_type, issue, l1_total_score, quote}, ... ],
+    large_party_experiences: [ {review_id, size, outcome, quote}, ... ]
+  }
+}

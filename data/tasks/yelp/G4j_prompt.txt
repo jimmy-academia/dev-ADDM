@@ -1,0 +1,199 @@
+============================================================
+Agenda
+============================================================
+
+Help assess the physical environment and atmosphere at this restaurant.
+
+Analyze each review to identify mentions of decor, cleanliness, and ambiance.
+For each record, extract the L0 primitives defined below.
+
+This task adds L1.5 environment-aspect grouping to identify strengths.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+CLEANLINESS
+- spotless: notably clean, immaculate
+- clean: acceptably clean
+- adequate: nothing concerning
+- dirty: cleanliness issues noted
+- very_dirty: significant hygiene concerns
+- not_mentioned: cleanliness not discussed
+
+DECOR_STYLE
+- stunning: beautiful, impressive decor
+- attractive: nice decor, pleasant aesthetic
+- average: typical decor, nothing special
+- dated: outdated or worn decor
+- unappealing: unpleasant aesthetic
+- not_mentioned: decor not discussed
+
+NOISE_LEVEL
+- quiet: peaceful, easy to converse
+- pleasant: comfortable background noise
+- moderate: acceptable noise level
+- loud: noticeably loud
+- very_loud: difficult to have conversation
+- not_mentioned: noise not discussed
+
+LIGHTING
+- perfect: ideal lighting for dining
+- good: pleasant lighting
+- adequate: acceptable lighting
+- too_dark: uncomfortably dark
+- too_bright: harsh, unflattering
+- not_mentioned: lighting not discussed
+
+SEATING_COMFORT
+- very_comfortable: comfortable seats noted
+- comfortable: acceptable seating
+- adequate: nothing special
+- uncomfortable: uncomfortable seating mentioned
+- not_mentioned: seating comfort not discussed
+
+TEMPERATURE
+- perfect: ideal temperature
+- comfortable: acceptable temperature
+- too_hot: uncomfortably warm
+- too_cold: uncomfortably cold
+- not_mentioned: temperature not discussed
+
+============================================================
+L1: Composites (derived per review)
+============================================================
+
+POSITIVE_ENVIRONMENT = true iff ANY:
+  - CLEANLINESS in {spotless, clean}
+  - DECOR_STYLE in {stunning, attractive}
+  - NOISE_LEVEL in {quiet, pleasant}
+Else POSITIVE_ENVIRONMENT = false
+
+NEGATIVE_ENVIRONMENT = true iff ANY:
+  - CLEANLINESS in {dirty, very_dirty}
+  - NOISE_LEVEL in {loud, very_loud}
+  - SEATING_COMFORT = uncomfortable
+Else NEGATIVE_ENVIRONMENT = false
+
+============================================================
+L1.5: Environment Aspect Grouping
+============================================================
+
+Group reviews by environment aspect:
+  AMBIANCE = decor_style, lighting (visual atmosphere)
+  COMFORT = seating_comfort, temperature, noise_level (physical comfort)
+  CLEANLINESS = cleanliness (hygiene standards)
+
+For each aspect bucket, compute:
+  BUCKET_N_REVIEWS = count of reviews in this bucket
+  BUCKET_N_POSITIVE = count with positive rating for this aspect
+  BUCKET_N_NEGATIVE = count with negative rating for this aspect
+  BUCKET_SATISFACTION_RATE = BUCKET_N_POSITIVE / max(BUCKET_N_POSITIVE + BUCKET_N_NEGATIVE, 1)
+
+Environment Pattern Analysis:
+  BEST_ASPECT = bucket with highest SATISFACTION_RATE (if any data)
+  WORST_ASPECT = bucket with lowest SATISFACTION_RATE (if any data)
+  N_ASPECTS_STRONG = count of buckets where SATISFACTION_RATE >= 0.7
+
+  ENVIRONMENT_PATTERN:
+    if N_ASPECTS_STRONG >= 3: "complete_package"
+    elif AMBIANCE bucket SATISFACTION_RATE >= 0.8: "beautiful_space"
+    elif COMFORT bucket SATISFACTION_RATE >= 0.8: "comfortable_dining"
+    elif CLEANLINESS bucket SATISFACTION_RATE >= 0.8: "spotless_venue"
+    elif N_ASPECTS_STRONG >= 1: "partial_strengths"
+    else: "needs_attention"
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_ENVIRONMENT_REVIEWS = count of reviews with any environment-related primitives
+  N_POSITIVE = count where POSITIVE_ENVIRONMENT = true
+  N_NEGATIVE = count where NEGATIVE_ENVIRONMENT = true
+
+Confidence Level:
+  if N_ENVIRONMENT_REVIEWS == 0: none
+  elif N_ENVIRONMENT_REVIEWS <= 2: low
+  elif N_ENVIRONMENT_REVIEWS <= 5: medium
+  else: high
+
+L1.5 Aspect Analysis:
+  BEST_ASPECT
+  BEST_ASPECT_RATE
+  WORST_ASPECT
+  ENVIRONMENT_PATTERN
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  SATISFACTION_RATE = N_POSITIVE / max(N_POSITIVE + N_NEGATIVE, 1)
+
+  POSITIVE_SCORE = N_POSITIVE * 1.5
+  NEGATIVE_SCORE = N_NEGATIVE * 1.5
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Excellent Environment
+  - >= 5.5 AND < 7.5 => Good Environment
+  - >= 3.5 AND < 5.5 => Average Environment
+  - < 3.5 => Poor Environment
+
+Overrides:
+  - If ENVIRONMENT_PATTERN = "complete_package" => min Good Environment
+  - If CLEANLINESS bucket SATISFACTION_RATE < 0.5 => max Average Environment
+  - Include strength note based on ENVIRONMENT_PATTERN
+  - Include improvement note based on WORST_ASPECT if rate < 0.5
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per environment-related review ... ],
+  L1_composites: [ ... one record per environment-related review ... ],
+  L1_5_aspect_buckets: {
+    ambiance: { n_reviews, n_positive, n_negative, satisfaction_rate },
+    comfort: { n_reviews, n_positive, n_negative, satisfaction_rate },
+    cleanliness: { n_reviews, n_positive, n_negative, satisfaction_rate },
+    best_aspect,
+    best_aspect_rate,
+    worst_aspect,
+    n_aspects_strong,
+    environment_pattern
+  },
+  L2_aggregates: {
+    N_ENVIRONMENT_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_POSITIVE, N_NEGATIVE,
+    SATISFACTION_RATE,
+    POSITIVE_SCORE,
+    NEGATIVE_SCORE,
+    BASE_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    strength_note (if applicable),
+    improvement_note (if applicable)
+  },
+  decision_evidence: {
+    positive_environment_mentions: [ {review_id, aspect, quote}, ... ],
+    negative_environment_mentions: [ {review_id, aspect, quote}, ... ],
+    aspect_evidence: {
+      best_aspect,
+      worst_aspect,
+      environment_pattern
+    }
+  }
+}

@@ -1,0 +1,153 @@
+============================================================
+Agenda
+============================================================
+
+Help assess time efficiency and wait times at this restaurant.
+
+Analyze each review to identify mentions of waiting, timing, and pacing.
+For each record, extract the L0 primitives defined below.
+
+This task uses simple formula (basic scoring without weighting).
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+WAIT_FOR_TABLE
+- none: seated immediately or very quickly
+- short: reasonable wait (under 15 min)
+- moderate: noticeable wait (15-30 min)
+- long: significant wait (30-60 min)
+- excessive: very long wait (60+ min)
+- not_mentioned: wait time not discussed
+
+RESERVATION_ACCURACY
+- honored: reservation honored on time
+- slight_delay: 5-10 min past reservation time
+- significant_delay: 15+ min past reservation time
+- lost: reservation lost or not honored
+- not_applicable: no reservation made
+- not_mentioned: not discussed
+
+FOOD_DELIVERY_SPEED
+- fast: food arrived quickly
+- reasonable: normal timing
+- slow: took longer than expected
+- very_slow: excessive wait for food
+- not_mentioned: not discussed
+
+SERVICE_PACING
+- perfect: well-paced, not rushed or dragging
+- slightly_rushed: felt a bit hurried
+- very_rushed: pushed to leave quickly
+- too_slow: service dragged between courses
+- forgotten: felt forgotten by staff
+- not_mentioned: not discussed
+
+OVERALL_TIME_SENTIMENT
+- efficient: praised for speed/efficiency
+- acceptable: timing was fine
+- frustrating: timing issues noted
+- unacceptable: timing ruined experience
+- not_mentioned: not discussed
+
+============================================================
+L1: Composites (derived per review)
+============================================================
+
+GOOD_TIME_EXPERIENCE = true iff ANY:
+  - OVERALL_TIME_SENTIMENT in {efficient, acceptable}
+  - WAIT_FOR_TABLE in {none, short} AND FOOD_DELIVERY_SPEED in {fast, reasonable}
+  - SERVICE_PACING = perfect
+Else GOOD_TIME_EXPERIENCE = false
+
+BAD_TIME_EXPERIENCE = true iff ANY:
+  - OVERALL_TIME_SENTIMENT in {frustrating, unacceptable}
+  - WAIT_FOR_TABLE in {long, excessive}
+  - RESERVATION_ACCURACY in {significant_delay, lost}
+  - SERVICE_PACING in {forgotten, very_rushed}
+Else BAD_TIME_EXPERIENCE = false
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_TIME_REVIEWS = count of reviews with any time-related primitives mentioned
+  N_GOOD = count where GOOD_TIME_EXPERIENCE = true
+  N_BAD = count where BAD_TIME_EXPERIENCE = true
+  N_EXCESSIVE_WAIT = count where WAIT_FOR_TABLE = excessive
+  N_LOST_RESERVATION = count where RESERVATION_ACCURACY = lost
+  N_FORGOTTEN = count where SERVICE_PACING = forgotten
+  N_EFFICIENT = count where OVERALL_TIME_SENTIMENT = efficient
+
+Confidence Level:
+  if N_TIME_REVIEWS == 0: none
+  elif N_TIME_REVIEWS <= 2: low
+  elif N_TIME_REVIEWS <= 5: medium
+  else: high
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  POSITIVE_SCORE = (N_GOOD * 1.5) + (N_EFFICIENT * 1)
+  NEGATIVE_SCORE = (N_BAD * 1.5) + (N_EXCESSIVE_WAIT * 1) + (N_LOST_RESERVATION * 2) + (N_FORGOTTEN * 1)
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Excellent Timing (efficient and well-paced)
+  - >= 5.5 AND < 7.5 => Good Timing (reasonable waits)
+  - >= 3.5 AND < 5.5 => Variable Timing (expect some delays)
+  - < 3.5 => Poor Timing (significant time issues)
+
+Overrides:
+  - If N_LOST_RESERVATION >= 1 => max Variable Timing
+  - If N_EXCESSIVE_WAIT >= 2 => Poor Timing
+  - If N_EFFICIENT >= 3 AND N_BAD == 0 => min Good Timing
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per time-related review ... ],
+  L1_composites: [
+    {
+      review_id,
+      good_time_experience,
+      bad_time_experience
+    },
+    ...
+  ],
+  L2_aggregates: {
+    N_TIME_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_GOOD, N_BAD,
+    N_EXCESSIVE_WAIT,
+    N_LOST_RESERVATION,
+    N_FORGOTTEN,
+    N_EFFICIENT,
+    POSITIVE_SCORE,
+    NEGATIVE_SCORE,
+    BASE_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT
+  },
+  decision_evidence: {
+    good_timing_mentions: [ {review_id, aspect, quote}, ... ],
+    bad_timing_mentions: [ {review_id, aspect, quote}, ... ],
+    wait_time_examples: [ {review_id, wait_type, duration, quote}, ... ]
+  }
+}

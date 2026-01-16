@@ -1,0 +1,224 @@
+============================================================
+Agenda
+============================================================
+
+Help assess how suitable this restaurant is for business dining.
+
+Analyze each review to identify mentions of business meals or professional contexts.
+For each record, extract the L0 primitives defined below.
+
+This task uses complex formula with weighted factors and interaction effects.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+MEETING_TYPE
+- client_meeting: entertaining clients, business development
+- team_lunch: colleagues dining together
+- interview: job interview or candidate meeting
+- working_session: working while eating (laptop, documents)
+- business_general: professional context without specific type
+- not_business: not a business context
+
+NOISE_LEVEL
+- quiet: easy to have professional conversation
+- moderate: acceptable for business discussion
+- loud: difficult to conduct business
+- not_mentioned: noise not discussed
+
+WIFI_AVAILABILITY
+- available: WiFi mentioned as available
+- fast: WiFi specifically noted as fast/reliable
+- slow: WiFi available but slow
+- unavailable: no WiFi or poor connectivity
+- not_mentioned: WiFi not discussed
+
+PROFESSIONAL_ATMOSPHERE
+- formal: upscale, professional environment
+- business_casual: appropriate for most business contexts
+- casual: relaxed but acceptable
+- inappropriate: too casual or distracting for business
+- not_mentioned: atmosphere not discussed
+
+SERVICE_TIMING
+- efficient: quick service, good pacing for business needs
+- appropriate: reasonable timing
+- slow: service too slow for business lunch
+- rushed: felt rushed, uncomfortable for meetings
+- not_mentioned: timing not discussed
+
+SEATING_SUITABILITY
+- excellent: private rooms, booths, good for meetings
+- adequate: reasonable seating for business
+- poor: cramped, no privacy, uncomfortable
+- not_mentioned: seating not discussed
+
+OUTCOME_IMPRESSION
+- impressed: client/guest was impressed, meeting went well
+- satisfied: acceptable outcome
+- embarrassed: felt embarrassed by restaurant choice
+- not_mentioned: outcome not discussed
+
+============================================================
+L1: Composites (derived per review) - COMPLEX
+============================================================
+
+Meeting Stakes Weight:
+  client_meeting = 2.0 (high stakes)
+  interview = 1.8 (impression matters)
+  team_lunch = 1.0
+  working_session = 1.2
+  business_general = 1.0
+  not_business = 0
+
+Noise Score:
+  quiet = +2.5
+  moderate = +1
+  loud = -3
+  not_mentioned = 0
+
+WiFi Score (extra important for working sessions):
+  fast = +2
+  available = +1
+  slow = -0.5
+  unavailable = -1.5
+  not_mentioned = 0
+
+Atmosphere Score:
+  formal = +2.5
+  business_casual = +1.5
+  casual = +0.5
+  inappropriate = -2
+  not_mentioned = 0
+
+Timing Score:
+  efficient = +2
+  appropriate = +0.5
+  slow = -2
+  rushed = -1.5
+  not_mentioned = 0
+
+Seating Score:
+  excellent = +2
+  adequate = +0.5
+  poor = -1.5
+  not_mentioned = 0
+
+Outcome Modifier:
+  impressed = +3
+  satisfied = +1
+  embarrassed = -4
+  not_mentioned = 0
+
+L1_REVIEW_SCORE = (NOISE_SCORE + ATMOSPHERE_SCORE + TIMING_SCORE + SEATING_SCORE + OUTCOME_MODIFIER) * MEETING_STAKES_WEIGHT
+
+WiFi_BONUS (interaction for working sessions):
+  If MEETING_TYPE = working_session AND WIFI_AVAILABILITY = fast: +2.0
+  If MEETING_TYPE = working_session AND WIFI_AVAILABILITY = unavailable: -3.0
+  Else: WIFI_SCORE * 0.5
+
+EMBARRASSED_CLIENT (interaction effect):
+  If MEETING_TYPE = client_meeting AND OUTCOME_IMPRESSION = embarrassed: -5.0
+  Else: 0
+
+L1_TOTAL_SCORE = L1_REVIEW_SCORE + WIFI_BONUS + EMBARRASSED_CLIENT
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_BUSINESS_REVIEWS = count of reviews where MEETING_TYPE != not_business
+  N_HIGH_STAKES = count where MEETING_TYPE in {client_meeting, interview}
+  N_HIGH_STAKES_SUCCESS = count where MEETING_TYPE in {client_meeting, interview} AND OUTCOME_IMPRESSION = impressed
+  N_EMBARRASSED = count where OUTCOME_IMPRESSION = embarrassed
+  N_WORKING = count where MEETING_TYPE = working_session
+  N_WORKING_WITH_WIFI = count where MEETING_TYPE = working_session AND WIFI_AVAILABILITY in {available, fast}
+
+Confidence Level:
+  if N_BUSINESS_REVIEWS == 0: none
+  elif N_BUSINESS_REVIEWS <= 2: low
+  elif N_BUSINESS_REVIEWS <= 5: medium
+  else: high
+
+Weighted Aggregation:
+  SUM_L1_SCORE = sum of L1_TOTAL_SCORE across all business reviews
+  SUM_STAKES_WEIGHT = sum of MEETING_STAKES_WEIGHT across all business reviews
+  WEIGHTED_MEAN_SCORE = SUM_L1_SCORE / max(SUM_STAKES_WEIGHT, 1)
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  ADJUSTED_SCORE = WEIGHTED_MEAN_SCORE
+  RAW_SCORE = BASE_SCORE + ADJUSTED_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Excellent for Business
+  - >= 5.5 AND < 7.5 => Good for Business
+  - >= 3.5 AND < 5.5 => Acceptable
+  - < 3.5 => Not Suitable
+
+Overrides:
+  - If N_EMBARRASSED >= 1 => max Acceptable
+  - If N_HIGH_STAKES_SUCCESS >= 2 AND N_EMBARRASSED == 0 => min Good for Business
+  - If N_WORKING >= 2 AND N_WORKING_WITH_WIFI == 0 => note WiFi limitation
+  - If WEIGHTED_MEAN_SCORE < -2 => Not Suitable
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per business-related review ... ],
+  L1_composites: [
+    {
+      review_id,
+      meeting_stakes_weight,
+      noise_score,
+      wifi_score,
+      atmosphere_score,
+      timing_score,
+      seating_score,
+      outcome_modifier,
+      l1_review_score,
+      wifi_bonus,
+      embarrassed_client,
+      l1_total_score
+    },
+    ...
+  ],
+  L2_aggregates: {
+    N_BUSINESS_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_HIGH_STAKES,
+    N_HIGH_STAKES_SUCCESS,
+    N_EMBARRASSED,
+    N_WORKING,
+    N_WORKING_WITH_WIFI,
+    SUM_L1_SCORE,
+    SUM_STAKES_WEIGHT,
+    WEIGHTED_MEAN_SCORE,
+    BASE_SCORE,
+    ADJUSTED_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    wifi_note (if applicable)
+  },
+  decision_evidence: {
+    high_score_reviews: [ {review_id, meeting_type, l1_total_score, quote}, ... ],
+    low_score_reviews: [ {review_id, meeting_type, l1_total_score, quote}, ... ],
+    client_impressions: [ {review_id, outcome, quote}, ... ]
+  }
+}

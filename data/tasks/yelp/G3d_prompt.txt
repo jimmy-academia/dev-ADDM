@@ -1,0 +1,259 @@
+============================================================
+Agenda
+============================================================
+
+Help assess the price-to-value ratio at this restaurant.
+
+Analyze each review to identify mentions of pricing, portions, and value.
+For each record, extract the L0 primitives defined below.
+
+This task combines complex formula (price-quality ratio calculations)
+with L1.5 meal type grouping for pattern detection.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+PRICE_LEVEL
+- cheap: explicitly noted as inexpensive, budget-friendly
+- moderate: reasonable, fair pricing
+- expensive: high prices noted
+- very_expensive: sticker shock, extremely pricey
+- not_mentioned: price not discussed
+
+PORTION_SIZE
+- generous: large portions, plenty of food
+- adequate: normal, expected portions
+- small: portions smaller than expected
+- tiny: notably insufficient portions
+- not_mentioned: portions not discussed
+
+QUALITY_PERCEPTION
+- exceptional: outstanding quality, premium ingredients
+- good: quality meets expectations
+- average: nothing special, adequate
+- poor: quality below expectations
+- not_mentioned: quality not discussed
+
+VALUE_SENTIMENT
+- excellent_value: explicitly praised value for money
+- good_value: worth the price
+- fair: acceptable value
+- poor_value: not worth the price
+- ripoff: felt cheated or overcharged
+- not_mentioned: value not discussed
+
+MEAL_TYPE
+- lunch: lunch service
+- dinner: dinner service
+- brunch: brunch or breakfast
+- drinks_only: bar, drinks, appetizers
+- not_specified: meal type not mentioned
+
+COMPARISON_TO_ALTERNATIVES
+- better_value: explicitly compared favorably to similar restaurants
+- similar_value: comparable to alternatives
+- worse_value: explicitly worse value than alternatives
+- not_compared: no comparison made
+
+============================================================
+L1: Composites (derived per review) - COMPLEX
+============================================================
+
+Price Score (lower price = higher score):
+  cheap = 4
+  moderate = 3
+  expensive = 2
+  very_expensive = 1
+  not_mentioned = 2.5
+
+Quality Score:
+  exceptional = 4
+  good = 3
+  average = 2
+  poor = 1
+  not_mentioned = 2.5
+
+Portion Modifier:
+  generous = +1.0
+  adequate = 0
+  small = -0.5
+  tiny = -1.0
+  not_mentioned = 0
+
+Sentiment Modifier:
+  excellent_value = +2.0
+  good_value = +1.0
+  fair = 0
+  poor_value = -1.5
+  ripoff = -3.0
+  not_mentioned = 0
+
+Comparison Modifier:
+  better_value = +1.0
+  similar_value = 0
+  worse_value = -1.0
+  not_compared = 0
+
+PRICE_QUALITY_RATIO = QUALITY_SCORE / PRICE_SCORE
+
+L1_VALUE_SCORE = (PRICE_QUALITY_RATIO * 2) + PORTION_MODIFIER + SENTIMENT_MODIFIER + COMPARISON_MODIFIER
+
+EXCEPTIONAL_CHEAP (interaction bonus):
+  If PRICE_LEVEL = cheap AND QUALITY_PERCEPTION = exceptional: +2.0
+  Else: 0
+
+EXPENSIVE_POOR (interaction penalty):
+  If PRICE_LEVEL in {expensive, very_expensive} AND QUALITY_PERCEPTION = poor: -2.0
+  Else: 0
+
+L1_TOTAL_SCORE = L1_VALUE_SCORE + EXCEPTIONAL_CHEAP + EXPENSIVE_POOR
+
+============================================================
+L1.5: Meal Type Grouping
+============================================================
+
+Group reviews by MEAL_TYPE:
+  LUNCH = lunch (often better value, smaller menu)
+  DINNER = dinner (typically higher prices)
+  CASUAL = brunch, drinks_only (variable pricing)
+
+For each meal bucket, compute:
+  BUCKET_N_REVIEWS = count of reviews in this bucket
+  BUCKET_SUM_SCORE = sum of L1_TOTAL_SCORE in bucket
+  BUCKET_MEAN_SCORE = BUCKET_SUM_SCORE / max(BUCKET_N_REVIEWS, 1)
+  BUCKET_AVG_PQ_RATIO = mean of PRICE_QUALITY_RATIO in bucket
+  BUCKET_N_EXCELLENT = count where VALUE_SENTIMENT = excellent_value in bucket
+  BUCKET_N_RIPOFF = count where VALUE_SENTIMENT = ripoff in bucket
+
+Meal Value Pattern Analysis:
+  BEST_VALUE_MEAL = bucket with highest MEAN_SCORE (if any data)
+  BEST_VALUE_SCORE = MEAN_SCORE of BEST_VALUE_MEAL
+  WORST_VALUE_MEAL = bucket with lowest MEAN_SCORE (if any data)
+  WORST_VALUE_SCORE = MEAN_SCORE of WORST_VALUE_MEAL
+  N_MEALS_EXCELLENT = count of buckets where MEAN_SCORE >= 2.0
+
+  VALUE_PATTERN:
+    if N_MEALS_EXCELLENT >= 3: "consistently_excellent"
+    elif LUNCH bucket MEAN_SCORE >= 3.0: "lunch_bargain"
+    elif DINNER bucket MEAN_SCORE >= 3.0: "dinner_justified"
+    elif CASUAL bucket MEAN_SCORE >= 3.0: "casual_value"
+    elif BEST_VALUE_SCORE - WORST_VALUE_SCORE > 2.0: "highly_variable"
+    elif BEST_VALUE_SCORE >= 1.5: "meal_dependent"
+    else: "poor_value_overall"
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_VALUE_REVIEWS = count of reviews with any value-related primitives mentioned
+  N_EXCELLENT_VALUE = count where VALUE_SENTIMENT = excellent_value
+  N_RIPOFF = count where VALUE_SENTIMENT = ripoff
+
+Confidence Level:
+  if N_VALUE_REVIEWS == 0: none
+  elif N_VALUE_REVIEWS <= 2: low
+  elif N_VALUE_REVIEWS <= 5: medium
+  else: high
+
+L1.5 Meal Aggregation:
+  TOTAL_MEAL_SCORE = sum of BUCKET_MEAN_SCORE across all meal buckets
+  N_MEAL_BUCKETS_ACTIVE = count of buckets where N_REVIEWS > 0
+  MEAN_MEAL_SCORE = TOTAL_MEAL_SCORE / max(N_MEAL_BUCKETS_ACTIVE, 1)
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  Pattern Multiplier (based on value pattern):
+    if VALUE_PATTERN = "consistently_excellent": PATTERN_MULT = 1.2
+    elif VALUE_PATTERN in {"lunch_bargain", "dinner_justified", "casual_value"}: PATTERN_MULT = 1.1
+    elif VALUE_PATTERN = "highly_variable": PATTERN_MULT = 0.9
+    elif VALUE_PATTERN = "poor_value_overall": PATTERN_MULT = 0.8
+    else: PATTERN_MULT = 1.0
+
+  ADJUSTED_SCORE = MEAN_MEAL_SCORE * PATTERN_MULT
+  RAW_SCORE = BASE_SCORE + ADJUSTED_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Excellent Value
+  - >= 5.5 AND < 7.5 => Good Value
+  - >= 3.5 AND < 5.5 => Mixed Value
+  - < 3.5 => Poor Value
+
+Overrides:
+  - If N_RIPOFF >= 2 => Poor Value
+  - If VALUE_PATTERN = "consistently_excellent" => min Good Value
+  - If VALUE_PATTERN = "lunch_bargain" AND LUNCH bucket N_REVIEWS >= 3 => include lunch recommendation
+  - If VALUE_PATTERN = "highly_variable" => include meal guidance
+  - If any bucket has N_RIPOFF >= 2 => note problem meal time
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per value-related review ... ],
+  L1_composites: [
+    {
+      review_id,
+      meal_type,
+      price_score,
+      quality_score,
+      portion_modifier,
+      sentiment_modifier,
+      comparison_modifier,
+      price_quality_ratio,
+      l1_value_score,
+      exceptional_cheap,
+      expensive_poor,
+      l1_total_score
+    },
+    ...
+  ],
+  L1_5_meal_buckets: {
+    lunch: { n_reviews, sum_score, mean_score, avg_pq_ratio, n_excellent, n_ripoff },
+    dinner: { n_reviews, sum_score, mean_score, avg_pq_ratio, n_excellent, n_ripoff },
+    casual: { n_reviews, sum_score, mean_score, avg_pq_ratio, n_excellent, n_ripoff },
+    best_value_meal,
+    best_value_score,
+    worst_value_meal,
+    worst_value_score,
+    n_meals_excellent,
+    value_pattern
+  },
+  L2_aggregates: {
+    N_VALUE_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_EXCELLENT_VALUE, N_RIPOFF,
+    TOTAL_MEAL_SCORE,
+    MEAN_MEAL_SCORE,
+    PATTERN_MULT,
+    BASE_SCORE,
+    ADJUSTED_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    meal_recommendation (if applicable),
+    meal_warning (if applicable)
+  },
+  decision_evidence: {
+    high_value_reviews: [ {review_id, meal_type, l1_total_score, quote}, ... ],
+    low_value_reviews: [ {review_id, meal_type, l1_total_score, quote}, ... ],
+    meal_evidence: {
+      best_value_meal,
+      worst_value_meal,
+      value_pattern
+    }
+  }
+}

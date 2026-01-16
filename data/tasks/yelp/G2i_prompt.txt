@@ -1,0 +1,161 @@
+============================================================
+Agenda
+============================================================
+
+Help assess how suitable this restaurant is for group dining.
+
+Analyze each review to identify mentions of group dining experiences.
+For each record, extract the L0 primitives defined below.
+
+This task uses simple formula (basic scoring without weighting).
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+GROUP_TYPE
+- family: family gathering, kids present
+- friends: friend group outing
+- celebration: birthday, graduation, special event
+- work_team: office party, team outing
+- large_party: generic large group (6+ people)
+- not_group: individual or couple dining
+
+GROUP_SIZE
+- small: 3-5 people
+- medium: 6-10 people
+- large: 11-20 people
+- very_large: 20+ people
+- not_mentioned: size not specified
+
+SEATING_ACCOMMODATION
+- excellent: easily seated large group, private room available
+- adequate: seated with some wait or rearrangement
+- difficult: long wait, split tables, cramped
+- refused: could not accommodate group size
+- not_mentioned: seating not discussed
+
+SERVICE_HANDLING
+- smooth: staff handled large party well
+- adequate: service was acceptable for group size
+- struggled: service noticeably worse with group
+- overwhelmed: major service issues due to group size
+- not_mentioned: service for group not discussed
+
+NOISE_TOLERANCE
+- welcomed: restaurant comfortable with lively groups
+- tolerated: group noise accepted
+- frowned_upon: received looks or comments about noise
+- not_mentioned: not discussed
+
+CHECK_SPLITTING
+- easy: split checks without issue
+- available: able to split but with some effort
+- refused: would not split checks
+- not_mentioned: not discussed
+
+KIDS_FRIENDLY (if GROUP_TYPE = family)
+- very_friendly: kids menu, highchairs, changing stations
+- accommodating: basic kid accommodations
+- not_suitable: not appropriate for children
+- not_mentioned: not discussed
+
+============================================================
+L1: Composites (derived per review)
+============================================================
+
+SUCCESSFUL_GROUP_EXPERIENCE = true iff ALL:
+  - GROUP_TYPE != not_group
+  - SEATING_ACCOMMODATION in {excellent, adequate}
+  - SERVICE_HANDLING in {smooth, adequate}
+Else SUCCESSFUL_GROUP_EXPERIENCE = false
+
+FAILED_GROUP_EXPERIENCE = true iff ALL:
+  - GROUP_TYPE != not_group
+  - Any of: SEATING_ACCOMMODATION in {difficult, refused}, SERVICE_HANDLING in {struggled, overwhelmed}
+Else FAILED_GROUP_EXPERIENCE = false
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_GROUP_REVIEWS = count of reviews where GROUP_TYPE != not_group
+  N_SUCCESS = count where SUCCESSFUL_GROUP_EXPERIENCE = true
+  N_FAILED = count where FAILED_GROUP_EXPERIENCE = true
+  N_EXCELLENT_SEATING = count where SEATING_ACCOMMODATION = excellent
+  N_LARGE_GROUPS = count where GROUP_SIZE in {large, very_large}
+  N_LARGE_SUCCESS = count where GROUP_SIZE in {large, very_large} AND SUCCESSFUL_GROUP_EXPERIENCE = true
+  N_EASY_SPLIT = count where CHECK_SPLITTING = easy
+  N_KIDS_FRIENDLY = count where KIDS_FRIENDLY = very_friendly
+
+Confidence Level:
+  if N_GROUP_REVIEWS == 0: none
+  elif N_GROUP_REVIEWS <= 2: low
+  elif N_GROUP_REVIEWS <= 5: medium
+  else: high
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  POSITIVE_SCORE = (N_SUCCESS * 2) + (N_EXCELLENT_SEATING * 1) + (N_LARGE_SUCCESS * 1) + (N_EASY_SPLIT * 0.5)
+  NEGATIVE_SCORE = (N_FAILED * 2.5)
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Excellent for Groups (perfect for large parties)
+  - >= 5.5 AND < 7.5 => Good for Groups (handles groups well)
+  - >= 3.5 AND < 5.5 => Limited (can handle small groups)
+  - < 3.5 => Not Suitable (not recommended for groups)
+
+Overrides:
+  - If N_LARGE_SUCCESS >= 2 => min Good for Groups
+  - If SEATING_ACCOMMODATION = refused in any review => max Limited
+  - If N_FAILED >= 2 => max Limited
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per group-related review ... ],
+  L1_composites: [
+    {
+      review_id,
+      successful_group_experience,
+      failed_group_experience
+    },
+    ...
+  ],
+  L2_aggregates: {
+    N_GROUP_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_SUCCESS, N_FAILED,
+    N_EXCELLENT_SEATING,
+    N_LARGE_GROUPS, N_LARGE_SUCCESS,
+    N_EASY_SPLIT,
+    N_KIDS_FRIENDLY,
+    POSITIVE_SCORE,
+    NEGATIVE_SCORE,
+    BASE_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT
+  },
+  decision_evidence: {
+    successful_groups: [ {review_id, group_type, group_size, quote}, ... ],
+    failed_groups: [ {review_id, issue, quote}, ... ],
+    large_party_experiences: [ {review_id, size, outcome, quote}, ... ]
+  }
+}

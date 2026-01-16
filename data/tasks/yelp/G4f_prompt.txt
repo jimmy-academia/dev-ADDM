@@ -1,0 +1,197 @@
+============================================================
+Agenda
+============================================================
+
+Help assess the quality of food from the kitchen at this restaurant.
+
+Analyze each review to identify mentions of food quality and kitchen execution.
+For each record, extract the L0 primitives defined below.
+
+This task adds L1.5 food-aspect grouping to identify kitchen strengths.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+TASTE_QUALITY
+- exceptional: outstanding flavor, memorable taste
+- good: tasty, well-prepared
+- average: acceptable, nothing special
+- below_average: disappointing taste
+- poor: bad taste, unpleasant
+- not_mentioned: taste not discussed
+
+FRESHNESS
+- very_fresh: notably fresh ingredients
+- fresh: ingredients seemed fresh
+- questionable: freshness concerns noted
+- stale: stale or old ingredients
+- not_mentioned: freshness not discussed
+
+TEMPERATURE
+- perfect: food served at ideal temperature
+- acceptable: temperature was fine
+- lukewarm: food not hot/cold enough
+- cold: food served cold when should be hot
+- not_mentioned: temperature not discussed
+
+PRESENTATION
+- stunning: beautiful plating, Instagram-worthy
+- nice: pleasant presentation
+- adequate: acceptable presentation
+- sloppy: messy, careless plating
+- not_mentioned: presentation not discussed
+
+COOKING_EXECUTION
+- perfect: cooked exactly as requested
+- good: well-executed cooking
+- acceptable: adequate cooking
+- overcooked: food overcooked
+- undercooked: food undercooked
+- not_mentioned: cooking not discussed
+
+SEASONING
+- perfectly_seasoned: ideal seasoning
+- well_seasoned: good seasoning
+- under_seasoned: bland, needs salt
+- over_seasoned: too salty/spicy
+- not_mentioned: seasoning not discussed
+
+============================================================
+L1: Composites (derived per review)
+============================================================
+
+POSITIVE_KITCHEN = true iff ANY:
+  - TASTE_QUALITY in {exceptional, good}
+  - COOKING_EXECUTION in {perfect, good}
+  - PRESENTATION = stunning
+Else POSITIVE_KITCHEN = false
+
+NEGATIVE_KITCHEN = true iff ANY:
+  - TASTE_QUALITY in {below_average, poor}
+  - COOKING_EXECUTION in {overcooked, undercooked}
+  - FRESHNESS in {questionable, stale}
+Else NEGATIVE_KITCHEN = false
+
+============================================================
+L1.5: Food Aspect Grouping
+============================================================
+
+Group reviews by food aspect:
+  TASTE = taste_quality, seasoning (flavor profile)
+  EXECUTION = cooking_execution, temperature (technical skill)
+  QUALITY = freshness, presentation (ingredient and visual quality)
+
+For each aspect bucket, compute:
+  BUCKET_N_REVIEWS = count of reviews in this bucket
+  BUCKET_N_POSITIVE = count with positive rating for this aspect
+  BUCKET_N_NEGATIVE = count with negative rating for this aspect
+  BUCKET_SUCCESS_RATE = BUCKET_N_POSITIVE / max(BUCKET_N_POSITIVE + BUCKET_N_NEGATIVE, 1)
+
+Kitchen Pattern Analysis:
+  BEST_ASPECT = bucket with highest SUCCESS_RATE (if any data)
+  WORST_ASPECT = bucket with lowest SUCCESS_RATE (if any data)
+  N_ASPECTS_STRONG = count of buckets where SUCCESS_RATE >= 0.7
+
+  KITCHEN_PATTERN:
+    if N_ASPECTS_STRONG >= 3: "all_around_excellent"
+    elif TASTE bucket SUCCESS_RATE >= 0.8: "flavor_forward"
+    elif EXECUTION bucket SUCCESS_RATE >= 0.8: "technically_skilled"
+    elif QUALITY bucket SUCCESS_RATE >= 0.8: "quality_ingredients"
+    elif N_ASPECTS_STRONG >= 1: "partial_strengths"
+    else: "needs_work"
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_KITCHEN_REVIEWS = count of reviews with any kitchen-related primitives
+  N_POSITIVE = count where POSITIVE_KITCHEN = true
+  N_NEGATIVE = count where NEGATIVE_KITCHEN = true
+
+Confidence Level:
+  if N_KITCHEN_REVIEWS == 0: none
+  elif N_KITCHEN_REVIEWS <= 2: low
+  elif N_KITCHEN_REVIEWS <= 5: medium
+  else: high
+
+L1.5 Aspect Analysis:
+  BEST_ASPECT
+  BEST_ASPECT_RATE
+  WORST_ASPECT
+  KITCHEN_PATTERN
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  SUCCESS_RATE = N_POSITIVE / max(N_POSITIVE + N_NEGATIVE, 1)
+
+  POSITIVE_SCORE = N_POSITIVE * 1.5
+  NEGATIVE_SCORE = N_NEGATIVE * 1.5
+
+  RAW_SCORE = BASE_SCORE + POSITIVE_SCORE - NEGATIVE_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Excellent Kitchen
+  - >= 5.5 AND < 7.5 => Good Kitchen
+  - >= 3.5 AND < 5.5 => Mixed Kitchen
+  - < 3.5 => Poor Kitchen
+
+Overrides:
+  - If KITCHEN_PATTERN = "all_around_excellent" => min Good Kitchen
+  - If KITCHEN_PATTERN = "needs_work" AND N_NEGATIVE >= 3 => Poor Kitchen
+  - Include strength note based on KITCHEN_PATTERN
+  - Include weakness note based on WORST_ASPECT if rate < 0.5
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per kitchen-related review ... ],
+  L1_composites: [ ... one record per kitchen-related review ... ],
+  L1_5_aspect_buckets: {
+    taste: { n_reviews, n_positive, n_negative, success_rate },
+    execution: { n_reviews, n_positive, n_negative, success_rate },
+    quality: { n_reviews, n_positive, n_negative, success_rate },
+    best_aspect,
+    best_aspect_rate,
+    worst_aspect,
+    n_aspects_strong,
+    kitchen_pattern
+  },
+  L2_aggregates: {
+    N_KITCHEN_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_POSITIVE, N_NEGATIVE,
+    SUCCESS_RATE,
+    POSITIVE_SCORE,
+    NEGATIVE_SCORE,
+    BASE_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    strength_note (if applicable),
+    weakness_note (if applicable)
+  },
+  decision_evidence: {
+    positive_kitchen_mentions: [ {review_id, aspect, quote}, ... ],
+    negative_kitchen_mentions: [ {review_id, aspect, quote}, ... ],
+    aspect_evidence: {
+      best_aspect,
+      worst_aspect,
+      kitchen_pattern
+    }
+  }
+}

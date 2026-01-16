@@ -1,0 +1,234 @@
+============================================================
+Agenda
+============================================================
+
+Help assess the quality of food from the kitchen at this restaurant.
+
+Analyze each review to identify mentions of food quality and kitchen execution.
+For each record, extract the L0 primitives defined below.
+
+This task uses complex formula with weighted food factors and interaction effects.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+TASTE_QUALITY
+- exceptional: outstanding flavor, memorable taste
+- good: tasty, well-prepared
+- average: acceptable, nothing special
+- below_average: disappointing taste
+- poor: bad taste, unpleasant
+- not_mentioned: taste not discussed
+
+FRESHNESS
+- very_fresh: notably fresh ingredients
+- fresh: ingredients seemed fresh
+- questionable: freshness concerns noted
+- stale: stale or old ingredients
+- not_mentioned: freshness not discussed
+
+TEMPERATURE
+- perfect: food served at ideal temperature
+- acceptable: temperature was fine
+- lukewarm: food not hot/cold enough
+- cold: food served cold when should be hot
+- not_mentioned: temperature not discussed
+
+PRESENTATION
+- stunning: beautiful plating, Instagram-worthy
+- nice: pleasant presentation
+- adequate: acceptable presentation
+- sloppy: messy, careless plating
+- not_mentioned: presentation not discussed
+
+COOKING_EXECUTION
+- perfect: cooked exactly as requested
+- good: well-executed cooking
+- acceptable: adequate cooking
+- overcooked: food overcooked
+- undercooked: food undercooked
+- not_mentioned: cooking not discussed
+
+SEASONING
+- perfectly_seasoned: ideal seasoning
+- well_seasoned: good seasoning
+- under_seasoned: bland, needs salt
+- over_seasoned: too salty/spicy
+- not_mentioned: seasoning not discussed
+
+DISH_CONSISTENCY
+- always_good: dish is consistently good
+- usually_good: mostly consistent
+- hit_or_miss: quality varies
+- declined: quality has gotten worse
+- not_mentioned: consistency not discussed
+
+============================================================
+L1: Composites (derived per review) - COMPLEX
+============================================================
+
+Taste Score:
+  exceptional = +4.0
+  good = +2.0
+  average = 0
+  below_average = -2.0
+  poor = -4.0
+  not_mentioned = 0
+
+Freshness Score:
+  very_fresh = +2.0
+  fresh = +1.0
+  questionable = -2.0
+  stale = -4.0
+  not_mentioned = 0
+
+Temperature Score:
+  perfect = +1.5
+  acceptable = +0.5
+  lukewarm = -1.0
+  cold = -2.5
+  not_mentioned = 0
+
+Presentation Score:
+  stunning = +2.0
+  nice = +1.0
+  adequate = 0
+  sloppy = -1.5
+  not_mentioned = 0
+
+Cooking Score:
+  perfect = +2.5
+  good = +1.5
+  acceptable = 0
+  overcooked = -2.0
+  undercooked = -3.0 (food safety concern)
+  not_mentioned = 0
+
+Seasoning Score:
+  perfectly_seasoned = +1.5
+  well_seasoned = +0.5
+  under_seasoned = -1.0
+  over_seasoned = -1.5
+  not_mentioned = 0
+
+Consistency Modifier:
+  always_good = +1.5
+  usually_good = +0.5
+  hit_or_miss = -1.0
+  declined = -2.0
+  not_mentioned = 0
+
+L1_KITCHEN_SCORE = TASTE_SCORE + FRESHNESS_SCORE + TEMPERATURE_SCORE + PRESENTATION_SCORE + COOKING_SCORE + SEASONING_SCORE + CONSISTENCY_MODIFIER
+
+STALE_AND_POOR (interaction penalty):
+  If FRESHNESS = stale AND TASTE_QUALITY = poor: -3.0
+  Else: 0
+
+PERFECT_EXECUTION (interaction bonus):
+  If COOKING_EXECUTION = perfect AND TEMPERATURE = perfect AND TASTE_QUALITY = exceptional: +2.0
+  Else: 0
+
+UNDERCOOKED_PENALTY (food safety):
+  If COOKING_EXECUTION = undercooked: -2.0 (additional penalty)
+  Else: 0
+
+L1_TOTAL_SCORE = L1_KITCHEN_SCORE + STALE_AND_POOR + PERFECT_EXECUTION + UNDERCOOKED_PENALTY
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_KITCHEN_REVIEWS = count of reviews with any kitchen-related primitives
+  N_EXCEPTIONAL = count where TASTE_QUALITY = exceptional
+  N_POOR = count where TASTE_QUALITY = poor
+  N_STALE = count where FRESHNESS = stale
+  N_UNDERCOOKED = count where COOKING_EXECUTION = undercooked
+  N_DECLINED = count where DISH_CONSISTENCY = declined
+
+Confidence Level:
+  if N_KITCHEN_REVIEWS == 0: none
+  elif N_KITCHEN_REVIEWS <= 2: low
+  elif N_KITCHEN_REVIEWS <= 5: medium
+  else: high
+
+Aggregation:
+  SUM_L1_SCORE = sum of L1_TOTAL_SCORE across all kitchen reviews
+  MEAN_L1_SCORE = SUM_L1_SCORE / max(N_KITCHEN_REVIEWS, 1)
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  ADJUSTED_SCORE = MEAN_L1_SCORE
+  RAW_SCORE = BASE_SCORE + ADJUSTED_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Excellent Kitchen
+  - >= 5.5 AND < 7.5 => Good Kitchen
+  - >= 3.5 AND < 5.5 => Mixed Kitchen
+  - < 3.5 => Poor Kitchen
+
+Overrides:
+  - If N_UNDERCOOKED >= 1 => max Mixed Kitchen + food safety note
+  - If N_STALE >= 2 => max Mixed Kitchen
+  - If N_DECLINED >= 2 => include decline warning
+  - If MEAN_L1_SCORE >= 4 AND N_EXCEPTIONAL >= 2 => min Good Kitchen
+  - If MEAN_L1_SCORE < -2 => Poor Kitchen
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per kitchen-related review ... ],
+  L1_composites: [
+    {
+      review_id,
+      taste_score,
+      freshness_score,
+      temperature_score,
+      presentation_score,
+      cooking_score,
+      seasoning_score,
+      consistency_modifier,
+      l1_kitchen_score,
+      stale_and_poor,
+      perfect_execution,
+      undercooked_penalty,
+      l1_total_score
+    },
+    ...
+  ],
+  L2_aggregates: {
+    N_KITCHEN_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_EXCEPTIONAL, N_POOR,
+    N_STALE, N_UNDERCOOKED,
+    N_DECLINED,
+    SUM_L1_SCORE,
+    MEAN_L1_SCORE,
+    BASE_SCORE,
+    ADJUSTED_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    food_safety_note (if applicable),
+    decline_warning (if applicable)
+  },
+  decision_evidence: {
+    high_score_reviews: [ {review_id, l1_total_score, quote}, ... ],
+    low_score_reviews: [ {review_id, l1_total_score, quote}, ... ],
+    food_safety_concerns: [ {review_id, issue, quote}, ... ]
+  }
+}

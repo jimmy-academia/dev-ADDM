@@ -1,0 +1,188 @@
+============================================================
+Agenda
+============================================================
+
+Help assess the allergy safety risk for this restaurant.
+
+Analyze each review to identify whether there are allergy incident records.
+For each record, extract the L0 primitives defined below.
+
+This task adds L1.5 time-based grouping to detect trends.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+INCIDENT_SEVERITY
+- none: No allergic reaction described
+- mild: Minor symptoms (e.g., stomach upset, mild discomfort) without visible swelling/hives or urgent care
+- moderate: Visible symptoms (e.g., hives, swelling) OR needed medication (e.g., antihistamine)
+- severe: Life-threatening (anaphylaxis, EpiPen, ER visit, hospitalization)
+
+ACCOUNT_TYPE
+- firsthand: direct personal experience (I had, we experienced, my child had)
+- secondhand: reported (my friend…, I heard…)
+- hypothetical: concern/asking/statement without an incident (I'm allergic so I worry…)
+
+ASSURANCE_CLAIM
+- true: review states an explicit assurance of safety for peanut/nut allergy (e.g., they said it was nut-free, guaranteed safe, confirmed no peanuts, allergy-safe)
+- false: review discusses allergy but contains no explicit assurance claim
+- unknown: text is too vague to determine
+
+STAFF_RESPONSE
+- accommodated: staff took allergy seriously and successfully accommodated
+- refused: staff refused to accommodate or said they cannot handle allergies
+- dismissive: staff minimized the allergy or did not take it seriously
+- none: no staff interaction about allergy described
+- unknown: unclear
+
+============================================================
+L1: Composites (derived per review)
+============================================================
+
+FALSE_ASSURANCE = true iff ALL:
+  - ACCOUNT_TYPE = firsthand
+  - INCIDENT_SEVERITY != none
+  - ASSURANCE_CLAIM = true
+Else FALSE_ASSURANCE = false
+
+FIRSTHAND_INCIDENT = true iff ALL:
+  - ACCOUNT_TYPE = firsthand
+  - INCIDENT_SEVERITY in {mild, moderate, severe}
+Else FIRSTHAND_INCIDENT = false
+
+============================================================
+L1.5: Allergen Type Grouping
+============================================================
+
+Group reviews by ALLERGEN_TYPE (extract from review text):
+  PEANUT = mentions peanut, peanut oil, peanut butter
+  TREE_NUT = mentions tree nuts, almond, walnut, cashew, pistachio, hazelnut
+  SHELLFISH = mentions shellfish, shrimp, crab, lobster, oyster
+  OTHER = other allergens (dairy, egg, soy, wheat, sesame, etc.)
+
+For each allergen bucket, compute:
+  BUCKET_N_REVIEWS = count of reviews mentioning this allergen
+  BUCKET_N_INCIDENTS = count where FIRSTHAND_INCIDENT = true
+  BUCKET_INCIDENT_RATE = BUCKET_N_INCIDENTS / BUCKET_N_REVIEWS (or 0 if no reviews)
+  BUCKET_MAX_SEVERITY = max(INCIDENT_SEVERITY) in bucket
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  CURRENT_YEAR = 2022
+  DEFAULT_INCIDENT_YEAR = 2020
+  BASE_RISK = 2.5
+
+Cuisine Risk Modifier (match highest, default 1.0):
+  Thai = 2.0
+  Vietnamese = 1.8
+  Chinese = 1.5
+  Asian = 1.5
+  Asian Fusion = 1.5
+  Indian = 1.3
+  Japanese = 1.2
+  Korean = 1.2
+  Mexican = 1.0
+  Italian = 0.5
+  American = 0.5
+  American (Traditional) = 0.5
+  American (New) = 0.5
+  Pizza = 0.5
+
+Counts (same as G1a):
+  N_ALLERGY_REVIEWS = count of reviews where is_allergy_related = true
+  N_MILD = count where FIRSTHAND_INCIDENT = true AND INCIDENT_SEVERITY = mild
+  N_MODERATE = count where FIRSTHAND_INCIDENT = true AND INCIDENT_SEVERITY = moderate
+  N_SEVERE = count where FIRSTHAND_INCIDENT = true AND INCIDENT_SEVERITY = severe
+  N_TOTAL_INCIDENTS = N_MILD + N_MODERATE + N_SEVERE
+  N_FALSE_ASSURANCE = count where FALSE_ASSURANCE = true
+
+Confidence Level:
+  if N_ALLERGY_REVIEWS == 0: none
+  elif N_ALLERGY_REVIEWS <= 2: low
+  elif N_ALLERGY_REVIEWS <= 5: medium
+  else: high
+
+MOST_RECENT_INCIDENT_YEAR = max(REVIEW_YEAR) where FIRSTHAND_INCIDENT = true
+  default: DEFAULT_INCIDENT_YEAR
+
+L1.5 Allergen Analysis:
+  WORST_ALLERGEN = allergen bucket with highest INCIDENT_RATE (if any incidents)
+  WORST_ALLERGEN_RATE = INCIDENT_RATE of WORST_ALLERGEN
+  N_ALLERGENS_WITH_INCIDENTS = count of allergen buckets where N_INCIDENTS > 0
+
+  ALLERGEN_PATTERN:
+    if N_ALLERGENS_WITH_INCIDENTS >= 3: "systemic" (multiple allergen issues)
+    elif N_ALLERGENS_WITH_INCIDENTS >= 1 AND WORST_ALLERGEN_RATE > 0.5: "specific_high_risk"
+    elif N_ALLERGENS_WITH_INCIDENTS >= 1: "specific_moderate_risk"
+    else: "no_pattern"
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas (same as G1a):
+  INCIDENT_AGE = CURRENT_YEAR - MOST_RECENT_INCIDENT_YEAR
+  RECENCY_DECAY = max(0.3, 1.0 - (INCIDENT_AGE * 0.15))
+  CUISINE_IMPACT = CUISINE_MODIFIER * 0.5
+  INCIDENT_SCORE = (N_MILD * 2) + (N_MODERATE * 5) + (N_SEVERE * 15)
+  RAW_RISK = BASE_RISK + (INCIDENT_SCORE * RECENCY_DECAY) + CUISINE_IMPACT
+  FINAL_RISK_SCORE = clamp(RAW_RISK, 0.0, 20.0)
+
+Decision Thresholds on FINAL_RISK_SCORE:
+  - < 4.0 => Low Risk
+  - >= 4.0 AND < 8.0 => High Risk
+  - >= 8.0 => Critical Risk
+
+Overrides:
+  - If N_SEVERE >= 1 => Critical Risk
+  - If N_FALSE_ASSURANCE >= 1 => min High Risk
+  - If ALLERGEN_PATTERN = "systemic" => min High Risk (multiple allergen types have incidents)
+  - If ALLERGEN_PATTERN = "specific_high_risk" => bump one level
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per allergy-related review ... ],
+  L1_composites: [ ... one record per allergy-related review ... ],
+  L1_5_allergen_buckets: {
+    peanut: { n_reviews, n_incidents, incident_rate, max_severity },
+    tree_nut: { n_reviews, n_incidents, incident_rate, max_severity },
+    shellfish: { n_reviews, n_incidents, incident_rate, max_severity },
+    other: { n_reviews, n_incidents, incident_rate, max_severity },
+    worst_allergen,
+    worst_allergen_rate,
+    n_allergens_with_incidents,
+    allergen_pattern
+  },
+  L2_aggregates: {
+    N_ALLERGY_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_MILD, N_MODERATE, N_SEVERE, N_TOTAL_INCIDENTS,
+    N_FALSE_ASSURANCE,
+    MOST_RECENT_INCIDENT_YEAR,
+    INCIDENT_AGE,
+    RECENCY_DECAY,
+    CUISINE_MODIFIER,
+    INCIDENT_SCORE,
+    BASE_RISK,
+    CUISINE_IMPACT,
+    RAW_RISK,
+    FINAL_RISK_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT
+  },
+  decision_evidence: {
+    firsthand_incidents: [ {review_id, quote}, ... ],
+    false_assurance: [ {review_id, quote}, ... ],
+    trend_evidence: { recent_incidents, historical_incidents }
+  }
+}

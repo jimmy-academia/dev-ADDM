@@ -1,0 +1,281 @@
+============================================================
+Agenda
+============================================================
+
+Help assess time efficiency and wait times at this restaurant.
+
+Analyze each review to identify mentions of waiting, timing, and pacing.
+For each record, extract the L0 primitives defined below.
+
+This task combines complex formula (weighted time calculations)
+with L1.5 time phase grouping for pattern detection.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+WAIT_FOR_TABLE
+- none: seated immediately or very quickly
+- short: reasonable wait (under 15 min)
+- moderate: noticeable wait (15-30 min)
+- long: significant wait (30-60 min)
+- excessive: very long wait (60+ min)
+- not_mentioned: wait time not discussed
+
+RESERVATION_ACCURACY
+- honored: reservation honored on time
+- slight_delay: 5-10 min past reservation time
+- significant_delay: 15+ min past reservation time
+- lost: reservation lost or not honored
+- not_applicable: no reservation made
+- not_mentioned: not discussed
+
+FOOD_DELIVERY_SPEED
+- fast: food arrived quickly
+- reasonable: normal timing
+- slow: took longer than expected
+- very_slow: excessive wait for food
+- not_mentioned: not discussed
+
+SERVICE_PACING
+- perfect: well-paced, not rushed or dragging
+- slightly_rushed: felt a bit hurried
+- very_rushed: pushed to leave quickly
+- too_slow: service dragged between courses
+- forgotten: felt forgotten by staff
+- not_mentioned: not discussed
+
+CHECKOUT_SPEED
+- fast: quick check and payment
+- reasonable: normal checkout time
+- slow: waited too long for check
+- not_mentioned: not discussed
+
+OCCASION_TYPE
+- quick_meal: time-sensitive dining
+- leisurely: no time pressure
+- business: professional context
+- special_occasion: celebrating
+- not_specified: occasion not mentioned
+
+COMMUNICATION_ABOUT_WAIT
+- proactive: staff communicated expected wait times
+- upon_request: informed when asked
+- no_communication: no information given about delays
+- not_mentioned: not discussed
+
+============================================================
+L1: Composites (derived per review) - COMPLEX
+============================================================
+
+Occasion Sensitivity:
+  quick_meal = 2.0
+  business = 1.8
+  leisurely = 0.5
+  special_occasion = 0.7
+  not_specified = 1.0
+
+Wait Score:
+  none = +2.0
+  short = +1.0
+  moderate = 0
+  long = -1.5
+  excessive = -3.0
+  not_mentioned = 0
+
+Reservation Score:
+  honored = +1.5
+  slight_delay = 0
+  significant_delay = -1.5
+  lost = -4.0
+  not_applicable = 0
+  not_mentioned = 0
+
+Food Speed Score:
+  fast = +1.5
+  reasonable = +0.5
+  slow = -1.0
+  very_slow = -2.5
+  not_mentioned = 0
+
+Pacing Score:
+  perfect = +2.0
+  slightly_rushed = -0.5
+  very_rushed = -2.0
+  too_slow = -1.5
+  forgotten = -3.0
+  not_mentioned = 0
+
+Checkout Score:
+  fast = +1.0
+  reasonable = +0.5
+  slow = -1.0
+  not_mentioned = 0
+
+Communication Modifier:
+  proactive = +1.0
+  upon_request = +0.5
+  no_communication = -0.5
+  not_mentioned = 0
+
+L1_TIME_SCORE = (WAIT_SCORE + RESERVATION_SCORE + FOOD_SPEED_SCORE + PACING_SCORE + CHECKOUT_SCORE + COMMUNICATION_MODIFIER)
+
+LOST_RESERVATION_PENALTY:
+  If RESERVATION_ACCURACY = lost AND OCCASION_TYPE in {business, quick_meal}: -3.0
+  Else: 0
+
+L1_TOTAL_SCORE = (L1_TIME_SCORE * OCCASION_SENSITIVITY) + LOST_RESERVATION_PENALTY
+
+============================================================
+L1.5: Time Phase Grouping
+============================================================
+
+Group reviews by time phase:
+  ARRIVAL = wait_for_table, reservation_accuracy (getting seated)
+  DURING_MEAL = food_delivery_speed, service_pacing (during dining)
+  DEPARTURE = checkout_speed (leaving)
+
+For each phase bucket, compute:
+  BUCKET_N_REVIEWS = count of reviews with data for this phase
+  BUCKET_SUM_SCORE = sum of relevant scores in bucket
+    (ARRIVAL: wait_score + reservation_score)
+    (DURING_MEAL: food_speed_score + pacing_score)
+    (DEPARTURE: checkout_score)
+  BUCKET_MEAN_SCORE = BUCKET_SUM_SCORE / max(BUCKET_N_REVIEWS, 1)
+  BUCKET_N_SEVERE = count of severe issues in bucket
+    (ARRIVAL: excessive wait or lost reservation)
+    (DURING_MEAL: very_slow or forgotten)
+    (DEPARTURE: slow checkout)
+
+Time Pattern Analysis:
+  WORST_PHASE = bucket with lowest MEAN_SCORE
+  WORST_PHASE_SCORE = MEAN_SCORE of WORST_PHASE
+  BEST_PHASE = bucket with highest MEAN_SCORE
+  N_PHASES_EFFICIENT = count of buckets where MEAN_SCORE >= 1.0
+
+  TIME_PATTERN:
+    if N_PHASES_EFFICIENT >= 3: "consistently_efficient"
+    elif ARRIVAL bucket MEAN_SCORE < -1.0: "arrival_bottleneck"
+    elif DURING_MEAL bucket MEAN_SCORE < -1.0: "service_bottleneck"
+    elif DEPARTURE bucket MEAN_SCORE < -0.5: "departure_bottleneck"
+    elif WORST_PHASE_SCORE - BEST_PHASE_SCORE > 2.0: "inconsistent_timing"
+    elif N_PHASES_EFFICIENT >= 1: "phase_dependent"
+    else: "overall_time_issues"
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_SCORE = 5.0
+
+Counts:
+  N_TIME_REVIEWS = count of reviews with any time-related primitives
+  N_EXCESSIVE_WAIT = count where WAIT_FOR_TABLE = excessive
+  N_LOST_RESERVATION = count where RESERVATION_ACCURACY = lost
+  N_FORGOTTEN = count where SERVICE_PACING = forgotten
+
+Confidence Level:
+  if N_TIME_REVIEWS == 0: none
+  elif N_TIME_REVIEWS <= 2: low
+  elif N_TIME_REVIEWS <= 5: medium
+  else: high
+
+L1.5 Phase Aggregation:
+  TOTAL_PHASE_SCORE = sum of BUCKET_MEAN_SCORE across all phase buckets
+  N_PHASE_BUCKETS_ACTIVE = count of buckets where N_REVIEWS > 0
+  MEAN_PHASE_SCORE = TOTAL_PHASE_SCORE / max(N_PHASE_BUCKETS_ACTIVE, 1)
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  Pattern Multiplier (based on time pattern):
+    if TIME_PATTERN = "consistently_efficient": PATTERN_MULT = 1.2
+    elif TIME_PATTERN = "arrival_bottleneck": PATTERN_MULT = 0.9
+    elif TIME_PATTERN = "service_bottleneck": PATTERN_MULT = 0.85
+    elif TIME_PATTERN = "inconsistent_timing": PATTERN_MULT = 0.9
+    elif TIME_PATTERN = "overall_time_issues": PATTERN_MULT = 0.7
+    else: PATTERN_MULT = 1.0
+
+  ADJUSTED_SCORE = MEAN_PHASE_SCORE * PATTERN_MULT
+  RAW_SCORE = BASE_SCORE + ADJUSTED_SCORE
+  FINAL_SCORE = clamp(RAW_SCORE, 0.0, 10.0)
+
+Decision Thresholds on FINAL_SCORE:
+  - >= 7.5 => Excellent Timing
+  - >= 5.5 AND < 7.5 => Good Timing
+  - >= 3.5 AND < 5.5 => Variable Timing
+  - < 3.5 => Poor Timing
+
+Overrides:
+  - If N_LOST_RESERVATION >= 1 => max Variable Timing + reservation warning
+  - If TIME_PATTERN = "consistently_efficient" => min Good Timing
+  - If TIME_PATTERN = "arrival_bottleneck" => include reservation advice
+  - If TIME_PATTERN = "overall_time_issues" AND N_FORGOTTEN >= 1 => Poor Timing
+  - Include phase-specific advice based on TIME_PATTERN
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per time-related review ... ],
+  L1_composites: [
+    {
+      review_id,
+      occasion_sensitivity,
+      wait_score,
+      reservation_score,
+      food_speed_score,
+      pacing_score,
+      checkout_score,
+      communication_modifier,
+      l1_time_score,
+      lost_reservation_penalty,
+      l1_total_score
+    },
+    ...
+  ],
+  L1_5_phase_buckets: {
+    arrival: { n_reviews, sum_score, mean_score, n_severe },
+    during_meal: { n_reviews, sum_score, mean_score, n_severe },
+    departure: { n_reviews, sum_score, mean_score, n_severe },
+    worst_phase,
+    worst_phase_score,
+    best_phase,
+    n_phases_efficient,
+    time_pattern
+  },
+  L2_aggregates: {
+    N_TIME_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_EXCESSIVE_WAIT,
+    N_LOST_RESERVATION,
+    N_FORGOTTEN,
+    TOTAL_PHASE_SCORE,
+    MEAN_PHASE_SCORE,
+    PATTERN_MULT,
+    BASE_SCORE,
+    ADJUSTED_SCORE,
+    RAW_SCORE,
+    FINAL_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT,
+    phase_advice (if applicable),
+    reservation_warning (if applicable)
+  },
+  decision_evidence: {
+    high_score_reviews: [ {review_id, phase, l1_total_score, quote}, ... ],
+    low_score_reviews: [ {review_id, phase, l1_total_score, quote}, ... ],
+    phase_evidence: {
+      worst_phase,
+      best_phase,
+      time_pattern
+    }
+  }
+}

@@ -1,0 +1,175 @@
+============================================================
+Agenda
+============================================================
+
+Help assess the hygiene and cleanliness of this restaurant.
+
+Analyze each review to identify mentions of hygiene issues or cleanliness.
+For each record, extract the L0 primitives defined below.
+
+This task adds L1.5 issue-type grouping to identify patterns.
+
+============================================================
+L0: Primitives (per-review extraction)
+============================================================
+
+ISSUE_TYPE
+- food_handling: contamination, undercooked, raw food issues, cross-contamination
+- cleanliness: dirty tables, floors, dishes, utensils, general uncleanliness
+- pest: bugs, flies, rodents, cockroaches
+- illness: food poisoning, got sick after eating
+- none: no hygiene issue mentioned (positive or neutral review)
+
+ISSUE_SEVERITY
+- none: no issue
+- minor: cosmetic issue, not health-threatening (e.g., sticky table)
+- moderate: concerning but not immediately dangerous (e.g., hair in food)
+- severe: health hazard or resulted in illness
+
+ACCOUNT_TYPE
+- firsthand: direct personal experience (I saw, we found, I got sick)
+- secondhand: reported (my friend said..., other reviews mention...)
+- hypothetical: concern without incident (the kitchen looks questionable)
+
+LOCATION
+- kitchen: issue in food prep area
+- dining_area: tables, chairs, floors in seating area
+- restroom: bathroom cleanliness
+- exterior: outside, entrance, parking area
+- food: issue with the food itself
+- unknown: location not specified
+
+RESOLUTION
+- resolved: restaurant addressed the issue satisfactorily
+- unresolved: issue was not addressed
+- partial: some attempt made but not fully resolved
+- not_reported: issue was not reported to staff
+- unknown: resolution not mentioned
+
+============================================================
+L1: Composites (derived per review)
+============================================================
+
+FIRSTHAND_ISSUE = true iff ALL:
+  - ACCOUNT_TYPE = firsthand
+  - ISSUE_TYPE != none
+Else FIRSTHAND_ISSUE = false
+
+HEALTH_RISK = true iff ALL:
+  - ACCOUNT_TYPE = firsthand
+  - ISSUE_SEVERITY = severe
+Else HEALTH_RISK = false
+
+============================================================
+L1.5: Issue Type Grouping
+============================================================
+
+Group reviews by ISSUE_TYPE:
+  FOOD_HANDLING = contamination, undercooked, cross-contamination issues
+  CLEANLINESS = dirty surfaces, dishes, general mess
+  PEST = bugs, flies, rodents, cockroaches
+  ILLNESS = food poisoning, sickness after eating
+
+For each issue bucket, compute:
+  BUCKET_N_REVIEWS = count of reviews in this bucket
+  BUCKET_N_SEVERE = count where ISSUE_SEVERITY = severe
+  BUCKET_N_MODERATE = count where ISSUE_SEVERITY = moderate
+  BUCKET_MAX_SEVERITY = max(ISSUE_SEVERITY) in bucket
+
+Issue Pattern Analysis:
+  WORST_ISSUE_TYPE = bucket with highest severity incident
+  N_ISSUE_TYPES_REPORTED = count of buckets where N_REVIEWS > 0
+
+  HYGIENE_PATTERN:
+    if N_ISSUE_TYPES_REPORTED >= 3: "systemic" (multiple types of issues)
+    elif PEST bucket has any reports: "pest_issue"
+    elif ILLNESS bucket has any reports: "illness_concern"
+    elif N_ISSUE_TYPES_REPORTED >= 1: "isolated_issue"
+    else: "no_pattern"
+
+============================================================
+L2: Aggregates (restaurant-level)
+============================================================
+
+Constants:
+  BASE_RISK = 2.0
+
+Counts:
+  N_HYGIENE_REVIEWS = count of reviews where is_hygiene_related = true
+  N_MINOR = count where ISSUE_SEVERITY = minor AND ACCOUNT_TYPE = firsthand
+  N_MODERATE = count where ISSUE_SEVERITY = moderate AND ACCOUNT_TYPE = firsthand
+  N_SEVERE = count where ISSUE_SEVERITY = severe AND ACCOUNT_TYPE = firsthand
+  N_TOTAL_ISSUES = N_MINOR + N_MODERATE + N_SEVERE
+
+Confidence Level:
+  if N_HYGIENE_REVIEWS == 0: none
+  elif N_HYGIENE_REVIEWS <= 2: low
+  elif N_HYGIENE_REVIEWS <= 5: medium
+  else: high
+
+L1.5 Issue Analysis:
+  WORST_ISSUE_TYPE
+  N_ISSUE_TYPES_REPORTED
+  HYGIENE_PATTERN
+
+============================================================
+Formulas & Decision Policy
+============================================================
+
+Formulas:
+  ISSUE_SCORE = (N_MINOR * 1) + (N_MODERATE * 3) + (N_SEVERE * 8)
+  RAW_RISK = BASE_RISK + ISSUE_SCORE
+  FINAL_RISK_SCORE = clamp(RAW_RISK, 0.0, 20.0)
+
+Decision Thresholds on FINAL_RISK_SCORE:
+  - < 4.0 => Low Risk (acceptable hygiene)
+  - >= 4.0 AND < 8.0 => Moderate Risk (some concerns)
+  - >= 8.0 AND < 12.0 => High Risk (significant issues)
+  - >= 12.0 => Critical Risk (avoid)
+
+Overrides:
+  - If HYGIENE_PATTERN = "illness_concern" => Critical Risk
+  - If HYGIENE_PATTERN = "pest_issue" => min High Risk
+  - If HYGIENE_PATTERN = "systemic" => min Moderate Risk
+  - If N_SEVERE >= 2 => Critical Risk
+
+============================================================
+Output Schema
+============================================================
+
+{
+  L0_primitives: [ ... one record per hygiene-related review ... ],
+  L1_composites: [ ... one record per hygiene-related review ... ],
+  L1_5_issue_buckets: {
+    food_handling: { n_reviews, n_severe, n_moderate, max_severity },
+    cleanliness: { n_reviews, n_severe, n_moderate, max_severity },
+    pest: { n_reviews, n_severe, n_moderate, max_severity },
+    illness: { n_reviews, n_severe, n_moderate, max_severity },
+    worst_issue_type,
+    n_issue_types_reported,
+    hygiene_pattern
+  },
+  L2_aggregates: {
+    N_HYGIENE_REVIEWS,
+    CONFIDENCE_LEVEL,
+    N_MINOR, N_MODERATE, N_SEVERE,
+    N_TOTAL_ISSUES,
+    ISSUE_SCORE,
+    BASE_RISK,
+    RAW_RISK,
+    FINAL_RISK_SCORE
+  },
+  DecisionPolicy: {
+    base_verdict_by_score,
+    override_applied,
+    VERDICT
+  },
+  decision_evidence: {
+    severe_issues: [ {review_id, issue_type, quote}, ... ],
+    issue_evidence: {
+      worst_issue_type,
+      hygiene_pattern,
+      issue_types_reported: [ issue_type, ... ]
+    }
+  }
+}
