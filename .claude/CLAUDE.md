@@ -15,6 +15,11 @@
 
 Types: `feat`, `fix`, `refactor`, `docs`, `test`, `perf`, `chore`
 
+## Python Environment
+
+- **Always use `.venv`** - Run Python with `.venv/bin/python`
+- Example: `.venv/bin/python -m pytest` or `.venv/bin/python src/addm/main.py`
+
 ## Project Structure
 
 - `src/addm/` - Main source code

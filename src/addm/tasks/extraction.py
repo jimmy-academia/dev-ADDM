@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-from addm.tasks.prompt_parser import get_l0_fields
+from addm.tasks.prompt_parser import get_l0_field_order
 
 
 class JudgmentCache:
@@ -74,7 +74,7 @@ def build_extraction_prompt(
     """
     # Build field definitions
     field_defs = []
-    fields = get_l0_fields(l0_schema)
+    fields = get_l0_field_order(l0_schema)
 
     for field in fields:
         values = l0_schema[field]

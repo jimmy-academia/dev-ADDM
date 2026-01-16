@@ -13,7 +13,6 @@ from typing import Any, Dict, List
 
 from addm.tasks.base import load_task
 from addm.tasks.extraction import JudgmentCache
-from addm.tasks.executor import compute_ground_truth
 
 
 def main() -> None:
@@ -72,9 +71,9 @@ def main() -> None:
             if review_id in judgment_by_id:
                 restaurant_judgments.append(judgment_by_id[review_id])
 
-        # Compute GT using generic executor
+        # Compute GT using task's formula module
         restaurant_meta = {"categories": categories, "name": name}
-        gt = compute_ground_truth(restaurant_judgments, restaurant_meta, task.parsed_prompt)
+        gt = task.compute_ground_truth(restaurant_judgments, restaurant_meta)
 
         # Store result
         verdict = gt.get("verdict", "Unknown")
@@ -99,7 +98,7 @@ def main() -> None:
     }
 
     # Save ground truth
-    gt_path = task.groundtruth_path
+    gt_path = task.groundtruth_path(args.k)
     gt_path.parent.mkdir(parents=True, exist_ok=True)
     with open(gt_path, "w") as f:
         json.dump(output, f, indent=2)

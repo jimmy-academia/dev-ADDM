@@ -1,25 +1,14 @@
 ============================================================
 Agenda
 ============================================================
+
 Help assess the allergy safety risk for this restaurant.
 
-First, analyze each review to identify whether there are allergy incident records.
-For each record, denote:
-- INCIDENT_SEVERITY // one of {none, mild, moderate, severe}
-- ACCOUNT_TYPE      // one of {firsthand, secondhand, hypothetical}
-- ASSURANCE_CLAIM   // one of {true, false, unknown}
-- STAFF_RESPONSE    // one of {accommodated, refused, dismissive, none, unknown}
+Analyze each review to identify whether there are allergy incident records.
+For each record, extract the L0 primitives defined below.
 
 ============================================================
-Constants
-============================================================
-
-CURRENT_YEAR = 2026
-DEFAULT_INCIDENT_YEAR = 2020
-BASE_RISK = 2.5
-
-============================================================
-Policy Definitions (L0: Primitives)
+L0: Primitives (per-review extraction)
 ============================================================
 
 INCIDENT_SEVERITY
@@ -46,27 +35,6 @@ STAFF_RESPONSE
 - unknown: unclear
 
 ============================================================
-Lookup Tables
-============================================================
-
-CUISINE_MODIFIER (match: highest):
-  Thai = 2.0
-  Vietnamese = 1.8
-  Chinese = 1.5
-  Asian = 1.5
-  Asian Fusion = 1.5
-  Indian = 1.3
-  Japanese = 1.2
-  Korean = 1.2
-  Mexican = 1.0
-  Italian = 0.5
-  American = 0.5
-  American (Traditional) = 0.5
-  American (New) = 0.5
-  Pizza = 0.5
-  default = 1.0
-
-============================================================
 L1: Composites (derived per review)
 ============================================================
 
@@ -82,19 +50,39 @@ FIRSTHAND_INCIDENT = true iff ALL:
 Else FIRSTHAND_INCIDENT = false
 
 ============================================================
-L2: Aggregates (restaurant-level counts)
+L2: Aggregates (restaurant-level)
 ============================================================
 
-N_ALLERGY_REVIEWS = count(is_allergy_related = true)
+Constants:
+  CURRENT_YEAR = 2022
+  DEFAULT_INCIDENT_YEAR = 2020
+  BASE_RISK = 2.5
 
-N_MILD = count(FIRSTHAND_INCIDENT = true AND INCIDENT_SEVERITY = mild)
-N_MODERATE = count(FIRSTHAND_INCIDENT = true AND INCIDENT_SEVERITY = moderate)
-N_SEVERE = count(FIRSTHAND_INCIDENT = true AND INCIDENT_SEVERITY = severe)
-N_TOTAL_INCIDENTS = N_MILD + N_MODERATE + N_SEVERE
+Cuisine Risk Modifier (match highest, default 1.0):
+  Thai = 2.0
+  Vietnamese = 1.8
+  Chinese = 1.5
+  Asian = 1.5
+  Asian Fusion = 1.5
+  Indian = 1.3
+  Japanese = 1.2
+  Korean = 1.2
+  Mexican = 1.0
+  Italian = 0.5
+  American = 0.5
+  American (Traditional) = 0.5
+  American (New) = 0.5
+  Pizza = 0.5
 
-N_FALSE_ASSURANCE = count(FALSE_ASSURANCE = true)
+Counts:
+  N_ALLERGY_REVIEWS = count of reviews where is_allergy_related = true
+  N_MILD = count where FIRSTHAND_INCIDENT = true AND INCIDENT_SEVERITY = mild
+  N_MODERATE = count where FIRSTHAND_INCIDENT = true AND INCIDENT_SEVERITY = moderate
+  N_SEVERE = count where FIRSTHAND_INCIDENT = true AND INCIDENT_SEVERITY = severe
+  N_TOTAL_INCIDENTS = N_MILD + N_MODERATE + N_SEVERE
+  N_FALSE_ASSURANCE = count where FALSE_ASSURANCE = true
 
-CONFIDENCE_LEVEL:
+Confidence Level:
   if N_ALLERGY_REVIEWS == 0: none
   elif N_ALLERGY_REVIEWS <= 2: low
   elif N_ALLERGY_REVIEWS <= 5: medium
@@ -104,21 +92,18 @@ MOST_RECENT_INCIDENT_YEAR = max(REVIEW_YEAR) where FIRSTHAND_INCIDENT = true
   default: DEFAULT_INCIDENT_YEAR
 
 ============================================================
-Formulas
+Formulas & Decision Policy
 ============================================================
 
-INCIDENT_AGE = CURRENT_YEAR - MOST_RECENT_INCIDENT_YEAR
-RECENCY_DECAY = max(0.3, 1.0 - (INCIDENT_AGE * 0.15))
-CUISINE_IMPACT = CUISINE_MODIFIER * 0.5
-INCIDENT_SCORE = (N_MILD * 2) + (N_MODERATE * 5) + (N_SEVERE * 15)
-RAW_RISK = BASE_RISK + (INCIDENT_SCORE * RECENCY_DECAY) + CUISINE_IMPACT
-FINAL_RISK_SCORE = clamp(RAW_RISK, 0.0, 20.0)
+Formulas:
+  INCIDENT_AGE = CURRENT_YEAR - MOST_RECENT_INCIDENT_YEAR
+  RECENCY_DECAY = max(0.3, 1.0 - (INCIDENT_AGE * 0.15))
+  CUISINE_IMPACT = CUISINE_MODIFIER * 0.5
+  INCIDENT_SCORE = (N_MILD * 2) + (N_MODERATE * 5) + (N_SEVERE * 15)
+  RAW_RISK = BASE_RISK + (INCIDENT_SCORE * RECENCY_DECAY) + CUISINE_IMPACT
+  FINAL_RISK_SCORE = clamp(RAW_RISK, 0.0, 20.0)
 
-============================================================
-Decision Policy
-============================================================
-
-Thresholds on FINAL_RISK_SCORE:
+Decision Thresholds on FINAL_RISK_SCORE:
   - < 4.0 => Low Risk
   - >= 4.0 AND < 8.0 => High Risk
   - >= 8.0 => Critical Risk
@@ -128,7 +113,7 @@ Overrides:
   - If N_FALSE_ASSURANCE >= 1 => min High Risk
 
 ============================================================
-OUTPUT SCHEMA
+Output Schema
 ============================================================
 
 {
@@ -157,6 +142,5 @@ OUTPUT SCHEMA
   decision_evidence: {
     firsthand_incidents: [ {review_id, quote}, ... ],
     false_assurance: [ {review_id, quote}, ... ]
-  },
-  assumptions_and_fallbacks: [ ... ]
+  }
 }

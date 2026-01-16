@@ -1,46 +1,114 @@
-"""Parse L0 primitive definitions from agenda spec prompts."""
+"""Parse task prompts by section dividers.
+
+Only enforces structure (sections exist), not content format.
+Max flexibility for human-readable prompt content.
+"""
 
 import re
-from typing import Dict, List
+from dataclasses import dataclass
+from typing import Dict, Optional
 
 
-def parse_l0_from_prompt(prompt_text: str) -> Dict[str, Dict[str, str]]:
+@dataclass
+class ParsedPrompt:
+    """Prompt split into sections. Content is raw text."""
+
+    agenda: str
+    l0_primitives: str
+    l1_composites: str
+    l1_5_grouping: Optional[str]  # Optional for tasks without semantic grouping
+    l2_aggregates: str
+    formulas: str
+    output_schema: str
+
+    # Full prompt for reference
+    full_text: str
+
+
+# Section header patterns (flexible matching)
+SECTION_PATTERNS = {
+    "agenda": r"Agenda",
+    "l0_primitives": r"L0[:\s]|Primitives",
+    "l1_composites": r"L1[:\s]|Composites",
+    "l1_5_grouping": r"L1\.5|Semantic\s+Group",
+    "l2_aggregates": r"L2[:\s]|Aggregates",
+    "formulas": r"Formula|Decision|FL[:\s]",
+    "output_schema": r"Output\s+Schema|OUTPUT",
+}
+
+
+def parse_prompt_sections(prompt_text: str) -> ParsedPrompt:
     """
-    Parse L0 primitive definitions from an agenda spec prompt.
+    Parse prompt into sections by dividers.
 
-    Looks for the section:
-    ============================================================
-    Policy Definitions (L0: Primitives)
-    ============================================================
+    Expected format:
+        ============================================================
+        Section Name
+        ============================================================
+        content...
 
-    FIELD_NAME
-    - value1: Description
-    - value2: Description
+    Returns ParsedPrompt with raw text for each section.
+    """
+    # Split by divider lines (====...)
+    divider_pattern = r"\n={10,}\n"
+    parts = re.split(divider_pattern, prompt_text)
+
+    # Build section map: header -> content
+    sections: Dict[str, str] = {}
+    i = 0
+    while i < len(parts):
+        part = parts[i].strip()
+
+        # Check if this part is a section header
+        for section_key, pattern in SECTION_PATTERNS.items():
+            if re.search(pattern, part, re.IGNORECASE):
+                # Next part is the content (if exists)
+                content = parts[i + 1].strip() if i + 1 < len(parts) else ""
+                sections[section_key] = content
+                i += 1
+                break
+        i += 1
+
+    return ParsedPrompt(
+        agenda=sections.get("agenda", ""),
+        l0_primitives=sections.get("l0_primitives", ""),
+        l1_composites=sections.get("l1_composites", ""),
+        l1_5_grouping=sections.get("l1_5_grouping"),  # None if not present
+        l2_aggregates=sections.get("l2_aggregates", ""),
+        formulas=sections.get("formulas", ""),
+        output_schema=sections.get("output_schema", ""),
+        full_text=prompt_text,
+    )
+
+
+# =============================================================================
+# L0 Helper (for extraction prompt building)
+# =============================================================================
+
+
+def parse_l0_fields(l0_text: str) -> Dict[str, Dict[str, str]]:
+    """
+    Parse L0 field definitions from the L0 section text.
+
+    Expected format:
+        FIELD_NAME
+        - value1: Description
+        - value2: Description
 
     Returns:
         Dict mapping field names (lowercase) to their value descriptions.
         Example: {"incident_severity": {"none": "No allergic...", "mild": "..."}}
     """
-    # Find the L0 section
-    l0_pattern = r"Policy Definitions \(L0: Primitives\)\s*\n=+\n(.*?)(?:\n=+|$)"
-    match = re.search(l0_pattern, prompt_text, re.DOTALL)
-
-    if not match:
-        raise ValueError("Could not find L0 Primitives section in prompt")
-
-    l0_section = match.group(1)
-
-    # Parse each field
     result: Dict[str, Dict[str, str]] = {}
-    current_field = None
+    current_field: Optional[str] = None
     current_values: Dict[str, str] = {}
 
-    for line in l0_section.split("\n"):
+    for line in l0_text.split("\n"):
         line = line.strip()
         if not line:
             continue
 
-        # Check if this is a field name (ALL CAPS)
+        # Check if this is a field name (ALL CAPS with underscores)
         if re.match(r"^[A-Z][A-Z_]+$", line):
             # Save previous field
             if current_field:
@@ -65,10 +133,15 @@ def parse_l0_from_prompt(prompt_text: str) -> Dict[str, Dict[str, str]]:
     return result
 
 
-def get_l0_fields(l0_schema: Dict[str, Dict[str, str]]) -> List[str]:
+def get_l0_field_order(l0_schema: Dict[str, Dict[str, str]]) -> list[str]:
     """Get ordered list of L0 field names."""
-    # Maintain a consistent order
-    preferred_order = ["incident_severity", "account_type", "assurance_claim", "staff_response"]
+    # Common field order (task-agnostic)
+    preferred_order = [
+        "incident_severity",
+        "account_type",
+        "assurance_claim",
+        "staff_response",
+    ]
     fields = []
     for field in preferred_order:
         if field in l0_schema:
