@@ -5,26 +5,29 @@ Lightweight scaffold for running LLM experiments with dataset loading, method ru
 ## Quick Start
 
 ```bash
+source .venv/bin/activate
 uv pip install -e .
 python main.py --data path/to/dataset.jsonl --method direct --provider openai --model gpt-4o-mini --eval
 ```
 
 ```bash
+source .venv/bin/activate
 # Yelp keyword search -> topic-aware selection
-.venv/bin/python scripts/search_restaurants.py --group G1
-.venv/bin/python scripts/select_topic_restaurants.py --target 100
+python scripts/search_restaurants.py --group G1
+python scripts/select_topic_restaurants.py --target 100
 
 # Build review datasets (K=25/50/100/200)
-.venv/bin/python scripts/build_dataset.py --data yelp --selection data/selected/yelp/topic_100.json
+python scripts/build_dataset.py --data yelp --selection data/selected/yelp/topic_100.json
 ```
 
 ```bash
+source .venv/bin/activate
 # Extract L0 judgments and compute ground truth
-.venv/bin/python -m addm.tasks.cli.extract --task G1a --domain yelp --k 50
-.venv/bin/python -m addm.tasks.cli.compute_gt --task G1a --domain yelp --k 50
+python -m addm.tasks.cli.extract --task G1a --domain yelp --k 50
+python -m addm.tasks.cli.compute_gt --task G1a --domain yelp --k 50
 
 # Run a direct LLM baseline on a task (Yelp)
-.venv/bin/python -m addm.tasks.cli.run_baseline --task G1a --k 50 -n 5
+python -m addm.tasks.cli.run_baseline --task G1a --k 50 -n 5
 ```
 
 ## Project Structure
