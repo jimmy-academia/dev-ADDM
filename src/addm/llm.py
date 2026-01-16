@@ -1,8 +1,10 @@
 """Unified LLM service with async batching and provider abstraction."""
 
 import asyncio
+import os
 import random
 import time
+from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
 try:
@@ -15,6 +17,21 @@ except ImportError:  # pragma: no cover - optional dependency
     anthropic = None
 
 from addm.utils.async_utils import gather_with_concurrency
+
+
+def _load_api_key():
+    """Load API key from file if not in environment."""
+    if os.environ.get("OPENAI_API_KEY") or os.environ.get("ANTHROPIC_API_KEY"):
+        return
+    # Look for .openaiapi at Station directory level (../../../.openaiapi from src/addm/llm.py)
+    key_file = Path(__file__).parent.parent.parent.parent / ".openaiapi"
+    if key_file.exists():
+        key = key_file.read_text().strip()
+        if key:
+            os.environ["OPENAI_API_KEY"] = key
+
+
+_load_api_key()
 
 
 class LLMServiceError(RuntimeError):
@@ -139,7 +156,7 @@ class LLMService:
             loop = asyncio.get_running_loop()
         except RuntimeError:
             return asyncio.run(self.call_async(messages))
-        raise LLMServiceError(\"call() cannot be used from an active event loop; use call_async().\")
+        raise LLMServiceError("call() cannot be used from an active event loop; use call_async().")
 
     async def batch_call(self, batch: List[List[Dict[str, str]]]) -> List[str]:
         max_concurrent = self._config["max_concurrent"]

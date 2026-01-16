@@ -1,0 +1,1074 @@
+{
+  "G1a": {
+    "EjIDItxIvtC43jzERX-Tkw": {
+      "is_allergy_related": false,
+      "review_id": "EjIDItxIvtC43jzERX-Tkw",
+      "date": "2018-04-14 12:18:05",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "RFdtEcpgFoPzViAnN2LhoA": {
+      "is_allergy_related": false,
+      "review_id": "RFdtEcpgFoPzViAnN2LhoA",
+      "date": "2018-02-19 04:42:04",
+      "stars": 1.0,
+      "useful": 0
+    },
+    "lkeLiD51K_PT3Ikys8rjmQ": {
+      "is_allergy_related": false,
+      "review_id": "lkeLiD51K_PT3Ikys8rjmQ",
+      "date": "2018-02-14 02:21:12",
+      "stars": 1.0,
+      "useful": 0
+    },
+    "wl42EemJsw2zuw0jspOmmg": {
+      "review_id": "wl42EemJsw2zuw0jspOmmg",
+      "is_allergy_related": true,
+      "incident_severity": "none",
+      "account_type": "firsthand",
+      "assurance_claim": "false",
+      "staff_response": "none",
+      "date": "2017-11-01 16:28:22",
+      "stars": 1.0,
+      "useful": 0
+    },
+    "ntIi0GZeAIm94ZJV0uB3ag": {
+      "review_id": "ntIi0GZeAIm94ZJV0uB3ag",
+      "is_allergy_related": false,
+      "date": "2017-09-23 01:18:47",
+      "stars": 1.0,
+      "useful": 0
+    },
+    "7tmlZcn6SPTJy70xSxXHxw": {
+      "review_id": "7tmlZcn6SPTJy70xSxXHxw",
+      "is_allergy_related": false,
+      "date": "2017-07-11 00:09:48",
+      "stars": 2.0,
+      "useful": 0
+    },
+    "4_tTKfkDPFxC6pVANAYqew": {
+      "is_allergy_related": false,
+      "review_id": "4_tTKfkDPFxC6pVANAYqew",
+      "date": "2017-03-26 19:29:22",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "ATMmV2EyVTqqegbEGZD_zA": {
+      "is_allergy_related": false,
+      "review_id": "ATMmV2EyVTqqegbEGZD_zA",
+      "date": "2017-02-04 01:18:20",
+      "stars": 5.0,
+      "useful": 2
+    },
+    "qUBtvXUmmRD02JjYi0PERQ": {
+      "is_allergy_related": false,
+      "review_id": "qUBtvXUmmRD02JjYi0PERQ",
+      "date": "2017-01-28 03:47:14",
+      "stars": 1.0,
+      "useful": 0
+    },
+    "7iiBqF3T6YyLiNbsuV_BtA": {
+      "is_allergy_related": false,
+      "review_id": "7iiBqF3T6YyLiNbsuV_BtA",
+      "date": "2016-07-13 17:50:19",
+      "stars": 2.0,
+      "useful": 0
+    },
+    "pXnFfEh1lKcmjzrr4njHsg": {
+      "review_id": "pXnFfEh1lKcmjzrr4njHsg",
+      "is_allergy_related": true,
+      "incident_severity": "severe",
+      "account_type": "firsthand",
+      "assurance_claim": "false",
+      "staff_response": "unknown",
+      "date": "2016-06-30 22:08:34",
+      "stars": 1.0,
+      "useful": 2
+    },
+    "UjvSk8-jXneNh7X-pOSiaQ": {
+      "review_id": "UjvSk8-jXneNh7X-pOSiaQ",
+      "is_allergy_related": false,
+      "date": "2016-06-08 01:44:38",
+      "stars": 1.0,
+      "useful": 0
+    },
+    "LDxO5GwbpokdlWrHEl_FHg": {
+      "review_id": "LDxO5GwbpokdlWrHEl_FHg",
+      "is_allergy_related": false,
+      "date": "2016-05-07 17:51:42",
+      "stars": 5.0,
+      "useful": 2
+    },
+    "ZUye3TapBU5AA2U4jsdj9Q": {
+      "review_id": "ZUye3TapBU5AA2U4jsdj9Q",
+      "is_allergy_related": false,
+      "date": "2016-03-25 16:36:31",
+      "stars": 1.0,
+      "useful": 2
+    },
+    "6lZ20AtsJsxWDUq_albshw": {
+      "is_allergy_related": false,
+      "review_id": "6lZ20AtsJsxWDUq_albshw",
+      "date": "2016-03-11 06:59:10",
+      "stars": 1.0,
+      "useful": 2
+    },
+    "UZU1KH-l2JIj6k3HNgi-5g": {
+      "is_allergy_related": false,
+      "review_id": "UZU1KH-l2JIj6k3HNgi-5g",
+      "date": "2016-02-27 01:49:20",
+      "stars": 4.0,
+      "useful": 0
+    },
+    "F7WCE5x9H2hPQUzBYvVS9Q": {
+      "is_allergy_related": false,
+      "review_id": "F7WCE5x9H2hPQUzBYvVS9Q",
+      "date": "2015-12-31 22:56:36",
+      "stars": 1.0,
+      "useful": 1
+    },
+    "OfCRyOAV6jmlxYurIhElMA": {
+      "review_id": "OfCRyOAV6jmlxYurIhElMA",
+      "is_allergy_related": false,
+      "date": "2015-10-05 03:09:19",
+      "stars": 4.0,
+      "useful": 0
+    },
+    "HKIobofqqMDM0dy9ytRKVw": {
+      "review_id": "HKIobofqqMDM0dy9ytRKVw",
+      "is_allergy_related": false,
+      "date": "2015-09-24 05:59:13",
+      "stars": 1.0,
+      "useful": 0
+    },
+    "BFVV8nRN0t7ncW77nSsHzQ": {
+      "review_id": "BFVV8nRN0t7ncW77nSsHzQ",
+      "is_allergy_related": false,
+      "date": "2015-08-17 13:50:22",
+      "stars": 3.0,
+      "useful": 0
+    },
+    "0D-F1w-pb_RDQhge4i7Gqg": {
+      "is_allergy_related": false,
+      "review_id": "0D-F1w-pb_RDQhge4i7Gqg",
+      "date": "2015-08-14 19:39:31",
+      "stars": 4.0,
+      "useful": 0
+    },
+    "85c_dVNINMZheHp16ibUJw": {
+      "review_id": "85c_dVNINMZheHp16ibUJw",
+      "is_allergy_related": false,
+      "date": "2015-06-23 22:14:00",
+      "stars": 1.0,
+      "useful": 0
+    },
+    "H6UbmUey0JS5-GgUNry8fQ": {
+      "review_id": "H6UbmUey0JS5-GgUNry8fQ",
+      "is_allergy_related": false,
+      "date": "2015-04-30 01:08:52",
+      "stars": 2.0,
+      "useful": 1
+    },
+    "IhV97R7ccTqnuhG2uWR2xA": {
+      "is_allergy_related": false,
+      "review_id": "IhV97R7ccTqnuhG2uWR2xA",
+      "date": "2015-04-25 02:23:17",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "T4_KFCEA1hW2AsoxYjWmWg": {
+      "review_id": "T4_KFCEA1hW2AsoxYjWmWg",
+      "is_allergy_related": false,
+      "date": "2015-02-08 20:44:56",
+      "stars": 1.0,
+      "useful": 2
+    },
+    "0btRuI5tyd-Ea1UAlPaGig": {
+      "is_allergy_related": false,
+      "review_id": "0btRuI5tyd-Ea1UAlPaGig",
+      "date": "2015-01-23 23:58:51",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "qHyOaw1WkAhUUTqj4J_seQ": {
+      "is_allergy_related": false,
+      "review_id": "qHyOaw1WkAhUUTqj4J_seQ",
+      "date": "2015-01-22 14:22:21",
+      "stars": 4.0,
+      "useful": 0
+    },
+    "dtJMC7HRAb7i1suZSHGNpw": {
+      "is_allergy_related": false,
+      "review_id": "dtJMC7HRAb7i1suZSHGNpw",
+      "date": "2015-01-15 02:36:09",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "5AoH-KkdL1rcfOvvAWfyPA": {
+      "is_allergy_related": false,
+      "review_id": "5AoH-KkdL1rcfOvvAWfyPA",
+      "date": "2015-01-03 03:46:27",
+      "stars": 1.0,
+      "useful": 1
+    },
+    "XGZ3a6N9SOH2mJ0xCuechQ": {
+      "review_id": "XGZ3a6N9SOH2mJ0xCuechQ",
+      "is_allergy_related": false,
+      "date": "2015-01-03 02:25:35",
+      "stars": 3.0,
+      "useful": 0
+    },
+    "EgegbwqRewkxky3ChVx7Sg": {
+      "is_allergy_related": false,
+      "review_id": "EgegbwqRewkxky3ChVx7Sg",
+      "date": "2014-12-29 20:54:16",
+      "stars": 4.0,
+      "useful": 0
+    },
+    "kXCoEAcpixcX47IM5fmPUQ": {
+      "is_allergy_related": false,
+      "review_id": "kXCoEAcpixcX47IM5fmPUQ",
+      "date": "2014-12-20 01:19:41",
+      "stars": 4.0,
+      "useful": 0
+    },
+    "D2oYPI-QpD-nmOHLECkPhg": {
+      "is_allergy_related": false,
+      "review_id": "D2oYPI-QpD-nmOHLECkPhg",
+      "date": "2014-12-09 23:20:02",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "KeqC3RoAlnmM9JHkzh6GeQ": {
+      "is_allergy_related": false,
+      "review_id": "KeqC3RoAlnmM9JHkzh6GeQ",
+      "date": "2014-12-07 04:01:40",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "AeWEJVQEjXRMRU7SMgF5hA": {
+      "is_allergy_related": false,
+      "review_id": "AeWEJVQEjXRMRU7SMgF5hA",
+      "date": "2014-11-24 04:12:53",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "mm8noKWdrxBUD0bi7eu__Q": {
+      "is_allergy_related": false,
+      "review_id": "mm8noKWdrxBUD0bi7eu__Q",
+      "date": "2014-11-12 00:31:17",
+      "stars": 1.0,
+      "useful": 0
+    },
+    "PdBfIttpDmbpEDmbp-CrqA": {
+      "is_allergy_related": false,
+      "review_id": "PdBfIttpDmbpEDmbp-CrqA",
+      "date": "2014-10-31 23:04:26",
+      "stars": 4.0,
+      "useful": 1
+    },
+    "RMnGdODDwe-vaQiFys0Dpg": {
+      "is_allergy_related": false,
+      "review_id": "RMnGdODDwe-vaQiFys0Dpg",
+      "date": "2014-10-25 00:19:51",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "foeMbLY_cFCt2XGGQRET0A": {
+      "is_allergy_related": false,
+      "review_id": "foeMbLY_cFCt2XGGQRET0A",
+      "date": "2014-09-29 21:58:16",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "UwULKCodrDINFyNg92EaPw": {
+      "is_allergy_related": false,
+      "review_id": "UwULKCodrDINFyNg92EaPw",
+      "date": "2014-09-01 23:52:49",
+      "stars": 4.0,
+      "useful": 0
+    },
+    "yEQEpfv2sMxXg0dAVMMh-Q": {
+      "is_allergy_related": false,
+      "review_id": "yEQEpfv2sMxXg0dAVMMh-Q",
+      "date": "2014-08-22 01:18:51",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "ATJkLc7M57GZvY7FqlheAw": {
+      "is_allergy_related": false,
+      "review_id": "ATJkLc7M57GZvY7FqlheAw",
+      "date": "2014-08-05 02:32:05",
+      "stars": 1.0,
+      "useful": 0
+    },
+    "UtEFyJizCP1mVTP5v4SCzQ": {
+      "review_id": "UtEFyJizCP1mVTP5v4SCzQ",
+      "is_allergy_related": false,
+      "date": "2014-07-10 13:54:50",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "zwq-e_xpI97nE30mbZHQ8g": {
+      "review_id": "zwq-e_xpI97nE30mbZHQ8g",
+      "is_allergy_related": false,
+      "date": "2014-06-16 15:43:07",
+      "stars": 4.0,
+      "useful": 0
+    },
+    "IwuDeiyKEnGNeQ9WqcgTMQ": {
+      "review_id": "IwuDeiyKEnGNeQ9WqcgTMQ",
+      "is_allergy_related": false,
+      "date": "2014-04-21 01:07:30",
+      "stars": 1.0,
+      "useful": 2
+    },
+    "FH9D2mh87PyGT9RgrZe6BA": {
+      "review_id": "FH9D2mh87PyGT9RgrZe6BA",
+      "is_allergy_related": false,
+      "date": "2014-04-16 12:55:30",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "xc6zIN5cFR8xbXWGqLyExg": {
+      "review_id": "xc6zIN5cFR8xbXWGqLyExg",
+      "is_allergy_related": false,
+      "date": "2014-04-15 03:34:08",
+      "stars": 1.0,
+      "useful": 0
+    },
+    "kctFmmEaQ6gf9ZgicLXLog": {
+      "is_allergy_related": false,
+      "review_id": "kctFmmEaQ6gf9ZgicLXLog",
+      "date": "2014-04-07 15:53:00",
+      "stars": 3.0,
+      "useful": 0
+    },
+    "JJq5DXxLiX-__49ZgzikIw": {
+      "is_allergy_related": false,
+      "review_id": "JJq5DXxLiX-__49ZgzikIw",
+      "date": "2014-02-08 00:32:21",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "p7lr4UjPH8prpE9ueE0Zvg": {
+      "is_allergy_related": false,
+      "review_id": "p7lr4UjPH8prpE9ueE0Zvg",
+      "date": "2014-01-03 03:38:24",
+      "stars": 4.0,
+      "useful": 0
+    },
+    "ylNbE75OKiIbN8RN9yd6rg": {
+      "is_allergy_related": false,
+      "review_id": "ylNbE75OKiIbN8RN9yd6rg",
+      "date": "2021-12-12 18:23:03",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "RD-t9IbxMHcx4iHmCzo-ig": {
+      "is_allergy_related": false,
+      "review_id": "RD-t9IbxMHcx4iHmCzo-ig",
+      "date": "2021-12-10 17:18:42",
+      "stars": 2.0,
+      "useful": 0
+    },
+    "ojLolsIgHxlHWa2cGEBSvA": {
+      "is_allergy_related": false,
+      "review_id": "ojLolsIgHxlHWa2cGEBSvA",
+      "date": "2021-01-19 01:00:52",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "8ySRBVRoQ0EdVqpVnR34YQ": {
+      "is_allergy_related": false,
+      "review_id": "8ySRBVRoQ0EdVqpVnR34YQ",
+      "date": "2020-11-05 23:15:33",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "yMg8BzVxtRQJLIC9Z4bKEA": {
+      "is_allergy_related": false,
+      "review_id": "yMg8BzVxtRQJLIC9Z4bKEA",
+      "date": "2020-10-28 15:06:35",
+      "stars": 4.0,
+      "useful": 0
+    },
+    "f8ZyBjdGqirHaMAqiL3_0g": {
+      "is_allergy_related": false,
+      "review_id": "f8ZyBjdGqirHaMAqiL3_0g",
+      "date": "2020-08-11 22:23:53",
+      "stars": 4.0,
+      "useful": 1
+    },
+    "zD3Iqw_MADwkoMjubmbYYA": {
+      "is_allergy_related": false,
+      "review_id": "zD3Iqw_MADwkoMjubmbYYA",
+      "date": "2020-06-11 01:11:45",
+      "stars": 2.0,
+      "useful": 0
+    },
+    "K0Uqb4p8oqTua6Rarawfrw": {
+      "review_id": "K0Uqb4p8oqTua6Rarawfrw",
+      "is_allergy_related": true,
+      "incident_severity": "none",
+      "account_type": "firsthand",
+      "assurance_claim": "true",
+      "staff_response": "none",
+      "date": "2020-05-20 16:55:01",
+      "stars": 4.0,
+      "useful": 0
+    },
+    "zcR0yBoIkNyaS-EtXecGSA": {
+      "is_allergy_related": false,
+      "review_id": "zcR0yBoIkNyaS-EtXecGSA",
+      "date": "2020-04-20 07:41:51",
+      "stars": 3.0,
+      "useful": 0
+    },
+    "2gUjaXvIx-1Ypt6jNtXZuw": {
+      "is_allergy_related": false,
+      "review_id": "2gUjaXvIx-1Ypt6jNtXZuw",
+      "date": "2020-04-05 21:52:21",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "mSinyQcgxnE7_N9J7lZu6Q": {
+      "is_allergy_related": false,
+      "review_id": "mSinyQcgxnE7_N9J7lZu6Q",
+      "date": "2020-03-29 20:40:19",
+      "stars": 5.0,
+      "useful": 5
+    },
+    "JywXcPVJwLVp16TRTVHfsA": {
+      "is_allergy_related": false,
+      "review_id": "JywXcPVJwLVp16TRTVHfsA",
+      "date": "2020-02-27 14:54:10",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "rR69DZTTUNg3SU4cqb_13g": {
+      "is_allergy_related": false,
+      "review_id": "rR69DZTTUNg3SU4cqb_13g",
+      "date": "2020-02-10 01:57:45",
+      "stars": 1.0,
+      "useful": 0
+    },
+    "CbaDauEEjxeZX1Fkf3vw2A": {
+      "is_allergy_related": false,
+      "review_id": "CbaDauEEjxeZX1Fkf3vw2A",
+      "date": "2019-12-15 16:30:10",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "mQGFHZyn352Wgg3HmJGoiw": {
+      "is_allergy_related": false,
+      "review_id": "mQGFHZyn352Wgg3HmJGoiw",
+      "date": "2019-09-07 22:57:22",
+      "stars": 3.0,
+      "useful": 0
+    },
+    "lszAroCYqUu9l3qAbtIxmQ": {
+      "is_allergy_related": false,
+      "review_id": "lszAroCYqUu9l3qAbtIxmQ",
+      "date": "2019-09-02 23:13:26",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "Rus-BN0qf6juJgNdrlBzPg": {
+      "is_allergy_related": false,
+      "review_id": "Rus-BN0qf6juJgNdrlBzPg",
+      "date": "2019-08-03 01:34:57",
+      "stars": 3.0,
+      "useful": 1
+    },
+    "sR0lQDlRR_nvi6LUG5cAdw": {
+      "is_allergy_related": false,
+      "review_id": "sR0lQDlRR_nvi6LUG5cAdw",
+      "date": "2019-07-31 23:17:15",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "xPgXATzC7ON73z9nS94sRA": {
+      "is_allergy_related": false,
+      "review_id": "xPgXATzC7ON73z9nS94sRA",
+      "date": "2019-05-02 07:40:01",
+      "stars": 4.0,
+      "useful": 5
+    },
+    "q5q5t5KeMbmQ6wdzDapjQw": {
+      "is_allergy_related": false,
+      "review_id": "q5q5t5KeMbmQ6wdzDapjQw",
+      "date": "2019-04-04 00:43:41",
+      "stars": 3.0,
+      "useful": 0
+    },
+    "kUwabRz33KSbmNyQSads4g": {
+      "is_allergy_related": false,
+      "review_id": "kUwabRz33KSbmNyQSads4g",
+      "date": "2019-03-23 17:08:19",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "f-pCPdCXZqnleB7msYauDg": {
+      "is_allergy_related": false,
+      "review_id": "f-pCPdCXZqnleB7msYauDg",
+      "date": "2019-02-06 20:55:53",
+      "stars": 3.0,
+      "useful": 0
+    },
+    "DKHaZurcoQit0i5zlBjOxQ": {
+      "is_allergy_related": false,
+      "review_id": "DKHaZurcoQit0i5zlBjOxQ",
+      "date": "2019-01-02 03:44:27",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "bRhTJtJ9zXAPDnvM-oVlhA": {
+      "is_allergy_related": false,
+      "review_id": "bRhTJtJ9zXAPDnvM-oVlhA",
+      "date": "2018-12-06 23:15:46",
+      "stars": 1.0,
+      "useful": 0
+    },
+    "ywKdRJq2D1Ca0JFxukr-8A": {
+      "is_allergy_related": false,
+      "review_id": "ywKdRJq2D1Ca0JFxukr-8A",
+      "date": "2018-11-29 00:46:52",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "DZWs-NqQ5GwScgK4--5Z5w": {
+      "review_id": "DZWs-NqQ5GwScgK4--5Z5w",
+      "is_allergy_related": false,
+      "date": "2018-10-24 01:49:35",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "nRTebR8B_9ymcdIWG0R52w": {
+      "is_allergy_related": false,
+      "review_id": "nRTebR8B_9ymcdIWG0R52w",
+      "date": "2018-10-08 21:53:49",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "O5wTN7QlZCdoE7KRwMcYfg": {
+      "is_allergy_related": false,
+      "review_id": "O5wTN7QlZCdoE7KRwMcYfg",
+      "date": "2018-07-22 18:57:52",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "9myGzkWq9RUjKuS1dEVAGQ": {
+      "is_allergy_related": false,
+      "review_id": "9myGzkWq9RUjKuS1dEVAGQ",
+      "date": "2018-07-02 18:53:36",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "s1DcDEqPWqISPkclh1fsMw": {
+      "is_allergy_related": false,
+      "review_id": "s1DcDEqPWqISPkclh1fsMw",
+      "date": "2018-05-06 21:49:17",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "_XSKrcDuYM9YUus-oTCAcw": {
+      "is_allergy_related": false,
+      "review_id": "_XSKrcDuYM9YUus-oTCAcw",
+      "date": "2018-04-01 03:06:08",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "PPT-Tw-EjrFAakoq5EWQQw": {
+      "is_allergy_related": false,
+      "review_id": "PPT-Tw-EjrFAakoq5EWQQw",
+      "date": "2018-03-30 20:21:28",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "O4cQcoJztFBHs5-DwxAdDA": {
+      "is_allergy_related": false,
+      "review_id": "O4cQcoJztFBHs5-DwxAdDA",
+      "date": "2018-03-04 03:06:58",
+      "stars": 2.0,
+      "useful": 0
+    },
+    "Ngkr9hIJhN3vHJH-52jVXA": {
+      "is_allergy_related": false,
+      "review_id": "Ngkr9hIJhN3vHJH-52jVXA",
+      "date": "2018-02-03 01:47:34",
+      "stars": 2.0,
+      "useful": 0
+    },
+    "Hp4Gv3AtgPJw45s5WTOQYg": {
+      "is_allergy_related": false,
+      "review_id": "Hp4Gv3AtgPJw45s5WTOQYg",
+      "date": "2018-01-06 00:44:42",
+      "stars": 2.0,
+      "useful": 0
+    },
+    "4O6f5KWGJw-C1jPfBsO_kg": {
+      "review_id": "4O6f5KWGJw-C1jPfBsO_kg",
+      "is_allergy_related": false,
+      "date": "2018-01-01 20:33:19",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "gfrABBPpr4aiFZ-huWPjYQ": {
+      "review_id": "gfrABBPpr4aiFZ-huWPjYQ",
+      "is_allergy_related": false,
+      "date": "2017-11-29 00:39:52",
+      "stars": 1.0,
+      "useful": 0
+    },
+    "oyYgulOAINbpxajliUUc7g": {
+      "is_allergy_related": false,
+      "review_id": "oyYgulOAINbpxajliUUc7g",
+      "date": "2017-11-27 02:25:04",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "4tDqHVaqKg5_IjVsNsqTpQ": {
+      "is_allergy_related": false,
+      "review_id": "4tDqHVaqKg5_IjVsNsqTpQ",
+      "date": "2017-11-01 00:09:09",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "2akoAjwUInIUbqojhjt9Ng": {
+      "is_allergy_related": false,
+      "review_id": "2akoAjwUInIUbqojhjt9Ng",
+      "date": "2017-08-07 21:06:43",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "1cMbOzy2OE20E2o6VRq6ug": {
+      "is_allergy_related": false,
+      "review_id": "1cMbOzy2OE20E2o6VRq6ug",
+      "date": "2017-08-01 18:43:03",
+      "stars": 4.0,
+      "useful": 4
+    },
+    "0mGOYMDfDfxDz44anmqn4w": {
+      "is_allergy_related": false,
+      "review_id": "0mGOYMDfDfxDz44anmqn4w",
+      "date": "2017-07-30 21:08:10",
+      "stars": 4.0,
+      "useful": 0
+    },
+    "JEUKSOX-idg9OwgLZ6Cc9A": {
+      "is_allergy_related": false,
+      "review_id": "JEUKSOX-idg9OwgLZ6Cc9A",
+      "date": "2017-07-24 20:28:02",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "jmXURJF3e4IEfrctfm2Hpg": {
+      "is_allergy_related": false,
+      "review_id": "jmXURJF3e4IEfrctfm2Hpg",
+      "date": "2017-06-20 16:58:06",
+      "stars": 3.0,
+      "useful": 0
+    },
+    "axgyJurLLIbWusn6JLDiFQ": {
+      "is_allergy_related": false,
+      "review_id": "axgyJurLLIbWusn6JLDiFQ",
+      "date": "2017-06-20 16:49:58",
+      "stars": 1.0,
+      "useful": 2
+    },
+    "d5s7TFTICX5G0ZYlF-QwiA": {
+      "is_allergy_related": false,
+      "review_id": "d5s7TFTICX5G0ZYlF-QwiA",
+      "date": "2017-06-12 19:48:34",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "6MgQaeHCQJVa9zy5ud5IXA": {
+      "is_allergy_related": false,
+      "review_id": "6MgQaeHCQJVa9zy5ud5IXA",
+      "date": "2017-05-30 00:53:17",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "MEYsX-qym3UFFa4JUd0_iQ": {
+      "is_allergy_related": false,
+      "review_id": "MEYsX-qym3UFFa4JUd0_iQ",
+      "date": "2017-05-23 02:03:56",
+      "stars": 3.0,
+      "useful": 0
+    },
+    "XVoMRx8uwVmx940QrpSRaw": {
+      "is_allergy_related": false,
+      "review_id": "XVoMRx8uwVmx940QrpSRaw",
+      "date": "2017-05-22 00:49:26",
+      "stars": 1.0,
+      "useful": 0
+    },
+    "_jUEC9dEzoJcG_5d4wKl3A": {
+      "is_allergy_related": false,
+      "review_id": "_jUEC9dEzoJcG_5d4wKl3A",
+      "date": "2017-05-20 21:29:05",
+      "stars": 2.0,
+      "useful": 1
+    },
+    "mW6JYRVFLAkZouQgtNvdTw": {
+      "review_id": "mW6JYRVFLAkZouQgtNvdTw",
+      "is_allergy_related": false,
+      "date": "2022-01-11 14:07:02",
+      "stars": 5.0,
+      "useful": 11
+    },
+    "b-pSMWmJdNVh7qnQf3AR4A": {
+      "is_allergy_related": false,
+      "review_id": "b-pSMWmJdNVh7qnQf3AR4A",
+      "date": "2021-11-17 00:56:38",
+      "stars": 5.0,
+      "useful": 2
+    },
+    "P0gv-ERZEhDGUlUr54DehQ": {
+      "is_allergy_related": false,
+      "review_id": "P0gv-ERZEhDGUlUr54DehQ",
+      "date": "2021-09-21 14:27:05",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "pSe5DPjDRST3o7VK-6b84Q": {
+      "review_id": "pSe5DPjDRST3o7VK-6b84Q",
+      "is_allergy_related": false,
+      "date": "2021-09-12 17:49:07",
+      "stars": 3.0,
+      "useful": 0
+    },
+    "CB_k6isznFMZ4nz2UK6KXQ": {
+      "is_allergy_related": false,
+      "review_id": "CB_k6isznFMZ4nz2UK6KXQ",
+      "date": "2021-08-08 17:03:26",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "f0WELE1Lh-XQv0U8ES_aSg": {
+      "is_allergy_related": false,
+      "review_id": "f0WELE1Lh-XQv0U8ES_aSg",
+      "date": "2021-07-13 17:07:45",
+      "stars": 4.0,
+      "useful": 2
+    },
+    "VE9gvahOChLO2wZG3ytmTg": {
+      "is_allergy_related": false,
+      "review_id": "VE9gvahOChLO2wZG3ytmTg",
+      "date": "2021-03-30 18:02:52",
+      "stars": 2.0,
+      "useful": 2
+    },
+    "aUMgOWFRuBodAZc7_vwGxQ": {
+      "review_id": "aUMgOWFRuBodAZc7_vwGxQ",
+      "is_allergy_related": true,
+      "incident_severity": "none",
+      "account_type": "firsthand",
+      "assurance_claim": "false",
+      "staff_response": "none",
+      "date": "2021-03-17 19:19:08",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "6anDscrFIjw1MjLcQHMgvw": {
+      "is_allergy_related": false,
+      "review_id": "6anDscrFIjw1MjLcQHMgvw",
+      "date": "2020-12-22 17:15:00",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "3U1l3Y4a5i75qu5MmpQvDw": {
+      "is_allergy_related": false,
+      "review_id": "3U1l3Y4a5i75qu5MmpQvDw",
+      "date": "2020-12-08 02:20:04",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "CWM1am8A1srArZT_X1E64Q": {
+      "is_allergy_related": false,
+      "review_id": "CWM1am8A1srArZT_X1E64Q",
+      "date": "2020-10-10 23:13:42",
+      "stars": 2.0,
+      "useful": 0
+    },
+    "hT5C2-nB1ovgJspjTvZhhw": {
+      "is_allergy_related": false,
+      "review_id": "hT5C2-nB1ovgJspjTvZhhw",
+      "date": "2020-10-02 15:08:38",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "toS4mZNudBFyl1ev7lcaGQ": {
+      "is_allergy_related": false,
+      "review_id": "toS4mZNudBFyl1ev7lcaGQ",
+      "date": "2020-09-22 14:14:04",
+      "stars": 5.0,
+      "useful": 2
+    },
+    "ci3mWEKOeUUEpEhBuU4MKw": {
+      "is_allergy_related": false,
+      "review_id": "ci3mWEKOeUUEpEhBuU4MKw",
+      "date": "2020-08-30 03:35:46",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "5YN9m3YrM2nBhNlIoNPB3Q": {
+      "is_allergy_related": false,
+      "review_id": "5YN9m3YrM2nBhNlIoNPB3Q",
+      "date": "2020-08-12 00:23:17",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "CZl8jhHLoJjmzvHURRyibA": {
+      "is_allergy_related": false,
+      "review_id": "CZl8jhHLoJjmzvHURRyibA",
+      "date": "2020-05-09 21:07:30",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "HjDmP6HfWNk4DHiDsOIiLA": {
+      "is_allergy_related": false,
+      "review_id": "HjDmP6HfWNk4DHiDsOIiLA",
+      "date": "2020-04-19 03:35:03",
+      "stars": 5.0,
+      "useful": 2
+    },
+    "TU2D3OtKvzH9OIz_iRzpVQ": {
+      "review_id": "TU2D3OtKvzH9OIz_iRzpVQ",
+      "is_allergy_related": false,
+      "date": "2020-03-24 17:17:00",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "1dG6Htuo3p1qLrkh5wCOJw": {
+      "is_allergy_related": false,
+      "review_id": "1dG6Htuo3p1qLrkh5wCOJw",
+      "date": "2020-02-23 14:42:14",
+      "stars": 5.0,
+      "useful": 2
+    },
+    "KaNn-_N8lCpGwOH3ByIVBw": {
+      "is_allergy_related": false,
+      "review_id": "KaNn-_N8lCpGwOH3ByIVBw",
+      "date": "2019-12-21 06:01:54",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "i0hNCpBud0KJshwZNnqQfA": {
+      "is_allergy_related": false,
+      "review_id": "i0hNCpBud0KJshwZNnqQfA",
+      "date": "2019-10-17 17:45:49",
+      "stars": 4.0,
+      "useful": 2
+    },
+    "PRG9JhovaGjoJ4yWIpm_4w": {
+      "is_allergy_related": false,
+      "review_id": "PRG9JhovaGjoJ4yWIpm_4w",
+      "date": "2019-10-04 17:21:20",
+      "stars": 4.0,
+      "useful": 1
+    },
+    "z_IKHfIe41SSgX8tU5Ebqw": {
+      "review_id": "z_IKHfIe41SSgX8tU5Ebqw",
+      "is_allergy_related": false,
+      "date": "2019-08-09 01:40:42",
+      "stars": 4.0,
+      "useful": 1
+    },
+    "J6-LSy5yrGuAD7nq6CPLBA": {
+      "is_allergy_related": false,
+      "review_id": "J6-LSy5yrGuAD7nq6CPLBA",
+      "date": "2019-02-02 18:45:42",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "3MqQB0hgPCkygqVG9f7LYg": {
+      "is_allergy_related": false,
+      "review_id": "3MqQB0hgPCkygqVG9f7LYg",
+      "date": "2019-01-25 05:06:05",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "mAZWzwN3pOzv6SdY-73t1Q": {
+      "review_id": "mAZWzwN3pOzv6SdY-73t1Q",
+      "is_allergy_related": false,
+      "date": "2019-01-05 04:44:04",
+      "stars": 5.0,
+      "useful": 2
+    },
+    "HiFV90UTpCPClLDgmhTbjw": {
+      "is_allergy_related": false,
+      "review_id": "HiFV90UTpCPClLDgmhTbjw",
+      "date": "2018-11-10 17:59:00",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "egRMzryz5R8BqXViLYzDLQ": {
+      "is_allergy_related": false,
+      "review_id": "egRMzryz5R8BqXViLYzDLQ",
+      "date": "2018-09-28 18:37:36",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "RvrGe-vM47kAN3n18kD9vg": {
+      "review_id": "RvrGe-vM47kAN3n18kD9vg",
+      "is_allergy_related": true,
+      "incident_severity": "none",
+      "account_type": "firsthand",
+      "assurance_claim": "false",
+      "staff_response": "none",
+      "date": "2018-09-12 17:33:01",
+      "stars": 1.0,
+      "useful": 1
+    },
+    "qmJ6suH8mnoGTjvR83WUtA": {
+      "is_allergy_related": false,
+      "review_id": "qmJ6suH8mnoGTjvR83WUtA",
+      "date": "2018-08-21 18:28:28",
+      "stars": 4.0,
+      "useful": 0
+    },
+    "1RHq1h9sfU9shTzImi30Yg": {
+      "review_id": "1RHq1h9sfU9shTzImi30Yg",
+      "is_allergy_related": false,
+      "date": "2018-07-19 18:11:28",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "dyjEoAKlA5tc1bFCxCE_0w": {
+      "is_allergy_related": false,
+      "review_id": "dyjEoAKlA5tc1bFCxCE_0w",
+      "date": "2018-07-03 19:50:52",
+      "stars": 5.0,
+      "useful": 2
+    },
+    "cix1a7wFiP8y41LUdzQuMw": {
+      "review_id": "cix1a7wFiP8y41LUdzQuMw",
+      "is_allergy_related": false,
+      "date": "2018-06-15 14:54:43",
+      "stars": 2.0,
+      "useful": 1
+    },
+    "F4WajPK3XntH9T_zMpZ7dA": {
+      "is_allergy_related": false,
+      "review_id": "F4WajPK3XntH9T_zMpZ7dA",
+      "date": "2018-02-21 15:25:27",
+      "stars": 5.0,
+      "useful": 3
+    },
+    "fi_x3iX0OdRyfC7cXiShOA": {
+      "is_allergy_related": false,
+      "review_id": "fi_x3iX0OdRyfC7cXiShOA",
+      "date": "2018-01-04 02:58:50",
+      "stars": 3.0,
+      "useful": 3
+    },
+    "UxkfD4RgJVT3fwt0cGJhDA": {
+      "is_allergy_related": false,
+      "review_id": "UxkfD4RgJVT3fwt0cGJhDA",
+      "date": "2017-11-30 21:54:37",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "z4LZLOIxI186OkQVZxE8uw": {
+      "review_id": "z4LZLOIxI186OkQVZxE8uw",
+      "is_allergy_related": false,
+      "date": "2017-11-05 20:52:53",
+      "stars": 5.0,
+      "useful": 2
+    },
+    "CuEPdwkF3XgGPs1RBzNbxw": {
+      "is_allergy_related": false,
+      "review_id": "CuEPdwkF3XgGPs1RBzNbxw",
+      "date": "2017-11-03 02:10:13",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "8M5P822fBtd5Pgnflc5CnA": {
+      "is_allergy_related": false,
+      "review_id": "8M5P822fBtd5Pgnflc5CnA",
+      "date": "2017-10-05 18:22:04",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "bWdV2lYzh4dt0Q8pzIuzJA": {
+      "is_allergy_related": false,
+      "review_id": "bWdV2lYzh4dt0Q8pzIuzJA",
+      "date": "2017-09-26 01:25:06",
+      "stars": 3.0,
+      "useful": 0
+    },
+    "GWhg2-you1OkkS8Nj8-7Qg": {
+      "is_allergy_related": false,
+      "review_id": "GWhg2-you1OkkS8Nj8-7Qg",
+      "date": "2017-09-23 09:50:08",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "nvOmEmMT8EDPt2bbZpcBZQ": {
+      "is_allergy_related": false,
+      "review_id": "nvOmEmMT8EDPt2bbZpcBZQ",
+      "date": "2017-07-25 21:26:27",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "VYUqMHvjU16MI3Dqyd6Oog": {
+      "is_allergy_related": false,
+      "review_id": "VYUqMHvjU16MI3Dqyd6Oog",
+      "date": "2016-08-07 13:05:04",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "r1OJijlB283EhAI54HeS2g": {
+      "is_allergy_related": false,
+      "review_id": "r1OJijlB283EhAI54HeS2g",
+      "date": "2016-02-09 16:25:15",
+      "stars": 5.0,
+      "useful": 1
+    },
+    "QbcNxiGOk80QUbGplxe7jQ": {
+      "is_allergy_related": false,
+      "review_id": "QbcNxiGOk80QUbGplxe7jQ",
+      "date": "2015-10-29 16:34:48",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "AIutjuRIGpYbdHUYkBZKNg": {
+      "is_allergy_related": false,
+      "review_id": "AIutjuRIGpYbdHUYkBZKNg",
+      "date": "2015-09-04 16:48:08",
+      "stars": 5.0,
+      "useful": 0
+    },
+    "0JOfyXafzQXxRjChhQmw8g": {
+      "is_allergy_related": false,
+      "review_id": "0JOfyXafzQXxRjChhQmw8g",
+      "date": "2014-10-14 18:58:37",
+      "stars": 2.0,
+      "useful": 0
+    },
+    "sF6lf6eXswUzlS-VjYqW5A": {
+      "review_id": "sF6lf6eXswUzlS-VjYqW5A",
+      "is_allergy_related": false,
+      "date": "2014-07-02 02:12:47",
+      "stars": 1.0,
+      "useful": 1
+    },
+    "Trcjm0arwscixWKvwqN0KA": {
+      "is_allergy_related": false,
+      "review_id": "Trcjm0arwscixWKvwqN0KA",
+      "date": "2014-01-28 01:20:07",
+      "stars": 1.0,
+      "useful": 1
+    },
+    "FzExWc3Y3pZ97mSP9lkMQg": {
+      "is_allergy_related": false,
+      "review_id": "FzExWc3Y3pZ97mSP9lkMQg",
+      "date": "2013-12-16 18:52:19",
+      "stars": 5.0,
+      "useful": 2
+    }
+  }
+}
