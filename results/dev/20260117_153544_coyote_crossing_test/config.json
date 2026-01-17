@@ -1,0 +1,7 @@
+{
+  "timestamp": "20260117_153544",
+  "model": "gpt-5-nano",
+  "task": "allergy_safety_assessment",
+  "domain": "yelp",
+  "k": 50
+}
