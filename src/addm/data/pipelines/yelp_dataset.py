@@ -1,4 +1,19 @@
-"""Build Yelp datasets with reviews per business."""
+"""Build datasets with reviews per business.
+
+This module creates K-scaled datasets (K=25/50/100/200) from a selection
+of restaurants. Each output record contains the business info and top-K
+reviews sorted by date (most recent first).
+
+Input: Selection JSON (list of business records)
+Output: JSONL files with structure:
+    {
+        "business_id": "...",
+        "stratification": "...",  # quadrant or cuisine tag
+        "business": {...},         # full business record
+        "reviews": [...],          # top K reviews
+        "review_count_actual": N   # actual count (may be < K)
+    }
+"""
 
 from __future__ import annotations
 
@@ -98,9 +113,16 @@ def build_datasets(config: DatasetBuildConfig) -> None:
                     if config.include_user and uid in users:
                         review_copy["user"] = users[uid]
                     enriched.append(review_copy)
+                # Handle schema difference: old selection uses "stratification_tag",
+                # new topic-based selection uses "quadrant"
+                stratification = (
+                    business.get("stratification_tag")
+                    or business.get("quadrant")
+                    or "unknown"
+                )
                 record = {
                     "business_id": bid,
-                    "stratification": business.get("stratification_tag"),
+                    "stratification": stratification,
                     "business": business,
                     "reviews": enriched,
                     "review_count_actual": len(enriched),

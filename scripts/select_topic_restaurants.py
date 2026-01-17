@@ -10,13 +10,13 @@ Outputs:
 
 Examples:
     # Default selection (100 restaurants, balanced)
-    python scripts/select_topic_restaurants.py
+    python scripts/select_topic_restaurants.py --data yelp
 
     # Select 150 restaurants
-    python scripts/select_topic_restaurants.py --target 150
+    python scripts/select_topic_restaurants.py --data yelp --target 150
 
     # Unbalanced selection (just top N by score)
-    python scripts/select_topic_restaurants.py --no-balance
+    python scripts/select_topic_restaurants.py --data yelp --no-balance
 """
 
 import argparse
@@ -32,16 +32,21 @@ def main():
         epilog=__doc__,
     )
     parser.add_argument(
+        "--data",
+        required=True,
+        help="Dataset name (e.g., yelp)",
+    )
+    parser.add_argument(
         "--keyword-hits-dir",
         type=Path,
-        default=Path("data/keyword_hits/yelp"),
-        help="Directory containing G*_*.json keyword hit files",
+        default=None,
+        help="Override keyword hits directory (default: data/keyword_hits/{data}/)",
     )
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path("data/selected/yelp"),
-        help="Directory for output files",
+        default=None,
+        help="Override output directory (default: data/selected/{data}/)",
     )
     parser.add_argument(
         "--target",
@@ -67,9 +72,14 @@ def main():
     )
     args = parser.parse_args()
 
+    # Derive paths from --data, allow overrides
+    data_root = Path("data")
+    keyword_hits_dir = args.keyword_hits_dir or (data_root / "keyword_hits" / args.data)
+    output_dir = args.output_dir or (data_root / "selected" / args.data)
+
     config = TopicSelectionConfig(
-        keyword_hits_dir=args.keyword_hits_dir,
-        output_dir=args.output_dir,
+        keyword_hits_dir=keyword_hits_dir,
+        output_dir=output_dir,
         target_count=args.target,
         balanced=not args.no_balance,
         seed=args.seed,

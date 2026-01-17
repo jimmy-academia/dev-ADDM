@@ -25,7 +25,7 @@ python scripts/select_topic_restaurants.py --target 100
 # Build review datasets
 python scripts/build_dataset.py --selection data/selected/yelp/topic_100.json
 
-# Extract L0 judgments and compute ground truth
+# Extract L0 judgments and compute gt_files (ground truth files)
 python -m addm.tasks.cli.extract --task G1a --domain yelp --k 50
 python -m addm.tasks.cli.compute_gt --task G1a --domain yelp --k 50
 

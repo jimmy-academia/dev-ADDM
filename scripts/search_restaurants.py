@@ -4,16 +4,18 @@ CLI: Search for restaurants with keyword hits by topic.
 
 Usage:
     # Search single topic
-    python scripts/search_restaurants.py --topic allergy
+    python scripts/search_restaurants.py --data yelp --topic allergy
 
     # Search all G1 topics
-    python scripts/search_restaurants.py --group G1
+    python scripts/search_restaurants.py --data yelp --group G1
 
     # Search all topics
-    python scripts/search_restaurants.py --all
+    python scripts/search_restaurants.py --data yelp --all
 
-    # Save results
-    python scripts/search_restaurants.py --group G1 --output results/keyword_hits/g1.json
+    # Override paths for custom dataset
+    python scripts/search_restaurants.py --data custom \\
+        --review-file data/raw/custom/reviews.json \\
+        --business-file data/raw/custom/business.json
 """
 
 import argparse
@@ -54,6 +56,7 @@ TOPIC_TO_GROUP = {
 
 def main():
     parser = argparse.ArgumentParser(description="Search restaurants by keyword hits")
+    parser.add_argument("--data", required=True, help="Dataset name (e.g., yelp)")
     parser.add_argument("--topic", type=str, help="Single topic to search")
     parser.add_argument("--group", type=str, choices=GROUP_TOPICS.keys(), help="Task group (G1-G6)")
     parser.add_argument("--all", action="store_true", help="Search all topics")
@@ -61,15 +64,22 @@ def main():
     parser.add_argument("--min-reviews", type=int, default=20, help="Minimum reviews per restaurant (default: 20)")
     parser.add_argument("--max-reviews", type=int, default=500, help="Max reviews per restaurant (default: 500)")
     parser.add_argument("--top-n", type=int, default=100, help="Top N restaurants per topic (default: 100)")
-    parser.add_argument("--output", type=str, help="Output directory (default: data/keyword_hits/yelp/)")
-    parser.add_argument("--review-file", type=str,
-                        default="data/raw/yelp/yelp_academic_dataset_review.json",
-                        help="Path to review JSONL")
-    parser.add_argument("--business-file", type=str,
-                        default="data/raw/yelp/yelp_academic_dataset_business.json",
-                        help="Path to business JSONL")
+    parser.add_argument("--output", type=str, help="Output directory (default: data/keyword_hits/{data}/)")
+    parser.add_argument("--review-file", type=str, default=None,
+                        help="Override review JSONL path")
+    parser.add_argument("--business-file", type=str, default=None,
+                        help="Override business JSONL path")
 
     args = parser.parse_args()
+
+    # Derive paths from --data, allow overrides
+    data_root = Path("data")
+    review_file = args.review_file or str(
+        data_root / "raw" / args.data / f"{args.data}_academic_dataset_review.json"
+    )
+    business_file = args.business_file or str(
+        data_root / "raw" / args.data / f"{args.data}_academic_dataset_business.json"
+    )
 
     # Determine topics to search
     if args.all:
@@ -87,8 +97,8 @@ def main():
         parser.print_help()
         sys.exit(1)
 
-    # Output directory - default to data/keyword_hits/yelp/
-    output_dir = Path(args.output) if args.output else Path("data/keyword_hits/yelp")
+    # Output directory - default to data/keyword_hits/{data}/
+    output_dir = Path(args.output) if args.output else (data_root / "keyword_hits" / args.data)
 
     console.print(f"[bold]Searching for topics:[/bold] {topics}")
     console.print(f"[bold]Min hits:[/bold] {args.min_hits}, [bold]Min reviews:[/bold] {args.min_reviews}, [bold]Max reviews:[/bold] {args.max_reviews}")
@@ -98,8 +108,8 @@ def main():
     # Run search (saves partial results during scan)
     results = search_and_rank_restaurants(
         topics=topics,
-        review_file=args.review_file,
-        business_file=args.business_file,
+        review_file=review_file,
+        business_file=business_file,
         min_hits=args.min_hits,
         min_reviews=args.min_reviews,
         max_reviews_per_biz=args.max_reviews,

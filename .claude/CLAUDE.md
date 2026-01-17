@@ -24,9 +24,11 @@ Types: `feat`, `fix`, `refactor`, `docs`, `test`, `perf`, `chore`
 
 ```
 data/
-├── raw/yelp/           # Raw Yelp academic dataset
-├── processed/yelp/     # Built datasets (K=25/50/100/200)
-└── tasks/yelp/         # Task prompts, cache, ground truth
+├── raw/{dataset}/          # Raw academic dataset
+├── keyword_hits/{dataset}/ # Keyword search results
+├── selected/{dataset}/     # Restaurant selections (topic_100.json)
+├── processed/{dataset}/    # Built datasets (K=25/50/100/200)
+└── tasks/{dataset}/        # Task prompts, cache, ground truth
 
 docs/
 ├── README.md           # Doc index
@@ -43,6 +45,18 @@ src/addm/
 └── llm.py              # LLM service
 
 .claude/                # Claude Code configuration
+```
+
+## Data Pipeline
+
+```bash
+# Full pipeline (search → select → build)
+.venv/bin/python scripts/search_restaurants.py --data yelp --all
+.venv/bin/python scripts/select_topic_restaurants.py --data yelp
+.venv/bin/python scripts/build_dataset.py --data yelp
+
+# Rebuild datasets only (if topic_100.json exists)
+.venv/bin/python scripts/build_dataset.py --data yelp
 ```
 
 ## Usage Tracking

@@ -10,7 +10,7 @@ The loader accepts JSONL or JSON. Each sample should include:
 - `query` or `prompt`: query string
 - `context`: optional context string
 - `metadata`: optional object
-- `expected`: optional ground truth output for evaluation
+- `expected`: optional gt_files (ground truth files) output for evaluation
 
 Example JSONL:
 
