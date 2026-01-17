@@ -3,9 +3,9 @@
   "group": "G1",
   "perspective": "Customer Health",
   "description": "Allergy safety incidents and accommodation",
-  "generated_at": "2026-01-17T16:20:25.597239",
+  "generated_at": "2026-01-17T16:49:50.136993",
   "total_reviews_scanned": 6990280,
-  "businesses_with_matches": 8911,
+  "businesses_with_matches": 8756,
   "critical_list": [
     {
       "business_id": "LGY50abwQOxJPkq0NKe99g",
@@ -164,6 +164,71 @@
       ]
     },
     {
+      "business_id": "wBzHeoCK0pYkLxhgBFiQzg",
+      "name": "Wedgwood Country Club",
+      "city": "Blackwood",
+      "state": "NJ",
+      "stars": 2.5,
+      "review_count": 16,
+      "categories": "Active Life, Country Clubs, Event Planning & Services, Arts & Entertainment, Golf, Caterers",
+      "max_critical_score": 15.0,
+      "max_high_score": 6.0,
+      "total_critical_score": 21.0,
+      "total_high_score": 10.5,
+      "topic_reviews": 2,
+      "critical_review_count": 2,
+      "high_review_count": 2,
+      "sample_critical_reviews": [
+        {
+          "review_id": "CnRNnBHtS8-jnhQehUGwfA",
+          "stars": 1.0,
+          "date": "2019-08-20 00:22:25",
+          "score": 15.0,
+          "matches": [
+            "(epipen|epi-pen|epi pen)",
+            "anaphyla\\w*"
+          ],
+          "snippet": "DO NOT BOOK THIS PLACE! BUYERS BE AWARE!!! ZERO STARS, HAD TO PICK ONE TO POST THIS!!!   This is the worst place to have your event for a guest of honor if they have a food allergy. My surprise bridal shower was held here and it was made known that I have a food allergy with garlic on several occasi"
+        },
+        {
+          "review_id": "tABOtKnfIwovFOWNneimgA",
+          "stars": 1.0,
+          "date": "2019-08-20 20:48:39",
+          "score": 6.0,
+          "matches": [
+            "(severe|serious|bad)\\s+allergic\\s+reaction"
+          ],
+          "snippet": "such a shame. cute little place, but they had no regard to an allergy that we specifically asked not to include in the food. not once, not twice, but many times. we hosted a bridal shower here last weekend and the bride is allergic to garlic. so we specially many times requested no garlic. period. i"
+        }
+      ],
+      "sample_high_reviews": [
+        {
+          "review_id": "tABOtKnfIwovFOWNneimgA",
+          "stars": 1.0,
+          "date": "2019-08-20 20:48:39",
+          "score": 6.0,
+          "matches": [
+            "allergic reaction",
+            "allerg\\w*.{0,30}(sick|ill|react)",
+            "severe\\w* allerg"
+          ],
+          "snippet": "such a shame. cute little place, but they had no regard to an allergy that we specifically asked not to include in the food. not once, not twice, but many times. we hosted a bridal shower here last weekend and the bride is allergic to garlic. so we specially many times requested no garlic. period. i"
+        },
+        {
+          "review_id": "CnRNnBHtS8-jnhQehUGwfA",
+          "stars": 1.0,
+          "date": "2019-08-20 00:22:25",
+          "score": 4.5,
+          "matches": [
+            "allerg\\w*.{0,30}(sick|ill|react)",
+            "allerg\\w*.{0,20}(accommodat|careful|safe)",
+            "\\bfood allerg"
+          ],
+          "snippet": "DO NOT BOOK THIS PLACE! BUYERS BE AWARE!!! ZERO STARS, HAD TO PICK ONE TO POST THIS!!!   This is the worst place to have your event for a guest of honor if they have a food allergy. My surprise bridal shower was held here and it was made known that I have a food allergy with garlic on several occasi"
+        }
+      ]
+    },
+    {
       "business_id": "sK0eAOorT6sf2mF5sjEAzg",
       "name": "Sesame Place",
       "city": "Langhorne",
@@ -173,10 +238,10 @@
       "categories": "Caterers, Water Parks, Event Planning & Services, Local Flavor, Active Life, Amusement Parks",
       "max_critical_score": 15.0,
       "max_high_score": 6.5,
-      "total_critical_score": 27.5,
+      "total_critical_score": 20.0,
       "total_high_score": 21.5,
-      "topic_reviews": 9,
-      "critical_review_count": 3,
+      "topic_reviews": 8,
+      "critical_review_count": 2,
       "high_review_count": 8,
       "sample_critical_reviews": [
         {
@@ -189,16 +254,6 @@
             "anaphyla\\w*"
           ],
           "snippet": "UPDATE - 9/3/2014\nSesame Place has apologized for how we were treated at our last visit and they have promised to make a few suggested improvements.  \n\nI have noted a few important points that other guests should know.\n- They do not have a doctor in first aid, only nurses and EMT.  The nurses are no"
-        },
-        {
-          "review_id": "KrYNNYzoRuQlpa7M4QZPhA",
-          "stars": 1.0,
-          "date": "2022-01-14 06:35:54",
-          "score": 7.5,
-          "matches": [
-            "(epipen|epi-pen|epi pen)"
-          ],
-          "snippet": "During one of the most unbearable heat waves of the summer, my 13-year-old Cornelius BEGGED me to go to sesame to finally meet his lifetime hero and crush Larry the Lobster. I pulled him from his dismal Hatboro YMCA camp to go for the day. We got all-access passes or whatever bullshit name they call"
         },
         {
           "review_id": "jV9r6JHir0PGHD40T-ngjA",
@@ -267,71 +322,6 @@
             "\\bfood allerg"
           ],
           "snippet": "So I've been to Sesame Place at least once per summer for the last ten years. We live within 20 minutes of the park and I have a free teacher pass from a decade ago that (thankfully) the park still renews each year. So I only pay for my two children to go, and I always buy half-price tixx online. We"
-        }
-      ]
-    },
-    {
-      "business_id": "wBzHeoCK0pYkLxhgBFiQzg",
-      "name": "Wedgwood Country Club",
-      "city": "Blackwood",
-      "state": "NJ",
-      "stars": 2.5,
-      "review_count": 16,
-      "categories": "Active Life, Country Clubs, Event Planning & Services, Arts & Entertainment, Golf, Caterers",
-      "max_critical_score": 15.0,
-      "max_high_score": 6.0,
-      "total_critical_score": 21.0,
-      "total_high_score": 10.5,
-      "topic_reviews": 2,
-      "critical_review_count": 2,
-      "high_review_count": 2,
-      "sample_critical_reviews": [
-        {
-          "review_id": "CnRNnBHtS8-jnhQehUGwfA",
-          "stars": 1.0,
-          "date": "2019-08-20 00:22:25",
-          "score": 15.0,
-          "matches": [
-            "(epipen|epi-pen|epi pen)",
-            "anaphyla\\w*"
-          ],
-          "snippet": "DO NOT BOOK THIS PLACE! BUYERS BE AWARE!!! ZERO STARS, HAD TO PICK ONE TO POST THIS!!!   This is the worst place to have your event for a guest of honor if they have a food allergy. My surprise bridal shower was held here and it was made known that I have a food allergy with garlic on several occasi"
-        },
-        {
-          "review_id": "tABOtKnfIwovFOWNneimgA",
-          "stars": 1.0,
-          "date": "2019-08-20 20:48:39",
-          "score": 6.0,
-          "matches": [
-            "(severe|serious|bad)\\s+allergic\\s+reaction"
-          ],
-          "snippet": "such a shame. cute little place, but they had no regard to an allergy that we specifically asked not to include in the food. not once, not twice, but many times. we hosted a bridal shower here last weekend and the bride is allergic to garlic. so we specially many times requested no garlic. period. i"
-        }
-      ],
-      "sample_high_reviews": [
-        {
-          "review_id": "tABOtKnfIwovFOWNneimgA",
-          "stars": 1.0,
-          "date": "2019-08-20 20:48:39",
-          "score": 6.0,
-          "matches": [
-            "allergic reaction",
-            "allerg\\w*.{0,30}(sick|ill|react)",
-            "severe\\w* allerg"
-          ],
-          "snippet": "such a shame. cute little place, but they had no regard to an allergy that we specifically asked not to include in the food. not once, not twice, but many times. we hosted a bridal shower here last weekend and the bride is allergic to garlic. so we specially many times requested no garlic. period. i"
-        },
-        {
-          "review_id": "CnRNnBHtS8-jnhQehUGwfA",
-          "stars": 1.0,
-          "date": "2019-08-20 00:22:25",
-          "score": 4.5,
-          "matches": [
-            "allerg\\w*.{0,30}(sick|ill|react)",
-            "allerg\\w*.{0,20}(accommodat|careful|safe)",
-            "\\bfood allerg"
-          ],
-          "snippet": "DO NOT BOOK THIS PLACE! BUYERS BE AWARE!!! ZERO STARS, HAD TO PICK ONE TO POST THIS!!!   This is the worst place to have your event for a guest of honor if they have a food allergy. My surprise bridal shower was held here and it was made known that I have a food allergy with garlic on several occasi"
         }
       ]
     },
@@ -1066,58 +1056,6 @@
       "sample_high_reviews": []
     },
     {
-      "business_id": "hWtwQeecwoFiUgNNDaf8Ig",
-      "name": "ITA101",
-      "city": "Medford",
-      "state": "NJ",
-      "stars": 4.0,
-      "review_count": 124,
-      "categories": "Salad, Restaurants, Italian, Seafood",
-      "max_critical_score": 15.0,
-      "max_high_score": 2.5,
-      "total_critical_score": 15.0,
-      "total_high_score": 4.5,
-      "topic_reviews": 2,
-      "critical_review_count": 1,
-      "high_review_count": 2,
-      "sample_critical_reviews": [
-        {
-          "review_id": "Mek-Y9OhGvpF6x3xFLRL6Q",
-          "stars": 1.0,
-          "date": "2019-10-21 10:00:17",
-          "score": 15.0,
-          "matches": [
-            "(epipen|epi-pen|epi pen)",
-            "anaphyla\\w*"
-          ],
-          "snippet": "This is my second time at this restaurant, unfortunately I had a much better experience the first time when it was opened.  I went to dinner with my husband and inlaws on October 20th with reservations at 5:30.  We were greeted immediately and seated promptly.  The food quality is great, everyone ra"
-        }
-      ],
-      "sample_high_reviews": [
-        {
-          "review_id": "Mek-Y9OhGvpF6x3xFLRL6Q",
-          "stars": 1.0,
-          "date": "2019-10-21 10:00:17",
-          "score": 2.5,
-          "matches": [
-            "\\bfood allerg",
-            "allerg\\w*.{0,20}(request|ask|told|inform)"
-          ],
-          "snippet": "This is my second time at this restaurant, unfortunately I had a much better experience the first time when it was opened.  I went to dinner with my husband and inlaws on October 20th with reservations at 5:30.  We were greeted immediately and seated promptly.  The food quality is great, everyone ra"
-        },
-        {
-          "review_id": "udXwi5A9FNyhddEQxY4QQg",
-          "stars": 1.0,
-          "date": "2016-12-13 20:09:36",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "Dined at ITA 101 one week ago. We shared a soup, 5-course tasting menu, and 2 entrees. The food tasted great, save for 1 dish in the tasting menu which we chalked up to just not being our cup of tea. The service was phenomenal - our waitress was very attentive and polite. The atmosphere was nice. \n\n"
-        }
-      ]
-    },
-    {
       "business_id": "kjqhiQqdUuiC19ubuw3Qxg",
       "name": "No. 1 China",
       "city": "Philadelphia",
@@ -1157,6 +1095,48 @@
             "\\bfood allerg"
           ],
           "snippet": "If I could leave negative stars I would!  A few weeks ago we ordered lunch and total, with tip was 16.00 (4.00 tip).  Driver gets here and \"doesn't have change\".  So we were forced to give him an 8.00 tip.  I was annoyed but like some chinese once in awhile and they are close to my work.  Last week,"
+        }
+      ]
+    },
+    {
+      "business_id": "hWtwQeecwoFiUgNNDaf8Ig",
+      "name": "ITA101",
+      "city": "Medford",
+      "state": "NJ",
+      "stars": 4.0,
+      "review_count": 124,
+      "categories": "Salad, Restaurants, Italian, Seafood",
+      "max_critical_score": 15.0,
+      "max_high_score": 2.5,
+      "total_critical_score": 15.0,
+      "total_high_score": 2.5,
+      "topic_reviews": 1,
+      "critical_review_count": 1,
+      "high_review_count": 1,
+      "sample_critical_reviews": [
+        {
+          "review_id": "Mek-Y9OhGvpF6x3xFLRL6Q",
+          "stars": 1.0,
+          "date": "2019-10-21 10:00:17",
+          "score": 15.0,
+          "matches": [
+            "(epipen|epi-pen|epi pen)",
+            "anaphyla\\w*"
+          ],
+          "snippet": "This is my second time at this restaurant, unfortunately I had a much better experience the first time when it was opened.  I went to dinner with my husband and inlaws on October 20th with reservations at 5:30.  We were greeted immediately and seated promptly.  The food quality is great, everyone ra"
+        }
+      ],
+      "sample_high_reviews": [
+        {
+          "review_id": "Mek-Y9OhGvpF6x3xFLRL6Q",
+          "stars": 1.0,
+          "date": "2019-10-21 10:00:17",
+          "score": 2.5,
+          "matches": [
+            "\\bfood allerg",
+            "allerg\\w*.{0,20}(request|ask|told|inform)"
+          ],
+          "snippet": "This is my second time at this restaurant, unfortunately I had a much better experience the first time when it was opened.  I went to dinner with my husband and inlaws on October 20th with reservations at 5:30.  We were greeted immediately and seated promptly.  The food quality is great, everyone ra"
         }
       ]
     },
@@ -2066,10 +2046,10 @@
       "max_critical_score": 9.0,
       "max_high_score": 6.5,
       "total_critical_score": 9.0,
-      "total_high_score": 18.0,
-      "topic_reviews": 7,
+      "total_high_score": 16.0,
+      "topic_reviews": 6,
       "critical_review_count": 1,
-      "high_review_count": 7,
+      "high_review_count": 6,
       "sample_critical_reviews": [
         {
           "review_id": "fFhZcL9PthcBnlvCuOtxzw",
@@ -2109,16 +2089,6 @@
           "snippet": "A great restaurant with a fun vibe, and that also caters to those with food allergies like dairy and gluten! My boyfriend and I had a great meal here after doing some sightseeing in St. Louis. I ordered a gluten free thin crust pizza (they also had thick crust but that had dairy in it), and dairy fr"
         },
         {
-          "review_id": "GrZDsE905Pffl8RPBknYKw",
-          "stars": 5.0,
-          "date": "2018-07-14 20:41:06",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "Wow what a great place great food best gluten-free options we've had in a long time and vegan options so we can get a gluten-free vegan pizza it was the best we've ever had and my kids got to have a gluten-free skillet chocolate cake with sauce it was phenomenal a little pricey but worth it we were "
-        },
-        {
           "review_id": "GXixQ_tt0c-oKaRgoRaL8A",
           "stars": 5.0,
           "date": "2017-03-30 14:10:37",
@@ -2137,6 +2107,16 @@
             "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
           ],
           "snippet": "Went here with a group of 5, we were in a slight rush since we were attending a band competition at the dome and had about an hour to eat. Thankfully they weren't too busy at 1:15pm Saturday afternoon. We sat down after a 5 min wait and ordered drinks. We have a gluten allergy with us as well as a l"
+        },
+        {
+          "review_id": "cFM1V3tBmR-2WI1VCmH_Og",
+          "stars": 5.0,
+          "date": "2014-07-16 18:31:38",
+          "score": 1.5,
+          "matches": [
+            "\\bfood allerg"
+          ],
+          "snippet": "My sister, best friend, and I were in St. Louis on a little getaway vacation. My friend had been to St.L a couple of times before, had seen Pi Pizzeria, and wanted to try it. We're glad we did! \n\nUnique but tasty deep dish crust with great topping selection. They're sensitive to food allergies too w"
         }
       ]
     },
@@ -3533,35 +3513,6 @@
       ]
     },
     {
-      "business_id": "dpdiIXeYhGGsSvfBZHROEw",
-      "name": "Express Scripts",
-      "city": "Maryland Heights",
-      "state": "MO",
-      "stars": 1.0,
-      "review_count": 308,
-      "categories": "Drugstores, Shopping",
-      "max_critical_score": 7.5,
-      "max_high_score": 0.0,
-      "total_critical_score": 7.5,
-      "total_high_score": 0.0,
-      "topic_reviews": 1,
-      "critical_review_count": 1,
-      "high_review_count": 0,
-      "sample_critical_reviews": [
-        {
-          "review_id": "tMJTwpKz_hiOcNiuXj6P4g",
-          "stars": 1.0,
-          "date": "2019-06-20 23:03:29",
-          "score": 7.5,
-          "matches": [
-            "(epipen|epi-pen|epi pen)"
-          ],
-          "snippet": "Horrible customer service.  They have sent the wrong medication. They lie about prescriptions being requested.  They have had privacy breaches.  They leave inappropriate message on the phone that might violate HIPPA.  Recently My wife needed to refill her epi pens.  She needed an emergency one and a"
-        }
-      ],
-      "sample_high_reviews": []
-    },
-    {
       "business_id": "pCmaISSyKum22MOtPOxL-w",
       "name": "Philadelphia Phillies",
       "city": "Philadelphia",
@@ -4376,35 +4327,6 @@
           "snippet": "ALLERGIES BEWARE!!!!!! Many items on their menu are marked as GF or vegan but they are not. We ordered the spring rolls, Mai Thai fried rice, and Mai Thai noodles, reassured by the girl on the phone that all items would be GF and vegan. The spring rolls had shrimp in them which I'm dangerously aller"
         }
       ]
-    },
-    {
-      "business_id": "gxuR8bhZfbgYWBkQfUap5Q",
-      "name": "Tower Theater",
-      "city": "Upper Darby",
-      "state": "PA",
-      "stars": 3.5,
-      "review_count": 142,
-      "categories": "Cinema, Nightlife, American (New), Venues & Event Spaces, Event Planning & Services, Arts & Entertainment, Restaurants, Performing Arts, Music Venues",
-      "max_critical_score": 7.5,
-      "max_high_score": 0.0,
-      "total_critical_score": 7.5,
-      "total_high_score": 0.0,
-      "topic_reviews": 1,
-      "critical_review_count": 1,
-      "high_review_count": 0,
-      "sample_critical_reviews": [
-        {
-          "review_id": "AcWoj_swr0IMsC78wcgtZQ",
-          "stars": 1.0,
-          "date": "2014-10-29 19:31:23",
-          "score": 7.5,
-          "matches": [
-            "(epipen|epi-pen|epi pen)"
-          ],
-          "snippet": "Sigh.\n\nAfter allowing my sister into the show for hours with her draw-string backpack (which just had her epi-pen in it), a security guard noticed she had an \"illicit\" bag RIGHT before the headliner came on and literally dragged her out of the theater to the security area.\n\nShe showed him the epi-pe"
-        }
-      ],
-      "sample_high_reviews": []
     },
     {
       "business_id": "V0rakHvMg2DdP926bmEBJg",
@@ -5471,10 +5393,10 @@
       "max_critical_score": 7.5,
       "max_high_score": 2.0,
       "total_critical_score": 7.5,
-      "total_high_score": 11.5,
-      "topic_reviews": 7,
+      "total_high_score": 9.5,
+      "topic_reviews": 6,
       "critical_review_count": 1,
-      "high_review_count": 7,
+      "high_review_count": 6,
       "sample_critical_reviews": [
         {
           "review_id": "8J2jISdj3r_cQiF2paRbEA",
@@ -5497,16 +5419,6 @@
             "allerg\\w*.{0,30}(sick|ill|react)"
           ],
           "snippet": "Great Customer Service! Came from the University City location after they had run out of GF crust for the evening. The manager Andrea at the other locale had called to manager Sarah at 13th and Sansom, alerted her that we were on our way. We were seated immediately and our server already knew of my "
-        },
-        {
-          "review_id": "tB765iPuIB51N6xEAMNP8w",
-          "stars": 3.0,
-          "date": "2019-07-14 23:37:21",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "We visited on 4th of July, and while the waitress was kind enough to be honest about the limitations of their AC to keep up with their oven, it still really seems unwise of the restaurant to keep an uncovered 1,000+ degree oven in an open space with no plan B for mid-summer, and inadequate AC. It wa"
         },
         {
           "review_id": "8J2jISdj3r_cQiF2paRbEA",
@@ -5537,6 +5449,16 @@
             "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
           ],
           "snippet": "First time here but was really pleased with the food and service! It was also a busy dinner hour but they were able to seat us immediately. The food was VERY good - we got the taste meat & cheese platter (the pita bread and apricot jam along with everything else was so good), the kennett pizza (like"
+        },
+        {
+          "review_id": "WL4WjjLrO8HOk95oXUOWgQ",
+          "stars": 3.0,
+          "date": "2013-01-24 05:12:36",
+          "score": 1.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "I started out this review with 1 star I had such a bad experience.  And then after having the other 3 at my table try a bite of my pizza without any warning, they made me say something to the server it was so horrible.  It was quite posssibly the worst ever pizza I had ever tasted. I ordered the Joe"
         }
       ]
     },
@@ -7450,47 +7372,6 @@
       ]
     },
     {
-      "business_id": "yNN7L5btOFyHb3Q1Et07pw",
-      "name": "Chestnut Hill Hospital",
-      "city": "Philadelphia",
-      "state": "PA",
-      "stars": 2.5,
-      "review_count": 41,
-      "categories": "Hospitals, Doctors, Health & Medical",
-      "max_critical_score": 7.5,
-      "max_high_score": 4.0,
-      "total_critical_score": 7.5,
-      "total_high_score": 4.0,
-      "topic_reviews": 2,
-      "critical_review_count": 1,
-      "high_review_count": 1,
-      "sample_critical_reviews": [
-        {
-          "review_id": "yS60Gz7l0c98gHqtF2T4LQ",
-          "stars": 2.0,
-          "date": "2015-12-22 19:53:32",
-          "score": 7.5,
-          "matches": [
-            "(epipen|epi-pen|epi pen)"
-          ],
-          "snippet": "this is my 2nd awful experience there. This time a had a facial laceration. They wanted to give me a cat scan, totally unnecessary. They wanted to stitch it, then have me find a plastic surgeon as they did not have an ER one, have the plastics guy( which I had to find on my own, ASAP) I said no, why"
-        }
-      ],
-      "sample_high_reviews": [
-        {
-          "review_id": "MPFbHZGtVQ_R7cCBydaH0g",
-          "stars": 3.0,
-          "date": "2016-11-06 12:16:59",
-          "score": 4.0,
-          "matches": [
-            "allergic reaction",
-            "allerg\\w*.{0,30}(sick|ill|react)"
-          ],
-          "snippet": "I went to CH because it was close.  I had an allergic reaction to food.  The initial impression was not great.  ER reception area and staff were lackadaisical.  Seemed a little untidy as well.  Once i was brought in for observation and treatment things changed.  PA and nurse who oversaw my treatment"
-        }
-      ]
-    },
-    {
       "business_id": "PrQdHTaZItu54ZRictQBKw",
       "name": "Risky Business",
       "city": "Tucson",
@@ -9273,35 +9154,6 @@
       ]
     },
     {
-      "business_id": "PmWMX-uVYrP3IPByH9MXxg",
-      "name": "Yellow Cab",
-      "city": "Edmonton",
-      "state": "AB",
-      "stars": 2.0,
-      "review_count": 71,
-      "categories": "Hotels & Travel, Transportation, Taxis",
-      "max_critical_score": 7.5,
-      "max_high_score": 0.0,
-      "total_critical_score": 7.5,
-      "total_high_score": 0.0,
-      "topic_reviews": 1,
-      "critical_review_count": 1,
-      "high_review_count": 0,
-      "sample_critical_reviews": [
-        {
-          "review_id": "RJ4tA35okT9w0vxKb2Afcw",
-          "stars": 1.0,
-          "date": "2011-03-20 08:17:26",
-          "score": 7.5,
-          "matches": [
-            "(epipen|epi-pen|epi pen)"
-          ],
-          "snippet": "I took a yellow cab home from a bar about a week ago. Mini-van very young nice gentleman.  Maybe mid-30's. He picked me and a friend up from the druid downtown... I did drive my car - but had 2-3 drinks & I did not want to chance it.\n\nPicked us up from the druid downtown, friend & i wanted to get mc"
-        }
-      ],
-      "sample_high_reviews": []
-    },
-    {
       "business_id": "Jgtox79rmQZnyGgugH91UA",
       "name": "The tow truck Company",
       "city": "Reno",
@@ -9521,35 +9373,6 @@
           "snippet": "Worst service ever!  Twice now we've been there & they've \"forgotten\" our orders.  \n\nFood allergy customers beware!!!  They are horrible at paying attention if you have one.  I advised the server prior to order that I have a food allergy to tomatoes.   \n\nWe ordered Avocado Toast, 2 scrambled eggs w/"
         }
       ]
-    },
-    {
-      "business_id": "7U7RauxQC439NNwLHodZ6A",
-      "name": "Whiskey Joe's Bar & Grill - Port Richey",
-      "city": "Port Richey",
-      "state": "FL",
-      "stars": 3.5,
-      "review_count": 355,
-      "categories": "Tiki Bars, Armenian, Restaurants, Burgers, American (New), Arts & Entertainment, Seafood, Event Planning & Services, Cocktail Bars, Music Venues, Bars, Nightlife, Venues & Event Spaces",
-      "max_critical_score": 7.5,
-      "max_high_score": 0.0,
-      "total_critical_score": 7.5,
-      "total_high_score": 0.0,
-      "topic_reviews": 1,
-      "critical_review_count": 1,
-      "high_review_count": 0,
-      "sample_critical_reviews": [
-        {
-          "review_id": "gLE8s_R_7NWz9pWnMWyKYg",
-          "stars": 2.0,
-          "date": "2018-09-26 23:06:11",
-          "score": 7.5,
-          "matches": [
-            "(epipen|epi-pen|epi pen)"
-          ],
-          "snippet": "Went to the new Whiskey Joe's.  Interesting concept, but.....when we sat outside the bees were swarming around us.  All we did was swat them with our menus (asked they they didn't take them from us).  Made for an unpleasant first visit.  Tried again....the same...bees everywhere.  The server said th"
-        }
-      ],
-      "sample_high_reviews": []
     },
     {
       "business_id": "-e1BUAOBk9RAu89c6uTyGA",
@@ -10349,35 +10172,6 @@
       "sample_high_reviews": []
     },
     {
-      "business_id": "jM2gvCup1_I6R3M9ielXMQ",
-      "name": "CVS Pharmacy",
-      "city": "Saint Louis",
-      "state": "MO",
-      "stars": 2.5,
-      "review_count": 7,
-      "categories": "Drugstores, Shopping, Health & Medical, Convenience Stores, Pharmacy, Food",
-      "max_critical_score": 7.5,
-      "max_high_score": 0.0,
-      "total_critical_score": 7.5,
-      "total_high_score": 0.0,
-      "topic_reviews": 1,
-      "critical_review_count": 1,
-      "high_review_count": 0,
-      "sample_critical_reviews": [
-        {
-          "review_id": "qHkRRlLEDX6y7NdP0_N2GQ",
-          "stars": 1.0,
-          "date": "2019-07-13 18:10:00",
-          "score": 7.5,
-          "matches": [
-            "(epipen|epi-pen|epi pen)"
-          ],
-          "snippet": "Worst pharmacy ever. Pharmacists have major God complex. Called my dr to argue my diagnosis.  they lie about everything. I tried to get my child's epi pen filled and they acted like I was asking for a bag of crack. I've never had a pharmacy make me feel so bad for getting my family's scripts filled."
-        }
-      ],
-      "sample_high_reviews": []
-    },
-    {
       "business_id": "iYInaJ51aoT7BvwN18RuYQ",
       "name": "Virtua Memorial Hospital",
       "city": "Mount Holly",
@@ -10964,35 +10758,6 @@
           "snippet": "I was incredibly impressed when I came here for the first time recently. Usually I'm hesitant to try new Mexican restaurants mostly because I hate cilantro and often find that once the cilantroified components of a meal are removed the remaining meal is often bland. Well when I came here and asked t"
         }
       ]
-    },
-    {
-      "business_id": "rtx99T9WseyVjw59LWrG-Q",
-      "name": "DoubleTree Beach Resort by Hilton Hotel Tampa Bay",
-      "city": "North Redington Beach",
-      "state": "FL",
-      "stars": 3.5,
-      "review_count": 156,
-      "categories": "Hotels, Hotels & Travel, Resorts, Event Planning & Services",
-      "max_critical_score": 7.5,
-      "max_high_score": 0.0,
-      "total_critical_score": 7.5,
-      "total_high_score": 0.0,
-      "topic_reviews": 1,
-      "critical_review_count": 1,
-      "high_review_count": 0,
-      "sample_critical_reviews": [
-        {
-          "review_id": "6pQPyAmZER2CbDL5UVnv3A",
-          "stars": 2.0,
-          "date": "2018-09-26 11:41:16",
-          "score": 7.5,
-          "matches": [
-            "(epipen|epi-pen|epi pen)"
-          ],
-          "snippet": "*Have been Hilton Customer over 30 Years\n\n*Intentional mistreatment to humiliate and embarrass   \n\nI  was Locked out of Room at 11 AM  despite Julie and others confirming 12:30 Check out after 13 days in this Hotel after Hurricane Evacuation  \n\n1st time in my Life I  was \"kicked out\" \"asked to leave"
-        }
-      ],
-      "sample_high_reviews": []
     },
     {
       "business_id": "d_6xkBPz-DJWfO6b2a7A7w",
@@ -12105,64 +11870,6 @@
       ]
     },
     {
-      "business_id": "BMKJ3JyD_r_SQ1JXAzo1Hw",
-      "name": "The Pub Tampa Bay",
-      "city": "Tampa",
-      "state": "FL",
-      "stars": 4.0,
-      "review_count": 493,
-      "categories": "British, Nightlife, Bars, Pubs, Restaurants, Burgers",
-      "max_critical_score": 7.5,
-      "max_high_score": 0.0,
-      "total_critical_score": 7.5,
-      "total_high_score": 0.0,
-      "topic_reviews": 1,
-      "critical_review_count": 1,
-      "high_review_count": 0,
-      "sample_critical_reviews": [
-        {
-          "review_id": "u8cC-E1ZLkrmEsjshwgFVg",
-          "stars": 2.0,
-          "date": "2016-09-17 04:18:23",
-          "score": 7.5,
-          "matches": [
-            "(epipen|epi-pen|epi pen)"
-          ],
-          "snippet": "Never been here before, won't be returning.\n\nThey serve red wine at refrigerated temperature. Thought I'd order something to nibble on while defrosting my mouth from the cold red wine, and got the pub pretzels. The \"pub mustard\" is literally straight-up horse radish. Thank goodness I had a cold glas"
-        }
-      ],
-      "sample_high_reviews": []
-    },
-    {
-      "business_id": "FR3NXfnrXt1myrNXwF8VhQ",
-      "name": "The Prather Practice",
-      "city": "Indianapolis",
-      "state": "IN",
-      "stars": 4.0,
-      "review_count": 20,
-      "categories": "Massage Therapy, Beauty & Spas, Hair Salons, Health & Medical, Chiropractors, Massage, Acupuncture, Physical Therapy",
-      "max_critical_score": 7.5,
-      "max_high_score": 0.0,
-      "total_critical_score": 7.5,
-      "total_high_score": 0.0,
-      "topic_reviews": 1,
-      "critical_review_count": 1,
-      "high_review_count": 0,
-      "sample_critical_reviews": [
-        {
-          "review_id": "EKffZxsZjQGmluUIsqmk7w",
-          "stars": 1.0,
-          "date": "2015-10-24 15:29:34",
-          "score": 7.5,
-          "matches": [
-            "(epipen|epi-pen|epi pen)"
-          ],
-          "snippet": "PLEASE READ BEFORE FREQUENTING THIS  ESTABLISHMENT.  \n\nBackground: \nIn early summer 2013, I was going for treatment here.  When Dr Prather's treatment wasn't working as he anticipated, he recommended that his NP inject lidocaine into my neck to alleviate pain.   He told me that, by law, he cannot do"
-        }
-      ],
-      "sample_high_reviews": []
-    },
-    {
       "business_id": "sZp1QfIpQ6Zp1zsosykVpA",
       "name": "Windows On Washington",
       "city": "Saint Louis",
@@ -12299,35 +12006,6 @@
             "anaphyla\\w*"
           ],
           "snippet": "My wife and I decided to try to takeour daughter here this afternoon, but before we took her into the restarauntmy wife went in and asked about a few things because of her dairy alergy. The girl at the front barely spoke english but understood enough to get someone from the kitchen. When she asked h"
-        }
-      ],
-      "sample_high_reviews": []
-    },
-    {
-      "business_id": "mZQbhFIGDC9cYasmZDfFHA",
-      "name": "Sansum Clinic Pesetas Urgent Care",
-      "city": "Santa Barbara",
-      "state": "CA",
-      "stars": 2.5,
-      "review_count": 63,
-      "categories": "Ear Nose & Throat, Obstetricians & Gynecologists, Diagnostic Services, Health & Medical, Medical Centers, Shopping, Urgent Care, Laboratory Testing, Doctors, Drugstores",
-      "max_critical_score": 7.5,
-      "max_high_score": 0.0,
-      "total_critical_score": 7.5,
-      "total_high_score": 0.0,
-      "topic_reviews": 1,
-      "critical_review_count": 1,
-      "high_review_count": 0,
-      "sample_critical_reviews": [
-        {
-          "review_id": "naonGQl5Wp6Sm5W8nvqGmQ",
-          "stars": 1.0,
-          "date": "2016-08-31 01:21:57",
-          "score": 7.5,
-          "matches": [
-            "(epipen|epi-pen|epi pen)"
-          ],
-          "snippet": "Things to know before you go to Sansum:\n1. If you need to change an appointment (2-3 days ahead of appt.) you may be 'punished' by the scheduler with a multi-month wait. But, don't waste your time going to leadership about it. Just suck it up or go to Los Angeles. \n2. If the ball gets dropped many t"
         }
       ],
       "sample_high_reviews": []
@@ -19137,46 +18815,6 @@
       ]
     },
     {
-      "business_id": "D73evJ9PZKxO3E5TaThe3w",
-      "name": "Superior Grill",
-      "city": "New Orleans",
-      "state": "LA",
-      "stars": 3.0,
-      "review_count": 510,
-      "categories": "Tex-Mex, Mexican, Restaurants",
-      "max_critical_score": 5.0,
-      "max_high_score": 1.5,
-      "total_critical_score": 5.0,
-      "total_high_score": 1.5,
-      "topic_reviews": 2,
-      "critical_review_count": 1,
-      "high_review_count": 1,
-      "sample_critical_reviews": [
-        {
-          "review_id": "EbCmavwJ7Nr8DF_6lZfsIw",
-          "stars": 3.0,
-          "date": "2011-10-09 03:55:42",
-          "score": 5.0,
-          "matches": [
-            "(epipen|epi-pen|epi pen)"
-          ],
-          "snippet": "If you're going to call your product/restaurant/website \"Superior [Whatever]\", then it literally must be better than all the other whatevers out there...or you need to keep enticing people who have a very loose definition of superior.  \n\nI'm in that second category because Superior Grill is not in t"
-        }
-      ],
-      "sample_high_reviews": [
-        {
-          "review_id": "ES7hOhPZ3KnuOo3Q0CskiQ",
-          "stars": 1.0,
-          "date": "2012-10-21 12:24:18",
-          "score": 1.5,
-          "matches": [
-            "\\bfood allerg"
-          ],
-          "snippet": "The only good thing I can say about Superior Grill is that an Emergency Room is two blocks away.  If you have any kind of food allergy, make sure you inspect your meal closely. The waitstaff doesn't even know what they are serving you so they are no help.  Who would have guessed that they serve pean"
-        }
-      ]
-    },
-    {
       "business_id": "S2Ho8yLxhKAa26pBAm6rxA",
       "name": "Creole House Restaurant & Oyster Bar",
       "city": "New Orleans",
@@ -19598,10 +19236,10 @@
       "max_critical_score": 5.0,
       "max_high_score": 3.5,
       "total_critical_score": 5.0,
-      "total_high_score": 59.5,
-      "topic_reviews": 33,
+      "total_high_score": 57.5,
+      "topic_reviews": 32,
       "critical_review_count": 1,
-      "high_review_count": 33,
+      "high_review_count": 32,
       "sample_critical_reviews": [
         {
           "review_id": "5NOP9UNOK3CcztG-MM4lhw",
@@ -20403,35 +20041,6 @@
             "anaphyla\\w*"
           ],
           "snippet": "Dr. Christina Li saved my dog.  I have had to take several dogs to VCA over the years.  Dr. Li is amazing!  She is kind, thorough and you can tell she loves what she does.  This past week my dog went into anaphylactic shock.  AVS staff accommodated me immediately.  Thank you so much to the AVS team "
-        }
-      ],
-      "sample_high_reviews": []
-    },
-    {
-      "business_id": "YdZb7z6aNoL6R7oIbaVNvg",
-      "name": "The Fillmore Philadelphia",
-      "city": "Philadelphia",
-      "state": "PA",
-      "stars": 4.0,
-      "review_count": 239,
-      "categories": "Event Planning & Services, Performing Arts, Party & Event Planning, Arts & Entertainment, Music Venues, Nightlife, Venues & Event Spaces",
-      "max_critical_score": 5.0,
-      "max_high_score": 0.0,
-      "total_critical_score": 5.0,
-      "total_high_score": 0.0,
-      "topic_reviews": 1,
-      "critical_review_count": 1,
-      "high_review_count": 0,
-      "sample_critical_reviews": [
-        {
-          "review_id": "ls-e9WTf6VaZdODfXgmdpw",
-          "stars": 3.0,
-          "date": "2016-06-11 03:30:32",
-          "score": 5.0,
-          "matches": [
-            "(epipen|epi-pen|epi pen)"
-          ],
-          "snippet": "This is my first experience at this venue as I scrolled the website I saw nothing addressing ADA wheelchair/mobility accessibility. So I called and spoke to someone at the venue. I asked if they were wheelchair accessible and/or if the venue has a wheelchair access policy. I was told that because th"
         }
       ],
       "sample_high_reviews": []
@@ -22293,35 +21902,6 @@
       "sample_high_reviews": []
     },
     {
-      "business_id": "EoY42zRhnqnQkiWJMp5N9Q",
-      "name": "East Jefferson Family Practice",
-      "city": "Metairie",
-      "state": "LA",
-      "stars": 2.5,
-      "review_count": 16,
-      "categories": "Family Practice, Doctors, Health & Medical",
-      "max_critical_score": 5.0,
-      "max_high_score": 0.0,
-      "total_critical_score": 5.0,
-      "total_high_score": 0.0,
-      "topic_reviews": 1,
-      "critical_review_count": 1,
-      "high_review_count": 0,
-      "sample_critical_reviews": [
-        {
-          "review_id": "WBEMrWZwDMA5DmrVVXcfow",
-          "stars": 5.0,
-          "date": "2012-11-28 03:21:32",
-          "score": 5.0,
-          "matches": [
-            "(epipen|epi-pen|epi pen)"
-          ],
-          "snippet": "When I moved back home to NOLA four years ago I wanted a family doctor that was fairly young who would keep up with the advancements in medicine and treat me with a multi-culturally competent way (ie. understand the Filipino-American culture or Asian culture in general). Dr. Alex Hoang is Vietnamese"
-        }
-      ],
-      "sample_high_reviews": []
-    },
-    {
       "business_id": "XRTd7lNHKKioXI1A9Qls0w",
       "name": "Putney's Pitstop Sports Bar and Grill",
       "city": "Tucson",
@@ -23557,10 +23137,10 @@
       "max_critical_score": 5.0,
       "max_high_score": 3.5,
       "total_critical_score": 5.0,
-      "total_high_score": 35.5,
-      "topic_reviews": 20,
+      "total_high_score": 33.5,
+      "topic_reviews": 19,
       "critical_review_count": 1,
-      "high_review_count": 20,
+      "high_review_count": 19,
       "sample_critical_reviews": [
         {
           "review_id": "BHtMSfBOXVocllFx3PmT0Q",
@@ -23618,54 +23198,14 @@
           "snippet": "I absolutely LOVE the Couch Tomato Bistro. I went last night to get their gluten free pizza and it was amazing. It even came out on a metal tray with it's own little slicer (to ensure no cross contamination I'm assuming.) Our host and server were so incredibly kind and on top of things, which I find"
         },
         {
-          "review_id": "BBoaLGldU_pzXk7uIGgIAw",
-          "stars": 4.0,
-          "date": "2016-03-22 11:21:00",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "Great dining experience.  A family member has Celiac Disease and they have a pretty decent selection of gluten-free items to choose from.  The staff is knowledgeable about the disease and do their absolute best to make sure that there is no cross-contamination so that he can enjoy the meal worry-fre"
-        }
-      ]
-    },
-    {
-      "business_id": "Qmrw1chFGn3skbWFEyxYCQ",
-      "name": "Dick & Jenny's",
-      "city": "New Orleans",
-      "state": "LA",
-      "stars": 4.0,
-      "review_count": 353,
-      "categories": "Restaurants, Party & Event Planning, Event Planning & Services, American (New), Cajun/Creole",
-      "max_critical_score": 5.0,
-      "max_high_score": 2.0,
-      "total_critical_score": 5.0,
-      "total_high_score": 2.0,
-      "topic_reviews": 2,
-      "critical_review_count": 1,
-      "high_review_count": 1,
-      "sample_critical_reviews": [
-        {
-          "review_id": "JjCWsuVlWOc2IfTyt67UIw",
-          "stars": 4.0,
-          "date": "2014-10-29 14:59:24",
-          "score": 5.0,
-          "matches": [
-            "(epipen|epi-pen|epi pen)"
-          ],
-          "snippet": "Went in for the first time for my birthday.  Very good.  Had great service, and ordered cauliflower soup (no milk or cheese products in it) roasted cauliflower, roasted brussels sprout and a few appetizers as my main meal.  Got shrimp and grits, escargot,  and fennel(or leak) and mushroom cheesecake"
-        }
-      ],
-      "sample_high_reviews": [
-        {
-          "review_id": "hO6HArRzHx5st1kHa1mYVw",
+          "review_id": "Yc4rjknc2b0T5GHM8TOTlg",
           "stars": 5.0,
-          "date": "2016-01-25 19:05:18",
-          "score": 2.0,
+          "date": "2018-03-04 01:59:44",
+          "score": 1.5,
           "matches": [
-            "cross.?contaminat"
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
           ],
-          "snippet": "Delicious food and wine. Also have a Gluten Free menu. As we have a Celiac family member we rang ahead. We had fantastic service and constant reassurance from wait staff and management that the Chef was doing everything avoid cross contamination. A bit of a drive form the French Quarter where we wer"
+          "snippet": "As someone with a gluten allergy, this is a great option! We had incredible service, great food, and many options. I had the southwest burger with a gluten free bun and the GF bun was similar to a pancake but was very good. The side salad had avocado and onions and a great balsamic dressing. The Fre"
         }
       ]
     },
@@ -23980,10 +23520,10 @@
       "max_critical_score": 5.0,
       "max_high_score": 2.5,
       "total_critical_score": 5.0,
-      "total_high_score": 5.5,
-      "topic_reviews": 3,
+      "total_high_score": 3.5,
+      "topic_reviews": 2,
       "critical_review_count": 1,
-      "high_review_count": 3,
+      "high_review_count": 2,
       "sample_critical_reviews": [
         {
           "review_id": "YvDfYDkkPQXKHhn9x7Ml8g",
@@ -24007,16 +23547,6 @@
             "\\bfood allerg"
           ],
           "snippet": "The servers and managers (Brian) were great, but the amount of time we were there was unacceptable.  For a 7:00 reservation we were seated by 7:10, drinks shortly after that, children's meal too (maybe 30 minute)...but it took one hour to get our appetizers and two hours, no exaggeration, two hours,"
-        },
-        {
-          "review_id": "cG1zyHBHHZEJs3ZtWYkfjw",
-          "stars": 5.0,
-          "date": "2018-11-08 19:22:30",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "When making my reservation the hostess asked if there were dietary restrictions within our group. I require gluten free. Upon arrival at the restaurant the hostess acknowledged my need, and made sure the waiter was aware. Kevin made sure to let me know every time he came to the table that what I was"
         },
         {
           "review_id": "3eT_rW_eZj2dK-ATsfTGKw",
@@ -24796,56 +24326,6 @@
             "\\bfood allerg"
           ],
           "snippet": "Had supper with the family earlier this evening and it was a great experience. My some has some severe food allergies - dairy, peanuts and some tree nuts - that are severe enough that we carry an epipen. We explained our dietary needs to our waiter (Sean) and he was thoughtful enough to go back to t"
-        }
-      ]
-    },
-    {
-      "business_id": "I2ISRV7IybkMc3HEYKUE9g",
-      "name": "Audrey Claire",
-      "city": "Philadelphia",
-      "state": "PA",
-      "stars": 4.0,
-      "review_count": 722,
-      "categories": "Restaurants, Greek, Mediterranean, Seafood, American (New)",
-      "max_critical_score": 5.0,
-      "max_high_score": 1.5,
-      "total_critical_score": 5.0,
-      "total_high_score": 3.0,
-      "topic_reviews": 3,
-      "critical_review_count": 1,
-      "high_review_count": 2,
-      "sample_critical_reviews": [
-        {
-          "review_id": "NdMuOM7x11K4gccVnFqxhg",
-          "stars": 4.0,
-          "date": "2011-07-14 04:11:09",
-          "score": 5.0,
-          "matches": [
-            "(epipen|epi-pen|epi pen)"
-          ],
-          "snippet": "best amtipasti ever: eggplant, artichoke, aparagus, olives, mushrooms, & peppers. mmm-mmm. \nalways clean and simple, always delicious and perfectly portioned. \nplus everyone is super nice. \nmajor points in my book for having a completely nut-free menu; as a diner that persistently carries an epi pen"
-        }
-      ],
-      "sample_high_reviews": [
-        {
-          "review_id": "uLhXPDYxg87fdxw2bs2hnA",
-          "stars": 4.0,
-          "date": "2012-06-12 14:08:28",
-          "score": 1.5,
-          "matches": [
-            "\\bfood allerg"
-          ],
-          "snippet": "I've been wanting to try Audrey Claire for quite some time.  Recently a foodie coworker told me this is his favorite BYO in the city, so I decided to wait no longer.\nI love the location.  This block of 20th St has to be one of the cutest in the city.  I love the decor and the ambiance.  Simple, clea"
-        },
-        {
-          "review_id": "4kkn_ZxvUWhThY_R8Ot0mA",
-          "stars": 5.0,
-          "date": "2018-09-25 17:13:35",
-          "score": 1.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
-          ],
-          "snippet": "What can I say? I've been here three times, twice for dinner and once for brunch, and it's definitely one of my favorites in philly. A little on the pricier side but well worth it in my opinion for fresh ingredients, some pretty dishes that are creative (see ricotta pea spread), and a great ambience"
         }
       ]
     },
@@ -29491,12 +28971,12 @@
       "review_count": 848,
       "categories": "American (New), Restaurants, Wine Bars, Beer Bar, Bars, Nightlife",
       "max_critical_score": 4.5,
-      "max_high_score": 2.0,
+      "max_high_score": 1.5,
       "total_critical_score": 4.5,
-      "total_high_score": 6.5,
-      "topic_reviews": 5,
+      "total_high_score": 4.5,
+      "topic_reviews": 4,
       "critical_review_count": 1,
-      "high_review_count": 4,
+      "high_review_count": 3,
       "sample_critical_reviews": [
         {
           "review_id": "hyQ83jRWPgycyVIlEXi-eA",
@@ -29510,16 +28990,6 @@
         }
       ],
       "sample_high_reviews": [
-        {
-          "review_id": "dA1eGpIAMuCkSnfKJ0xtog",
-          "stars": 3.0,
-          "date": "2015-05-03 15:39:32",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "We have been wanting to try Edison since we moved to Tampa a few months ago. We decided it would be fun to take friends who were visiting before a move to Tampa in a few months. I emailed in advance to ask whether they could accommodate someone with celiac (and therefore strictly gluten free) and re"
-        },
         {
           "review_id": "Z_KZC9G7lmnqznMwYq5JDg",
           "stars": 4.0,
@@ -30172,10 +29642,10 @@
       "max_critical_score": 4.0,
       "max_high_score": 6.0,
       "total_critical_score": 4.0,
-      "total_high_score": 11.0,
-      "topic_reviews": 4,
+      "total_high_score": 9.0,
+      "topic_reviews": 3,
       "critical_review_count": 1,
-      "high_review_count": 4,
+      "high_review_count": 3,
       "sample_critical_reviews": [
         {
           "review_id": "zqXwC6mY-n5TPHZ_rDJqvA",
@@ -30200,16 +29670,6 @@
             "cross.?contaminat"
           ],
           "snippet": "Living close to here and loving sweets, I tried it out right away. Definitely a great selection of donuts. The coffee is alright. Be careful if you have an allergy- a plain donut I had was cross contaminated somehow and I had a pretty bad allergic reaction to whatever nuts it was by. Cool atmosphere"
-        },
-        {
-          "review_id": "EAa9qkNXJxueNOH3bUMxdQ",
-          "stars": 2.0,
-          "date": "2016-05-20 17:11:29",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "There were two occasions were I didn't see people working washing their hands.  Both were when I sat at the bar to sit, so I was there for about an hr each time.  One time, the cook with long, greasy hair and a small trimmed beard did not wash his hands ONCE.  He continually touched the sliders by t"
         },
         {
           "review_id": "BoTTfsg6SiinqfDYVbXSKQ",
@@ -33432,58 +32892,6 @@
       ]
     },
     {
-      "business_id": "T4LfF6fT4_5UuP6ZpMjUGQ",
-      "name": "Bulla Gastrobar",
-      "city": "Tampa",
-      "state": "FL",
-      "stars": 4.0,
-      "review_count": 589,
-      "categories": "Tapas/Small Plates, Gastropubs, Restaurants, Spanish, Tapas Bars, Mediterranean",
-      "max_critical_score": 0.0,
-      "max_high_score": 6.0,
-      "total_critical_score": 0.0,
-      "total_high_score": 9.5,
-      "topic_reviews": 3,
-      "critical_review_count": 0,
-      "high_review_count": 3,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "9m2S51o_MCZWy-AjKlxF-Q",
-          "stars": 1.0,
-          "date": "2018-10-31 19:17:23",
-          "score": 6.0,
-          "matches": [
-            "allerg\\w*.{0,30}(sick|ill|react)",
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
-            "allerg\\w*.{0,20}(accommodat|careful|safe)",
-            "\\bfood allerg"
-          ],
-          "snippet": "My husband and I dined at Bula Tampa for the first time on 10/27. We were looking forward to dining there however our experience left us very disappointed and disturbed.  Before ordering we advised our server of my husbands\" serve nut allergy. The server assured us that's not a problem and that he w"
-        },
-        {
-          "review_id": "7_YWV61Aq_K-OLt8Rto-3A",
-          "stars": 4.0,
-          "date": "2019-01-27 20:09:39",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "Hubs and I dined here last night post-Gasparilla as it was one of the only places that wasn't packed full of wasted people. We were pleasantly surprised that a random pick turned out to be really good.\n\nWe enjoyed the beet salad, Mah\u00f3n cheese, and vegetarian paella. All were well excellent, especial"
-        },
-        {
-          "review_id": "Tn_Knga8iy7bz6GUgkftpQ",
-          "stars": 3.0,
-          "date": "2021-07-12 00:59:43",
-          "score": 1.5,
-          "matches": [
-            "\\bfood allerg"
-          ],
-          "snippet": "You MUST go to the roof top bar to get a great view of Tampa and feel the cool breeze on a nice night. The view, decor, and presentation of food was what stood out the most for me with this establishment. They have a great selection of Spanish wines and if you want something bold, with a strong fini"
-        }
-      ]
-    },
-    {
       "business_id": "n8yGo_YJneGjOWQHNHLj8Q",
       "name": "Grain and Berry",
       "city": "Tampa",
@@ -33583,47 +32991,6 @@
             "\\bfood allerg"
           ],
           "snippet": "Great sushi, great service, very accommodating to people with food allergies. Would definitely recommend!"
-        }
-      ]
-    },
-    {
-      "business_id": "LWtgfj7pzx0mVTiAnQTWDw",
-      "name": "Fired Pie",
-      "city": "Tucson",
-      "state": "AZ",
-      "stars": 3.5,
-      "review_count": 58,
-      "categories": "Restaurants, Pizza",
-      "max_critical_score": 0.0,
-      "max_high_score": 6.0,
-      "total_critical_score": 0.0,
-      "total_high_score": 8.0,
-      "topic_reviews": 2,
-      "critical_review_count": 0,
-      "high_review_count": 2,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "wr9iQFlsL2eVAST6xo08Gg",
-          "stars": 1.0,
-          "date": "2019-02-26 23:19:25",
-          "score": 6.0,
-          "matches": [
-            "allergic reaction",
-            "allerg\\w*.{0,30}(sick|ill|react)",
-            "cross.?contaminat"
-          ],
-          "snippet": "TERRIBLE. If you have any type of allergy do NOT go here. Both times I have gotten food from here was through Door Dash. I ordered a gluten free pie and the first time, the Door Dasher was thorough enough to double check that the pizza was gluten free. It was not and it had to be remade. \n\nThe secon"
-        },
-        {
-          "review_id": "NDcSWNNhtPhddZgxdRH83g",
-          "stars": 4.0,
-          "date": "2018-11-06 19:37:02",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "I meant to take a photo of my two very attractive pizzas, but then I ate them before I remembered.\n\nSince Pionic closed, I've been wondering where I would get my made-to-order pizza fix, and I think this one's it. There are TWO(!) options for gluten-free folks here, the regular herbed gf crust or a "
         }
       ]
     },
@@ -33793,6 +33160,48 @@
       ]
     },
     {
+      "business_id": "T4LfF6fT4_5UuP6ZpMjUGQ",
+      "name": "Bulla Gastrobar",
+      "city": "Tampa",
+      "state": "FL",
+      "stars": 4.0,
+      "review_count": 589,
+      "categories": "Tapas/Small Plates, Gastropubs, Restaurants, Spanish, Tapas Bars, Mediterranean",
+      "max_critical_score": 0.0,
+      "max_high_score": 6.0,
+      "total_critical_score": 0.0,
+      "total_high_score": 7.5,
+      "topic_reviews": 2,
+      "critical_review_count": 0,
+      "high_review_count": 2,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "9m2S51o_MCZWy-AjKlxF-Q",
+          "stars": 1.0,
+          "date": "2018-10-31 19:17:23",
+          "score": 6.0,
+          "matches": [
+            "allerg\\w*.{0,30}(sick|ill|react)",
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
+            "allerg\\w*.{0,20}(accommodat|careful|safe)",
+            "\\bfood allerg"
+          ],
+          "snippet": "My husband and I dined at Bula Tampa for the first time on 10/27. We were looking forward to dining there however our experience left us very disappointed and disturbed.  Before ordering we advised our server of my husbands\" serve nut allergy. The server assured us that's not a problem and that he w"
+        },
+        {
+          "review_id": "Tn_Knga8iy7bz6GUgkftpQ",
+          "stars": 3.0,
+          "date": "2021-07-12 00:59:43",
+          "score": 1.5,
+          "matches": [
+            "\\bfood allerg"
+          ],
+          "snippet": "You MUST go to the roof top bar to get a great view of Tampa and feel the cool breeze on a nice night. The view, decor, and presentation of food was what stood out the most for me with this establishment. They have a great selection of Spanish wines and if you want something bold, with a strong fini"
+        }
+      ]
+    },
+    {
       "business_id": "LImOqXSWUq-E_eNZhTUzmQ",
       "name": "Coyote Crossing",
       "city": "Conshohocken",
@@ -33852,6 +33261,37 @@
             "severe\\w* allerg"
           ],
           "snippet": "If you're vegan or allergic to dairy, beware.  They charge about $5 more for a vegan pizza and tonight I had a friend's son over who has severe allergies to dairy and eggs so we ordered from there.  I requested a vegan pizza w/ two toppings.  The guy on the phone insisted I look on the website at al"
+        }
+      ]
+    },
+    {
+      "business_id": "LWtgfj7pzx0mVTiAnQTWDw",
+      "name": "Fired Pie",
+      "city": "Tucson",
+      "state": "AZ",
+      "stars": 3.5,
+      "review_count": 58,
+      "categories": "Restaurants, Pizza",
+      "max_critical_score": 0.0,
+      "max_high_score": 6.0,
+      "total_critical_score": 0.0,
+      "total_high_score": 6.0,
+      "topic_reviews": 1,
+      "critical_review_count": 0,
+      "high_review_count": 1,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "wr9iQFlsL2eVAST6xo08Gg",
+          "stars": 1.0,
+          "date": "2019-02-26 23:19:25",
+          "score": 6.0,
+          "matches": [
+            "allergic reaction",
+            "allerg\\w*.{0,30}(sick|ill|react)",
+            "cross.?contaminat"
+          ],
+          "snippet": "TERRIBLE. If you have any type of allergy do NOT go here. Both times I have gotten food from here was through Door Dash. I ordered a gluten free pie and the first time, the Door Dasher was thorough enough to double check that the pizza was gluten free. It was not and it had to be remade. \n\nThe secon"
         }
       ]
     },
@@ -34455,77 +33895,6 @@
       ]
     },
     {
-      "business_id": "VvqYQ98FjO0iYpKHgu91fw",
-      "name": "Jules Thin Crust",
-      "city": "Jenkintown",
-      "state": "PA",
-      "stars": 4.0,
-      "review_count": 171,
-      "categories": "Restaurants, Pizza",
-      "max_critical_score": 0.0,
-      "max_high_score": 5.5,
-      "total_critical_score": 0.0,
-      "total_high_score": 19.0,
-      "topic_reviews": 8,
-      "critical_review_count": 0,
-      "high_review_count": 8,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "kucRXRXbp7NPaLMI1DyLow",
-          "stars": 5.0,
-          "date": "2019-01-24 13:52:19",
-          "score": 5.5,
-          "matches": [
-            "allerg\\w*.{0,30}(sick|ill|react)",
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
-            "cross.?contaminat"
-          ],
-          "snippet": "My family has been coming to Jules for eight years and we love it today every bit as much as we did the first time we went. They have so many great varieties of pizza combinations that are creative and yummy as well as the standard ones that some kids are attached to. They have white and wheat offer"
-        },
-        {
-          "review_id": "BRG5ndsTz2ExIcT-xtqn_Q",
-          "stars": 2.0,
-          "date": "2014-10-15 13:32:34",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "Interesting concept. I'll leave out my blurb about NYC pizza and just say that it wasn't bad, it's worth trying out. I didn't like some of the flavors and as someone who is allergic to mushrooms, there's a concern of cross contamination (The tools they use to cut were not cleaned in between my pizza"
-        },
-        {
-          "review_id": "im6zlYzfRRZk15_PkGjxnQ",
-          "stars": 5.0,
-          "date": "2017-04-12 23:16:44",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "The most celiac-friendly restaurant I have ever been to. They have an entirely different kitchen/oven dedicated to making gluten free pizza without any cross contamination. In addition, they bring in gluten free desserts from a dedicated gluten free bakery.\n\nOne word of caution: Jules does not serve"
-        },
-        {
-          "review_id": "R8G79RYj9Eu47LdvKpD4iw",
-          "stars": 5.0,
-          "date": "2017-03-17 10:52:57",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "Jules is a small chain which started locally in nearby in Doyelstown, PA by a couple looking for more organic, feel good, affordable eateries to take their daughters to. Jules serves up wide variety of delicious, gorgeous, crisp flatbread pizzas piled with the freshest, locally sourced ingredients a"
-        },
-        {
-          "review_id": "QWgyit8skZBk8V8-5FYhTg",
-          "stars": 2.0,
-          "date": "2019-11-12 01:12:26",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "I'm really sad about this one. Jules was our go to spot almost every Friday night and now I don't think we can go anymore!  My husband suffers from celiac disease and to be able to find a local pizza shop that makes incredible thin crust pizza AND gluten free was a god send but the past few times we"
-        }
-      ]
-    },
-    {
       "business_id": "j_AhCyEzJpo3sS7NZRFKQA",
       "name": "Ijji Sushi",
       "city": "Sparks",
@@ -34666,6 +34035,77 @@
             "\\bfood allerg"
           ],
           "snippet": "My wife, child and I came here after reading  the stellar reviews. Having pretty particular diets, food allergies, etc, we were excited to hear of this place and the offerings. Menu looked incredible and counter service was awesome. \nBut upon being served the disappointment mounted fast. My wife's p"
+        }
+      ]
+    },
+    {
+      "business_id": "VvqYQ98FjO0iYpKHgu91fw",
+      "name": "Jules Thin Crust",
+      "city": "Jenkintown",
+      "state": "PA",
+      "stars": 4.0,
+      "review_count": 171,
+      "categories": "Restaurants, Pizza",
+      "max_critical_score": 0.0,
+      "max_high_score": 5.5,
+      "total_critical_score": 0.0,
+      "total_high_score": 17.0,
+      "topic_reviews": 7,
+      "critical_review_count": 0,
+      "high_review_count": 7,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "kucRXRXbp7NPaLMI1DyLow",
+          "stars": 5.0,
+          "date": "2019-01-24 13:52:19",
+          "score": 5.5,
+          "matches": [
+            "allerg\\w*.{0,30}(sick|ill|react)",
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
+            "cross.?contaminat"
+          ],
+          "snippet": "My family has been coming to Jules for eight years and we love it today every bit as much as we did the first time we went. They have so many great varieties of pizza combinations that are creative and yummy as well as the standard ones that some kids are attached to. They have white and wheat offer"
+        },
+        {
+          "review_id": "BRG5ndsTz2ExIcT-xtqn_Q",
+          "stars": 2.0,
+          "date": "2014-10-15 13:32:34",
+          "score": 2.0,
+          "matches": [
+            "cross.?contaminat"
+          ],
+          "snippet": "Interesting concept. I'll leave out my blurb about NYC pizza and just say that it wasn't bad, it's worth trying out. I didn't like some of the flavors and as someone who is allergic to mushrooms, there's a concern of cross contamination (The tools they use to cut were not cleaned in between my pizza"
+        },
+        {
+          "review_id": "im6zlYzfRRZk15_PkGjxnQ",
+          "stars": 5.0,
+          "date": "2017-04-12 23:16:44",
+          "score": 2.0,
+          "matches": [
+            "cross.?contaminat"
+          ],
+          "snippet": "The most celiac-friendly restaurant I have ever been to. They have an entirely different kitchen/oven dedicated to making gluten free pizza without any cross contamination. In addition, they bring in gluten free desserts from a dedicated gluten free bakery.\n\nOne word of caution: Jules does not serve"
+        },
+        {
+          "review_id": "R8G79RYj9Eu47LdvKpD4iw",
+          "stars": 5.0,
+          "date": "2017-03-17 10:52:57",
+          "score": 2.0,
+          "matches": [
+            "cross.?contaminat"
+          ],
+          "snippet": "Jules is a small chain which started locally in nearby in Doyelstown, PA by a couple looking for more organic, feel good, affordable eateries to take their daughters to. Jules serves up wide variety of delicious, gorgeous, crisp flatbread pizzas piled with the freshest, locally sourced ingredients a"
+        },
+        {
+          "review_id": "Cb2iXXft8BSI-ntaewXhGg",
+          "stars": 1.0,
+          "date": "2018-09-15 20:45:28",
+          "score": 2.0,
+          "matches": [
+            "cross.?contaminat"
+          ],
+          "snippet": "I've been getting severely bloated after eating here and vomited one time as of late February but I think it maybe from the deserts because of the oats or it could be the new kitchens staff not properly cleaning or using foil to keep from cross contamination? I don't know but I'm completely sure I c"
         }
       ]
     },
@@ -40305,57 +39745,6 @@
       ]
     },
     {
-      "business_id": "rueQ9RiqrN8E5Lb3EyFuTg",
-      "name": "Caff\u00e9 Buond\u00ed",
-      "city": "Carmel",
-      "state": "IN",
-      "stars": 4.5,
-      "review_count": 221,
-      "categories": "Breakfast & Brunch, Restaurants",
-      "max_critical_score": 0.0,
-      "max_high_score": 4.5,
-      "total_critical_score": 0.0,
-      "total_high_score": 7.5,
-      "topic_reviews": 3,
-      "critical_review_count": 0,
-      "high_review_count": 3,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "gRsftoy3T169lFKL-vheQQ",
-          "stars": 1.0,
-          "date": "2019-07-01 20:40:26",
-          "score": 4.5,
-          "matches": [
-            "\\bfood allerg",
-            "allerg\\w*.{0,20}(request|ask|told|inform)",
-            "severe\\w* allerg"
-          ],
-          "snippet": "I have eaten here 5 or 6 times before today and have had great experiences. But I will never go back after my exoerience today. I had ordered a Pollo Fritos salad (which I have had about 4 times before) but without the pecans as i am allergic to nuts, and severely to pecans. I explained to the serve"
-        },
-        {
-          "review_id": "NqOi0h6cdnrjXPZOEsn7eQ",
-          "stars": 5.0,
-          "date": "2019-11-16 02:36:17",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "I had no preconceived notions before I stepped into Caff\u00e9 Buond\u00ed, but I still was pleasantly surprised. There are plenty of gluten free options, especially for a cafe! The Italian influenced breakfast/lunch options were interesting and tasty. I went with a Buckwheat Galette with ham, Swiss and an ov"
-        },
-        {
-          "review_id": "-3vO4yyYKvjIy7FI78q6GA",
-          "stars": 5.0,
-          "date": "2019-12-07 18:31:57",
-          "score": 1.0,
-          "matches": [
-            "allerg\\w*.{0,20}(request|ask|told|inform)"
-          ],
-          "snippet": "Met some friends here for brunch, and can't wait to go back! The service was so friendly and quick, and they were so accommodating of my allergy requests. Our waitress was attentive without being hovering over our table. She noticed when our water glasses were low, and made sure everybody knew where"
-        }
-      ]
-    },
-    {
       "business_id": "GST3wg-wej15vHeCvaXE6w",
       "name": "Acme Feed & Seed",
       "city": "Nashville",
@@ -40435,47 +39824,6 @@
             "cross.?contaminat"
           ],
           "snippet": "Very very cute! Everyone is very nice. They have a variety of waffles and pancakes. They have gluten free options--a kabob with fruits, marshmallows, different sauces, and toppings. They were very accommodating and made sure to inform us which toppings were not gluten free and very kindly changed th"
-        }
-      ]
-    },
-    {
-      "business_id": "z1k4Fn6gTZdgx0IfkbvrBw",
-      "name": "Stir Crazy Fresh Asian Grill",
-      "city": "Creve Coeur",
-      "state": "MO",
-      "stars": 3.0,
-      "review_count": 132,
-      "categories": "Restaurants, Pan Asian, Chinese, Asian Fusion, Nightlife, Bars",
-      "max_critical_score": 0.0,
-      "max_high_score": 4.5,
-      "total_critical_score": 0.0,
-      "total_high_score": 6.5,
-      "topic_reviews": 2,
-      "critical_review_count": 0,
-      "high_review_count": 2,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "ZGSeneBAUi-tUxS2gaKItw",
-          "stars": 3.0,
-          "date": "2019-12-22 16:30:07",
-          "score": 4.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
-            "cross.?contaminat",
-            "allerg\\w*.{0,20}(accommodat|careful|safe)"
-          ],
-          "snippet": "Stir crazy is a very nice Asian cuisine. Stir Crazy lives up to its name as an Asian restaurant while it is nothing extraordinary it is meant to just be an all you can eat serve yourself once not really all you can eat restaurant. While I can't say anything about their main courses I can say their s"
-        },
-        {
-          "review_id": "25pKKT82qdAX7ZF1S99Xhw",
-          "stars": 1.0,
-          "date": "2019-08-09 19:55:22",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "Made 3 separate calls to determine if they were open and  no one answered. So we called a nearby store to see if they were still open. We ended up during on our way to another restaurant and thought we would see if ipeb\n\n\nWe used to go here for years and years. In almost every case, anytime we had a"
         }
       ]
     },
@@ -40767,6 +40115,47 @@
       ]
     },
     {
+      "business_id": "rueQ9RiqrN8E5Lb3EyFuTg",
+      "name": "Caff\u00e9 Buond\u00ed",
+      "city": "Carmel",
+      "state": "IN",
+      "stars": 4.5,
+      "review_count": 221,
+      "categories": "Breakfast & Brunch, Restaurants",
+      "max_critical_score": 0.0,
+      "max_high_score": 4.5,
+      "total_critical_score": 0.0,
+      "total_high_score": 5.5,
+      "topic_reviews": 2,
+      "critical_review_count": 0,
+      "high_review_count": 2,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "gRsftoy3T169lFKL-vheQQ",
+          "stars": 1.0,
+          "date": "2019-07-01 20:40:26",
+          "score": 4.5,
+          "matches": [
+            "\\bfood allerg",
+            "allerg\\w*.{0,20}(request|ask|told|inform)",
+            "severe\\w* allerg"
+          ],
+          "snippet": "I have eaten here 5 or 6 times before today and have had great experiences. But I will never go back after my exoerience today. I had ordered a Pollo Fritos salad (which I have had about 4 times before) but without the pecans as i am allergic to nuts, and severely to pecans. I explained to the serve"
+        },
+        {
+          "review_id": "-3vO4yyYKvjIy7FI78q6GA",
+          "stars": 5.0,
+          "date": "2019-12-07 18:31:57",
+          "score": 1.0,
+          "matches": [
+            "allerg\\w*.{0,20}(request|ask|told|inform)"
+          ],
+          "snippet": "Met some friends here for brunch, and can't wait to go back! The service was so friendly and quick, and they were so accommodating of my allergy requests. Our waitress was attentive without being hovering over our table. She noticed when our water glasses were low, and made sure everybody knew where"
+        }
+      ]
+    },
+    {
       "business_id": "gK9CdFaCXmHoW8aLfXiSqg",
       "name": "Tired Hands Fermentaria",
       "city": "Ardmore",
@@ -40947,6 +40336,37 @@
             "deathly allergic"
           ],
           "snippet": "My husband and I have been here twice.  Once with his brother and his girlfriend and a second time with a big family group for my husband's birthday.  Both times we loved it!  Not only is it entertaining, but the food is excellent!  From the mushroom soup to the entree to dessert!  I am also very ap"
+        }
+      ]
+    },
+    {
+      "business_id": "z1k4Fn6gTZdgx0IfkbvrBw",
+      "name": "Stir Crazy Fresh Asian Grill",
+      "city": "Creve Coeur",
+      "state": "MO",
+      "stars": 3.0,
+      "review_count": 132,
+      "categories": "Restaurants, Pan Asian, Chinese, Asian Fusion, Nightlife, Bars",
+      "max_critical_score": 0.0,
+      "max_high_score": 4.5,
+      "total_critical_score": 0.0,
+      "total_high_score": 4.5,
+      "topic_reviews": 1,
+      "critical_review_count": 0,
+      "high_review_count": 1,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "ZGSeneBAUi-tUxS2gaKItw",
+          "stars": 3.0,
+          "date": "2019-12-22 16:30:07",
+          "score": 4.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
+            "cross.?contaminat",
+            "allerg\\w*.{0,20}(accommodat|careful|safe)"
+          ],
+          "snippet": "Stir crazy is a very nice Asian cuisine. Stir Crazy lives up to its name as an Asian restaurant while it is nothing extraordinary it is meant to just be an all you can eat serve yourself once not really all you can eat restaurant. While I can't say anything about their main courses I can say their s"
         }
       ]
     },
@@ -42461,77 +41881,6 @@
       ]
     },
     {
-      "business_id": "ku8cAVBLaF_4rI-yK6gNnQ",
-      "name": "Brennan's",
-      "city": "New Orleans",
-      "state": "LA",
-      "stars": 4.0,
-      "review_count": 1598,
-      "categories": "Cajun/Creole, Restaurants",
-      "max_critical_score": 0.0,
-      "max_high_score": 4.0,
-      "total_critical_score": 0.0,
-      "total_high_score": 13.0,
-      "topic_reviews": 6,
-      "critical_review_count": 0,
-      "high_review_count": 6,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "ZaQGiPYhBgb4jcRxwqaySg",
-          "stars": 5.0,
-          "date": "2018-06-27 23:39:40",
-          "score": 4.0,
-          "matches": [
-            "allergic reaction",
-            "allerg\\w*.{0,30}(sick|ill|react)"
-          ],
-          "snippet": "My friends and I were were at the Roost Bar here and we were blown away by their service and hospitality.... and of course the drinks! \n\nReggie helped us and was great at making recommendations. He has such a great personality and helped me out so much when I ordered a drink that I had an allergic r"
-        },
-        {
-          "review_id": "TDr6hMnRTPVUGeO77wpvqw",
-          "stars": 2.0,
-          "date": "2017-04-10 16:05:36",
-          "score": 2.5,
-          "matches": [
-            "\\bfood allerg",
-            "allerg\\w*.{0,20}(request|ask|told|inform)"
-          ],
-          "snippet": "We were looking forward to our French Quarter Fest annual family gathering and wanted to celebrate at Brennan's. Unfortunately the senior waiter for our table was rude, condescending and uncooperative. Let me explain.\n\nOn Friday, April 7th, our family's eight members dined at Brennan's. As we were s"
-        },
-        {
-          "review_id": "sFI7zHmMjQx5pmzDBJozVw",
-          "stars": 1.0,
-          "date": "2020-02-10 05:10:24",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "HORRIBLE. Worst restaurant ever. Most expensive meal my partner and I had in New Orleans ($200!!!) yet the worst. We got there early and were seated, great. Then ordered drinks that were mediocre for their price. When we ordered the stone crab, there were pieces of shell that could've broken our tee"
-        },
-        {
-          "review_id": "opPFq3TbPMWpReJv-I-OsA",
-          "stars": 5.0,
-          "date": "2017-05-06 19:25:27",
-          "score": 1.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
-          ],
-          "snippet": "Made reservations for brunch on the recommendation of a few people.  I was immediately impressed because we had noted on the reservation that someone in our party had a shellfish allergy which can be a challenge in New Orleans.  They were extremently accomodating and willing to go over each dish and"
-        },
-        {
-          "review_id": "3_DR7YT9Y4b9I72zQGK8JA",
-          "stars": 5.0,
-          "date": "2019-04-06 00:29:15",
-          "score": 1.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
-          ],
-          "snippet": "Unlike Cafe du Monde, Brennan's lives up to the hype. My younger son (20) said that he wanted to eat at Brennan's for the bananas Foster while we were in New Orleans. \n\nWe tried to book dinner too late so went with lunch reservations. I'm glad we did.\n\nThe service is top notch. The ambience is great"
-        }
-      ]
-    },
-    {
       "business_id": "ALK-7tTvDKAzxAtIiNyh2A",
       "name": "Rolf and Daughters",
       "city": "Nashville",
@@ -43434,6 +42783,77 @@
       ]
     },
     {
+      "business_id": "ku8cAVBLaF_4rI-yK6gNnQ",
+      "name": "Brennan's",
+      "city": "New Orleans",
+      "state": "LA",
+      "stars": 4.0,
+      "review_count": 1598,
+      "categories": "Cajun/Creole, Restaurants",
+      "max_critical_score": 0.0,
+      "max_high_score": 4.0,
+      "total_critical_score": 0.0,
+      "total_high_score": 11.0,
+      "topic_reviews": 5,
+      "critical_review_count": 0,
+      "high_review_count": 5,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "ZaQGiPYhBgb4jcRxwqaySg",
+          "stars": 5.0,
+          "date": "2018-06-27 23:39:40",
+          "score": 4.0,
+          "matches": [
+            "allergic reaction",
+            "allerg\\w*.{0,30}(sick|ill|react)"
+          ],
+          "snippet": "My friends and I were were at the Roost Bar here and we were blown away by their service and hospitality.... and of course the drinks! \n\nReggie helped us and was great at making recommendations. He has such a great personality and helped me out so much when I ordered a drink that I had an allergic r"
+        },
+        {
+          "review_id": "TDr6hMnRTPVUGeO77wpvqw",
+          "stars": 2.0,
+          "date": "2017-04-10 16:05:36",
+          "score": 2.5,
+          "matches": [
+            "\\bfood allerg",
+            "allerg\\w*.{0,20}(request|ask|told|inform)"
+          ],
+          "snippet": "We were looking forward to our French Quarter Fest annual family gathering and wanted to celebrate at Brennan's. Unfortunately the senior waiter for our table was rude, condescending and uncooperative. Let me explain.\n\nOn Friday, April 7th, our family's eight members dined at Brennan's. As we were s"
+        },
+        {
+          "review_id": "opPFq3TbPMWpReJv-I-OsA",
+          "stars": 5.0,
+          "date": "2017-05-06 19:25:27",
+          "score": 1.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "Made reservations for brunch on the recommendation of a few people.  I was immediately impressed because we had noted on the reservation that someone in our party had a shellfish allergy which can be a challenge in New Orleans.  They were extremently accomodating and willing to go over each dish and"
+        },
+        {
+          "review_id": "3_DR7YT9Y4b9I72zQGK8JA",
+          "stars": 5.0,
+          "date": "2019-04-06 00:29:15",
+          "score": 1.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "Unlike Cafe du Monde, Brennan's lives up to the hype. My younger son (20) said that he wanted to eat at Brennan's for the bananas Foster while we were in New Orleans. \n\nWe tried to book dinner too late so went with lunch reservations. I'm glad we did.\n\nThe service is top notch. The ambience is great"
+        },
+        {
+          "review_id": "HbHvUSOq6j-m_4O4CKKMaQ",
+          "stars": 5.0,
+          "date": "2018-12-30 06:53:33",
+          "score": 1.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "Unlike Cafe du Monde, Brennan's lives up to the hype. My younger son (20) said that he wanted to eat at Brennan's for the bananas Foster while we were in New Orleans. \n\nWe tried to book dinner too late so went with lunch reservations. I'm glad we did.\n\nThe service is top notch. The ambience is great"
+        }
+      ]
+    },
+    {
       "business_id": "pi1CtS1L_Rd1NcmO-un1cQ",
       "name": "Fresh Kitchen",
       "city": "Tampa",
@@ -44329,57 +43749,6 @@
             "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
           ],
           "snippet": "First of all we looked at 4 restaurants across from the Museum of Fine Arts, in St Petersburg, FL. I have a gluten allergy, so 2 did not make me feel comfortable that they knew what a gluten allergy is, and if they could actually be able to cook for me!! One restaurant as I was looking at the menu t"
-        }
-      ]
-    },
-    {
-      "business_id": "UUVGRcJWobDQMllmCAa2Dw",
-      "name": "Windcrest Animal Hospital",
-      "city": "Wilmington",
-      "state": "DE",
-      "stars": 2.5,
-      "review_count": 57,
-      "categories": "Veterinarians, Pets, Pet Services, Pet Sitting, Pet Boarding, Pet Groomers",
-      "max_critical_score": 0.0,
-      "max_high_score": 4.0,
-      "total_critical_score": 0.0,
-      "total_high_score": 10.0,
-      "topic_reviews": 3,
-      "critical_review_count": 0,
-      "high_review_count": 3,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "QuJg3FYKCpYPeYsLI6G9gA",
-          "stars": 2.0,
-          "date": "2013-08-24 20:37:06",
-          "score": 4.0,
-          "matches": [
-            "allergic reaction",
-            "allerg\\w*.{0,30}(sick|ill|react)"
-          ],
-          "snippet": "UPDATE to my last review.  I did receive a message from Windcrest's Customer Service Manager the next afternoon.  I was visiting family that day.  I did not listen to the message until after they were closed for the day.  I returned her call the next day; however, she was out ill.  Because I appreci"
-        },
-        {
-          "review_id": "jSsFdb2iLW40yE8KEb3iig",
-          "stars": 1.0,
-          "date": "2013-08-21 21:34:52",
-          "score": 4.0,
-          "matches": [
-            "allergic reaction",
-            "allerg\\w*.{0,30}(sick|ill|react)"
-          ],
-          "snippet": "My first review for Windcrest was written specifically with their rehab staff in mind.  It read as follows:  My 3 year old Lab had knee surgery.  She hasn't been recovering as we'll as expected so water therapy at Windcrest was suggested by my Vet.  Kate was very thorough during our initial evaluati"
-        },
-        {
-          "review_id": "qJM8KWXX8t48yUaMt8F9UQ",
-          "stars": 5.0,
-          "date": "2019-08-08 13:36:53",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "I have a very sick baby Hedgie, and I have to say Dr. Lisa Haviland was excellent with her. Not to mention, they also were willing to squeeze my other hedgehog in to examine her, to ensure there was no cross-contamination & she was healthy. I'm not sure what people are talking about as far as pushin"
         }
       ]
     },
@@ -46277,6 +45646,47 @@
       ]
     },
     {
+      "business_id": "UUVGRcJWobDQMllmCAa2Dw",
+      "name": "Windcrest Animal Hospital",
+      "city": "Wilmington",
+      "state": "DE",
+      "stars": 2.5,
+      "review_count": 57,
+      "categories": "Veterinarians, Pets, Pet Services, Pet Sitting, Pet Boarding, Pet Groomers",
+      "max_critical_score": 0.0,
+      "max_high_score": 4.0,
+      "total_critical_score": 0.0,
+      "total_high_score": 8.0,
+      "topic_reviews": 2,
+      "critical_review_count": 0,
+      "high_review_count": 2,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "QuJg3FYKCpYPeYsLI6G9gA",
+          "stars": 2.0,
+          "date": "2013-08-24 20:37:06",
+          "score": 4.0,
+          "matches": [
+            "allergic reaction",
+            "allerg\\w*.{0,30}(sick|ill|react)"
+          ],
+          "snippet": "UPDATE to my last review.  I did receive a message from Windcrest's Customer Service Manager the next afternoon.  I was visiting family that day.  I did not listen to the message until after they were closed for the day.  I returned her call the next day; however, she was out ill.  Because I appreci"
+        },
+        {
+          "review_id": "jSsFdb2iLW40yE8KEb3iig",
+          "stars": 1.0,
+          "date": "2013-08-21 21:34:52",
+          "score": 4.0,
+          "matches": [
+            "allergic reaction",
+            "allerg\\w*.{0,30}(sick|ill|react)"
+          ],
+          "snippet": "My first review for Windcrest was written specifically with their rehab staff in mind.  It read as follows:  My 3 year old Lab had knee surgery.  She hasn't been recovering as we'll as expected so water therapy at Windcrest was suggested by my Vet.  Kate was very thorough during our initial evaluati"
+        }
+      ]
+    },
+    {
       "business_id": "mIhTKiCFvASrx1IrNT6Ktw",
       "name": "Ramada by Wyndham Santa Barbara",
       "city": "Santa Barbara",
@@ -46314,56 +45724,6 @@
             "allerg\\w*.{0,30}(sick|ill|react)"
           ],
           "snippet": "The Ramada...When you tell your kids goodnight, dont let the bed bugs bite - and they still DO!!\nIf I could give this place a zero I would...\nMy family booked the Ramada during the weekend of the Avon39 Marathon and 1/2 Walk considering it was Santa Barbara it would be considered about mid range at "
-        }
-      ]
-    },
-    {
-      "business_id": "2FnoLyEO0nq7g2Wz8x7Z5A",
-      "name": "honeygrow",
-      "city": "Bala Cynwyd",
-      "state": "PA",
-      "stars": 3.5,
-      "review_count": 344,
-      "categories": "Juice Bars & Smoothies, Noodles, Restaurants, Asian Fusion, Food, Salad, Vegetarian, Vegan",
-      "max_critical_score": 0.0,
-      "max_high_score": 4.0,
-      "total_critical_score": 0.0,
-      "total_high_score": 7.5,
-      "topic_reviews": 3,
-      "critical_review_count": 0,
-      "high_review_count": 3,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "FKDGIDD6JzLMZHrhbWSxpw",
-          "stars": 5.0,
-          "date": "2016-07-01 03:37:49",
-          "score": 4.0,
-          "matches": [
-            "allergic reaction",
-            "allerg\\w*.{0,30}(sick|ill|react)"
-          ],
-          "snippet": "I ended up having an allergic reaction because they put onions in my food, when i asked for none.\n\nIn their defense they were sooooo busy!! So Stuff happen\n\nI called the manager, they were very nice and rectified the situation\n\nStaff is always nice, you always get greeted by at least 3 people\n\nFood "
-        },
-        {
-          "review_id": "LTpN3F4SNbhgo1t9WXwysw",
-          "stars": 3.0,
-          "date": "2013-08-01 21:03:38",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "Pretty good for a quick healthy salad. Some offerings for gluten free customers, but stir fry's are all made one after another in same wok; GF sauce or not. Cross-contamination likely. Service was nice. Ambience okay - way too loud, especially since there are only 7 people in here!  Music is nice, a"
-        },
-        {
-          "review_id": "ZMZAtCXyF9LsuLExEcqVNQ",
-          "stars": 2.0,
-          "date": "2014-04-10 16:34:01",
-          "score": 1.5,
-          "matches": [
-            "\\bfood allerg"
-          ],
-          "snippet": "I work right across the street from Honey Grow, and I have tried this place numerous times. I can't comment on the salad options or the honey bar, because I'm not paying 10 dollars for lettuce or sliced strawberries. Anyway, I have tried the stir-fry twice, and both times it has been flavorless, abs"
         }
       ]
     },
@@ -46556,56 +45916,6 @@
             "\\bfood allerg"
           ],
           "snippet": "I have many food allergies and the owner did an AMAZING job accommodating me. I got the gluten free & egg free crust and he allowed me to bring my own cheese. My mother and father in law got calzones and loved them. My hubby also loved his pizza and said it was better than mellow mushroom! Great lit"
-        }
-      ]
-    },
-    {
-      "business_id": "3wo9jODQnuvBm8Gkem6qXg",
-      "name": "Ruby Slipper Cafe",
-      "city": "New Orleans",
-      "state": "LA",
-      "stars": 4.0,
-      "review_count": 904,
-      "categories": "American (New), American (Traditional), Nightlife, Southern, Cocktail Bars, Coffee & Tea, Breakfast & Brunch, Food, Restaurants, Cafes, Bars",
-      "max_critical_score": 0.0,
-      "max_high_score": 4.0,
-      "total_critical_score": 0.0,
-      "total_high_score": 7.5,
-      "topic_reviews": 3,
-      "critical_review_count": 0,
-      "high_review_count": 3,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "g9yCHr_kVGPjDUwbX-QW2g",
-          "stars": 1.0,
-          "date": "2020-09-28 15:12:46",
-          "score": 4.0,
-          "matches": [
-            "allergic reaction",
-            "allerg\\w*.{0,30}(sick|ill|react)"
-          ],
-          "snippet": "DO NOT GO HERE IF YOU HAVE ALLERGIES. We ordered just pancakes, wrote on the ticket allergic to all nuts, had an awful allergic reaction, called just to inform them the pancakes might be contaminated, manager told us it was the delivery drivers fault. Sick part is we picked the food up directly from"
-        },
-        {
-          "review_id": "zEf2jBCYqAxFkuT11ieTZA",
-          "stars": 1.0,
-          "date": "2009-05-18 11:57:36",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "If you don't mind waiting during their weekend breakfast rush and being treated as though your business didn't matter, go here!\n\nSunday morning we arrived at 1045a, put our name on the list, and were told it would be a 20-30 minute wait; we were a party of 6.  So we walked down the block to check ou"
-        },
-        {
-          "review_id": "ovtOgP3ILIVoUprnk7b1CA",
-          "stars": 4.0,
-          "date": "2019-07-05 20:41:33",
-          "score": 1.5,
-          "matches": [
-            "\\bfood allerg"
-          ],
-          "snippet": "TL;DR: Order the White Chocolate Banana Pudding pancakes (even if it costs you your flight) \n\nBeing one of the signature New Orleans brunch spots, we  decided to make a visit to this impromptu location. \n\nThe front of the building looks like it's closed for construction but if you walk towards the s"
         }
       ]
     },
@@ -48019,46 +47329,6 @@
       ]
     },
     {
-      "business_id": "6_SuJJPfWJ-CfaSL8YOgyQ",
-      "name": "Salem's Fresh Eats",
-      "city": "Brandon",
-      "state": "FL",
-      "stars": 3.0,
-      "review_count": 99,
-      "categories": "Seafood, Fast Food, Middle Eastern, American (Traditional), Diners, Mediterranean, Sandwiches, Salad, Restaurants, Greek, Chicken Wings",
-      "max_critical_score": 0.0,
-      "max_high_score": 4.0,
-      "total_critical_score": 0.0,
-      "total_high_score": 6.0,
-      "topic_reviews": 2,
-      "critical_review_count": 0,
-      "high_review_count": 2,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "PFrjJxKRJFsZWnU6V3_Bfw",
-          "stars": 1.0,
-          "date": "2018-07-12 19:58:12",
-          "score": 4.0,
-          "matches": [
-            "allergic reaction",
-            "allerg\\w*.{0,30}(sick|ill|react)"
-          ],
-          "snippet": "WARNING Allergic reactions to the food\nDO Not eat here if you have ALLERGIES or if you are worried about food poisoning. \n Note: Please read all the 1 and 2 star reviews here Before you risk eating anything here.\n\nThe short version;\nThey put jalapenos in my chicken bowl. I never had a bowl there bef"
-        },
-        {
-          "review_id": "hDaeIDDFxY1vbxoSvVrzlw",
-          "stars": 1.0,
-          "date": "2018-03-30 06:38:39",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "I went to buy some Gyros and I thought the place was going to be good but I was shocked that the gyro was cold the bread was cold the worst gyro I ever had and the people in the kitchen are very nasty and they cross-contaminate and they took over the food very disgusting place I don't know how they "
-        }
-      ]
-    },
-    {
       "business_id": "CMnrIvac5TRbYnUJgKHupQ",
       "name": "Hotel Tango",
       "city": "Indianapolis",
@@ -48496,6 +47766,46 @@
             "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
           ],
           "snippet": "Bomb chowder!!! My gf has a shellfish allergy it was that good that she disregard her health conditions to chow down the tasteful chowder"
+        }
+      ]
+    },
+    {
+      "business_id": "2FnoLyEO0nq7g2Wz8x7Z5A",
+      "name": "honeygrow",
+      "city": "Bala Cynwyd",
+      "state": "PA",
+      "stars": 3.5,
+      "review_count": 344,
+      "categories": "Juice Bars & Smoothies, Noodles, Restaurants, Asian Fusion, Food, Salad, Vegetarian, Vegan",
+      "max_critical_score": 0.0,
+      "max_high_score": 4.0,
+      "total_critical_score": 0.0,
+      "total_high_score": 5.5,
+      "topic_reviews": 2,
+      "critical_review_count": 0,
+      "high_review_count": 2,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "FKDGIDD6JzLMZHrhbWSxpw",
+          "stars": 5.0,
+          "date": "2016-07-01 03:37:49",
+          "score": 4.0,
+          "matches": [
+            "allergic reaction",
+            "allerg\\w*.{0,30}(sick|ill|react)"
+          ],
+          "snippet": "I ended up having an allergic reaction because they put onions in my food, when i asked for none.\n\nIn their defense they were sooooo busy!! So Stuff happen\n\nI called the manager, they were very nice and rectified the situation\n\nStaff is always nice, you always get greeted by at least 3 people\n\nFood "
+        },
+        {
+          "review_id": "ZMZAtCXyF9LsuLExEcqVNQ",
+          "stars": 2.0,
+          "date": "2014-04-10 16:34:01",
+          "score": 1.5,
+          "matches": [
+            "\\bfood allerg"
+          ],
+          "snippet": "I work right across the street from Honey Grow, and I have tried this place numerous times. I can't comment on the salad options or the honey bar, because I'm not paying 10 dollars for lettuce or sliced strawberries. Anyway, I have tried the stir-fry twice, and both times it has been flavorless, abs"
         }
       ]
     },
@@ -49297,6 +48607,46 @@
             "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
           ],
           "snippet": "This is definitely my new go to spot! Not only was I extremely impressed by the food, but absolutely blown away by the service! We were waited on by Dante and Mike and were so happy with their attentiveness, attention to detail and kind, positive manner. My drinks were constantly full, and we were a"
+        }
+      ]
+    },
+    {
+      "business_id": "3wo9jODQnuvBm8Gkem6qXg",
+      "name": "Ruby Slipper Cafe",
+      "city": "New Orleans",
+      "state": "LA",
+      "stars": 4.0,
+      "review_count": 904,
+      "categories": "American (New), American (Traditional), Nightlife, Southern, Cocktail Bars, Coffee & Tea, Breakfast & Brunch, Food, Restaurants, Cafes, Bars",
+      "max_critical_score": 0.0,
+      "max_high_score": 4.0,
+      "total_critical_score": 0.0,
+      "total_high_score": 5.5,
+      "topic_reviews": 2,
+      "critical_review_count": 0,
+      "high_review_count": 2,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "g9yCHr_kVGPjDUwbX-QW2g",
+          "stars": 1.0,
+          "date": "2020-09-28 15:12:46",
+          "score": 4.0,
+          "matches": [
+            "allergic reaction",
+            "allerg\\w*.{0,30}(sick|ill|react)"
+          ],
+          "snippet": "DO NOT GO HERE IF YOU HAVE ALLERGIES. We ordered just pancakes, wrote on the ticket allergic to all nuts, had an awful allergic reaction, called just to inform them the pancakes might be contaminated, manager told us it was the delivery drivers fault. Sick part is we picked the food up directly from"
+        },
+        {
+          "review_id": "ovtOgP3ILIVoUprnk7b1CA",
+          "stars": 4.0,
+          "date": "2019-07-05 20:41:33",
+          "score": 1.5,
+          "matches": [
+            "\\bfood allerg"
+          ],
+          "snippet": "TL;DR: Order the White Chocolate Banana Pudding pancakes (even if it costs you your flight) \n\nBeing one of the signature New Orleans brunch spots, we  decided to make a visit to this impromptu location. \n\nThe front of the building looks like it's closed for construction but if you walk towards the s"
         }
       ]
     },
@@ -56089,6 +55439,36 @@
             "allerg\\w*.{0,30}(sick|ill|react)"
           ],
           "snippet": "Upon arriving one of the staff and a customer were talking about the most profitable professions when a staff member said...HOOKER, very unprofessional. Later as I was leaving the same staff member was sitting in the main office chair talking loudly on a personal call.\nThe biggest issues I had were,"
+        }
+      ]
+    },
+    {
+      "business_id": "yNN7L5btOFyHb3Q1Et07pw",
+      "name": "Chestnut Hill Hospital",
+      "city": "Philadelphia",
+      "state": "PA",
+      "stars": 2.5,
+      "review_count": 41,
+      "categories": "Hospitals, Doctors, Health & Medical",
+      "max_critical_score": 0.0,
+      "max_high_score": 4.0,
+      "total_critical_score": 0.0,
+      "total_high_score": 4.0,
+      "topic_reviews": 1,
+      "critical_review_count": 0,
+      "high_review_count": 1,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "MPFbHZGtVQ_R7cCBydaH0g",
+          "stars": 3.0,
+          "date": "2016-11-06 12:16:59",
+          "score": 4.0,
+          "matches": [
+            "allergic reaction",
+            "allerg\\w*.{0,30}(sick|ill|react)"
+          ],
+          "snippet": "I went to CH because it was close.  I had an allergic reaction to food.  The initial impression was not great.  ER reception area and staff were lackadaisical.  Seemed a little untidy as well.  Once i was brought in for observation and treatment things changed.  PA and nurse who oversaw my treatment"
         }
       ]
     },
@@ -63450,6 +62830,36 @@
       ]
     },
     {
+      "business_id": "6_SuJJPfWJ-CfaSL8YOgyQ",
+      "name": "Salem's Fresh Eats",
+      "city": "Brandon",
+      "state": "FL",
+      "stars": 3.0,
+      "review_count": 99,
+      "categories": "Seafood, Fast Food, Middle Eastern, American (Traditional), Diners, Mediterranean, Sandwiches, Salad, Restaurants, Greek, Chicken Wings",
+      "max_critical_score": 0.0,
+      "max_high_score": 4.0,
+      "total_critical_score": 0.0,
+      "total_high_score": 4.0,
+      "topic_reviews": 1,
+      "critical_review_count": 0,
+      "high_review_count": 1,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "PFrjJxKRJFsZWnU6V3_Bfw",
+          "stars": 1.0,
+          "date": "2018-07-12 19:58:12",
+          "score": 4.0,
+          "matches": [
+            "allergic reaction",
+            "allerg\\w*.{0,30}(sick|ill|react)"
+          ],
+          "snippet": "WARNING Allergic reactions to the food\nDO Not eat here if you have ALLERGIES or if you are worried about food poisoning. \n Note: Please read all the 1 and 2 star reviews here Before you risk eating anything here.\n\nThe short version;\nThey put jalapenos in my chicken bowl. I never had a bowl there bef"
+        }
+      ]
+    },
+    {
       "business_id": "kfW3-LmZlKrXq3RndVXxdg",
       "name": "Pho Ben City",
       "city": "Abington",
@@ -66679,147 +66089,6 @@
       ]
     },
     {
-      "business_id": "qEBL7U0kW4lkptcd_4wWbg",
-      "name": "New Day Gluten Free",
-      "city": "Clayton",
-      "state": "MO",
-      "stars": 4.5,
-      "review_count": 99,
-      "categories": "Food, Bakeries, Restaurants, Gluten-Free, Custom Cakes, Cafes",
-      "max_critical_score": 0.0,
-      "max_high_score": 3.5,
-      "total_critical_score": 0.0,
-      "total_high_score": 22.5,
-      "topic_reviews": 12,
-      "critical_review_count": 0,
-      "high_review_count": 12,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "GHPj4an49bXVyAPEyH78gA",
-          "stars": 5.0,
-          "date": "2019-07-05 01:28:05",
-          "score": 3.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
-            "cross.?contaminat"
-          ],
-          "snippet": "I LOVE THIS PLACE! Dedicated Gluten and peanut free facility. My friend with a peanut allergy and I (very gluten intolerant) can actually eat at a restaurant together and choose anything on the menu! It's amazing to be able to eat literally anything they serve and never even having to worry about cr"
-        },
-        {
-          "review_id": "hkVE2l3XRJJQaqEvJ-81gg",
-          "stars": 5.0,
-          "date": "2018-05-28 20:59:33",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "I recently discovered that I'm gluten sensitive which makes eating anywhere else but home very difficult. For the most part I have sacrificed enjoying a meal out with family because eating something with even a risk of cross-contamination isn't worth it because I feel horrible afterward. I was thril"
-        },
-        {
-          "review_id": "B1FUkZaj4UNmrQB2cVTZNQ",
-          "stars": 5.0,
-          "date": "2018-02-09 19:19:45",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "Moving to a new community gives opportunity to explore new places. Being gluten free can make new places to eat a challenge. So pleased to give New Day 5 stars. I had grilled cheese and tomato soup and was able to enjoy without the fear of the dreaded cross contamination.  Food was tasty and even my"
-        },
-        {
-          "review_id": "E5M1hgQH-X3jgDZQSXAuEQ",
-          "stars": 5.0,
-          "date": "2018-07-23 03:04:08",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "What a gem! I recently had a family member with celiac disease visiting and we stopped in for lunch. The Clayton location is convenient with parking on the side and a fair amount of seating available both inside and outside. None of us had ever tasted gluten free sandwich break or breadsticks that w"
-        },
-        {
-          "review_id": "tsJn1Lo373ZA_VuVA-5bRw",
-          "stars": 5.0,
-          "date": "2017-11-01 20:01:39",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "For those who, like my mom, follow a gluten free diet, this place is really a ray of sunshine (a \"New Day,\" if you will). It's so empowering for them to be able to order ANYTHING off the menu, no questions asked, no worries about cross-contamination (New Day is strict, you can't bring outside food i"
-        }
-      ]
-    },
-    {
-      "business_id": "ZWTaHa3PUhllOcvlCEgybA",
-      "name": "Dedicated Gluten Free Bakery And Coffee Shop",
-      "city": "Tucson",
-      "state": "AZ",
-      "stars": 4.5,
-      "review_count": 175,
-      "categories": "Gluten-Free, Cafes, Breakfast & Brunch, Restaurants",
-      "max_critical_score": 0.0,
-      "max_high_score": 3.5,
-      "total_critical_score": 0.0,
-      "total_high_score": 21.5,
-      "topic_reviews": 10,
-      "critical_review_count": 0,
-      "high_review_count": 10,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "7Du2nt38iSDHmeSlCGyFvg",
-          "stars": 5.0,
-          "date": "2017-08-13 00:02:14",
-          "score": 3.5,
-          "matches": [
-            "allerg\\w*.{0,30}(sick|ill|react)",
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
-          ],
-          "snippet": "Best gluten free and vegan by far !!! If you're missing baked goods because of a gluten allergy this place will make your day. Super friendly and accommodating. Love this place for everything they do for the gluten free community."
-        },
-        {
-          "review_id": "9LajZIdwZsoK7wQCFTx9Jg",
-          "stars": 5.0,
-          "date": "2020-01-25 03:57:03",
-          "score": 3.5,
-          "matches": [
-            "allerg\\w*.{0,30}(sick|ill|react)",
-            "\\bfood allerg"
-          ],
-          "snippet": "We walked in today and were greeted upon entry. It was a little after 4pm. The gentleman that helped us was super friendly and so helpful! He was extremely personable and made an awesome first impression for this being my first time coming in. My husband had purchased individual cupcakes for our son"
-        },
-        {
-          "review_id": "MQSt8ajjkr1LaciDvmHpsg",
-          "stars": 5.0,
-          "date": "2015-08-23 20:09:06",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "Amazing find!! My dad has celiac and can't do dairy, and this place is perfect for lunch when he comes to town. Blink and you'll miss it, tucked away in a nice shady spot at Pima and Craycroft. They have breakfast and lunch sandwiches, bread by the loaf, pasta, and a few other goodies, and the best "
-        },
-        {
-          "review_id": "nuJUAuXNxwWX-7Kqor0f1g",
-          "stars": 5.0,
-          "date": "2018-11-04 03:50:17",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "This place is amazing! The owner is always super helpful and informative if you have any questions. They can hold any item for you if you call ahead of time! You can also do special orders and they take sure good care to make sure its exactly what you want. It is such a relief to have the comfort of"
-        },
-        {
-          "review_id": "W2giwMfPTpNkq-FU09fiXQ",
-          "stars": 5.0,
-          "date": "2021-10-16 18:44:38",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "My mom has to avoid gluten in her diet and I was looking for a place where she could enjoy having pastries and breads that she misses. Any other bakery or cafe may have only a couple of things from the case or menu that are gluten free, but at Dedicated you can have everything! I've tried several th"
-        }
-      ]
-    },
-    {
       "business_id": "fVUurZgbWXzp2QzDzJzmpA",
       "name": "Pickles & Swiss",
       "city": "Santa Barbara",
@@ -66891,6 +66160,147 @@
       ]
     },
     {
+      "business_id": "ZWTaHa3PUhllOcvlCEgybA",
+      "name": "Dedicated Gluten Free Bakery And Coffee Shop",
+      "city": "Tucson",
+      "state": "AZ",
+      "stars": 4.5,
+      "review_count": 175,
+      "categories": "Gluten-Free, Cafes, Breakfast & Brunch, Restaurants",
+      "max_critical_score": 0.0,
+      "max_high_score": 3.5,
+      "total_critical_score": 0.0,
+      "total_high_score": 19.5,
+      "topic_reviews": 9,
+      "critical_review_count": 0,
+      "high_review_count": 9,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "7Du2nt38iSDHmeSlCGyFvg",
+          "stars": 5.0,
+          "date": "2017-08-13 00:02:14",
+          "score": 3.5,
+          "matches": [
+            "allerg\\w*.{0,30}(sick|ill|react)",
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "Best gluten free and vegan by far !!! If you're missing baked goods because of a gluten allergy this place will make your day. Super friendly and accommodating. Love this place for everything they do for the gluten free community."
+        },
+        {
+          "review_id": "9LajZIdwZsoK7wQCFTx9Jg",
+          "stars": 5.0,
+          "date": "2020-01-25 03:57:03",
+          "score": 3.5,
+          "matches": [
+            "allerg\\w*.{0,30}(sick|ill|react)",
+            "\\bfood allerg"
+          ],
+          "snippet": "We walked in today and were greeted upon entry. It was a little after 4pm. The gentleman that helped us was super friendly and so helpful! He was extremely personable and made an awesome first impression for this being my first time coming in. My husband had purchased individual cupcakes for our son"
+        },
+        {
+          "review_id": "MQSt8ajjkr1LaciDvmHpsg",
+          "stars": 5.0,
+          "date": "2015-08-23 20:09:06",
+          "score": 2.0,
+          "matches": [
+            "cross.?contaminat"
+          ],
+          "snippet": "Amazing find!! My dad has celiac and can't do dairy, and this place is perfect for lunch when he comes to town. Blink and you'll miss it, tucked away in a nice shady spot at Pima and Craycroft. They have breakfast and lunch sandwiches, bread by the loaf, pasta, and a few other goodies, and the best "
+        },
+        {
+          "review_id": "nuJUAuXNxwWX-7Kqor0f1g",
+          "stars": 5.0,
+          "date": "2018-11-04 03:50:17",
+          "score": 2.0,
+          "matches": [
+            "cross.?contaminat"
+          ],
+          "snippet": "This place is amazing! The owner is always super helpful and informative if you have any questions. They can hold any item for you if you call ahead of time! You can also do special orders and they take sure good care to make sure its exactly what you want. It is such a relief to have the comfort of"
+        },
+        {
+          "review_id": "W2giwMfPTpNkq-FU09fiXQ",
+          "stars": 5.0,
+          "date": "2021-10-16 18:44:38",
+          "score": 2.0,
+          "matches": [
+            "cross.?contaminat"
+          ],
+          "snippet": "My mom has to avoid gluten in her diet and I was looking for a place where she could enjoy having pastries and breads that she misses. Any other bakery or cafe may have only a couple of things from the case or menu that are gluten free, but at Dedicated you can have everything! I've tried several th"
+        }
+      ]
+    },
+    {
+      "business_id": "qEBL7U0kW4lkptcd_4wWbg",
+      "name": "New Day Gluten Free",
+      "city": "Clayton",
+      "state": "MO",
+      "stars": 4.5,
+      "review_count": 99,
+      "categories": "Food, Bakeries, Restaurants, Gluten-Free, Custom Cakes, Cafes",
+      "max_critical_score": 0.0,
+      "max_high_score": 3.5,
+      "total_critical_score": 0.0,
+      "total_high_score": 18.5,
+      "topic_reviews": 10,
+      "critical_review_count": 0,
+      "high_review_count": 10,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "GHPj4an49bXVyAPEyH78gA",
+          "stars": 5.0,
+          "date": "2019-07-05 01:28:05",
+          "score": 3.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
+            "cross.?contaminat"
+          ],
+          "snippet": "I LOVE THIS PLACE! Dedicated Gluten and peanut free facility. My friend with a peanut allergy and I (very gluten intolerant) can actually eat at a restaurant together and choose anything on the menu! It's amazing to be able to eat literally anything they serve and never even having to worry about cr"
+        },
+        {
+          "review_id": "B1FUkZaj4UNmrQB2cVTZNQ",
+          "stars": 5.0,
+          "date": "2018-02-09 19:19:45",
+          "score": 2.0,
+          "matches": [
+            "cross.?contaminat"
+          ],
+          "snippet": "Moving to a new community gives opportunity to explore new places. Being gluten free can make new places to eat a challenge. So pleased to give New Day 5 stars. I had grilled cheese and tomato soup and was able to enjoy without the fear of the dreaded cross contamination.  Food was tasty and even my"
+        },
+        {
+          "review_id": "E5M1hgQH-X3jgDZQSXAuEQ",
+          "stars": 5.0,
+          "date": "2018-07-23 03:04:08",
+          "score": 2.0,
+          "matches": [
+            "cross.?contaminat"
+          ],
+          "snippet": "What a gem! I recently had a family member with celiac disease visiting and we stopped in for lunch. The Clayton location is convenient with parking on the side and a fair amount of seating available both inside and outside. None of us had ever tasted gluten free sandwich break or breadsticks that w"
+        },
+        {
+          "review_id": "B17NU7aKn4ZS9paeSzaHDw",
+          "stars": 5.0,
+          "date": "2019-06-01 00:35:59",
+          "score": 2.0,
+          "matches": [
+            "cross.?contaminat"
+          ],
+          "snippet": "Everything here is gluten free which is amazing! They also have some dairy free items as well for people who are dairy free or have lactose intolerance. In my experience, being someone who is dairy free and gluten free, it is almost impossible to find a place that serves dairy free and gluten free F"
+        },
+        {
+          "review_id": "T_zSrYo6tBg7wN3o24rT-Q",
+          "stars": 5.0,
+          "date": "2017-09-11 18:14:19",
+          "score": 1.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "I'm from So. FL visiting-evacuee from the Irma\nHurricane. My friend has celiac and needed a  good\nMeal. Whether or\nNot you have gluten allergies, this place is AMAZING! It's very cute and pleasant inside and the owner is kind, knowledgable,  and willing to help. We tried A LOT. biscuits and gravy we"
+        }
+      ]
+    },
+    {
       "business_id": "2er_V-oAd7IbQ5YTY56r7A",
       "name": "Bareburger - Midtown Village",
       "city": "Philadelphia",
@@ -66958,147 +66368,6 @@
             "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
           ],
           "snippet": "You guys, where do I begin with Bareburger. Those of you who KMOY (know me on Yelp) know that I am a burger girl at heart. There is a little bun shaped hole in my heart that's just waiting to be filled, any day, any time, by an awesome burger. Bareburger fit the bill for me just perfectly, and here "
-        }
-      ]
-    },
-    {
-      "business_id": "j6LkTbT0ZKBMghyxdeDABA",
-      "name": "Sub Zero Nitrogen Ice Cream",
-      "city": "Indianapolis",
-      "state": "IN",
-      "stars": 3.5,
-      "review_count": 312,
-      "categories": "Food, Desserts, Ice Cream & Frozen Yogurt, Juice Bars & Smoothies",
-      "max_critical_score": 0.0,
-      "max_high_score": 3.5,
-      "total_critical_score": 0.0,
-      "total_high_score": 18.5,
-      "topic_reviews": 10,
-      "critical_review_count": 0,
-      "high_review_count": 10,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "loMqGUiLB3Z_Ai6_n32LtQ",
-          "stars": 4.0,
-          "date": "2013-08-04 00:32:40",
-          "score": 3.5,
-          "matches": [
-            "cross.?contaminat",
-            "\\bfood allerg"
-          ],
-          "snippet": "A nice place for a sweet treat while on Mass Ave.  There are a billion flavor combos to choose from and options like soy milk.  A nice selection of toppings too!  The line may seem daunting, but if you've got some time to kill, wait your turn and chat with your friends.  \n\nIf this is your first time"
-        },
-        {
-          "review_id": "BTfOErVZLfX4C-piFIGQCA",
-          "stars": 1.0,
-          "date": "2013-10-30 21:00:19",
-          "score": 2.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
-            "allerg\\w*.{0,20}(request|ask|told|inform)"
-          ],
-          "snippet": "I have a dairy allergy - so I told the woman that and she said the soy or almond would work but it wouldn't be as creamy. I said fine. Then when I get it, it doesn't taste like white chocolate and it is not sweet at all. \n\n*Don't take your choices back - they will give you an attitude about it and m"
-        },
-        {
-          "review_id": "4lbRhLioUoXwT5J2YFthcg",
-          "stars": 4.0,
-          "date": "2013-07-15 23:11:08",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "We shared a small, low-fat ice cream with cheesecake flavor added and cookie dough mixer. It was tasty and delicious. The process is a little slower, but it's neat to watch and there are plenty of taste combinations to discuss while you wait. \n\nIt's basically Cold Stone...with several key difference"
-        },
-        {
-          "review_id": "K2xdq2QPa2lgaibBsmlQ9Q",
-          "stars": 4.0,
-          "date": "2015-06-11 02:33:32",
-          "score": 1.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
-          ],
-          "snippet": "Stopped in a couple of times while I was in town.  It was a different and interesting way to have ice cream made.  I think if you are in the neighborhood and the line isn't out the door and down the street, you should stop in.  Otherwise, it is a LONG wait for ice cream.  They do have options for th"
-        },
-        {
-          "review_id": "471x-T_EA16XJ4-WieVFdw",
-          "stars": 4.0,
-          "date": "2017-09-03 22:26:46",
-          "score": 1.5,
-          "matches": [
-            "\\bfood allerg"
-          ],
-          "snippet": "Sub Zero is a fun spot to grab some ice cream! I love that you can watch the entire process as you go. Watching the nitrogen freeze the cream is really cool - pun intended. Not only is the novelty of the place good, the ice cream tastes really delicious, too, which is even more important! ;) In fact"
-        }
-      ]
-    },
-    {
-      "business_id": "hPmbL4VRqWXJAmcIGoLovg",
-      "name": "Not Your Average Joe's",
-      "city": "Ardmore",
-      "state": "PA",
-      "stars": 4.0,
-      "review_count": 468,
-      "categories": "American (New), Bars, Nightlife, Restaurants",
-      "max_critical_score": 0.0,
-      "max_high_score": 3.5,
-      "total_critical_score": 0.0,
-      "total_high_score": 18.5,
-      "topic_reviews": 11,
-      "critical_review_count": 0,
-      "high_review_count": 11,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "E_IOTRJC7XcFUABTMdHXAg",
-          "stars": 5.0,
-          "date": "2017-02-25 21:45:48",
-          "score": 3.5,
-          "matches": [
-            "allerg\\w*.{0,30}(sick|ill|react)",
-            "\\bfood allerg"
-          ],
-          "snippet": "Loved it !! 5 stars !! The inside of the place is very cute and nice, but it's okay to wear casual attire. The bread is amazing and it is homemade !! Everything here is homemade. The staff is very nice and goes out of their way to meet your needs. Before ordering the waitress/waiter will ask if you "
-        },
-        {
-          "review_id": "1rBcPONrojWqbPn8Ebi73g",
-          "stars": 4.0,
-          "date": "2017-01-22 21:04:36",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "Fun decor, good location, and old movie clips on a loop projected onto the wall.  \n\nCame here for lunch with another adult and three kids, varying in ages from 3-11.  The kids' meals are not cheap, but the food was good.  They had pasta and grilled cheese.  \n\nI had the adult grilled cheese with toma"
-        },
-        {
-          "review_id": "lZFiV2UOyrvEMiYrT8Mhjw",
-          "stars": 5.0,
-          "date": "2016-11-23 02:33:38",
-          "score": 1.5,
-          "matches": [
-            "\\bfood allerg"
-          ],
-          "snippet": "We went here on a Monday evening after the kids were done dance class. I'm vegan and my step daughter is gluten free. We really loved how they had a separate gluten free menu. They took our food allergies and intolerances very seriously, and checked on us numerous times to make sure everything was g"
-        },
-        {
-          "review_id": "jVOtI2P4EfTzGwt9lIwPSA",
-          "stars": 5.0,
-          "date": "2015-06-24 14:59:00",
-          "score": 1.5,
-          "matches": [
-            "\\bfood allerg"
-          ],
-          "snippet": "We were there after the 6/23 storm, and the experience was truly wonderful. Our waiter was Mitch, and he carefully followed all the instructions about food allergies for my dinner partner. One of the dishes needed more cooking and the Chef came to our table to express apologies. ( A really nice guy "
-        },
-        {
-          "review_id": "yHyQ6dJgIGe0HSLzN5GHtQ",
-          "stars": 5.0,
-          "date": "2017-10-02 16:28:08",
-          "score": 1.5,
-          "matches": [
-            "\\bfood allerg"
-          ],
-          "snippet": "I could write a whole five star review based only on the bread! My goodness this bread is out of this world - and the best part is is that you can get as many baskets as you want. It comes with this special seasoned olive oil and I could easily fill up on this before even getting to the main course."
         }
       ]
     },
@@ -67452,6 +66721,147 @@
             "\\bfood allerg"
           ],
           "snippet": "The service was spectacular. Ordering was a different process but our server talked us through. The food portions appear to be small but are packed with flavor. We left completely full with leftovers. For two people we had chips, salsa, guacamole, a rice bowl, small cucumber salad and chicken. The o"
+        }
+      ]
+    },
+    {
+      "business_id": "j6LkTbT0ZKBMghyxdeDABA",
+      "name": "Sub Zero Nitrogen Ice Cream",
+      "city": "Indianapolis",
+      "state": "IN",
+      "stars": 3.5,
+      "review_count": 312,
+      "categories": "Food, Desserts, Ice Cream & Frozen Yogurt, Juice Bars & Smoothies",
+      "max_critical_score": 0.0,
+      "max_high_score": 3.5,
+      "total_critical_score": 0.0,
+      "total_high_score": 16.5,
+      "topic_reviews": 9,
+      "critical_review_count": 0,
+      "high_review_count": 9,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "loMqGUiLB3Z_Ai6_n32LtQ",
+          "stars": 4.0,
+          "date": "2013-08-04 00:32:40",
+          "score": 3.5,
+          "matches": [
+            "cross.?contaminat",
+            "\\bfood allerg"
+          ],
+          "snippet": "A nice place for a sweet treat while on Mass Ave.  There are a billion flavor combos to choose from and options like soy milk.  A nice selection of toppings too!  The line may seem daunting, but if you've got some time to kill, wait your turn and chat with your friends.  \n\nIf this is your first time"
+        },
+        {
+          "review_id": "BTfOErVZLfX4C-piFIGQCA",
+          "stars": 1.0,
+          "date": "2013-10-30 21:00:19",
+          "score": 2.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
+            "allerg\\w*.{0,20}(request|ask|told|inform)"
+          ],
+          "snippet": "I have a dairy allergy - so I told the woman that and she said the soy or almond would work but it wouldn't be as creamy. I said fine. Then when I get it, it doesn't taste like white chocolate and it is not sweet at all. \n\n*Don't take your choices back - they will give you an attitude about it and m"
+        },
+        {
+          "review_id": "K2xdq2QPa2lgaibBsmlQ9Q",
+          "stars": 4.0,
+          "date": "2015-06-11 02:33:32",
+          "score": 1.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "Stopped in a couple of times while I was in town.  It was a different and interesting way to have ice cream made.  I think if you are in the neighborhood and the line isn't out the door and down the street, you should stop in.  Otherwise, it is a LONG wait for ice cream.  They do have options for th"
+        },
+        {
+          "review_id": "471x-T_EA16XJ4-WieVFdw",
+          "stars": 4.0,
+          "date": "2017-09-03 22:26:46",
+          "score": 1.5,
+          "matches": [
+            "\\bfood allerg"
+          ],
+          "snippet": "Sub Zero is a fun spot to grab some ice cream! I love that you can watch the entire process as you go. Watching the nitrogen freeze the cream is really cool - pun intended. Not only is the novelty of the place good, the ice cream tastes really delicious, too, which is even more important! ;) In fact"
+        },
+        {
+          "review_id": "Ur0c1VfvGr61pqa0MKrhjw",
+          "stars": 5.0,
+          "date": "2018-06-03 10:48:14",
+          "score": 1.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "Decided to try this place after dinner. There was a huge line; very popular place. You select a base, flavor and toppings and they make it right there in front of you. It is a neat experience none the less. They accommodate allergies and different diets. I came here with a friend who has a sever nut"
+        }
+      ]
+    },
+    {
+      "business_id": "hPmbL4VRqWXJAmcIGoLovg",
+      "name": "Not Your Average Joe's",
+      "city": "Ardmore",
+      "state": "PA",
+      "stars": 4.0,
+      "review_count": 468,
+      "categories": "American (New), Bars, Nightlife, Restaurants",
+      "max_critical_score": 0.0,
+      "max_high_score": 3.5,
+      "total_critical_score": 0.0,
+      "total_high_score": 16.5,
+      "topic_reviews": 10,
+      "critical_review_count": 0,
+      "high_review_count": 10,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "E_IOTRJC7XcFUABTMdHXAg",
+          "stars": 5.0,
+          "date": "2017-02-25 21:45:48",
+          "score": 3.5,
+          "matches": [
+            "allerg\\w*.{0,30}(sick|ill|react)",
+            "\\bfood allerg"
+          ],
+          "snippet": "Loved it !! 5 stars !! The inside of the place is very cute and nice, but it's okay to wear casual attire. The bread is amazing and it is homemade !! Everything here is homemade. The staff is very nice and goes out of their way to meet your needs. Before ordering the waitress/waiter will ask if you "
+        },
+        {
+          "review_id": "lZFiV2UOyrvEMiYrT8Mhjw",
+          "stars": 5.0,
+          "date": "2016-11-23 02:33:38",
+          "score": 1.5,
+          "matches": [
+            "\\bfood allerg"
+          ],
+          "snippet": "We went here on a Monday evening after the kids were done dance class. I'm vegan and my step daughter is gluten free. We really loved how they had a separate gluten free menu. They took our food allergies and intolerances very seriously, and checked on us numerous times to make sure everything was g"
+        },
+        {
+          "review_id": "jVOtI2P4EfTzGwt9lIwPSA",
+          "stars": 5.0,
+          "date": "2015-06-24 14:59:00",
+          "score": 1.5,
+          "matches": [
+            "\\bfood allerg"
+          ],
+          "snippet": "We were there after the 6/23 storm, and the experience was truly wonderful. Our waiter was Mitch, and he carefully followed all the instructions about food allergies for my dinner partner. One of the dishes needed more cooking and the Chef came to our table to express apologies. ( A really nice guy "
+        },
+        {
+          "review_id": "yHyQ6dJgIGe0HSLzN5GHtQ",
+          "stars": 5.0,
+          "date": "2017-10-02 16:28:08",
+          "score": 1.5,
+          "matches": [
+            "\\bfood allerg"
+          ],
+          "snippet": "I could write a whole five star review based only on the bread! My goodness this bread is out of this world - and the best part is is that you can get as many baskets as you want. It comes with this special seasoned olive oil and I could easily fill up on this before even getting to the main course."
+        },
+        {
+          "review_id": "atHBOHtWnbR9UeV1lo_pPQ",
+          "stars": 5.0,
+          "date": "2015-03-27 02:40:21",
+          "score": 1.5,
+          "matches": [
+            "\\bfood allerg"
+          ],
+          "snippet": "Just had my third dinner at NYAJ's and it has only gotten better each time! Cheers to Chef Will for his willingness to accommodate an unusual food allergy and also to our waitress Lauren for going above and beyond to make our meal amazing. This is a go to restaurant when you want flavorful, consiste"
         }
       ]
     },
@@ -68019,76 +67429,6 @@
             "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
           ],
           "snippet": "When my friend comes to town this is where we go. She has extreme gluten allergy and this restaurant has a gluten-free menu. The food is always great and the service is nice and quick. I have had many items off of their menu and everything is good. Everything she orders as gluten-free is great as we"
-        }
-      ]
-    },
-    {
-      "business_id": "ReX09lhufLTAx19krkltDA",
-      "name": "Fido",
-      "city": "Nashville",
-      "state": "TN",
-      "stars": 4.0,
-      "review_count": 1260,
-      "categories": "Bakeries, American (Traditional), American (New), Restaurants, Breakfast & Brunch, Sandwiches, Coffee & Tea, Food, Desserts, Cafes",
-      "max_critical_score": 0.0,
-      "max_high_score": 3.5,
-      "total_critical_score": 0.0,
-      "total_high_score": 13.5,
-      "topic_reviews": 7,
-      "critical_review_count": 0,
-      "high_review_count": 7,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "39eLQU4SOyh2apVIz4CX2A",
-          "stars": 1.0,
-          "date": "2019-08-17 16:42:58",
-          "score": 3.5,
-          "matches": [
-            "cross.?contaminat",
-            "\\bfood allerg"
-          ],
-          "snippet": "I usually don't write bad reviews but today was exceptionally bad. We ordered our food and waited 30 mins and multiple people that were behind us got their food before us. It only two of us and we got steak scramble and buckwheat pancakes, not rocket science. Not to mention, the person taking our or"
-        },
-        {
-          "review_id": "XUXSAKqrPfwfC9dIoLjaCA",
-          "stars": 2.0,
-          "date": "2015-09-27 22:10:00",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "Nothing exciting about this place.  Excruciating wait for sub par food.  The huevos rancheros were blah.  The gluten free pancakes were the worst gf pancakes I've ever had in my life...and I've had a ton.  Super dry and no flavor.  Almost inedible.  I also understand there's a risk of cross-contamin"
-        },
-        {
-          "review_id": "lSFceJS7ND4uevoc-yp3sQ",
-          "stars": 5.0,
-          "date": "2018-07-07 19:35:38",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "Cool spot, a ton of seating for getting work done.  I got the bison burger with gluten free bread - the bread was a little spongy but prepared without cross contamination."
-        },
-        {
-          "review_id": "3gyDco-RZ9q5ErRomfor1w",
-          "stars": 5.0,
-          "date": "2016-02-21 21:10:31",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "I love that this place has lots of gluten free options. The girl at the counter was so knowledgable about the importance of cross contamination. We were traveling and finding food on the road is really hard when going gluten free. The food was so good and so was the hot chocolate I got. When in Nash"
-        },
-        {
-          "review_id": "Q6DZZFM0wfigIzCnvIXhdA",
-          "stars": 5.0,
-          "date": "2017-11-05 15:58:54",
-          "score": 1.5,
-          "matches": [
-            "\\bfood allerg"
-          ],
-          "snippet": "Oh my goodness. I just left this place and it is AMAZING! I'm a huge brunch person and they have THE best smoked salmon egg scramble I have ever had. It comes with a side of hash browns and toast - I ordered their gluten free and it was pretty good. Their latte with the apple is also incredible. \n\nW"
         }
       ]
     },
@@ -68800,76 +68140,6 @@
       ]
     },
     {
-      "business_id": "I13HqIkWfR6CydGbo9xv0A",
-      "name": "Haze Ice Cream",
-      "city": "Madeira Beach",
-      "state": "FL",
-      "stars": 4.5,
-      "review_count": 298,
-      "categories": "Coffee & Tea, Gluten-Free, Food, Restaurants, Ice Cream & Frozen Yogurt, Juice Bars & Smoothies",
-      "max_critical_score": 0.0,
-      "max_high_score": 3.5,
-      "total_critical_score": 0.0,
-      "total_high_score": 12.0,
-      "topic_reviews": 6,
-      "critical_review_count": 0,
-      "high_review_count": 6,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "RTPbPLjcc7EJAyoYYkv4YA",
-          "stars": 5.0,
-          "date": "2019-05-21 02:24:09",
-          "score": 3.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
-            "cross.?contaminat"
-          ],
-          "snippet": "I'm a very passionate ice cream connoisseur.  The homemade ice cream at Haze is outstanding!  Extremely creamy and rich, each flavor I tried had a lovely balance of ingredients. The owner and staff are super friendly, and the shop has a groovy vibe. Best of all, there are options for people with dai"
-        },
-        {
-          "review_id": "sFYMYqKM9SAXB8Vt5MPOJg",
-          "stars": 5.0,
-          "date": "2018-06-05 02:47:18",
-          "score": 2.0,
-          "matches": [
-            "allerg\\w*.{0,30}(sick|ill|react)"
-          ],
-          "snippet": "Went here a few days ago.  Homemade ice cream is very good.  I love that they have all the dyes in their ice cream listed, as I am allergic to a specific dye.  If you have a specific allergy they will look in their ingredient book to see if it has it.  They have very many gluten free and/or dairy fr"
-        },
-        {
-          "review_id": "RlYlTIdQD3CEqYshoJaMYw",
-          "stars": 1.0,
-          "date": "2019-05-19 02:03:45",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "False advertising. They say they have \"gluten-free\" ice cream, yet they cross-contaminate all of their ice cream scoops. When asked to use a clean scoop, we were told no. Very rude. Not going back."
-        },
-        {
-          "review_id": "AMh8Ng6wicIBvZ5q5aj15w",
-          "stars": 5.0,
-          "date": "2019-02-19 14:58:23",
-          "score": 1.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
-          ],
-          "snippet": "This place was a happy surprise for me!\n\nThe reason I took a drive down to Haze is because they offer homemade ice cream for dairy lovers and those who have dairy allergies. I am one of the many who cannot eat dairy and they have a good arrangement of ice creams to offer. I'll have to admit that the"
-        },
-        {
-          "review_id": "0m4xSGvbDEQ7K1xMK6WuJA",
-          "stars": 5.0,
-          "date": "2018-02-08 20:41:35",
-          "score": 1.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
-          ],
-          "snippet": "The best! Sweet, friendly staff and absolutely delicious ice cream. Very creamy, lots of flavors to choose from. Clearly labeled for gluten allergies. They even have adult ice cream with Baileys! Will be back soon!"
-        }
-      ]
-    },
-    {
       "business_id": "RLlOK2fL6xU1sfIPiP2QBw",
       "name": "Deanie's Seafood",
       "city": "New Orleans",
@@ -69082,147 +68352,6 @@
       ]
     },
     {
-      "business_id": "nIAbuktMEzVjT4P9pG89rQ",
-      "name": "Buddakan",
-      "city": "Philadelphia",
-      "state": "PA",
-      "stars": 4.0,
-      "review_count": 1561,
-      "categories": "Restaurants, Asian Fusion, Chinese",
-      "max_critical_score": 0.0,
-      "max_high_score": 3.5,
-      "total_critical_score": 0.0,
-      "total_high_score": 12.0,
-      "topic_reviews": 5,
-      "critical_review_count": 0,
-      "high_review_count": 5,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "VV4b2XzCkODJhGHqvgvGKg",
-          "stars": 5.0,
-          "date": "2014-10-21 18:10:35",
-          "score": 3.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
-            "cross.?contaminat"
-          ],
-          "snippet": "My wife and I went to Buddakan for our anniversary last weekend. We've been burned before by fancy expensive places that ended up just being \"meh\" and leaving you wondering how many times you could've gone to a decent but cheaper restaurant for the same price, but that certainly wasn't the case this"
-        },
-        {
-          "review_id": "eJrcaxfOZG-m8LW3NEUTeg",
-          "stars": 3.0,
-          "date": "2018-04-17 12:04:38",
-          "score": 3.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
-            "cross.?contaminat"
-          ],
-          "snippet": "Wasn't that impressed. Ambience was nice. Service was good but the food wasn't as good as flavorful as I had hoped. I prefer PF Changs menu and flavor profile opposed to this one. Menu is made up of mostly shellfish or some sort of seafood however for those with a shellfish allergy, they have a sepa"
-        },
-        {
-          "review_id": "1b3dGWthxf42vKUlmBAU6g",
-          "stars": 4.0,
-          "date": "2013-03-02 15:43:45",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "tasty asian fusion. great decor too. if you are gluten-free, double-check on some of their gf menu items because they listed a veggie tempura that didn't have any gluten ingredients but was fried in cross-contaminated oil."
-        },
-        {
-          "review_id": "yqxa-HPKRDpzGdG5Gey9Yw",
-          "stars": 5.0,
-          "date": "2015-06-10 00:05:40",
-          "score": 1.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
-          ],
-          "snippet": "I first came to Buddakan for dinner with a few friends during restaurant week. Normally I'm not too crazy about restaurant week deals and the limited options, but Buddakan was definitely a step up from the rest. I started with the chicken dumplings, which were both delicious and HUGE! It could have "
-        },
-        {
-          "review_id": "014XCeWvuwKIPb9Whdv5Xg",
-          "stars": 4.0,
-          "date": "2017-12-31 20:27:35",
-          "score": 1.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
-          ],
-          "snippet": "Family hosted a wedding shower for us here that was amazing. The staff really went out of their way to accommodate vegetarians and those with gluten allergies. The food was delicious and the service was outstanding. One of our favorite places, and we'll be back!"
-        }
-      ]
-    },
-    {
-      "business_id": "OckZv5NmnUTOKQmNthPOHQ",
-      "name": "Harry And Izzy's",
-      "city": "Indianapolis",
-      "state": "IN",
-      "stars": 4.0,
-      "review_count": 405,
-      "categories": "Steakhouses, Restaurants, Sandwiches, Burgers",
-      "max_critical_score": 0.0,
-      "max_high_score": 3.5,
-      "total_critical_score": 0.0,
-      "total_high_score": 12.0,
-      "topic_reviews": 6,
-      "critical_review_count": 0,
-      "high_review_count": 6,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "iUvK4DY65OzsMLsnnQ_8ZQ",
-          "stars": 5.0,
-          "date": "2019-10-26 19:40:53",
-          "score": 3.5,
-          "matches": [
-            "cross.?contaminat",
-            "\\bfood allerg"
-          ],
-          "snippet": "I had the most amazing Love Affairs last Saturday at Harry & Izzy's... Liquid Love Affair ;) to be exact. The bartenders weren't consistent in the making of this beverage... the first one had more of a pineapple flavor and the second was more orange-y in flavor. Not sure what it was supposed to tast"
-        },
-        {
-          "review_id": "HT4VL6MZNjgq6_Zypq4vog",
-          "stars": 4.0,
-          "date": "2016-05-01 23:30:46",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "Completely bummed. My husband and I visit this restaurant often as they offer a specific gluten-free menu that they take very serious. (The manager confirms allergies as well as your order prior to preparation.) Recently, we learned that their menu has changed as ownership has been altered. Their fr"
-        },
-        {
-          "review_id": "KSnE6HucrfxtEZLF-k5qXQ",
-          "stars": 5.0,
-          "date": "2019-09-22 03:45:31",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "Great steakhouse. Great service. Been here a few times. \n\nLoved the NY Strip. Love the mashed potatoes and Brussels sprouts. The shrimp is incredible as appetizers. Can't go wrong with dessert choices of cheesecake, brownie, or creme br\u00fbl\u00e9e. \n\nMy wife loved our last visit here. We came during her bi"
-        },
-        {
-          "review_id": "YZwWhFFVVrSqLFRZsYnNZw",
-          "stars": 4.0,
-          "date": "2016-07-17 23:58:09",
-          "score": 1.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
-          ],
-          "snippet": "Always a good dinner like the fact the Mgr comes out when they are aware someone in your party has a gluten allergy to confirm their dinner menu.  Steak is always excellent and of course the shrimp cocktail helps with any allergies.... Lol!  Sunday 3 course meal was delicious!"
-        },
-        {
-          "review_id": "T7B8wAgGBMo5g8idhQqU9w",
-          "stars": 5.0,
-          "date": "2021-06-16 14:40:55",
-          "score": 1.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
-          ],
-          "snippet": "Probably my new favorite restaurant in the Indy area! \n\nWe went for date night, our first in a long time due the pandemic. We were drawn to this place because 1. The outdoor seating area. 2. How well they cater to gluten allergies. The manager even comes out to verify your allergy.. awesome! \n\nTo st"
-        }
-      ]
-    },
-    {
       "business_id": "lau2jbBCG3XohoAvCRIm1Q",
       "name": "My Pie Pizza",
       "city": "Reno",
@@ -69289,6 +68418,76 @@
             "cross.?contaminat"
           ],
           "snippet": "What a great spot! All the times I have been here so far I have been impressed & extremely satisfied. Not one thing negative to say. Really enjoy this place.\n\n Customizing your very own pizza is a \"Yes, PLEASE\" for a great family dinner, friend get together, or solo. It is set up to physically make "
+        }
+      ]
+    },
+    {
+      "business_id": "ReX09lhufLTAx19krkltDA",
+      "name": "Fido",
+      "city": "Nashville",
+      "state": "TN",
+      "stars": 4.0,
+      "review_count": 1260,
+      "categories": "Bakeries, American (Traditional), American (New), Restaurants, Breakfast & Brunch, Sandwiches, Coffee & Tea, Food, Desserts, Cafes",
+      "max_critical_score": 0.0,
+      "max_high_score": 3.5,
+      "total_critical_score": 0.0,
+      "total_high_score": 11.5,
+      "topic_reviews": 6,
+      "critical_review_count": 0,
+      "high_review_count": 6,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "39eLQU4SOyh2apVIz4CX2A",
+          "stars": 1.0,
+          "date": "2019-08-17 16:42:58",
+          "score": 3.5,
+          "matches": [
+            "cross.?contaminat",
+            "\\bfood allerg"
+          ],
+          "snippet": "I usually don't write bad reviews but today was exceptionally bad. We ordered our food and waited 30 mins and multiple people that were behind us got their food before us. It only two of us and we got steak scramble and buckwheat pancakes, not rocket science. Not to mention, the person taking our or"
+        },
+        {
+          "review_id": "lSFceJS7ND4uevoc-yp3sQ",
+          "stars": 5.0,
+          "date": "2018-07-07 19:35:38",
+          "score": 2.0,
+          "matches": [
+            "cross.?contaminat"
+          ],
+          "snippet": "Cool spot, a ton of seating for getting work done.  I got the bison burger with gluten free bread - the bread was a little spongy but prepared without cross contamination."
+        },
+        {
+          "review_id": "3gyDco-RZ9q5ErRomfor1w",
+          "stars": 5.0,
+          "date": "2016-02-21 21:10:31",
+          "score": 2.0,
+          "matches": [
+            "cross.?contaminat"
+          ],
+          "snippet": "I love that this place has lots of gluten free options. The girl at the counter was so knowledgable about the importance of cross contamination. We were traveling and finding food on the road is really hard when going gluten free. The food was so good and so was the hot chocolate I got. When in Nash"
+        },
+        {
+          "review_id": "Q6DZZFM0wfigIzCnvIXhdA",
+          "stars": 5.0,
+          "date": "2017-11-05 15:58:54",
+          "score": 1.5,
+          "matches": [
+            "\\bfood allerg"
+          ],
+          "snippet": "Oh my goodness. I just left this place and it is AMAZING! I'm a huge brunch person and they have THE best smoked salmon egg scramble I have ever had. It comes with a side of hash browns and toast - I ordered their gluten free and it was pretty good. Their latte with the apple is also incredible. \n\nW"
+        },
+        {
+          "review_id": "57jDBmEWHUBGJUF2ElJGKQ",
+          "stars": 3.0,
+          "date": "2021-07-11 18:43:01",
+          "score": 1.5,
+          "matches": [
+            "\\bfood allerg"
+          ],
+          "snippet": "food was good but weren't able to make accommodations for a food allergy which is already stressful enough when eating out, however everything else was very nice, the service, atmosphere, and food quality"
         }
       ]
     },
@@ -70384,6 +69583,76 @@
       ]
     },
     {
+      "business_id": "I13HqIkWfR6CydGbo9xv0A",
+      "name": "Haze Ice Cream",
+      "city": "Madeira Beach",
+      "state": "FL",
+      "stars": 4.5,
+      "review_count": 298,
+      "categories": "Coffee & Tea, Gluten-Free, Food, Restaurants, Ice Cream & Frozen Yogurt, Juice Bars & Smoothies",
+      "max_critical_score": 0.0,
+      "max_high_score": 3.5,
+      "total_critical_score": 0.0,
+      "total_high_score": 10.0,
+      "topic_reviews": 5,
+      "critical_review_count": 0,
+      "high_review_count": 5,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "RTPbPLjcc7EJAyoYYkv4YA",
+          "stars": 5.0,
+          "date": "2019-05-21 02:24:09",
+          "score": 3.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
+            "cross.?contaminat"
+          ],
+          "snippet": "I'm a very passionate ice cream connoisseur.  The homemade ice cream at Haze is outstanding!  Extremely creamy and rich, each flavor I tried had a lovely balance of ingredients. The owner and staff are super friendly, and the shop has a groovy vibe. Best of all, there are options for people with dai"
+        },
+        {
+          "review_id": "sFYMYqKM9SAXB8Vt5MPOJg",
+          "stars": 5.0,
+          "date": "2018-06-05 02:47:18",
+          "score": 2.0,
+          "matches": [
+            "allerg\\w*.{0,30}(sick|ill|react)"
+          ],
+          "snippet": "Went here a few days ago.  Homemade ice cream is very good.  I love that they have all the dyes in their ice cream listed, as I am allergic to a specific dye.  If you have a specific allergy they will look in their ingredient book to see if it has it.  They have very many gluten free and/or dairy fr"
+        },
+        {
+          "review_id": "AMh8Ng6wicIBvZ5q5aj15w",
+          "stars": 5.0,
+          "date": "2019-02-19 14:58:23",
+          "score": 1.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "This place was a happy surprise for me!\n\nThe reason I took a drive down to Haze is because they offer homemade ice cream for dairy lovers and those who have dairy allergies. I am one of the many who cannot eat dairy and they have a good arrangement of ice creams to offer. I'll have to admit that the"
+        },
+        {
+          "review_id": "0m4xSGvbDEQ7K1xMK6WuJA",
+          "stars": 5.0,
+          "date": "2018-02-08 20:41:35",
+          "score": 1.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "The best! Sweet, friendly staff and absolutely delicious ice cream. Very creamy, lots of flavors to choose from. Clearly labeled for gluten allergies. They even have adult ice cream with Baileys! Will be back soon!"
+        },
+        {
+          "review_id": "8Zr_7GRQ_S8Lb9ESXE7JmA",
+          "stars": 5.0,
+          "date": "2018-05-27 19:42:01",
+          "score": 1.5,
+          "matches": [
+            "\\bfood allerg"
+          ],
+          "snippet": "Options options options! Regular ice cream, gluten free, dairy free and over 21 ice cream. \nWe were greeted nicely and asked if we had any food allergies because of the multiple options they have. It wasn't hard to decide and my first option is always Oreo cookies and cream. It comes in different si"
+        }
+      ]
+    },
+    {
       "business_id": "iUZEGx29miZObLd6_lt7Vg",
       "name": "Sabrina's Caf\u00e9",
       "city": "Philadelphia",
@@ -70502,76 +69771,6 @@
             "\\bfood allerg"
           ],
           "snippet": "When you have food allergies and sensitivities you give up on certain basic things in life.... bread was one of those for me.  Store bought GF & DF bread tasted like nothing or sometimes cardboard.  I was at the Carmel Farmer's Market one day (over a year ago) and walked by Native Bread booth and I "
-        }
-      ]
-    },
-    {
-      "business_id": "AnFDd2B4rt3J5fiTg3g3wg",
-      "name": "P.F. Chang's",
-      "city": "Tucson",
-      "state": "AZ",
-      "stars": 3.5,
-      "review_count": 308,
-      "categories": "Restaurants, Gluten-Free, Chinese, Asian Fusion",
-      "max_critical_score": 0.0,
-      "max_high_score": 3.5,
-      "total_critical_score": 0.0,
-      "total_high_score": 10.0,
-      "topic_reviews": 5,
-      "critical_review_count": 0,
-      "high_review_count": 5,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "Y3BTYi1N_YdAcE808FSdSQ",
-          "stars": 5.0,
-          "date": "2015-07-28 02:35:59",
-          "score": 3.5,
-          "matches": [
-            "allerg\\w*.{0,30}(sick|ill|react)",
-            "\\bfood allerg"
-          ],
-          "snippet": "This place was great! We came with a friend with food allergies and they were great!! I will  definitely continue to come back!"
-        },
-        {
-          "review_id": "Ey_94q2x1flrCQKsyzhp7g",
-          "stars": 4.0,
-          "date": "2014-02-13 04:15:36",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "I love the fact that they have a dedicated way to cook gluten free here to prevent cross-contamination. I traded in my American Express Points for a $25 E-Gift Certificate so I could save my mom & step-dad money while I am still in town visiting them from Illinois. Tonight for dinner I ordered the G"
-        },
-        {
-          "review_id": "SvHlutHbWcl6K-H6G8bXqQ",
-          "stars": 5.0,
-          "date": "2015-03-06 04:31:39",
-          "score": 1.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
-          ],
-          "snippet": "I am in town visiting my mom this year to escape the cold, snow & ice back home.  found out that this location is a test store, so they offer more selections on both the  regular menu and the gluten free menu. Once again I had a great meal despite my having a dairy allergy and not eating gluten. I l"
-        },
-        {
-          "review_id": "DTrxl3bcTpHZ4_oePOa0xA",
-          "stars": 2.0,
-          "date": "2020-09-20 17:14:38",
-          "score": 1.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
-          ],
-          "snippet": "Horrible service.  Gabby was non-conversational, never asked how our meal was or if we wanted dessert (or anything for that matter).  No customer service skills at all, but half way through our dinner brought the check - again no conversation or asked if we needed anything else.  We don't dine out t"
-        },
-        {
-          "review_id": "38BifaGo40bGitTfIuZGnQ",
-          "stars": 2.0,
-          "date": "2020-11-08 00:31:03",
-          "score": 1.5,
-          "matches": [
-            "\\bfood allerg"
-          ],
-          "snippet": "I called to place a to-go order and the time it took for her to explain to me where to look it up she could have taken our order! What do you do if you don't have access to look up the website or you have food allergies? Pure laziness on your take out team!! We ordered elsewhere! \nPS: When we ordere"
         }
       ]
     },
@@ -70782,6 +69981,137 @@
             "\\bfood allerg"
           ],
           "snippet": "There aren't many places in Philadelphia that have the wow factor of the entrance to Del Frisco's.  Perhaps it's the soaring ceilings, long marble staircase to the \"vault\" or the center stairwell of wine, if you are looking to impress, this should be atop your list.\n\nSo what was I doing there?  Well"
+        }
+      ]
+    },
+    {
+      "business_id": "nIAbuktMEzVjT4P9pG89rQ",
+      "name": "Buddakan",
+      "city": "Philadelphia",
+      "state": "PA",
+      "stars": 4.0,
+      "review_count": 1561,
+      "categories": "Restaurants, Asian Fusion, Chinese",
+      "max_critical_score": 0.0,
+      "max_high_score": 3.5,
+      "total_critical_score": 0.0,
+      "total_high_score": 10.0,
+      "topic_reviews": 4,
+      "critical_review_count": 0,
+      "high_review_count": 4,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "VV4b2XzCkODJhGHqvgvGKg",
+          "stars": 5.0,
+          "date": "2014-10-21 18:10:35",
+          "score": 3.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
+            "cross.?contaminat"
+          ],
+          "snippet": "My wife and I went to Buddakan for our anniversary last weekend. We've been burned before by fancy expensive places that ended up just being \"meh\" and leaving you wondering how many times you could've gone to a decent but cheaper restaurant for the same price, but that certainly wasn't the case this"
+        },
+        {
+          "review_id": "eJrcaxfOZG-m8LW3NEUTeg",
+          "stars": 3.0,
+          "date": "2018-04-17 12:04:38",
+          "score": 3.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
+            "cross.?contaminat"
+          ],
+          "snippet": "Wasn't that impressed. Ambience was nice. Service was good but the food wasn't as good as flavorful as I had hoped. I prefer PF Changs menu and flavor profile opposed to this one. Menu is made up of mostly shellfish or some sort of seafood however for those with a shellfish allergy, they have a sepa"
+        },
+        {
+          "review_id": "yqxa-HPKRDpzGdG5Gey9Yw",
+          "stars": 5.0,
+          "date": "2015-06-10 00:05:40",
+          "score": 1.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "I first came to Buddakan for dinner with a few friends during restaurant week. Normally I'm not too crazy about restaurant week deals and the limited options, but Buddakan was definitely a step up from the rest. I started with the chicken dumplings, which were both delicious and HUGE! It could have "
+        },
+        {
+          "review_id": "014XCeWvuwKIPb9Whdv5Xg",
+          "stars": 4.0,
+          "date": "2017-12-31 20:27:35",
+          "score": 1.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "Family hosted a wedding shower for us here that was amazing. The staff really went out of their way to accommodate vegetarians and those with gluten allergies. The food was delicious and the service was outstanding. One of our favorite places, and we'll be back!"
+        }
+      ]
+    },
+    {
+      "business_id": "OckZv5NmnUTOKQmNthPOHQ",
+      "name": "Harry And Izzy's",
+      "city": "Indianapolis",
+      "state": "IN",
+      "stars": 4.0,
+      "review_count": 405,
+      "categories": "Steakhouses, Restaurants, Sandwiches, Burgers",
+      "max_critical_score": 0.0,
+      "max_high_score": 3.5,
+      "total_critical_score": 0.0,
+      "total_high_score": 10.0,
+      "topic_reviews": 5,
+      "critical_review_count": 0,
+      "high_review_count": 5,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "iUvK4DY65OzsMLsnnQ_8ZQ",
+          "stars": 5.0,
+          "date": "2019-10-26 19:40:53",
+          "score": 3.5,
+          "matches": [
+            "cross.?contaminat",
+            "\\bfood allerg"
+          ],
+          "snippet": "I had the most amazing Love Affairs last Saturday at Harry & Izzy's... Liquid Love Affair ;) to be exact. The bartenders weren't consistent in the making of this beverage... the first one had more of a pineapple flavor and the second was more orange-y in flavor. Not sure what it was supposed to tast"
+        },
+        {
+          "review_id": "HT4VL6MZNjgq6_Zypq4vog",
+          "stars": 4.0,
+          "date": "2016-05-01 23:30:46",
+          "score": 2.0,
+          "matches": [
+            "cross.?contaminat"
+          ],
+          "snippet": "Completely bummed. My husband and I visit this restaurant often as they offer a specific gluten-free menu that they take very serious. (The manager confirms allergies as well as your order prior to preparation.) Recently, we learned that their menu has changed as ownership has been altered. Their fr"
+        },
+        {
+          "review_id": "YZwWhFFVVrSqLFRZsYnNZw",
+          "stars": 4.0,
+          "date": "2016-07-17 23:58:09",
+          "score": 1.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "Always a good dinner like the fact the Mgr comes out when they are aware someone in your party has a gluten allergy to confirm their dinner menu.  Steak is always excellent and of course the shrimp cocktail helps with any allergies.... Lol!  Sunday 3 course meal was delicious!"
+        },
+        {
+          "review_id": "T7B8wAgGBMo5g8idhQqU9w",
+          "stars": 5.0,
+          "date": "2021-06-16 14:40:55",
+          "score": 1.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "Probably my new favorite restaurant in the Indy area! \n\nWe went for date night, our first in a long time due the pandemic. We were drawn to this place because 1. The outdoor seating area. 2. How well they cater to gluten allergies. The manager even comes out to verify your allergy.. awesome! \n\nTo st"
+        },
+        {
+          "review_id": "wpnMuP0pY04Ew2UTf_dnZA",
+          "stars": 4.0,
+          "date": "2018-09-02 13:26:28",
+          "score": 1.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "This location is in more of a shopping plaza area. It's actually a very large restaurant, with a nice bar upon entry, multi level seating, and a viewable wine cellar. The service was great. One person in our party had a gluten allergy, and someone on staff came to our table to review options with hi"
         }
       ]
     },
@@ -71444,66 +70774,6 @@
             "\\bfood allerg"
           ],
           "snippet": "I've had hit and miss experiences at other Natural Cafe locations in the past but this Marketplace outlet is the best in terms of consistently good food and good service. \n\nThe menu is pretty varied and it's pretty clean. The food is served quickly and everything tastes like it was just made for you"
-        }
-      ]
-    },
-    {
-      "business_id": "HKS-63JzfR0DMNVLBuokYw",
-      "name": "Mission Taco Joint - Delmar Loop",
-      "city": "St. Louis",
-      "state": "MO",
-      "stars": 4.0,
-      "review_count": 1019,
-      "categories": "Bars, Nightlife, Mexican, Restaurants, Beer Bar, Cocktail Bars",
-      "max_critical_score": 0.0,
-      "max_high_score": 3.5,
-      "total_critical_score": 0.0,
-      "total_high_score": 9.0,
-      "topic_reviews": 4,
-      "critical_review_count": 0,
-      "high_review_count": 4,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "Izfb1kWmRKiqkdCd5aizkQ",
-          "stars": 1.0,
-          "date": "2013-06-12 17:22:49",
-          "score": 3.5,
-          "matches": [
-            "cross.?contaminat",
-            "\\bfood allerg"
-          ],
-          "snippet": "My dinner at Mission Taco was the worst dining experience I can remember.  I wish I could give them zero stars.  \n\nThe service was horrible.  We literally saw our waiter one time, when we ordered our food.  We did not get drinks until after our appetizer was served at least ten minutes and those dri"
-        },
-        {
-          "review_id": "QXih_fBhTKv4b8dLYn1KFQ",
-          "stars": 2.0,
-          "date": "2014-11-01 19:56:08",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "Trendy for the sake of being trendy. I was just put off by my whole experience. Waiters say right away the tacos are small so you want to get a lot. The are Gluten Free but not sure they get the point for people with Celiac's only people who are into the fad. They claim to know about cross contamina"
-        },
-        {
-          "review_id": "6C5v8B3NgMhe7xSJiFN02g",
-          "stars": 5.0,
-          "date": "2015-07-02 23:56:48",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "They are really careful about avoiding cross-contamination of gluten. We went back there two days in a row because they didn't get my wife sick (and that is incredibly rare). Plus the food is the tasty and the drinks are solid."
-        },
-        {
-          "review_id": "Jigk7bcyjEqvXCL8xM4pYA",
-          "stars": 4.0,
-          "date": "2015-05-31 16:54:47",
-          "score": 1.5,
-          "matches": [
-            "\\bfood allerg"
-          ],
-          "snippet": "I ordered the portabello mushroom without goat cheese and the aioli. I don't have serious food allergies, but I think these adjustments made my taco wheat-less and cheese-less. The tacos were really good. My only complaint was the fries. I got them plain, because I don't like spicy food, and they ta"
         }
       ]
     },
@@ -72271,6 +71541,66 @@
       ]
     },
     {
+      "business_id": "AnFDd2B4rt3J5fiTg3g3wg",
+      "name": "P.F. Chang's",
+      "city": "Tucson",
+      "state": "AZ",
+      "stars": 3.5,
+      "review_count": 308,
+      "categories": "Restaurants, Gluten-Free, Chinese, Asian Fusion",
+      "max_critical_score": 0.0,
+      "max_high_score": 3.5,
+      "total_critical_score": 0.0,
+      "total_high_score": 8.0,
+      "topic_reviews": 4,
+      "critical_review_count": 0,
+      "high_review_count": 4,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "Y3BTYi1N_YdAcE808FSdSQ",
+          "stars": 5.0,
+          "date": "2015-07-28 02:35:59",
+          "score": 3.5,
+          "matches": [
+            "allerg\\w*.{0,30}(sick|ill|react)",
+            "\\bfood allerg"
+          ],
+          "snippet": "This place was great! We came with a friend with food allergies and they were great!! I will  definitely continue to come back!"
+        },
+        {
+          "review_id": "SvHlutHbWcl6K-H6G8bXqQ",
+          "stars": 5.0,
+          "date": "2015-03-06 04:31:39",
+          "score": 1.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "I am in town visiting my mom this year to escape the cold, snow & ice back home.  found out that this location is a test store, so they offer more selections on both the  regular menu and the gluten free menu. Once again I had a great meal despite my having a dairy allergy and not eating gluten. I l"
+        },
+        {
+          "review_id": "DTrxl3bcTpHZ4_oePOa0xA",
+          "stars": 2.0,
+          "date": "2020-09-20 17:14:38",
+          "score": 1.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "Horrible service.  Gabby was non-conversational, never asked how our meal was or if we wanted dessert (or anything for that matter).  No customer service skills at all, but half way through our dinner brought the check - again no conversation or asked if we needed anything else.  We don't dine out t"
+        },
+        {
+          "review_id": "38BifaGo40bGitTfIuZGnQ",
+          "stars": 2.0,
+          "date": "2020-11-08 00:31:03",
+          "score": 1.5,
+          "matches": [
+            "\\bfood allerg"
+          ],
+          "snippet": "I called to place a to-go order and the time it took for her to explain to me where to look it up she could have taken our order! What do you do if you don't have access to look up the website or you have food allergies? Pure laziness on your take out team!! We ordered elsewhere! \nPS: When we ordere"
+        }
+      ]
+    },
+    {
       "business_id": "43MDfrU28FYjfpamNfL9GA",
       "name": "Zinburger",
       "city": "Tucson",
@@ -72893,56 +72223,6 @@
       ]
     },
     {
-      "business_id": "Z5b1Me1YBZGQAxIx62vmqg",
-      "name": "So Crepe",
-      "city": "Philadelphia",
-      "state": "PA",
-      "stars": 4.5,
-      "review_count": 267,
-      "categories": "Gluten-Free, Creperies, Breakfast & Brunch, Ethnic Food, Specialty Food, Coffee & Tea, Restaurants, Food, French",
-      "max_critical_score": 0.0,
-      "max_high_score": 3.5,
-      "total_critical_score": 0.0,
-      "total_high_score": 7.5,
-      "topic_reviews": 3,
-      "critical_review_count": 0,
-      "high_review_count": 3,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "FFQosAgMkjuOu11AB09OTA",
-          "stars": 2.0,
-          "date": "2017-03-18 22:58:00",
-          "score": 3.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
-            "cross.?contaminat"
-          ],
-          "snippet": "I was a little disappointed when I came to this restaurant. They advertise having gluten-free options for crepes but they seemed very uneducated about cross-contamination. They said they clean their surfaces in between making crapes, but I watched the employee making the crapes use the same spatula "
-        },
-        {
-          "review_id": "AjiPtpJ7wKKMTDHvQCelNw",
-          "stars": 4.0,
-          "date": "2014-07-16 01:33:52",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "So Crepe was so good I so forgot to take pictures of their beautiful (and delicious!) crepes. A large party of us had reserved for a Saturday-night dinner, so we had a chance to try many of the different crepes on the menu. No one was disappointed. \n\nI had the So Riviera, which was described as more"
-        },
-        {
-          "review_id": "RH4yft8droVDOOw5NFCvQg",
-          "stars": 5.0,
-          "date": "2018-07-05 19:12:29",
-          "score": 2.0,
-          "matches": [
-            "allerg\\w*.{0,30}(sick|ill|react)"
-          ],
-          "snippet": "We stopped in with our girls this afternoon- what a wonderful surprise! The food was amazing (I had a so coquette with added arugula, my husband the so French and our daughter the so exotic), it was debate who's was the best and we settled on a 3 way tie for first. Also, I deeply appreciate a chef w"
-        }
-      ]
-    },
-    {
       "business_id": "KEqxLIBsy-2TxyZSDKHUpw",
       "name": "GF Diner",
       "city": "Edmonton",
@@ -73297,106 +72577,6 @@
       ]
     },
     {
-      "business_id": "LfrCUDzg66jncxLvNxBnlg",
-      "name": "Bocconcini",
-      "city": "Philadelphia",
-      "state": "PA",
-      "stars": 4.5,
-      "review_count": 163,
-      "categories": "Gluten-Free, Pizza, Venues & Event Spaces, Italian, Restaurants, Event Planning & Services",
-      "max_critical_score": 0.0,
-      "max_high_score": 3.5,
-      "total_critical_score": 0.0,
-      "total_high_score": 7.0,
-      "topic_reviews": 3,
-      "critical_review_count": 0,
-      "high_review_count": 3,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "AZTyCKBauT5fbQMxK-JLEA",
-          "stars": 4.0,
-          "date": "2018-09-18 03:59:57",
-          "score": 3.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
-            "cross.?contaminat"
-          ],
-          "snippet": "Being gluten free and hearing all the rave about this place made me more than excited to try it \nI would like to compliment the waitress for being extremely aware of gluten allergies. \nThey supplied gluten free bread for myself and regular bread for my fianc\u00e9. They served it with an oil. His came wi"
-        },
-        {
-          "review_id": "Q85kryNn2a-qBd0w2EQq5w",
-          "stars": 4.0,
-          "date": "2017-11-13 01:04:03",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "I came here with my parents, because my mother needs gluten-free and never gets good pasta when you're gluten-free. She was impressed how delicious the bread and pasta were compared to other gluten-free bread she's had in the past. So, A+ for the gluten free choices. \n\nThe PESTO sauce (my weakness) "
-        },
-        {
-          "review_id": "IPV4H7teJE9zrHJhb3Yf2g",
-          "stars": 3.0,
-          "date": "2021-01-09 19:42:52",
-          "score": 1.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
-          ],
-          "snippet": "The woman I spoke to on the phone at Bocconcini was exceedingly helpful and polite when I called to ask if my boyfriend's severe peanut allergy would be an issue. She assured me there are no nuts used at all in the restaurant and we would be good to go. Loved that confident reassurance!\n\nWe ordered "
-        }
-      ]
-    },
-    {
-      "business_id": "xqfJZ57uQ8NAgLazfMVV6A",
-      "name": "Sami's Bakery",
-      "city": "Tampa",
-      "state": "FL",
-      "stars": 4.0,
-      "review_count": 50,
-      "categories": "Bakeries, Cupcakes, Food",
-      "max_critical_score": 0.0,
-      "max_high_score": 3.5,
-      "total_critical_score": 0.0,
-      "total_high_score": 7.0,
-      "topic_reviews": 3,
-      "critical_review_count": 0,
-      "high_review_count": 3,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "Z62BzS8zwR0J5vLLstYinw",
-          "stars": 1.0,
-          "date": "2016-03-14 03:55:52",
-          "score": 3.5,
-          "matches": [
-            "cross.?contaminat",
-            "\\bfood allerg"
-          ],
-          "snippet": "If i could go lower than a star i would . I never leave reviews but i downloaded yelp just to leave one after my experience here . Even after previously reading some bad reviews on Samis Bakery i gave them the benefit of the doubt & ordered a gluten free birthday cake for my mother who has celiac di"
-        },
-        {
-          "review_id": "zTfcslFixUz5e24EFuXvcg",
-          "stars": 1.0,
-          "date": "2019-05-02 01:17:57",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "OMG !!  Major thanks to Amanda B (on 8/3/2016) for bringing this to my attention.   \n\nI was not previously aware of the FDA - filed complaints, and the FDA's official review of Sami's Bakery starting in 2016.   Notably, it wasn't until recently (Feb 2019) that the FDA closed out their records on Sam"
-        },
-        {
-          "review_id": "rEgEB7WVL7b1jaOaqOIy0w",
-          "stars": 5.0,
-          "date": "2019-10-24 11:02:01",
-          "score": 1.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
-          ],
-          "snippet": "I've drove pass this bakery numerous times with the intent of stopping in one day to check it out. My friend told me about this bakery that cater to those who may have a gluten allergy, looking for low carb breads or watching calories. This is the bakery for all those things! \nSuper happy to find so"
-        }
-      ]
-    },
-    {
       "business_id": "4WdDY97x4GdMYtyk1KQMnw",
       "name": "Lilly's Cafe",
       "city": "New Orleans",
@@ -73566,6 +72746,56 @@
             "\\bfood allerg"
           ],
           "snippet": "*vegans/vegetarians do NOT go here* I was craving pho and found this place on Yelp and decided to give it a try. They have a little sign posted by the register informing guests to let them know if you have food allergies or dietary restrictions. I let the girl working behind the counter know that I "
+        }
+      ]
+    },
+    {
+      "business_id": "HKS-63JzfR0DMNVLBuokYw",
+      "name": "Mission Taco Joint - Delmar Loop",
+      "city": "St. Louis",
+      "state": "MO",
+      "stars": 4.0,
+      "review_count": 1019,
+      "categories": "Bars, Nightlife, Mexican, Restaurants, Beer Bar, Cocktail Bars",
+      "max_critical_score": 0.0,
+      "max_high_score": 3.5,
+      "total_critical_score": 0.0,
+      "total_high_score": 7.0,
+      "topic_reviews": 3,
+      "critical_review_count": 0,
+      "high_review_count": 3,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "Izfb1kWmRKiqkdCd5aizkQ",
+          "stars": 1.0,
+          "date": "2013-06-12 17:22:49",
+          "score": 3.5,
+          "matches": [
+            "cross.?contaminat",
+            "\\bfood allerg"
+          ],
+          "snippet": "My dinner at Mission Taco was the worst dining experience I can remember.  I wish I could give them zero stars.  \n\nThe service was horrible.  We literally saw our waiter one time, when we ordered our food.  We did not get drinks until after our appetizer was served at least ten minutes and those dri"
+        },
+        {
+          "review_id": "QXih_fBhTKv4b8dLYn1KFQ",
+          "stars": 2.0,
+          "date": "2014-11-01 19:56:08",
+          "score": 2.0,
+          "matches": [
+            "cross.?contaminat"
+          ],
+          "snippet": "Trendy for the sake of being trendy. I was just put off by my whole experience. Waiters say right away the tacos are small so you want to get a lot. The are Gluten Free but not sure they get the point for people with Celiac's only people who are into the fad. They claim to know about cross contamina"
+        },
+        {
+          "review_id": "Jigk7bcyjEqvXCL8xM4pYA",
+          "stars": 4.0,
+          "date": "2015-05-31 16:54:47",
+          "score": 1.5,
+          "matches": [
+            "\\bfood allerg"
+          ],
+          "snippet": "I ordered the portabello mushroom without goat cheese and the aioli. I don't have serious food allergies, but I think these adjustments made my taco wheat-less and cheese-less. The tacos were really good. My only complaint was the fries. I got them plain, because I don't like spicy food, and they ta"
         }
       ]
     },
@@ -73948,56 +73178,6 @@
             "\\bfood allerg"
           ],
           "snippet": "My friend had a groupon and invited me to come here for lunch.  We made a reservation for 11:45 and I was surprised how busy it was for lunch.  We went up with our empty bowls to create our meal.  The vegetables had a good variety including mushrooms, zucchini, broccoli, bean sprouts, green peppers,"
-        }
-      ]
-    },
-    {
-      "business_id": "nYsNsyIppe_DTueBha1x9A",
-      "name": "Red Mesa Cantina",
-      "city": "St Petersburg",
-      "state": "FL",
-      "stars": 4.0,
-      "review_count": 1427,
-      "categories": "Mexican, Restaurants, Latin American, Tex-Mex, Bars, Breakfast & Brunch, Nightlife",
-      "max_critical_score": 0.0,
-      "max_high_score": 3.5,
-      "total_critical_score": 0.0,
-      "total_high_score": 7.0,
-      "topic_reviews": 3,
-      "critical_review_count": 0,
-      "high_review_count": 3,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "18xJJX84WNPdm9d8YgXAhA",
-          "stars": 5.0,
-          "date": "2019-04-17 14:10:53",
-          "score": 3.5,
-          "matches": [
-            "allerg\\w*.{0,30}(sick|ill|react)",
-            "\\bfood allerg"
-          ],
-          "snippet": "I am never disappointed by the quality of the food here. Been coming here for years since I discovered my love for Downtown St Pete. They have fantastic sangrias, my friends love the margaritas and their food is delicious. \n\nThe great thing about Red Mesa is they work around your food allergies if n"
-        },
-        {
-          "review_id": "sVTq1GjkLbcAvzmQSWVVew",
-          "stars": 3.0,
-          "date": "2012-12-20 08:00:55",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "I'm sort of conflicted about Red Mesa. I love the location and the outdoor patio seating (especially with nice weather). I've had pretty good service both the times I went. \n\nThe food was on the better end of the scale, but I honestly don't think it warrants the price for some of their menu options."
-        },
-        {
-          "review_id": "Cp0HK5HFCwV_yuWqDZbMUA",
-          "stars": 4.0,
-          "date": "2016-08-30 17:31:55",
-          "score": 1.5,
-          "matches": [
-            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
-          ],
-          "snippet": "Our party of 12 had a great time at this Cantina location and it was truly a miracle that the awesome host was able to get us on the list and seated in less than an hour. We were seated inside, thankfully, because it was a torrential downpour outside. I watched the staff politely guide customers ind"
         }
       ]
     },
@@ -76414,6 +75594,46 @@
       ]
     },
     {
+      "business_id": "Z5b1Me1YBZGQAxIx62vmqg",
+      "name": "So Crepe",
+      "city": "Philadelphia",
+      "state": "PA",
+      "stars": 4.5,
+      "review_count": 267,
+      "categories": "Gluten-Free, Creperies, Breakfast & Brunch, Ethnic Food, Specialty Food, Coffee & Tea, Restaurants, Food, French",
+      "max_critical_score": 0.0,
+      "max_high_score": 3.5,
+      "total_critical_score": 0.0,
+      "total_high_score": 5.5,
+      "topic_reviews": 2,
+      "critical_review_count": 0,
+      "high_review_count": 2,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "FFQosAgMkjuOu11AB09OTA",
+          "stars": 2.0,
+          "date": "2017-03-18 22:58:00",
+          "score": 3.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
+            "cross.?contaminat"
+          ],
+          "snippet": "I was a little disappointed when I came to this restaurant. They advertise having gluten-free options for crepes but they seemed very uneducated about cross-contamination. They said they clean their surfaces in between making crapes, but I watched the employee making the crapes use the same spatula "
+        },
+        {
+          "review_id": "RH4yft8droVDOOw5NFCvQg",
+          "stars": 5.0,
+          "date": "2018-07-05 19:12:29",
+          "score": 2.0,
+          "matches": [
+            "allerg\\w*.{0,30}(sick|ill|react)"
+          ],
+          "snippet": "We stopped in with our girls this afternoon- what a wonderful surprise! The food was amazing (I had a so coquette with added arugula, my husband the so French and our daughter the so exotic), it was debate who's was the best and we settled on a 3 way tie for first. Also, I deeply appreciate a chef w"
+        }
+      ]
+    },
+    {
       "business_id": "l8gAoQqqVfphPe9jmIJZ3g",
       "name": "K-POT Korean BBQ & Hot Pot",
       "city": "Philadelphia",
@@ -76534,46 +75754,6 @@
       ]
     },
     {
-      "business_id": "sq3BcLyY4_jZf-zkO2itDA",
-      "name": "Taco Bus",
-      "city": "Tampa",
-      "state": "FL",
-      "stars": 3.0,
-      "review_count": 400,
-      "categories": "Mexican, Street Vendors, Restaurants, Vegetarian, Food, Food Trucks",
-      "max_critical_score": 0.0,
-      "max_high_score": 3.5,
-      "total_critical_score": 0.0,
-      "total_high_score": 5.5,
-      "topic_reviews": 2,
-      "critical_review_count": 0,
-      "high_review_count": 2,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "sbP7mKS6KKn9_5QOHnR4-Q",
-          "stars": 1.0,
-          "date": "2018-08-05 17:55:31",
-          "score": 3.5,
-          "matches": [
-            "cross.?contaminat",
-            "\\bfood allerg"
-          ],
-          "snippet": "Me and my partner and his best friend went out to eat here for lunch. I am currently sitting here for 30 min. Waiting on food, they brought the wrong food then acted like we didn't know what we ordered. Now I'm a server at a restaurant and I give all kinds of passes to slight inconveniences but ther"
-        },
-        {
-          "review_id": "EJQYksLqgjXMWQXIBAZCxA",
-          "stars": 4.0,
-          "date": "2014-03-27 17:35:41",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "Finally tried Taco Bus, and I am definitely a fan. Quick, tasty and doesn't break the bank. Had the chicken tacos on gluten-free corn tortillas. Very good, topped with fresh cabbage, pickled onions and fresh cilantro and paired with a red and green salsa on the side. Delicious! Chicken was juicy and"
-        }
-      ]
-    },
-    {
       "business_id": "xkYNvZlraS1JGleICGhE1w",
       "name": "Kyle's Kitchen",
       "city": "Goleta",
@@ -76690,46 +75870,6 @@
             "severe\\w* allerg"
           ],
           "snippet": "Chicken made its way into my veggie dish. I asked the waitress about it and she told me it was something else. My idiosyncrasies are my problem, but if you don't respect my convictions enough to give me what I paid you ten dollars for then I won't trust you to respect a severe allergy either. I'll g"
-        }
-      ]
-    },
-    {
-      "business_id": "h2DidMy9Q9qyGlQ5xaecMA",
-      "name": "Poke Loa",
-      "city": "New Orleans",
-      "state": "LA",
-      "stars": 4.0,
-      "review_count": 238,
-      "categories": "Japanese, Poke, Seafood, Hawaiian, Food, Gluten-Free, Restaurants",
-      "max_critical_score": 0.0,
-      "max_high_score": 3.5,
-      "total_critical_score": 0.0,
-      "total_high_score": 5.5,
-      "topic_reviews": 2,
-      "critical_review_count": 0,
-      "high_review_count": 2,
-      "sample_critical_reviews": [],
-      "sample_high_reviews": [
-        {
-          "review_id": "pO8PvhbIA_OBzXzFW-MTmA",
-          "stars": 3.0,
-          "date": "2021-08-01 17:26:15",
-          "score": 3.5,
-          "matches": [
-            "cross.?contaminat",
-            "\\bfood allerg"
-          ],
-          "snippet": "Poke Loa is great for what it is, but be aware if you have any food allergies. My husband is allergic to shellfish, but we thought we would be safe here since ingredients are separate and you can customize your meal. That's not the case--there is a lot of cross contamination. Also he let the server "
-        },
-        {
-          "review_id": "Wq6zrDO5vJ54sWLpkejGGw",
-          "stars": 1.0,
-          "date": "2018-05-12 03:09:55",
-          "score": 2.0,
-          "matches": [
-            "cross.?contaminat"
-          ],
-          "snippet": "I'm not saying that no one should go here, but my girlfriend and I went here shortly after they opened and we both got extremely ill. It seemed likely that they were being careless about cross-contaminating different piles of food. I really wish I could go back, but I can't after what happened."
         }
       ]
     },
@@ -77014,6 +76154,46 @@
       ]
     },
     {
+      "business_id": "LfrCUDzg66jncxLvNxBnlg",
+      "name": "Bocconcini",
+      "city": "Philadelphia",
+      "state": "PA",
+      "stars": 4.5,
+      "review_count": 163,
+      "categories": "Gluten-Free, Pizza, Venues & Event Spaces, Italian, Restaurants, Event Planning & Services",
+      "max_critical_score": 0.0,
+      "max_high_score": 3.5,
+      "total_critical_score": 0.0,
+      "total_high_score": 5.0,
+      "topic_reviews": 2,
+      "critical_review_count": 0,
+      "high_review_count": 2,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "AZTyCKBauT5fbQMxK-JLEA",
+          "stars": 4.0,
+          "date": "2018-09-18 03:59:57",
+          "score": 3.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg",
+            "cross.?contaminat"
+          ],
+          "snippet": "Being gluten free and hearing all the rave about this place made me more than excited to try it \nI would like to compliment the waitress for being extremely aware of gluten allergies. \nThey supplied gluten free bread for myself and regular bread for my fianc\u00e9. They served it with an oil. His came wi"
+        },
+        {
+          "review_id": "IPV4H7teJE9zrHJhb3Yf2g",
+          "stars": 3.0,
+          "date": "2021-01-09 19:42:52",
+          "score": 1.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "The woman I spoke to on the phone at Bocconcini was exceedingly helpful and polite when I called to ask if my boyfriend's severe peanut allergy would be an issue. She assured me there are no nuts used at all in the restaurant and we would be good to go. Loved that confident reassurance!\n\nWe ordered "
+        }
+      ]
+    },
+    {
       "business_id": "gLaxSkjWzt25hybkaKwQcA",
       "name": "Slim Goodies Diner",
       "city": "New Orleans",
@@ -77090,6 +76270,46 @@
             "\\bfood allerg"
           ],
           "snippet": "Super accommodating to food allergies or diets. Tons can be  made vegan or vegetarian upon request! So flavorful!! The Tom Kha soup soup is amazing and the service was impeccable! Came at lunch and got the lunch special which is appetizer, soup and entree."
+        }
+      ]
+    },
+    {
+      "business_id": "xqfJZ57uQ8NAgLazfMVV6A",
+      "name": "Sami's Bakery",
+      "city": "Tampa",
+      "state": "FL",
+      "stars": 4.0,
+      "review_count": 50,
+      "categories": "Bakeries, Cupcakes, Food",
+      "max_critical_score": 0.0,
+      "max_high_score": 3.5,
+      "total_critical_score": 0.0,
+      "total_high_score": 5.0,
+      "topic_reviews": 2,
+      "critical_review_count": 0,
+      "high_review_count": 2,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "Z62BzS8zwR0J5vLLstYinw",
+          "stars": 1.0,
+          "date": "2016-03-14 03:55:52",
+          "score": 3.5,
+          "matches": [
+            "cross.?contaminat",
+            "\\bfood allerg"
+          ],
+          "snippet": "If i could go lower than a star i would . I never leave reviews but i downloaded yelp just to leave one after my experience here . Even after previously reading some bad reviews on Samis Bakery i gave them the benefit of the doubt & ordered a gluten free birthday cake for my mother who has celiac di"
+        },
+        {
+          "review_id": "rEgEB7WVL7b1jaOaqOIy0w",
+          "stars": 5.0,
+          "date": "2019-10-24 11:02:01",
+          "score": 1.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "I've drove pass this bakery numerous times with the intent of stopping in one day to check it out. My friend told me about this bakery that cater to those who may have a gluten allergy, looking for low carb breads or watching calories. This is the bakery for all those things! \nSuper happy to find so"
         }
       ]
     },
@@ -78730,6 +77950,46 @@
             "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
           ],
           "snippet": "Anyone with a PEANUT ALLERGY needs to think twice about eating here.  While I had lunch, no fewer than 3 workers including the manager ate peanuts with their bare hands from a bowl on the counter. I spoke with the manager about it before I left & he assured me they change their gloves if anyone tell"
+        }
+      ]
+    },
+    {
+      "business_id": "nYsNsyIppe_DTueBha1x9A",
+      "name": "Red Mesa Cantina",
+      "city": "St Petersburg",
+      "state": "FL",
+      "stars": 4.0,
+      "review_count": 1427,
+      "categories": "Mexican, Restaurants, Latin American, Tex-Mex, Bars, Breakfast & Brunch, Nightlife",
+      "max_critical_score": 0.0,
+      "max_high_score": 3.5,
+      "total_critical_score": 0.0,
+      "total_high_score": 5.0,
+      "topic_reviews": 2,
+      "critical_review_count": 0,
+      "high_review_count": 2,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "18xJJX84WNPdm9d8YgXAhA",
+          "stars": 5.0,
+          "date": "2019-04-17 14:10:53",
+          "score": 3.5,
+          "matches": [
+            "allerg\\w*.{0,30}(sick|ill|react)",
+            "\\bfood allerg"
+          ],
+          "snippet": "I am never disappointed by the quality of the food here. Been coming here for years since I discovered my love for Downtown St Pete. They have fantastic sangrias, my friends love the margaritas and their food is delicious. \n\nThe great thing about Red Mesa is they work around your food allergies if n"
+        },
+        {
+          "review_id": "Cp0HK5HFCwV_yuWqDZbMUA",
+          "stars": 4.0,
+          "date": "2016-08-30 17:31:55",
+          "score": 1.5,
+          "matches": [
+            "\\b(peanut|nut|shellfish|gluten|dairy)\\s+allerg"
+          ],
+          "snippet": "Our party of 12 had a great time at this Cantina location and it was truly a miracle that the awesome host was able to get us on the list and seated in less than an hour. We were seated inside, thankfully, because it was a torrential downpour outside. I watched the staff politely guide customers ind"
         }
       ]
     },
@@ -85297,6 +84557,36 @@
       ]
     },
     {
+      "business_id": "sq3BcLyY4_jZf-zkO2itDA",
+      "name": "Taco Bus",
+      "city": "Tampa",
+      "state": "FL",
+      "stars": 3.0,
+      "review_count": 400,
+      "categories": "Mexican, Street Vendors, Restaurants, Vegetarian, Food, Food Trucks",
+      "max_critical_score": 0.0,
+      "max_high_score": 3.5,
+      "total_critical_score": 0.0,
+      "total_high_score": 3.5,
+      "topic_reviews": 1,
+      "critical_review_count": 0,
+      "high_review_count": 1,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "sbP7mKS6KKn9_5QOHnR4-Q",
+          "stars": 1.0,
+          "date": "2018-08-05 17:55:31",
+          "score": 3.5,
+          "matches": [
+            "cross.?contaminat",
+            "\\bfood allerg"
+          ],
+          "snippet": "Me and my partner and his best friend went out to eat here for lunch. I am currently sitting here for 30 min. Waiting on food, they brought the wrong food then acted like we didn't know what we ordered. Now I'm a server at a restaurant and I give all kinds of passes to slight inconveniences but ther"
+        }
+      ]
+    },
+    {
       "business_id": "ws7z5fLdaVgwxZ9ex3cKxw",
       "name": "Sycamore",
       "city": "Lansdowne",
@@ -86464,6 +85754,36 @@
             "\\bfood allerg"
           ],
           "snippet": "Be cautious if you have food allergies or certain dietary restrictions (vegetarian, lactose intolerant, etc), lots of cross contamination between products (think chicken in beans / cheese in the garden etc.). I eat at many QDOBA locations and this problem seems to be especially bad at this location,"
+        }
+      ]
+    },
+    {
+      "business_id": "h2DidMy9Q9qyGlQ5xaecMA",
+      "name": "Poke Loa",
+      "city": "New Orleans",
+      "state": "LA",
+      "stars": 4.0,
+      "review_count": 238,
+      "categories": "Japanese, Poke, Seafood, Hawaiian, Food, Gluten-Free, Restaurants",
+      "max_critical_score": 0.0,
+      "max_high_score": 3.5,
+      "total_critical_score": 0.0,
+      "total_high_score": 3.5,
+      "topic_reviews": 1,
+      "critical_review_count": 0,
+      "high_review_count": 1,
+      "sample_critical_reviews": [],
+      "sample_high_reviews": [
+        {
+          "review_id": "pO8PvhbIA_OBzXzFW-MTmA",
+          "stars": 3.0,
+          "date": "2021-08-01 17:26:15",
+          "score": 3.5,
+          "matches": [
+            "cross.?contaminat",
+            "\\bfood allerg"
+          ],
+          "snippet": "Poke Loa is great for what it is, but be aware if you have any food allergies. My husband is allergic to shellfish, but we thought we would be safe here since ingredients are separate and you can customize your meal. That's not the case--there is a lot of cross contamination. Also he let the server "
         }
       ]
     },

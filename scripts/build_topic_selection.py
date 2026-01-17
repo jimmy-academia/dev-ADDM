@@ -19,6 +19,7 @@ import re
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime
+from multiprocessing import Pool, cpu_count
 from pathlib import Path
 from typing import Callable
 
@@ -88,11 +89,12 @@ TOPICS = {
             (r'(lied|lying).{0,20}(vegan|vegetarian|gluten|dietary)', 4.0),
         ],
         high_patterns=[
-            (r'(vegetarian|vegan|pescatarian)', 1.0),
-            (r'(gluten.free|gluten free|GF)', 1.0),
-            (r'(kosher|halal)', 1.5),
+            # Require context - personal declaration or menu reference
+            (r'\b(i am|i\'m|we are|my).{0,10}(vegetarian|vegan)', 1.5),
+            (r'(vegetarian|vegan).{0,15}(option|menu|friendly|dish)', 1.0),
+            (r'(gluten.free|gluten free|GF).{0,15}(option|menu|friendly)', 1.0),
+            (r'(kosher|halal).{0,15}(option|menu|certif)', 1.5),
             (r'dietary.{0,15}(restrict|requirement|need)', 1.0),
-            (r'(can.t|cannot|don.t).{0,10}eat', 1.0),
             (r'(lactose|dairy).{0,10}(free|intoleran)', 1.0),
         ],
     ),
@@ -104,11 +106,13 @@ TOPICS = {
         description="Food safety and hygiene incidents",
         critical_patterns=[
             (r'food.?poison', 4.0),
-            (r'(sick|ill|vomit|diarrhea).{0,30}(after|from).{0,15}eat', 3.0),
+            # Require food context for illness
+            (r'(sick|ill|vomit|diarrhea).{0,20}(after|from).{0,15}(eat|meal|food|dinner|lunch)', 3.0),
+            (r'(food|meal|ate).{0,20}(made|got).{0,10}(me|us|sick|ill)', 3.0),
             (r'(roach|cockroach|rodent|mouse|rat|mice).{0,20}(saw|found|spotted|crawl)', 5.0),
             (r'health.{0,10}(code|inspector|violation|department)', 4.0),
             (r'(raw|undercooked).{0,15}(chicken|pork|meat)', 3.0),
-            (r'(mold|moldy|rotten|spoiled)', 3.0),
+            (r'(mold|moldy|rotten|spoiled).{0,15}(food|bread|produce|dish)', 3.0),
         ],
         high_patterns=[
             (r'(dirty|filthy|unclean|unsanitary)', 2.0),
@@ -230,13 +234,15 @@ TOPICS = {
         perspective="Customer Economic",
         description="Time efficiency and wait times",
         critical_patterns=[
-            (r'(wait|waited).{0,10}(\d{2,}|hour|two hours|90|over an hour)', 3.0),
+            # Require long waits (30+ minutes or explicit "hour")
+            (r'(wait|waited).{0,10}(hour|two hours|90 min|over an hour|forever)', 3.0),
+            (r'(wait|waited).{0,10}([3-9]\d|[1-9]\d{2,})\s*(min|minute)', 2.5),  # 30+ minutes
             (r'(took|wait).{0,10}(forever|eternity|ages)', 2.5),
             (r'(waste|wasted).{0,10}(time|hour|evening|lunch)', 3.0),
             (r'(never|didn.t).{0,10}(came|arrived|show|bring).{0,15}(food|order|drink)', 3.0),
         ],
         high_patterns=[
-            (r'(wait|waited|waiting).{0,15}(long|minutes|\d+)', 1.5),
+            (r'(wait|waited|waiting).{0,15}(long|too long)', 1.5),
             (r'(slow|forever).{0,10}(service|waiter|server|food)', 2.0),
             (r'(quick|fast|prompt|speedy).{0,10}(service|food|order)', 1.0),
             (r'(reservation|reserv\w*).{0,15}(wait|still|honor)', 1.5),
@@ -259,9 +265,10 @@ TOPICS = {
             (r'(manager|owner).{0,15}(came|apologiz|compens)', 2.0),
         ],
         high_patterns=[
-            (r'(server|waiter|waitress|staff|service)', 1.0),
+            # Removed broad pattern - require sentiment qualifier
             (r'(friendly|attentive|helpful|knowledgeable).{0,10}(server|waiter|staff)', 1.5),
             (r'(slow|inattentive|forgetful).{0,10}(server|waiter|service)', 1.5),
+            (r'(great|good|excellent|terrible|bad|poor).{0,10}service', 1.5),
             (r'(recommend|suggest)\w*.{0,15}(server|waiter)', 1.0),
             (r'(tip|tipped).{0,10}(well|extra|generously|\d+%)', 1.0),
         ],
@@ -279,7 +286,8 @@ TOPICS = {
             (r'(overcooked|undercooked|burnt|raw).{0,10}(completely|totally|very)', 2.5),
         ],
         high_patterns=[
-            (r'(chef|kitchen|cook\w*)', 1.0),
+            # Require quality context - not just mentions
+            (r'(chef|cook).{0,15}(prepar|made|creat)', 1.0),
             (r'(prepar\w*|cook\w*|made).{0,15}(perfect|well|beautifully)', 1.5),
             (r'(flavor|season|spice|taste).{0,15}(perfect|well|just right)', 1.5),
             (r'(presentation|plating|plate).{0,15}(beautiful|art|gorgeous)', 1.5),
@@ -336,7 +344,9 @@ TOPICS = {
         perspective="Owner Operations",
         description="Order execution and accuracy",
         critical_patterns=[
-            (r'(wrong|incorrect|mistake).{0,15}(order|dish|food|item)', 3.0),
+            # Require complaint context - avoid "nothing wrong with"
+            (r'(got|brought|gave).{0,10}(wrong|incorrect).{0,10}(order|dish|food)', 3.0),
+            (r'(order|dish|food).{0,10}(was|came).{0,10}(wrong|incorrect)', 3.0),
             (r'(forgot|forgotten|missing|never).{0,15}(order|dish|appetizer|drink|side)', 3.0),
             (r'(cold|lukewarm|room temperature).{0,15}(food|dish|plate|meal)', 2.5),
             (r'(order|food).{0,15}(completely|totally).{0,10}(wrong|different)', 3.0),
@@ -404,7 +414,8 @@ TOPICS = {
             (r'(nothing|no one|nowhere).{0,15}(compare|comes close|beats)', 3.0),
         ],
         high_patterns=[
-            (r'(compared|comparing|versus|vs\.?|than)', 1.5),
+            # Require restaurant context for comparisons
+            (r'(better|worse).{0,10}than.{0,20}(restaurant|place|spot)', 1.5),
             (r'(similar|reminds|like).{0,15}(restaurant|place)', 1.0),
             (r'(best|top|favorite).{0,10}(restaurant|place|spot)', 1.5),
             (r'(other|different).{0,10}(restaurant|place|option)', 1.0),
@@ -433,10 +444,66 @@ TOPICS = {
     ),
 }
 
+# =============================================================================
+# PRE-FILTER KEYWORDS (fast string match before expensive regex)
+# =============================================================================
+
+PREFILTER_KEYWORDS = {
+    # G1: Customer Health
+    "G1_allergy": {'allerg', 'epipen', 'anaphyla', 'reaction', 'cross contam', 'nut free', 'dairy free'},
+    "G1_dietary": {'vegetarian', 'vegan', 'gluten', 'kosher', 'halal', 'celiac', 'pescatarian', 'lactose', 'dairy free'},
+    "G1_hygiene": {'sick', 'poison', 'roach', 'cockroach', 'mouse', 'rat', 'mice', 'rodent', 'mold', 'rotten',
+                   'dirty', 'filthy', 'hair in', 'bug in', 'vomit', 'diarrhea', 'health code', 'undercooked'},
+
+    # G2: Customer Social
+    "G2_romance": {'date', 'romantic', 'anniversary', 'honeymoon', 'propos', 'engaged', 'boyfriend', 'girlfriend',
+                   'husband', 'wife', 'valentine', 'candlelit', 'intimate'},
+    "G2_business": {'business', 'client', 'meeting', 'corporate', 'colleague', 'coworker', 'boss', 'professional',
+                    'expense', 'impress'},
+    "G2_group": {'party', 'birthday', 'celebration', 'group of', 'graduation', 'shower', 'reunion', 'gathering',
+                 'large group', 'private room'},
+
+    # G3: Customer Economic
+    "G3_price_worth": {'worth', 'value', 'expensive', 'overpriced', 'rip off', 'ripoff', 'waste', 'budget',
+                       'affordable', 'pricey', 'bang for'},
+    "G3_hidden_costs": {'hidden', 'surprise', 'fee', 'charge', 'gratuity', 'automatic tip', 'auto tip',
+                        'service charge', 'corkage', 'extra charge', 'fine print'},
+    "G3_time_value": {'wait', 'slow', 'forever', 'hour', 'minutes', 'took so long', 'never came', 'rushed'},
+
+    # G4: Owner Talent
+    "G4_server": {'server', 'waiter', 'waitress', 'attentive', 'ignored', 'neglect', 'rude', 'friendly staff',
+                  'great service', 'terrible service'},
+    "G4_kitchen": {'chef', 'cook', 'kitchen', 'execution', 'technique', 'plating', 'presentation', 'prepared',
+                   'overcooked', 'undercooked', 'burnt', 'seasoned'},
+    "G4_environment": {'ambiance', 'atmosphere', 'decor', 'noise', 'loud', 'view', 'cozy', 'lighting', 'modern',
+                       'elegant', 'cramped'},
+
+    # G5: Owner Operations
+    "G5_capacity": {'reservation', 'overbook', 'wait list', 'no table', 'couldn\'t seat', 'turn away',
+                    'walk-in', 'packed', 'empty'},
+    "G5_execution": {'wrong order', 'incorrect', 'mistake', 'forgot', 'missing', 'cold food', 'never got',
+                     'brought wrong', 'not what i ordered'},
+    "G5_consistency": {'inconsistent', 'hit or miss', 'used to be', 'has changed', 'decline', 'downhill',
+                       'every time', 'always', 'consistently'},
+
+    # G6: Owner Strategy
+    "G6_uniqueness": {'unique', 'only place', 'nowhere else', 'one of a kind', 'signature', 'specialty',
+                      'creative', 'innovative', 'original'},
+    "G6_comparison": {'better than', 'worse than', 'compared', 'versus', ' vs ', 'best in', 'top', 'favorite',
+                      'nothing compares'},
+    "G6_loyalty": {'come back', 'return', 'regular', 'loyal', 'years', 'won\'t return', 'never again',
+                   'first time', 'frequent'},
+}
+
 
 def compile_patterns(patterns: list[tuple[str, float]]) -> list[tuple[re.Pattern, float]]:
     """Compile regex patterns with case-insensitive flag."""
     return [(re.compile(p, re.IGNORECASE), w) for p, w in patterns]
+
+
+def passes_prefilter(text_lower: str, keywords: set) -> bool:
+    """Fast pre-filter check using simple string matching."""
+    return any(kw in text_lower for kw in keywords)
 
 
 def score_review(text: str, critical: list, high: list, stars: float = None) -> tuple[float, float, list, list]:
@@ -480,6 +547,9 @@ def process_topic(topic_config: TopicConfig, reviews_path: Path,
     critical = compile_patterns(topic_config.critical_patterns)
     high = compile_patterns(topic_config.high_patterns)
 
+    # Get pre-filter keywords for fast screening
+    prefilter_keywords = PREFILTER_KEYWORDS.get(topic_config.name, set())
+
     # Track scores per business
     # Use MAX score (peak incident) rather than cumulative
     business_scores = defaultdict(lambda: {
@@ -494,14 +564,22 @@ def process_topic(topic_config: TopicConfig, reviews_path: Path,
 
     # Scan all reviews
     review_count = 0
+    prefilter_passed = 0
     with open(reviews_path) as f:
         for line in f:
             review_count += 1
             if verbose and review_count % 1_000_000 == 0:
-                print(f"  Processed {review_count:,} reviews...")
+                print(f"  Processed {review_count:,} reviews (pre-filter passed: {prefilter_passed:,})...")
 
             review = json.loads(line)
             text = review["text"]
+            text_lower = text.lower()
+
+            # Fast pre-filter check (skip expensive regex if no keywords match)
+            if prefilter_keywords and not passes_prefilter(text_lower, prefilter_keywords):
+                continue
+
+            prefilter_passed += 1
             bid = review["business_id"]
             stars = review.get("stars", 3)
 
@@ -539,7 +617,9 @@ def process_topic(topic_config: TopicConfig, reviews_path: Path,
                     })
 
     if verbose:
-        print(f"  Scanned {review_count:,} reviews, found {len(business_scores)} businesses with matches")
+        filter_rate = (1 - prefilter_passed / review_count) * 100 if review_count > 0 else 0
+        print(f"  Scanned {review_count:,} reviews, pre-filter passed {prefilter_passed:,} ({100-filter_rate:.1f}%)")
+        print(f"  Found {len(business_scores)} businesses with matches")
 
     # Load business metadata
     business_info = {}
@@ -626,11 +706,26 @@ def process_topic(topic_config: TopicConfig, reviews_path: Path,
     return results
 
 
+def process_and_save_topic(args_tuple):
+    """Wrapper for multiprocessing - processes and saves a single topic."""
+    name, config, reviews_path, businesses_path, output_dir = args_tuple
+    try:
+        results = process_topic(config, reviews_path, businesses_path, verbose=True)
+        output_file = output_dir / f"{name}.json"
+        with open(output_file, "w") as f:
+            json.dump(results, f, indent=2)
+        return name, len(results["critical_list"]), len(results["high_list"]), None
+    except Exception as e:
+        return name, 0, 0, str(e)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Build topic selection from full dataset")
     parser.add_argument("--topic", default=None, help="Process single topic (e.g., G1_allergy)")
     parser.add_argument("--dry-run", action="store_true", help="Show patterns only, don't process")
     parser.add_argument("--data", default="yelp", help="Dataset name")
+    parser.add_argument("--parallel", type=int, default=0,
+                        help="Number of parallel processes (default=0 means auto-detect CPU cores)")
     args = parser.parse_args()
 
     # Paths
@@ -678,14 +773,40 @@ def main():
     print(f"Reviews: {reviews_path}")
     print(f"Output: {output_dir}")
 
-    for name, config in topics_to_process.items():
-        results = process_topic(config, reviews_path, businesses_path)
+    # Determine parallelism: 0 = auto-detect, 1 = sequential, >1 = specified
+    n_parallel = args.parallel if args.parallel > 0 else cpu_count()
 
-        # Save results
-        output_file = output_dir / f"{name}.json"
-        with open(output_file, "w") as f:
-            json.dump(results, f, indent=2)
-        print(f"  Saved: {output_file}")
+    if n_parallel > 1 and len(topics_to_process) > 1:
+        # Parallel processing
+        n_workers = min(n_parallel, len(topics_to_process), cpu_count())
+        print(f"Using {n_workers} parallel workers")
+
+        task_args = [
+            (name, config, reviews_path, businesses_path, output_dir)
+            for name, config in topics_to_process.items()
+        ]
+
+        with Pool(n_workers) as pool:
+            results = pool.map(process_and_save_topic, task_args)
+
+        # Report results
+        print("\n" + "=" * 60)
+        print("Summary:")
+        for name, critical_count, high_count, error in results:
+            if error:
+                print(f"  {name}: ERROR - {error}")
+            else:
+                print(f"  {name}: {critical_count} critical, {high_count} high")
+    else:
+        # Sequential processing
+        for name, config in topics_to_process.items():
+            results = process_topic(config, reviews_path, businesses_path)
+
+            # Save results
+            output_file = output_dir / f"{name}.json"
+            with open(output_file, "w") as f:
+                json.dump(results, f, indent=2)
+            print(f"  Saved: {output_file}")
 
     print("\nDone!")
 
