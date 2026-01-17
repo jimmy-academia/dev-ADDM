@@ -5,11 +5,21 @@ Usage:
     .venv/bin/python scripts/test_allergy_query.py
     .venv/bin/python scripts/test_allergy_query.py --model claude-sonnet
     .venv/bin/python scripts/test_allergy_query.py --business-id "abc123"
+    .venv/bin/python scripts/test_allergy_query.py --name "my_experiment"
+    .venv/bin/python scripts/test_allergy_query.py --benchmark  # Use benchmark/ instead of dev/
+
+Output structure:
+    results/dev/{timestamp}_{name}/
+    ├── results.jsonl      # Lean results (verdict, evidence, usage)
+    ├── config.json        # Run configuration
+    └── debug/
+        └── {sample_id}.json  # Full prompt + response
 """
 
 import argparse
 import asyncio
 import json
+import re
 from datetime import datetime
 from pathlib import Path
 
@@ -18,72 +28,61 @@ from addm.llm import LLMService
 ALLERGY_ASSESSMENT_STANDARD = '''
 # Allergy Safety Risk Assessment Standard (Review-Based)
 
-## Purpose / overall goal
-This standard defines how we assign a restaurant an Allergy Safety Risk label (Low / High / Critical) for allergy safety, using customer reviews as evidence.
+## Purpose
+Assign a restaurant an Allergy Safety Risk label (Low / High / Critical) using customer reviews as evidence.
 
-## Evidence scope
-A review is considered allergy-relevant if it meaningfully discusses any of the following:
-- an allergic reaction or suspected cross-contact,
-- requesting allergy accommodation (e.g., "peanut allergy," "nut-free"),
-- staff communication about allergy safety, or
-- explicit statements about allergy safety guarantees (e.g., "they assured it was nut-free").
+## Evidence Scope
+A review is allergy-relevant if it discusses:
+- An allergic reaction or suspected cross-contact
+- Requesting allergy accommodation (e.g., "peanut allergy," "nut-free")
+- Staff communication about allergy safety
+- Explicit safety guarantees (e.g., "they assured it was nut-free")
 
-Ingredient mentions without allergy context (e.g., "peanut sauce is great") are not considered allergy-relevant.
+Ingredient mentions without allergy context are NOT allergy-relevant.
 
-## Definitions of terms
+## Definitions
 
-### Account type
-- **Firsthand**: the reviewer or their dining party experienced the event directly (e.g., "I had…," "my child…").
-- **Secondhand**: the reviewer reports someone else's experience ("my friend…").
-- **Hypothetical / preference**: the reviewer expresses concern or preference without describing an incident ("I'm allergic so I avoid…").
+### Account Type
+- **firsthand**: Reviewer or their party experienced it directly
+- **secondhand**: Reviewer reports someone else's experience
+- **hypothetical**: Concern/preference without describing an incident
 
-Only firsthand accounts are treated as confirmed incident evidence.
+Only firsthand accounts count as confirmed incident evidence.
 
-### Incident severity
-If a review describes an allergic reaction, classify severity as follows:
-- **Mild incident**: discomfort or minor symptoms that do not include visible swelling/hives and do not require urgent medical care.
-- **Moderate incident**: visible symptoms (e.g., hives or swelling) and/or symptoms that required medication (e.g., antihistamine), but the situation is not described as life-threatening.
-- **Severe incident**: a life-threatening reaction, including any mention of anaphylaxis, EpiPen use, emergency room visit, hospitalization, or an explicitly described medical emergency.
+### Incident Severity
+- **mild**: Discomfort/minor symptoms, no swelling/hives, no urgent care
+- **moderate**: Visible symptoms (hives/swelling) and/or required medication, not life-threatening
+- **severe**: Life-threatening (anaphylaxis, EpiPen, ER visit, hospitalization)
 
-If no reaction occurred, the review is treated as non-incident evidence.
+### Assurance Failure
+When staff explicitly confirmed safety ("guaranteed nut-free") but an incident still occurred.
 
-### Assurance of safety
-An assurance is present when staff are described as explicitly confirming safety for peanut/tree-nut allergy (e.g., "guaranteed nut-free," "confirmed no peanuts," "assured it was safe for my allergy").
+### Staff Response
+- **accommodated**: Took allergy seriously, made successful adjustment
+- **refused**: Would not accommodate
+- **dismissive**: Minimized the concern
 
-If a firsthand incident occurs after such an assurance, this is treated as a high-severity policy failure signal, because it indicates breakdown of allergy-handling procedures or communication.
+### Cuisine Baseline Risk
+Higher for cuisines using peanuts/tree nuts (Thai, Vietnamese, Chinese). Lower for American/Italian/pizza.
 
-### Staff response
-When described, staff response should be recorded as:
-- **Accommodated**: staff took the allergy seriously and made a successful adjustment (ingredient check, substitution, separate preparation, clear warnings).
-- **Refused**: staff stated they could not or would not accommodate allergies.
-- **Dismissive**: staff minimized the concern or treated it as not important.
-- **Not described**: no staff interaction about allergy is described.
+## Verdict Rules
 
-### Cuisine baseline risk
-Some cuisines have higher baseline likelihood of nut cross-contact due to common ingredients and preparation practices. When cuisine is known, treat baseline risk as higher for cuisines commonly using peanuts/tree nuts and shared sauces/oils (e.g., Thai, Vietnamese, Chinese/Asian, etc.), and lower for cuisines where nut exposure is less central (e.g., many American/Italian/pizza contexts). When multiple cuisines apply, use the higher-risk baseline.
+**Critical** if ANY:
+- Single severe firsthand incident
+- Moderate+ incident after explicit assurance
+- Pattern of multiple firsthand incidents
 
-### Recency principle
-More recent incidents should weigh more heavily than older incidents. However, severe incidents remain important even if older.
+**High** if Critical doesn't apply but ANY:
+- At least one moderate firsthand incident (especially recent)
+- Mild incident after explicit assurance (process failure)
+- Staff repeatedly refusing/dismissive
+- High cuisine risk + inconsistent handling
 
-## Final verdict rules (Low / High / Critical)
+**Low** otherwise (no firsthand incidents, consistent accommodation)
 
-**Critical Risk** if any of the following is true:
-- A single severe firsthand incident is reported.
-- A firsthand incident is reported after an explicit assurance of safety, and the incident is described as moderate-or-severe or medically significant.
-- Multiple firsthand incidents indicate an ongoing pattern (e.g., repeated moderate incidents, or repeated incidents with dismissive/refusal behavior).
-
-**High Risk** if Critical Risk does not apply, but any of the following is true:
-- At least one moderate firsthand incident is reported (especially if recent).
-- A firsthand incident occurs after an explicit assurance of safety, even if symptoms are described as mild (because the assurance represents a process failure).
-- Reviews repeatedly describe staff as refusing or being dismissive about allergy concerns.
-- Baseline cuisine risk is high and evidence suggests inconsistent allergy handling.
-
-**Low Risk** otherwise, especially when:
-- no firsthand incidents are reported, and
-- allergy-relevant reviews describe consistent accommodation behavior or careful handling.
-
-## Confidence note (must be reported with verdict)
-Alongside the verdict, report whether the decision is based on limited evidence (very few allergy-relevant reviews) or substantial evidence (many allergy-relevant reviews). This is not the risk level itself, but an indicator of how stable the conclusion is.
+## Confidence
+- **limited**: Very few allergy-relevant reviews
+- **substantial**: Many allergy-relevant reviews
 '''
 
 PROMPT_TEMPLATE = '''You are an expert at analyzing restaurant reviews for allergy safety concerns.
@@ -94,7 +93,7 @@ PROMPT_TEMPLATE = '''You are an expert at analyzing restaurant reviews for aller
 
 # Task
 
-Analyze the following reviews for **{restaurant_name}** ({categories}) and provide an Allergy Safety Risk Assessment.
+Analyze the reviews for **{restaurant_name}** ({categories}) and provide an Allergy Safety Risk Assessment.
 
 ## Reviews
 
@@ -102,41 +101,64 @@ Analyze the following reviews for **{restaurant_name}** ({categories}) and provi
 
 ---
 
-# Instructions
+# Required Output Format
 
-1. First, identify all allergy-relevant reviews from the set above (cite by review number).
-2. For each allergy-relevant review, extract:
-   - Account type (firsthand/secondhand/hypothetical)
-   - Whether an incident occurred and its severity (if applicable)
-   - Whether an assurance of safety was given before an incident
-   - Staff response (if described)
-3. Consider the cuisine baseline risk.
-4. Apply the verdict rules to determine: **Low Risk**, **High Risk**, or **Critical Risk**.
-5. State your confidence level: **limited evidence** or **substantial evidence**.
+Return ONLY valid JSON with no other text before or after:
 
-Provide your analysis in a structured format, ending with a clear final verdict and confidence level.
+```json
+{{
+  "verdict": "Low" | "High" | "Critical",
+  "confidence": "limited" | "substantial",
+  "allergy_relevant_count": <number of allergy-relevant reviews>,
+  "cuisine_baseline_risk": "low" | "medium" | "high",
+  "supporting_evidence": [
+    {{
+      "review_num": <int>,
+      "type": "incident" | "assurance_failure" | "staff_concern" | "accommodation",
+      "account_type": "firsthand" | "secondhand" | "hypothetical",
+      "severity": "mild" | "moderate" | "severe" | null,
+      "staff_response": "accommodated" | "refused" | "dismissive" | null,
+      "key_quote": "<brief quote, max 50 words>"
+    }}
+  ],
+  "verdict_reasoning": "<1-2 sentences explaining why this verdict based on the rules>"
+}}
+```
+
+Only include reviews in supporting_evidence that directly contribute to the verdict decision. Do not list every allergy-relevant review—only the ones that matter for the final risk determination.
 '''
 
 
 def find_allergy_relevant_restaurant() -> str | None:
-    """Find a restaurant with allergy keyword hits."""
-    hits_file = Path("data/keyword_hits/yelp/G1_allergy.json")
-    if not hits_file.exists():
-        print(f"Warning: {hits_file} not found")
+    """Find a restaurant with G1_allergy topic coverage that's in the dataset."""
+    selection_file = Path("data/selected/yelp/topic_100.json")
+    dataset_file = Path("data/processed/yelp/dataset_K50.jsonl")
+
+    if not selection_file.exists():
+        print(f"Warning: {selection_file} not found")
         return None
 
-    with open(hits_file) as f:
-        hits = json.load(f)
+    # Load dataset IDs
+    dataset_ids = set()
+    if dataset_file.exists():
+        with open(dataset_file) as f:
+            for line in f:
+                record = json.loads(line)
+                dataset_ids.add(record["business_id"])
 
-    # Return first restaurant with good hit count (skip first which may be peanut-themed)
-    # Prefer restaurants with "allerg" in sample_matches for better test
-    for hit in hits:
-        if any("allerg" in m.lower() for m in hit.get("sample_matches", [])):
-            return hit["business_id"]
+    # Find restaurants with G1_allergy coverage
+    with open(selection_file) as f:
+        selected = json.load(f)
 
-    # Fallback to first with reasonable hits
-    if hits:
-        return hits[0]["business_id"]
+    # Sort by allergy hits descending
+    allergy_restaurants = [
+        r for r in selected
+        if "G1_allergy" in r.get("topic_coverage", {}) and r["business_id"] in dataset_ids
+    ]
+    allergy_restaurants.sort(key=lambda r: r["topic_coverage"]["G1_allergy"], reverse=True)
+
+    if allergy_restaurants:
+        return allergy_restaurants[0]["business_id"]
     return None
 
 
@@ -155,10 +177,82 @@ def load_restaurant(business_id: str) -> dict | None:
     return None
 
 
+def parse_json_response(response: str) -> dict | None:
+    """Extract JSON from LLM response, handling markdown code blocks."""
+    # Try to extract from markdown code block
+    json_match = re.search(r'```(?:json)?\s*([\s\S]*?)\s*```', response)
+    if json_match:
+        try:
+            return json.loads(json_match.group(1))
+        except json.JSONDecodeError:
+            pass
+
+    # Try direct parse
+    try:
+        return json.loads(response)
+    except json.JSONDecodeError:
+        pass
+
+    # Try to find JSON object in response
+    json_match = re.search(r'\{[\s\S]*\}', response)
+    if json_match:
+        try:
+            return json.loads(json_match.group(0))
+        except json.JSONDecodeError:
+            pass
+
+    return None
+
+
+def setup_output_dirs(name: str, benchmark: bool = False) -> tuple[Path, str]:
+    """Create output directory structure, return (run_dir, timestamp)."""
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    mode = "benchmark" if benchmark else "dev"
+    run_name = f"{timestamp}_{name}" if name else timestamp
+
+    run_dir = Path(f"results/{mode}/{run_name}")
+    debug_dir = run_dir / "debug"
+    debug_dir.mkdir(parents=True, exist_ok=True)
+
+    return run_dir, timestamp
+
+
+def save_debug(run_dir: Path, sample_id: str, prompt: str, response: str,
+               model: str, usage: dict):
+    """Save full prompt/response to debug file."""
+    debug_file = run_dir / "debug" / f"{sample_id}.json"
+    debug_data = {
+        "timestamp": datetime.now().isoformat(),
+        "sample_id": sample_id,
+        "model": model,
+        "usage": usage,
+        "prompt": prompt,
+        "response": response,
+    }
+    with open(debug_file, "w") as f:
+        json.dump(debug_data, f, indent=2)
+
+
+def save_result(run_dir: Path, result: dict):
+    """Append lean result to results.jsonl."""
+    results_file = run_dir / "results.jsonl"
+    with open(results_file, "a") as f:
+        f.write(json.dumps(result) + "\n")
+
+
+def save_config(run_dir: Path, config: dict):
+    """Save run configuration."""
+    config_file = run_dir / "config.json"
+    with open(config_file, "w") as f:
+        json.dump(config, f, indent=2)
+
+
 async def main():
     parser = argparse.ArgumentParser(description="Test allergy safety risk assessment query")
     parser.add_argument("--model", default="gpt-5-nano", help="LLM model to use")
     parser.add_argument("--business-id", default=None, help="Specific restaurant business ID")
+    parser.add_argument("--name", default="allergy_test", help="Run name for output directory")
+    parser.add_argument("--benchmark", action="store_true", help="Save to benchmark/ instead of dev/")
     args = parser.parse_args()
 
     # 1. Find restaurant
@@ -174,6 +268,7 @@ async def main():
 
     restaurant_name = record["business"]["name"]
     categories = record["business"].get("categories", "Unknown")
+    sample_id = business_id[:8]  # Short ID for filenames
 
     print(f"Restaurant: {restaurant_name}")
     print(f"Business ID: {business_id}")
@@ -182,13 +277,27 @@ async def main():
     print(f"Model: {args.model}")
     print()
 
-    # 2. Format reviews
+    # 2. Setup output directories
+    run_dir, timestamp = setup_output_dirs(args.name, args.benchmark)
+    print(f"Output dir: {run_dir}")
+
+    # Save config
+    config = {
+        "timestamp": timestamp,
+        "model": args.model,
+        "task": "allergy_safety_assessment",
+        "domain": "yelp",
+        "k": len(record["reviews"]),
+    }
+    save_config(run_dir, config)
+
+    # 3. Format reviews
     reviews_text = "\n\n".join([
         f"**Review {j+1}** (Rating: {r.get('stars', 'N/A')}/5, Date: {r.get('date', 'N/A')}):\n{r['text']}"
         for j, r in enumerate(record["reviews"])
     ])
 
-    # 3. Build prompt
+    # 4. Build prompt
     prompt = PROMPT_TEMPLATE.format(
         standard=ALLERGY_ASSESSMENT_STANDARD,
         reviews=reviews_text,
@@ -196,44 +305,75 @@ async def main():
         categories=categories
     )
 
-    # 4. Call LLM
+    # 5. Call LLM
     llm = LLMService()
-    llm.configure(model=args.model, temperature=0.0)
+    # Note: gpt-5-nano doesn't support temperature=0.0, must use 1.0
+    if "nano" in args.model.lower():
+        llm.configure(model=args.model, temperature=1.0)
+    else:
+        llm.configure(model=args.model, temperature=0.0)
 
     messages = [{"role": "user", "content": prompt}]
 
     print("Calling LLM...")
-    response, usage = await llm.call_async_with_usage(messages, context={"test": "allergy_query"})
+    response, usage = await llm.call_async_with_usage(messages, context={"sample_id": sample_id})
 
-    # 5. Save output
-    output_dir = Path("results/test_queries")
-    output_dir.mkdir(parents=True, exist_ok=True)
+    # 6. Save debug (full prompt + response)
+    save_debug(run_dir, sample_id, prompt, response, args.model, usage)
+    print(f"Debug saved to: {run_dir}/debug/{sample_id}.json")
 
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_file = output_dir / f"allergy_test_{timestamp}.json"
+    # 7. Parse and save lean result
+    parsed = parse_json_response(response)
 
     result = {
-        "timestamp": timestamp,
-        "model": args.model,
-        "restaurant": {
-            "name": restaurant_name,
-            "business_id": business_id,
-            "categories": categories,
-        },
+        "sample_id": sample_id,
+        "business_id": business_id,
+        "name": restaurant_name,
+        "categories": categories,
         "num_reviews": len(record["reviews"]),
-        "prompt": prompt,
-        "response": response,
-        "usage": usage,
+        "model": args.model,
+        # From parsed response (or null if parse failed)
+        "verdict": parsed.get("verdict") if parsed else None,
+        "confidence": parsed.get("confidence") if parsed else None,
+        "allergy_relevant_count": parsed.get("allergy_relevant_count") if parsed else None,
+        "supporting_evidence": parsed.get("supporting_evidence") if parsed else None,
+        "verdict_reasoning": parsed.get("verdict_reasoning") if parsed else None,
+        "parse_success": parsed is not None,
+        # Usage
+        "prompt_tokens": usage.get("prompt_tokens"),
+        "completion_tokens": usage.get("completion_tokens"),
+        "cost_usd": usage.get("cost_usd"),
+        "latency_ms": usage.get("latency_ms"),
     }
 
-    with open(output_file, "w") as f:
-        json.dump(result, f, indent=2)
+    save_result(run_dir, result)
+    print(f"Result saved to: {run_dir}/results.jsonl")
 
-    print(f"\nSaved to: {output_file}")
+    # 8. Print summary
     print(f"\n{'='*60}")
-    print("RESPONSE:")
+    print("RESULT SUMMARY:")
     print('='*60)
-    print(response)
+
+    if parsed:
+        print(f"Verdict: {parsed.get('verdict')}")
+        print(f"Confidence: {parsed.get('confidence')}")
+        print(f"Allergy-relevant reviews: {parsed.get('allergy_relevant_count')}")
+        print(f"Cuisine baseline risk: {parsed.get('cuisine_baseline_risk')}")
+        print(f"\nSupporting evidence:")
+        for ev in parsed.get("supporting_evidence", []):
+            print(f"  - Review {ev.get('review_num')}: {ev.get('type')} "
+                  f"({ev.get('account_type')}, severity={ev.get('severity')})")
+            print(f"    \"{ev.get('key_quote', '')[:80]}...\"")
+        print(f"\nReasoning: {parsed.get('verdict_reasoning')}")
+    else:
+        print("ERROR: Failed to parse JSON response")
+        print("\nRaw response (first 500 chars):")
+        print(response[:500])
+
+    print(f"\n{'='*60}")
+    print(f"Cost: ${usage.get('cost_usd', 0):.4f} | "
+          f"Tokens: {usage.get('prompt_tokens', 0)} + {usage.get('completion_tokens', 0)} | "
+          f"Latency: {usage.get('latency_ms', 0)/1000:.1f}s")
 
 
 if __name__ == "__main__":

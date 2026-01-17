@@ -20,12 +20,12 @@ All task responses must follow:
 - `reasoning` (optional): if included, concise and non-redundant.
 
 ## Agenda Schema (Top-Level)
-Represent the agenda as structured data with stable IDs.
+Represent the agenda as structured data with stable IDs. Labels are task-specific.
 
 ```yaml
 agenda_id: "G1a"
 topic: "Allergy Safety"
-labels: ["Low", "High", "Critical"]
+labels: ["Low Risk", "High Risk", "Critical Risk"]
 sections:
   - id: "overview"
     title: "Purpose / overall goal"
@@ -90,7 +90,7 @@ Rules are authored once in a structured format and used for:
 rulesets:
   - id: "ruleset:G1a"
     verdicts:
-      - label: "Critical"
+      - label: "Critical Risk"
         any_of:
           - id: "crit_severe_incident"
             when: { incident: "severe", account_type: "firsthand" }
@@ -105,7 +105,7 @@ rulesets:
                 min_incidents: 2
                 account_type: "firsthand"
                 incident: ["moderate", "severe"]
-      - label: "High"
+      - label: "High Risk"
         any_of:
           - id: "high_moderate_incident"
             when: { incident: "moderate", account_type: "firsthand" }
@@ -117,7 +117,7 @@ rulesets:
             when:
               cuisine_risk: "high"
               allergy_handling: "inconsistent"
-      - label: "Low"
+      - label: "Low Risk"
         default: true
 ```
 
@@ -162,12 +162,13 @@ The compiler should:
 - Emit confidence based on evidence volume.
 
 ## Minimal Example (G1a)
-This is a minimal payload for authoring:
+This is a minimal payload for authoring. It is only an example; other topics may use
+different labels and definitions.
 
 ```yaml
 agenda_id: "G1a"
 topic: "Allergy Safety"
-labels: ["Low", "High", "Critical"]
+labels: ["Low Risk", "High Risk", "Critical Risk"]
 vocab_ref: "vocab:allergy_safety"
 ruleset_ref: "ruleset:G1a"
 output_format:

@@ -10,7 +10,10 @@
       "Bash(wc:*)",
       "Bash(python3:*)",
       "Skill(doc)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(while ps aux)",
+      "Bash(do sleep 30)",
+      "Bash(done)"
     ]
   }
 }
