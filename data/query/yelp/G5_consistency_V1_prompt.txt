@@ -1,0 +1,74 @@
+# Consistency Assessment
+
+Help assess the quality consistency at this restaurant using reviews as evidence.
+This is from the perspective of a business owner diagnosing reliability.
+Assign a label: Needs Improvement, Satisfactory, or Excellent.
+
+## Definitions of Terms
+
+### Incident
+
+Consider reviews that mention any of the following:
+- quality changes over time
+- comparison to previous visits
+- reliability and predictability
+- repeat customer observations
+
+Reviews from first-time visitors that don't mention consistency carry less weight.
+
+### Account Type
+How the reviewer relates to the described event
+
+- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+
+### Quality Trend
+Trend in quality over time
+
+- **Declining**: Quality has gotten worse
+- **Stable**: Quality remains consistent
+- **Improving**: Quality has improved
+
+### Visit Comparison
+Current visit compared to previous
+
+- **Much Worse**: Significantly worse than before
+- **Worse**: Noticeably worse than before
+- **Same**: Same quality as before
+- **Better**: Better than before
+- **Much Better**: Significantly improved
+
+### Reliability
+How reliable the experience is
+
+- **Unpredictable**: Never know what you'll get
+- **Hit or Miss**: Sometimes good, sometimes not
+- **Mostly Reliable**: Usually consistent with occasional issues
+- **Always Reliable**: Consistently excellent every time
+
+### Visit Frequency
+How often reviewer has visited
+
+- **First Visit**: First time at this restaurant
+- **Few Visits**: Have been a few times
+- **Regular**: Visit regularly
+- **Frequent**: Very frequent visitor
+
+
+## Verdict Rules
+
+A restaurant is considered **Excellent** if any of the following is true:
+- {'text': "At least 1 frequent customer describes 'never disappoints'", 'type': 'count_threshold', 'filter': {'reliability': 'always', 'visit_frequency': 'frequent'}, 'min_count': 1}
+- {'text': 'Multiple visits described as consistently excellent', 'type': 'count_threshold', 'filter': {'visit_comparison': 'consistently_excellent'}, 'min_count': 1}
+- {'text': 'Long-term regular customer praises maintained quality', 'type': 'count_threshold', 'filter': {'quality_trend': 'stable', 'visit_frequency': 'long_term'}, 'min_count': 1}
+
+**Needs Improvement** if Excellent does not apply, but any of the following is true:
+- {'text': "At least 1 regular customer describes 'went downhill'", 'type': 'count_threshold', 'filter': {'quality_trend': 'declining', 'visit_frequency': 'regular'}, 'min_count': 1}
+- {'text': 'Management change leading to quality decline', 'type': 'count_threshold', 'filter': {'quality_trend': 'declining'}, 'min_count': 1}
+- {'text': "Described as 'coin flip' or completely unpredictable", 'type': 'count_threshold', 'filter': {'reliability': 'coin_flip'}, 'min_count': 1}
+
+**Satisfactory** otherwise, especially when:
+- Generally reliable with occasional variation
+- No strong positive or negative trends
+- Adequate consistency for most visits

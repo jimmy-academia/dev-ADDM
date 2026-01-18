@@ -17,7 +17,8 @@ except ImportError:  # pragma: no cover - optional dependency
     anthropic = None
 
 from addm.utils.async_utils import gather_with_concurrency
-from addm.utils.usage import usage_tracker, compute_cost
+from addm.utils.debug_logger import get_debug_logger
+from addm.utils.usage import compute_cost, usage_tracker
 
 
 def _load_api_key():
@@ -203,6 +204,22 @@ class LLMService:
                         response_preview=str(response)[:200] if response else "",
                     )
 
+                    # Log to debug logger if enabled
+                    debug_logger = get_debug_logger()
+                    if debug_logger and debug_logger.enabled:
+                        prompt_text = "\n\n".join(
+                            f"{m['role']}: {m['content']}" for m in messages
+                        )
+                        debug_logger.log_llm_call(
+                            sample_id=context.get("sample_id", "unknown") if context else "unknown",
+                            phase=context.get("phase", "main") if context else "main",
+                            prompt=prompt_text,
+                            response=response or "",
+                            model=model,
+                            latency_ms=latency_ms,
+                            metadata=context,
+                        )
+
                     usage = {
                         "prompt_tokens": prompt_tokens,
                         "completion_tokens": completion_tokens,
@@ -244,6 +261,22 @@ class LLMService:
                         prompt_preview=prompt_preview,
                         response_preview=str(response)[:200] if response else "",
                     )
+
+                    # Log to debug logger if enabled
+                    debug_logger = get_debug_logger()
+                    if debug_logger and debug_logger.enabled:
+                        prompt_text = "\n\n".join(
+                            f"{m['role']}: {m['content']}" for m in messages
+                        )
+                        debug_logger.log_llm_call(
+                            sample_id=context.get("sample_id", "unknown") if context else "unknown",
+                            phase=context.get("phase", "main") if context else "main",
+                            prompt=prompt_text,
+                            response=response or "",
+                            model=model,
+                            latency_ms=latency_ms,
+                            metadata=context,
+                        )
 
                     usage = {
                         "prompt_tokens": prompt_tokens,

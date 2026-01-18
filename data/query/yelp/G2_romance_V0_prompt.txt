@@ -1,0 +1,74 @@
+# Romantic Dining Suitability Assessment
+
+Help assess how suitable this restaurant is for romantic dining (dates, anniversaries, proposals)
+using customer reviews as evidence.
+Assign a suitability label: Not Recommended, Acceptable, or Recommended.
+
+## Definitions of Terms
+
+### Incident
+
+Consider reviews that mention any of the following:
+- date nights, anniversaries, romantic occasions, proposals
+- ambiance, lighting, noise level, privacy
+- service style (rushed vs. attentive)
+- overall romantic atmosphere
+
+Reviews that only discuss food without mentioning atmosphere carry less weight.
+
+### Account Type
+How the reviewer relates to the described event
+
+- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+
+### Ambiance Quality
+Overall romantic ambiance assessment
+
+- **Poor**: Not romantic at all - bright, loud, unromantic decor
+- **Fair**: Some romantic elements but significant drawbacks
+- **Good**: Pleasant romantic atmosphere, suitable for dates
+- **Excellent**: Exceptional romantic setting, perfect for special occasions
+
+### Noise Level
+Noise level affecting intimate conversation
+
+- **Loud**: Difficult to have conversation, must shout
+- **Moderate**: Some background noise but conversation is possible
+- **Quiet**: Easy to have private conversation
+- **Intimate**: Very quiet, perfect for intimate conversation
+
+### Lighting Quality
+Lighting appropriateness for romantic dining
+
+- **Harsh**: Bright overhead or fluorescent lighting
+- **Neutral**: Standard restaurant lighting, not particularly romantic
+- **Dim**: Subdued lighting, romantic feel
+- **Candlelit**: Candles or very soft romantic lighting
+
+### Service Style
+Service style appropriateness for romantic dining
+
+- **Rushed**: Staff rush the meal, no time to linger
+- **Normal**: Standard service, neither rushed nor especially attentive
+- **Attentive**: Attentive without being intrusive
+- **Romantic**: Service enhances romantic experience (special touches)
+
+
+## Verdict Rules
+
+A restaurant is considered **Recommended** if any of the following is true:
+- {'text': 'Multiple reviews describe excellent romantic ambiance', 'type': 'count_threshold', 'filter': {'ambiance_quality': 'excellent'}, 'min_count': 2}
+- {'text': 'Reviews mention successful dates, proposals, or anniversaries', 'type': 'count_threshold', 'filter': {'date_outcome': 'positive'}, 'min_count': 2}
+- {'text': 'Consistently described as quiet, intimate, or romantic', 'type': 'count_threshold', 'filter': {'ambiance_quality': ['intimate', 'romantic']}, 'min_count': 2}
+
+**Not Recommended** if Recommended does not apply, but any of the following is true:
+- {'text': 'Multiple reviews describe loud noise preventing conversation', 'type': 'count_threshold', 'filter': {'noise_level': 'loud'}, 'min_count': 2}
+- {'text': 'Reviews describe harsh lighting or unromantic atmosphere', 'type': 'count_threshold', 'filter': {'ambiance_quality': ['harsh', 'unromantic']}, 'min_count': 2}
+- {'text': 'Multiple date experiences described as negative', 'type': 'count_threshold', 'filter': {'date_outcome': 'negative'}, 'min_count': 2}
+
+**Acceptable** otherwise, especially when:
+- Mixed reviews about romantic suitability
+- Atmosphere is neutral - neither romantic nor anti-romantic
+- Food is good but ambiance is not particularly romantic

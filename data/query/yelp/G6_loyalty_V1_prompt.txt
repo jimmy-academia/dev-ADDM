@@ -1,0 +1,77 @@
+# Customer Loyalty Assessment
+
+Help assess customer loyalty and retention indicators using reviews as evidence.
+This is from the perspective of a business owner evaluating customer loyalty.
+Assign a label: Low Loyalty, Moderate Loyalty, or High Loyalty.
+
+## Definitions of Terms
+
+### Incident
+
+Consider reviews that mention any of the following:
+- return visits or intention to return
+- recommendations to others
+- emotional attachment or connection
+- loyalty despite issues
+
+Reviews from first-time visitors that don't mention return intent carry less weight.
+
+### Account Type
+How the reviewer relates to the described event
+
+- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+
+### Return Intent
+Intention to return
+
+- **Never**: Will never return
+- **Unlikely**: Probably won't return
+- **Likely**: Will probably return
+- **Definitely**: Will definitely return
+
+### Recommend Intent
+Intention to recommend to others
+
+- **Warn Others**: Would warn others to stay away
+- **Neutral**: Neither recommend nor warn
+- **Recommend**: Would recommend
+- **Strongly Recommend**: Would strongly recommend
+
+### Emotional Connection
+Emotional attachment to restaurant
+
+- **None**: No emotional connection
+- **Low**: Minor positive feeling
+- **Moderate**: Noticeable affection
+- **High**: Strong emotional connection
+
+### Loyalty Driver
+Primary reason for loyalty
+
+- **Price**: Loyal because of value
+- **Quality**: Loyal because of food quality
+- **Service**: Loyal because of service
+- **Convenience**: Loyal because of convenience
+- **Love**: Genuine love for the restaurant
+- **None**: No clear driver
+
+
+## Verdict Rules
+
+A restaurant is considered **High Loyalty** if any of the following is true:
+- {'text': "At least 1 review mentions being a 'regular' or '10+ visits'", 'type': 'count_threshold', 'filter': {'return_intent': 'regular'}, 'min_count': 1}
+- {'text': 'Customer returned after bad experience', 'type': 'count_threshold', 'filter': {'loyalty_driver': 'despite_issues'}, 'min_count': 1}
+- {'text': "Described as 'favorite restaurant' or equivalent", 'type': 'count_threshold', 'filter': {'emotional_connection': 'favorite'}, 'min_count': 1}
+- {'text': "Recommendation with strong enthusiasm ('must go', 'best in city')", 'type': 'count_threshold', 'filter': {'recommend_intent': 'must_go'}, 'min_count': 1}
+
+**Low Loyalty** if High Loyalty does not apply, but any of the following is true:
+- {'text': "At least 1 review explicitly says 'never coming back'", 'type': 'count_threshold', 'filter': {'return_intent': 'never'}, 'min_count': 1}
+- {'text': 'Customer warns others not to visit', 'type': 'count_threshold', 'filter': {'recommend_intent': 'warn_against'}, 'min_count': 1}
+- {'text': 'Explicitly switched to competitor', 'type': 'count_threshold', 'filter': {'loyalty_driver': 'switched_competitor'}, 'min_count': 1}
+
+**Moderate Loyalty** otherwise, especially when:
+- Will return but not enthusiastic
+- Recommendations with caveats
+- No strong emotional connection

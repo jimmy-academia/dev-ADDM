@@ -1,0 +1,100 @@
+# Kitchen Performance Assessment
+
+Help assess the kitchen performance at this restaurant using customer reviews as evidence.
+This is from the perspective of a business owner evaluating their kitchen team's execution.
+Assign a performance label: Needs Improvement, Satisfactory, or Excellent.
+
+This assessment uses a point-based scoring system to quantify performance.
+
+## Definitions of Terms
+
+### Incident
+
+Consider reviews that mention any of the following:
+- food quality issues (temperature, doneness, taste)
+- consistency of food quality across visits
+- presentation and plating
+- chef skill level
+- food sent back or complaints addressed
+
+Reviews that only discuss service without mentioning food quality carry less weight.
+
+### Account Type
+How the reviewer relates to the described event
+
+- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+
+### Food Issue Type
+Type of food quality issue
+
+- **Temperature**: Food served at wrong temperature
+- **Doneness**: Food over or undercooked
+- **Taste**: Flavor issues (bland, too salty, etc.)
+- **Presentation**: Visual presentation issues
+- **Portion**: Portion size issues
+- **None**: No food issues mentioned
+
+### Issue Severity
+Severity of food quality issues
+
+- **None**: No issues, food was good
+- **Minor**: Small issues, still edible
+- **Major**: Significant issues affecting enjoyment
+- **Inedible**: Food was not edible
+
+### Consistency
+Consistency of food quality
+
+- **Inconsistent**: Quality varies significantly between visits/dishes
+- **Variable**: Some variation but generally acceptable
+- **Consistent**: Reliable quality every time
+
+### Chef Skill
+Perceived skill level of kitchen
+
+- **Poor**: Kitchen seems unskilled
+- **Average**: Competent but unremarkable
+- **Good**: Skilled kitchen, quality execution
+- **Excellent**: Exceptional culinary skill
+
+### Food Sent Back
+Whether food was sent back
+
+- **True**: Food was sent back to kitchen
+- **False**: Food was not sent back
+
+
+## Scoring System
+
+Calculate a performance score by summing points from relevant reviews.
+Positive points indicate good performance, negative points indicate issues.
+
+For each firsthand incident, assign points based on severity:
+- Exceptional food quality: 10 points
+- Good food quality: 5 points
+- Adequate food quality: 0 points
+- Minor food issue: -2 points
+- Significant food issue: -5 points
+- Inedible food: -10 points
+
+Additional modifiers:
+- Consistent excellence (same great quality across visits): +5 points
+- Creative/unique dishes (chef praised for creativity): +3 points
+- Beautiful presentation (plating and presentation praised): +2 points
+- Inconsistent quality (hit or miss between visits): +-5 points
+- Food sent back (dish had to be returned): +-3 points
+
+
+## Verdict Rules
+
+A restaurant is considered **Excellent** if any of the following is true:
+- Total performance score is 8 or higher
+
+**Needs Improvement** if Excellent does not apply, but any of the following is true:
+- Total performance score is -5 or lower
+
+**Satisfactory** otherwise, especially when:
+- Total performance score is between -4 and 7
+- Mixed positive and negative indicators

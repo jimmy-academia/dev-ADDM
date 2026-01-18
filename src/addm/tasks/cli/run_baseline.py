@@ -29,13 +29,16 @@ from typing import Any, Dict, List, Optional
 
 import numpy as np
 
+from addm.eval import VERDICT_TO_ORDINAL, compute_ordinal_auprc
 from addm.llm import LLMService
 from addm.llm_batch import BatchClient, build_chat_batch_item
 from addm.methods.rlm import eval_restaurant_rlm
 from addm.tasks.base import load_task
 from addm.utils.async_utils import gather_with_concurrency
 from addm.utils.cron import install_cron_job, remove_cron_job
-from addm.eval import compute_ordinal_auprc, VERDICT_TO_ORDINAL
+from addm.utils.debug_logger import DebugLogger, get_debug_logger, set_debug_logger
+from addm.utils.logging import ResultLogger, get_result_logger, set_result_logger
+from addm.utils.output import output
 
 
 # Mapping from policy topic to legacy task ID for ground truth comparison
@@ -476,21 +479,42 @@ async def run_baseline(
     else:
         restaurants = restaurants[skip:]
 
+    # Configure output manager
+    output.configure(quiet=not verbose, mode=mode)
+
+    # Setup loggers in dev mode (need to determine output_dir early)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    if dev:
+        output_dir = Path(f"results/dev/{timestamp}_{run_id}")
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+        # Setup result logger
+        result_logger = ResultLogger(output_dir / "results.jsonl")
+        set_result_logger(result_logger)
+
+        # Setup debug logger
+        debug_logger = DebugLogger(output_dir)
+        set_debug_logger(debug_logger)
+    else:
+        output_dir = Path(f"results/baseline/{run_id}")
+
     method_name = "RLM (Recursive LLM)" if method == "rlm" else "Direct LLM"
-    print(f"\n{'='*70}")
-    print(f"{method_name} Baseline: {run_id}")
-    if policy_id and gt_task_id:
-        print(f"Ground truth from: {gt_task_id}")
-    print(f"{'='*70}")
-    print(f"Method: {method}")
-    token_msg = f"Token limit: {token_limit}"
+    output.header(f"{method_name} Baseline", run_id)
+
+    # Build token limit display string
+    token_display = str(token_limit)
     if method == "rlm":
-        token_msg += f" (~{token_limit // 3000} RLM iterations)"
-    print(token_msg)
-    print(f"Restaurants: {len(restaurants)}")
-    print(f"Model: {model}")
-    print(f"K: {k}")
-    print(f"{'='*70}\n")
+        token_display += f" (~{token_limit // 3000} iterations)"
+
+    output.print_config({
+        "Method": method,
+        "Token limit": token_display,
+        "Restaurants": len(restaurants),
+        "Model": model,
+        "K": k,
+    })
+    if policy_id and gt_task_id:
+        output.status(f"Ground truth from: {gt_task_id}")
 
     if mode == "24hrbatch":
         if method == "rlm":
@@ -502,22 +526,22 @@ async def run_baseline(
             batch = batch_client.get_batch(batch_id)
             status = _get_batch_field(batch, "status")
             if status not in {"completed", "failed", "expired", "cancelled"}:
-                print(f"Batch {batch_id} status: {status}")
+                output.batch_status(batch_id, status)
                 return {}
 
             output_file_id = _get_batch_field(batch, "output_file_id")
             error_file_id = _get_batch_field(batch, "error_file_id")
             if error_file_id:
-                print(f"[WARN] Batch has error file: {error_file_id}")
+                output.warn(f"Batch has error file: {error_file_id}")
 
             if not output_file_id:
-                print(f"[WARN] No output file available for batch {batch_id}")
+                output.warn(f"No output file available for batch {batch_id}")
                 marker = f"ADDM_BATCH_{batch_id}"
                 try:
                     remove_cron_job(marker)
-                    print(f"Removed cron job for {batch_id}")
+                    output.cron_removed(marker)
                 except Exception as exc:
-                    print(f"[WARN] Failed to remove cron job: {exc}")
+                    output.warn(f"Failed to remove cron job: {exc}")
                 return {}
 
             output_bytes = batch_client.download_file(output_file_id)
@@ -576,7 +600,7 @@ async def run_baseline(
 
             input_file_id = batch_client.upload_batch_file(request_items)
             batch_id = batch_client.submit_batch(input_file_id)
-            print(f"Submitted batch: {batch_id}")
+            output.batch_submitted(batch_id)
             return {"batch_id": batch_id}
     else:
         # Configure LLM
@@ -602,7 +626,7 @@ async def run_baseline(
     if gt_task_id:
         gt_verdicts = load_ground_truth(gt_task_id, domain, k)
     if not gt_verdicts:
-        print(f"[WARN] No ground truth found for {gt_task_id or run_id}")
+        output.warn(f"No ground truth found for {gt_task_id or run_id}")
 
     # Score and print results
     correct = 0
@@ -610,7 +634,7 @@ async def run_baseline(
 
     for result in results:
         if "error" in result:
-            print(f"\n[ERROR] {result['name']}: {result['error']}")
+            output.error(f"{result['name']}: {result['error']}")
             continue
 
         biz_id = result["business_id"]
@@ -627,24 +651,35 @@ async def run_baseline(
         result["correct"] = is_correct
 
         risk_score = result.get("risk_score")
-        print(f"\n{'='*70}")
-        print(f"Restaurant: {result['name']}")
-        verdict_mark = "✓" if is_correct else "✗"
-        print(
-            f"Predicted: {pred_verdict} (score={risk_score}) | "
-            f"GT: {gt_verdict} | {verdict_mark}"
-        )
-        print(f"{'='*70}")
-        if verbose:
-            # Print first 1000 chars of response
-            resp = result["response"]
-            print(resp[:1000] + ("..." if len(resp) > 1000 else ""))
+
+        # Log to result logger if enabled
+        if result_logger := get_result_logger():
+            result_logger.log_result(
+                sample_id=biz_id,
+                verdict=pred_verdict,
+                ground_truth=gt_verdict,
+                risk_score=risk_score,
+                correct=is_correct,
+            )
+
+        # Display result (mode-aware via output.configure())
+        if not output._quiet:
+            output.rule()
+            output.print_result(
+                name=result["name"],
+                predicted=pred_verdict,
+                ground_truth=gt_verdict,
+                score=risk_score,
+                correct=is_correct,
+            )
+            if verbose:
+                # Print first 1000 chars of response
+                resp = result["response"]
+                output.print(resp[:1000] + ("..." if len(resp) > 1000 else ""))
 
     # Print accuracy
     accuracy = correct / total if total > 0 else 0.0
-    print(f"\n{'='*70}")
-    print(f"ACCURACY: {correct}/{total} = {accuracy:.1%}")
-    print(f"{'='*70}")
+    output.print_accuracy(correct, total)
 
     # Compute AUPRC using FINAL_RISK_SCORE as y_scores
     y_true = []
@@ -666,27 +701,28 @@ async def run_baseline(
     if len(y_true) >= 2:
         auprc_metrics = compute_ordinal_auprc(np.array(y_true), np.array(y_scores))
 
-        print(f"\n{'='*70}")
-        print("AUPRC METRICS:")
+        # Display AUPRC metrics as table
+        auprc_rows = []
         for key, val in auprc_metrics.items():
             if isinstance(val, float):
-                print(f"  {key}: {val:.3f}")
+                auprc_rows.append([key, f"{val:.3f}"])
             else:
-                print(f"  {key}: {val}")
-        print(f"{'='*70}")
+                auprc_rows.append([key, str(val)])
+        if auprc_rows:
+            output.print_table("AUPRC Metrics", ["Metric", "Value"], auprc_rows)
 
-    # Save results
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    if dev:
-        # Dev mode: results/dev/{timestamp}_{run_id}/
-        results_dir = Path(f"results/dev/{timestamp}_{run_id}")
-    else:
-        # Benchmark mode: results/baseline/{run_id}/
-        results_dir = Path(f"results/baseline/{run_id}")
-    results_dir.mkdir(parents=True, exist_ok=True)
-    output_file = results_dir / f"results.json"
+    # Log metrics to result logger if enabled
+    if result_logger := get_result_logger():
+        result_logger.log_metrics(
+            metrics={"accuracy": accuracy, **auprc_metrics},
+            metadata={"run_id": run_id, "n_samples": total},
+        )
 
-    output = {
+    # Save results (output_dir determined earlier)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_path = output_dir / "results.json"
+
+    run_output = {
         "run_id": run_id,
         "task_id": task_id,
         "policy_id": policy_id,
@@ -704,14 +740,17 @@ async def run_baseline(
         "results": results,
     }
 
-    with open(output_file, "w") as f:
-        json.dump(output, f, indent=2)
+    with open(output_path, "w") as f:
+        json.dump(run_output, f, indent=2)
 
-    print(f"\n{'='*70}")
-    print(f"Results saved to: {output_file}")
-    print(f"{'='*70}")
+    # Flush debug logger if enabled
+    if debug_logger := get_debug_logger():
+        debug_logger.flush()
 
-    return output
+    output.rule()
+    output.success(f"Results saved to: {output_path}")
+
+    return run_output
 
 
 def main() -> None:
@@ -762,7 +801,7 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    output = asyncio.run(
+    run_result = asyncio.run(
         run_baseline(
             task_id=args.task,
             policy_id=args.policy,
@@ -782,23 +821,23 @@ def main() -> None:
 
     if args.mode == "24hrbatch":
         if args.batch_id:
-            if output:
+            if run_result:
                 marker = f"ADDM_BATCH_{args.batch_id}"
                 try:
                     remove_cron_job(marker)
-                    print(f"Removed cron job for {args.batch_id}")
+                    output.cron_removed(marker)
                 except Exception as exc:
-                    print(f"[WARN] Failed to remove cron job: {exc}")
+                    output.warn(f"Failed to remove cron job: {exc}")
         else:
-            batch_id = output.get("batch_id") if isinstance(output, dict) else None
+            batch_id = run_result.get("batch_id") if isinstance(run_result, dict) else None
             if batch_id:
                 marker = f"ADDM_BATCH_{batch_id}"
                 cron_line = f"*/5 * * * * {_build_cron_command(args, batch_id)} # {marker}"
                 try:
                     install_cron_job(cron_line, marker)
-                    print(f"Installed cron job for batch {batch_id}")
+                    output.cron_installed(marker)
                 except Exception as exc:
-                    print(f"[WARN] Failed to install cron job: {exc}")
+                    output.warn(f"Failed to install cron job: {exc}")
 
 
 if __name__ == "__main__":

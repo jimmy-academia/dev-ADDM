@@ -52,13 +52,13 @@ How staff responded when the concern was raised
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- At least 1 severe firsthand incident is reported
-- A moderate or severe incident occurs after an explicit assurance of safety
+- {'text': 'At least 1 severe firsthand incident is reported', 'type': 'count_threshold', 'filter': {'incident_severity': 'severe', 'account_type': 'firsthand'}, 'min_count': 1}
+- {'text': 'A moderate or severe incident occurs after an explicit assurance of safety', 'type': 'compound', 'filter': {'incident_severity': ['moderate', 'severe'], 'account_type': 'firsthand'}, 'requires': {'assurance_claim': 'true'}}
 
 **High Risk** if Critical Risk does not apply, but any of the following is true:
-- At least 1 moderate firsthand incident is reported
-- A mild incident occurs after an explicit assurance of safety
-- 3 or more reviews describe staff as refusing or being dismissive about allergy concerns
+- {'text': 'At least 1 moderate firsthand incident is reported', 'type': 'count_threshold', 'filter': {'incident_severity': 'moderate', 'account_type': 'firsthand'}, 'min_count': 1}
+- {'text': 'A mild incident occurs after an explicit assurance of safety', 'type': 'compound', 'filter': {'incident_severity': 'mild', 'account_type': 'firsthand'}, 'requires': {'assurance_claim': 'true'}}
+- {'text': '3 or more reviews describe staff as refusing or being dismissive about allergy concerns', 'type': 'count_threshold', 'filter': {'staff_response': ['refused', 'dismissive']}, 'min_count': 3}
 
 **Low Risk** otherwise, especially when:
 - No firsthand incidents are reported

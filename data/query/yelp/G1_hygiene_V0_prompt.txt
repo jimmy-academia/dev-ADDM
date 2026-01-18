@@ -1,0 +1,72 @@
+# Hygiene and Food Safety Risk Assessment
+
+Help assess the hygiene and food safety risk for this restaurant using customer reviews as evidence.
+Assign a risk label: Low Risk, High Risk, or Critical Risk.
+
+## Definitions of Terms
+
+### Incident
+
+Only firsthand observations are treated as confirmed evidence. An account is
+considered relevant if it meaningfully discusses any of the following:
+- visible cleanliness issues (dirty tables, floors, kitchen, bathroom)
+- pest sightings (insects, rodents)
+- food safety concerns (hair in food, undercooked, spoiled)
+- illness after eating at the restaurant
+
+Vague statements without specific observations (e.g., "seemed clean") carry less weight.
+
+### Account Type
+How the reviewer relates to the described event
+
+- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+
+### Issue Type
+Type of hygiene issue reported
+
+- **Cleanliness**: General cleanliness issues (dirty tables, floors, etc.)
+- **Pest**: Pest sighting (insects, rodents)
+- **Food Safety**: Food handling or preparation issues
+- **Bathroom**: Bathroom cleanliness issues
+- **Other**: Other hygiene issues not categorized above
+
+### Issue Severity
+Severity of the hygiene issue
+
+- **No issue**: No hygiene issue described
+- **Minor issue**: Small cleanliness issue that doesn't affect food safety
+- **Major issue**: Significant cleanliness problem, health concern
+- **Severe issue**: Health code violation level, food poisoning reported
+
+### Observation Type
+How the hygiene issue was observed
+
+- **Witnessed**: Reviewer directly saw the issue
+- **Inferred**: Reviewer inferred issue from other evidence
+- **Reported**: Issue reported by others or known from external source
+
+### Illness Reported
+Whether the reviewer or their party got sick
+
+- **True**: Reviewer or party members reported getting sick after eating
+- **False**: No illness reported
+- **Unknown**: Unclear from the review
+
+
+## Verdict Rules
+
+A restaurant is considered **Critical Risk** if any of the following is true:
+- {'text': '2 or more reviews report food poisoning or illness', 'type': 'count_threshold', 'filter': {'illness_reported': True, 'account_type': 'firsthand'}, 'min_count': 2}
+- {'text': 'Pest sightings (roaches, rodents) reported in multiple reviews', 'type': 'count_threshold', 'filter': {'issue_type': ['pest', 'rodent', 'roach'], 'account_type': 'firsthand'}, 'min_count': 2}
+
+**High Risk** if Critical Risk does not apply, but any of the following is true:
+- {'text': '2 or more reviews describe major cleanliness issues', 'type': 'count_threshold', 'filter': {'issue_severity': 'major', 'account_type': 'firsthand'}, 'min_count': 2}
+- {'text': 'At least 1 review reports food poisoning', 'type': 'count_threshold', 'filter': {'illness_reported': True, 'account_type': 'firsthand'}, 'min_count': 1}
+- {'text': 'Multiple reviews describe hair or foreign objects in food', 'type': 'count_threshold', 'filter': {'issue_type': ['foreign_object', 'hair'], 'account_type': 'firsthand'}, 'min_count': 2}
+
+**Low Risk** otherwise, especially when:
+- No hygiene issues are reported
+- Reviews describe the restaurant as clean
+- No illness reports

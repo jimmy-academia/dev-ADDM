@@ -37,7 +37,8 @@
       "Bash(.venv/bin/pytest tests/test_formulas.py --no-cov -q)",
       "Bash(.venv/bin/pytest tests/ -q --cov=src/addm --cov-report=term)",
       "Bash(.venv/bin/ruff check src/addm/eval/metrics.py)",
-      "Bash(.venv/bin/pytest tests/ -q --tb=no)"
+      "Bash(.venv/bin/pytest tests/ -q --tb=no)",
+      "Bash(git log:*)"
     ]
   }
 }

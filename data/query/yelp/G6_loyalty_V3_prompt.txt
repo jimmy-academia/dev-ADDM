@@ -1,0 +1,99 @@
+# Customer Loyalty Assessment
+
+Help assess customer loyalty and retention indicators using reviews as evidence.
+This is from the perspective of a business owner evaluating customer loyalty.
+Assign a label: Low Loyalty, Moderate Loyalty, or High Loyalty.
+
+This assessment uses a point-based scoring system with recency weighting.
+
+## Definitions of Terms
+
+### Incident
+
+Consider reviews that mention any of the following:
+- return visits or intention to return
+- recommendations to others
+- emotional attachment or connection
+- loyalty despite issues
+
+Reviews from first-time visitors that don't mention return intent carry less weight.
+
+### Account Type
+How the reviewer relates to the described event
+
+- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+
+### Return Intent
+Intention to return
+
+- **Never**: Will never return
+- **Unlikely**: Probably won't return
+- **Likely**: Will probably return
+- **Definitely**: Will definitely return
+
+### Recommend Intent
+Intention to recommend to others
+
+- **Warn Others**: Would warn others to stay away
+- **Neutral**: Neither recommend nor warn
+- **Recommend**: Would recommend
+- **Strongly Recommend**: Would strongly recommend
+
+### Emotional Connection
+Emotional attachment to restaurant
+
+- **None**: No emotional connection
+- **Low**: Minor positive feeling
+- **Moderate**: Noticeable affection
+- **High**: Strong emotional connection
+
+### Loyalty Driver
+Primary reason for loyalty
+
+- **Price**: Loyal because of value
+- **Quality**: Loyal because of food quality
+- **Service**: Loyal because of service
+- **Convenience**: Loyal because of convenience
+- **Love**: Genuine love for the restaurant
+- **None**: No clear driver
+
+
+## Scoring System
+
+Calculate a loyalty score by summing points from relevant reviews,
+with recency weighting. Loyalty patterns can shift as restaurants change,
+so recent reviews are weighted more heavily.
+
+For each firsthand incident, assign points based on severity:
+- Regular customer: 10 points
+- Will definitely return: 5 points
+- Might return: 2 points
+- Probably won't return: -5 points
+- Never returning: -10 points
+
+Additional modifiers:
+- Strong recommendation (actively tells others to go): +5 points
+- Returned after issue (loyalty despite problems): +8 points
+- Warns others away (actively discourages visits): +-5 points
+- Switched to competitor (explicitly left for alternative): +-8 points
+
+Recency weighting:
+- Within 6 months: full point value
+- 6 months to 1 year: three-quarter point value (multiply by 0.75)
+- 1-2 years old: half point value (multiply by 0.5)
+- Over 2 years old: quarter point value (multiply by 0.25) - loyalty patterns may have changed
+
+
+## Verdict Rules
+
+A restaurant is considered **High Loyalty** if any of the following is true:
+- Total score is 10 or higher (after recency weighting)
+
+**Low Loyalty** if High Loyalty does not apply, but any of the following is true:
+- Total score is -5 or lower (after recency weighting)
+
+**Moderate Loyalty** otherwise, especially when:
+- Total score is between -4 and 9
+- Recent reviews show stable or improving loyalty
