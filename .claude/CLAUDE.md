@@ -40,6 +40,11 @@ src/addm/
 ├── methods/            # LLM methods (direct, etc.)
 ├── tasks/formulas/     # Formula modules per task
 ├── tasks/              # Extraction, execution, CLI
+├── query/              # Query construction system
+│   ├── models/         # PolicyIR, Term, Operator
+│   ├── libraries/      # Term & operator YAML files
+│   ├── policies/       # Policy definitions (V0-V3)
+│   └── generators/     # Prompt generation
 ├── data/               # Dataset loaders
 ├── eval/               # Evaluation metrics
 └── llm.py              # LLM service
@@ -64,7 +69,15 @@ src/addm/
 - Fills level n (all cells ≥n) before level n+1
 - Multi-topic restaurants prioritized
 
-**Query Pipeline**: TBD
+**Query Pipeline**: PolicyIR → NL prompts
+```bash
+# Generate prompt from policy
+.venv/bin/python -m addm.query.cli.generate \
+    --policy src/addm/query/policies/G1/allergy/V2.yaml \
+    --output data/query/yelp/G1_allergy_V2_prompt.txt
+```
+
+See `docs/specs/query_construction.md` for details.
 
 ## Usage Tracking
 
@@ -105,11 +118,19 @@ total_usage = self._accumulate_usage([usage1, usage2, ...])
 | G5 | Owner | Capacity, Execution, Consistency |
 | G6 | Owner | Uniqueness, Comparison, Loyalty |
 
-**Variants (all produce different verdicts):**
+**Variants:**
+
+*Legacy (a/b/c/d)* - Formula complexity × L1.5:
 - **a** = simple formula
 - **b** = simple + L1.5 grouping
 - **c** = complex formula (credibility weighting)
 - **d** = complex + L1.5
+
+*New (V0-V3)* - Policy evolution:
+- **V0** = Base (aggregation, multiple incidents required)
+- **V1** = +Override (single-instance triggers)
+- **V2** = +Scoring (point system, thresholds)
+- **V3** = +Recency (time decay, exceptions)
 
 ## Quick Reference
 
@@ -137,3 +158,6 @@ total_usage = self._accumulate_usage([usage1, usage2, ...])
 - **Verification**: ✅ All pass - see `scripts/verify_formulas.py`
 - **Manual review**: See `scripts/manual_review.txt`
 - **Ground truth**: Pending
+- **Query construction**: In progress
+  - ✅ Allergy V0-V3 prompts complete
+  - ⏳ Other topics pending (dietary, hygiene, G2-G6)

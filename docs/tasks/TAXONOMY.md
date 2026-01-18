@@ -4,11 +4,24 @@
 
 ## Task Structure
 
-Each group has 3 topics × 4 variations = 12 tasks:
-- Simple formula, no L1.5
-- Simple formula, with L1.5
-- Complex formula, no L1.5
-- Complex formula, with L1.5
+Each group has 3 topics × 4 variants = 12 tasks.
+
+### Variant Systems
+
+**Legacy (a/b/c/d)** - Formula complexity × L1.5 grouping:
+- `a` = Simple formula, no L1.5
+- `b` = Simple formula, with L1.5
+- `c` = Complex formula, no L1.5
+- `d` = Complex formula, with L1.5
+
+**New (V0-V3)** - Policy evolution from qualitative to quantitative:
+- `V0` = Base: Aggregation-based (requires multiple incidents)
+- `V1` = +Override: Single-instance triggers added
+- `V2` = +Scoring: Point-based system with numeric thresholds
+- `V3` = +Recency: Time decay and policy exceptions
+
+The V0-V3 system is being implemented via the Query Construction System.
+See `docs/specs/query_construction.md` for details.
 
 ## Perspective A: The Customer (Decisions)
 

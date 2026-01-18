@@ -34,12 +34,20 @@
 | G6 | Owner Strategy | Uniqueness, Comparison, Loyalty |
 
 **Variants:**
-- **a** = Simple formula
-- **b** = Simple + L1.5 grouping (L1.5 bonus affects score)
-- **c** = Complex formula (credibility weighting)
-- **d** = Complex + L1.5 (both features)
 
-Task prompts: `data/tasks/yelp/G{1-6}{a-l}_prompt.txt`
+*Legacy (a/b/c/d)* - Formula complexity × L1.5:
+- **a** = Simple formula
+- **b** = Simple + L1.5 grouping
+- **c** = Complex formula (credibility weighting)
+- **d** = Complex + L1.5
+
+*New (V0-V3)* - Policy evolution:
+- **V0** = Base (aggregation, multiple incidents)
+- **V1** = +Override (single-instance triggers)
+- **V2** = +Scoring (point system)
+- **V3** = +Recency (time decay)
+
+Task prompts: `data/query/yelp/G{1-6}{a-l}_prompt.txt` or `G{n}_{topic}_V{0-3}_prompt.txt`
 
 ## Method Specifications
 
