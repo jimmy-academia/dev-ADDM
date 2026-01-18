@@ -783,6 +783,18 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
     initial_agg = cache.count_aggregated(topic)
     output.info(f"Cache has {initial_agg} aggregated judgments for {topic}")
 
+    # Show per-model cache status
+    raw_by_model = cache.count_raw_by_model(topic)
+    total_reviews = sum(len(r.get("reviews", [])) for r in restaurants)
+    output.info("Cache status by model:")
+    for model, required_runs in models_config.items():
+        cached = raw_by_model.get(model, 0)
+        expected = total_reviews * required_runs
+        if cached >= expected:
+            output.print(f"  {model}: {cached}/{expected} ✓ complete")
+        else:
+            output.print(f"  {model}: {cached}/{expected} (need {expected - cached})")
+
     if args.mode == "ondemand":
         # Ondemand mode for testing - runs all models sequentially
         output.info("Running in ondemand mode (for testing)")
@@ -1191,6 +1203,10 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
     output.info(f"Splitting into {len(model_batches)} batch(es) by model (max {MAX_BATCH_SIZE} per batch)")
     for model, items in model_batches:
         output.print(f"  {model}: {len(items)} requests")
+
+    if args.dry_run:
+        output.info("Dry run - skipping batch submission")
+        return
 
     batch_client = BatchClient()
 
@@ -1687,6 +1703,10 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
     output.info(f"Splitting into {len(model_batches)} batch(es) by model (max {MAX_BATCH_SIZE} per batch)")
     for model, items in model_batches:
         output.print(f"  {model}: {len(items)} requests")
+
+    if args.dry_run:
+        output.info("Dry run - skipping batch submission")
+        return
 
     batch_client = BatchClient()
     repo_root = Path.cwd().resolve()

@@ -162,6 +162,24 @@ class PolicyJudgmentCache:
                 count += 1
         return count
 
+    def count_raw_by_model(self, topic: str) -> Dict[str, int]:
+        """Count raw entries by model for a topic.
+
+        Returns:
+            Dict mapping model name to count of raw entries
+        """
+        from collections import Counter
+        counts: Counter = Counter()
+        prefix = f"{topic}::"
+        for key in self._data["raw"].keys():
+            if key.startswith(prefix):
+                # Key format: topic::review_id::model::runN
+                parts = key.split("::")
+                if len(parts) >= 3:
+                    model = parts[2]
+                    counts[model] += 1
+        return dict(counts)
+
     # -------------------------------------------------------------------------
     # Aggregated cache operations
     # -------------------------------------------------------------------------
