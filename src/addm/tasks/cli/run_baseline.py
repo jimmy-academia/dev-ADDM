@@ -4,11 +4,17 @@ CLI: Run direct LLM baseline evaluation.
 Usage:
     # Legacy task-based (loads from data/tasks/yelp/G1a_prompt.txt)
     .venv/bin/python -m addm.tasks.cli.run_baseline --task G1a -n 5
-    .venv/bin/python -m addm.tasks.cli.run_baseline --task G1a --all
 
     # New policy-based (loads from data/query/yelp/G1_allergy_V2_prompt.txt)
     .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5
     .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1/allergy/V2 -n 5
+
+    # Dev mode (saves to results/dev/{timestamp}_{id}/)
+    .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --dev
+
+Output directories:
+    --dev:     results/dev/{timestamp}_{run_id}/results.json
+    (default): results/baseline/{run_id}/results.json
 """
 
 import argparse
@@ -215,6 +221,7 @@ async def run_baseline(
     skip: int = 0,
     model: str = "gpt-5-nano",
     verbose: bool = True,
+    dev: bool = False,
 ) -> Dict[str, Any]:
     """Run baseline evaluation.
 
@@ -227,6 +234,7 @@ async def run_baseline(
         skip: Skip first N restaurants
         model: LLM model to use
         verbose: Print detailed output
+        dev: If True, save to results/dev/ instead of results/baseline/
 
     Either task_id or policy_id must be provided.
     """
@@ -347,10 +355,15 @@ async def run_baseline(
         print(f"{'='*70}")
 
     # Save results
-    results_dir = Path(f"results/baseline/{run_id}")
-    results_dir.mkdir(parents=True, exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_file = results_dir / f"run_{timestamp}.json"
+    if dev:
+        # Dev mode: results/dev/{timestamp}_{run_id}/
+        results_dir = Path(f"results/dev/{timestamp}_{run_id}")
+    else:
+        # Benchmark mode: results/baseline/{run_id}/
+        results_dir = Path(f"results/baseline/{run_id}")
+    results_dir.mkdir(parents=True, exist_ok=True)
+    output_file = results_dir / f"results.json"
 
     output = {
         "run_id": run_id,
@@ -394,6 +407,7 @@ def main() -> None:
     parser.add_argument("--skip", type=int, default=0, help="Skip first N")
     parser.add_argument("--model", type=str, default="gpt-5-nano", help="Model")
     parser.add_argument("--quiet", action="store_true", help="Less verbose output")
+    parser.add_argument("--dev", action="store_true", help="Dev mode: save to results/dev/{timestamp}_{id}/")
 
     args = parser.parse_args()
 
@@ -407,6 +421,7 @@ def main() -> None:
             skip=args.skip,
             model=args.model,
             verbose=not args.quiet,
+            dev=args.dev,
         )
     )
 

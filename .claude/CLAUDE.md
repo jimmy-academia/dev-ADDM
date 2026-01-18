@@ -134,10 +134,23 @@ total_usage = self._accumulate_usage([usage1, usage2, ...])
 
 ## Quick Reference
 
-- Run baseline: `.venv/bin/python -m addm.tasks.cli.run_baseline --task G1a -n 5`
+**Run baseline:**
+```bash
+# Legacy task-based
+.venv/bin/python -m addm.tasks.cli.run_baseline --task G1a -n 5
+
+# New policy-based
+.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5
+
+# Dev mode (results/dev/{timestamp}_{id}/)
+.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --dev
+```
+
+**Other commands:**
 - Compute GT: `.venv/bin/python -m addm.tasks.cli.compute_gt --task G1a --domain yelp --k 50`
 - Extract judgments: `.venv/bin/python -m addm.tasks.cli.extract --task G1a`
 - Verify formulas: `.venv/bin/python scripts/verify_formulas.py`
+- Generate prompt: `.venv/bin/python -m addm.query.cli.generate --policy G1/allergy/V2`
 
 ## Session Workflow
 
@@ -160,4 +173,5 @@ total_usage = self._accumulate_usage([usage1, usage2, ...])
 - **Ground truth**: Pending
 - **Query construction**: In progress
   - ✅ Allergy V0-V3 prompts complete
+  - ✅ Experiment code updated (`--policy`, `--dev` flags)
   - ⏳ Other topics pending (dietary, hygiene, G2-G6)
