@@ -15,7 +15,7 @@ When invoked, execute ALL steps below systematically:
 
 ### 1. Documentation Sync Check
 
-**Proactively run doc-sync agent** to harmonize `.claude/` and `doc/`:
+**Proactively run doc-sync agent** to harmonize `.claude/` and `docs/`:
 
 ```
 Use Task tool with subagent_type="doc-sync" to synchronize documentation
@@ -32,14 +32,12 @@ git status
 git diff --stat
 ```
 
-**Alert user if:**
-- Uncommitted changes exist
+**Display if present:**
+- Uncommitted changes
 - Debug code detected (print statements, breakpoints, TODO comments)
 - Large number of modified files
 
-**Ask**: "You have uncommitted changes. Would you like to commit them before exiting?"
-
-**If yes**: Use `/smart-commit` skill or guide user through commit process with meaningful message.
+**Note**: Just inform the user of the status. Do NOT offer to commit or run dogit/smart-commit. The user will handle commits separately if needed.
 
 ### 3. Todo Verification
 
@@ -104,7 +102,7 @@ User invokes /bye
 ├─► 1. Run doc-sync agent (proactive)
 │
 ├─► 2. Check git status
-│   ├─► Has changes? → Ask to commit
+│   ├─► Has changes? → Display status (no commit)
 │   └─► Clean? → Continue
 │
 ├─► 3. Check todos
@@ -165,7 +163,6 @@ Goodbye!
 
 ## Related Commands
 
-- `/smart-commit` - Create meaningful commits
 - `/doc` - Quick documentation capture
 - `/orient` - Load project context (session startup)
 
