@@ -8,7 +8,6 @@ Input: Selection JSON (list of business records)
 Output: JSONL files with structure:
     {
         "business_id": "...",
-        "stratification": "...",  # quadrant or cuisine tag
         "business": {...},         # full business record
         "reviews": [...],          # top K reviews
         "review_count_actual": N   # actual count (may be < K)
@@ -49,6 +48,18 @@ def _load_selection(selection_path: Path) -> List[Dict]:
     return data
 
 
+def _load_businesses(business_path: Path, business_ids: set[str], verbose: bool) -> Dict[str, Dict]:
+    """Load raw business data for selected business IDs."""
+    businesses = {}
+    if verbose:
+        print(f"Scanning businesses from {business_path}...")
+    for row in _iter_jsonl(business_path):
+        bid = row.get("business_id")
+        if bid in business_ids:
+            businesses[bid] = row
+    return businesses
+
+
 def _load_reviews(review_path: Path, business_ids: set[str], verbose: bool) -> Dict[str, List[Dict]]:
     reviews_by_biz = {bid: [] for bid in business_ids}
     if verbose:
@@ -81,13 +92,18 @@ def _load_users(user_path: Path, user_ids: set[str], verbose: bool) -> Dict[str,
 
 
 def build_datasets(config: DatasetBuildConfig) -> None:
+    business_path = config.raw_dir / "yelp_academic_dataset_business.json"
     review_path = config.raw_dir / "yelp_academic_dataset_review.json"
     user_path = config.raw_dir / "yelp_academic_dataset_user.json"
+
+    # Load selection (just for business IDs)
     selection = _load_selection(config.selection_path)
     business_ids = {b["business_id"] for b in selection if "business_id" in b}
     if not business_ids:
         raise ValueError("Selection file contains no business_id values")
 
+    # Load raw data (no selection metadata)
+    businesses = _load_businesses(business_path, business_ids, config.verbose)
     reviews_by_biz = _load_reviews(review_path, business_ids, config.verbose)
 
     users = {}
@@ -101,9 +117,9 @@ def build_datasets(config: DatasetBuildConfig) -> None:
         if config.verbose:
             print(f"Building K={k} -> {out_path}")
         with out_path.open("w", encoding="utf-8") as handle:
-            for business in selection:
-                bid = business.get("business_id")
-                if not bid:
+            for bid in business_ids:
+                business = businesses.get(bid)
+                if not business:
                     continue
                 top_reviews = reviews_by_biz.get(bid, [])[:k]
                 enriched = []
@@ -113,16 +129,8 @@ def build_datasets(config: DatasetBuildConfig) -> None:
                     if config.include_user and uid in users:
                         review_copy["user"] = users[uid]
                     enriched.append(review_copy)
-                # Handle schema difference: old selection uses "stratification_tag",
-                # new topic-based selection uses "quadrant"
-                stratification = (
-                    business.get("stratification_tag")
-                    or business.get("quadrant")
-                    or "unknown"
-                )
                 record = {
                     "business_id": bid,
-                    "stratification": stratification,
                     "business": business,
                     "reviews": enriched,
                     "review_count_actual": len(enriched),
