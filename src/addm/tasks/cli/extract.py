@@ -96,6 +96,40 @@ def _split_into_batches(items: List[Any], max_size: int) -> List[List[Any]]:
     return [items[i:i + max_size] for i in range(0, len(items), max_size)]
 
 
+def _split_by_model_then_size(
+    items: List[Dict[str, Any]], max_size: int
+) -> List[Tuple[str, List[Dict[str, Any]]]]:
+    """
+    Split batch items by model first, then by size.
+
+    OpenAI Batch API requires each batch to contain only one model.
+
+    Args:
+        items: List of batch request items (each has 'body' with 'model')
+        max_size: Maximum items per batch
+
+    Returns:
+        List of (model, items) tuples, where each items list is <= max_size
+    """
+    from collections import defaultdict
+
+    # Group by model
+    by_model: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
+    for item in items:
+        model = item.get("body", {}).get("model", "unknown")
+        by_model[model].append(item)
+
+    # Split each model's items by size
+    result: List[Tuple[str, List[Dict[str, Any]]]] = []
+    for model in sorted(by_model.keys()):
+        model_items = by_model[model]
+        chunks = _split_into_batches(model_items, max_size)
+        for chunk in chunks:
+            result.append((model, chunk))
+
+    return result
+
+
 def parse_models_config(models_str: str) -> Dict[str, int]:
     """Parse --models flag into dict.
 
@@ -951,17 +985,20 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
 
     print(f"Total requests: {len(request_items)} for {reviews_to_extract} reviews")
 
-    # Split into batches if needed
-    batch_chunks = _split_into_batches(request_items, MAX_BATCH_SIZE)
-    print(f"Splitting into {len(batch_chunks)} batch(es) (max {MAX_BATCH_SIZE} per batch)")
+    # Split by model first (OpenAI requires single model per batch), then by size
+    model_batches = _split_by_model_then_size(request_items, MAX_BATCH_SIZE)
+    print(f"Splitting into {len(model_batches)} batch(es) by model (max {MAX_BATCH_SIZE} per batch)")
+    for model, items in model_batches:
+        print(f"  {model}: {len(items)} requests")
 
     batch_client = BatchClient()
 
-    if len(batch_chunks) == 1:
+    if len(model_batches) == 1:
         # Single batch - use simple flow
-        input_file_id = batch_client.upload_batch_file(request_items)
+        model, items = model_batches[0]
+        input_file_id = batch_client.upload_batch_file(items)
         batch_id = batch_client.submit_batch(input_file_id)
-        print(f"Submitted batch: {batch_id}")
+        print(f"Submitted batch: {batch_id} ({model})")
 
         marker = f"ADDM_POLICY_BATCH_{batch_id}"
         cron_line = f"*/5 * * * * {_build_policy_cron_command(args, batch_id, topic)} # {marker}"
@@ -984,12 +1021,13 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
             "batches": [],
         }
 
-        for i, chunk in enumerate(batch_chunks):
-            print(f"  Submitting batch {i+1}/{len(batch_chunks)} ({len(chunk)} requests)...")
+        for i, (model, chunk) in enumerate(model_batches):
+            print(f"  Submitting batch {i+1}/{len(model_batches)} ({model}: {len(chunk)} requests)...")
             input_file_id = batch_client.upload_batch_file(chunk)
             batch_id = batch_client.submit_batch(input_file_id)
             manifest["batches"].append({
                 "batch_id": batch_id,
+                "model": model,
                 "chunk_index": i,
                 "request_count": len(chunk),
                 "processed": False,
@@ -1426,76 +1464,40 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
     print(f"Total requests: {len(request_items)}")
     print(f"  ({len(topic_schemas)} topics × {reviews_to_extract} review-topics × {total_runs} runs)")
 
-    # Split into batches if needed
-    batch_chunks = _split_into_batches(request_items, MAX_BATCH_SIZE)
-    print(f"Splitting into {len(batch_chunks)} batch(es) (max {MAX_BATCH_SIZE} per batch)")
+    # Split by model first (OpenAI requires single model per batch), then by size
+    model_batches = _split_by_model_then_size(request_items, MAX_BATCH_SIZE)
+    print(f"Splitting into {len(model_batches)} batch(es) by model (max {MAX_BATCH_SIZE} per batch)")
+    for model, items in model_batches:
+        print(f"  {model}: {len(items)} requests")
 
     batch_client = BatchClient()
     repo_root = Path.cwd().resolve()
 
-    if len(batch_chunks) == 1:
-        # Single batch - use simple flow
-        input_file_id = batch_client.upload_batch_file(request_items)
+    # Always use manifest for --all mode (multiple models = multiple batches)
+    manifest_id = f"all_topics_{uuid.uuid4().hex[:8]}"
+    manifest = {
+        "manifest_id": manifest_id,
+        "mode": "all_topics",
+        "domain": args.domain,
+        "k": args.k,
+        "models_config": models_config,
+        "total_requests": len(request_items),
+        "created_at": datetime.now().isoformat(),
+        "batches": [],
+    }
+
+    for i, (model, chunk) in enumerate(model_batches):
+        print(f"  Submitting batch {i+1}/{len(model_batches)} ({model}: {len(chunk)} requests)...")
+        input_file_id = batch_client.upload_batch_file(chunk)
         batch_id = batch_client.submit_batch(input_file_id)
-        print(f"Submitted batch: {batch_id}")
-
-        # Build cron command for single-batch --all mode
-        cmd = [
-            sys.executable,
-            "-m",
-            "addm.tasks.cli.extract",
-            "--all",
-            "--domain",
-            args.domain,
-            "--k",
-            str(args.k),
-            "--mode",
-            "24hrbatch",
-            "--batch-id",
-            batch_id,
-        ]
-        if args.limit:
-            cmd.extend(["--limit", str(args.limit)])
-        cmd.extend(["--provider", args.provider])
-        if args.models:
-            cmd.extend(["--models", args.models])
-        if args.verbose:
-            cmd.append("--verbose")
-        command = " ".join(shlex.quote(c) for c in cmd)
-        cron_cmd = f"cd {shlex.quote(str(repo_root))} && {command}"
-
-        marker = f"ADDM_ALL_BATCH_{batch_id}"
-        cron_line = f"*/5 * * * * {cron_cmd} # {marker}"
-        try:
-            install_cron_job(cron_line, marker)
-            _print_cron_installed(batch_id)
-        except Exception as exc:
-            output.error(f"Failed to install cron job: {exc}")
-    else:
-        # Multiple batches - use manifest
-        manifest_id = f"all_topics_{uuid.uuid4().hex[:8]}"
-        manifest = {
-            "manifest_id": manifest_id,
-            "mode": "all_topics",
-            "domain": args.domain,
-            "k": args.k,
-            "models_config": models_config,
-            "total_requests": len(request_items),
-            "created_at": datetime.now().isoformat(),
-            "batches": [],
-        }
-
-        for i, chunk in enumerate(batch_chunks):
-            print(f"  Submitting batch {i+1}/{len(batch_chunks)} ({len(chunk)} requests)...")
-            input_file_id = batch_client.upload_batch_file(chunk)
-            batch_id = batch_client.submit_batch(input_file_id)
-            manifest["batches"].append({
-                "batch_id": batch_id,
-                "chunk_index": i,
-                "request_count": len(chunk),
-                "processed": False,
-            })
-            print(f"    Batch ID: {batch_id}")
+        manifest["batches"].append({
+            "batch_id": batch_id,
+            "model": model,
+            "chunk_index": i,
+            "request_count": len(chunk),
+            "processed": False,
+        })
+        print(f"    Batch ID: {batch_id}")
 
         _save_manifest(args.domain, manifest_id, manifest)
         print(f"\nCreated manifest: {manifest_id}")

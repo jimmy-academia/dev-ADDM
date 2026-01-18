@@ -215,3 +215,9 @@ data/hits/
 
 # Large selection files
 data/selection/yelp/topic_all.json
+
+# Batch job manifests (temporary, machine-specific)
+data/tasks/*/batch_manifest_*.json
+
+# Extraction cache (large, regenerable)
+data/tasks/*/policy_cache.json
