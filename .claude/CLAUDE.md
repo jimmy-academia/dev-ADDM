@@ -47,7 +47,7 @@ src/addm/
 .claude/                # Claude Code configuration
 ```
 
-## Data Pipeline
+## Context Pipeline
 
 ```bash
 # Full pipeline (analyze → select → build)
@@ -58,6 +58,13 @@ src/addm/
 # Rebuild datasets only (if topic_100.json exists)
 .venv/bin/python scripts/build_dataset.py --data yelp
 ```
+
+**Selection algorithm**: Layered greedy by cell coverage
+- 18 topics × 2 severities (critical/high) = 36 cells
+- Fills level n (all cells ≥n) before level n+1
+- Multi-topic restaurants prioritized
+
+**Query Pipeline**: TBD
 
 ## Usage Tracking
 
@@ -110,6 +117,19 @@ total_usage = self._accumulate_usage([usage1, usage2, ...])
 - Compute GT: `.venv/bin/python -m addm.tasks.cli.compute_gt --task G1a --domain yelp --k 50`
 - Extract judgments: `.venv/bin/python -m addm.tasks.cli.extract --task G1a`
 - Verify formulas: `.venv/bin/python scripts/verify_formulas.py`
+
+## Session Workflow
+
+**Starting a session**: Read this file (done automatically via session-startup.md)
+
+**Ending a session**: Use `/bye` to:
+- Sync documentation (automatic)
+- Check git status and uncommitted work
+- Document incomplete todos
+- Capture session notes
+- Get clean exit instructions
+
+**Exit cleanly**: After `/bye`, use `Ctrl+C` or `Ctrl+D` (safest for MCP servers).
 
 ## Current Status
 

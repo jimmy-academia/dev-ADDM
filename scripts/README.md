@@ -7,7 +7,7 @@ Utility scripts for data acquisition and processing.
 | Script | Description |
 |--------|-------------|
 | `build_topic_selection.py` | Analyze reviews for topic patterns (18 topics) |
-| `select_topic_restaurants.py` | Select restaurants by topic coverage |
+| `select_topic_restaurants.py` | Select restaurants by cell coverage (layered greedy) |
 | `build_dataset.py` | Build K=25/50/100/200 review datasets |
 
 ## Verification Scripts
@@ -49,11 +49,11 @@ Utility scripts for data acquisition and processing.
 ### Select restaurants
 
 ```bash
-# Default: 100 restaurants, balanced across quadrants
+# Default: 100 restaurants (layered greedy by cell coverage)
 .venv/bin/python scripts/select_topic_restaurants.py --data yelp
 
-# Select 150 restaurants
-.venv/bin/python scripts/select_topic_restaurants.py --data yelp --target 150
+# Select 50 restaurants
+.venv/bin/python scripts/select_topic_restaurants.py --data yelp --target 50
 ```
 
 ### Build datasets

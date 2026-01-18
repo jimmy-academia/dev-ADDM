@@ -1,0 +1,9136 @@
+[
+  {
+    "business_id": "ac1AeYqs8Z4_e2X5M3if2A",
+    "name": "Oceana Grill",
+    "city": "New Orleans",
+    "state": "LA",
+    "stars": 4.0,
+    "review_count": 7400,
+    "categories": "Restaurants, Seafood, Cajun/Creole, Breakfast & Brunch",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "critical",
+        "max_critical": 5.0,
+        "total_critical": 5.0,
+        "critical_count": 1
+      },
+      "G1_dietary": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 26.0,
+        "critical_count": 5
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 10.5,
+        "total_critical": 179.5,
+        "critical_count": 32
+      },
+      "G2_business": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 135.0,
+        "high_count": 115
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 257.0,
+        "critical_count": 81
+      },
+      "G2_romance": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 16.5,
+        "critical_count": 5
+      },
+      "G3_hidden_costs": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 33.75,
+        "critical_count": 9
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 400.0,
+        "critical_count": 103
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 12.75,
+        "total_critical": 311.5,
+        "critical_count": 82
+      },
+      "G4_environment": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 14.5,
+        "critical_count": 5
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 303.5,
+        "high_count": 187
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 5.0,
+        "total_critical": 922.5,
+        "critical_count": 304
+      },
+      "G5_capacity": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 16.75,
+        "critical_count": 5
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 28.5,
+        "critical_count": 9
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 101.75,
+        "critical_count": 26
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 1383.0,
+        "critical_count": 444
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 244.75,
+        "critical_count": 62
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 261.75,
+        "critical_count": 83
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "critical"
+      ],
+      [
+        "G1_dietary",
+        "critical"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "high"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "critical"
+      ],
+      [
+        "G3_hidden_costs",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "critical"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "critical"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 18,
+    "topic_count": 18,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 106.25,
+    "global_rank": 1
+  },
+  {
+    "business_id": "6a4gLLFSgr-Q6CZXDLzBGQ",
+    "name": "Cochon",
+    "city": "New Orleans",
+    "state": "LA",
+    "stars": 4.0,
+    "review_count": 4421,
+    "categories": "Cajun/Creole, Seafood, Restaurants",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "critical",
+        "max_critical": 5.0,
+        "total_critical": 5.0,
+        "critical_count": 1
+      },
+      "G1_dietary": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 8.0,
+        "critical_count": 2
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 7.5,
+        "total_critical": 54.5,
+        "critical_count": 13
+      },
+      "G2_business": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 200.0,
+        "high_count": 140
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 88.0,
+        "critical_count": 28
+      },
+      "G2_romance": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 33.0,
+        "critical_count": 10
+      },
+      "G3_hidden_costs": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 16.0,
+        "high_count": 10
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 364.75,
+        "critical_count": 90
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 219.75,
+        "critical_count": 61
+      },
+      "G4_environment": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 20.5,
+        "critical_count": 7
+      },
+      "G4_kitchen": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 140.0,
+        "critical_count": 51
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 8.25,
+        "total_critical": 244.5,
+        "critical_count": 72
+      },
+      "G5_capacity": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 33.0,
+        "critical_count": 9
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 51.0,
+        "critical_count": 15
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 42.0,
+        "critical_count": 10
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 946.5,
+        "critical_count": 302
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 124.5,
+        "critical_count": 32
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 809.25,
+        "critical_count": 267
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "critical"
+      ],
+      [
+        "G1_dietary",
+        "critical"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "high"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "critical"
+      ],
+      [
+        "G3_hidden_costs",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "critical"
+      ],
+      [
+        "G4_kitchen",
+        "critical"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "critical"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 18,
+    "topic_count": 18,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 104.25,
+    "global_rank": 2
+  },
+  {
+    "business_id": "L5LLN0RafiV1Z9cddzvuCw",
+    "name": "Ulele",
+    "city": "Tampa",
+    "state": "FL",
+    "stars": 4.0,
+    "review_count": 3064,
+    "categories": "Breweries, Food, American (New), Beer, Wine & Spirits, Restaurants, Seafood",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 11.0,
+        "high_count": 6
+      },
+      "G1_dietary": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 70.5,
+        "high_count": 60
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 57.0,
+        "critical_count": 10
+      },
+      "G2_business": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 182.5,
+        "high_count": 122
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 106.0,
+        "critical_count": 32
+      },
+      "G2_romance": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 92.5,
+        "critical_count": 27
+      },
+      "G3_hidden_costs": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 12.0,
+        "critical_count": 3
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 198.0,
+        "critical_count": 57
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 265.5,
+        "critical_count": 77
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 1899.5,
+        "high_count": 1111
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 285.0,
+        "high_count": 184
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 7.5,
+        "total_critical": 299.25,
+        "critical_count": 97
+      },
+      "G5_capacity": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 28.75,
+        "critical_count": 9
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 67.5,
+        "critical_count": 21
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 8.25,
+        "total_critical": 41.25,
+        "critical_count": 11
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 694.5,
+        "critical_count": 222
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 96.5,
+        "critical_count": 24
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 653.25,
+        "critical_count": 213
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "high"
+      ],
+      [
+        "G1_dietary",
+        "high"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "high"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "critical"
+      ],
+      [
+        "G3_hidden_costs",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "critical"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 18,
+    "topic_count": 18,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 101.75,
+    "global_rank": 3
+  },
+  {
+    "business_id": "ctHjyadbDQAtUFfkcAFEHw",
+    "name": "Zahav",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 3065,
+    "categories": "Nightlife, Bars, Food, Ethnic Food, Middle Eastern, Vegetarian, Specialty Food, Israeli, Restaurants",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "high",
+        "max_high": 5.5,
+        "total_high": 39.0,
+        "high_count": 22
+      },
+      "G1_dietary": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 22.0,
+        "critical_count": 5
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 48.0,
+        "critical_count": 14
+      },
+      "G2_business": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 157.5,
+        "high_count": 131
+      },
+      "G2_group": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 720.0,
+        "high_count": 416
+      },
+      "G2_romance": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 79.0,
+        "critical_count": 24
+      },
+      "G3_hidden_costs": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 35.5,
+        "high_count": 22
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 192.5,
+        "critical_count": 61
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 8.25,
+        "total_critical": 124.0,
+        "critical_count": 37
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 1502.5,
+        "high_count": 804
+      },
+      "G4_kitchen": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 84.5,
+        "critical_count": 32
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 5.0,
+        "total_critical": 150.5,
+        "critical_count": 53
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 6.0,
+        "total_high": 1565.5,
+        "high_count": 1010
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 671.0,
+        "high_count": 367
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 10.5,
+        "critical_count": 3
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 1012.5,
+        "critical_count": 331
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 84.25,
+        "critical_count": 24
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 864.5,
+        "critical_count": 284
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "high"
+      ],
+      [
+        "G1_dietary",
+        "critical"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "high"
+      ],
+      [
+        "G2_group",
+        "high"
+      ],
+      [
+        "G2_romance",
+        "critical"
+      ],
+      [
+        "G3_hidden_costs",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "critical"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 18,
+    "topic_count": 18,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 98.75,
+    "global_rank": 4
+  },
+  {
+    "business_id": "jbJTF1zVmZsk4hea8hoeVA",
+    "name": "Fork",
+    "city": "Boise",
+    "state": "ID",
+    "stars": 4.0,
+    "review_count": 1810,
+    "categories": "American (New), Burgers, Restaurants, Breakfast & Brunch",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "critical",
+        "max_critical": 5.0,
+        "total_critical": 5.0,
+        "critical_count": 1
+      },
+      "G1_dietary": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 4.0,
+        "critical_count": 1
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 31.5,
+        "critical_count": 7
+      },
+      "G2_business": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 97.0,
+        "high_count": 69
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 28.5,
+        "critical_count": 8
+      },
+      "G2_romance": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 25.5,
+        "critical_count": 7
+      },
+      "G3_hidden_costs": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 4.0,
+        "critical_count": 1
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 122.5,
+        "critical_count": 32
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 8.25,
+        "total_critical": 142.5,
+        "critical_count": 43
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 788.0,
+        "high_count": 434
+      },
+      "G4_kitchen": {
+        "severity": "critical",
+        "max_critical": 7.5,
+        "total_critical": 20.75,
+        "critical_count": 5
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 124.0,
+        "critical_count": 43
+      },
+      "G5_capacity": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 13.5,
+        "critical_count": 4
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 435.0,
+        "high_count": 248
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 37.25,
+        "critical_count": 10
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 433.5,
+        "critical_count": 138
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 69.0,
+        "critical_count": 18
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 143.5,
+        "critical_count": 47
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "critical"
+      ],
+      [
+        "G1_dietary",
+        "critical"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "high"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "critical"
+      ],
+      [
+        "G3_hidden_costs",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "critical"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "critical"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 18,
+    "topic_count": 18,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 97.75,
+    "global_rank": 5
+  },
+  {
+    "business_id": "-Tskf8WK17rb3ZfeFuRSWA",
+    "name": "Palace Caf\u00e9",
+    "city": "New Orleans",
+    "state": "LA",
+    "stars": 4.0,
+    "review_count": 1822,
+    "categories": "Seafood, Restaurants, Cafes, Cajun/Creole, American (New)",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "high",
+        "max_high": 7.5,
+        "total_high": 12.0,
+        "high_count": 3
+      },
+      "G1_dietary": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 4.0,
+        "critical_count": 1
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 15.0,
+        "critical_count": 3
+      },
+      "G2_business": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 109.0,
+        "high_count": 80
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 78.0,
+        "critical_count": 22
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 39.5,
+        "high_count": 24
+      },
+      "G3_hidden_costs": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 4.0,
+        "critical_count": 1
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 159.0,
+        "critical_count": 36
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 12.75,
+        "total_critical": 125.0,
+        "critical_count": 30
+      },
+      "G4_environment": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 13.0,
+        "critical_count": 4
+      },
+      "G4_kitchen": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 47.0,
+        "critical_count": 17
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 171.5,
+        "critical_count": 52
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 324.0,
+        "high_count": 202
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 19.5,
+        "critical_count": 6
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 24.75,
+        "critical_count": 7
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 436.5,
+        "critical_count": 138
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 54.0,
+        "critical_count": 13
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 165.75,
+        "critical_count": 53
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "high"
+      ],
+      [
+        "G1_dietary",
+        "critical"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "high"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_hidden_costs",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "critical"
+      ],
+      [
+        "G4_kitchen",
+        "critical"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 18,
+    "topic_count": 18,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 97.25,
+    "global_rank": 6
+  },
+  {
+    "business_id": "tV46IhCfHbsx_af-pMupiw",
+    "name": "Cafe Poca Cosa",
+    "city": "Tucson",
+    "state": "AZ",
+    "stars": 4.0,
+    "review_count": 1306,
+    "categories": "American (Traditional), Restaurants, Mexican, Latin American",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "critical",
+        "max_critical": 7.5,
+        "total_critical": 7.5,
+        "critical_count": 1
+      },
+      "G1_dietary": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 71.5,
+        "high_count": 59
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 12.0,
+        "total_critical": 12.0,
+        "critical_count": 1
+      },
+      "G2_business": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 89.5,
+        "high_count": 64
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 21.0,
+        "critical_count": 6
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 98.0,
+        "high_count": 51
+      },
+      "G3_hidden_costs": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 4.0,
+        "critical_count": 1
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 229.0,
+        "critical_count": 54
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 37.25,
+        "critical_count": 10
+      },
+      "G4_environment": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 10.5,
+        "critical_count": 3
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 93.5,
+        "high_count": 69
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 7.5,
+        "total_critical": 117.25,
+        "critical_count": 34
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 5.0,
+        "total_high": 295.0,
+        "high_count": 183
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 34.0,
+        "critical_count": 9
+      },
+      "G5_execution": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 6.0,
+        "high_count": 5
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 259.5,
+        "critical_count": 76
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 139.0,
+        "critical_count": 33
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 419.75,
+        "critical_count": 133
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "critical"
+      ],
+      [
+        "G1_dietary",
+        "high"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "high"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_hidden_costs",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "critical"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 18,
+    "topic_count": 18,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 95.5,
+    "global_rank": 8
+  },
+  {
+    "business_id": "S8ZFYEgMejpChID8tzKo9A",
+    "name": "Amada",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 2109,
+    "categories": "Spanish, Restaurants, Breakfast & Brunch, Tapas Bars, Iberian",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 28.0,
+        "high_count": 16
+      },
+      "G1_dietary": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 50.5,
+        "high_count": 41
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 36.0,
+        "critical_count": 7
+      },
+      "G2_business": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 79.5,
+        "high_count": 61
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 43.0,
+        "critical_count": 14
+      },
+      "G2_romance": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 111.0,
+        "critical_count": 34
+      },
+      "G3_hidden_costs": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 9.0,
+        "critical_count": 3
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 224.5,
+        "critical_count": 67
+      },
+      "G3_time_value": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 149.5,
+        "high_count": 93
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 1035.0,
+        "high_count": 588
+      },
+      "G4_kitchen": {
+        "severity": "critical",
+        "max_critical": 5.0,
+        "total_critical": 74.25,
+        "critical_count": 27
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 107.25,
+        "critical_count": 35
+      },
+      "G5_capacity": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 22.0,
+        "critical_count": 7
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 45.0,
+        "critical_count": 14
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 29.25,
+        "critical_count": 8
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 619.5,
+        "critical_count": 198
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 69.5,
+        "critical_count": 18
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 258.75,
+        "critical_count": 85
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "high"
+      ],
+      [
+        "G1_dietary",
+        "high"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "high"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "critical"
+      ],
+      [
+        "G3_hidden_costs",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "high"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "critical"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "critical"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 18,
+    "topic_count": 18,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 88.5,
+    "global_rank": 12
+  },
+  {
+    "business_id": "2CDI713ATuxHfnB5b-sBdw",
+    "name": "Vedge",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 1447,
+    "categories": "Restaurants, Vegetarian, Beer, Wine & Spirits, Vegan, Food",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "high",
+        "max_high": 6.0,
+        "total_high": 12.0,
+        "high_count": 5
+      },
+      "G1_dietary": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 325.5,
+        "high_count": 230
+      },
+      "G1_hygiene": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 20.0,
+        "high_count": 10
+      },
+      "G2_business": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 78.5,
+        "high_count": 59
+      },
+      "G2_group": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 227.5,
+        "high_count": 139
+      },
+      "G2_romance": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 56.5,
+        "critical_count": 18
+      },
+      "G3_hidden_costs": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 4.0,
+        "critical_count": 1
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 129.25,
+        "critical_count": 34
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 734.5,
+        "high_count": 394
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 89.5,
+        "high_count": 61
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 7.5,
+        "total_critical": 78.75,
+        "critical_count": 25
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 412.5,
+        "high_count": 263
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 10.5,
+        "critical_count": 3
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 316.5,
+        "critical_count": 103
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 56.5,
+        "critical_count": 16
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 373.0,
+        "critical_count": 120
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "high"
+      ],
+      [
+        "G1_dietary",
+        "high"
+      ],
+      [
+        "G1_hygiene",
+        "high"
+      ],
+      [
+        "G2_business",
+        "high"
+      ],
+      [
+        "G2_group",
+        "high"
+      ],
+      [
+        "G2_romance",
+        "critical"
+      ],
+      [
+        "G3_hidden_costs",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 18,
+    "topic_count": 18,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 85.5,
+    "global_rank": 19
+  },
+  {
+    "business_id": "EP9K6qXOyHFq_0tp93wh9Q",
+    "name": "Big Fish Grill - Riverfront",
+    "city": "Wilmington",
+    "state": "DE",
+    "stars": 4.0,
+    "review_count": 456,
+    "categories": "Bars, Nightlife, American (Traditional), Restaurants, Seafood",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "high",
+        "max_high": 5.0,
+        "total_high": 8.0,
+        "high_count": 3
+      },
+      "G1_dietary": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 9.0,
+        "high_count": 6
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 12.0,
+        "total_critical": 27.0,
+        "critical_count": 4
+      },
+      "G2_business": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 21.5,
+        "high_count": 13
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 7.5,
+        "critical_count": 2
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 9.5,
+        "high_count": 6
+      },
+      "G3_hidden_costs": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 4.5,
+        "high_count": 3
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 18.5,
+        "critical_count": 6
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 8.25,
+        "total_critical": 34.0,
+        "critical_count": 8
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 144.5,
+        "high_count": 85
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 61.5,
+        "high_count": 38
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 34.25,
+        "critical_count": 11
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 46.5,
+        "high_count": 31
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 13.5,
+        "critical_count": 4
+      },
+      "G5_execution": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 3.5,
+        "high_count": 3
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 94.5,
+        "critical_count": 27
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 19.5,
+        "critical_count": 5
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 13.5,
+        "high_count": 8
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "high"
+      ],
+      [
+        "G1_dietary",
+        "high"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "high"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_hidden_costs",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 18,
+    "topic_count": 18,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 80.25,
+    "global_rank": 25
+  },
+  {
+    "business_id": "dsfRniRgfbDjC8os848B6A",
+    "name": "Bern's Steak House",
+    "city": "Tampa",
+    "state": "FL",
+    "stars": 4.5,
+    "review_count": 2924,
+    "categories": "Arts & Entertainment, Steakhouses, Restaurants",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "high",
+        "max_high": 5.0,
+        "total_high": 20.5,
+        "high_count": 11
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 46.5,
+        "critical_count": 12
+      },
+      "G2_business": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 322.5,
+        "high_count": 243
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 70.5,
+        "critical_count": 20
+      },
+      "G2_romance": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 108.0,
+        "critical_count": 33
+      },
+      "G3_hidden_costs": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 17.75,
+        "critical_count": 6
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 8.25,
+        "total_critical": 353.25,
+        "critical_count": 102
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 8.25,
+        "total_critical": 154.5,
+        "critical_count": 41
+      },
+      "G4_environment": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 30.75,
+        "critical_count": 9
+      },
+      "G4_kitchen": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 26.0,
+        "critical_count": 8
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 255.75,
+        "critical_count": 83
+      },
+      "G5_capacity": {
+        "severity": "critical",
+        "max_critical": 8.25,
+        "total_critical": 22.0,
+        "critical_count": 5
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 5.5,
+        "total_high": 900.0,
+        "high_count": 488
+      },
+      "G5_execution": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 14.5,
+        "high_count": 11
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 990.0,
+        "critical_count": 310
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 150.5,
+        "critical_count": 37
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 664.75,
+        "critical_count": 219
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "high"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "high"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "critical"
+      ],
+      [
+        "G3_hidden_costs",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "critical"
+      ],
+      [
+        "G4_kitchen",
+        "critical"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "critical"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 17,
+    "topic_count": 17,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 93.75,
+    "global_rank": 36
+  },
+  {
+    "business_id": "DcBLYSvOuWcNReolRVr12A",
+    "name": "Drago's Seafood Restaurant",
+    "city": "New Orleans",
+    "state": "LA",
+    "stars": 3.5,
+    "review_count": 3160,
+    "categories": "Restaurants, Seafood",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "critical",
+        "max_critical": 7.5,
+        "total_critical": 12.5,
+        "critical_count": 2
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 60.0,
+        "critical_count": 11
+      },
+      "G2_business": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 126.0,
+        "critical_count": 34
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 46.0,
+        "high_count": 26
+      },
+      "G3_hidden_costs": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 18.5,
+        "critical_count": 5
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 426.5,
+        "critical_count": 104
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 396.75,
+        "critical_count": 97
+      },
+      "G4_environment": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 25.5,
+        "critical_count": 6
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 128.0,
+        "high_count": 85
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 6.75,
+        "total_critical": 261.75,
+        "critical_count": 77
+      },
+      "G5_capacity": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 19.25,
+        "critical_count": 5
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 25.5,
+        "critical_count": 7
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 85.0,
+        "critical_count": 21
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 708.0,
+        "critical_count": 220
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 190.0,
+        "critical_count": 46
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 133.75,
+        "critical_count": 43
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "critical"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "critical"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_hidden_costs",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "critical"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "critical"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 17,
+    "topic_count": 17,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 93.25,
+    "global_rank": 37
+  },
+  {
+    "business_id": "GmXC3CBu172Bkb0c6RnO7w",
+    "name": "Restaurant R'evolution",
+    "city": "New Orleans",
+    "state": "LA",
+    "stars": 4.5,
+    "review_count": 1210,
+    "categories": "Event Planning & Services, Hotels, Cajun/Creole, Restaurants, Seafood, Southern, Hotels & Travel",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "critical",
+        "max_critical": 7.5,
+        "total_critical": 17.5,
+        "critical_count": 3
+      },
+      "G1_hygiene": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 47.5,
+        "high_count": 23
+      },
+      "G2_business": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 98.0,
+        "high_count": 81
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 27.0,
+        "critical_count": 8
+      },
+      "G2_romance": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 79.5,
+        "critical_count": 23
+      },
+      "G3_hidden_costs": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 33.5,
+        "high_count": 20
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 73.5,
+        "critical_count": 20
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 36.75,
+        "critical_count": 10
+      },
+      "G4_environment": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 22.0,
+        "critical_count": 7
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 152.5,
+        "high_count": 94
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 61.0,
+        "critical_count": 20
+      },
+      "G5_capacity": {
+        "severity": "critical",
+        "max_critical": 6.5,
+        "total_critical": 12.0,
+        "critical_count": 3
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 15.0,
+        "critical_count": 3
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 27.0,
+        "critical_count": 7
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 400.5,
+        "critical_count": 129
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 40.5,
+        "critical_count": 10
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 218.25,
+        "critical_count": 72
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "critical"
+      ],
+      [
+        "G1_hygiene",
+        "high"
+      ],
+      [
+        "G2_business",
+        "high"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "critical"
+      ],
+      [
+        "G3_hidden_costs",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "critical"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "critical"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 17,
+    "topic_count": 17,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 88.0,
+    "global_rank": 43
+  },
+  {
+    "business_id": "nIAbuktMEzVjT4P9pG89rQ",
+    "name": "Buddakan",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 1561,
+    "categories": "Restaurants, Asian Fusion, Chinese",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 10.0,
+        "high_count": 4
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 16.5,
+        "critical_count": 4
+      },
+      "G2_business": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G2_group": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 423.0,
+        "high_count": 257
+      },
+      "G2_romance": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 49.0,
+        "critical_count": 16
+      },
+      "G3_hidden_costs": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 10.0,
+        "critical_count": 2
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 284.75,
+        "critical_count": 76
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 55.75,
+        "critical_count": 18
+      },
+      "G4_environment": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 42.25,
+        "critical_count": 14
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 162.5,
+        "high_count": 96
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 8.25,
+        "total_critical": 71.75,
+        "critical_count": 21
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 412.0,
+        "high_count": 257
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 30.75,
+        "critical_count": 9
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 7.0,
+        "critical_count": 2
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 340.5,
+        "critical_count": 107
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 70.75,
+        "critical_count": 19
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 241.75,
+        "critical_count": 78
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "high"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "critical"
+      ],
+      [
+        "G2_group",
+        "high"
+      ],
+      [
+        "G2_romance",
+        "critical"
+      ],
+      [
+        "G3_hidden_costs",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "critical"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 17,
+    "topic_count": 17,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 86.75,
+    "global_rank": 48
+  },
+  {
+    "business_id": "05ev984NYfimRN0UiFrxaA",
+    "name": "Osteria",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 877,
+    "categories": "Nightlife, Restaurants, Italian, Bars, Wine Bars",
+    "topic_scores": {
+      "G1_dietary": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 16.5,
+        "high_count": 10
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 22.5,
+        "critical_count": 6
+      },
+      "G2_business": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 68.5,
+        "high_count": 44
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 31.5,
+        "critical_count": 8
+      },
+      "G2_romance": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 43.5,
+        "critical_count": 13
+      },
+      "G3_hidden_costs": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 4.0,
+        "critical_count": 1
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 170.5,
+        "critical_count": 45
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 7.5,
+        "total_critical": 41.75,
+        "critical_count": 10
+      },
+      "G4_environment": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 19.75,
+        "critical_count": 6
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 118.0,
+        "high_count": 72
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 8.25,
+        "total_critical": 47.5,
+        "critical_count": 13
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 211.5,
+        "high_count": 128
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 31.5,
+        "critical_count": 9
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 26.25,
+        "critical_count": 8
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 336.0,
+        "critical_count": 107
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 61.5,
+        "critical_count": 14
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 125.25,
+        "critical_count": 41
+      }
+    },
+    "cells": [
+      [
+        "G1_dietary",
+        "high"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "high"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "critical"
+      ],
+      [
+        "G3_hidden_costs",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "critical"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 17,
+    "topic_count": 17,
+    "topics_covered": [
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 85.75,
+    "global_rank": 52
+  },
+  {
+    "business_id": "XrikSy0DQ_fhVCaRRBJI-g",
+    "name": "Kayne Prime",
+    "city": "Nashville",
+    "state": "TN",
+    "stars": 4.0,
+    "review_count": 987,
+    "categories": "Restaurants, Steakhouses",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "critical",
+        "max_critical": 7.5,
+        "total_critical": 7.5,
+        "critical_count": 1
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 5.0,
+        "total_critical": 24.0,
+        "critical_count": 6
+      },
+      "G2_business": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 10.5,
+        "critical_count": 3
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 54.0,
+        "critical_count": 17
+      },
+      "G2_romance": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 62.0,
+        "critical_count": 19
+      },
+      "G3_hidden_costs": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 16.5,
+        "high_count": 10
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 143.0,
+        "critical_count": 39
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 8.25,
+        "total_critical": 64.75,
+        "critical_count": 17
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 359.0,
+        "high_count": 211
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 204.0,
+        "high_count": 128
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 101.25,
+        "critical_count": 34
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 288.0,
+        "high_count": 198
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 7.5,
+        "critical_count": 2
+      },
+      "G5_execution": {
+        "severity": "high",
+        "max_high": 1.0,
+        "total_high": 1.0,
+        "high_count": 1
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 322.5,
+        "critical_count": 102
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 56.5,
+        "critical_count": 14
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 169.5,
+        "critical_count": 55
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "critical"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "critical"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "critical"
+      ],
+      [
+        "G3_hidden_costs",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 17,
+    "topic_count": 17,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 82.75,
+    "global_rank": 63
+  },
+  {
+    "business_id": "6ajnOk0GcY9xbb5Ocaw8Gw",
+    "name": "Barbuzzo",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 2893,
+    "categories": "Mediterranean, Restaurants, Pizza, Italian",
+    "topic_scores": {
+      "G1_dietary": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 4.0,
+        "critical_count": 1
+      },
+      "G1_hygiene": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 12.5,
+        "high_count": 6
+      },
+      "G2_business": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 103.0,
+        "high_count": 75
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 7.5,
+        "critical_count": 2
+      },
+      "G2_romance": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 112.5,
+        "critical_count": 36
+      },
+      "G3_hidden_costs": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 20.0,
+        "high_count": 12
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 161.0,
+        "critical_count": 49
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 107.25,
+        "critical_count": 35
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 1181.5,
+        "high_count": 687
+      },
+      "G4_kitchen": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 100.0,
+        "critical_count": 37
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 122.25,
+        "critical_count": 36
+      },
+      "G5_capacity": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 36.75,
+        "critical_count": 12
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 46.5,
+        "critical_count": 15
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 7.5,
+        "critical_count": 2
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 966.0,
+        "critical_count": 314
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 75.0,
+        "critical_count": 19
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 307.0,
+        "critical_count": 103
+      }
+    },
+    "cells": [
+      [
+        "G1_dietary",
+        "critical"
+      ],
+      [
+        "G1_hygiene",
+        "high"
+      ],
+      [
+        "G2_business",
+        "high"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "critical"
+      ],
+      [
+        "G3_hidden_costs",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "critical"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "critical"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 17,
+    "topic_count": 17,
+    "topics_covered": [
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 76.5,
+    "global_rank": 98
+  },
+  {
+    "business_id": "8gY3LGFUMIQubovGbSd7Nw",
+    "name": "S\u00fcp",
+    "city": "Reno",
+    "state": "NV",
+    "stars": 4.5,
+    "review_count": 923,
+    "categories": "Soup, American (New), Salad, Restaurants, Sandwiches",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "critical",
+        "max_critical": 7.5,
+        "total_critical": 7.5,
+        "critical_count": 1
+      },
+      "G1_dietary": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 37.0,
+        "high_count": 31
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 12.0,
+        "total_critical": 24.5,
+        "critical_count": 3
+      },
+      "G2_business": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 23.5,
+        "high_count": 14
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 7.5,
+        "critical_count": 2
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 6.5,
+        "high_count": 4
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 43.25,
+        "critical_count": 13
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 12.0,
+        "critical_count": 3
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 250.0,
+        "high_count": 141
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 45.5,
+        "high_count": 33
+      },
+      "G4_server": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 60.0,
+        "high_count": 37
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 49.0,
+        "high_count": 36
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 356.0,
+        "high_count": 194
+      },
+      "G5_execution": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 3.5,
+        "high_count": 3
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 184.5,
+        "critical_count": 59
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 39.5,
+        "critical_count": 10
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 55.0,
+        "high_count": 32
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "critical"
+      ],
+      [
+        "G1_dietary",
+        "high"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "high"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "high"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 17,
+    "topic_count": 17,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 75.0,
+    "global_rank": 103
+  },
+  {
+    "business_id": "9PZxjhTIU7OgPIzuGi89Ew",
+    "name": "El Vez",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 3187,
+    "categories": "Lounges, Bars, Nightlife, Breakfast & Brunch, Mexican, Restaurants",
+    "topic_scores": {
+      "G1_dietary": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 8.0,
+        "critical_count": 2
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 13.5,
+        "total_critical": 56.5,
+        "critical_count": 9
+      },
+      "G2_business": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 138.0,
+        "high_count": 96
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 49.5,
+        "critical_count": 14
+      },
+      "G2_romance": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 22.5,
+        "critical_count": 7
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 586.0,
+        "critical_count": 171
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 8.5,
+        "total_critical": 235.75,
+        "critical_count": 68
+      },
+      "G4_environment": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 32.0,
+        "critical_count": 10
+      },
+      "G4_kitchen": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 10.0,
+        "critical_count": 3
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 120.25,
+        "critical_count": 39
+      },
+      "G5_capacity": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 9.0,
+        "critical_count": 3
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 37.5,
+        "critical_count": 12
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 7.5,
+        "critical_count": 2
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 751.5,
+        "critical_count": 242
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 140.5,
+        "critical_count": 36
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 8.25,
+        "total_critical": 306.25,
+        "critical_count": 99
+      }
+    },
+    "cells": [
+      [
+        "G1_dietary",
+        "critical"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "high"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "critical"
+      ],
+      [
+        "G4_kitchen",
+        "critical"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "critical"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 16,
+    "topic_count": 16,
+    "topics_covered": [
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 93.75,
+    "global_rank": 133
+  },
+  {
+    "business_id": "DvBdqAA3XleMaOMwBl7g4g",
+    "name": "Kona Grill - Tampa",
+    "city": "Tampa",
+    "state": "FL",
+    "stars": 3.5,
+    "review_count": 792,
+    "categories": "Sushi Bars, American (New), Asian Fusion, Restaurants",
+    "topic_scores": {
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 6.0,
+        "critical_count": 1
+      },
+      "G2_business": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 38.25,
+        "critical_count": 9
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 33.0,
+        "high_count": 18
+      },
+      "G3_hidden_costs": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 7.75,
+        "critical_count": 2
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 109.25,
+        "critical_count": 27
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 8.25,
+        "total_critical": 105.75,
+        "critical_count": 28
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 275.5,
+        "high_count": 154
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 26.0,
+        "high_count": 17
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 7.5,
+        "total_critical": 109.75,
+        "critical_count": 34
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 124.0,
+        "high_count": 76
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 192.0,
+        "high_count": 109
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 61.5,
+        "critical_count": 13
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 99.0,
+        "critical_count": 31
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 87.5,
+        "critical_count": 20
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 31.0,
+        "critical_count": 10
+      }
+    },
+    "cells": [
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "critical"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_hidden_costs",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 16,
+    "topic_count": 16,
+    "topics_covered": [
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 90.75,
+    "global_rank": 136
+  },
+  {
+    "business_id": "S0dQ8Vks0IR-PZPLoBHKRA",
+    "name": "McCormick & Schmick's Seafood & Steaks",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 2.5,
+    "review_count": 387,
+    "categories": "Seafood, Restaurants, Southern, Steakhouses, American (Traditional)",
+    "topic_scores": {
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 7.5,
+        "total_critical": 39.0,
+        "critical_count": 7
+      },
+      "G2_business": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 33.0,
+        "critical_count": 8
+      },
+      "G2_romance": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 10.5,
+        "critical_count": 3
+      },
+      "G3_hidden_costs": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 9.75,
+        "critical_count": 2
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 118.5,
+        "critical_count": 27
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 86.5,
+        "critical_count": 18
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 109.0,
+        "high_count": 67
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 34.0,
+        "high_count": 23
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 7.5,
+        "total_critical": 50.0,
+        "critical_count": 13
+      },
+      "G5_capacity": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 12.0,
+        "critical_count": 3
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 7.5,
+        "critical_count": 2
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 38.25,
+        "critical_count": 10
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 84.0,
+        "critical_count": 23
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 72.0,
+        "critical_count": 16
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 18.0,
+        "high_count": 8
+      }
+    },
+    "cells": [
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "critical"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "critical"
+      ],
+      [
+        "G3_hidden_costs",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "critical"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 16,
+    "topic_count": 16,
+    "topics_covered": [
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 83.0,
+    "global_rank": 163
+  },
+  {
+    "business_id": "Ps7Q7BOKzJO4nDTUhbk43Q",
+    "name": "Clear Sky Cafe",
+    "city": "Clearwater",
+    "state": "FL",
+    "stars": 4.5,
+    "review_count": 1824,
+    "categories": "Restaurants, American (Traditional), Tapas/Small Plates, Seafood, Breakfast & Brunch, American (New)",
+    "topic_scores": {
+      "G1_dietary": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 22.0,
+        "high_count": 18
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 19.5,
+        "critical_count": 5
+      },
+      "G2_group": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 142.0,
+        "high_count": 76
+      },
+      "G2_romance": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 18.0,
+        "critical_count": 5
+      },
+      "G3_hidden_costs": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 6.5,
+        "critical_count": 2
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 79.0,
+        "critical_count": 22
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 61.75,
+        "critical_count": 19
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 461.0,
+        "high_count": 280
+      },
+      "G4_kitchen": {
+        "severity": "critical",
+        "max_critical": 5.0,
+        "total_critical": 7.5,
+        "critical_count": 2
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 123.25,
+        "critical_count": 41
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 157.5,
+        "high_count": 97
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 336.0,
+        "high_count": 191
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 12.0,
+        "critical_count": 3
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 270.0,
+        "critical_count": 86
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 39.5,
+        "critical_count": 12
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 94.5,
+        "critical_count": 32
+      }
+    },
+    "cells": [
+      [
+        "G1_dietary",
+        "high"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_group",
+        "high"
+      ],
+      [
+        "G2_romance",
+        "critical"
+      ],
+      [
+        "G3_hidden_costs",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "critical"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 16,
+    "topic_count": 16,
+    "topics_covered": [
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 82.5,
+    "global_rank": 166
+  },
+  {
+    "business_id": "R8t9g5nvi7VFyS8zsgmj8Q",
+    "name": "Salt + Smoke",
+    "city": "Saint Louis",
+    "state": "MO",
+    "stars": 4.5,
+    "review_count": 1742,
+    "categories": "Restaurants, American (Traditional), Barbeque, Cocktail Bars, Bars, Nightlife",
+    "topic_scores": {
+      "G1_dietary": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 27.5,
+        "high_count": 22
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 7.5,
+        "total_critical": 26.0,
+        "critical_count": 6
+      },
+      "G2_group": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 151.0,
+        "high_count": 93
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 34.5,
+        "high_count": 19
+      },
+      "G3_hidden_costs": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 3.0,
+        "high_count": 2
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 37.0,
+        "critical_count": 12
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 8.25,
+        "total_critical": 102.75,
+        "critical_count": 29
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 404.0,
+        "high_count": 237
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 75.0,
+        "high_count": 50
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 8.25,
+        "total_critical": 68.25,
+        "critical_count": 19
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 5.0,
+        "total_high": 178.0,
+        "high_count": 103
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 18.0,
+        "critical_count": 5
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 27.75,
+        "critical_count": 6
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 450.0,
+        "critical_count": 144
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 44.5,
+        "critical_count": 11
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 184.0,
+        "critical_count": 61
+      }
+    },
+    "cells": [
+      [
+        "G1_dietary",
+        "high"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_group",
+        "high"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_hidden_costs",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 16,
+    "topic_count": 16,
+    "topics_covered": [
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 79.0,
+    "global_rank": 195
+  },
+  {
+    "business_id": "ny1N_Py01kVoGOvL9oKjMQ",
+    "name": "Cask Social Kitchen",
+    "city": "Tampa",
+    "state": "FL",
+    "stars": 4.0,
+    "review_count": 578,
+    "categories": "Breakfast & Brunch, Restaurants, Southern, American (New)",
+    "topic_scores": {
+      "G1_dietary": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 4.0,
+        "high_count": 2
+      },
+      "G1_hygiene": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 17.5,
+        "high_count": 8
+      },
+      "G2_group": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 121.0,
+        "high_count": 70
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 9.5,
+        "high_count": 5
+      },
+      "G3_hidden_costs": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 6.0,
+        "high_count": 4
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 69.25,
+        "critical_count": 18
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 8.25,
+        "total_critical": 90.0,
+        "critical_count": 20
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 349.5,
+        "high_count": 186
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 44.5,
+        "high_count": 30
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 5.0,
+        "total_critical": 72.5,
+        "critical_count": 22
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 161.5,
+        "high_count": 94
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 43.5,
+        "critical_count": 13
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 12.75,
+        "critical_count": 3
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 111.0,
+        "critical_count": 34
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 56.5,
+        "critical_count": 14
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 90.0,
+        "high_count": 49
+      }
+    },
+    "cells": [
+      [
+        "G1_dietary",
+        "high"
+      ],
+      [
+        "G1_hygiene",
+        "high"
+      ],
+      [
+        "G2_group",
+        "high"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_hidden_costs",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 16,
+    "topic_count": 16,
+    "topics_covered": [
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 64.25,
+    "global_rank": 383
+  },
+  {
+    "business_id": "B_q2xoAgTyn6U4YNEc3kSw",
+    "name": "China Pavilion",
+    "city": "Santa Barbara",
+    "state": "CA",
+    "stars": 3.5,
+    "review_count": 348,
+    "categories": "Chinese, Food, Dim Sum, Desserts, Coffee & Tea, Restaurants",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "critical",
+        "max_critical": 7.5,
+        "total_critical": 7.5,
+        "critical_count": 1
+      },
+      "G1_dietary": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 15.0,
+        "high_count": 12
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 10.5,
+        "critical_count": 2
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 14.5,
+        "critical_count": 4
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 43.5,
+        "critical_count": 11
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 8.25,
+        "total_critical": 26.5,
+        "critical_count": 6
+      },
+      "G4_environment": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 6.0,
+        "high_count": 4
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 8.25,
+        "total_critical": 48.0,
+        "critical_count": 11
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 22.0,
+        "high_count": 14
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 10.5,
+        "critical_count": 3
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 9.0,
+        "critical_count": 2
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 82.5,
+        "critical_count": 24
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 34.75,
+        "critical_count": 9
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 22.5,
+        "critical_count": 7
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "critical"
+      ],
+      [
+        "G1_dietary",
+        "high"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "critical"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 15,
+    "topic_count": 15,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_group",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 75.5,
+    "global_rank": 507
+  },
+  {
+    "business_id": "QvB0NRTGDplwnfPZGq8chw",
+    "name": "The VIP Mexican Restaurant & Lounge",
+    "city": "Treasure Island",
+    "state": "FL",
+    "stars": 4.0,
+    "review_count": 686,
+    "categories": "American (New), Restaurants, Mexican, New Mexican Cuisine, Bars, Nightlife, Lounges",
+    "topic_scores": {
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 14.0,
+        "critical_count": 3
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 5.0,
+        "high_count": 3
+      },
+      "G3_hidden_costs": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 8.0,
+        "critical_count": 2
+      },
+      "G3_price_worth": {
+        "severity": "high",
+        "max_high": 5.0,
+        "total_high": 194.5,
+        "high_count": 125
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 12.75,
+        "total_critical": 167.0,
+        "critical_count": 40
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 110.5,
+        "high_count": 74
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 15.5,
+        "high_count": 7
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 26.25,
+        "critical_count": 8
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 104.0,
+        "high_count": 58
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 200.5,
+        "high_count": 118
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 12.0,
+        "critical_count": 3
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 138.0,
+        "critical_count": 42
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 46.75,
+        "critical_count": 11
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 31.5,
+        "high_count": 19
+      }
+    },
+    "cells": [
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_hidden_costs",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "high"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 15,
+    "topic_count": 15,
+    "topics_covered": [
+      "G1_hygiene",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 71.75,
+    "global_rank": 586
+  },
+  {
+    "business_id": "RQTRnBmDXXNWiM1-1LEqWg",
+    "name": "Charcoal",
+    "city": "Yardley",
+    "state": "PA",
+    "stars": 4.0,
+    "review_count": 323,
+    "categories": "American (New), Steakhouses, Restaurants",
+    "topic_scores": {
+      "G1_hygiene": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 5.0,
+        "high_count": 2
+      },
+      "G2_business": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G2_group": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 36.0,
+        "high_count": 19
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 25.5,
+        "high_count": 14
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 24.0,
+        "critical_count": 6
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 12.25,
+        "critical_count": 3
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 180.5,
+        "high_count": 104
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 35.0,
+        "high_count": 22
+      },
+      "G4_server": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 34.0,
+        "high_count": 20
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 5.0,
+        "total_high": 73.5,
+        "high_count": 45
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 21.0,
+        "critical_count": 6
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 8.25,
+        "critical_count": 2
+      },
+      "G6_comparison": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 29.0,
+        "high_count": 18
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 21.0,
+        "critical_count": 5
+      },
+      "G6_uniqueness": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 71.25,
+        "critical_count": 24
+      }
+    },
+    "cells": [
+      [
+        "G1_hygiene",
+        "high"
+      ],
+      [
+        "G2_business",
+        "critical"
+      ],
+      [
+        "G2_group",
+        "high"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "high"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "high"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "critical"
+      ]
+    ],
+    "cell_count": 15,
+    "topic_count": 15,
+    "topics_covered": [
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 60.0,
+    "global_rank": 962
+  },
+  {
+    "business_id": "IxlIgLbIbynzJdzeqO860Q",
+    "name": "Arario Midtown",
+    "city": "Reno",
+    "state": "NV",
+    "stars": 4.5,
+    "review_count": 588,
+    "categories": "Nightlife, Bars, Korean, Restaurants, Gluten-Free, Tapas/Small Plates, Tapas Bars, Asian Fusion, Cocktail Bars",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 11.5,
+        "high_count": 5
+      },
+      "G1_dietary": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 4.0,
+        "critical_count": 1
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 7.0,
+        "critical_count": 2
+      },
+      "G2_group": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 51.5,
+        "high_count": 33
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 52.5,
+        "high_count": 28
+      },
+      "G3_price_worth": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 64.5,
+        "high_count": 45
+      },
+      "G3_time_value": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 17.5,
+        "high_count": 11
+      },
+      "G4_environment": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 8.5,
+        "critical_count": 2
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 36.0,
+        "high_count": 24
+      },
+      "G4_server": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 90.0,
+        "high_count": 59
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 100.5,
+        "high_count": 67
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 141.0,
+        "high_count": 77
+      },
+      "G6_comparison": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 72.5,
+        "high_count": 50
+      },
+      "G6_loyalty": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 200.5,
+        "high_count": 99
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 88.5,
+        "high_count": 51
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "high"
+      ],
+      [
+        "G1_dietary",
+        "critical"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_group",
+        "high"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "high"
+      ],
+      [
+        "G3_time_value",
+        "high"
+      ],
+      [
+        "G4_environment",
+        "critical"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "high"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "high"
+      ],
+      [
+        "G6_loyalty",
+        "high"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 15,
+    "topic_count": 15,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_group",
+      "G2_romance",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 53.5,
+    "global_rank": 1085
+  },
+  {
+    "business_id": "gebiRewfieSdtt17PTW6Zg",
+    "name": "Hibachi Steak House & Sushi Bar",
+    "city": "Santa Barbara",
+    "state": "CA",
+    "stars": 3.5,
+    "review_count": 488,
+    "categories": "Steakhouses, Sushi Bars, Restaurants, Japanese",
+    "topic_scores": {
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 7.5,
+        "total_critical": 48.0,
+        "critical_count": 8
+      },
+      "G2_business": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 35.5,
+        "critical_count": 10
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 18.0,
+        "high_count": 11
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 56.5,
+        "critical_count": 13
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 41.25,
+        "critical_count": 10
+      },
+      "G4_kitchen": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 81.5,
+        "critical_count": 26
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 26.75,
+        "critical_count": 8
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 66.0,
+        "high_count": 40
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 172.0,
+        "high_count": 92
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 10.5,
+        "critical_count": 3
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 70.5,
+        "critical_count": 20
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 58.0,
+        "critical_count": 14
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 33.0,
+        "high_count": 18
+      }
+    },
+    "cells": [
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "critical"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_kitchen",
+        "critical"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 14,
+    "topic_count": 14,
+    "topics_covered": [
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 61.0,
+    "global_rank": 1526
+  },
+  {
+    "business_id": "Mm9zXIgMQMzgDt4GShSWrw",
+    "name": "Capitol Grille",
+    "city": "Nashville",
+    "state": "TN",
+    "stars": 3.5,
+    "review_count": 217,
+    "categories": "Hotels & Travel, Hotels, Nightlife, Lounges, Mexican, Restaurants, Event Planning & Services, American (New), Bars",
+    "topic_scores": {
+      "G2_business": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 19.5,
+        "high_count": 12
+      },
+      "G3_hidden_costs": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 6.5,
+        "high_count": 3
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 100.5,
+        "critical_count": 26
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 8.25,
+        "total_critical": 37.5,
+        "critical_count": 7
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 119.0,
+        "high_count": 69
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 28.0,
+        "high_count": 18
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 13.5,
+        "critical_count": 4
+      },
+      "G5_capacity": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G5_execution": {
+        "severity": "high",
+        "max_high": 0.0,
+        "total_high": 0.0,
+        "high_count": 0
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 45.0,
+        "critical_count": 14
+      },
+      "G6_loyalty": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 30.0,
+        "high_count": 14
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 19.5,
+        "high_count": 13
+      }
+    },
+    "cells": [
+      [
+        "G2_business",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_hidden_costs",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "critical"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "high"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 14,
+    "topic_count": 14,
+    "topics_covered": [
+      "G2_business",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 51.75,
+    "global_rank": 2031
+  },
+  {
+    "business_id": "mbzBcAAR1Hx4G2jWRxJRew",
+    "name": "Cross Culture Restaurant",
+    "city": "Haddonfield",
+    "state": "NJ",
+    "stars": 4.0,
+    "review_count": 167,
+    "categories": "Indian, Restaurants",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "high",
+        "max_high": 5.5,
+        "total_high": 5.5,
+        "high_count": 1
+      },
+      "G1_dietary": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 13.0,
+        "high_count": 11
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 10.5,
+        "high_count": 6
+      },
+      "G3_price_worth": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 27.0,
+        "high_count": 20
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 84.5,
+        "high_count": 40
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 6.0,
+        "high_count": 4
+      },
+      "G4_server": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 22.5,
+        "high_count": 14
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 22.5,
+        "high_count": 13
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 54.5,
+        "high_count": 29
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 84.0,
+        "critical_count": 26
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 7.5,
+        "critical_count": 2
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 4.5,
+        "high_count": 3
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "high"
+      ],
+      [
+        "G1_dietary",
+        "high"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "high"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "high"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 14,
+    "topic_count": 14,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_dietary",
+      "G2_romance",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 50.5,
+    "global_rank": 2078
+  },
+  {
+    "business_id": "73ZXjIfdHJs59XOzKHQ45g",
+    "name": "The Crossing",
+    "city": "Clayton",
+    "state": "MO",
+    "stars": 4.5,
+    "review_count": 208,
+    "categories": "French, Restaurants, American (New), Italian",
+    "topic_scores": {
+      "G1_hygiene": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 6.0,
+        "high_count": 3
+      },
+      "G2_business": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 56.5,
+        "high_count": 31
+      },
+      "G2_group": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 41.5,
+        "high_count": 22
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 32.5,
+        "high_count": 19
+      },
+      "G3_hidden_costs": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 11.5,
+        "high_count": 5
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 36.0,
+        "critical_count": 9
+      },
+      "G3_time_value": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 14.5,
+        "high_count": 9
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 85.0,
+        "high_count": 47
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 24.0,
+        "high_count": 16
+      },
+      "G4_server": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 31.0,
+        "high_count": 21
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 63.5,
+        "high_count": 36
+      },
+      "G6_comparison": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 27.0,
+        "high_count": 18
+      },
+      "G6_loyalty": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 62.5,
+        "high_count": 30
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 45.0,
+        "high_count": 23
+      }
+    },
+    "cells": [
+      [
+        "G1_hygiene",
+        "high"
+      ],
+      [
+        "G2_business",
+        "high"
+      ],
+      [
+        "G2_group",
+        "high"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_hidden_costs",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "high"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "high"
+      ],
+      [
+        "G6_loyalty",
+        "high"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 14,
+    "topic_count": 14,
+    "topics_covered": [
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_consistency",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 48.5,
+    "global_rank": 2149
+  },
+  {
+    "business_id": "6LyhttbsQn6a6PDxQDojCw",
+    "name": "Tokyo Japanese Steak House",
+    "city": "Smyrna",
+    "state": "TN",
+    "stars": 4.5,
+    "review_count": 206,
+    "categories": "Sushi Bars, Steakhouses, Restaurants, Japanese",
+    "topic_scores": {
+      "G1_dietary": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 4.0,
+        "critical_count": 1
+      },
+      "G1_hygiene": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 6.0,
+        "high_count": 2
+      },
+      "G2_group": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 43.0,
+        "high_count": 26
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 13.5,
+        "critical_count": 4
+      },
+      "G3_time_value": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 14.5,
+        "high_count": 10
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 61.5,
+        "high_count": 36
+      },
+      "G4_kitchen": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 21.0,
+        "critical_count": 6
+      },
+      "G4_server": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 31.0,
+        "high_count": 19
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 16.5,
+        "high_count": 10
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 113.0,
+        "high_count": 66
+      },
+      "G5_execution": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 2.5,
+        "high_count": 2
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 16.5,
+        "critical_count": 5
+      },
+      "G6_loyalty": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 50.5,
+        "high_count": 31
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 7.5,
+        "high_count": 4
+      }
+    },
+    "cells": [
+      [
+        "G1_dietary",
+        "critical"
+      ],
+      [
+        "G1_hygiene",
+        "high"
+      ],
+      [
+        "G2_group",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "high"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "critical"
+      ],
+      [
+        "G4_server",
+        "high"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "high"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 14,
+    "topic_count": 14,
+    "topics_covered": [
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_group",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 46.5,
+    "global_rank": 2182
+  },
+  {
+    "business_id": "sf-KdXHB5nxfNjl2uUpI6Q",
+    "name": "Cafe Blue Moose",
+    "city": "New Hope",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 370,
+    "categories": "American (New), French, Restaurants",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "high",
+        "max_high": 7.0,
+        "total_high": 19.5,
+        "high_count": 6
+      },
+      "G2_group": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 56.5,
+        "high_count": 35
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 31.5,
+        "high_count": 19
+      },
+      "G3_price_worth": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 64.5,
+        "high_count": 37
+      },
+      "G3_time_value": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 16.5,
+        "high_count": 10
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 217.0,
+        "high_count": 123
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 45.0,
+        "high_count": 29
+      },
+      "G4_server": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 24.0,
+        "high_count": 16
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 132.5,
+        "high_count": 94
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 107.0,
+        "high_count": 59
+      },
+      "G5_execution": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 6.5,
+        "high_count": 4
+      },
+      "G6_comparison": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 42.0,
+        "high_count": 30
+      },
+      "G6_loyalty": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 121.0,
+        "high_count": 65
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 63.0,
+        "high_count": 34
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "high"
+      ],
+      [
+        "G2_group",
+        "high"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "high"
+      ],
+      [
+        "G3_time_value",
+        "high"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "high"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "high"
+      ],
+      [
+        "G6_loyalty",
+        "high"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 14,
+    "topic_count": 14,
+    "topics_covered": [
+      "G1_allergy",
+      "G2_group",
+      "G2_romance",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 44.5,
+    "global_rank": 2211
+  },
+  {
+    "business_id": "ROcx9FXq206zfI77MGo1Yw",
+    "name": "Nook A Paleo Influenced Diner",
+    "city": "Indianapolis",
+    "state": "IN",
+    "stars": 4.5,
+    "review_count": 163,
+    "categories": "Restaurants, Pizza, Specialty Food, Food, Bars, Tapas/Small Plates, Nightlife, American (New), Cocktail Bars",
+    "topic_scores": {
+      "G1_dietary": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 12.0,
+        "critical_count": 3
+      },
+      "G2_group": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 10.0,
+        "high_count": 6
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 13.0,
+        "high_count": 7
+      },
+      "G3_hidden_costs": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 5.0,
+        "high_count": 3
+      },
+      "G3_price_worth": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 25.5,
+        "high_count": 20
+      },
+      "G3_time_value": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 5.5,
+        "high_count": 4
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 81.0,
+        "high_count": 40
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 19.0,
+        "high_count": 12
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 5.0,
+        "total_critical": 10.0,
+        "critical_count": 3
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 9.0,
+        "high_count": 4
+      },
+      "G5_execution": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 1.5,
+        "high_count": 1
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 43.5,
+        "critical_count": 14
+      },
+      "G6_loyalty": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 76.0,
+        "high_count": 37
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 25.5,
+        "high_count": 14
+      }
+    },
+    "cells": [
+      [
+        "G1_dietary",
+        "critical"
+      ],
+      [
+        "G2_group",
+        "high"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_hidden_costs",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "high"
+      ],
+      [
+        "G3_time_value",
+        "high"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "high"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 14,
+    "topic_count": 14,
+    "topics_covered": [
+      "G1_dietary",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 44.5,
+    "global_rank": 2214
+  },
+  {
+    "business_id": "1vPSY4EA-fTRIZYz1Ruzow",
+    "name": "K'Far Cafe",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 356,
+    "categories": "Bakeries, American (Traditional), Mediterranean, Food, Restaurants, Cafes",
+    "topic_scores": {
+      "G1_hygiene": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 2.0,
+        "high_count": 1
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 9.0,
+        "high_count": 5
+      },
+      "G3_hidden_costs": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 12.5,
+        "high_count": 6
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 17.5,
+        "critical_count": 5
+      },
+      "G3_time_value": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 34.0,
+        "high_count": 23
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 132.5,
+        "high_count": 73
+      },
+      "G4_kitchen": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G4_server": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 13.5,
+        "high_count": 9
+      },
+      "G5_capacity": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 4.0,
+        "critical_count": 1
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 57.5,
+        "high_count": 33
+      },
+      "G5_execution": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 1.5,
+        "high_count": 1
+      },
+      "G6_comparison": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 21.0,
+        "high_count": 15
+      },
+      "G6_loyalty": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 124.0,
+        "high_count": 60
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 46.5,
+        "high_count": 28
+      }
+    },
+    "cells": [
+      [
+        "G1_hygiene",
+        "high"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_hidden_costs",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "high"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "critical"
+      ],
+      [
+        "G4_server",
+        "high"
+      ],
+      [
+        "G5_capacity",
+        "critical"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "high"
+      ],
+      [
+        "G6_loyalty",
+        "high"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 14,
+    "topic_count": 14,
+    "topics_covered": [
+      "G1_hygiene",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 42.5,
+    "global_rank": 2220
+  },
+  {
+    "business_id": "-T1sYi2cqB2oW4GeUXmIBQ",
+    "name": "Don Pablo's",
+    "city": "Moorestown",
+    "state": "NJ",
+    "stars": 3.0,
+    "review_count": 129,
+    "categories": "American (Traditional), Bars, Restaurants, Tex-Mex, Mexican, Nightlife",
+    "topic_scores": {
+      "G1_hygiene": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 22.0,
+        "high_count": 10
+      },
+      "G2_business": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G2_group": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 15.0,
+        "high_count": 8
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 7.5,
+        "critical_count": 2
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 12.0,
+        "critical_count": 3
+      },
+      "G4_kitchen": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 18.0,
+        "critical_count": 5
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 12.5,
+        "high_count": 8
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 43.5,
+        "high_count": 26
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 28.5,
+        "critical_count": 9
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 18.0,
+        "critical_count": 3
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 10.5,
+        "high_count": 4
+      }
+    },
+    "cells": [
+      [
+        "G1_hygiene",
+        "high"
+      ],
+      [
+        "G2_business",
+        "critical"
+      ],
+      [
+        "G2_group",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_kitchen",
+        "critical"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 13,
+    "topic_count": 13,
+    "topics_covered": [
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 55.0,
+    "global_rank": 2763
+  },
+  {
+    "business_id": "IhN-DlnytNvnzCoTIwwfgQ",
+    "name": "Chop Steakhouse & Bar",
+    "city": "Edmonton",
+    "state": "AB",
+    "stars": 4.0,
+    "review_count": 70,
+    "categories": "Food, Steakhouses, Lounges, Seafood, Bars, Restaurants, Nightlife",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "critical",
+        "max_critical": 5.0,
+        "total_critical": 5.0,
+        "critical_count": 1
+      },
+      "G2_business": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G2_group": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 26.5,
+        "high_count": 15
+      },
+      "G3_time_value": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 2.0,
+        "high_count": 1
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 39.0,
+        "high_count": 20
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 10.5,
+        "high_count": 6
+      },
+      "G4_server": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 7.5,
+        "high_count": 5
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 16.5,
+        "high_count": 8
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 25.0,
+        "high_count": 12
+      },
+      "G5_execution": {
+        "severity": "high",
+        "max_high": 1.0,
+        "total_high": 1.0,
+        "high_count": 1
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 22.5,
+        "critical_count": 7
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 6.0,
+        "high_count": 3
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "critical"
+      ],
+      [
+        "G2_group",
+        "high"
+      ],
+      [
+        "G3_time_value",
+        "high"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "high"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 13,
+    "topic_count": 13,
+    "topics_covered": [
+      "G1_allergy",
+      "G2_business",
+      "G2_group",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 42.0,
+    "global_rank": 3527
+  },
+  {
+    "business_id": "crjRqGzxe6-MM4ylqlSfmw",
+    "name": "Mayfield Dinner Theatre",
+    "city": "Edmonton",
+    "state": "AB",
+    "stars": 4.5,
+    "review_count": 75,
+    "categories": "Restaurants, Canadian (New), Cabaret, Performing Arts, Arts & Entertainment, Dinner Theater, Buffets",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 5.0,
+        "high_count": 2
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 29.0,
+        "high_count": 14
+      },
+      "G3_hidden_costs": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 3.0,
+        "high_count": 1
+      },
+      "G3_price_worth": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 28.0,
+        "high_count": 17
+      },
+      "G3_time_value": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 1.5,
+        "high_count": 1
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 15.0,
+        "high_count": 10
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 2.5,
+        "high_count": 2
+      },
+      "G4_server": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 1.5,
+        "high_count": 1
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 10.5,
+        "high_count": 6
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 62.5,
+        "high_count": 33
+      },
+      "G6_comparison": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 2.5,
+        "high_count": 2
+      },
+      "G6_loyalty": {
+        "severity": "high",
+        "max_high": 5.5,
+        "total_high": 52.5,
+        "high_count": 23
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 15.0,
+        "high_count": 7
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "high"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_hidden_costs",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "high"
+      ],
+      [
+        "G3_time_value",
+        "high"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "high"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "high"
+      ],
+      [
+        "G6_loyalty",
+        "high"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 13,
+    "topic_count": 13,
+    "topics_covered": [
+      "G1_allergy",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 39.0,
+    "global_rank": 3587
+  },
+  {
+    "business_id": "eZ-t73r7ETHjyclRB7SnwQ",
+    "name": "Bliss",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 3.5,
+    "review_count": 121,
+    "categories": "American (New), Restaurants",
+    "topic_scores": {
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 6.0,
+        "critical_count": 1
+      },
+      "G2_business": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G2_group": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 16.0,
+        "high_count": 9
+      },
+      "G2_romance": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 7.5,
+        "critical_count": 2
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 30.0,
+        "critical_count": 6
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 62.0,
+        "high_count": 33
+      },
+      "G4_kitchen": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 21.0,
+        "high_count": 14
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 5.0,
+        "total_critical": 18.5,
+        "critical_count": 5
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 27.0,
+        "high_count": 15
+      },
+      "G6_comparison": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 7.5,
+        "high_count": 5
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 6.0,
+        "high_count": 4
+      }
+    },
+    "cells": [
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "critical"
+      ],
+      [
+        "G2_group",
+        "high"
+      ],
+      [
+        "G2_romance",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_kitchen",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "high"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 12,
+    "topic_count": 12,
+    "topics_covered": [
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G2_romance",
+      "G3_price_worth",
+      "G4_environment",
+      "G4_kitchen",
+      "G4_server",
+      "G5_consistency",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 49.0,
+    "global_rank": 4216
+  },
+  {
+    "business_id": "MfkMUNwur9huBERrx0k5lg",
+    "name": "Zemam's",
+    "city": "Tucson",
+    "state": "AZ",
+    "stars": 4.5,
+    "review_count": 336,
+    "categories": "Restaurants, Ethiopian",
+    "topic_scores": {
+      "G1_dietary": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 4.0,
+        "critical_count": 1
+      },
+      "G1_hygiene": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 8.0,
+        "high_count": 4
+      },
+      "G2_group": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 32.0,
+        "high_count": 24
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 16.0,
+        "critical_count": 5
+      },
+      "G3_time_value": {
+        "severity": "critical",
+        "max_critical": 5.5,
+        "total_critical": 11.0,
+        "critical_count": 3
+      },
+      "G4_environment": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G4_server": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 24.0,
+        "high_count": 14
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 29.0,
+        "high_count": 18
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 108.0,
+        "high_count": 61
+      },
+      "G6_comparison": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 48.5,
+        "high_count": 35
+      },
+      "G6_loyalty": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 103.5,
+        "high_count": 56
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 55.0,
+        "high_count": 33
+      }
+    },
+    "cells": [
+      [
+        "G1_dietary",
+        "critical"
+      ],
+      [
+        "G1_hygiene",
+        "high"
+      ],
+      [
+        "G2_group",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "critical"
+      ],
+      [
+        "G4_environment",
+        "critical"
+      ],
+      [
+        "G4_server",
+        "high"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "high"
+      ],
+      [
+        "G6_loyalty",
+        "high"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 12,
+    "topic_count": 12,
+    "topics_covered": [
+      "G1_dietary",
+      "G1_hygiene",
+      "G2_group",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 43.5,
+    "global_rank": 4723
+  },
+  {
+    "business_id": "_1JmbxhyiTXO_CDytQTkgA",
+    "name": "Ike's Sandwiches",
+    "city": "Reno",
+    "state": "NV",
+    "stars": 4.0,
+    "review_count": 194,
+    "categories": "Restaurants, Vegetarian, Sandwiches, Gluten-Free, Vegan",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "critical",
+        "max_critical": 5.0,
+        "total_critical": 5.0,
+        "critical_count": 1
+      },
+      "G1_dietary": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 4.0,
+        "critical_count": 1
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 6.0,
+        "critical_count": 1
+      },
+      "G3_hidden_costs": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 6.0,
+        "critical_count": 1
+      },
+      "G3_price_worth": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 10.5,
+        "critical_count": 3
+      },
+      "G3_time_value": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 4.0,
+        "high_count": 3
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 25.5,
+        "high_count": 13
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 49.5,
+        "high_count": 30
+      },
+      "G5_execution": {
+        "severity": "high",
+        "max_high": 0.0,
+        "total_high": 0.0,
+        "high_count": 0
+      },
+      "G6_comparison": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 21.0,
+        "high_count": 13
+      },
+      "G6_loyalty": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 39.0,
+        "high_count": 22
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 43.5,
+        "high_count": 26
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "critical"
+      ],
+      [
+        "G1_dietary",
+        "critical"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G3_hidden_costs",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "critical"
+      ],
+      [
+        "G3_time_value",
+        "high"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "high"
+      ],
+      [
+        "G6_loyalty",
+        "high"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 12,
+    "topic_count": 12,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_dietary",
+      "G1_hygiene",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 43.0,
+    "global_rank": 4760
+  },
+  {
+    "business_id": "Fc_8eLlcq5yy4DzrEeqEaQ",
+    "name": "Ken's Seafood Restaurant",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 3.0,
+    "review_count": 95,
+    "categories": "Seafood, Chinese, Nightlife, Restaurants, Karaoke",
+    "topic_scores": {
+      "G1_hygiene": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 17.5,
+        "high_count": 8
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 22.5,
+        "critical_count": 6
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 1.5,
+        "high_count": 1
+      },
+      "G3_hidden_costs": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 3.5,
+        "high_count": 1
+      },
+      "G3_price_worth": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 18.0,
+        "high_count": 10
+      },
+      "G3_time_value": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 4.5,
+        "high_count": 3
+      },
+      "G4_server": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 1.5,
+        "high_count": 1
+      },
+      "G5_capacity": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 13.5,
+        "critical_count": 3
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 24.5,
+        "high_count": 14
+      },
+      "G6_comparison": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 5.5,
+        "high_count": 3
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 9.0,
+        "critical_count": 2
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 7.5,
+        "high_count": 4
+      }
+    },
+    "cells": [
+      [
+        "G1_hygiene",
+        "high"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_hidden_costs",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "high"
+      ],
+      [
+        "G3_time_value",
+        "high"
+      ],
+      [
+        "G4_server",
+        "high"
+      ],
+      [
+        "G5_capacity",
+        "critical"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "high"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 12,
+    "topic_count": 12,
+    "topics_covered": [
+      "G1_hygiene",
+      "G2_group",
+      "G2_romance",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 37.0,
+    "global_rank": 5136
+  },
+  {
+    "business_id": "gjCxTVItFxk46rCZ-YaiFA",
+    "name": "South Coast Deli- Chapala",
+    "city": "Santa Barbara",
+    "state": "CA",
+    "stars": 4.5,
+    "review_count": 340,
+    "categories": "Sandwiches, Restaurants, Delis, Breakfast & Brunch",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 4.0,
+        "high_count": 1
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 4.0,
+        "total_critical": 8.0,
+        "critical_count": 2
+      },
+      "G2_group": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 5.0,
+        "high_count": 3
+      },
+      "G3_price_worth": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 41.5,
+        "high_count": 28
+      },
+      "G3_time_value": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 18.5,
+        "high_count": 12
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 32.5,
+        "high_count": 22
+      },
+      "G4_server": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 33.0,
+        "high_count": 21
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 143.5,
+        "high_count": 90
+      },
+      "G5_execution": {
+        "severity": "high",
+        "max_high": 0.0,
+        "total_high": 0.0,
+        "high_count": 0
+      },
+      "G6_comparison": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 31.0,
+        "high_count": 21
+      },
+      "G6_loyalty": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 59.5,
+        "high_count": 32
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 18.0,
+        "high_count": 9
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "high"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_group",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "high"
+      ],
+      [
+        "G3_time_value",
+        "high"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_server",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "high"
+      ],
+      [
+        "G6_loyalty",
+        "high"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 12,
+    "topic_count": 12,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_hygiene",
+      "G2_group",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_server",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 33.5,
+    "global_rank": 5196
+  },
+  {
+    "business_id": "zwBvdDWFQpYJE1UMDTlSyw",
+    "name": "Farmacy Vegan Kitchen & Bakery",
+    "city": "Tampa",
+    "state": "FL",
+    "stars": 4.5,
+    "review_count": 277,
+    "categories": "Vegan, Juice Bars & Smoothies, Food, Cafes, Bakeries, Restaurants, Breakfast & Brunch, Acai Bowls",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "critical",
+        "max_critical": 5.0,
+        "total_critical": 5.0,
+        "critical_count": 1
+      },
+      "G1_dietary": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 22.0,
+        "critical_count": 5
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 5.0,
+        "total_critical": 5.0,
+        "critical_count": 1
+      },
+      "G3_price_worth": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 53.0,
+        "high_count": 39
+      },
+      "G3_time_value": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 1.5,
+        "high_count": 1
+      },
+      "G4_server": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 19.5,
+        "high_count": 12
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 37.0,
+        "high_count": 22
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 7.0,
+        "critical_count": 2
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 76.5,
+        "critical_count": 25
+      },
+      "G6_loyalty": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 91.0,
+        "high_count": 50
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 12.0,
+        "high_count": 8
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "critical"
+      ],
+      [
+        "G1_dietary",
+        "critical"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "high"
+      ],
+      [
+        "G3_time_value",
+        "high"
+      ],
+      [
+        "G4_server",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "high"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 11,
+    "topic_count": 11,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_dietary",
+      "G1_hygiene",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_server",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 40.5,
+    "global_rank": 6355
+  },
+  {
+    "business_id": "Ipt9ga67vVC_2ob3YmVwNA",
+    "name": "Lincoln Square Pancake House",
+    "city": "Indianapolis",
+    "state": "IN",
+    "stars": 4.0,
+    "review_count": 118,
+    "categories": "Breakfast & Brunch, Greek, American (Traditional), Restaurants",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "critical",
+        "max_critical": 5.0,
+        "total_critical": 5.0,
+        "critical_count": 1
+      },
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 10.0,
+        "critical_count": 2
+      },
+      "G3_price_worth": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 16.0,
+        "high_count": 13
+      },
+      "G3_time_value": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 5.0,
+        "high_count": 4
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 21.0,
+        "high_count": 12
+      },
+      "G4_server": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G5_capacity": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 13.5,
+        "high_count": 8
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 73.5,
+        "high_count": 44
+      },
+      "G6_comparison": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 6.5,
+        "high_count": 5
+      },
+      "G6_loyalty": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 46.5,
+        "high_count": 23
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 10.5,
+        "high_count": 5
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "critical"
+      ],
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "high"
+      ],
+      [
+        "G3_time_value",
+        "high"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_server",
+        "critical"
+      ],
+      [
+        "G5_capacity",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "high"
+      ],
+      [
+        "G6_loyalty",
+        "high"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 11,
+    "topic_count": 11,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_hygiene",
+      "G3_price_worth",
+      "G3_time_value",
+      "G4_environment",
+      "G4_server",
+      "G5_capacity",
+      "G5_consistency",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 38.5,
+    "global_rank": 6567
+  },
+  {
+    "business_id": "9z2z_y0JK1F2CC5MAPuzrg",
+    "name": "Aneu Bistro and Wine Bar",
+    "city": "Berwyn",
+    "state": "PA",
+    "stars": 3.0,
+    "review_count": 40,
+    "categories": "Restaurants, Food, Farmers Market, Event Planning & Services, Nightlife, Wine Bars, Bars, American (New), Caterers",
+    "topic_scores": {
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 6.0,
+        "critical_count": 1
+      },
+      "G2_business": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G2_group": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G3_hidden_costs": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 2.0,
+        "high_count": 1
+      },
+      "G3_price_worth": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 18.5,
+        "high_count": 10
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 42.5,
+        "high_count": 21
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 11.0,
+        "high_count": 4
+      },
+      "G5_execution": {
+        "severity": "high",
+        "max_high": 1.0,
+        "total_high": 1.0,
+        "high_count": 1
+      },
+      "G6_comparison": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 1.5,
+        "high_count": 1
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 7.5,
+        "high_count": 3
+      }
+    },
+    "cells": [
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "critical"
+      ],
+      [
+        "G2_group",
+        "critical"
+      ],
+      [
+        "G3_hidden_costs",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "high"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "high"
+      ],
+      [
+        "G6_comparison",
+        "high"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 11,
+    "topic_count": 11,
+    "topics_covered": [
+      "G1_hygiene",
+      "G2_business",
+      "G2_group",
+      "G3_hidden_costs",
+      "G3_price_worth",
+      "G4_environment",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 38.0,
+    "global_rank": 6639
+  },
+  {
+    "business_id": "6OC8ErU_m06KABnfSXTJEA",
+    "name": "Street Side",
+    "city": "Philadelphia",
+    "state": "PA",
+    "stars": 4.5,
+    "review_count": 137,
+    "categories": "Restaurants, Vietnamese",
+    "topic_scores": {
+      "G1_allergy": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 3.5,
+        "high_count": 1
+      },
+      "G1_hygiene": {
+        "severity": "high",
+        "max_high": 0.0,
+        "total_high": 0.0,
+        "high_count": 0
+      },
+      "G2_romance": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 2.0,
+        "high_count": 1
+      },
+      "G3_price_worth": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 32.5,
+        "high_count": 25
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 40.0,
+        "high_count": 24
+      },
+      "G4_server": {
+        "severity": "high",
+        "max_high": 1.5,
+        "total_high": 6.0,
+        "high_count": 4
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 24.0,
+        "high_count": 13
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G6_comparison": {
+        "severity": "high",
+        "max_high": 2.5,
+        "total_high": 19.5,
+        "high_count": 12
+      },
+      "G6_loyalty": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 26.5,
+        "high_count": 17
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 6.0,
+        "high_count": 3
+      }
+    },
+    "cells": [
+      [
+        "G1_allergy",
+        "high"
+      ],
+      [
+        "G1_hygiene",
+        "high"
+      ],
+      [
+        "G2_romance",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "high"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G4_server",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "high"
+      ],
+      [
+        "G6_loyalty",
+        "high"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 11,
+    "topic_count": 11,
+    "topics_covered": [
+      "G1_allergy",
+      "G1_hygiene",
+      "G2_romance",
+      "G3_price_worth",
+      "G4_environment",
+      "G4_server",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 30.0,
+    "global_rank": 7118
+  },
+  {
+    "business_id": "qqtGFnjyZWV--_YqabSb8A",
+    "name": "Los Aztecas",
+    "city": "Pottstown",
+    "state": "PA",
+    "stars": 3.5,
+    "review_count": 142,
+    "categories": "Mexican, Restaurants",
+    "topic_scores": {
+      "G1_hygiene": {
+        "severity": "critical",
+        "max_critical": 7.5,
+        "total_critical": 13.5,
+        "critical_count": 2
+      },
+      "G2_business": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G3_price_worth": {
+        "severity": "high",
+        "max_high": 4.0,
+        "total_high": 19.0,
+        "high_count": 11
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 4.5,
+        "total_high": 50.5,
+        "high_count": 25
+      },
+      "G5_consistency": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 6.0,
+        "total_critical": 42.0,
+        "critical_count": 11
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 9.0,
+        "total_critical": 30.0,
+        "critical_count": 6
+      },
+      "G6_uniqueness": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 4.5,
+        "high_count": 2
+      }
+    },
+    "cells": [
+      [
+        "G1_hygiene",
+        "critical"
+      ],
+      [
+        "G2_business",
+        "critical"
+      ],
+      [
+        "G3_price_worth",
+        "high"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "critical"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ],
+      [
+        "G6_uniqueness",
+        "high"
+      ]
+    ],
+    "cell_count": 9,
+    "topic_count": 9,
+    "topics_covered": [
+      "G1_hygiene",
+      "G2_business",
+      "G3_price_worth",
+      "G4_environment",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty",
+      "G6_uniqueness"
+    ],
+    "total_value_score": 47.5,
+    "global_rank": 9377
+  },
+  {
+    "business_id": "D16LyrKmQ0Cs8NQQkFZD6A",
+    "name": "Fountain Grill - Safety Harbor Resort and Spa",
+    "city": "Safety Harbor",
+    "state": "FL",
+    "stars": 3.0,
+    "review_count": 32,
+    "categories": "Mediterranean, Restaurants",
+    "topic_scores": {
+      "G1_dietary": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 3.5,
+        "high_count": 1
+      },
+      "G1_hygiene": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 5.5,
+        "high_count": 2
+      },
+      "G3_price_worth": {
+        "severity": "high",
+        "max_high": 2.0,
+        "total_high": 4.5,
+        "high_count": 3
+      },
+      "G4_environment": {
+        "severity": "high",
+        "max_high": 3.5,
+        "total_high": 15.0,
+        "high_count": 9
+      },
+      "G5_consistency": {
+        "severity": "high",
+        "max_high": 3.0,
+        "total_high": 10.5,
+        "high_count": 5
+      },
+      "G5_execution": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      },
+      "G6_comparison": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 7.5,
+        "critical_count": 2
+      },
+      "G6_loyalty": {
+        "severity": "critical",
+        "max_critical": 4.5,
+        "total_critical": 4.5,
+        "critical_count": 1
+      }
+    },
+    "cells": [
+      [
+        "G1_dietary",
+        "high"
+      ],
+      [
+        "G1_hygiene",
+        "high"
+      ],
+      [
+        "G3_price_worth",
+        "high"
+      ],
+      [
+        "G4_environment",
+        "high"
+      ],
+      [
+        "G5_consistency",
+        "high"
+      ],
+      [
+        "G5_execution",
+        "critical"
+      ],
+      [
+        "G6_comparison",
+        "critical"
+      ],
+      [
+        "G6_loyalty",
+        "critical"
+      ]
+    ],
+    "cell_count": 8,
+    "topic_count": 8,
+    "topics_covered": [
+      "G1_dietary",
+      "G1_hygiene",
+      "G3_price_worth",
+      "G4_environment",
+      "G5_consistency",
+      "G5_execution",
+      "G6_comparison",
+      "G6_loyalty"
+    ],
+    "total_value_score": 29.0,
+    "global_rank": 13381
+  }
+]

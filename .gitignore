@@ -212,3 +212,6 @@ data/raw/**
 
 # Keyword hits and topic analysis (large)
 data/hits/
+
+# Large selection files
+data/selection/yelp/topic_all.json

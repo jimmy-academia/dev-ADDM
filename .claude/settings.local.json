@@ -10,11 +10,15 @@
       "Bash(wc:*)",
       "Bash(python3:*)",
       "Skill(doc)",
+      "Skill(bye)",
       "WebSearch",
       "Bash(while ps aux)",
       "Bash(do sleep 30)",
       "Bash(done)",
-      "Bash(git merge-base:*)"
+      "Bash(git merge-base:*)",
+      "Bash(ps aux:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)"
     ]
   }
 }

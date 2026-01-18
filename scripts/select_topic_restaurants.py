@@ -2,21 +2,23 @@
 """CLI for topic-aware restaurant selection.
 
 This script selects restaurants for the ADDM benchmark based on their
-coverage across topics identified by build_topic_selection.py.
+coverage across topic cells (topic × severity) identified by build_topic_selection.py.
+
+Uses layered greedy selection:
+- 18 topics × 2 severities = 36 cells
+- Fills level n (all cells have ≥n restaurants) before level n+1
+- Multi-topic restaurants naturally prioritized
 
 Outputs:
-  - topic_ranked_all.json: Full ranked list of all ~1,200 restaurants
-  - topic_N.json: Balanced selection of N restaurants (default 100)
+  - topic_all.json: All restaurants ranked by cell count
+  - topic_N.json: Selected N restaurants with balanced cell coverage
 
 Examples:
-    # Default selection (100 restaurants, balanced)
+    # Default selection (100 restaurants)
     python scripts/select_topic_restaurants.py --data yelp
 
-    # Select 150 restaurants
-    python scripts/select_topic_restaurants.py --data yelp --target 150
-
-    # Unbalanced selection (just top N by score)
-    python scripts/select_topic_restaurants.py --data yelp --no-balance
+    # Select 50 restaurants
+    python scripts/select_topic_restaurants.py --data yelp --target 50
 """
 
 import argparse
@@ -27,7 +29,7 @@ from addm.data.pipelines.topic_selection import TopicSelectionConfig, run_select
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Select restaurants based on topic coverage",
+        description="Select restaurants based on topic cell coverage",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
@@ -55,17 +57,6 @@ def main():
         help="Number of restaurants to select (default: 100)",
     )
     parser.add_argument(
-        "--no-balance",
-        action="store_true",
-        help="Skip quadrant balancing, just take top N by score",
-    )
-    parser.add_argument(
-        "--seed",
-        type=int,
-        default=42,
-        help="Random seed for reproducibility (default: 42)",
-    )
-    parser.add_argument(
         "--quiet",
         action="store_true",
         help="Suppress progress output",
@@ -81,8 +72,6 @@ def main():
         keyword_hits_dir=hits_dir,
         output_dir=output_dir,
         target_count=args.target,
-        balanced=not args.no_balance,
-        seed=args.seed,
     )
 
     ranked_path, selected_path = run_selection(config, verbose=not args.quiet)

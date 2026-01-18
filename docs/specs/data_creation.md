@@ -36,15 +36,23 @@ Output: `data/hits/{dataset}/G{1-6}_{topic}.json`
 
 ### Step 2: Restaurant Selection (`scripts/select_topic_restaurants.py`)
 
-Select a balanced set of restaurants with good coverage across topics.
+Select restaurants using layered greedy selection to ensure balanced cell coverage:
+- Cells = (topic, severity) where severity is "critical" or "high"
+- 18 topics × 2 severities = 36 cells
+- Algorithm fills level n (all cells have ≥n restaurants) before level n+1
+- Multi-topic restaurants naturally prioritized (fill more cells per pick)
 
 ```bash
+# Default: 100 restaurants
 .venv/bin/python scripts/select_topic_restaurants.py --data yelp
+
+# Select 50 restaurants
+.venv/bin/python scripts/select_topic_restaurants.py --data yelp --target 50
 ```
 
 Output:
 - `data/selection/{dataset}/topic_100.json` - Selected restaurants
-- `data/selection/{dataset}/topic_ranked_all.json` - Full ranking
+- `data/selection/{dataset}/topic_all.json` - Full ranking by cell count
 
 ### Step 3: Build Datasets (`scripts/build_dataset.py`)
 
@@ -77,7 +85,7 @@ data/
 │   └── G{1-6}_{topic}.json
 ├── selection/{dataset}/    # Restaurant selections
 │   ├── topic_100.json
-│   └── topic_ranked_all.json
+│   └── topic_all.json
 ├── context/{dataset}/      # Built datasets
 │   └── dataset_K{25,50,100,200}.jsonl
 └── query/{dataset}/        # Task prompts
@@ -147,9 +155,9 @@ For non-Yelp datasets, use path overrides:
 |------|-------------|
 | `--data` | Dataset name (required) |
 | `--target` | Number to select (default: 100) |
-| `--no-balance` | Skip quadrant balancing |
 | `--hits-dir` | Override input directory |
 | `--output-dir` | Override output directory |
+| `--quiet` | Suppress progress output |
 
 ### build_dataset.py
 
