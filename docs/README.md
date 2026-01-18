@@ -57,6 +57,7 @@ Task prompts: `data/query/yelp/G{1-6}{a-l}_prompt.txt` or `G{n}_{topic}_V{0-3}_p
 
 - [Baselines (BASELINES.md)](BASELINES.md) - Implemented baseline methods with citations
 - [Context Selection (specs/selection.md)](specs/selection.md) - Core context selection strategy
+- [LLM Modes (specs/llm_modes.md)](specs/llm_modes.md) - Ondemand vs 24hrbatch execution
 
 ## Output & Evaluation
 

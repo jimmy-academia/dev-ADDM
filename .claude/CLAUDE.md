@@ -157,6 +157,12 @@ total_usage = self._accumulate_usage([usage1, usage2, ...])
 
 # Dev mode (results/dev/{timestamp}_{id}/)
 .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --dev
+
+# RLM method (code-execution baseline)
+.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 1 --method rlm
+
+# Batch mode (24hr async execution)
+.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 100 --mode 24hrbatch
 ```
 
 **Other commands:**
@@ -213,9 +219,10 @@ Available methods for `--method` flag in `run_baseline.py`:
 - **Manual review**: See `scripts/manual_review.txt`
 - **Ground truth**: Pending
 - **Query construction**: In progress
-  - ✅ Allergy V0-V3 prompts complete
+  - ✅ ALL 72 policy definitions complete (G1-G6, all topics, V0-V3)
   - ✅ Experiment code updated (`--policy`, `--dev` flags)
-  - ⏳ Other topics pending (dietary, hygiene, G2-G6)
+  - ⏳ Prompt generation: Only G1_allergy_V0-V3 generated, others pending
+- **Baselines**: See `docs/BASELINES.md` for full details
 - **RLM Method**: ⚠️ Implemented but unreliable with gpt-5-nano
   - ✅ `src/addm/methods/rlm.py` created
   - ✅ `--method` and `--token-limit` CLI flags added
