@@ -1,19 +1,31 @@
 # G5_capacity_V1: Capacity Management with Override Triggers
+# V1 = Override: Adds single-instance triggers for exceptional/poor capacity
 
 policy_id: "G5_capacity_V1"
 extends: "G5_capacity_V0"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Capacity Management Assessment"
+
   purpose: |
     Help assess how well this restaurant handles customer volume using reviews as evidence.
     This is from the perspective of a business owner diagnosing staffing and capacity issues.
     Assign a label: Needs Improvement, Satisfactory, or Excellent.
-  incident_definition: |
-    Consider reviews that mention staffing levels, crowding, and service during busy periods.
 
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - staffing levels relative to busyness
+    - how crowded the restaurant was
+    - whether service suffered when busy
+    - peak time handling (weekends, holidays)
+
+    Reviews that only discuss food quality without mentioning capacity carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "capacity:STAFFING_LEVEL"
@@ -21,6 +33,8 @@ normative:
     - ref: "capacity:SERVICE_DEGRADATION"
     - ref: "capacity:VOLUME_HANDLING"
 
+  # Decision policy -> generates Verdict Rules section
+  # V1 adds single-instance OVERRIDES
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
     ordered: true
@@ -49,23 +63,33 @@ normative:
         especially_when:
           - "Adequate handling most of the time"
           - "Occasional peak-time struggles"
+          - "Generally manages volume acceptably"
 
+  # Output format
   output:
     verdict:
       type: enum
       values: ["Needs Improvement", "Satisfactory", "Excellent"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
       values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
+      description: "Any other relevant observations or caveats"

@@ -104,6 +104,7 @@ normative:
         default: true
         especially_when:
           - "Total performance score is between -4 and 7"
+          - "Mixed positive and negative indicators"
 
   # Output format
   output:

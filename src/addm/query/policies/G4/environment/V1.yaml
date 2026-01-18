@@ -1,10 +1,11 @@
 # G4_environment_V1: Environment with Override Triggers
-# V1 = Override: Adds single-instance triggers
+# V1 = Override: Adds single-instance triggers for exceptional/poor environment
 
 policy_id: "G4_environment_V1"
 extends: "G4_environment_V0"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Environment Quality Assessment"
 
@@ -21,7 +22,11 @@ overview:
     - temperature comfort (AC, heating)
     - ambiance and decor fit with concept
 
+    Reviews that only discuss food or service without mentioning environment carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "environment:CLEANLINESS"
@@ -30,6 +35,8 @@ normative:
     - ref: "environment:TEMPERATURE"
     - ref: "environment:AMBIANCE_FIT"
 
+  # Decision policy -> generates Verdict Rules section
+  # V1 adds single-instance OVERRIDES
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
     ordered: true
@@ -60,6 +67,7 @@ normative:
           - "Minor issues but overall acceptable"
           - "Gets the job done without standing out"
 
+  # Output format
   output:
     verdict:
       type: enum

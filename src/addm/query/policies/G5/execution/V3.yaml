@@ -1,17 +1,33 @@
-# G5_execution_V3: Execution with Recency
+# G5_execution_V3: Execution with Recency & Context
+# V3 = Recency: Adds recency modifiers for process improvements
 
 policy_id: "G5_execution_V3"
 extends: "G5_execution_V2"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Execution Quality Assessment"
-  purpose: |
-    Help assess execution quality with recency weighting.
-  incident_definition: |
-    Consider reviews mentioning order accuracy, modifications, promises, and resolution.
 
+  purpose: |
+    Help assess how well this restaurant executes orders and keeps promises using reviews as evidence.
+    This is from the perspective of a business owner diagnosing operational issues.
+    Assign a label: Needs Improvement, Satisfactory, or Excellent.
+
+    This assessment uses a point-based scoring system with recency weighting.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - order accuracy (correct items, modifications)
+    - promises made and kept
+    - how issues were resolved
+    - menu accuracy and descriptions
+
+    Reviews that only discuss ambiance without mentioning order execution carry less weight.
+
+# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "execution:ORDER_ACCURACY"
@@ -19,9 +35,13 @@ normative:
     - ref: "execution:PROMISE_KEPT"
     - ref: "execution:ISSUE_RESOLUTION"
 
+  # Scoring system -> generates Scoring System section
   scoring:
     description: |
-      Calculate an execution score with recency weighting.
+      Calculate an execution score by summing points from relevant reviews,
+      with recency weighting. Execution processes can improve or degrade,
+      so recent reviews are weighted more heavily.
+
     severity_points:
       - label: "Perfect execution"
         points: 10
@@ -35,6 +55,7 @@ normative:
         points: -5
       - label: "Complete failure"
         points: -10
+
     modifiers:
       - label: "Above and beyond resolution"
         description: "issue resolved exceptionally"
@@ -48,56 +69,74 @@ normative:
       - label: "No resolution attempt"
         description: "issue not addressed"
         points: -5
+
     recency_rules:
       - age: "Within 6 months"
         weight: "full point value"
       - age: "6 months to 1 year"
-        weight: "three-quarter point value"
+        weight: "three-quarter point value (multiply by 0.75)"
       - age: "1-2 years old"
-        weight: "half point value"
+        weight: "half point value (multiply by 0.5)"
       - age: "Over 2 years old"
-        weight: "quarter point value"
+        weight: "quarter point value (multiply by 0.25) - processes likely changed"
+
     thresholds:
       - verdict: "Excellent"
         min_score: 8
       - verdict: "Needs Improvement"
         max_score: -5
 
+  # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
     ordered: true
+
     rules:
       - verdict: "Excellent"
         label: "EXCELLENT"
         logic: ANY
         conditions:
           - "Total score is 8 or higher (after recency weighting)"
+
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
           - "Total score is -5 or lower (after recency weighting)"
+
       - verdict: "Satisfactory"
         label: "SATISFACTORY"
         default: true
+        especially_when:
+          - "Total score is between -4 and 7"
+          - "Recent reviews show improvement in execution"
 
+  # Output format
   output:
     verdict:
       type: enum
       values: ["Needs Improvement", "Satisfactory", "Excellent"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
+      description: "Explain how the evidence and recency weighting were used to arrive at the final verdict"
+
     confidence:
       type: enum
       values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
+      description: "Any other relevant observations or caveats"

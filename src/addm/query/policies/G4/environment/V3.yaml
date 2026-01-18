@@ -1,10 +1,11 @@
 # G4_environment_V3: Environment with Recency & Context
-# V3 = Recency: Adds recency modifiers
+# V3 = Recency: Adds recency modifiers for renovations/maintenance
 
 policy_id: "G4_environment_V3"
 extends: "G4_environment_V2"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Environment Quality Assessment"
 
@@ -23,7 +24,11 @@ overview:
     - temperature comfort (AC, heating)
     - ambiance and decor fit with concept
 
+    Reviews that only discuss food or service without mentioning environment carry less weight.
+
+# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "environment:CLEANLINESS"
@@ -32,6 +37,7 @@ normative:
     - ref: "environment:TEMPERATURE"
     - ref: "environment:AMBIANCE_FIT"
 
+  # Scoring system -> generates Scoring System section
   scoring:
     description: |
       Calculate a quality score by summing points from relevant reviews,
@@ -80,7 +86,7 @@ normative:
       - age: "1-2 years old"
         weight: "half point value (multiply by 0.5)"
       - age: "Over 2 years old"
-        weight: "quarter point value (multiply by 0.25), unless describing permanent fixtures"
+        weight: "quarter point value (multiply by 0.25) - unless describing permanent fixtures"
 
     thresholds:
       - verdict: "Excellent"
@@ -88,6 +94,7 @@ normative:
       - verdict: "Needs Improvement"
         max_score: -5
 
+  # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
     ordered: true
@@ -113,6 +120,7 @@ normative:
           - "Total quality score is between -4 and 7"
           - "Recent reviews show improvement after renovation/updates"
 
+  # Output format
   output:
     verdict:
       type: enum

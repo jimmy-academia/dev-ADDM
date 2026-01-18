@@ -22,7 +22,10 @@
       "Bash(grep:*)",
       "Bash(tree:*)",
       "Bash(cloc:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:arxiv.org)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ]
   }
 }

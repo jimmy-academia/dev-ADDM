@@ -5,6 +5,7 @@ policy_id: "G4_environment_V2"
 extends: "G4_environment_V1"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Environment Quality Assessment"
 
@@ -23,7 +24,11 @@ overview:
     - temperature comfort (AC, heating)
     - ambiance and decor fit with concept
 
+    Reviews that only discuss food or service without mentioning environment carry less weight.
+
+# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "environment:CLEANLINESS"
@@ -32,6 +37,7 @@ normative:
     - ref: "environment:TEMPERATURE"
     - ref: "environment:AMBIANCE_FIT"
 
+  # Scoring system -> generates Scoring System section
   scoring:
     description: |
       Calculate a quality score by summing points from relevant reviews.
@@ -77,6 +83,7 @@ normative:
       - verdict: "Needs Improvement"
         max_score: -5
 
+  # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
     ordered: true
@@ -100,7 +107,9 @@ normative:
         default: true
         especially_when:
           - "Total quality score is between -4 and 7"
+          - "Mixed positive and negative indicators"
 
+  # Output format
   output:
     verdict:
       type: enum

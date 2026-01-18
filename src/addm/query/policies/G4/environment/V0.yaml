@@ -1,10 +1,11 @@
-# G4_environment_V0: Base Environment Assessment
+# G4_environment_V0: Base Environment Quality Assessment
 # V0 = Base: Simple per-instance reasoning, basic thresholds
 # Owner perspective: Evaluating physical environment quality
 
 policy_id: "G4_environment_V0"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Environment Quality Assessment"
 
@@ -23,7 +24,9 @@ overview:
 
     Reviews that only discuss food or service without mentioning environment carry less weight.
 
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "environment:CLEANLINESS"
@@ -32,9 +35,10 @@ normative:
     - ref: "environment:TEMPERATURE"
     - ref: "environment:AMBIANCE_FIT"
 
+  # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
-    ordered: true
+    ordered: true  # Higher = better quality
 
     rules:
       - verdict: "Excellent"
@@ -62,6 +66,7 @@ normative:
           - "Some positive and some negative comments"
           - "Basic expectations met but not exceeded"
 
+  # Output format
   output:
     verdict:
       type: enum

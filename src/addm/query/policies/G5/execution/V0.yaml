@@ -1,23 +1,31 @@
-# G5_execution_V0: Base Execution Assessment
-# Owner perspective on order accuracy and promise keeping
+# G5_execution_V0: Base Execution Quality Assessment
+# V0 = Base: Simple per-instance reasoning, basic thresholds
+# Owner perspective: Evaluating order accuracy and promise keeping
 
 policy_id: "G5_execution_V0"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Execution Quality Assessment"
+
   purpose: |
     Help assess how well this restaurant executes orders and keeps promises using reviews as evidence.
     This is from the perspective of a business owner diagnosing operational issues.
     Assign a label: Needs Improvement, Satisfactory, or Excellent.
+
   incident_definition: |
-    Consider reviews that mention:
+    Consider reviews that mention any of the following:
     - order accuracy (correct items, modifications)
     - promises made and kept
     - how issues were resolved
     - menu accuracy and descriptions
 
+    Reviews that only discuss ambiance without mentioning order execution carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "execution:ORDER_ACCURACY"
@@ -25,9 +33,11 @@ normative:
     - ref: "execution:PROMISE_KEPT"
     - ref: "execution:ISSUE_RESOLUTION"
 
+  # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
-    ordered: true
+    ordered: true  # Higher = better performance
+
     rules:
       - verdict: "Excellent"
         label: "EXCELLENT"
@@ -36,6 +46,7 @@ normative:
           - "Multiple reviews praise order accuracy"
           - "Modifications consistently handled well"
           - "Issue resolution goes above and beyond"
+
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
@@ -44,29 +55,40 @@ normative:
           - "Multiple reviews report wrong orders"
           - "Modifications frequently ignored"
           - "Promises consistently broken"
+
       - verdict: "Satisfactory"
         label: "SATISFACTORY"
         default: true
         especially_when:
           - "Orders generally correct"
           - "Occasional issues handled adequately"
+          - "Most promises kept"
 
+  # Output format
   output:
     verdict:
       type: enum
       values: ["Needs Improvement", "Satisfactory", "Excellent"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
       values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
+      description: "Any other relevant observations or caveats"

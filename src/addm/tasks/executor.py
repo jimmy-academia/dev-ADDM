@@ -4,6 +4,8 @@ Executes parsed prompt DSL against actual data.
 The prompt is the single source of truth - this code has no hardcoded task logic.
 """
 
+import ast
+import operator
 import re
 from typing import Any, Dict, List, Optional
 
@@ -191,6 +193,82 @@ def evaluate_aggregate(
 
 
 # =============================================================================
+# Safe Arithmetic Evaluation
+# =============================================================================
+
+
+# Allowed operators for safe arithmetic evaluation
+SAFE_OPERATORS = {
+    ast.Add: operator.add,
+    ast.Sub: operator.sub,
+    ast.Mult: operator.mul,
+    ast.Div: operator.truediv,
+    ast.USub: operator.neg,
+}
+
+
+def _eval_node(node: ast.AST) -> float:
+    """Recursively evaluate an AST node containing only arithmetic operations."""
+    if isinstance(node, ast.Constant):
+        # Python 3.8+ uses ast.Constant for literals
+        return float(node.value)
+    elif isinstance(node, ast.Num):
+        # Fallback for older Python versions
+        return float(node.n)
+    elif isinstance(node, ast.BinOp):
+        # Binary operation: left op right
+        left = _eval_node(node.left)
+        right = _eval_node(node.right)
+        op_func = SAFE_OPERATORS.get(type(node.op))
+        if op_func is None:
+            raise ValueError(f"Unsupported operator: {type(node.op).__name__}")
+        return op_func(left, right)
+    elif isinstance(node, ast.UnaryOp):
+        # Unary operation: op operand
+        operand = _eval_node(node.operand)
+        op_func = SAFE_OPERATORS.get(type(node.op))
+        if op_func is None:
+            raise ValueError(f"Unsupported unary operator: {type(node.op).__name__}")
+        return op_func(operand)
+    else:
+        raise ValueError(f"Unsupported AST node type: {type(node).__name__}")
+
+
+def safe_eval_arithmetic(expr: str) -> float:
+    """Safely evaluate arithmetic expressions without variable substitution.
+
+    Only supports:
+    - Numbers (int, float)
+    - Binary operators: +, -, *, /
+    - Unary operator: - (negation)
+    - Parentheses for grouping
+
+    Does NOT support:
+    - Variables
+    - Function calls
+    - Comparisons
+    - Boolean operations
+    - Any other Python features
+
+    Args:
+        expr: Arithmetic expression string (e.g., "2 + 3 * 4")
+
+    Returns:
+        Evaluated result as float
+
+    Raises:
+        ValueError: If expression contains unsupported operations
+        SyntaxError: If expression is malformed
+    """
+    try:
+        tree = ast.parse(expr, mode="eval")
+        return _eval_node(tree.body)
+    except (ValueError, SyntaxError, ZeroDivisionError) as e:
+        # Return 0.0 for any evaluation errors (same behavior as original eval)
+        return 0.0
+
+
+# =============================================================================
 # Expression Evaluation
 # =============================================================================
 
@@ -211,12 +289,9 @@ def evaluate_expression(expr: str, ctx: Dict[str, Any]) -> float:
             result_expr = result_expr.replace(var, str(float(ctx[var])))
 
     # Safe evaluation - only allow numbers and arithmetic
-    try:
-        # Remove any remaining letters (undefined vars become 0)
-        result_expr = re.sub(r"[A-Za-z_]+", "0", result_expr)
-        return float(eval(result_expr))
-    except Exception:
-        return 0.0
+    # Remove any remaining letters (undefined vars become 0)
+    result_expr = re.sub(r"[A-Za-z_]+", "0", result_expr)
+    return safe_eval_arithmetic(result_expr)
 
 
 def evaluate_formula(formula: Formula, ctx: Dict[str, Any]) -> float:

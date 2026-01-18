@@ -5,6 +5,7 @@ policy_id: "G4_kitchen_V2"
 extends: "G4_kitchen_V1"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Kitchen Performance Assessment"
 
@@ -23,7 +24,11 @@ overview:
     - chef skill level
     - food sent back or complaints addressed
 
+    Reviews that only discuss service without mentioning food quality carry less weight.
+
+# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "kitchen:FOOD_ISSUE_TYPE"
@@ -32,6 +37,7 @@ normative:
     - ref: "kitchen:CHEF_SKILL"
     - ref: "kitchen:FOOD_SENT_BACK"
 
+  # Scoring system -> generates Scoring System section
   scoring:
     description: |
       Calculate a performance score by summing points from relevant reviews.
@@ -74,6 +80,7 @@ normative:
       - verdict: "Needs Improvement"
         max_score: -5
 
+  # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
     ordered: true
@@ -97,7 +104,9 @@ normative:
         default: true
         especially_when:
           - "Total performance score is between -4 and 7"
+          - "Mixed positive and negative indicators"
 
+  # Output format
   output:
     verdict:
       type: enum

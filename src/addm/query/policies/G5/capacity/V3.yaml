@@ -1,18 +1,33 @@
-# G5_capacity_V3: Capacity Management with Recency
+# G5_capacity_V3: Capacity Management with Recency & Context
+# V3 = Recency: Adds recency modifiers for staffing changes
 
 policy_id: "G5_capacity_V3"
 extends: "G5_capacity_V2"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Capacity Management Assessment"
+
   purpose: |
     Help assess how well this restaurant handles customer volume using reviews as evidence.
-    This assessment uses a point-based scoring system with recency weighting.
-  incident_definition: |
-    Consider reviews that mention staffing levels, crowding, and service during busy periods.
+    This is from the perspective of a business owner diagnosing staffing and capacity issues.
+    Assign a label: Needs Improvement, Satisfactory, or Excellent.
 
+    This assessment uses a point-based scoring system with recency weighting.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - staffing levels relative to busyness
+    - how crowded the restaurant was
+    - whether service suffered when busy
+    - peak time handling (weekends, holidays)
+
+    Reviews that only discuss food quality without mentioning capacity carry less weight.
+
+# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "capacity:STAFFING_LEVEL"
@@ -20,9 +35,13 @@ normative:
     - ref: "capacity:SERVICE_DEGRADATION"
     - ref: "capacity:VOLUME_HANDLING"
 
+  # Scoring system -> generates Scoring System section
   scoring:
     description: |
-      Calculate a capacity score with recency weighting. Staffing levels can change.
+      Calculate a capacity score by summing points from relevant reviews,
+      with recency weighting. Staffing levels can change significantly,
+      so recent reviews are weighted more heavily.
+
     severity_points:
       - label: "Excellent peak handling"
         points: 10
@@ -36,6 +55,7 @@ normative:
         points: -5
       - label: "Complete breakdown"
         points: -10
+
     modifiers:
       - label: "Well staffed"
         description: "staffing praised"
@@ -49,56 +69,74 @@ normative:
       - label: "Service collapsed"
         description: "service fell apart under volume"
         points: -5
+
     recency_rules:
       - age: "Within 6 months"
         weight: "full point value"
       - age: "6 months to 1 year"
-        weight: "three-quarter point value"
+        weight: "three-quarter point value (multiply by 0.75)"
       - age: "1-2 years old"
-        weight: "half point value"
+        weight: "half point value (multiply by 0.5)"
       - age: "Over 2 years old"
-        weight: "quarter point value"
+        weight: "quarter point value (multiply by 0.25) - staffing likely changed"
+
     thresholds:
       - verdict: "Excellent"
         min_score: 8
       - verdict: "Needs Improvement"
         max_score: -5
 
+  # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
     ordered: true
+
     rules:
       - verdict: "Excellent"
         label: "EXCELLENT"
         logic: ANY
         conditions:
           - "Total score is 8 or higher (after recency weighting)"
+
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
           - "Total score is -5 or lower (after recency weighting)"
+
       - verdict: "Satisfactory"
         label: "SATISFACTORY"
         default: true
+        especially_when:
+          - "Total score is between -4 and 7"
+          - "Recent reviews show improvement in capacity handling"
 
+  # Output format
   output:
     verdict:
       type: enum
       values: ["Needs Improvement", "Satisfactory", "Excellent"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
+      description: "Explain how the evidence and recency weighting were used to arrive at the final verdict"
+
     confidence:
       type: enum
       values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
+      description: "Any other relevant observations or caveats"

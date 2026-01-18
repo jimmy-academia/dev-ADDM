@@ -1,17 +1,31 @@
 # G5_execution_V1: Execution with Override Triggers
+# V1 = Override: Adds single-instance triggers for exceptional/poor execution
 
 policy_id: "G5_execution_V1"
 extends: "G5_execution_V0"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Execution Quality Assessment"
-  purpose: |
-    Help assess how well this restaurant executes orders using reviews as evidence.
-  incident_definition: |
-    Consider reviews mentioning order accuracy, modifications, promises, and issue resolution.
 
+  purpose: |
+    Help assess how well this restaurant executes orders and keeps promises using reviews as evidence.
+    This is from the perspective of a business owner diagnosing operational issues.
+    Assign a label: Needs Improvement, Satisfactory, or Excellent.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - order accuracy (correct items, modifications)
+    - promises made and kept
+    - how issues were resolved
+    - menu accuracy and descriptions
+
+    Reviews that only discuss ambiance without mentioning order execution carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "execution:ORDER_ACCURACY"
@@ -19,9 +33,12 @@ normative:
     - ref: "execution:PROMISE_KEPT"
     - ref: "execution:ISSUE_RESOLUTION"
 
+  # Decision policy -> generates Verdict Rules section
+  # V1 adds single-instance OVERRIDES
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
     ordered: true
+
     rules:
       - verdict: "Excellent"
         label: "EXCELLENT"
@@ -30,6 +47,7 @@ normative:
           - "At least 1 review describes 'perfect' order execution"
           - "Manager came out to make things right when issue occurred"
           - "Described as 'never makes mistakes'"
+
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
@@ -38,26 +56,40 @@ normative:
           - "At least 1 review describes 'nothing was right'"
           - "Allergy modification ignored despite explicit request"
           - "Issue not resolved and no attempt to fix"
+
       - verdict: "Satisfactory"
         label: "SATISFACTORY"
         default: true
+        especially_when:
+          - "Orders mostly correct with occasional errors"
+          - "Issues acknowledged and addressed"
+          - "Reasonable accommodation of requests"
 
+  # Output format
   output:
     verdict:
       type: enum
       values: ["Needs Improvement", "Satisfactory", "Excellent"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
       values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
+      description: "Any other relevant observations or caveats"
