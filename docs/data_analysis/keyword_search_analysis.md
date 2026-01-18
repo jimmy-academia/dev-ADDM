@@ -7,7 +7,7 @@
 
 ### Keyword Hit Files
 
-Location: `data/keyword_hits/yelp/G*_*.json`
+Location: `data/hits/yelp/G*_*.json`
 
 | File | Topic | Restaurants | Notes |
 |------|-------|-------------|-------|
@@ -217,5 +217,5 @@ Based on this analysis:
 
 ## Files Generated
 
-- `data/keyword_hits/yelp/G*_*.json` - Topic-specific restaurant rankings
-- `data/keyword_hits/yelp/*_partial.json` - Intermediate files (can be cleaned up)
+- `data/hits/yelp/G*_*.json` - Topic-specific restaurant rankings
+- `data/hits/yelp/*_partial.json` - Intermediate files (can be cleaned up)

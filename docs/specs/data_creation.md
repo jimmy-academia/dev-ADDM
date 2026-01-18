@@ -24,7 +24,7 @@ Scan reviews for topic-relevant keywords across all 18 topics (6 groups × 3 top
 .venv/bin/python scripts/search_restaurants.py --data yelp --group G1
 ```
 
-Output: `data/keyword_hits/{dataset}/G{1-6}_{topic}.json`
+Output: `data/hits/{dataset}/G{1-6}_{topic}.json`
 
 ### Step 2: Select restaurants by topic coverage
 
@@ -35,8 +35,8 @@ Select a balanced set of restaurants with good coverage across topics:
 ```
 
 Output:
-- `data/selected/{dataset}/topic_100.json` - Selected restaurants
-- `data/selected/{dataset}/topic_ranked_all.json` - Full ranking
+- `data/selection/{dataset}/topic_100.json` - Selected restaurants
+- `data/selection/{dataset}/topic_ranked_all.json` - Full ranking
 
 ### Step 3: Build review datasets
 
@@ -46,7 +46,7 @@ Build datasets with K reviews per restaurant (K=25/50/100/200):
 .venv/bin/python scripts/build_dataset.py --data yelp
 ```
 
-Output: `data/processed/{dataset}/dataset_K{25,50,100,200}.jsonl`
+Output: `data/context/{dataset}/dataset_K{25,50,100,200}.jsonl`
 
 ## Quick Start (Full Pipeline)
 
@@ -65,14 +65,15 @@ data/
 │   ├── {dataset}_academic_dataset_business.json
 │   ├── {dataset}_academic_dataset_review.json
 │   └── {dataset}_academic_dataset_user.json
-├── keyword_hits/{dataset}/ # Keyword search results
-│   └── G{1-6}_{topic}.json
-├── selected/{dataset}/     # Restaurant selections
+├── hits/{dataset}/         # Keyword search results
+│   ├── G{1-6}_{topic}.json
+│   └── topic/              # Detailed topic analysis (large)
+├── selection/{dataset}/    # Restaurant selections
 │   ├── topic_100.json
 │   └── topic_ranked_all.json
-├── processed/{dataset}/    # Built datasets
+├── context/{dataset}/      # Built datasets
 │   └── dataset_K{25,50,100,200}.jsonl
-└── tasks/{dataset}/        # Task prompts & ground truth
+└── query/{dataset}/        # Task prompts
 ```
 
 ## Dataset Record Schema
@@ -124,7 +125,7 @@ For non-Yelp datasets, use path overrides:
 
 # Custom selection path
 .venv/bin/python scripts/build_dataset.py --data custom \
-    --selection data/selected/custom/my_selection.json
+    --selection data/selection/custom/my_selection.json
 ```
 
 ## CLI Reference

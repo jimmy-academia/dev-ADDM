@@ -64,7 +64,7 @@ def main():
     parser.add_argument("--min-reviews", type=int, default=20, help="Minimum reviews per restaurant (default: 20)")
     parser.add_argument("--max-reviews", type=int, default=500, help="Max reviews per restaurant (default: 500)")
     parser.add_argument("--top-n", type=int, default=100, help="Top N restaurants per topic (default: 100)")
-    parser.add_argument("--output", type=str, help="Output directory (default: data/keyword_hits/{data}/)")
+    parser.add_argument("--output", type=str, help="Output directory (default: data/hits/{data}/)")
     parser.add_argument("--review-file", type=str, default=None,
                         help="Override review JSONL path")
     parser.add_argument("--business-file", type=str, default=None,
@@ -97,8 +97,8 @@ def main():
         parser.print_help()
         sys.exit(1)
 
-    # Output directory - default to data/keyword_hits/{data}/
-    output_dir = Path(args.output) if args.output else (data_root / "keyword_hits" / args.data)
+    # Output directory - default to data/hits/{data}/
+    output_dir = Path(args.output) if args.output else (data_root / "hits" / args.data)
 
     console.print(f"[bold]Searching for topics:[/bold] {topics}")
     console.print(f"[bold]Min hits:[/bold] {args.min_hits}, [bold]Min reviews:[/bold] {args.min_reviews}, [bold]Max reviews:[/bold] {args.max_reviews}")

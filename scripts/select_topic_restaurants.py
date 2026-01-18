@@ -40,13 +40,13 @@ def main():
         "--keyword-hits-dir",
         type=Path,
         default=None,
-        help="Override keyword hits directory (default: data/keyword_hits/{data}/)",
+        help="Override keyword hits directory (default: data/hits/{data}/)",
     )
     parser.add_argument(
         "--output-dir",
         type=Path,
         default=None,
-        help="Override output directory (default: data/selected/{data}/)",
+        help="Override output directory (default: data/selection/{data}/)",
     )
     parser.add_argument(
         "--target",
@@ -74,8 +74,8 @@ def main():
 
     # Derive paths from --data, allow overrides
     data_root = Path("data")
-    keyword_hits_dir = args.keyword_hits_dir or (data_root / "keyword_hits" / args.data)
-    output_dir = args.output_dir or (data_root / "selected" / args.data)
+    keyword_hits_dir = args.keyword_hits_dir or (data_root / "hits" / args.data)
+    output_dir = args.output_dir or (data_root / "selection" / args.data)
 
     config = TopicSelectionConfig(
         keyword_hits_dir=keyword_hits_dir,

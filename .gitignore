@@ -210,5 +210,5 @@ __marimo__/
 data/raw/
 data/raw/**
 
-# Keyword hit analysis results
-data/keyword_hits/
+# Keyword hits and topic analysis (large)
+data/hits/

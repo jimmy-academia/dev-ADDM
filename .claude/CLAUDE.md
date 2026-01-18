@@ -25,10 +25,11 @@ Types: `feat`, `fix`, `refactor`, `docs`, `test`, `perf`, `chore`
 ```
 data/
 ├── raw/{dataset}/          # Raw academic dataset
-├── keyword_hits/{dataset}/ # Keyword search results
-├── selected/{dataset}/     # Restaurant selections (topic_100.json)
-├── processed/{dataset}/    # Built datasets (K=25/50/100/200)
-└── tasks/{dataset}/        # Task prompts, cache, ground truth
+├── hits/{dataset}/         # Keyword search results + topic analysis
+│   └── topic/              # Detailed topic files (1.2GB)
+├── selection/{dataset}/    # Restaurant selections (topic_100.json)
+├── context/{dataset}/      # Built datasets (K=25/50/100/200)
+└── query/{dataset}/        # Task prompts
 
 docs/
 ├── README.md           # Doc index

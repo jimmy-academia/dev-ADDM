@@ -25,8 +25,8 @@ def _parse_scales(value: str) -> List[int]:
 def _get_default_paths(data: str) -> Tuple[Path, Path]:
     """Derive default paths from dataset name."""
     return (
-        Path(f"data/selected/{data}/topic_100.json"),  # selection
-        Path(f"data/processed/{data}"),                 # output
+        Path(f"data/selection/{data}/topic_100.json"),  # selection
+        Path(f"data/context/{data}"),                    # output
     )
 
 
@@ -34,7 +34,7 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build datasets from selected contexts")
     parser.add_argument("--data", required=True, help="Dataset name (e.g., yelp)")
     parser.add_argument("--selection", default=None,
-                        help="Override selection JSON path (default: data/selected/{data}/topic_100.json)")
+                        help="Override selection JSON path (default: data/selection/{data}/topic_100.json)")
     parser.add_argument("--output-dir", default=None,
                         help="Override output directory (default: data/processed/{data})")
     parser.add_argument("--scales", default=",".join(map(str, DEFAULT_SCALES)),

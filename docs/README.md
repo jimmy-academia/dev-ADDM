@@ -59,8 +59,10 @@ Task prompts: `data/tasks/yelp/G{1-6}{a-l}_prompt.txt`
 ```
 data/
 ├── raw/yelp/           # Raw Yelp dataset
-├── processed/yelp/     # Built datasets (K=25/50/100/200)
-└── tasks/yelp/         # Prompts, cache, gt_files (ground truth files)
+├── hits/yelp/          # Keyword hits + topic analysis
+├── selection/yelp/     # Restaurant selections (topic_100.json)
+├── context/yelp/       # Built datasets (K=25/50/100/200)
+└── query/yelp/         # Task prompts
 
 src/addm/
 ├── methods/            # LLM methods
