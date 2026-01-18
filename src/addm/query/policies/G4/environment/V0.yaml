@@ -45,18 +45,43 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - "Multiple reviews praise the atmosphere and environment"
-          - "Consistently described as clean, comfortable, and well-designed"
-          - "Ambiance enhances the dining experience"
+          - text: "Multiple reviews praise the atmosphere and environment"
+            type: count_threshold
+            filter:
+              ambiance_fit: excellent
+            min_count: 2
+          - text: "Consistently described as clean, comfortable, and well-designed"
+            type: count_threshold
+            filter:
+              cleanliness: spotless
+              comfort: excellent
+            min_count: 2
+          - text: "Ambiance enhances the dining experience"
+            type: count_threshold
+            filter:
+              ambiance_fit: enhances
+            min_count: 2
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - "Multiple reviews describe cleanliness issues"
-          - "Consistent complaints about noise, temperature, or comfort"
-          - "Environment detracts from dining experience"
+          - text: "Multiple reviews describe cleanliness issues"
+            type: count_threshold
+            filter:
+              cleanliness: dirty
+            min_count: 2
+          - text: "Consistent complaints about noise, temperature, or comfort"
+            type: count_threshold
+            filter:
+              noise_level: [too_loud, unbearable]
+            min_count: 2
+          - text: "Environment detracts from dining experience"
+            type: count_threshold
+            filter:
+              ambiance_fit: detracts
+            min_count: 2
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

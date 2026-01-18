@@ -43,18 +43,42 @@ normative:
         label: "STRONGER"
         logic: ANY
         conditions:
-          - "Multiple reviews favorably compare to competitors"
-          - "Customers switching from competitors to here"
-          - "Consistently described as better than alternatives"
+          - text: "Multiple reviews favorably compare to competitors"
+            type: count_threshold
+            filter:
+              comparison_outcome: favorable
+            min_count: 2
+          - text: "Customers switching from competitors to here"
+            type: count_threshold
+            filter:
+              switching_intent: switching_to
+            min_count: 2
+          - text: "Consistently described as better than alternatives"
+            type: count_threshold
+            filter:
+              comparison_outcome: better
+            min_count: 2
 
       - verdict: "Weaker"
         label: "WEAKER"
         precondition: "Stronger does not apply"
         logic: ANY
         conditions:
-          - "Multiple reviews prefer competitors"
-          - "Customers switching to competitors"
-          - "Consistently described as inferior to alternatives"
+          - text: "Multiple reviews prefer competitors"
+            type: count_threshold
+            filter:
+              preference_stated: competitor
+            min_count: 2
+          - text: "Customers switching to competitors"
+            type: count_threshold
+            filter:
+              switching_intent: switching_from
+            min_count: 2
+          - text: "Consistently described as inferior to alternatives"
+            type: count_threshold
+            filter:
+              comparison_outcome: inferior
+            min_count: 2
 
       - verdict: "Comparable"
         label: "COMPARABLE"

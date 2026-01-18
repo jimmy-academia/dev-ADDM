@@ -44,18 +44,43 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - "Multiple reviews praise server attentiveness and friendliness"
-          - "Servers mentioned by name with exceptional praise"
-          - "Consistently described as knowledgeable and helpful"
+          - text: "Multiple reviews praise server attentiveness and friendliness"
+            type: count_threshold
+            filter:
+              attentiveness: high
+              friendliness: high
+            min_count: 2
+          - text: "Servers mentioned by name with exceptional praise"
+            type: count_threshold
+            filter:
+              named_positively: true
+            min_count: 2
+          - text: "Consistently described as knowledgeable and helpful"
+            type: count_threshold
+            filter:
+              menu_knowledge: excellent
+            min_count: 2
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - "Multiple reviews describe inattentive or absent servers"
-          - "Consistent complaints about rude or unfriendly service"
-          - "Frequent service errors reported"
+          - text: "Multiple reviews describe inattentive or absent servers"
+            type: count_threshold
+            filter:
+              attentiveness: low
+            min_count: 2
+          - text: "Consistent complaints about rude or unfriendly service"
+            type: count_threshold
+            filter:
+              friendliness: rude
+            min_count: 2
+          - text: "Frequent service errors reported"
+            type: count_threshold
+            filter:
+              service_errors: frequent
+            min_count: 2
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

@@ -119,6 +119,56 @@ class ScoringSystem:
 
 
 @dataclass
+class StructuredCondition:
+    """A structured condition for evaluation.
+
+    Condition types:
+    - count_threshold: count matching judgments >= min_count
+    - exists: at least one matching judgment exists
+    - compound: judgment matches filter AND has additional field
+
+    Example YAML:
+        - type: count_threshold
+          filter:
+            incident_severity: severe
+            account_type: firsthand
+          min_count: 2
+    """
+
+    type: str  # count_threshold, exists, compound
+    filter: Dict[str, Any]  # Field -> value requirements
+    min_count: int = 1  # For count_threshold
+    requires: Optional[Dict[str, Any]] = None  # For compound conditions
+    text: Optional[str] = None  # Optional NL description for prompts
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "StructuredCondition":
+        """Create StructuredCondition from dictionary."""
+        return cls(
+            type=data.get("type", "count_threshold"),
+            filter=data.get("filter", {}),
+            min_count=data.get("min_count", 1),
+            requires=data.get("requires"),
+            text=data.get("text"),
+        )
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert back to dictionary."""
+        result = {"type": self.type, "filter": self.filter}
+        if self.type == "count_threshold":
+            result["min_count"] = self.min_count
+        if self.requires:
+            result["requires"] = self.requires
+        if self.text:
+            result["text"] = self.text
+        return result
+
+
+# Type alias for conditions (can be string or structured)
+ConditionType = Any  # Union[str, Dict, StructuredCondition]
+
+
+@dataclass
 class DecisionRule:
     """A single verdict rule in the decision policy.
 
@@ -126,12 +176,16 @@ class DecisionRule:
     - CRITICAL if any of: ...
     - HIGH if CRITICAL does not apply and any of: ...
     - LOW otherwise, especially when: ...
+
+    Conditions can be:
+    - String: NL text for prompt generation
+    - Dict/StructuredCondition: Structured condition for evaluation
     """
 
     verdict: str  # Target verdict (e.g., "Critical Risk")
     label: str  # Short label for prompt (e.g., "CRITICAL")
     logic: OperatorType  # Logic type (ANY, ALL)
-    conditions: List[str]  # List of condition texts
+    conditions: List[ConditionType]  # List of conditions (str or structured)
     precondition: Optional[str] = None  # e.g., "CRITICAL does not apply"
     default: bool = False  # Is this the default/fallback verdict?
     especially_when: List[str] = field(default_factory=list)  # For default verdicts
@@ -146,15 +200,33 @@ class DecisionRule:
         except ValueError:
             logic = OperatorType.ANY
 
+        # Parse conditions - can be strings or structured dicts
+        raw_conditions = data.get("conditions", [])
+        conditions: List[ConditionType] = []
+        for c in raw_conditions:
+            if isinstance(c, str):
+                conditions.append(c)
+            elif isinstance(c, dict):
+                # Keep as dict for now (evaluator will handle)
+                conditions.append(c)
+
         return cls(
             verdict=data["verdict"],
             label=data.get("label", data["verdict"].upper().replace(" ", "_")),
             logic=logic,
-            conditions=data.get("conditions", []),
+            conditions=conditions,
             precondition=data.get("precondition"),
             default=data.get("default", False),
             especially_when=data.get("especially_when", []),
         )
+
+    def get_nl_conditions(self) -> List[str]:
+        """Get only the NL string conditions (for prompt generation)."""
+        return [c for c in self.conditions if isinstance(c, str)]
+
+    def get_structured_conditions(self) -> List[Dict[str, Any]]:
+        """Get only the structured conditions (for evaluation)."""
+        return [c for c in self.conditions if isinstance(c, dict)]
 
 
 @dataclass

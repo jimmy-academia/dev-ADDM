@@ -1,0 +1,32 @@
+{
+  "run_id": "G1_allergy_V2",
+  "task_id": null,
+  "policy_id": "G1_allergy_V2",
+  "gt_task_id": "G1a",
+  "domain": "yelp",
+  "method": "rlm",
+  "model": "gpt-5-nano",
+  "k": 50,
+  "n": 1,
+  "timestamp": "20260118_001429",
+  "accuracy": 0.0,
+  "correct": 0,
+  "total": 0,
+  "auprc": {},
+  "results": [
+    {
+      "business_id": "eZ-t73r7ETHjyclRB7SnwQ",
+      "name": "Bliss",
+      "response": "{\\",
+      "parsed": {
+        "parse_error": "Could not parse result"
+      },
+      "verdict": null,
+      "risk_score": null,
+      "prompt_chars": 45104,
+      "latency_ms": 41608.39804203715,
+      "gt_verdict": null,
+      "correct": true
+    }
+  ]
+}

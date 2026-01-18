@@ -42,15 +42,29 @@ normative:
         label: "CRITICAL"
         logic: ANY
         conditions:
-          - "2 or more severe firsthand incidents are reported"
+          - text: "2 or more severe firsthand incidents are reported"
+            type: count_threshold
+            filter:
+              incident_severity: severe
+              account_type: firsthand
+            min_count: 2
 
       - verdict: "High Risk"
         label: "HIGH"
         precondition: "Critical Risk does not apply"
         logic: ANY
         conditions:
-          - "2 or more moderate firsthand incidents are reported"
-          - "3 or more reviews describe staff as refusing or being dismissive about allergy concerns"
+          - text: "2 or more moderate firsthand incidents are reported"
+            type: count_threshold
+            filter:
+              incident_severity: moderate
+              account_type: firsthand
+            min_count: 2
+          - text: "3 or more reviews describe staff as refusing or being dismissive about allergy concerns"
+            type: count_threshold
+            filter:
+              staff_response: [refused, dismissive]
+            min_count: 3
 
       - verdict: "Low Risk"
         label: "LOW"

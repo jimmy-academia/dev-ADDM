@@ -42,17 +42,42 @@ normative:
         label: "CRITICAL"
         logic: ANY
         conditions:
-          - "2 or more reviews report food poisoning or illness"
-          - "Pest sightings (roaches, rodents) reported in multiple reviews"
+          - text: "2 or more reviews report food poisoning or illness"
+            type: count_threshold
+            filter:
+              illness_reported: true
+              account_type: firsthand
+            min_count: 2
+          - text: "Pest sightings (roaches, rodents) reported in multiple reviews"
+            type: count_threshold
+            filter:
+              issue_type: [pest, rodent, roach]
+              account_type: firsthand
+            min_count: 2
 
       - verdict: "High Risk"
         label: "HIGH"
         precondition: "Critical Risk does not apply"
         logic: ANY
         conditions:
-          - "2 or more reviews describe major cleanliness issues"
-          - "At least 1 review reports food poisoning"
-          - "Multiple reviews describe hair or foreign objects in food"
+          - text: "2 or more reviews describe major cleanliness issues"
+            type: count_threshold
+            filter:
+              issue_severity: major
+              account_type: firsthand
+            min_count: 2
+          - text: "At least 1 review reports food poisoning"
+            type: count_threshold
+            filter:
+              illness_reported: true
+              account_type: firsthand
+            min_count: 1
+          - text: "Multiple reviews describe hair or foreign objects in food"
+            type: count_threshold
+            filter:
+              issue_type: [foreign_object, hair]
+              account_type: firsthand
+            min_count: 2
 
       - verdict: "Low Risk"
         label: "LOW"

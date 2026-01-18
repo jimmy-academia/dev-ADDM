@@ -43,18 +43,42 @@ normative:
         label: "HIGHLY_UNIQUE"
         logic: ANY
         conditions:
-          - "Multiple reviews describe it as 'one of a kind'"
-          - "Signature items frequently praised"
-          - "Described as unforgettable or irreplaceable"
+          - text: "Multiple reviews describe it as 'one of a kind'"
+            type: count_threshold
+            filter:
+              differentiation_level: one_of_a_kind
+            min_count: 2
+          - text: "Signature items frequently praised"
+            type: count_threshold
+            filter:
+              signature_item: praised
+            min_count: 2
+          - text: "Described as unforgettable or irreplaceable"
+            type: count_threshold
+            filter:
+              memorability: unforgettable
+            min_count: 2
 
       - verdict: "Generic"
         label: "GENERIC"
         precondition: "Highly Unique does not apply"
         logic: ANY
         conditions:
-          - "Multiple reviews describe it as 'nothing special'"
-          - "No distinguishing features mentioned"
-          - "Easily confused with competitors"
+          - text: "Multiple reviews describe it as 'nothing special'"
+            type: count_threshold
+            filter:
+              differentiation_level: generic
+            min_count: 2
+          - text: "No distinguishing features mentioned"
+            type: count_threshold
+            filter:
+              unique_aspect: none
+            min_count: 2
+          - text: "Easily confused with competitors"
+            type: count_threshold
+            filter:
+              differentiation_level: interchangeable
+            min_count: 2
 
       - verdict: "Differentiated"
         label: "DIFFERENTIATED"

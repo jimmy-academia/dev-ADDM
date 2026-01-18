@@ -44,18 +44,42 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - "Multiple reviews praise food quality and consistency"
-          - "Chef skill consistently praised as exceptional"
-          - "Rarely or never any food quality issues reported"
+          - text: "Multiple reviews praise food quality and consistency"
+            type: count_threshold
+            filter:
+              consistency: excellent
+            min_count: 2
+          - text: "Chef skill consistently praised as exceptional"
+            type: count_threshold
+            filter:
+              chef_skill: exceptional
+            min_count: 2
+          - text: "Rarely or never any food quality issues reported"
+            type: count_threshold
+            filter:
+              food_issue_type: none
+            min_count: 2
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - "Multiple reviews report food quality issues"
-          - "Consistency problems reported (hit or miss)"
-          - "Food frequently sent back or described as inedible"
+          - text: "Multiple reviews report food quality issues"
+            type: count_threshold
+            filter:
+              issue_severity: [moderate, severe]
+            min_count: 2
+          - text: "Consistency problems reported (hit or miss)"
+            type: count_threshold
+            filter:
+              consistency: inconsistent
+            min_count: 2
+          - text: "Food frequently sent back or described as inedible"
+            type: count_threshold
+            filter:
+              food_sent_back: true
+            min_count: 2
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

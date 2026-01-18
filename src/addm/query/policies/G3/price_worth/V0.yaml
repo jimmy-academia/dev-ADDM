@@ -42,18 +42,43 @@ normative:
         label: "GOOD"
         logic: ANY
         conditions:
-          - "Multiple reviews describe excellent value for money"
-          - "Consistently praised for generous portions or quality relative to price"
-          - "Reviews describe it as a 'great deal' or 'bargain'"
+          - text: "Multiple reviews describe excellent value for money"
+            type: count_threshold
+            filter:
+              quality_for_price: excellent
+            min_count: 2
+          - text: "Consistently praised for generous portions or quality relative to price"
+            type: count_threshold
+            filter:
+              portion_size: generous
+            min_count: 2
+          - text: "Reviews describe it as a 'great deal' or 'bargain'"
+            type: count_threshold
+            filter:
+              price_perception: bargain
+            min_count: 2
 
       - verdict: "Poor Value"
         label: "POOR"
         precondition: "Good Value does not apply"
         logic: ANY
         conditions:
-          - "Multiple reviews describe it as overpriced or a 'ripoff'"
-          - "Consistently criticized for small portions relative to price"
-          - "Multiple reviewers say they won't return due to poor value"
+          - text: "Multiple reviews describe it as overpriced or a 'ripoff'"
+            type: count_threshold
+            filter:
+              price_perception: overpriced
+            min_count: 2
+          - text: "Consistently criticized for small portions relative to price"
+            type: count_threshold
+            filter:
+              portion_size: small
+            min_count: 2
+          - text: "Multiple reviewers say they won't return due to poor value"
+            type: count_threshold
+            filter:
+              return_intent: no
+              quality_for_price: poor
+            min_count: 2
 
       - verdict: "Fair Value"
         label: "FAIR"

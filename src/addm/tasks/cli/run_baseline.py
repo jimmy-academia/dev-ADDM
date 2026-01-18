@@ -304,6 +304,7 @@ async def run_baseline(
     verbose: bool = True,
     dev: bool = False,
     method: str = "direct",
+    token_limit: Optional[int] = None,
 ) -> Dict[str, Any]:
     """Run baseline evaluation.
 
@@ -318,6 +319,7 @@ async def run_baseline(
         verbose: Print detailed output
         dev: If True, save to results/dev/ instead of results/baseline/
         method: Method to use - "direct" (default) or "rlm" (recursive LLM)
+        token_limit: Token budget for RLM (converts to iterations via ~3000 tokens/iter)
 
     Either task_id or policy_id must be provided.
     """
@@ -354,6 +356,8 @@ async def run_baseline(
         print(f"Ground truth from: {gt_task_id}")
     print(f"{'='*70}")
     print(f"Method: {method}")
+    if method == "rlm" and token_limit:
+        print(f"Token limit: {token_limit} (~{token_limit // 3000} iterations)")
     print(f"Restaurants: {len(restaurants)}")
     print(f"Model: {model}")
     print(f"K: {k}")
@@ -367,7 +371,7 @@ async def run_baseline(
     if method == "rlm":
         # RLM method - uses recursive exploration
         tasks = [
-            eval_restaurant_rlm(r, agenda, system_prompt, model=model)
+            eval_restaurant_rlm(r, agenda, system_prompt, model=model, token_limit=token_limit)
             for r in restaurants
         ]
         # RLM has lower concurrency due to multiple internal LLM calls
@@ -513,6 +517,12 @@ def main() -> None:
         choices=["direct", "rlm"],
         help="Method: direct (default) or rlm (recursive LLM)",
     )
+    parser.add_argument(
+        "--token-limit",
+        type=int,
+        default=None,
+        help="Token budget for RLM (~3000 tokens/iteration). E.g., 30000 = ~10 iterations",
+    )
 
     args = parser.parse_args()
 
@@ -528,6 +538,7 @@ def main() -> None:
             verbose=not args.quiet,
             dev=args.dev,
             method=args.method,
+            token_limit=args.token_limit,
         )
     )
 

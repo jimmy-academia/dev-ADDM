@@ -26,7 +26,18 @@
       "WebFetch(domain:github.com)",
       "WebFetch(domain:arxiv.org)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(.venv/bin/pytest tests/ -v --no-cov)"
+      "Bash(.venv/bin/pytest tests/ -v --no-cov)",
+      "Bash(.venv/bin/pytest tests/test_executor.py -v --no-cov)",
+      "Bash(.venv/bin/pytest tests/test_metrics.py -v --no-cov)",
+      "Bash(.venv/bin/pytest tests/test_usage.py -v --no-cov)",
+      "Bash(.venv/bin/pytest tests/ -v)",
+      "Bash(.venv/bin/pytest tests/ --cov=src/addm --cov-report=term-missing --cov-report=html -v)",
+      "Bash(.venv/bin/pytest tests/test_formulas.py -v --no-cov)",
+      "Bash(.venv/bin/pytest tests/test_formulas.py::TestFormulaModules::test_module_imports -v --no-cov)",
+      "Bash(.venv/bin/pytest tests/test_formulas.py --no-cov -q)",
+      "Bash(.venv/bin/pytest tests/ -q --cov=src/addm --cov-report=term)",
+      "Bash(.venv/bin/ruff check src/addm/eval/metrics.py)",
+      "Bash(.venv/bin/pytest tests/ -q --tb=no)"
     ]
   }
 }

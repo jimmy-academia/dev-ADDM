@@ -43,18 +43,42 @@ normative:
         label: "RECOMMENDED"
         logic: ANY
         conditions:
-          - "Multiple reviews describe successful business meals or client meetings"
-          - "Consistently described as professional, quiet, or suitable for meetings"
-          - "Efficient service that respects busy schedules"
+          - text: "Multiple reviews describe successful business meals or client meetings"
+            type: count_threshold
+            filter:
+              meeting_outcome: positive
+            min_count: 2
+          - text: "Consistently described as professional, quiet, or suitable for meetings"
+            type: count_threshold
+            filter:
+              professionalism: [professional, excellent]
+            min_count: 2
+          - text: "Efficient service that respects busy schedules"
+            type: count_threshold
+            filter:
+              service_efficiency: efficient
+            min_count: 2
 
       - verdict: "Not Recommended"
         label: "NOT_RECOMMENDED"
         precondition: "Recommended does not apply"
         logic: ANY
         conditions:
-          - "Multiple reviews describe it as too loud for conversation"
-          - "Service is consistently described as too slow for business meals"
-          - "Atmosphere described as too casual or unprofessional"
+          - text: "Multiple reviews describe it as too loud for conversation"
+            type: count_threshold
+            filter:
+              conversation_suitability: poor
+            min_count: 2
+          - text: "Service is consistently described as too slow for business meals"
+            type: count_threshold
+            filter:
+              service_efficiency: slow
+            min_count: 2
+          - text: "Atmosphere described as too casual or unprofessional"
+            type: count_threshold
+            filter:
+              professionalism: unprofessional
+            min_count: 2
 
       - verdict: "Acceptable"
         label: "ACCEPTABLE"

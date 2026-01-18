@@ -42,17 +42,38 @@ normative:
         label: "CRITICAL"
         logic: ANY
         conditions:
-          - "Multiple reviews report significant undisclosed charges"
-          - "Pattern of bill surprises exceeding 20% of expected total"
+          - text: "Multiple reviews report significant undisclosed charges"
+            type: count_threshold
+            filter:
+              impact_severity: significant
+              disclosure_level: none
+            min_count: 2
+          - text: "Pattern of bill surprises exceeding 20% of expected total"
+            type: count_threshold
+            filter:
+              impact_severity: major
+            min_count: 2
 
       - verdict: "High Risk"
         label: "HIGH"
         precondition: "Critical Risk does not apply"
         logic: ANY
         conditions:
-          - "Multiple reviews mention hidden fees or charges"
-          - "Charges are poorly disclosed (fine print or not at all)"
-          - "Reviews describe feeling 'scammed' or 'tricked'"
+          - text: "Multiple reviews mention hidden fees or charges"
+            type: count_threshold
+            filter:
+              cost_type: [hidden_fee, surcharge]
+            min_count: 2
+          - text: "Charges are poorly disclosed (fine print or not at all)"
+            type: count_threshold
+            filter:
+              disclosure_level: [fine_print, none]
+            min_count: 2
+          - text: "Reviews describe feeling 'scammed' or 'tricked'"
+            type: count_threshold
+            filter:
+              customer_reaction: deceived
+            min_count: 2
 
       - verdict: "Low Risk"
         label: "LOW"

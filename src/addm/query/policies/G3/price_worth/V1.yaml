@@ -43,18 +43,42 @@ normative:
         label: "GOOD"
         logic: ANY
         conditions:
-          - "At least 1 review calls it 'best value in the area' or similar"
-          - "Happy hour or lunch specials described as exceptional value"
-          - "Fine dining quality at casual dining prices"
+          - text: "At least 1 review calls it 'best value in the area' or similar"
+            type: count_threshold
+            filter:
+              quality_for_price: exceptional
+            min_count: 1
+          - text: "Happy hour or lunch specials described as exceptional value"
+            type: count_threshold
+            filter:
+              quality_for_price: excellent
+            min_count: 1
+          - text: "Fine dining quality at casual dining prices"
+            type: count_threshold
+            filter:
+              quality_for_price: exceptional
+            min_count: 1
 
       - verdict: "Poor Value"
         label: "POOR"
         precondition: "Good Value does not apply"
         logic: ANY
         conditions:
-          - "At least 1 review uses words like 'ripoff' or 'highway robbery'"
-          - "Described as tourist trap or overpriced"
-          - "Portion sizes described as 'laughable' or 'insulting'"
+          - text: "At least 1 review uses words like 'ripoff' or 'highway robbery'"
+            type: count_threshold
+            filter:
+              price_perception: ripoff
+            min_count: 1
+          - text: "Described as tourist trap or overpriced"
+            type: count_threshold
+            filter:
+              price_perception: [tourist_trap, overpriced]
+            min_count: 1
+          - text: "Portion sizes described as 'laughable' or 'insulting'"
+            type: count_threshold
+            filter:
+              portion_size: tiny
+            min_count: 1
 
       - verdict: "Fair Value"
         label: "FAIR"

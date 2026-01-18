@@ -13,7 +13,9 @@ Reference: https://github.com/ysz/recursive-llm
 """
 
 import json
+import os
 import re
+from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from rlm import RLM
@@ -21,6 +23,22 @@ from rlm import RLM
 from addm.data.types import Sample
 from addm.llm import LLMService
 from addm.methods.base import Method
+
+
+def _ensure_api_key():
+    """Ensure API key is set for litellm (used by RLM)."""
+    if os.environ.get("OPENAI_API_KEY"):
+        return
+    # Look for .openaiapi at Station directory level
+    key_file = Path(__file__).parent.parent.parent.parent / ".openaiapi"
+    if key_file.exists():
+        key = key_file.read_text().strip()
+        if key:
+            os.environ["OPENAI_API_KEY"] = key
+
+
+# Load API key on module import
+_ensure_api_key()
 
 
 def _format_reviews_context(restaurant: Dict[str, Any]) -> str:
@@ -251,12 +269,17 @@ class RLMMethod(Method):
         return {"error": "Could not parse FINAL output", "raw_result": result[:500]}
 
 
+# Empirical: ~3000 tokens per RLM iteration (500 prompt + 2500 completion)
+TOKENS_PER_ITERATION = 3000
+
+
 async def eval_restaurant_rlm(
     restaurant: Dict[str, Any],
     agenda: str,
     system_prompt: Optional[str] = None,
     model: str = "gpt-5-nano",
     max_iterations: int = 15,
+    token_limit: Optional[int] = None,
 ) -> Dict[str, Any]:
     """Standalone function to evaluate a restaurant using RLM.
 
@@ -267,7 +290,8 @@ async def eval_restaurant_rlm(
         agenda: The policy agenda/prompt text
         system_prompt: Output schema (included in agenda for RLM)
         model: LLM model to use
-        max_iterations: Maximum RLM iterations
+        max_iterations: Maximum RLM iterations (ignored if token_limit set)
+        token_limit: Token budget - converted to iterations via TOKENS_PER_ITERATION
 
     Returns:
         Evaluation result dict
@@ -282,41 +306,55 @@ async def eval_restaurant_rlm(
     context = _format_reviews_context(restaurant)
     num_reviews = len(restaurant.get("reviews", []))
 
-    # Build query - combine system prompt guidance with agenda
-    output_format = ""
-    if system_prompt:
-        output_format = f"""
-## Output Format Requirements
-{system_prompt}
-"""
+    # Build query - simplified for RLM code execution
+    # Extract key search terms from agenda (allergy-related keywords)
+    query = f"""## Task: Allergy Risk Assessment
 
-    query = f"""{agenda}
-{output_format}
-## Your Task
+Search the restaurant reviews for allergy-related incidents.
 
-Analyze the reviews stored in the `context` variable to determine the verdict.
+## Step-by-Step Instructions
 
-Use Python code to:
-1. Search for relevant keywords (e.g., `re.search(r'allerg|reaction|epipen', review, re.I)`)
-2. Extract and examine relevant review snippets
-3. Apply the scoring rules from the agenda above
-4. Call `FINAL(result)` with your JSON assessment when done
+1. First, print len(context) to see how much text there is
+2. Search for allergy keywords: 'allerg', 'reaction', 'epipen', 'anaphyla'
+3. For each match found, extract the review snippet
+4. Determine verdict based on findings:
+   - "Critical Risk" = severe reaction (epipen, anaphylaxis, hospitalization)
+   - "High Risk" = allergic reaction mentioned
+   - "Low Risk" = no allergy incidents found
 
-The `context` variable contains all {num_reviews} reviews. You can:
-- Slice: `context[:2000]` to see first 2000 chars
-- Search: Use regex to find specific patterns
-- Filter: Loop through reviews and check for keywords
+## Code Example
 
-Start by exploring the context to understand its structure, then search for relevant evidence.
-When done, call FINAL with your JSON assessment.
+```python
+import re
+# Find allergy mentions
+matches = re.findall(r'.{{0,100}}(allerg|reaction|epipen|anaphyla).{{0,100}}', context, re.I)
+if matches:
+    print("Found allergy mentions:", matches)
+    # Check severity
+    if any('epipen' in m.lower() or 'anaphyla' in m.lower() for m in matches):
+        FINAL("Critical Risk")
+    else:
+        FINAL("High Risk")
+else:
+    FINAL("Low Risk")
+```
+
+The `context` variable contains {num_reviews} reviews. Write Python code to search and analyze them.
+When you reach a conclusion, call FINAL("verdict") with Low Risk, High Risk, or Critical Risk.
 """
 
     start_time = time.perf_counter()
 
+    # Convert token_limit to iterations if specified
+    if token_limit is not None:
+        effective_iterations = max(1, token_limit // TOKENS_PER_ITERATION)
+    else:
+        effective_iterations = max_iterations
+
     # Initialize RLM
     rlm = RLM(
         model=model,
-        max_iterations=max_iterations,
+        max_iterations=effective_iterations,
     )
 
     try:

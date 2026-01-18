@@ -44,18 +44,42 @@ normative:
         label: "STRONGER"
         logic: ANY
         conditions:
-          - "At least 1 review calls it 'best in the area'"
-          - "Described as replacement for closed favorite"
-          - "Named competitor described as inferior"
+          - text: "At least 1 review calls it 'best in the area'"
+            type: count_threshold
+            filter:
+              comparison_outcome: best_in_area
+            min_count: 1
+          - text: "Described as replacement for closed favorite"
+            type: count_threshold
+            filter:
+              comparison_outcome: replacement
+            min_count: 1
+          - text: "Named competitor described as inferior"
+            type: count_threshold
+            filter:
+              comparison_outcome: competitor_inferior
+            min_count: 1
 
       - verdict: "Weaker"
         label: "WEAKER"
         precondition: "Stronger does not apply"
         logic: ANY
         conditions:
-          - "At least 1 review says 'go to X instead'"
-          - "Explicitly inferior to named competitor"
-          - "Customers leaving for competitor"
+          - text: "At least 1 review says 'go to X instead'"
+            type: count_threshold
+            filter:
+              preference_stated: competitor
+            min_count: 1
+          - text: "Explicitly inferior to named competitor"
+            type: count_threshold
+            filter:
+              comparison_outcome: inferior
+            min_count: 1
+          - text: "Customers leaving for competitor"
+            type: count_threshold
+            filter:
+              switching_intent: switching_from
+            min_count: 1
 
       - verdict: "Comparable"
         label: "COMPARABLE"

@@ -43,18 +43,44 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - "Multiple regular customers praise consistency"
-          - "Described as 'always reliable' or 'never disappoints'"
-          - "Quality stable or improving over time"
+          - text: "Multiple regular customers praise consistency"
+            type: count_threshold
+            filter:
+              reliability: excellent
+              visit_frequency: regular
+            min_count: 2
+          - text: "Described as 'always reliable' or 'never disappoints'"
+            type: count_threshold
+            filter:
+              reliability: always
+            min_count: 2
+          - text: "Quality stable or improving over time"
+            type: count_threshold
+            filter:
+              quality_trend: [stable, improving]
+            min_count: 2
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - "Multiple reviews describe declining quality"
-          - "Described as 'hit or miss' or unpredictable"
-          - "Regular customers noting worsening experience"
+          - text: "Multiple reviews describe declining quality"
+            type: count_threshold
+            filter:
+              quality_trend: declining
+            min_count: 2
+          - text: "Described as 'hit or miss' or unpredictable"
+            type: count_threshold
+            filter:
+              reliability: unpredictable
+            min_count: 2
+          - text: "Regular customers noting worsening experience"
+            type: count_threshold
+            filter:
+              visit_comparison: worse
+              visit_frequency: regular
+            min_count: 2
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

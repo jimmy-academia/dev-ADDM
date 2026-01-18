@@ -44,18 +44,43 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - "At least 1 review praises handling of extremely busy night"
-          - "Described as 'well-oiled machine' even when packed"
-          - "Peak time execution specifically praised"
+          - text: "At least 1 review praises handling of extremely busy night"
+            type: count_threshold
+            filter:
+              volume_handling: excellent
+              crowd_level: extremely_busy
+            min_count: 1
+          - text: "Described as 'well-oiled machine' even when packed"
+            type: count_threshold
+            filter:
+              volume_handling: exceptional
+            min_count: 1
+          - text: "Peak time execution specifically praised"
+            type: count_threshold
+            filter:
+              volume_handling: excellent
+            min_count: 1
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - "At least 1 review describes 'one server for entire restaurant'"
-          - "Customers left due to overwhelming wait from understaffing"
-          - "Described as 'chaos' or 'disaster' during busy period"
+          - text: "At least 1 review describes 'one server for entire restaurant'"
+            type: count_threshold
+            filter:
+              staffing_level: severely_understaffed
+            min_count: 1
+          - text: "Customers left due to overwhelming wait from understaffing"
+            type: count_threshold
+            filter:
+              service_degradation: customers_left
+            min_count: 1
+          - text: "Described as 'chaos' or 'disaster' during busy period"
+            type: count_threshold
+            filter:
+              volume_handling: chaos
+            min_count: 1
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

@@ -41,18 +41,44 @@ normative:
         label: "DEFINITELY"
         logic: ANY
         conditions:
-          - "Multiple reviews say the experience was 'worth the wait'"
-          - "Long waits consistently justified by exceptional experience"
-          - "Reviewers say they would gladly wait again"
+          - text: "Multiple reviews say the experience was 'worth the wait'"
+            type: count_threshold
+            filter:
+              wait_justification: justified
+            min_count: 2
+          - text: "Long waits consistently justified by exceptional experience"
+            type: count_threshold
+            filter:
+              wait_duration: long
+              wait_justification: exceptional
+            min_count: 2
+          - text: "Reviewers say they would gladly wait again"
+            type: count_threshold
+            filter:
+              would_wait_again: yes
+            min_count: 2
 
       - verdict: "Not Worth Waiting"
         label: "NOT_WORTH"
         precondition: "Definitely Worth Waiting does not apply"
         logic: ANY
         conditions:
-          - "Multiple reviews describe waits as 'not worth it'"
-          - "Reservations frequently not honored"
-          - "Long waits for mediocre experience"
+          - text: "Multiple reviews describe waits as 'not worth it'"
+            type: count_threshold
+            filter:
+              wait_justification: not_justified
+            min_count: 2
+          - text: "Reservations frequently not honored"
+            type: count_threshold
+            filter:
+              wait_type: reservation_not_honored
+            min_count: 2
+          - text: "Long waits for mediocre experience"
+            type: count_threshold
+            filter:
+              wait_duration: long
+              wait_justification: not_justified
+            min_count: 2
 
       - verdict: "Worth Waiting"
         label: "WORTH"

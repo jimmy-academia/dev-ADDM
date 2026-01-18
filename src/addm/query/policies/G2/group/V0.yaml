@@ -44,18 +44,43 @@ normative:
         label: "RECOMMENDED"
         logic: ANY
         conditions:
-          - "Multiple reviews describe successful large group events"
-          - "Private rooms or dedicated group areas mentioned positively"
-          - "Consistently praised for handling groups well"
+          - text: "Multiple reviews describe successful large group events"
+            type: count_threshold
+            filter:
+              group_outcome: positive
+              group_size: large
+            min_count: 2
+          - text: "Private rooms or dedicated group areas mentioned positively"
+            type: count_threshold
+            filter:
+              accommodation_quality: excellent
+            min_count: 2
+          - text: "Consistently praised for handling groups well"
+            type: count_threshold
+            filter:
+              accommodation_quality: [good, excellent]
+            min_count: 2
 
       - verdict: "Not Recommended"
         label: "NOT_RECOMMENDED"
         precondition: "Recommended does not apply"
         logic: ANY
         conditions:
-          - "Multiple reviews describe groups being turned away or poorly handled"
-          - "Consistent complaints about long waits despite reservations"
-          - "Unable or unwilling to split checks for groups"
+          - text: "Multiple reviews describe groups being turned away or poorly handled"
+            type: count_threshold
+            filter:
+              accommodation_quality: poor
+            min_count: 2
+          - text: "Consistent complaints about long waits despite reservations"
+            type: count_threshold
+            filter:
+              wait_time: excessive
+            min_count: 2
+          - text: "Unable or unwilling to split checks for groups"
+            type: count_threshold
+            filter:
+              check_splitting: refused
+            min_count: 2
 
       - verdict: "Acceptable"
         label: "ACCEPTABLE"

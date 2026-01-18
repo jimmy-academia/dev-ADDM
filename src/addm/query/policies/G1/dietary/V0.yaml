@@ -43,17 +43,41 @@ normative:
         label: "CRITICAL"
         logic: ANY
         conditions:
-          - "2 or more severe dietary incidents (restricted food served, person got sick)"
-          - "Multiple reviews report staff providing incorrect ingredient information"
+          - text: "2 or more severe dietary incidents (restricted food served, person got sick)"
+            type: count_threshold
+            filter:
+              incident_severity: severe
+              account_type: firsthand
+            min_count: 2
+          - text: "Multiple reviews report staff providing incorrect ingredient information"
+            type: count_threshold
+            filter:
+              staff_knowledge: incorrect
+              account_type: firsthand
+            min_count: 2
 
       - verdict: "High Risk"
         label: "HIGH"
         precondition: "Critical Risk does not apply"
         logic: ANY
         conditions:
-          - "2 or more moderate dietary incidents"
-          - "Multiple reviews describe poor accommodation despite clear requests"
-          - "Staff consistently described as unknowledgeable about ingredients"
+          - text: "2 or more moderate dietary incidents"
+            type: count_threshold
+            filter:
+              incident_severity: moderate
+              account_type: firsthand
+            min_count: 2
+          - text: "Multiple reviews describe poor accommodation despite clear requests"
+            type: count_threshold
+            filter:
+              accommodation_level: poor
+              account_type: firsthand
+            min_count: 2
+          - text: "Staff consistently described as unknowledgeable about ingredients"
+            type: count_threshold
+            filter:
+              staff_knowledge: unknowledgeable
+            min_count: 2
 
       - verdict: "Low Risk"
         label: "LOW"

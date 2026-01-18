@@ -44,18 +44,42 @@ normative:
         label: "HIGHLY_UNIQUE"
         logic: ANY
         conditions:
-          - "At least 1 review describes it as 'only place in the city'"
-          - "Described as destination restaurant worth traveling for"
-          - "'Hidden gem' that reviewers don't want to share"
+          - text: "At least 1 review describes it as 'only place in the city'"
+            type: count_threshold
+            filter:
+              differentiation_level: only_option
+            min_count: 1
+          - text: "Described as destination restaurant worth traveling for"
+            type: count_threshold
+            filter:
+              unique_aspect: destination
+            min_count: 1
+          - text: "'Hidden gem' that reviewers don't want to share"
+            type: count_threshold
+            filter:
+              unique_aspect: hidden_gem
+            min_count: 1
 
       - verdict: "Generic"
         label: "GENERIC"
         precondition: "Highly Unique does not apply"
         logic: ANY
         conditions:
-          - "At least 1 review says 'could be any restaurant'"
-          - "Described as chain-restaurant quality"
-          - "No distinctive features mentioned across reviews"
+          - text: "At least 1 review says 'could be any restaurant'"
+            type: count_threshold
+            filter:
+              differentiation_level: generic
+            min_count: 1
+          - text: "Described as chain-restaurant quality"
+            type: count_threshold
+            filter:
+              differentiation_level: chain_quality
+            min_count: 1
+          - text: "No distinctive features mentioned across reviews"
+            type: count_threshold
+            filter:
+              unique_aspect: none
+            min_count: 1
 
       - verdict: "Differentiated"
         label: "DIFFERENTIATED"

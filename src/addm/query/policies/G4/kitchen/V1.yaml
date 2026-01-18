@@ -5,6 +5,7 @@ policy_id: "G4_kitchen_V1"
 extends: "G4_kitchen_V0"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Kitchen Performance Assessment"
 
@@ -23,7 +24,9 @@ overview:
 
     Reviews that only discuss service without mentioning food quality carry less weight.
 
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "kitchen:FOOD_ISSUE_TYPE"
@@ -32,6 +35,8 @@ normative:
     - ref: "kitchen:CHEF_SKILL"
     - ref: "kitchen:FOOD_SENT_BACK"
 
+  # Decision policy -> generates Verdict Rules section
+  # V1 adds single-instance OVERRIDES
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
     ordered: true
@@ -62,6 +67,7 @@ normative:
           - "Competent execution without exceptional creativity"
           - "Some standout dishes, some average"
 
+  # Output format
   output:
     verdict:
       type: enum

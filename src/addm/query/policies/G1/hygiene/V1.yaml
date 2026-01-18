@@ -45,19 +45,55 @@ normative:
         label: "CRITICAL"
         logic: ANY
         conditions:
-          - "At least 1 firsthand report of food poisoning requiring medical attention"
-          - "Rodent sighting (mouse, rat) reported firsthand"
-          - "Multiple people in same party report getting sick"
+          - text: "At least 1 firsthand report of food poisoning requiring medical attention"
+            type: count_threshold
+            filter:
+              illness_reported: true
+              issue_severity: severe
+              account_type: firsthand
+            min_count: 1
+          - text: "Rodent sighting (mouse, rat) reported firsthand"
+            type: count_threshold
+            filter:
+              issue_type: rodent
+              account_type: firsthand
+            min_count: 1
+          - text: "Multiple people in same party report getting sick"
+            type: count_threshold
+            filter:
+              illness_reported: true
+              party_affected: true
+            min_count: 1
 
       - verdict: "High Risk"
         label: "HIGH"
         precondition: "Critical Risk does not apply"
         logic: ANY
         conditions:
-          - "At least 1 firsthand report of food poisoning (not requiring medical attention)"
-          - "Cockroach or multiple insect sightings reported firsthand"
-          - "Hair or foreign object in food reported firsthand"
-          - "Staff was dismissive when hygiene issue was reported"
+          - text: "At least 1 firsthand report of food poisoning (not requiring medical attention)"
+            type: count_threshold
+            filter:
+              illness_reported: true
+              account_type: firsthand
+            min_count: 1
+          - text: "Cockroach or multiple insect sightings reported firsthand"
+            type: count_threshold
+            filter:
+              issue_type: [cockroach, insect]
+              account_type: firsthand
+            min_count: 1
+          - text: "Hair or foreign object in food reported firsthand"
+            type: count_threshold
+            filter:
+              issue_type: [foreign_object, hair]
+              account_type: firsthand
+            min_count: 1
+          - text: "Staff was dismissive when hygiene issue was reported"
+            type: compound
+            filter:
+              account_type: firsthand
+            requires:
+              staff_response: dismissive
 
       - verdict: "Low Risk"
         label: "LOW"

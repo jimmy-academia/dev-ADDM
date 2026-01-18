@@ -43,19 +43,47 @@ normative:
         label: "HIGH_LOYALTY"
         logic: ANY
         conditions:
-          - "Multiple reviews describe regulars or repeat customers"
-          - "Strong emotional connection expressed"
-          - "Customers recommend enthusiastically"
-          - "Customers return despite issues"
+          - text: "Multiple reviews describe regulars or repeat customers"
+            type: count_threshold
+            filter:
+              return_intent: regular
+            min_count: 2
+          - text: "Strong emotional connection expressed"
+            type: count_threshold
+            filter:
+              emotional_connection: strong
+            min_count: 2
+          - text: "Customers recommend enthusiastically"
+            type: count_threshold
+            filter:
+              recommend_intent: enthusiastic
+            min_count: 2
+          - text: "Customers return despite issues"
+            type: count_threshold
+            filter:
+              loyalty_driver: despite_issues
+            min_count: 2
 
       - verdict: "Low Loyalty"
         label: "LOW_LOYALTY"
         precondition: "High Loyalty does not apply"
         logic: ANY
         conditions:
-          - "Multiple reviews say 'won't return'"
-          - "No repeat customer mentions"
-          - "Actively discourage others from visiting"
+          - text: "Multiple reviews say 'won't return'"
+            type: count_threshold
+            filter:
+              return_intent: never
+            min_count: 2
+          - text: "No repeat customer mentions"
+            type: count_threshold
+            filter:
+              return_intent: [first_time, unlikely]
+            min_count: 2
+          - text: "Actively discourage others from visiting"
+            type: count_threshold
+            filter:
+              recommend_intent: discourage
+            min_count: 2
 
       - verdict: "Moderate Loyalty"
         label: "MODERATE_LOYALTY"

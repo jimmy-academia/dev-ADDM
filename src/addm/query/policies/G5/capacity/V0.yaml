@@ -43,18 +43,43 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - "Multiple reviews praise volume handling during busy times"
-          - "Consistently well-staffed observations"
-          - "No service degradation reported even when packed"
+          - text: "Multiple reviews praise volume handling during busy times"
+            type: count_threshold
+            filter:
+              volume_handling: excellent
+            min_count: 2
+          - text: "Consistently well-staffed observations"
+            type: count_threshold
+            filter:
+              staffing_level: well_staffed
+            min_count: 2
+          - text: "No service degradation reported even when packed"
+            type: count_threshold
+            filter:
+              service_degradation: none
+              crowd_level: packed
+            min_count: 2
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - "Multiple reviews describe understaffing"
-          - "Consistent service degradation when busy"
-          - "Reports of restaurant 'falling apart' under volume"
+          - text: "Multiple reviews describe understaffing"
+            type: count_threshold
+            filter:
+              staffing_level: understaffed
+            min_count: 2
+          - text: "Consistent service degradation when busy"
+            type: count_threshold
+            filter:
+              service_degradation: severe
+            min_count: 2
+          - text: "Reports of restaurant 'falling apart' under volume"
+            type: count_threshold
+            filter:
+              volume_handling: failing
+            min_count: 2
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

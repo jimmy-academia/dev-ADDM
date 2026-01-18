@@ -45,18 +45,43 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - "At least 1 server mentioned by name with exceptional praise"
-          - "Service described as 'best I've ever had' or similar"
-          - "Consistent praise for anticipatory, exceptional service"
+          - text: "At least 1 server mentioned by name with exceptional praise"
+            type: count_threshold
+            filter:
+              named_positively: true
+            min_count: 1
+          - text: "Service described as 'best I've ever had' or similar"
+            type: count_threshold
+            filter:
+              attentiveness: exceptional
+            min_count: 1
+          - text: "Consistent praise for anticipatory, exceptional service"
+            type: count_threshold
+            filter:
+              attentiveness: exceptional
+              friendliness: exceptional
+            min_count: 1
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - "At least 1 review describes actively rude or hostile server"
-          - "Server described as 'worst service ever' or similar"
-          - "Pattern of complaints about being ignored or forgotten"
+          - text: "At least 1 review describes actively rude or hostile server"
+            type: count_threshold
+            filter:
+              friendliness: hostile
+            min_count: 1
+          - text: "Server described as 'worst service ever' or similar"
+            type: count_threshold
+            filter:
+              attentiveness: terrible
+            min_count: 1
+          - text: "Pattern of complaints about being ignored or forgotten"
+            type: count_threshold
+            filter:
+              attentiveness: ignored
+            min_count: 1
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

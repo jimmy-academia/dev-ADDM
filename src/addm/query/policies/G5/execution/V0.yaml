@@ -43,18 +43,42 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - "Multiple reviews praise order accuracy"
-          - "Modifications consistently handled well"
-          - "Issue resolution goes above and beyond"
+          - text: "Multiple reviews praise order accuracy"
+            type: count_threshold
+            filter:
+              order_accuracy: perfect
+            min_count: 2
+          - text: "Modifications consistently handled well"
+            type: count_threshold
+            filter:
+              modification_handling: excellent
+            min_count: 2
+          - text: "Issue resolution goes above and beyond"
+            type: count_threshold
+            filter:
+              issue_resolution: exceptional
+            min_count: 2
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - "Multiple reviews report wrong orders"
-          - "Modifications frequently ignored"
-          - "Promises consistently broken"
+          - text: "Multiple reviews report wrong orders"
+            type: count_threshold
+            filter:
+              order_accuracy: wrong
+            min_count: 2
+          - text: "Modifications frequently ignored"
+            type: count_threshold
+            filter:
+              modification_handling: ignored
+            min_count: 2
+          - text: "Promises consistently broken"
+            type: count_threshold
+            filter:
+              promise_kept: broken
+            min_count: 2
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

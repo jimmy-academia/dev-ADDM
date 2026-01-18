@@ -44,19 +44,47 @@ normative:
         label: "HIGH_LOYALTY"
         logic: ANY
         conditions:
-          - "At least 1 review mentions being a 'regular' or '10+ visits'"
-          - "Customer returned after bad experience"
-          - "Described as 'favorite restaurant' or equivalent"
-          - "Recommendation with strong enthusiasm ('must go', 'best in city')"
+          - text: "At least 1 review mentions being a 'regular' or '10+ visits'"
+            type: count_threshold
+            filter:
+              return_intent: regular
+            min_count: 1
+          - text: "Customer returned after bad experience"
+            type: count_threshold
+            filter:
+              loyalty_driver: despite_issues
+            min_count: 1
+          - text: "Described as 'favorite restaurant' or equivalent"
+            type: count_threshold
+            filter:
+              emotional_connection: favorite
+            min_count: 1
+          - text: "Recommendation with strong enthusiasm ('must go', 'best in city')"
+            type: count_threshold
+            filter:
+              recommend_intent: must_go
+            min_count: 1
 
       - verdict: "Low Loyalty"
         label: "LOW_LOYALTY"
         precondition: "High Loyalty does not apply"
         logic: ANY
         conditions:
-          - "At least 1 review explicitly says 'never coming back'"
-          - "Customer warns others not to visit"
-          - "Explicitly switched to competitor"
+          - text: "At least 1 review explicitly says 'never coming back'"
+            type: count_threshold
+            filter:
+              return_intent: never
+            min_count: 1
+          - text: "Customer warns others not to visit"
+            type: count_threshold
+            filter:
+              recommend_intent: warn_against
+            min_count: 1
+          - text: "Explicitly switched to competitor"
+            type: count_threshold
+            filter:
+              loyalty_driver: switched_competitor
+            min_count: 1
 
       - verdict: "Moderate Loyalty"
         label: "MODERATE_LOYALTY"

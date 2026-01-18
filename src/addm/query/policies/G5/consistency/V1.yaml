@@ -44,18 +44,45 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - "At least 1 frequent customer describes 'never disappoints'"
-          - "Multiple visits described as consistently excellent"
-          - "Long-term regular customer praises maintained quality"
+          - text: "At least 1 frequent customer describes 'never disappoints'"
+            type: count_threshold
+            filter:
+              reliability: always
+              visit_frequency: frequent
+            min_count: 1
+          - text: "Multiple visits described as consistently excellent"
+            type: count_threshold
+            filter:
+              visit_comparison: consistently_excellent
+            min_count: 1
+          - text: "Long-term regular customer praises maintained quality"
+            type: count_threshold
+            filter:
+              quality_trend: stable
+              visit_frequency: long_term
+            min_count: 1
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - "At least 1 regular customer describes 'went downhill'"
-          - "Management change leading to quality decline"
-          - "Described as 'coin flip' or completely unpredictable"
+          - text: "At least 1 regular customer describes 'went downhill'"
+            type: count_threshold
+            filter:
+              quality_trend: declining
+              visit_frequency: regular
+            min_count: 1
+          - text: "Management change leading to quality decline"
+            type: count_threshold
+            filter:
+              quality_trend: declining
+            min_count: 1
+          - text: "Described as 'coin flip' or completely unpredictable"
+            type: count_threshold
+            filter:
+              reliability: coin_flip
+            min_count: 1
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"
