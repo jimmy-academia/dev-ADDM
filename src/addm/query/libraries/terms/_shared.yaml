@@ -1,0 +1,121 @@
+# Shared terms used across multiple topics
+# These terms are domain-agnostic and can be referenced as "shared:TERM_ID"
+
+ACCOUNT_TYPE:
+  name: Account type
+  type: enum
+  description: How the reviewer relates to the described event
+  values:
+    - id: firsthand
+      label: Firsthand
+      description: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+      cues:
+        - "I had"
+        - "we experienced"
+        - "my child"
+        - "my husband"
+        - "my wife"
+        - "our group"
+
+    - id: secondhand
+      label: Secondhand
+      description: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+      cues:
+        - "my friend told me"
+        - "I heard that"
+        - "someone said"
+
+    - id: hypothetical
+      label: Hypothetical
+      description: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+      cues:
+        - "I'm allergic so"
+        - "I always ask"
+        - "I was worried"
+        - "I prefer"
+
+  default: hypothetical
+
+STAFF_RESPONSE:
+  name: Staff response
+  type: enum
+  description: How staff responded when the concern was raised
+  values:
+    - id: accommodated
+      label: Accommodated
+      description: Staff took the concern seriously and successfully accommodated (ingredient check, substitution, separate preparation, clear warnings)
+      cues:
+        - "they were very helpful"
+        - "chef came out"
+        - "made sure"
+        - "double-checked"
+
+    - id: refused
+      label: Refused
+      description: Staff stated they could not or would not accommodate
+      cues:
+        - "said they couldn't"
+        - "refused to"
+        - "wouldn't help"
+
+    - id: dismissive
+      label: Dismissive
+      description: Staff minimized the concern or did not take it seriously
+      cues:
+        - "rolled their eyes"
+        - "didn't seem to care"
+        - "brushed off"
+
+    - id: none
+      label: Not described
+      description: No staff interaction about the concern is described
+      cues: []
+
+    - id: unknown
+      label: Unknown
+      description: Unclear from the review
+      cues: []
+
+  default: none
+
+RECENCY:
+  name: Recency
+  type: enum
+  description: How recent the event was relative to the evaluation window
+  values:
+    - id: recent
+      label: Recent
+      description: Within the last year
+
+    - id: moderate
+      label: Moderate
+      description: 1-3 years ago
+
+    - id: old
+      label: Old
+      description: More than 3 years ago
+
+  default: moderate
+
+CONFIDENCE_LEVEL:
+  name: Confidence level
+  type: enum
+  description: Confidence in the verdict based on evidence volume
+  values:
+    - id: none
+      label: None
+      description: No relevant reviews found
+
+    - id: low
+      label: Low
+      description: Very few relevant reviews (1-2)
+
+    - id: medium
+      label: Medium
+      description: Some relevant reviews (3-5)
+
+    - id: high
+      label: High
+      description: Many relevant reviews (6+)
+
+  default: none

@@ -1,0 +1,79 @@
+# G1_allergy_V1: Allergy Safety with Override Triggers
+# V1 = Override: Adds high-priority triggers (false assurance, dismissive staff)
+
+policy_id: "G1_allergy_V1"
+extends: "G1_allergy_V0"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
+overview:
+  purpose: |
+    Assign a restaurant an Allergy Safety Risk label (Low Risk / High Risk / Critical Risk)
+    using customer reviews as evidence.
+
+  evidence_scope: |
+    A review is considered allergy-relevant if it meaningfully discusses any of the following:
+    - an allergic reaction or suspected cross-contact
+    - requesting allergy accommodation (e.g., "peanut allergy", "nut-free")
+    - staff communication about allergy safety
+    - explicit statements about allergy safety guarantees (e.g., "they assured it was nut-free")
+
+    Ingredient mentions without allergy context (e.g., "peanut sauce is great") are NOT considered allergy-relevant.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
+normative:
+  # Terms -> auto-generates Definitions section
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "allergy:INCIDENT_SEVERITY"
+    - ref: "allergy:ASSURANCE_CLAIM"
+    - ref: "shared:STAFF_RESPONSE"
+
+  # Decision policy -> generates Verdict Rules section
+  decision:
+    verdicts: ["Low Risk", "High Risk", "Critical Risk"]
+    ordered: true
+
+    rules:
+      - verdict: "Critical Risk"
+        label: "CRITICAL"
+        logic: ANY
+        conditions:
+          - "A single severe firsthand incident is reported"
+          - "A firsthand incident is reported after an explicit assurance of safety, and the incident is moderate-or-severe"
+          - "Multiple firsthand incidents indicate an ongoing pattern (e.g., repeated moderate incidents, or repeated incidents with dismissive/refusal behavior)"
+
+      - verdict: "High Risk"
+        label: "HIGH"
+        precondition: "CRITICAL does not apply"
+        logic: ANY
+        conditions:
+          - "At least one moderate firsthand incident is reported"
+          - "A firsthand incident occurs after an explicit assurance of safety, even if symptoms are mild (because the assurance represents a process failure)"
+          - "Reviews repeatedly describe staff as refusing or being dismissive about allergy concerns"
+
+      - verdict: "Low Risk"
+        label: "LOW"
+        default: true
+        especially_when:
+          - "No firsthand incidents are reported"
+          - "Allergy-relevant reviews describe consistent accommodation behavior or careful handling"
+
+  # Output format
+  output:
+    verdict:
+      type: enum
+      values: ["Low Risk", "High Risk", "Critical Risk"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"

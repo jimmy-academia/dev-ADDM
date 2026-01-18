@@ -1,0 +1,36 @@
+============================================================
+Verdict Rules
+============================================================
+{% for rule in rules %}
+{% if rule.default %}
+
+[{{ rule.label }}] otherwise{% if rule.especially_when %}, especially when:
+{% for condition in rule.especially_when %}
+  - {{ condition }}
+{% endfor %}
+{% endif %}
+{% else %}
+
+[{{ rule.label }}]{% if rule.precondition %} if {{ rule.precondition }} and {% else %} if {% endif %}any of the following is true:
+{% for condition in rule.conditions %}
+  - {{ condition }}
+{% endfor %}
+{% if rule.exceptions is defined and rule.exceptions %}
+
+  Exceptions:
+{% for exception in rule.exceptions %}
+  - {{ exception }}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% endfor %}
+
+============================================================
+Required Output
+============================================================
+
+{% for field_name, field_spec in output_fields.items() %}
+- {{ field_name }}: {{ field_spec["type"] }}{% if "values" in field_spec %} ({{ field_spec["values"] | join(" | ") }}){% endif %}{% if "note" in field_spec %} -- {{ field_spec["note"] }}{% endif %}{% if "description" in field_spec %}
+  {{ field_spec["description"] }}{% endif %}
+
+{% endfor %}

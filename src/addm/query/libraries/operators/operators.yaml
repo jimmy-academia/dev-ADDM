@@ -1,0 +1,84 @@
+# Logic operators for verdict rules
+# These define the logical constructs that can be used in decision policies
+
+ANY:
+  description: At least one condition is true
+  template: "any of the following"
+  examples:
+    - "[CRITICAL] if any of the following is true:"
+
+ALL:
+  description: All conditions must be true
+  template: "all of the following"
+  examples:
+    - "Apply this rule if all of the following are true:"
+
+NONE:
+  description: No conditions are true
+  template: "none of the following"
+  examples:
+    - "Safe if none of the following apply:"
+
+COUNT:
+  description: Count items matching a condition
+  template: "count where {condition}"
+  params:
+    - threshold
+    - comparison  # >=, >, ==, <, <=
+  examples:
+    - "At least 3 incidents reported"
+    - "More than 5 complaints"
+
+EXISTS:
+  description: At least one item exists matching criteria
+  template: "there exists"
+  examples:
+    - "A single severe incident is reported"
+    - "At least one moderate incident exists"
+
+WITHIN_WINDOW:
+  description: Event occurred within a time window
+  template: "within the last {window}"
+  params:
+    - window_days
+    - window_months
+    - window_years
+  examples:
+    - "Incident within the last year"
+    - "Recent (last 6 months)"
+
+MOST_RECENT:
+  description: The most recent N events
+  template: "most recent {n}"
+  params:
+    - n
+  examples:
+    - "Most recent incident was severe"
+
+SINCE:
+  description: Since a date or event
+  template: "since {reference}"
+  params:
+    - reference_date
+    - reference_event
+  examples:
+    - "Since the renovation"
+    - "Since 2020"
+
+EXCEPT:
+  description: Exclude from consideration
+  template: "except when"
+  examples:
+    - "High risk, except when all incidents are old"
+
+OTHERWISE:
+  description: Default fallback
+  template: "otherwise"
+  examples:
+    - "[LOW] otherwise, especially when:"
+
+ESPECIALLY_WHEN:
+  description: Guidance for default verdict (non-binding)
+  template: "especially when"
+  examples:
+    - "Low risk, especially when no incidents reported"

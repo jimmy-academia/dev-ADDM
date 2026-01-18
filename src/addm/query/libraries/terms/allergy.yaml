@@ -1,0 +1,159 @@
+# Terms specific to allergy safety assessment
+# Referenced as "allergy:TERM_ID"
+
+INCIDENT_SEVERITY:
+  name: Incident severity
+  type: enum
+  description: Severity of allergic reaction if one occurred
+  values:
+    - id: none
+      label: No reaction
+      description: No allergic reaction described
+      cues:
+        - "no issues"
+        - "was fine"
+
+    - id: mild
+      label: Mild incident
+      description: Discomfort or minor symptoms that do not include visible swelling/hives and do not require urgent medical care
+      cues:
+        - "felt a bit sick"
+        - "stomach upset"
+        - "minor reaction"
+        - "slight discomfort"
+
+    - id: moderate
+      label: Moderate incident
+      description: Visible symptoms (e.g., hives or swelling) and/or symptoms that required medication (e.g., antihistamine), but not life-threatening
+      cues:
+        - "broke out in hives"
+        - "face swelled"
+        - "had to take Benadryl"
+        - "needed antihistamine"
+
+    - id: severe
+      label: Severe incident
+      description: Life-threatening reaction, including any mention of anaphylaxis, EpiPen use, emergency room visit, hospitalization, or explicitly described medical emergency
+      cues:
+        - "anaphylaxis"
+        - "anaphylactic"
+        - "EpiPen"
+        - "epinephrine"
+        - "emergency room"
+        - "ER"
+        - "hospital"
+        - "couldn't breathe"
+        - "throat closed"
+
+  default: none
+
+ASSURANCE_CLAIM:
+  name: Assurance of safety
+  type: enum
+  description: Whether staff explicitly assured the food was safe for the allergy
+  values:
+    - id: "true"
+      label: Assurance given
+      description: Review states an explicit assurance of safety (e.g., "guaranteed nut-free", "confirmed no peanuts", "assured it was safe for my allergy")
+      cues:
+        - "guaranteed"
+        - "assured"
+        - "confirmed"
+        - "promised"
+        - "said it was safe"
+
+    - id: "false"
+      label: No assurance
+      description: Review discusses allergy but contains no explicit assurance claim
+      cues: []
+
+    - id: unknown
+      label: Unknown
+      description: Text is too vague to determine
+      cues: []
+
+  default: "false"
+
+ALLERGEN_TYPE:
+  name: Allergen type
+  type: enum
+  description: Type of allergen involved
+  values:
+    - id: peanut
+      label: Peanut
+      description: Peanut allergy
+      cues:
+        - "peanut"
+        - "peanuts"
+
+    - id: tree_nut
+      label: Tree nut
+      description: Tree nut allergy (almond, walnut, cashew, etc.)
+      cues:
+        - "nut"
+        - "nuts"
+        - "almond"
+        - "walnut"
+        - "cashew"
+        - "pecan"
+        - "pistachio"
+        - "hazelnut"
+
+    - id: shellfish
+      label: Shellfish
+      description: Shellfish allergy (shrimp, crab, lobster, etc.)
+      cues:
+        - "shellfish"
+        - "shrimp"
+        - "crab"
+        - "lobster"
+        - "scallop"
+
+    - id: dairy
+      label: Dairy
+      description: Dairy/milk allergy
+      cues:
+        - "dairy"
+        - "milk"
+        - "lactose"
+        - "cheese"
+        - "cream"
+
+    - id: gluten
+      label: Gluten
+      description: Gluten allergy or celiac
+      cues:
+        - "gluten"
+        - "celiac"
+        - "wheat"
+
+    - id: other
+      label: Other
+      description: Other allergen not listed
+      cues: []
+
+    - id: unspecified
+      label: Unspecified
+      description: Allergy mentioned but type not clear
+      cues: []
+
+  default: unspecified
+
+CUISINE_BASELINE_RISK:
+  name: Cuisine baseline risk
+  type: enum
+  description: Baseline risk level based on cuisine type and common use of allergens
+  values:
+    - id: high
+      label: High baseline
+      description: Cuisines commonly using peanuts/tree nuts and shared sauces/oils (Thai, Vietnamese, Chinese, etc.)
+
+    - id: moderate
+      label: Moderate baseline
+      description: Some allergen exposure risk (Indian, Japanese, Korean, etc.)
+
+    - id: low
+      label: Low baseline
+      description: Cuisines where nut exposure is less central (American, Italian, pizza, etc.)
+
+  default: moderate

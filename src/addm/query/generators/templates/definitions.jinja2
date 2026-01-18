@@ -1,0 +1,10 @@
+============================================================
+Definitions
+============================================================
+{% for term in terms %}
+
+{{ term.name }}
+{% for value in term.values %}
+- {{ value.id }}: {{ value.description }}
+{% endfor %}
+{% endfor %}
