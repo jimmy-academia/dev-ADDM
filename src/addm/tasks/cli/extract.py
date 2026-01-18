@@ -512,10 +512,10 @@ async def extract_reviews_for_restaurant(
 
             if verbose:
                 is_allergy = judgment.get("is_allergy_related", False)
-                print(f"  {review_id[:8]}... allergy={is_allergy}")
+                output.print(f"  {review_id[:8]}... allergy={is_allergy}")
 
         except Exception as e:
-            print(f"  Error parsing {review_id}: {e}")
+            output.error(f"  Error parsing {review_id}: {e}")
             continue
 
     return new_extractions
@@ -525,13 +525,13 @@ async def main_task_async(args: argparse.Namespace) -> None:
     """Main async entry point for legacy task-based extraction."""
     # Load task config
     task = load_task(args.task, args.domain)
-    print(f"Loaded task: {task.task_id} ({task.domain})")
-    print(f"L0 fields: {list(task.l0_schema.keys())}")
+    output.info(f"Loaded task: {task.task_id} ({task.domain})")
+    output.print(f"L0 fields: {list(task.l0_schema.keys())}")
 
     # Load dataset
     dataset_path = Path(f"data/context/{args.domain}/dataset_K{args.k}.jsonl")
     if not dataset_path.exists():
-        print(f"Dataset not found: {dataset_path}")
+        output.error(f"Dataset not found: {dataset_path}")
         return
 
     with open(dataset_path) as f:
@@ -540,12 +540,12 @@ async def main_task_async(args: argparse.Namespace) -> None:
     if args.limit:
         restaurants = restaurants[: args.limit]
 
-    print(f"Processing {len(restaurants)} restaurants from {dataset_path.name}")
+    output.info(f"Processing {len(restaurants)} restaurants from {dataset_path.name}")
 
     # Initialize cache
     cache = JudgmentCache(task.cache_path)
     initial_count = cache.count(task.task_id)
-    print(f"Cache has {initial_count} existing judgments for {task.task_id}")
+    output.info(f"Cache has {initial_count} existing judgments for {task.task_id}")
 
     if args.mode == "ondemand":
         # Initialize LLM
@@ -570,7 +570,7 @@ async def main_task_async(args: argparse.Namespace) -> None:
             name = business.get("name", "Unknown")
             n_reviews = len(restaurant.get("reviews", []))
 
-            print(f"[{i+1}/{len(restaurants)}] {name} ({n_reviews} reviews)")
+            output.status(f"[{i+1}/{len(restaurants)}] {name} ({n_reviews} reviews)")
 
             new_count = await extract_reviews_for_restaurant(
                 restaurant,
@@ -589,12 +589,12 @@ async def main_task_async(args: argparse.Namespace) -> None:
         # Final save
         cache.save()
         final_count = cache.count(task.task_id)
-        print(f"\nDone. Added {total_new} new judgments.")
-        print(f"Cache now has {final_count} judgments for {task.task_id}")
+        output.success(f"\nDone. Added {total_new} new judgments.")
+        output.info(f"Cache now has {final_count} judgments for {task.task_id}")
         return
 
     if args.provider != "openai":
-        print("24hrbatch mode only supports provider=openai")
+        output.error("24hrbatch mode only supports provider=openai")
         return
 
     if args.batch_id:
@@ -603,23 +603,23 @@ async def main_task_async(args: argparse.Namespace) -> None:
         status = _get_batch_field(batch, "status")
         if status not in {"completed", "failed", "expired", "cancelled"}:
             if not args.quiet:
-                print(f"Batch {args.batch_id} status: {status}")
+                output.status(f"Batch {args.batch_id} status: {status}")
             return
 
         output_file_id = _get_batch_field(batch, "output_file_id")
         error_file_id = _get_batch_field(batch, "error_file_id")
         if error_file_id:
-            print(f"[WARN] Batch has error file: {error_file_id}")
+            output.warn(f"Batch has error file: {error_file_id}")
 
         if not output_file_id:
-            print(f"[WARN] No output file available for batch {args.batch_id}")
+            output.warn(f"No output file available for batch {args.batch_id}")
             marker = f"ADDM_BATCH_{args.batch_id}"
             try:
                 remove_cron_job(marker)
                 _delete_batch_log(args.domain, args.batch_id)
-                print(f"Removed cron job for {args.batch_id}")
+                output.info(f"Removed cron job for {args.batch_id}")
             except Exception as exc:
-                print(f"[WARN] Failed to remove cron job: {exc}")
+                output.warn(f"Failed to remove cron job: {exc}")
             return
 
         output_bytes = batch_client.download_file(output_file_id)
@@ -661,16 +661,16 @@ async def main_task_async(args: argparse.Namespace) -> None:
 
         cache.save()
         final_count = cache.count(task.task_id)
-        print(f"\nDone. Added {total_new} new judgments.")
-        print(f"Cache now has {final_count} judgments for {task.task_id}")
+        output.success(f"\nDone. Added {total_new} new judgments.")
+        output.info(f"Cache now has {final_count} judgments for {task.task_id}")
 
         marker = f"ADDM_BATCH_{args.batch_id}"
         try:
             remove_cron_job(marker)
             _delete_batch_log(args.domain, args.batch_id)
-            print(f"Removed cron job for {args.batch_id}")
+            output.info(f"Removed cron job for {args.batch_id}")
         except Exception as exc:
-            print(f"[WARN] Failed to remove cron job: {exc}")
+            output.warn(f"Failed to remove cron job: {exc}")
         return
 
     # Submit batch
@@ -684,7 +684,7 @@ async def main_task_async(args: argparse.Namespace) -> None:
                 to_extract.append((biz_id, review))
 
     if not to_extract:
-        print("No reviews need extraction.")
+        output.info("No reviews need extraction.")
         return
 
     request_items = []
@@ -705,7 +705,7 @@ async def main_task_async(args: argparse.Namespace) -> None:
     batch_client = BatchClient()
     input_file_id = batch_client.upload_batch_file(request_items)
     batch_id = batch_client.submit_batch(input_file_id)
-    print(f"Submitted batch: {batch_id}")
+    output.success(f"Submitted batch: {batch_id}")
 
     marker = f"ADDM_BATCH_{batch_id}"
     cron_line = f"*/5 * * * * {_build_cron_command(args, batch_id)} # {marker}"
@@ -733,19 +733,19 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         if _check_and_report_status(args, topic):
             return  # Existing job found, status reported, exit
 
-    print(f"Policy-based extraction for topic: {topic}")
+    output.info(f"Policy-based extraction for topic: {topic}")
 
     # Load term library and build L0 schema
     library = load_term_library()
     l0_schema = build_l0_schema_from_topic(topic, library)
     term_hash = compute_term_hash(l0_schema)
-    print(f"L0 schema fields: {list(l0_schema.keys())}")
-    print(f"Term hash: {term_hash}")
+    output.print(f"L0 schema fields: {list(l0_schema.keys())}")
+    output.print(f"Term hash: {term_hash}")
 
     # Load dataset
     dataset_path = Path(f"data/context/{args.domain}/dataset_K{args.k}.jsonl")
     if not dataset_path.exists():
-        print(f"Dataset not found: {dataset_path}")
+        output.error(f"Dataset not found: {dataset_path}")
         return
 
     with open(dataset_path) as f:
@@ -754,7 +754,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
     if args.limit:
         restaurants = restaurants[: args.limit]
 
-    print(f"Processing {len(restaurants)} restaurants from {dataset_path.name}")
+    output.info(f"Processing {len(restaurants)} restaurants from {dataset_path.name}")
 
     # Initialize policy cache
     cache_path = _get_policy_cache_path(args.domain)
@@ -764,29 +764,29 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
     if not cache.check_term_hash(topic, term_hash):
         meta = cache.get_topic_metadata(topic)
         old_hash = meta.get("term_hash", "unknown") if meta else "unknown"
-        print(f"[WARN] Term definition changed! Old hash: {old_hash}, new hash: {term_hash}")
-        print("       Existing cache may be stale. Use --invalidate to clear.")
+        output.warn(f"Term definition changed! Old hash: {old_hash}, new hash: {term_hash}")
+        output.print("       Existing cache may be stale. Use --invalidate to clear.")
         if args.invalidate:
             count = cache.invalidate_topic(topic)
-            print(f"       Invalidated {count} cache entries for {topic}")
+            output.info(f"       Invalidated {count} cache entries for {topic}")
         else:
-            print("       Proceeding with existing cache (add --invalidate to clear)")
+            output.print("       Proceeding with existing cache (add --invalidate to clear)")
 
     # Store term hash metadata
     # Multi-model configuration (from --models flag or default)
     models_config = get_models_config(args)
     total_runs = sum(models_config.values())
-    print(f"Multi-model config: {models_config} ({total_runs} runs per review)")
+    output.info(f"Multi-model config: {models_config} ({total_runs} runs per review)")
 
     cache.set_topic_metadata(topic, term_hash, models_config)
 
     initial_agg = cache.count_aggregated(topic)
-    print(f"Cache has {initial_agg} aggregated judgments for {topic}")
+    output.info(f"Cache has {initial_agg} aggregated judgments for {topic}")
 
     if args.mode == "ondemand":
         # Ondemand mode for testing - runs all models sequentially
-        print("[INFO] Running in ondemand mode (for testing)")
-        print("       For production, use: --mode 24hrbatch")
+        output.info("Running in ondemand mode (for testing)")
+        output.print("       For production, use: --mode 24hrbatch")
 
         llm = LLMService()
         if args.dry_run:
@@ -809,7 +809,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
             biz_id = business.get("business_id", "")
             name = business.get("name", "Unknown")
 
-            print(f"[{i+1}/{len(restaurants)}] {name}")
+            output.status(f"[{i+1}/{len(restaurants)}] {name}")
 
             for review in restaurant.get("reviews", []):
                 review_id = review.get("review_id", "")
@@ -850,10 +850,10 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
 
                         if args.verbose:
                             is_rel = judgment.get("is_allergy_related", False)
-                            print(f"    {review_id[:8]}... {model} run{run} rel={is_rel}")
+                            output.print(f"    {review_id[:8]}... {model} run{run} rel={is_rel}")
 
                     except Exception as e:
-                        print(f"    Error {review_id[:8]} {model} run{run}: {e}")
+                        output.error(f"    Error {review_id[:8]} {model} run{run}: {e}")
                         continue
 
                 # Aggregate if quota satisfied
@@ -869,12 +869,12 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
 
         cache.save()
         final_agg = cache.count_aggregated(topic)
-        print(f"\nDone. Added {total_raw} raw, {total_aggregated} aggregated.")
-        print(f"Cache now has {final_agg} aggregated judgments for {topic}")
+        output.success(f"\nDone. Added {total_raw} raw, {total_aggregated} aggregated.")
+        output.info(f"Cache now has {final_agg} aggregated judgments for {topic}")
         return
 
     if args.provider != "openai":
-        print("24hrbatch mode only supports provider=openai")
+        output.error("24hrbatch mode only supports provider=openai")
         return
 
     if args.batch_id:
@@ -884,23 +884,23 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         status = _get_batch_field(batch, "status")
         if status not in {"completed", "failed", "expired", "cancelled"}:
             if not args.quiet:
-                print(f"Batch {args.batch_id} status: {status}")
+                output.status(f"Batch {args.batch_id} status: {status}")
             return
 
         output_file_id = _get_batch_field(batch, "output_file_id")
         error_file_id = _get_batch_field(batch, "error_file_id")
         if error_file_id:
-            print(f"[WARN] Batch has error file: {error_file_id}")
+            output.warn(f"Batch has error file: {error_file_id}")
 
         if not output_file_id:
-            print(f"[WARN] No output file available for batch {args.batch_id}")
+            output.warn(f"No output file available for batch {args.batch_id}")
             marker = f"ADDM_POLICY_BATCH_{args.batch_id}"
             try:
                 remove_cron_job(marker)
                 _delete_batch_log(args.domain, args.batch_id)
-                print(f"Removed cron job for {args.batch_id}")
+                output.info(f"Removed cron job for {args.batch_id}")
             except Exception as exc:
-                print(f"[WARN] Failed to remove cron job: {exc}")
+                output.warn(f"Failed to remove cron job: {exc}")
             return
 
         output_bytes = batch_client.download_file(output_file_id)
@@ -951,10 +951,10 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
 
             except Exception as e:
                 if args.verbose:
-                    print(f"  Error parsing {review_id}: {e}")
+                    output.error(f"  Error parsing {review_id}: {e}")
                 continue
 
-        print(f"Processed {total_raw} raw extractions for {len(reviews_touched)} reviews")
+        output.info(f"Processed {total_raw} raw extractions for {len(reviews_touched)} reviews")
 
         # Aggregate completed reviews
         total_aggregated = 0
@@ -967,31 +967,38 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
 
         cache.save()
         final_agg = cache.count_aggregated(topic)
-        print(f"\nDone. Added {total_aggregated} aggregated judgments.")
-        print(f"Cache now has {final_agg} aggregated judgments for {topic}")
+        output.success(f"\nDone. Added {total_aggregated} aggregated judgments.")
+        output.info(f"Cache now has {final_agg} aggregated judgments for {topic}")
 
         marker = f"ADDM_POLICY_BATCH_{args.batch_id}"
         try:
             remove_cron_job(marker)
             _delete_batch_log(args.domain, args.batch_id)
-            print(f"Removed cron job for {args.batch_id}")
+            output.info(f"Removed cron job for {args.batch_id}")
         except Exception as exc:
-            print(f"[WARN] Failed to remove cron job: {exc}")
+            output.warn(f"Failed to remove cron job: {exc}")
         return
 
     # Handle manifest-based multi-batch processing
     if args.manifest_id:
         manifest = _load_manifest(args.domain, args.manifest_id)
         if not manifest:
-            print(f"[ERROR] Manifest not found: {args.manifest_id}")
+            # Manifest file deleted - clean up stale cron job
+            output.warn(f"Manifest not found: {args.manifest_id} (likely already processed or deleted)")
+            marker = f"ADDM_MANIFEST_{args.manifest_id}"
+            try:
+                remove_cron_job(marker)
+                _delete_manifest(args.domain, args.manifest_id)  # Clean up any leftover files
+                output.info(f"Cleaned up stale cron job: {marker}")
+            except Exception:
+                pass  # Cron may already be removed
             return
 
         batch_client = BatchClient()
         all_complete = True
-        any_failed = False
 
         if not args.quiet:
-            print(f"Checking {len(manifest['batches'])} batches...")
+            output.status(f"Checking {len(manifest['batches'])} batches...")
 
         for batch_info in manifest["batches"]:
             batch_id = batch_info["batch_id"]
@@ -1003,13 +1010,12 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
 
             if status not in {"completed", "failed", "expired", "cancelled"}:
                 if not args.quiet:
-                    print(f"  Batch {batch_id[:20]}... status: {status}")
+                    output.status(f"  Batch {batch_id[:20]}... status: {status}")
                 all_complete = False
                 continue
 
             if status != "completed":
-                print(f"  Batch {batch_id[:20]}... FAILED: {status}")
-                any_failed = True
+                output.warn(f"  Batch {batch_id[:20]}... status: {status}")
                 batch_info["processed"] = True
                 batch_info["status"] = status
                 continue
@@ -1017,12 +1023,21 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
             # Process this batch
             output_file_id = _get_batch_field(batch, "output_file_id")
             if not output_file_id:
-                print(f"  Batch {batch_id[:20]}... no output file")
+                output.warn(f"  Batch {batch_id[:20]}... no output file")
                 batch_info["processed"] = True
                 batch_info["status"] = "no_output"
                 continue
 
-            print(f"  Processing batch {batch_id[:20]}...")
+            # Log batch status
+            req_counts = _get_batch_field(batch, "request_counts")
+            total_reqs = getattr(req_counts, "total", 0) if req_counts else 0
+            failed_reqs = getattr(req_counts, "failed", 0) if req_counts else 0
+            completed_reqs = getattr(req_counts, "completed", 0) if req_counts else 0
+
+            if failed_reqs > 0:
+                output.warn(f"  Batch {batch_id[:20]}... {failed_reqs}/{total_reqs} requests failed")
+
+            output.status(f"  Processing batch {batch_id[:20]}... ({completed_reqs}/{total_reqs} succeeded)")
             output_bytes = batch_client.download_file(output_file_id)
             review_index = _index_reviews(restaurants)
 
@@ -1064,7 +1079,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
                 except Exception:
                     continue
 
-            print(f"    Processed {batch_raw} raw extractions")
+            output.status(f"    Processed {batch_raw} raw extractions")
             batch_info["processed"] = True
             batch_info["status"] = "completed"
             batch_info["raw_count"] = batch_raw
@@ -1075,11 +1090,11 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
 
         if not all_complete:
             if not args.quiet:
-                print("\nSome batches still processing. Will check again.")
+                output.status("\nSome batches still processing. Will check again.")
             return
 
         # All batches complete - run aggregation
-        print("\nAll batches complete. Running aggregation...")
+        output.success("\nAll batches complete. Running aggregation...")
         total_aggregated = 0
         all_review_ids = set()
 
@@ -1100,22 +1115,31 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
 
         cache.save()
         final_agg = cache.count_aggregated(topic)
-        print(f"\nDone. Added {total_aggregated} aggregated judgments.")
-        print(f"Cache now has {final_agg} aggregated judgments for {topic}")
+        output.success(f"\nDone. Added {total_aggregated} aggregated judgments.")
+        output.info(f"Cache now has {final_agg} aggregated judgments for {topic}")
 
-        if any_failed:
-            print("[WARN] Some batches failed. Check manifest for details.")
-
-        # Cleanup
+        # Cleanup - always delete manifest (cache is source of truth)
         marker = f"ADDM_MANIFEST_{args.manifest_id}"
         try:
             remove_cron_job(marker)
-            print(f"Removed cron job for manifest {args.manifest_id}")
+            output.info(f"Removed cron job: {marker}")
         except Exception as exc:
-            print(f"[WARN] Failed to remove cron job: {exc}")
+            output.warn(f"Failed to remove cron job: {exc}")
 
         _delete_manifest(args.domain, args.manifest_id)
-        print(f"Deleted manifest file")
+
+        # Check if extraction is complete
+        missing = 0
+        for restaurant in restaurants:
+            for review in restaurant.get("reviews", []):
+                review_id = review.get("review_id", "")
+                if review_id and cache.needs_extraction(topic, review_id, models_config):
+                    missing += 1
+
+        if missing > 0:
+            output.warn(f"{missing} reviews still need extraction. Re-run to submit missing requests.")
+        else:
+            output.success("All extractions complete!")
         return
 
     # Submit batch(es) - generate multi-model requests
@@ -1157,16 +1181,16 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
                 )
 
     if not request_items:
-        print("No reviews need extraction. All quotas satisfied.")
+        output.info("No reviews need extraction. All quotas satisfied.")
         return
 
-    print(f"Total requests: {len(request_items)} for {reviews_to_extract} reviews")
+    output.info(f"Total requests: {len(request_items)} for {reviews_to_extract} reviews")
 
     # Split by model first (OpenAI requires single model per batch), then by size
     model_batches = _split_by_model_then_size(request_items, MAX_BATCH_SIZE)
-    print(f"Splitting into {len(model_batches)} batch(es) by model (max {MAX_BATCH_SIZE} per batch)")
+    output.info(f"Splitting into {len(model_batches)} batch(es) by model (max {MAX_BATCH_SIZE} per batch)")
     for model, items in model_batches:
-        print(f"  {model}: {len(items)} requests")
+        output.print(f"  {model}: {len(items)} requests")
 
     batch_client = BatchClient()
 
@@ -1175,7 +1199,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         model, items = model_batches[0]
         input_file_id = batch_client.upload_batch_file(items)
         batch_id = batch_client.submit_batch(input_file_id)
-        print(f"Submitted batch: {batch_id} ({model})")
+        output.success(f"Submitted batch: {batch_id} ({model})")
 
         marker = f"ADDM_POLICY_BATCH_{batch_id}"
         cron_line = f"*/5 * * * * {_build_policy_cron_command(args, batch_id, topic)} # {marker}"
@@ -1199,7 +1223,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         }
 
         for i, (model, chunk) in enumerate(model_batches):
-            print(f"  Submitting batch {i+1}/{len(model_batches)} ({model}: {len(chunk)} requests)...")
+            output.status(f"  Submitting batch {i+1}/{len(model_batches)} ({model}: {len(chunk)} requests)...")
             input_file_id = batch_client.upload_batch_file(chunk)
             batch_id = batch_client.submit_batch(input_file_id)
             manifest["batches"].append({
@@ -1209,10 +1233,10 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
                 "request_count": len(chunk),
                 "processed": False,
             })
-            print(f"    Batch ID: {batch_id}")
+            output.print(f"    Batch ID: {batch_id}")
 
         _save_manifest(args.domain, manifest_id, manifest)
-        print(f"\nCreated manifest: {manifest_id}")
+        output.success(f"\nCreated manifest: {manifest_id}")
 
         # Build cron command for manifest processing
         repo_root = Path.cwd().resolve()
@@ -1291,8 +1315,8 @@ ALL_TOPICS = [
 async def main_all_topics_async(args: argparse.Namespace) -> None:
     """Extract all topics in one batch."""
     topics = ALL_TOPICS
-    print(f"Extracting ALL {len(topics)} topics for GT generation")
-    print(f"Topics: {', '.join(topics)}")
+    output.info(f"Extracting ALL {len(topics)} topics for GT generation")
+    output.print(f"Topics: {', '.join(topics)}")
 
     # Load term library once
     library = load_term_library()
@@ -1307,15 +1331,15 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
             topic_schemas[topic] = schema
             topic_hashes[topic] = compute_term_hash(schema)
         except Exception as e:
-            print(f"[WARN] Skipping {topic}: {e}")
+            output.warn(f"Skipping {topic}: {e}")
             continue
 
-    print(f"Loaded schemas for {len(topic_schemas)} topics")
+    output.info(f"Loaded schemas for {len(topic_schemas)} topics")
 
     # Load dataset
     dataset_path = Path(f"data/context/{args.domain}/dataset_K{args.k}.jsonl")
     if not dataset_path.exists():
-        print(f"Dataset not found: {dataset_path}")
+        output.error(f"Dataset not found: {dataset_path}")
         return
 
     with open(dataset_path) as f:
@@ -1324,7 +1348,7 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
     if args.limit:
         restaurants = restaurants[: args.limit]
 
-    print(f"Processing {len(restaurants)} restaurants from {dataset_path.name}")
+    output.info(f"Processing {len(restaurants)} restaurants from {dataset_path.name}")
 
     # Initialize cache
     cache_path = _get_policy_cache_path(args.domain)
@@ -1335,42 +1359,41 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
         if not cache.check_term_hash(topic, term_hash):
             meta = cache.get_topic_metadata(topic)
             old_hash = meta.get("term_hash", "unknown") if meta else "unknown"
-            print(f"[WARN] Term hash changed for {topic}: {old_hash} -> {term_hash}")
+            output.warn(f"Term hash changed for {topic}: {old_hash} -> {term_hash}")
             if args.invalidate:
                 count = cache.invalidate_topic(topic)
-                print(f"       Invalidated {count} entries")
+                output.info(f"       Invalidated {count} entries")
 
     # Multi-model config (from --models flag or default)
     models_config = get_models_config(args)
     total_runs = sum(models_config.values())
-    print(f"Multi-model config: {models_config} ({total_runs} runs per review per topic)")
+    output.info(f"Multi-model config: {models_config} ({total_runs} runs per review per topic)")
 
     # Store metadata for all topics
     for topic, term_hash in topic_hashes.items():
         cache.set_topic_metadata(topic, term_hash, models_config)
 
     if args.mode == "ondemand":
-        print("[ERROR] --all requires 24hrbatch mode (too many requests for ondemand)")
-        print("        Use: --mode 24hrbatch")
+        output.error("--all requires 24hrbatch mode (too many requests for ondemand)")
+        output.print("        Use: --mode 24hrbatch")
         return
 
     if args.provider != "openai":
-        print("24hrbatch mode only supports provider=openai")
+        output.error("24hrbatch mode only supports provider=openai")
         return
 
     # Handle manifest-based multi-batch processing for --all mode
     if args.manifest_id:
         manifest = _load_manifest(args.domain, args.manifest_id)
         if not manifest:
-            print(f"[ERROR] Manifest not found: {args.manifest_id}")
+            output.error(f"Manifest not found: {args.manifest_id}")
             return
 
         batch_client = BatchClient()
         all_complete = True
-        any_failed = False
 
         if not args.quiet:
-            print(f"Checking {len(manifest['batches'])} batches...")
+            output.status(f"Checking {len(manifest['batches'])} batches...")
 
         review_index = _index_reviews(restaurants)
         total_raw = 0
@@ -1386,13 +1409,12 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
 
             if status not in {"completed", "failed", "expired", "cancelled"}:
                 if not args.quiet:
-                    print(f"  Batch {batch_id[:20]}... status: {status}")
+                    output.status(f"  Batch {batch_id[:20]}... status: {status}")
                 all_complete = False
                 continue
 
             if status != "completed":
-                print(f"  Batch {batch_id[:20]}... FAILED: {status}")
-                any_failed = True
+                output.warn(f"  Batch {batch_id[:20]}... status: {status}")
                 batch_info["processed"] = True
                 batch_info["status"] = status
                 continue
@@ -1400,12 +1422,12 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
             # Process this batch
             output_file_id = _get_batch_field(batch, "output_file_id")
             if not output_file_id:
-                print(f"  Batch {batch_id[:20]}... no output file")
+                output.warn(f"  Batch {batch_id[:20]}... no output file")
                 batch_info["processed"] = True
                 batch_info["status"] = "no_output"
                 continue
 
-            print(f"  Processing batch {batch_id[:20]}...")
+            output.status(f"  Processing batch {batch_id[:20]}...")
             output_bytes = batch_client.download_file(output_file_id)
 
             batch_raw = 0
@@ -1450,7 +1472,7 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
                 except Exception:
                     continue
 
-            print(f"    Processed {batch_raw} raw extractions")
+            output.status(f"    Processed {batch_raw} raw extractions")
             batch_info["processed"] = True
             batch_info["status"] = "completed"
             batch_info["raw_count"] = batch_raw
@@ -1461,12 +1483,12 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
 
         if not all_complete:
             if not args.quiet:
-                print("\nSome batches still processing. Will check again.")
+                output.status("\nSome batches still processing. Will check again.")
             return
 
         # All batches complete - run aggregation
-        print(f"\nAll batches complete. Processed {total_raw} total raw extractions.")
-        print("Running aggregation...")
+        output.success(f"\nAll batches complete. Processed {total_raw} total raw extractions.")
+        output.status("Running aggregation...")
 
         total_aggregated = 0
         for topic, review_ids in reviews_by_topic.items():
@@ -1480,25 +1502,39 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
                         total_aggregated += 1
 
         cache.save()
-        print(f"\nDone. Added {total_aggregated} aggregated judgments across all topics.")
+        output.success(f"\nDone. Added {total_aggregated} aggregated judgments across all topics.")
 
         for topic in topic_schemas:
             count = cache.count_aggregated(topic)
-            print(f"  {topic}: {count} aggregated")
+            output.print(f"  {topic}: {count} aggregated")
 
-        if any_failed:
-            print("[WARN] Some batches failed. Check manifest for details.")
-
-        # Cleanup
+        # Cleanup - always delete manifest (cache is source of truth)
         marker = f"ADDM_MANIFEST_ALL_{args.manifest_id}"
         try:
             remove_cron_job(marker)
-            print(f"Removed cron job for manifest {args.manifest_id}")
+            output.info(f"Removed cron job: {marker}")
         except Exception as exc:
-            print(f"[WARN] Failed to remove cron job: {exc}")
+            output.warn(f"Failed to remove cron job: {exc}")
 
         _delete_manifest(args.domain, args.manifest_id)
-        print(f"Deleted manifest file")
+
+        # Check if extraction is complete for all topics
+        missing_total = 0
+        for topic, l0_schema in topic_schemas.items():
+            missing = 0
+            for restaurant in restaurants:
+                for review in restaurant.get("reviews", []):
+                    review_id = review.get("review_id", "")
+                    if review_id and cache.needs_extraction(topic, review_id, models_config):
+                        missing += 1
+            if missing > 0:
+                output.warn(f"  {topic}: {missing} reviews still need extraction")
+                missing_total += missing
+
+        if missing_total > 0:
+            output.warn(f"\n{missing_total} total reviews need extraction. Re-run to submit missing requests.")
+        else:
+            output.success("All extractions complete!")
         return
 
     if args.batch_id:
@@ -1508,16 +1544,16 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
         status = _get_batch_field(batch, "status")
         if status not in {"completed", "failed", "expired", "cancelled"}:
             if not args.quiet:
-                print(f"Batch {args.batch_id} status: {status}")
+                output.status(f"Batch {args.batch_id} status: {status}")
             return
 
         output_file_id = _get_batch_field(batch, "output_file_id")
         error_file_id = _get_batch_field(batch, "error_file_id")
         if error_file_id:
-            print(f"[WARN] Batch has error file: {error_file_id}")
+            output.warn(f"Batch has error file: {error_file_id}")
 
         if not output_file_id:
-            print(f"[WARN] No output file for batch {args.batch_id}")
+            output.warn(f"No output file for batch {args.batch_id}")
             marker = f"ADDM_ALL_BATCH_{args.batch_id}"
             try:
                 remove_cron_job(marker)
@@ -1573,7 +1609,7 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
             except Exception:
                 continue
 
-        print(f"Processed {total_raw} raw extractions")
+        output.info(f"Processed {total_raw} raw extractions")
 
         # Aggregate completed reviews per topic
         total_aggregated = 0
@@ -1587,19 +1623,19 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
                     total_aggregated += 1
 
         cache.save()
-        print(f"\nDone. Added {total_aggregated} aggregated judgments across all topics.")
+        output.success(f"Done. Added {total_aggregated} aggregated judgments across all topics.")
 
         for topic in topic_schemas:
             count = cache.count_aggregated(topic)
-            print(f"  {topic}: {count} aggregated")
+            output.print(f"  {topic}: {count} aggregated")
 
         marker = f"ADDM_ALL_BATCH_{args.batch_id}"
         try:
             remove_cron_job(marker)
             _delete_batch_log(args.domain, args.batch_id)
-            print(f"Removed cron job for {args.batch_id}")
+            output.info(f"Removed cron job for {args.batch_id}")
         except Exception as exc:
-            print(f"[WARN] Failed to remove cron job: {exc}")
+            output.warn(f"Failed to remove cron job: {exc}")
         return
 
     # Submit batch(es) for all topics
@@ -1640,17 +1676,17 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
                     )
 
     if not request_items:
-        print("No reviews need extraction. All quotas satisfied.")
+        output.info("No reviews need extraction. All quotas satisfied.")
         return
 
-    print(f"Total requests: {len(request_items)}")
-    print(f"  ({len(topic_schemas)} topics × {reviews_to_extract} review-topics × {total_runs} runs)")
+    output.info(f"Total requests: {len(request_items)}")
+    output.print(f"  ({len(topic_schemas)} topics × {reviews_to_extract} review-topics × {total_runs} runs)")
 
     # Split by model first (OpenAI requires single model per batch), then by size
     model_batches = _split_by_model_then_size(request_items, MAX_BATCH_SIZE)
-    print(f"Splitting into {len(model_batches)} batch(es) by model (max {MAX_BATCH_SIZE} per batch)")
+    output.info(f"Splitting into {len(model_batches)} batch(es) by model (max {MAX_BATCH_SIZE} per batch)")
     for model, items in model_batches:
-        print(f"  {model}: {len(items)} requests")
+        output.print(f"  {model}: {len(items)} requests")
 
     batch_client = BatchClient()
     repo_root = Path.cwd().resolve()
@@ -1669,7 +1705,7 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
     }
 
     for i, (model, chunk) in enumerate(model_batches):
-        print(f"  Submitting batch {i+1}/{len(model_batches)} ({model}: {len(chunk)} requests)...")
+        output.status(f"Submitting batch {i+1}/{len(model_batches)} ({model}: {len(chunk)} requests)...")
         input_file_id = batch_client.upload_batch_file(chunk)
         batch_id = batch_client.submit_batch(input_file_id)
         manifest["batches"].append({
@@ -1679,10 +1715,10 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
             "request_count": len(chunk),
             "processed": False,
         })
-        print(f"    Batch ID: {batch_id}")
+        output.print(f"    Batch ID: {batch_id}")
 
         _save_manifest(args.domain, manifest_id, manifest)
-        print(f"\nCreated manifest: {manifest_id}")
+        output.success(f"\nCreated manifest: {manifest_id}")
 
         # Build cron command for manifest processing
         cmd = [
@@ -1742,7 +1778,7 @@ async def main_async(args: argparse.Namespace) -> None:
         await main_task_async(args)
     else:
         # Default: extract all topics
-        print("No target specified, defaulting to --all (all topics)")
+        output.info("No target specified, defaulting to --all (all topics)")
         args.all = True
         await main_all_topics_async(args)
 
