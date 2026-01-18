@@ -1,10 +1,18 @@
 """Judgment extraction and caching."""
 
 import json
+from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 from addm.tasks.prompt_parser import get_l0_field_order
+
+# Multi-model configuration for GT extraction
+REQUIRED_RUNS = {
+    "gpt-5.1": 1,
+    "gpt-5-mini": 3,
+    "gpt-5-nano": 5,
+}
 
 
 class JudgmentCache:
@@ -52,6 +60,244 @@ class JudgmentCache:
     def count(self, task_id: str) -> int:
         """Count cached judgments for a task."""
         return len(self._data.get(task_id, {}))
+
+
+class PolicyJudgmentCache:
+    """
+    Extended cache for policy-based GT extraction with multi-model support.
+
+    Supports:
+    - Raw storage: Individual extractions per model/run
+    - Aggregated storage: Weighted majority vote results
+    - Quota checking: Track which model/run combinations are complete
+    - Term version tracking: Hash-based invalidation
+
+    Structure:
+    {
+        "_metadata": {
+            "topic": {"term_hash": "...", "created_at": "...", "model_config": {...}}
+        },
+        "raw": {
+            "topic::review_id::model::run": {...judgment...}
+        },
+        "aggregated": {
+            "topic::review_id": {...aggregated_judgment...}
+        }
+    }
+    """
+
+    def __init__(self, cache_path: Path) -> None:
+        self.cache_path = cache_path
+        self._data: Dict[str, Any] = {
+            "_metadata": {},
+            "raw": {},
+            "aggregated": {},
+        }
+        self._load()
+
+    def _load(self) -> None:
+        """Load cache from disk."""
+        if self.cache_path.exists():
+            with open(self.cache_path) as f:
+                loaded = json.load(f)
+                # Merge with default structure
+                self._data["_metadata"] = loaded.get("_metadata", {})
+                self._data["raw"] = loaded.get("raw", {})
+                self._data["aggregated"] = loaded.get("aggregated", {})
+
+    def save(self) -> None:
+        """Save cache to disk."""
+        self.cache_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(self.cache_path, "w") as f:
+            json.dump(self._data, f, indent=2)
+
+    # -------------------------------------------------------------------------
+    # Raw cache operations
+    # -------------------------------------------------------------------------
+
+    def _raw_key(self, topic: str, review_id: str, model: str, run: int) -> str:
+        """Build raw cache key."""
+        return f"{topic}::{review_id}::{model}::run{run}"
+
+    def set_raw(
+        self, topic: str, review_id: str, model: str, run: int, judgment: Dict[str, Any]
+    ) -> None:
+        """Store a raw extraction result."""
+        key = self._raw_key(topic, review_id, model, run)
+        # Add metadata
+        judgment["_model"] = model
+        judgment["_run"] = run
+        judgment["_extracted_at"] = datetime.now().isoformat()
+        self._data["raw"][key] = judgment
+
+    def get_raw(
+        self, topic: str, review_id: str, model: str, run: int
+    ) -> Optional[Dict[str, Any]]:
+        """Get a raw extraction result."""
+        key = self._raw_key(topic, review_id, model, run)
+        return self._data["raw"].get(key)
+
+    def has_raw(self, topic: str, review_id: str, model: str, run: int) -> bool:
+        """Check if raw extraction exists."""
+        key = self._raw_key(topic, review_id, model, run)
+        return key in self._data["raw"]
+
+    def get_raw_by_review(
+        self, topic: str, review_id: str
+    ) -> List[Dict[str, Any]]:
+        """Get all raw extractions for a review (across all models/runs)."""
+        prefix = f"{topic}::{review_id}::"
+        results = []
+        for key, value in self._data["raw"].items():
+            if key.startswith(prefix):
+                results.append(value)
+        return results
+
+    def count_cached_runs(self, topic: str, review_id: str, model: str) -> int:
+        """Count how many runs are cached for a model."""
+        prefix = f"{topic}::{review_id}::{model}::run"
+        count = 0
+        for key in self._data["raw"].keys():
+            if key.startswith(prefix):
+                count += 1
+        return count
+
+    # -------------------------------------------------------------------------
+    # Aggregated cache operations
+    # -------------------------------------------------------------------------
+
+    def _agg_key(self, topic: str, review_id: str) -> str:
+        """Build aggregated cache key."""
+        return f"{topic}::{review_id}"
+
+    def set_aggregated(
+        self, topic: str, review_id: str, judgment: Dict[str, Any]
+    ) -> None:
+        """Store an aggregated judgment."""
+        key = self._agg_key(topic, review_id)
+        judgment["_aggregated_at"] = datetime.now().isoformat()
+        self._data["aggregated"][key] = judgment
+
+    def get_aggregated(self, topic: str, review_id: str) -> Optional[Dict[str, Any]]:
+        """Get aggregated judgment for a review."""
+        key = self._agg_key(topic, review_id)
+        return self._data["aggregated"].get(key)
+
+    def has_aggregated(self, topic: str, review_id: str) -> bool:
+        """Check if aggregated judgment exists."""
+        key = self._agg_key(topic, review_id)
+        return key in self._data["aggregated"]
+
+    def get_all_aggregated(self, topic: str) -> Dict[str, Dict[str, Any]]:
+        """Get all aggregated judgments for a topic."""
+        prefix = f"{topic}::"
+        results = {}
+        for key, value in self._data["aggregated"].items():
+            if key.startswith(prefix):
+                review_id = key[len(prefix):]
+                results[review_id] = value
+        return results
+
+    def count_aggregated(self, topic: str) -> int:
+        """Count aggregated judgments for a topic."""
+        prefix = f"{topic}::"
+        return sum(1 for key in self._data["aggregated"] if key.startswith(prefix))
+
+    # -------------------------------------------------------------------------
+    # Quota checking
+    # -------------------------------------------------------------------------
+
+    def needs_extraction(
+        self, topic: str, review_id: str, required_runs: Optional[Dict[str, int]] = None
+    ) -> List[Tuple[str, int]]:
+        """
+        Check which model/run combinations still need extraction.
+
+        Args:
+            topic: Topic identifier
+            review_id: Review identifier
+            required_runs: Dict of model -> required run count (default: REQUIRED_RUNS)
+
+        Returns:
+            List of (model, run) tuples that need extraction
+        """
+        if required_runs is None:
+            required_runs = REQUIRED_RUNS
+
+        needed: List[Tuple[str, int]] = []
+        for model, required in required_runs.items():
+            existing = self.count_cached_runs(topic, review_id, model)
+            for run in range(existing + 1, required + 1):
+                needed.append((model, run))
+
+        return needed
+
+    def is_quota_satisfied(
+        self, topic: str, review_id: str, required_runs: Optional[Dict[str, int]] = None
+    ) -> bool:
+        """Check if all model/run quotas are satisfied for a review."""
+        return len(self.needs_extraction(topic, review_id, required_runs)) == 0
+
+    # -------------------------------------------------------------------------
+    # Metadata operations
+    # -------------------------------------------------------------------------
+
+    def set_topic_metadata(
+        self,
+        topic: str,
+        term_hash: str,
+        model_config: Optional[Dict[str, int]] = None,
+    ) -> None:
+        """Store metadata for a topic."""
+        if model_config is None:
+            model_config = REQUIRED_RUNS
+        self._data["_metadata"][topic] = {
+            "term_hash": term_hash,
+            "created_at": datetime.now().isoformat(),
+            "model_config": model_config,
+        }
+
+    def get_topic_metadata(self, topic: str) -> Optional[Dict[str, Any]]:
+        """Get metadata for a topic."""
+        return self._data["_metadata"].get(topic)
+
+    def check_term_hash(self, topic: str, current_hash: str) -> bool:
+        """
+        Check if current term hash matches cached.
+
+        Returns True if match (safe to use cache), False if mismatch.
+        """
+        meta = self.get_topic_metadata(topic)
+        if not meta:
+            return True  # No existing cache, OK to proceed
+        return meta.get("term_hash") == current_hash
+
+    def invalidate_topic(self, topic: str) -> int:
+        """
+        Invalidate all cache entries for a topic.
+
+        Returns count of entries removed.
+        """
+        count = 0
+
+        # Remove raw entries
+        prefix = f"{topic}::"
+        raw_keys = [k for k in self._data["raw"].keys() if k.startswith(prefix)]
+        for key in raw_keys:
+            del self._data["raw"][key]
+            count += 1
+
+        # Remove aggregated entries
+        agg_keys = [k for k in self._data["aggregated"].keys() if k.startswith(prefix)]
+        for key in agg_keys:
+            del self._data["aggregated"][key]
+            count += 1
+
+        # Remove metadata
+        if topic in self._data["_metadata"]:
+            del self._data["_metadata"][topic]
+
+        return count
 
 
 def build_extraction_prompt(

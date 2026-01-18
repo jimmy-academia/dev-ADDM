@@ -1,177 +1,225 @@
 ---
 name: bye
-description: Clean exit with pre-exit checks - documentation sync, git status, todos, session cleanup. Use when ending a session, saying goodbye, or before closing Claude Code.
+description: Clean exit with session context capture. Writes detailed resume log to docs/logs/, updates CLAUDE.md with pointer. Use when ending a session.
 user-invocable: true
-allowed-tools: Read, Bash, Grep, Glob, TodoWrite, Task, AskUserQuestion
+allowed-tools: Read, Write, Edit, Bash, Grep, Glob, TodoWrite, Task, AskUserQuestion
 ---
 
-# /bye - Clean Exit Command
+# /bye - Clean Exit with Session Persistence
 
-Ensures clean session closure by checking documentation, git status, todos, and capturing final session notes.
+Ensures session context is captured for seamless resume in next session.
 
-## Exit Protocol Checklist
+## Core Principle
 
-When invoked, execute ALL steps below systematically:
+**The next session's Claude has NO memory of this session.** Your job is to create a "briefing document" that lets future-Claude immediately understand and continue the work.
 
-### 1. Documentation Sync Check
+## Exit Protocol
 
-**Proactively run doc-sync agent** to harmonize `.claude/` and `docs/`:
+### 1. Auto-Summarize Session Context
 
-```
-Use Task tool with subagent_type="doc-sync" to synchronize documentation
-```
+**This is the most critical step.** Analyze the conversation and extract:
 
-**Purpose**: Ensure all significant code changes are documented before session ends.
+- **Topic**: What was the main focus? (1-2 sentences)
+- **Decisions Made**: Any conclusions reached
+- **Current State**: Where did we leave off?
+- **Next Steps**: What should happen next session?
+- **Open Questions**: Unresolved issues or choices
+- **Key Files**: Files that were discussed or modified
 
-### 2. Git Status Review
-
-Check for uncommitted work:
-
-```bash
-git status
-git diff --stat
-```
-
-**Display if present:**
-- Uncommitted changes
-- Debug code detected (print statements, breakpoints, TODO comments)
-- Large number of modified files
-
-**Note**: Just inform the user of the status. Do NOT offer to commit or run dogit/smart-commit. The user will handle commits separately if needed.
-
-### 3. Todo Verification
-
-Check current todo list status:
-
-- List any **in_progress** or **pending** todos
-- Ask: "You have incomplete todos. Should I document these for your next session?"
-- If yes: Append to `.claude/CLAUDE.md` under a "## Session Resume Notes" section
-
-### 4. Background Process Check
-
-Verify no processes are running:
-
-```bash
-ps aux | grep -E '(python|node|npm|pytest)' | grep -v grep
-```
-
-**If found**:
-- List active processes
-- Ask: "These processes are still running. Should I terminate them?"
-
-### 5. Session Memory Capture
-
-Ask the user:
-
-> "Before exiting, is there anything important to remember for the next session?"
->
-> Examples:
-> - Current blockers or issues
-> - Next steps or priorities
-> - Decisions made this session
-> - Context about what you were working on
-
-**If user provides notes**: Append to `.claude/CLAUDE.md` under:
+Create a session log at `docs/logs/session_YYYY-MM-DD_<topic-slug>.md`:
 
 ```markdown
-## Session Notes - [YYYY-MM-DD HH:MM]
+# Session Log: <Topic>
 
-[User's notes here]
+**Date**: YYYY-MM-DD HH:MM
+**Status**: <in-progress | completed | blocked>
+
+## Summary
+
+<2-3 sentence summary of what was worked on>
+
+## Decisions Made
+
+- <Decision 1>
+- <Decision 2>
+
+## Current State
+
+<Where we left off - be specific enough that someone can continue>
+
+## Next Steps
+
+1. <Next step 1>
+2. <Next step 2>
+
+## Open Questions
+
+- <Question or unresolved choice>
+
+## Key Files
+
+- `path/to/file.py` - <why relevant>
+
+## Context & Background
+
+<Any important context, links to docs, or background info>
 ```
 
-### 6. Final Exit Message
+### 2. Session Log Location
 
-**Display this message**:
+Session logs are stored in `docs/logs/`. **Do NOT update CLAUDE.md with a pointer** - the user runs multiple concurrent sessions, so a single pointer would cause conflicts.
+
+At session startup, Claude automatically reads the latest session logs from `docs/logs/` to understand recent context.
+
+### 3. Git Status Check
+
+```bash
+git status --short
+```
+
+Display if there are uncommitted changes. Do NOT offer to commit - just inform.
+
+### 4. Todo Check
+
+Check current todo list:
+- List any incomplete todos
+- These should be captured in the session log's "Next Steps"
+
+### 5. Background Process Check
+
+```bash
+ps aux | grep -E '(python|node|npm|pytest)' | grep -v grep | head -5
+```
+
+Alert if processes are running.
+
+### 6. Final Message
 
 ```
-✓ All checks complete. Ready to exit cleanly.
+Session context saved to: docs/logs/session_YYYY-MM-DD_<topic>.md
+CLAUDE.md updated with resume pointer.
 
-Recommended exit methods:
-  • Ctrl+C - Safest, sends proper cleanup signals
-  • Ctrl+D - Standard EOF exit
-  • /exit - Built-in command (may cause MCP issues)
+Next session: Read the log file to continue where we left off.
+
+Exit with Ctrl+C (safest) or Ctrl+D.
 
 Goodbye!
 ```
 
-## Exit Decision Tree
+## Important Guidelines
+
+### Session Summarization
+
+**DO**:
+- Be specific about technical decisions (e.g., "Decided to use Option A: single batch mode")
+- Include code snippets or file paths if relevant
+- Capture the "why" behind decisions
+- Note any blockers or dependencies
+
+**DON'T**:
+- Be vague (e.g., "worked on some stuff")
+- Skip technical details
+- Assume future-Claude remembers anything
+- Write a novel - be concise but complete
+
+### Log File Naming
+
+Use descriptive topic slugs:
+- `session_2025-01-18_gt-generation-batch-mode.md`
+- `session_2025-01-18_fix-auth-bug.md`
+- `session_2025-01-18_refactor-query-system.md`
+
+### Multiple Sessions Same Day
+
+If multiple sessions on same day, append time or number:
+- `session_2025-01-18_gt-generation.md`
+- `session_2025-01-18_gt-generation-2.md`
+
+### Completed Work
+
+If work is completed (not just paused):
+- Set status to "completed"
+- Remove "Active Work" section from CLAUDE.md
+- Or update it to point to next priority
+
+## Example Session Log
+
+```markdown
+# Session Log: Ground Truth Generation Script
+
+**Date**: 2025-01-18 14:30
+**Status**: in-progress
+
+## Summary
+
+Designed the batch mode approach for ground truth generation. Decided on Option A
+(single OpenAI batch) over Option C (multiple concurrent batches) for simplicity.
+
+## Decisions Made
+
+- Use Option A: single batch submission via OpenAI Batch API
+- Reuse existing `extract.py` batch infrastructure (already implements Option A)
+- Goal: unify judgment extraction + GT computation into one script
+
+## Current State
+
+- Discovered `extract.py` already has `--mode 24hrbatch` support
+- `compute_gt.py` exists but uses old formula modules (G1a/b/c/d), not new PolicyIR (V0-V3)
+- Need to either:
+  - Add `--mode 24hrbatch` to `compute_gt.py`, OR
+  - Create new unified script
+
+## Next Steps
+
+1. Decide: modify `compute_gt.py` or create new script
+2. Implement batch submission for judgment extraction
+3. Implement collection + GT computation on batch completion
+4. Test with G1_allergy_V2 policy
+
+## Open Questions
+
+- Should compute_gt.py gain --mode support, or create compute_gt_batch.py?
+- How to handle PolicyIR scoring (V2/V3) vs old formula modules?
+
+## Key Files
+
+- `src/addm/tasks/cli/extract.py` - existing batch mode implementation
+- `src/addm/tasks/cli/compute_gt.py` - current GT computation (old formulas)
+- `src/addm/llm_batch.py` - BatchClient, build_chat_batch_item
+- `src/addm/query/policies/G1/allergy/V2.yaml` - example PolicyIR with scoring
+
+## Context & Background
+
+- Project uses PolicyIR system (V0-V3) replacing old formula modules (a/b/c/d)
+- See `docs/specs/query_construction.md` for PolicyIR details
+- Batch API gives 50% cost discount, 24hr completion window
+```
+
+## Decision Tree
 
 ```
 User invokes /bye
 │
-├─► 1. Run doc-sync agent (proactive)
+├─► 1. Analyze conversation
+│   └─► Extract: topic, decisions, state, next steps, questions
 │
-├─► 2. Check git status
-│   ├─► Has changes? → Display status (no commit)
-│   └─► Clean? → Continue
+├─► 2. Write session log
+│   └─► docs/logs/session_YYYY-MM-DD_<topic>.md
 │
-├─► 3. Check todos
-│   ├─► Has incomplete? → Ask to document
-│   └─► All done? → Continue
+├─► 3. (No CLAUDE.md update - concurrent sessions)
+│   └─► Session logs auto-discovered at startup
 │
-├─► 4. Check processes
-│   ├─► Found? → Ask to terminate
-│   └─► None? → Continue
+├─► 4. Check git status (inform only)
 │
-├─► 5. Capture session notes
-│   └─► Ask user for important notes
+├─► 5. Check todos (captured in log)
 │
-└─► 6. Display exit instructions
-    └─► Ready for Ctrl+C
+├─► 6. Check processes
+│
+└─► 7. Display exit message
 ```
 
-## Example Output
+## Related
 
-```
-🔍 PRE-EXIT CHECKLIST
-
-✅ Documentation sync: Running doc-sync agent...
-   → Updated 2 files in .claude/
-
-⚠️  Git status: You have 3 uncommitted files
-   → scripts/new_feature.py
-   → tests/test_feature.py
-   → .claude/CLAUDE.md
-
-📋 Todos: 2 incomplete items
-   → "Add error handling to parser" (in_progress)
-   → "Update tests for edge cases" (pending)
-
-🔧 Processes: Clean (no background tasks)
-
-💭 Session notes captured to .claude/CLAUDE.md
-
-─────────────────────────────────────────
-
-✓ All checks complete. Ready to exit cleanly.
-
-Recommended exit methods:
-  • Ctrl+C (safest)
-  • Ctrl+D
-  • /exit
-
-Goodbye!
-```
-
-## Implementation Notes
-
-- **Always run doc-sync proactively** - don't ask permission first
-- **Be concise** - show only relevant information
-- **Use TodoWrite** if todos need to be updated/saved
-- **Never execute exit** - only prepare and instruct
-- **Update CLAUDE.md** atomically (read → append → write)
-
-## Related Commands
-
+- `/hello` - Session startup, reads session logs, produces overview
+- `/orient` - General project orientation (reads CLAUDE.md)
 - `/doc` - Quick documentation capture
-- `/orient` - Load project context (session startup)
-
-## Success Criteria
-
-Exit agent succeeds when:
-1. Documentation is synchronized
-2. User is aware of uncommitted work
-3. Incomplete todos are documented
-4. Background processes are handled
-5. Session notes are captured
-6. User knows how to exit cleanly (Ctrl+C)

@@ -2,7 +2,14 @@
 CLI: Extract L0 judgments from reviews.
 
 Usage:
+    # Legacy task-based extraction (single model)
     python -m addm.tasks.cli.extract --task G1a --domain yelp --k 50 --limit 5
+
+    # Policy-based extraction (multi-model for GT)
+    python -m addm.tasks.cli.extract --topic G1_allergy --k 50 --mode 24hrbatch
+
+    # Or derive topic from policy
+    python -m addm.tasks.cli.extract --policy G1_allergy_V2 --k 50 --mode 24hrbatch
 """
 
 import argparse
@@ -17,24 +24,68 @@ from addm.llm import LLMService
 from addm.llm_batch import BatchClient, build_chat_batch_item
 from addm.tasks.base import load_task
 from addm.tasks.extraction import (
+    REQUIRED_RUNS,
     JudgmentCache,
+    PolicyJudgmentCache,
     build_extraction_prompt,
     parse_extraction_response,
     validate_judgment,
 )
+from addm.tasks.policy_gt import (
+    aggregate_judgments,
+    build_l0_schema_from_topic,
+    compute_term_hash,
+    get_topic_from_policy_id,
+    load_term_library,
+)
 from addm.utils.cron import install_cron_job, remove_cron_job
 
 
+# =============================================================================
+# Custom ID encoding/decoding
+# =============================================================================
+
+
 def _build_review_custom_id(task_id: str, business_id: str, review_id: str) -> str:
+    """Build custom ID for legacy task-based extraction."""
     return f"review::{task_id}::{business_id}::{review_id}"
 
 
 def _parse_review_custom_id(custom_id: str) -> Tuple[str, str, str]:
+    """Parse legacy custom ID."""
     parts = custom_id.split("::")
     if len(parts) != 4 or parts[0] != "review":
         raise ValueError(f"Invalid custom_id: {custom_id}")
     _, task_id, business_id, review_id = parts
     return task_id, business_id, review_id
+
+
+def _build_policy_custom_id(
+    topic: str, business_id: str, review_id: str, model: str, run: int
+) -> str:
+    """Build custom ID for policy-based multi-model extraction."""
+    return f"policy::{topic}::{business_id}::{review_id}::{model}::run{run}"
+
+
+def _parse_policy_custom_id(
+    custom_id: str,
+) -> Tuple[str, str, str, str, int]:
+    """Parse policy custom ID.
+
+    Returns: (topic, business_id, review_id, model, run)
+    """
+    parts = custom_id.split("::")
+    if len(parts) != 6 or parts[0] != "policy":
+        raise ValueError(f"Invalid policy custom_id: {custom_id}")
+    _, topic, business_id, review_id, model, run_str = parts
+    # run_str is "run1", "run2", etc.
+    run = int(run_str.replace("run", ""))
+    return topic, business_id, review_id, model, run
+
+
+# =============================================================================
+# Helpers
+# =============================================================================
 
 
 def _get_batch_response_text(item: Dict[str, Any]) -> Optional[str]:
@@ -48,6 +99,7 @@ def _get_batch_response_text(item: Dict[str, Any]) -> Optional[str]:
 
 
 def _build_cron_command(args: argparse.Namespace, batch_id: str) -> str:
+    """Build cron command for legacy task extraction."""
     repo_root = Path.cwd().resolve()
     cmd = [
         sys.executable,
@@ -73,6 +125,33 @@ def _build_cron_command(args: argparse.Namespace, batch_id: str) -> str:
     return f"cd {shlex.quote(str(repo_root))} && {command}"
 
 
+def _build_policy_cron_command(args: argparse.Namespace, batch_id: str, topic: str) -> str:
+    """Build cron command for policy-based extraction."""
+    repo_root = Path.cwd().resolve()
+    cmd = [
+        sys.executable,
+        "-m",
+        "addm.tasks.cli.extract",
+        "--topic",
+        topic,
+        "--domain",
+        args.domain,
+        "--k",
+        str(args.k),
+        "--mode",
+        "24hrbatch",
+        "--batch-id",
+        batch_id,
+    ]
+    if args.limit:
+        cmd.extend(["--limit", str(args.limit)])
+    cmd.extend(["--provider", args.provider])
+    if args.verbose:
+        cmd.append("--verbose")
+    command = " ".join(shlex.quote(c) for c in cmd)
+    return f"cd {shlex.quote(str(repo_root))} && {command}"
+
+
 def _index_reviews(
     restaurants: List[Dict[str, Any]],
 ) -> Dict[Tuple[str, str], Dict[str, Any]]:
@@ -91,6 +170,11 @@ def _get_batch_field(batch: Any, key: str) -> Optional[Any]:
     if isinstance(batch, dict):
         return batch.get(key)
     return getattr(batch, key, None)
+
+
+# =============================================================================
+# Legacy task-based extraction
+# =============================================================================
 
 
 async def extract_reviews_for_restaurant(
@@ -157,8 +241,8 @@ async def extract_reviews_for_restaurant(
     return new_extractions
 
 
-async def main_async(args: argparse.Namespace) -> None:
-    """Main async entry point."""
+async def main_task_async(args: argparse.Namespace) -> None:
+    """Main async entry point for legacy task-based extraction."""
     # Load task config
     task = load_task(args.task, args.domain)
     print(f"Loaded task: {task.task_id} ({task.domain})")
@@ -351,15 +435,367 @@ async def main_async(args: argparse.Namespace) -> None:
         print(f"[WARN] Failed to install cron job: {exc}")
 
 
+# =============================================================================
+# Policy-based multi-model extraction
+# =============================================================================
+
+
+def _get_policy_cache_path(domain: str) -> Path:
+    """Get cache path for policy-based extraction."""
+    return Path(f"data/tasks/{domain}/policy_cache.json")
+
+
+async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
+    """Main async entry point for policy-based multi-model extraction."""
+    print(f"Policy-based extraction for topic: {topic}")
+
+    # Load term library and build L0 schema
+    library = load_term_library()
+    l0_schema = build_l0_schema_from_topic(topic, library)
+    term_hash = compute_term_hash(l0_schema)
+    print(f"L0 schema fields: {list(l0_schema.keys())}")
+    print(f"Term hash: {term_hash}")
+
+    # Load dataset
+    dataset_path = Path(f"data/context/{args.domain}/dataset_K{args.k}.jsonl")
+    if not dataset_path.exists():
+        print(f"Dataset not found: {dataset_path}")
+        return
+
+    with open(dataset_path) as f:
+        restaurants = [json.loads(line) for line in f]
+
+    if args.limit:
+        restaurants = restaurants[: args.limit]
+
+    print(f"Processing {len(restaurants)} restaurants from {dataset_path.name}")
+
+    # Initialize policy cache
+    cache_path = _get_policy_cache_path(args.domain)
+    cache = PolicyJudgmentCache(cache_path)
+
+    # Check term hash for version mismatch
+    if not cache.check_term_hash(topic, term_hash):
+        meta = cache.get_topic_metadata(topic)
+        old_hash = meta.get("term_hash", "unknown") if meta else "unknown"
+        print(f"[WARN] Term definition changed! Old hash: {old_hash}, new hash: {term_hash}")
+        print("       Existing cache may be stale. Use --invalidate to clear.")
+        if args.invalidate:
+            count = cache.invalidate_topic(topic)
+            print(f"       Invalidated {count} cache entries for {topic}")
+        else:
+            print("       Proceeding with existing cache (add --invalidate to clear)")
+
+    # Store term hash metadata
+    cache.set_topic_metadata(topic, term_hash, REQUIRED_RUNS)
+
+    # Multi-model configuration
+    models_config = REQUIRED_RUNS
+    total_runs = sum(models_config.values())  # 9 runs per review
+    print(f"Multi-model config: {models_config} ({total_runs} runs per review)")
+
+    initial_agg = cache.count_aggregated(topic)
+    print(f"Cache has {initial_agg} aggregated judgments for {topic}")
+
+    if args.mode == "ondemand":
+        # Ondemand mode for testing - runs all models sequentially
+        print("[INFO] Running in ondemand mode (for testing)")
+        print("       For production, use: --mode 24hrbatch")
+
+        llm = LLMService()
+        if args.dry_run:
+            def mock_responder(messages):
+                return '{"is_allergy_related": false}'
+            llm.configure(provider="mock")
+            llm.set_mock_responder(mock_responder)
+        else:
+            llm.configure(
+                provider=args.provider,
+                model="gpt-5-nano",  # Start with cheapest for ondemand
+                temperature=0.0,
+                max_concurrent=args.concurrency,
+            )
+
+        total_raw = 0
+        total_aggregated = 0
+
+        for i, restaurant in enumerate(restaurants):
+            business = restaurant.get("business", {})
+            biz_id = business.get("business_id", "")
+            name = business.get("name", "Unknown")
+
+            print(f"[{i+1}/{len(restaurants)}] {name}")
+
+            for review in restaurant.get("reviews", []):
+                review_id = review.get("review_id", "")
+                if not review_id:
+                    continue
+
+                needed = cache.needs_extraction(topic, review_id, models_config)
+                if not needed:
+                    continue
+
+                review_text = review.get("text", "")[:2000]
+                prompt = build_extraction_prompt(
+                    l0_schema, review_text, review_id, task_description="relevant information"
+                )
+
+                # Run each needed model/run
+                for model, run in needed:
+                    # Reconfigure LLM for this model
+                    if not args.dry_run:
+                        llm.configure(
+                            provider=args.provider,
+                            model=model,
+                            temperature=0.0,
+                            max_concurrent=1,
+                        )
+
+                    try:
+                        response = await llm.call([{"role": "user", "content": prompt}])
+                        judgment = parse_extraction_response(response)
+                        judgment = validate_judgment(judgment, l0_schema)
+
+                        judgment["review_id"] = review_id
+                        judgment["date"] = review.get("date", "")
+                        judgment["stars"] = review.get("stars", 0)
+                        judgment["useful"] = review.get("useful", 0)
+
+                        cache.set_raw(topic, review_id, model, run, judgment)
+                        total_raw += 1
+
+                        if args.verbose:
+                            is_rel = judgment.get("is_allergy_related", False)
+                            print(f"    {review_id[:8]}... {model} run{run} rel={is_rel}")
+
+                    except Exception as e:
+                        print(f"    Error {review_id[:8]} {model} run{run}: {e}")
+                        continue
+
+                # Aggregate if quota satisfied
+                if cache.is_quota_satisfied(topic, review_id, models_config):
+                    raw_judgments = cache.get_raw_by_review(topic, review_id)
+                    aggregated = aggregate_judgments(raw_judgments, l0_schema)
+                    cache.set_aggregated(topic, review_id, aggregated)
+                    total_aggregated += 1
+
+            # Save periodically
+            if (i + 1) % 2 == 0:
+                cache.save()
+
+        cache.save()
+        final_agg = cache.count_aggregated(topic)
+        print(f"\nDone. Added {total_raw} raw, {total_aggregated} aggregated.")
+        print(f"Cache now has {final_agg} aggregated judgments for {topic}")
+        return
+
+    if args.provider != "openai":
+        print("24hrbatch mode only supports provider=openai")
+        return
+
+    if args.batch_id:
+        # Fetch and process batch results
+        batch_client = BatchClient()
+        batch = batch_client.get_batch(args.batch_id)
+        status = _get_batch_field(batch, "status")
+        if status not in {"completed", "failed", "expired", "cancelled"}:
+            print(f"Batch {args.batch_id} status: {status}")
+            return
+
+        output_file_id = _get_batch_field(batch, "output_file_id")
+        error_file_id = _get_batch_field(batch, "error_file_id")
+        if error_file_id:
+            print(f"[WARN] Batch has error file: {error_file_id}")
+
+        if not output_file_id:
+            print(f"[WARN] No output file available for batch {args.batch_id}")
+            marker = f"ADDM_POLICY_BATCH_{args.batch_id}"
+            try:
+                remove_cron_job(marker)
+                print(f"Removed cron job for {args.batch_id}")
+            except Exception as exc:
+                print(f"[WARN] Failed to remove cron job: {exc}")
+            return
+
+        output_bytes = batch_client.download_file(output_file_id)
+        review_index = _index_reviews(restaurants)
+
+        # Process batch results
+        total_raw = 0
+        reviews_touched: set = set()
+
+        for line in output_bytes.splitlines():
+            if not line:
+                continue
+            item = json.loads(line)
+            custom_id = item.get("custom_id", "")
+
+            try:
+                batch_topic, business_id, review_id, model, run = _parse_policy_custom_id(
+                    custom_id
+                )
+            except ValueError:
+                continue
+
+            if batch_topic != topic:
+                continue
+
+            response_text = _get_batch_response_text(item)
+            if response_text is None:
+                continue
+
+            review = review_index.get((business_id, review_id))
+            if not review:
+                continue
+
+            try:
+                judgment = parse_extraction_response(response_text)
+                judgment = validate_judgment(judgment, l0_schema)
+
+                # Add review metadata
+                judgment["review_id"] = review_id
+                judgment["date"] = review.get("date", "")
+                judgment["stars"] = review.get("stars", 0)
+                judgment["useful"] = review.get("useful", 0)
+
+                # Store raw judgment
+                cache.set_raw(topic, review_id, model, run, judgment)
+                total_raw += 1
+                reviews_touched.add(review_id)
+
+            except Exception as e:
+                if args.verbose:
+                    print(f"  Error parsing {review_id}: {e}")
+                continue
+
+        print(f"Processed {total_raw} raw extractions for {len(reviews_touched)} reviews")
+
+        # Aggregate completed reviews
+        total_aggregated = 0
+        for review_id in reviews_touched:
+            if cache.is_quota_satisfied(topic, review_id, models_config):
+                raw_judgments = cache.get_raw_by_review(topic, review_id)
+                aggregated = aggregate_judgments(raw_judgments, l0_schema)
+                cache.set_aggregated(topic, review_id, aggregated)
+                total_aggregated += 1
+
+        cache.save()
+        final_agg = cache.count_aggregated(topic)
+        print(f"\nDone. Added {total_aggregated} aggregated judgments.")
+        print(f"Cache now has {final_agg} aggregated judgments for {topic}")
+
+        marker = f"ADDM_POLICY_BATCH_{args.batch_id}"
+        try:
+            remove_cron_job(marker)
+            print(f"Removed cron job for {args.batch_id}")
+        except Exception as exc:
+            print(f"[WARN] Failed to remove cron job: {exc}")
+        return
+
+    # Submit batch - generate multi-model requests
+    request_items = []
+    reviews_to_extract = 0
+
+    for restaurant in restaurants:
+        business = restaurant.get("business", {})
+        biz_id = business.get("business_id", "")
+
+        for review in restaurant.get("reviews", []):
+            review_id = review.get("review_id", "")
+            if not review_id:
+                continue
+
+            # Check what's needed
+            needed = cache.needs_extraction(topic, review_id, models_config)
+            if not needed:
+                continue
+
+            reviews_to_extract += 1
+            review_text = review.get("text", "")[:2000]
+
+            # Build prompt (same for all models)
+            prompt = build_extraction_prompt(
+                l0_schema, review_text, review_id, task_description="relevant information"
+            )
+            messages = [{"role": "user", "content": prompt}]
+
+            # Generate request for each needed model/run
+            for model, run in needed:
+                custom_id = _build_policy_custom_id(topic, biz_id, review_id, model, run)
+                request_items.append(
+                    build_chat_batch_item(
+                        custom_id=custom_id,
+                        model=model,
+                        messages=messages,
+                        temperature=0.0,
+                    )
+                )
+
+    if not request_items:
+        print("No reviews need extraction. All quotas satisfied.")
+        return
+
+    print(f"Submitting {len(request_items)} requests for {reviews_to_extract} reviews")
+
+    batch_client = BatchClient()
+    input_file_id = batch_client.upload_batch_file(request_items)
+    batch_id = batch_client.submit_batch(input_file_id)
+    print(f"Submitted batch: {batch_id}")
+
+    marker = f"ADDM_POLICY_BATCH_{batch_id}"
+    cron_line = f"*/5 * * * * {_build_policy_cron_command(args, batch_id, topic)} # {marker}"
+    try:
+        install_cron_job(cron_line, marker)
+        print(f"Installed cron job for batch {batch_id}")
+    except Exception as exc:
+        print(f"[WARN] Failed to install cron job: {exc}")
+
+
+# =============================================================================
+# Main entry point
+# =============================================================================
+
+
+async def main_async(args: argparse.Namespace) -> None:
+    """Main async entry point - routes to task or policy extraction."""
+    # Determine extraction mode
+    if args.topic:
+        # Explicit topic
+        await main_policy_async(args, args.topic)
+    elif args.policy:
+        # Derive topic from policy
+        topic = get_topic_from_policy_id(args.policy)
+        await main_policy_async(args, topic)
+    elif args.task:
+        # Legacy task-based extraction
+        await main_task_async(args)
+    else:
+        print("Error: Must specify --task, --topic, or --policy")
+        sys.exit(1)
+
+
 def main() -> None:
     """CLI entry point."""
     parser = argparse.ArgumentParser(description="Extract L0 judgments from reviews")
-    parser.add_argument("--task", type=str, required=True, help="Task ID (e.g., G1a)")
+
+    # Extraction target (mutually exclusive)
+    target_group = parser.add_mutually_exclusive_group()
+    target_group.add_argument("--task", type=str, help="Task ID (e.g., G1a) - legacy mode")
+    target_group.add_argument(
+        "--topic", type=str, help="Topic ID (e.g., G1_allergy) - policy mode"
+    )
+    target_group.add_argument(
+        "--policy", type=str, help="Policy ID (e.g., G1_allergy_V2) - derives topic"
+    )
+
+    # Common options
     parser.add_argument("--domain", type=str, default="yelp", help="Domain (default: yelp)")
     parser.add_argument("--k", type=int, default=50, help="Dataset K value (default: 50)")
     parser.add_argument("--limit", type=int, help="Limit number of restaurants")
     parser.add_argument("--provider", type=str, default="openai", help="LLM provider")
-    parser.add_argument("--model", type=str, default="gpt-5-nano", help="LLM model")
+    parser.add_argument(
+        "--model", type=str, default="gpt-5-nano", help="LLM model (task mode only)"
+    )
     parser.add_argument("--concurrency", type=int, default=8, help="Max concurrent requests")
     parser.add_argument("--verbose", action="store_true", help="Verbose output")
     parser.add_argument("--dry-run", action="store_true", help="Dry run (no API calls)")
@@ -370,9 +806,21 @@ def main() -> None:
         choices=["ondemand", "24hrbatch"],
         help="LLM execution mode",
     )
-    parser.add_argument("--batch-id", type=str, default=None, help="Batch ID for fetch-only runs")
+    parser.add_argument(
+        "--batch-id", type=str, default=None, help="Batch ID for fetch-only runs"
+    )
+    parser.add_argument(
+        "--invalidate",
+        action="store_true",
+        help="Invalidate cache if term hash changed (policy mode)",
+    )
 
     args = parser.parse_args()
+
+    # Validate required arguments
+    if not args.task and not args.topic and not args.policy:
+        parser.error("Must specify one of: --task, --topic, or --policy")
+
     asyncio.run(main_async(args))
 
 
