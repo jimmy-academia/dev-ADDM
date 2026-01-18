@@ -114,6 +114,149 @@ def _delete_manifest(domain: str, manifest_id: str) -> None:
         log_path.unlink()
 
 
+def _find_existing_manifests(domain: str, topic: str) -> List[Tuple[str, Dict[str, Any]]]:
+    """Find existing manifest files for a topic.
+
+    Returns list of (manifest_id, manifest_data) tuples.
+    """
+    import glob
+    pattern = f"data/tasks/{domain}/batch_manifest_{topic}_*.json"
+    results = []
+    for path in glob.glob(pattern):
+        manifest_id = Path(path).stem.replace("batch_manifest_", "")
+        try:
+            with open(path) as f:
+                manifest = json.load(f)
+            results.append((manifest_id, manifest))
+        except Exception:
+            continue
+    return results
+
+
+def _find_cron_for_topic(topic: str) -> Optional[str]:
+    """Check if there's an existing cron job for this topic.
+
+    Returns the cron entry if found, None otherwise.
+    """
+    import subprocess
+    try:
+        result = subprocess.run(
+            ["crontab", "-l"],
+            capture_output=True,
+            text=True,
+            timeout=5
+        )
+        if result.returncode != 0:
+            return None
+        for line in result.stdout.split("\n"):
+            if f"ADDM_MANIFEST_{topic}_" in line:
+                return line
+        return None
+    except Exception:
+        return None
+
+
+def _check_and_report_status(args, topic: str) -> bool:
+    """Check for existing batches and report status.
+
+    Returns True if there's an existing job (caller should exit),
+    False if no existing job (caller should proceed with new extraction).
+    """
+    from addm.llm_batch import BatchClient
+
+    # Check for existing cron job
+    cron_entry = _find_cron_for_topic(topic)
+
+    # Check for existing manifest files
+    manifests = _find_existing_manifests(args.domain, topic)
+
+    if not cron_entry and not manifests:
+        return False  # No existing job, proceed
+
+    output.print(f"\n{'='*60}")
+    output.print(f"EXISTING BATCH JOB DETECTED FOR: {topic}")
+    output.print(f"{'='*60}\n")
+
+    if cron_entry:
+        # Extract manifest ID from cron entry
+        import re
+        match = re.search(r"--manifest-id\s+(\S+)", cron_entry)
+        manifest_id = match.group(1) if match else "unknown"
+        output.info(f"Cron job active: ADDM_MANIFEST_{manifest_id}")
+
+    if manifests:
+        batch_client = BatchClient()
+
+        for manifest_id, manifest in manifests:
+            output.print(f"\nManifest: {manifest_id}")
+            output.print(f"  Created: {manifest.get('created_at', 'unknown')}")
+            output.print(f"  Batches: {len(manifest.get('batches', []))}")
+
+            # Check status of each batch
+            completed = 0
+            in_progress = 0
+            failed = 0
+            total_requests = 0
+            completed_requests = 0
+            failed_requests = 0
+
+            for batch_info in manifest.get("batches", []):
+                batch_id = batch_info.get("batch_id", "")
+                if batch_info.get("processed"):
+                    completed += 1
+                    continue
+
+                try:
+                    batch = batch_client.get_batch(batch_id)
+                    status = batch.status if hasattr(batch, "status") else batch.get("status", "unknown")
+                    req_counts = batch.request_counts if hasattr(batch, "request_counts") else {}
+                    total = getattr(req_counts, "total", 0) if hasattr(req_counts, "total") else req_counts.get("total", 0)
+                    done = getattr(req_counts, "completed", 0) if hasattr(req_counts, "completed") else req_counts.get("completed", 0)
+                    fail = getattr(req_counts, "failed", 0) if hasattr(req_counts, "failed") else req_counts.get("failed", 0)
+
+                    total_requests += total
+                    completed_requests += done
+                    failed_requests += fail
+
+                    model = batch_info.get("model", "?")
+
+                    if status == "completed":
+                        completed += 1
+                        output.success(f"  {batch_id[:20]}... [{model}] COMPLETED ({done}/{total})")
+                    elif status in ("failed", "expired", "cancelled"):
+                        failed += 1
+                        output.error(f"  {batch_id[:20]}... [{model}] FAILED: {status}")
+                    else:
+                        in_progress += 1
+                        output.status(f"  {batch_id[:20]}... [{model}] {status} ({done}/{total})")
+                except Exception as e:
+                    output.error(f"  {batch_id[:20]}... ERROR: {e}")
+
+            output.print(f"\n  Summary: {completed} completed, {in_progress} in-progress, {failed} failed")
+            if total_requests > 0:
+                output.print(f"  Requests: {completed_requests}/{total_requests} completed, {failed_requests} failed")
+
+            if in_progress > 0:
+                output.info("\n  Status: STILL PROCESSING - cron will auto-process when complete")
+            elif failed > 0 and completed > 0:
+                output.warn("\n  Status: PARTIALLY FAILED - some batches failed")
+                output.print("  Action: Check failed batches, then re-run to submit missing requests")
+            elif failed > 0:
+                output.error("\n  Status: ALL FAILED - check errors above")
+            else:
+                output.success("\n  Status: ALL COMPLETE - run again to process results")
+
+    output.print(f"\n{'='*60}")
+    output.print("To check batch status manually:")
+    output.print(f"  .venv/bin/python -m addm.tasks.cli.extract --topic {topic}")
+    output.print("\nTo force new extraction (clears existing):")
+    output.print(f"  # First remove cron: crontab -l | grep -v 'ADDM_MANIFEST_{topic}' | crontab -")
+    output.print(f"  # Then delete manifest: rm data/tasks/{args.domain}/batch_manifest_{topic}_*.json")
+    output.print(f"{'='*60}\n")
+
+    return True  # Existing job found, caller should exit
+
+
 def _split_into_batches(items: List[Any], max_size: int) -> List[List[Any]]:
     """Split list into chunks of max_size."""
     return [items[i:i + max_size] for i in range(0, len(items), max_size)]
@@ -417,7 +560,6 @@ async def main_task_async(args: argparse.Namespace) -> None:
             llm.configure(
                 provider=args.provider,
                 model=args.model,
-                temperature=0.0,
                 max_concurrent=args.concurrency,
             )
 
@@ -557,7 +699,6 @@ async def main_task_async(args: argparse.Namespace) -> None:
                 custom_id=custom_id,
                 model=args.model,
                 messages=messages,
-                temperature=0.0,
             )
         )
 
@@ -587,6 +728,11 @@ def _get_policy_cache_path(domain: str) -> Path:
 
 async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
     """Main async entry point for policy-based multi-model extraction."""
+    # Check for existing batch jobs (only if not already processing a manifest/batch)
+    if not args.manifest_id and not args.batch_id and args.mode == "24hrbatch":
+        if _check_and_report_status(args, topic):
+            return  # Existing job found, status reported, exit
+
     print(f"Policy-based extraction for topic: {topic}")
 
     # Load term library and build L0 schema
@@ -652,7 +798,6 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
             llm.configure(
                 provider=args.provider,
                 model="gpt-5-nano",  # Start with cheapest for ondemand
-                temperature=0.0,
                 max_concurrent=args.concurrency,
             )
 
@@ -687,7 +832,6 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
                         llm.configure(
                             provider=args.provider,
                             model=model,
-                            temperature=0.0,
                             max_concurrent=1,
                         )
 
@@ -1009,7 +1153,6 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
                         custom_id=custom_id,
                         model=model,
                         messages=messages,
-                        temperature=0.0,
                     )
                 )
 
@@ -1493,7 +1636,6 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
                             custom_id=custom_id,
                             model=model,
                             messages=messages,
-                            temperature=0.0,
                         )
                     )
 

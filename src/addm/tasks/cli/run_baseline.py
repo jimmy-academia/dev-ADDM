@@ -594,7 +594,6 @@ async def run_baseline(
                         custom_id=custom_id,
                         model=model,
                         messages=messages,
-                        temperature=0.0,
                     )
                 )
 
@@ -605,7 +604,7 @@ async def run_baseline(
     else:
         # Configure LLM
         llm = LLMService()
-        llm.configure(model=model, temperature=0.0)
+        llm.configure(model=model)
 
         # Run evaluations (with concurrency limit)
         if method == "rlm":

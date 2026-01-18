@@ -36,7 +36,6 @@ async def _run_async(args) -> Dict[str, Any]:
         provider=args.provider,
         model=args.model,
         base_url=args.base_url,
-        temperature=args.temperature,
         max_tokens=args.max_tokens,
         max_concurrent=args.max_concurrent,
         request_timeout=args.request_timeout,

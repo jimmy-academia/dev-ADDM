@@ -78,16 +78,17 @@ def build_chat_batch_item(
     custom_id: str,
     model: str,
     messages: List[Dict[str, str]],
-    temperature: Optional[float] = None,
     max_tokens: Optional[int] = None,
 ) -> Dict[str, Any]:
-    """Build a single chat completion batch request item."""
+    """Build a single chat completion batch request item.
+
+    Note: temperature is not set - all models default to 1.0.
+    Some models (gpt-5-mini, gpt-5-nano) only support default temperature.
+    """
     body: Dict[str, Any] = {
         "model": model,
         "messages": messages,
     }
-    if temperature is not None and model != "gpt-5-nano":
-        body["temperature"] = temperature
     if max_tokens is not None:
         body["max_tokens"] = max_tokens
 

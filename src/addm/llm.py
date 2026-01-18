@@ -45,7 +45,8 @@ class LLMService:
         self._config: Dict[str, Any] = {
             "provider": "openai",
             "model": "gpt-5-nano",
-            "temperature": 0.0,
+            # Note: temperature not set - use model defaults (1.0)
+            # Many models (gpt-5-mini, gpt-5-nano) only support default temperature
             "max_tokens": None,
             "base_url": "",
             "request_timeout": 90.0,
@@ -59,7 +60,7 @@ class LLMService:
         for key, value in kwargs.items():
             if value is None:
                 continue
-            if key in {"temperature", "request_timeout"}:
+            if key in {"request_timeout"}:
                 self._config[key] = float(value)
             elif key in {"max_tokens", "max_retries", "max_concurrent"}:
                 self._config[key] = int(value)
@@ -145,7 +146,6 @@ class LLMService:
         """Internal method that performs the LLM call and tracks usage."""
         provider = self._config["provider"]
         model = self._config["model"]
-        temperature = self._config["temperature"]
         max_tokens = self._config["max_tokens"]
         timeout = self._config["request_timeout"]
         max_retries = self._config["max_retries"]
@@ -177,9 +177,8 @@ class LLMService:
                         "messages": messages,
                         "timeout": timeout,
                     }
-                    # gpt-5-nano only supports temperature=1 (default), skip for that model
-                    if model != "gpt-5-nano":
-                        kwargs["temperature"] = temperature
+                    # Don't set temperature - use model defaults (1.0)
+                    # Many models only support default temperature
                     if max_tokens:
                         kwargs["max_tokens"] = max_tokens
                     resp = await client.chat.completions.create(**kwargs)
@@ -234,7 +233,6 @@ class LLMService:
                     kwargs = {
                         "model": model,
                         "messages": payload["messages"],
-                        "temperature": temperature,
                         "max_tokens": max_tokens or 1024,
                         "timeout": timeout,
                     }

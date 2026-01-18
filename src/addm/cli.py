@@ -13,7 +13,7 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     parser.add_argument("--provider", default="openai", help="LLM provider")
     parser.add_argument("--model", default="gpt-5-nano", help="LLM model")
     parser.add_argument("--base-url", default="", help="LLM base URL (if needed)")
-    parser.add_argument("--temperature", type=float, default=0.0, help="Sampling temperature")
+    parser.add_argument("--temperature", type=float, default=1.0, help="Sampling temperature (ignored - models use default)")
     parser.add_argument("--max-tokens", type=int, default=None, help="Max output tokens")
     parser.add_argument("--max-concurrent", type=int, default=32, help="Max concurrent LLM calls")
     parser.add_argument("--batch-size", type=int, default=16, help="Batch size for async calls")
