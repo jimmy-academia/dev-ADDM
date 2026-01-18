@@ -49,6 +49,10 @@
 
 Task prompts: `data/query/yelp/G{1-6}{a-l}_prompt.txt` or `G{n}_{topic}_V{0-3}_prompt.txt`
 
+## Query Construction
+
+- [Query Construction System (specs/query_construction.md)](specs/query_construction.md) - PolicyIR → NL prompt generation
+
 ## Method Specifications
 
 - [Context Selection (specs/selection.md)](specs/selection.md) - Core context selection strategy
@@ -76,6 +80,7 @@ src/addm/
 ├── methods/            # LLM methods
 ├── tasks/formulas/     # Formula modules (G1a.py, etc.)
 ├── tasks/              # Extraction, execution
+├── query/              # Query construction (PolicyIR → prompts)
 ├── data/               # Dataset loaders
 └── eval/               # Metrics
 ```

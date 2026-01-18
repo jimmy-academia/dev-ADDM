@@ -2,8 +2,13 @@
 CLI: Run direct LLM baseline evaluation.
 
 Usage:
+    # Legacy task-based (loads from data/tasks/yelp/G1a_prompt.txt)
     .venv/bin/python -m addm.tasks.cli.run_baseline --task G1a -n 5
     .venv/bin/python -m addm.tasks.cli.run_baseline --task G1a --all
+
+    # New policy-based (loads from data/query/yelp/G1_allergy_V2_prompt.txt)
+    .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5
+    .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1/allergy/V2 -n 5
 """
 
 import argparse
@@ -20,6 +25,63 @@ from addm.llm import LLMService
 from addm.tasks.base import load_task
 from addm.utils.async_utils import gather_with_concurrency
 from addm.eval import compute_ordinal_auprc, VERDICT_TO_ORDINAL
+
+
+# Mapping from policy topic to legacy task ID for ground truth comparison
+# Policy naming: G{group}_{topic}_V{version} -> Task: G{group}{variant}
+POLICY_TO_TASK = {
+    "allergy": "a",    # G1_allergy_V* -> G1a
+    "dietary": "e",    # G1_dietary_V* -> G1e
+    "hygiene": "i",    # G1_hygiene_V* -> G1i
+    # Add more mappings as policies are developed
+}
+
+
+def policy_to_task_id(policy_id: str) -> Optional[str]:
+    """Convert policy ID to legacy task ID for ground truth lookup.
+
+    Args:
+        policy_id: Policy ID like "G1_allergy_V2" or path like "G1/allergy/V2"
+
+    Returns:
+        Task ID like "G1a" or None if no mapping exists
+    """
+    # Normalize: "G1/allergy/V2" -> "G1_allergy_V2"
+    normalized = policy_id.replace("/", "_")
+
+    # Parse: G{group}_{topic}_V{version}
+    parts = normalized.split("_")
+    if len(parts) < 3:
+        return None
+
+    group = parts[0]  # e.g., "G1"
+    topic = parts[1]  # e.g., "allergy"
+
+    variant = POLICY_TO_TASK.get(topic)
+    if variant is None:
+        return None
+
+    return f"{group}{variant}"  # e.g., "G1a"
+
+
+def load_policy_prompt(policy_id: str, domain: str = "yelp") -> str:
+    """Load prompt from policy-generated file.
+
+    Args:
+        policy_id: Policy ID like "G1_allergy_V2" or "G1/allergy/V2"
+        domain: Domain (default: yelp)
+
+    Returns:
+        Prompt text
+    """
+    # Normalize policy ID: "G1/allergy/V2" -> "G1_allergy_V2"
+    normalized = policy_id.replace("/", "_")
+
+    prompt_path = Path(f"data/query/{domain}/{normalized}_prompt.txt")
+    if not prompt_path.exists():
+        raise FileNotFoundError(f"Policy prompt not found: {prompt_path}")
+
+    return prompt_path.read_text()
 
 
 def load_ground_truth(task_id: str, domain: str, k: int) -> Dict[str, str]:
@@ -145,7 +207,8 @@ async def eval_restaurant(
 
 
 async def run_baseline(
-    task_id: str,
+    task_id: Optional[str] = None,
+    policy_id: Optional[str] = None,
     domain: str = "yelp",
     k: int = 50,
     n: int = 1,
@@ -153,10 +216,36 @@ async def run_baseline(
     model: str = "gpt-5-nano",
     verbose: bool = True,
 ) -> Dict[str, Any]:
-    """Run baseline evaluation."""
-    # Load task to get agenda
-    task = load_task(task_id, domain)
-    agenda = task.parsed_prompt.full_text  # Use full prompt as agenda
+    """Run baseline evaluation.
+
+    Args:
+        task_id: Legacy task ID (e.g., "G1a") - loads from data/tasks/
+        policy_id: Policy ID (e.g., "G1_allergy_V2") - loads from data/query/
+        domain: Domain (default: yelp)
+        k: Reviews per restaurant
+        n: Number of restaurants (0=all)
+        skip: Skip first N restaurants
+        model: LLM model to use
+        verbose: Print detailed output
+
+    Either task_id or policy_id must be provided.
+    """
+    if not task_id and not policy_id:
+        raise ValueError("Either task_id or policy_id must be provided")
+
+    # Determine run mode and load agenda
+    if policy_id:
+        # Policy mode: load from data/query/
+        agenda = load_policy_prompt(policy_id, domain)
+        run_id = policy_id.replace("/", "_")
+        # Map policy to task for ground truth comparison
+        gt_task_id = policy_to_task_id(policy_id)
+    else:
+        # Legacy task mode: load from data/tasks/
+        task = load_task(task_id, domain)
+        agenda = task.parsed_prompt.full_text
+        run_id = task_id
+        gt_task_id = task_id
 
     # Load dataset
     restaurants = load_dataset(domain, k)
@@ -166,7 +255,9 @@ async def run_baseline(
         restaurants = restaurants[skip:]
 
     print(f"\n{'='*70}")
-    print(f"Direct LLM Baseline: {task_id}")
+    print(f"Direct LLM Baseline: {run_id}")
+    if policy_id and gt_task_id:
+        print(f"Ground truth from: {gt_task_id}")
     print(f"{'='*70}")
     print(f"Restaurants: {len(restaurants)}")
     print(f"Model: {model}")
@@ -182,7 +273,11 @@ async def run_baseline(
     results = await gather_with_concurrency(32, tasks)
 
     # Load ground truth for scoring
-    gt_verdicts = load_ground_truth(task_id, domain, k)
+    gt_verdicts = {}
+    if gt_task_id:
+        gt_verdicts = load_ground_truth(gt_task_id, domain, k)
+    if not gt_verdicts:
+        print(f"[WARN] No ground truth found for {gt_task_id or run_id}")
 
     # Score and print results
     correct = 0
@@ -252,13 +347,16 @@ async def run_baseline(
         print(f"{'='*70}")
 
     # Save results
-    results_dir = Path(f"results/baseline/{task_id}")
+    results_dir = Path(f"results/baseline/{run_id}")
     results_dir.mkdir(parents=True, exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_file = results_dir / f"run_{timestamp}.json"
 
     output = {
-        "task": task_id,
+        "run_id": run_id,
+        "task_id": task_id,
+        "policy_id": policy_id,
+        "gt_task_id": gt_task_id,
         "domain": domain,
         "model": model,
         "k": k,
@@ -284,7 +382,12 @@ async def run_baseline(
 def main() -> None:
     """CLI entry point."""
     parser = argparse.ArgumentParser(description="Run direct LLM baseline")
-    parser.add_argument("--task", type=str, required=True, help="Task ID (e.g., G1a)")
+
+    # Task or policy (mutually exclusive, one required)
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--task", type=str, help="Legacy task ID (e.g., G1a)")
+    group.add_argument("--policy", type=str, help="Policy ID (e.g., G1_allergy_V2 or G1/allergy/V2)")
+
     parser.add_argument("--domain", type=str, default="yelp", help="Domain")
     parser.add_argument("--k", type=int, default=50, help="Reviews per restaurant")
     parser.add_argument("-n", type=int, default=1, help="Number of restaurants (0=all)")
@@ -297,6 +400,7 @@ def main() -> None:
     asyncio.run(
         run_baseline(
             task_id=args.task,
+            policy_id=args.policy,
             domain=args.domain,
             k=args.k,
             n=args.n,
