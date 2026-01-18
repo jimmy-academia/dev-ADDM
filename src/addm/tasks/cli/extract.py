@@ -52,8 +52,11 @@ def _print_cron_installed(identifier: str, topic: str = None) -> None:
     import platform
     output.success(f"Installed cron job: {identifier}")
     output.info("Cron will poll every 5 minutes until batch completes.")
-    if platform.system() == "Linux":
+    system = platform.system()
+    if system == "Linux":
         output.warn("Cron output may not appear in terminal (check: mail or logs).")
+    elif system == "Darwin":
+        output.info("Mac users: Click 'Allow' if a permission popup appears.")
     output.info("To check status manually:")
     if topic:
         output.console.print(f"  [dim]crontab -l | grep ADDM[/dim]")
@@ -65,6 +68,23 @@ def _print_cron_installed(identifier: str, topic: str = None) -> None:
 def _get_manifest_path(domain: str, manifest_id: str) -> Path:
     """Get path to batch manifest file."""
     return Path(f"data/tasks/{domain}/batch_manifest_{manifest_id}.json")
+
+
+def _get_manifest_log_path(domain: str, manifest_id: str) -> Path:
+    """Get path to batch manifest log file (sidecar)."""
+    return Path(f"data/tasks/{domain}/batch_manifest_{manifest_id}.log")
+
+
+def _get_batch_log_path(domain: str, batch_id: str) -> Path:
+    """Get path to single-batch log file."""
+    return Path(f"data/tasks/{domain}/batch_{batch_id[:16]}.log")
+
+
+def _delete_batch_log(domain: str, batch_id: str) -> None:
+    """Delete single-batch log file."""
+    log_path = _get_batch_log_path(domain, batch_id)
+    if log_path.exists():
+        log_path.unlink()
 
 
 def _save_manifest(domain: str, manifest_id: str, manifest: Dict[str, Any]) -> None:
@@ -85,10 +105,13 @@ def _load_manifest(domain: str, manifest_id: str) -> Optional[Dict[str, Any]]:
 
 
 def _delete_manifest(domain: str, manifest_id: str) -> None:
-    """Delete batch manifest file."""
+    """Delete batch manifest file and its sidecar log."""
     path = _get_manifest_path(domain, manifest_id)
     if path.exists():
         path.unlink()
+    log_path = _get_manifest_log_path(domain, manifest_id)
+    if log_path.exists():
+        log_path.unlink()
 
 
 def _split_into_batches(items: List[Any], max_size: int) -> List[List[Any]]:
@@ -234,7 +257,8 @@ def _build_cron_command(args: argparse.Namespace, batch_id: str) -> str:
     if args.verbose:
         cmd.append("--verbose")
     command = " ".join(shlex.quote(c) for c in cmd)
-    return f"cd {shlex.quote(str(repo_root))} && {command}"
+    log_path = _get_batch_log_path(args.domain, batch_id)
+    return f"cd {shlex.quote(str(repo_root))} && {command} >> {shlex.quote(str(log_path))} 2>&1"
 
 
 def _build_policy_cron_command(args: argparse.Namespace, batch_id: str, topic: str) -> str:
@@ -261,7 +285,8 @@ def _build_policy_cron_command(args: argparse.Namespace, batch_id: str, topic: s
     if args.verbose:
         cmd.append("--verbose")
     command = " ".join(shlex.quote(c) for c in cmd)
-    return f"cd {shlex.quote(str(repo_root))} && {command}"
+    log_path = _get_batch_log_path(args.domain, batch_id)
+    return f"cd {shlex.quote(str(repo_root))} && {command} >> {shlex.quote(str(log_path))} 2>&1"
 
 
 def _index_reviews(
@@ -435,7 +460,8 @@ async def main_task_async(args: argparse.Namespace) -> None:
         batch = batch_client.get_batch(args.batch_id)
         status = _get_batch_field(batch, "status")
         if status not in {"completed", "failed", "expired", "cancelled"}:
-            print(f"Batch {args.batch_id} status: {status}")
+            if not args.quiet:
+                print(f"Batch {args.batch_id} status: {status}")
             return
 
         output_file_id = _get_batch_field(batch, "output_file_id")
@@ -448,6 +474,7 @@ async def main_task_async(args: argparse.Namespace) -> None:
             marker = f"ADDM_BATCH_{args.batch_id}"
             try:
                 remove_cron_job(marker)
+                _delete_batch_log(args.domain, args.batch_id)
                 print(f"Removed cron job for {args.batch_id}")
             except Exception as exc:
                 print(f"[WARN] Failed to remove cron job: {exc}")
@@ -498,6 +525,7 @@ async def main_task_async(args: argparse.Namespace) -> None:
         marker = f"ADDM_BATCH_{args.batch_id}"
         try:
             remove_cron_job(marker)
+            _delete_batch_log(args.domain, args.batch_id)
             print(f"Removed cron job for {args.batch_id}")
         except Exception as exc:
             print(f"[WARN] Failed to remove cron job: {exc}")
@@ -711,7 +739,8 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         batch = batch_client.get_batch(args.batch_id)
         status = _get_batch_field(batch, "status")
         if status not in {"completed", "failed", "expired", "cancelled"}:
-            print(f"Batch {args.batch_id} status: {status}")
+            if not args.quiet:
+                print(f"Batch {args.batch_id} status: {status}")
             return
 
         output_file_id = _get_batch_field(batch, "output_file_id")
@@ -724,6 +753,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
             marker = f"ADDM_POLICY_BATCH_{args.batch_id}"
             try:
                 remove_cron_job(marker)
+                _delete_batch_log(args.domain, args.batch_id)
                 print(f"Removed cron job for {args.batch_id}")
             except Exception as exc:
                 print(f"[WARN] Failed to remove cron job: {exc}")
@@ -799,6 +829,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         marker = f"ADDM_POLICY_BATCH_{args.batch_id}"
         try:
             remove_cron_job(marker)
+            _delete_batch_log(args.domain, args.batch_id)
             print(f"Removed cron job for {args.batch_id}")
         except Exception as exc:
             print(f"[WARN] Failed to remove cron job: {exc}")
@@ -815,7 +846,8 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         all_complete = True
         any_failed = False
 
-        print(f"Checking {len(manifest['batches'])} batches...")
+        if not args.quiet:
+            print(f"Checking {len(manifest['batches'])} batches...")
 
         for batch_info in manifest["batches"]:
             batch_id = batch_info["batch_id"]
@@ -826,7 +858,8 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
             status = _get_batch_field(batch, "status")
 
             if status not in {"completed", "failed", "expired", "cancelled"}:
-                print(f"  Batch {batch_id[:20]}... status: {status}")
+                if not args.quiet:
+                    print(f"  Batch {batch_id[:20]}... status: {status}")
                 all_complete = False
                 continue
 
@@ -897,7 +930,8 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         cache.save()
 
         if not all_complete:
-            print("\nSome batches still processing. Will check again.")
+            if not args.quiet:
+                print("\nSome batches still processing. Will check again.")
             return
 
         # All batches complete - run aggregation
@@ -1062,7 +1096,8 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         if args.verbose:
             cmd.append("--verbose")
         command = " ".join(shlex.quote(c) for c in cmd)
-        cron_cmd = f"cd {shlex.quote(str(repo_root))} && {command}"
+        log_path = _get_manifest_log_path(args.domain, manifest_id)
+        cron_cmd = f"cd {shlex.quote(str(repo_root))} && {command} >> {shlex.quote(str(log_path))} 2>&1"
 
         marker = f"ADDM_MANIFEST_{manifest_id}"
         cron_line = f"*/5 * * * * {cron_cmd} # {marker}"
@@ -1191,7 +1226,8 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
         all_complete = True
         any_failed = False
 
-        print(f"Checking {len(manifest['batches'])} batches...")
+        if not args.quiet:
+            print(f"Checking {len(manifest['batches'])} batches...")
 
         review_index = _index_reviews(restaurants)
         total_raw = 0
@@ -1206,7 +1242,8 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
             status = _get_batch_field(batch, "status")
 
             if status not in {"completed", "failed", "expired", "cancelled"}:
-                print(f"  Batch {batch_id[:20]}... status: {status}")
+                if not args.quiet:
+                    print(f"  Batch {batch_id[:20]}... status: {status}")
                 all_complete = False
                 continue
 
@@ -1280,7 +1317,8 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
         cache.save()
 
         if not all_complete:
-            print("\nSome batches still processing. Will check again.")
+            if not args.quiet:
+                print("\nSome batches still processing. Will check again.")
             return
 
         # All batches complete - run aggregation
@@ -1326,7 +1364,8 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
         batch = batch_client.get_batch(args.batch_id)
         status = _get_batch_field(batch, "status")
         if status not in {"completed", "failed", "expired", "cancelled"}:
-            print(f"Batch {args.batch_id} status: {status}")
+            if not args.quiet:
+                print(f"Batch {args.batch_id} status: {status}")
             return
 
         output_file_id = _get_batch_field(batch, "output_file_id")
@@ -1414,6 +1453,7 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
         marker = f"ADDM_ALL_BATCH_{args.batch_id}"
         try:
             remove_cron_job(marker)
+            _delete_batch_log(args.domain, args.batch_id)
             print(f"Removed cron job for {args.batch_id}")
         except Exception as exc:
             print(f"[WARN] Failed to remove cron job: {exc}")
@@ -1525,7 +1565,8 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
         if args.verbose:
             cmd.append("--verbose")
         command = " ".join(shlex.quote(c) for c in cmd)
-        cron_cmd = f"cd {shlex.quote(str(repo_root))} && {command}"
+        log_path = _get_manifest_log_path(args.domain, manifest_id)
+        cron_cmd = f"cd {shlex.quote(str(repo_root))} && {command} >> {shlex.quote(str(log_path))} 2>&1"
 
         marker = f"ADDM_MANIFEST_ALL_{manifest_id}"
         cron_line = f"*/5 * * * * {cron_cmd} # {marker}"
@@ -1591,6 +1632,8 @@ def main() -> None:
     )
     parser.add_argument("--concurrency", type=int, default=8, help="Max concurrent requests")
     parser.add_argument("--verbose", action="store_true", help="Verbose output")
+    parser.add_argument("--show-status", dest="quiet", action="store_false", help="Show in-progress status messages")
+    parser.set_defaults(quiet=True)
     parser.add_argument("--dry-run", action="store_true", help="Dry run (no API calls)")
     parser.add_argument(
         "--mode",

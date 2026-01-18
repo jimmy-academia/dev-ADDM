@@ -29,7 +29,18 @@ data/
 ├── hits/{dataset}/         # Topic analysis results (~1.2GB)
 ├── selection/{dataset}/    # Restaurant selections (topic_100.json)
 ├── context/{dataset}/      # Built datasets (K=25/50/100/200)
-└── query/{dataset}/        # Task prompts
+├── query/{dataset}/        # Task prompts
+└── tasks/{dataset}/        # Extraction cache & batch files
+    ├── policy_cache.json       # L0 judgment cache (raw + aggregated)
+    ├── batch_manifest_*.json   # Multi-batch tracking
+    ├── batch_manifest_*.log    # Manifest sidecar log (auto-deleted on completion)
+    └── batch_*.log             # Single-batch log (auto-deleted on completion)
+
+results/
+├── dev/{timestamp}_{name}/     # Dev run outputs
+│   ├── results.json            # Run results
+│   └── debug/                  # Debug logs (prompt/response capture)
+└── prod/                       # Production runs
 
 docs/
 ├── README.md           # Doc index
@@ -93,6 +104,18 @@ src/addm/
 See `docs/specs/query_construction.md` for details.
 
 ## Output & Logging
+
+**Console output**: Use `output` singleton from `src/addm/utils/output.py`, not raw `print()`:
+```python
+from addm.utils.output import output
+
+output.status("Processing...")   # Suppressed in quiet mode (default for cron)
+output.info("Important info")    # Always shown (blue ℹ)
+output.success("Done!")          # Always shown (green ✓)
+output.warn("Warning")           # Always shown (yellow ⚠)
+output.error("Failed")           # Always shown (red ✗)
+output.print("Plain text")       # Always shown (no prefix)
+```
 
 **Output files per run:**
 ```
@@ -165,8 +188,8 @@ total_usage = self._accumulate_usage([usage1, usage2, ...])
 ```
 
 **Other commands:**
-- Compute GT: `.venv/bin/python -m addm.tasks.cli.compute_gt --task G1a --domain yelp --k 50`
-- Extract judgments: `.venv/bin/python -m addm.tasks.cli.extract --task G1a`
+- Extract L0: `.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode 24hrbatch`
+- Compute GT: `.venv/bin/python -m addm.tasks.cli.compute_gt --policy G1_allergy_V2 --k 200`
 - Verify formulas: `.venv/bin/python scripts/verify_formulas.py`
 - Generate prompt: `.venv/bin/python -m addm.query.cli.generate --policy G1/allergy/V2`
 
@@ -216,15 +239,56 @@ Available methods for `--method` flag in `run_baseline.py`:
 - **Formula modules**: ✅ All 72 complete (G1a-G6l)
 - **Verification**: ✅ All pass - see `scripts/verify_formulas.py`
 - **Manual review**: See `scripts/manual_review.txt`
-- **Ground truth**: Pending
-- **Query construction**: In progress
+- **Query construction**: ✅ Complete
   - ✅ ALL 72 policy definitions complete (G1-G6, all topics, V0-V3)
+  - ✅ Term libraries for all 18 topics (`src/addm/query/libraries/terms/`)
   - ✅ Experiment code updated (`--policy`, `--dev` flags)
-  - ⏳ Prompt generation: Only G1_allergy_V0-V3 generated, others pending
+- **Ground Truth Generation**: ✅ Complete - Two-step policy-based flow
+  - ✅ `src/addm/tasks/policy_gt.py` - Core GT computation logic
+  - ✅ `src/addm/tasks/extraction.py` - PolicyJudgmentCache with dual cache
+  - ✅ `src/addm/tasks/cli/extract.py` - Multi-model batch extraction (`--topic`, `--policy`, `--all`)
+  - ✅ `src/addm/tasks/cli/compute_gt.py` - Policy-based GT computation
+  - ✅ `docs/specs/ground_truth.md` - Full documentation
 - **Baselines**: See `docs/BASELINES.md` for full details
 - **RLM Method**: ⚠️ Implemented but unreliable with gpt-5-nano
   - ✅ `src/addm/methods/rlm.py` created
   - ✅ `--method` and `--token-limit` CLI flags added
   - ✅ recursive-llm forked to `lib/recursive-llm/`
   - ⚠️ gpt-5-nano outputs inconsistent results (sometimes literal placeholders)
-  - ⏳ Decision pending: accept unreliability, try other model, or document limitation
+
+## Ground Truth Generation
+
+Two-step flow for policy-based GT:
+
+**Step 1: Extract L0 Judgments** (multi-model ensemble)
+```bash
+# Extract for all topics (default)
+.venv/bin/python -m addm.tasks.cli.extract --k 200 --mode 24hrbatch
+
+# Single topic
+.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode 24hrbatch
+
+# Custom model config (default: gpt-5-mini:1, gpt-5-nano:3)
+.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode 24hrbatch \
+    --models "gpt-5-nano:5,gpt-5-mini:3,gpt-5.1:1"
+```
+
+**Step 2: Compute Ground Truth**
+```bash
+# All 72 policies (default)
+.venv/bin/python -m addm.tasks.cli.compute_gt --k 200
+
+# Single policy
+.venv/bin/python -m addm.tasks.cli.compute_gt --policy G1_allergy_V2 --k 200
+
+# Multiple policies (same topic)
+.venv/bin/python -m addm.tasks.cli.compute_gt --policy G1_allergy_V0,G1_allergy_V1,G1_allergy_V2,G1_allergy_V3 --k 200
+```
+
+**Key files:**
+- `src/addm/tasks/policy_gt.py` - Aggregation, scoring, qualitative evaluation
+- `src/addm/tasks/extraction.py` - `PolicyJudgmentCache` with raw/aggregated dual cache
+- `data/tasks/yelp/policy_cache.json` - Cached L0 judgments
+- `data/tasks/yelp/{policy}_K{k}_groundtruth.json` - GT outputs
+
+See `docs/specs/ground_truth.md` for full details.
