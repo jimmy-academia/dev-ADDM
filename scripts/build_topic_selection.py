@@ -5,7 +5,7 @@ For each of 18 topics, searches the full review dataset for:
 - Critical level: Strong evidence (incidents, severe cases)
 - High level: Moderate evidence (mentions, concerns)
 
-Output: data/topic_selection/yelp/{topic}.json
+Output: data/hits/yelp/{topic}.json
 
 Usage:
     .venv/bin/python scripts/build_topic_selection.py
@@ -732,7 +732,7 @@ def main():
     raw_dir = Path(f"data/raw/{args.data}")
     reviews_path = raw_dir / f"{args.data}_academic_dataset_review.json"
     businesses_path = raw_dir / f"{args.data}_academic_dataset_business.json"
-    output_dir = Path(f"data/topic_selection/{args.data}")
+    output_dir = Path(f"data/hits/{args.data}")
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # Validate paths

@@ -6,7 +6,7 @@ Utility scripts for data acquisition and processing.
 
 | Script | Description |
 |--------|-------------|
-| `search_restaurants.py` | Search reviews for topic keywords (G1-G6) |
+| `build_topic_selection.py` | Analyze reviews for topic patterns (18 topics) |
 | `select_topic_restaurants.py` | Select restaurants by topic coverage |
 | `build_dataset.py` | Build K=25/50/100/200 review datasets |
 
@@ -25,25 +25,25 @@ Utility scripts for data acquisition and processing.
 ## Quick Start
 
 ```bash
-# Full topic-coverage pipeline
-.venv/bin/python scripts/search_restaurants.py --data yelp --all
+# Full pipeline
+.venv/bin/python scripts/build_topic_selection.py --data yelp
 .venv/bin/python scripts/select_topic_restaurants.py --data yelp
 .venv/bin/python scripts/build_dataset.py --data yelp
 ```
 
 ## Usage Examples
 
-### Search for keyword hits
+### Topic Analysis
 
 ```bash
-# Search single topic
-.venv/bin/python scripts/search_restaurants.py --data yelp --topic allergy
+# Analyze all 18 topics
+.venv/bin/python scripts/build_topic_selection.py --data yelp
 
-# Search all G1 topics (allergy, dietary, hygiene)
-.venv/bin/python scripts/search_restaurants.py --data yelp --group G1
+# Analyze single topic
+.venv/bin/python scripts/build_topic_selection.py --data yelp --topic G1_allergy
 
-# Search all 18 topics
-.venv/bin/python scripts/search_restaurants.py --data yelp --all
+# Preview patterns without processing
+.venv/bin/python scripts/build_topic_selection.py --dry-run
 ```
 
 ### Select restaurants

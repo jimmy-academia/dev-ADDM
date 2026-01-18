@@ -25,8 +25,7 @@ Types: `feat`, `fix`, `refactor`, `docs`, `test`, `perf`, `chore`
 ```
 data/
 ├── raw/{dataset}/          # Raw academic dataset
-├── hits/{dataset}/         # Keyword search results + topic analysis
-│   └── topic/              # Detailed topic files (1.2GB)
+├── hits/{dataset}/         # Topic analysis results (~1.2GB)
 ├── selection/{dataset}/    # Restaurant selections (topic_100.json)
 ├── context/{dataset}/      # Built datasets (K=25/50/100/200)
 └── query/{dataset}/        # Task prompts
@@ -51,8 +50,8 @@ src/addm/
 ## Data Pipeline
 
 ```bash
-# Full pipeline (search → select → build)
-.venv/bin/python scripts/search_restaurants.py --data yelp --all
+# Full pipeline (analyze → select → build)
+.venv/bin/python scripts/build_topic_selection.py --data yelp
 .venv/bin/python scripts/select_topic_restaurants.py --data yelp
 .venv/bin/python scripts/build_dataset.py --data yelp
 

@@ -13,24 +13,17 @@ python main.py --data path/to/dataset.jsonl --method direct --provider openai --
 ### Data Pipeline
 
 ```bash
-# Use --data [(yelp)|amazon] to change dataset
-# 
-# Search for yelp
-python scripts/search_restaurants.py --group [G1|G2|...|G6|all]
-python scripts/select_topic_restaurants.py --target 100
-# Search for amazon (todo)
-# python scripts/search_products.py --group [G1|G2|...|G6|all]
-# python scripts/select_topic_products.py --target 100
+# Full pipeline (topic analysis → selection → build)
+.venv/bin/python scripts/build_topic_selection.py --data yelp
+.venv/bin/python scripts/select_topic_restaurants.py --data yelp
+.venv/bin/python scripts/build_dataset.py --data yelp
 
-# Build review datasets
-python scripts/build_dataset.py --selection data/selection/yelp/topic_100.json
+# Extract L0 judgments and compute ground truth
+.venv/bin/python -m addm.tasks.cli.extract --task G1a --domain yelp --k 50
+.venv/bin/python -m addm.tasks.cli.compute_gt --task G1a --domain yelp --k 50
 
-# Extract L0 judgments and compute gt_files (ground truth files)
-python -m addm.tasks.cli.extract --task G1a --domain yelp --k 50
-python -m addm.tasks.cli.compute_gt --task G1a --domain yelp --k 50
-
-# Run a direct LLM baseline on a task (Yelp)
-python -m addm.tasks.cli.run_baseline --task G1a --k 50 -n 5
+# Run a direct LLM baseline on a task
+.venv/bin/python -m addm.tasks.cli.run_baseline --task G1a --k 50 -n 5
 ```
 
 ## Project Structure

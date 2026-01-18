@@ -10,25 +10,33 @@ Place raw files in `data/raw/{dataset}/`. For Yelp:
 - `data/raw/yelp/yelp_academic_dataset_review.json`
 - `data/raw/yelp/yelp_academic_dataset_user.json`
 
-## Topic-Coverage Workflow
+## Pipeline Overview
 
-### Step 1: Search for keyword hits
+```
+data/raw/ → data/hits/ → data/selection/ → data/context/
+```
 
-Scan reviews for topic-relevant keywords across all 18 topics (6 groups × 3 topics):
+### Step 1: Topic Analysis (`scripts/build_topic_selection.py`)
+
+Scan all reviews for topic-relevant patterns across 18 topics (6 groups × 3 topics).
+Uses weighted regex patterns to score reviews by severity (critical vs. high).
 
 ```bash
-# Search all topics
-.venv/bin/python scripts/search_restaurants.py --data yelp --all
+# Analyze all 18 topics
+.venv/bin/python scripts/build_topic_selection.py --data yelp
 
-# Or search by group
-.venv/bin/python scripts/search_restaurants.py --data yelp --group G1
+# Analyze single topic
+.venv/bin/python scripts/build_topic_selection.py --data yelp --topic G1_allergy
+
+# Preview patterns without processing
+.venv/bin/python scripts/build_topic_selection.py --dry-run
 ```
 
 Output: `data/hits/{dataset}/G{1-6}_{topic}.json`
 
-### Step 2: Select restaurants by topic coverage
+### Step 2: Restaurant Selection (`scripts/select_topic_restaurants.py`)
 
-Select a balanced set of restaurants with good coverage across topics:
+Select a balanced set of restaurants with good coverage across topics.
 
 ```bash
 .venv/bin/python scripts/select_topic_restaurants.py --data yelp
@@ -38,9 +46,9 @@ Output:
 - `data/selection/{dataset}/topic_100.json` - Selected restaurants
 - `data/selection/{dataset}/topic_ranked_all.json` - Full ranking
 
-### Step 3: Build review datasets
+### Step 3: Build Datasets (`scripts/build_dataset.py`)
 
-Build datasets with K reviews per restaurant (K=25/50/100/200):
+Build datasets with K reviews per restaurant (K=25/50/100/200).
 
 ```bash
 .venv/bin/python scripts/build_dataset.py --data yelp
@@ -52,7 +60,7 @@ Output: `data/context/{dataset}/dataset_K{25,50,100,200}.jsonl`
 
 ```bash
 # Run all three steps
-.venv/bin/python scripts/search_restaurants.py --data yelp --all
+.venv/bin/python scripts/build_topic_selection.py --data yelp
 .venv/bin/python scripts/select_topic_restaurants.py --data yelp
 .venv/bin/python scripts/build_dataset.py --data yelp
 ```
@@ -65,9 +73,8 @@ data/
 │   ├── {dataset}_academic_dataset_business.json
 │   ├── {dataset}_academic_dataset_review.json
 │   └── {dataset}_academic_dataset_user.json
-├── hits/{dataset}/         # Keyword search results
-│   ├── G{1-6}_{topic}.json
-│   └── topic/              # Detailed topic analysis (large)
+├── hits/{dataset}/         # Topic analysis results
+│   └── G{1-6}_{topic}.json
 ├── selection/{dataset}/    # Restaurant selections
 │   ├── topic_100.json
 │   └── topic_ranked_all.json
@@ -118,11 +125,6 @@ Each line in `dataset_K*.jsonl`:
 For non-Yelp datasets, use path overrides:
 
 ```bash
-# Custom raw data paths
-.venv/bin/python scripts/search_restaurants.py --data custom \
-    --review-file data/raw/custom/reviews.json \
-    --business-file data/raw/custom/business.json
-
 # Custom selection path
 .venv/bin/python scripts/build_dataset.py --data custom \
     --selection data/selection/custom/my_selection.json
@@ -130,18 +132,14 @@ For non-Yelp datasets, use path overrides:
 
 ## CLI Reference
 
-### search_restaurants.py
+### build_topic_selection.py
 
 | Flag | Description |
 |------|-------------|
-| `--data` | Dataset name (required) |
-| `--topic` | Single topic to search |
-| `--group` | Task group (G1-G6) |
-| `--all` | Search all 18 topics |
-| `--min-hits` | Minimum keyword hits (default: 10) |
-| `--top-n` | Top N restaurants per topic (default: 100) |
-| `--review-file` | Override review file path |
-| `--business-file` | Override business file path |
+| `--data` | Dataset name (default: yelp) |
+| `--topic` | Single topic to process (e.g., G1_allergy) |
+| `--dry-run` | Show patterns only, don't process |
+| `--parallel` | Number of parallel processes (default: auto) |
 
 ### select_topic_restaurants.py
 
@@ -150,7 +148,7 @@ For non-Yelp datasets, use path overrides:
 | `--data` | Dataset name (required) |
 | `--target` | Number to select (default: 100) |
 | `--no-balance` | Skip quadrant balancing |
-| `--keyword-hits-dir` | Override input directory |
+| `--hits-dir` | Override input directory |
 | `--output-dir` | Override output directory |
 
 ### build_dataset.py

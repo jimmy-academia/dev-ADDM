@@ -2,7 +2,7 @@
 """CLI for topic-aware restaurant selection.
 
 This script selects restaurants for the ADDM benchmark based on their
-coverage across topics identified by keyword search.
+coverage across topics identified by build_topic_selection.py.
 
 Outputs:
   - topic_ranked_all.json: Full ranked list of all ~1,200 restaurants
@@ -37,10 +37,10 @@ def main():
         help="Dataset name (e.g., yelp)",
     )
     parser.add_argument(
-        "--keyword-hits-dir",
+        "--hits-dir",
         type=Path,
         default=None,
-        help="Override keyword hits directory (default: data/hits/{data}/)",
+        help="Override topic hits directory (default: data/hits/{data}/)",
     )
     parser.add_argument(
         "--output-dir",
@@ -74,11 +74,11 @@ def main():
 
     # Derive paths from --data, allow overrides
     data_root = Path("data")
-    keyword_hits_dir = args.keyword_hits_dir or (data_root / "hits" / args.data)
+    hits_dir = args.hits_dir or (data_root / "hits" / args.data)
     output_dir = args.output_dir or (data_root / "selection" / args.data)
 
     config = TopicSelectionConfig(
-        keyword_hits_dir=keyword_hits_dir,
+        keyword_hits_dir=hits_dir,
         output_dir=output_dir,
         target_count=args.target,
         balanced=not args.no_balance,
