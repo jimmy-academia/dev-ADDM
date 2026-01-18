@@ -41,9 +41,25 @@ from addm.tasks.policy_gt import (
     load_term_library,
 )
 from addm.utils.cron import install_cron_job, remove_cron_job
+from addm.utils.output import output
 
 # Batch size limit (OpenAI max is 50K, use 40K for safety margin)
 MAX_BATCH_SIZE = 40000
+
+
+def _print_cron_installed(identifier: str, topic: str = None) -> None:
+    """Print cron installation message with status check instructions."""
+    import platform
+    output.success(f"Installed cron job: {identifier}")
+    output.info("Cron will poll every 5 minutes until batch completes.")
+    if platform.system() == "Linux":
+        output.warn("Cron output may not appear in terminal (check: mail or logs).")
+    output.info("To check status manually:")
+    if topic:
+        output.console.print(f"  [dim]crontab -l | grep ADDM[/dim]")
+        output.console.print(f"  [dim].venv/bin/python -m addm.tasks.cli.extract --topic {topic}[/dim]")
+    else:
+        output.console.print(f"  [dim]crontab -l | grep ADDM[/dim]")
 
 
 def _get_manifest_path(domain: str, manifest_id: str) -> Path:
@@ -492,9 +508,9 @@ async def main_task_async(args: argparse.Namespace) -> None:
     cron_line = f"*/5 * * * * {_build_cron_command(args, batch_id)} # {marker}"
     try:
         install_cron_job(cron_line, marker)
-        print(f"Installed cron job for batch {batch_id}")
+        _print_cron_installed(batch_id)
     except Exception as exc:
-        print(f"[WARN] Failed to install cron job: {exc}")
+        output.error(f"Failed to install cron job: {exc}")
 
 
 # =============================================================================
@@ -951,9 +967,9 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         cron_line = f"*/5 * * * * {_build_policy_cron_command(args, batch_id, topic)} # {marker}"
         try:
             install_cron_job(cron_line, marker)
-            print(f"Installed cron job for batch {batch_id}")
+            _print_cron_installed(batch_id, topic)
         except Exception as exc:
-            print(f"[WARN] Failed to install cron job: {exc}")
+            output.error(f"Failed to install cron job: {exc}")
     else:
         # Multiple batches - use manifest
         manifest_id = f"{topic}_{uuid.uuid4().hex[:8]}"
@@ -1014,9 +1030,9 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         cron_line = f"*/5 * * * * {cron_cmd} # {marker}"
         try:
             install_cron_job(cron_line, marker)
-            print(f"Installed cron job for manifest {manifest_id}")
+            _print_cron_installed(manifest_id, topic)
         except Exception as exc:
-            print(f"[WARN] Failed to install cron job: {exc}")
+            output.error(f"Failed to install cron job: {exc}")
 
 
 # =============================================================================
@@ -1452,9 +1468,9 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
         cron_line = f"*/5 * * * * {cron_cmd} # {marker}"
         try:
             install_cron_job(cron_line, marker)
-            print(f"Installed cron job for batch {batch_id}")
+            _print_cron_installed(batch_id)
         except Exception as exc:
-            print(f"[WARN] Failed to install cron job: {exc}")
+            output.error(f"Failed to install cron job: {exc}")
     else:
         # Multiple batches - use manifest
         manifest_id = f"all_topics_{uuid.uuid4().hex[:8]}"
@@ -1513,9 +1529,9 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
         cron_line = f"*/5 * * * * {cron_cmd} # {marker}"
         try:
             install_cron_job(cron_line, marker)
-            print(f"Installed cron job for manifest {manifest_id}")
+            _print_cron_installed(manifest_id)
         except Exception as exc:
-            print(f"[WARN] Failed to install cron job: {exc}")
+            output.error(f"Failed to install cron job: {exc}")
 
 
 # =============================================================================
