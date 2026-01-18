@@ -93,7 +93,7 @@ async def main_async(args: argparse.Namespace) -> None:
     print(f"L0 fields: {list(task.l0_schema.keys())}")
 
     # Load dataset
-    dataset_path = Path(f"data/processed/{args.domain}/dataset_K{args.k}.jsonl")
+    dataset_path = Path(f"data/context/{args.domain}/dataset_K{args.k}.jsonl")
     if not dataset_path.exists():
         print(f"Dataset not found: {dataset_path}")
         return

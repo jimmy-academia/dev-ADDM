@@ -14,7 +14,7 @@
       "Bash(while ps aux)",
       "Bash(do sleep 30)",
       "Bash(done)",
-      "Bash(git rm:*)"
+      "Bash(git merge-base:*)"
     ]
   }
 }

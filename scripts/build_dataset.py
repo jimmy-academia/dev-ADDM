@@ -5,7 +5,7 @@ Usage:
     python scripts/build_dataset.py --data yelp
 
     # Build from custom selection
-    python scripts/build_dataset.py --data yelp --selection data/processed/yelp/core_100.json
+    python scripts/build_dataset.py --data yelp --selection data/selection/yelp/custom.json
 """
 
 import argparse
@@ -36,7 +36,7 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     parser.add_argument("--selection", default=None,
                         help="Override selection JSON path (default: data/selection/{data}/topic_100.json)")
     parser.add_argument("--output-dir", default=None,
-                        help="Override output directory (default: data/processed/{data})")
+                        help="Override output directory (default: data/context/{data})")
     parser.add_argument("--scales", default=",".join(map(str, DEFAULT_SCALES)),
                         help="Comma-separated K values (default: 25,50,100,200)")
     parser.add_argument("--no-user", action="store_true", help="Skip user metadata enrichment")

@@ -51,7 +51,7 @@ def main() -> None:
     task = load_task(args.task, args.domain)
 
     # Load dataset to get restaurant info
-    dataset_path = Path(f"data/processed/{args.domain}/dataset_K{args.k}.jsonl")
+    dataset_path = Path(f"data/context/{args.domain}/dataset_K{args.k}.jsonl")
     if not dataset_path.exists():
         print(f"Dataset not found: {dataset_path}")
         return

@@ -16,4 +16,4 @@ python scripts/select_contexts.py --data yelp
 
 Output:
 - JSON list of business entries with `stratification_tag`.
-- Default path: `data/processed/yelp/core_100.json`
+- Default path: `data/selection/yelp/core_100.json` (deprecated, use topic_100.json)

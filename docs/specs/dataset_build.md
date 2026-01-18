@@ -3,14 +3,14 @@
 This step builds datasets with K reviews per selected business.
 
 Inputs:
-- Selection file (default: `data/processed/yelp_core_100.json`)
+- Selection file (default: `data/selection/yelp/topic_100.json`)
 - Raw Yelp reviews and users under `data/raw/yelp/`
 
 Outputs:
-- `data/processed/yelp/dataset_K25.jsonl`
-- `data/processed/yelp/dataset_K50.jsonl`
-- `data/processed/yelp/dataset_K100.jsonl`
-- `data/processed/yelp/dataset_K200.jsonl`
+- `data/context/yelp/dataset_K25.jsonl`
+- `data/context/yelp/dataset_K50.jsonl`
+- `data/context/yelp/dataset_K100.jsonl`
+- `data/context/yelp/dataset_K200.jsonl`
 
 Run:
 

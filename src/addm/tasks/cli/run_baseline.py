@@ -54,7 +54,7 @@ Agenda:
 
 def load_dataset(domain: str, k: int) -> List[Dict[str, Any]]:
     """Load dataset for given K value."""
-    dataset_path = Path(f"data/processed/{domain}/dataset_K{k}.jsonl")
+    dataset_path = Path(f"data/context/{domain}/dataset_K{k}.jsonl")
     if not dataset_path.exists():
         raise FileNotFoundError(f"Dataset not found: {dataset_path}")
 

@@ -29,7 +29,7 @@ def main() -> None:
     print(f"Computing GT for task: {task.task_id} ({task.domain})")
 
     # Load dataset to get restaurant metadata
-    dataset_path = Path(f"data/processed/{args.domain}/dataset_K{args.k}.jsonl")
+    dataset_path = Path(f"data/context/{args.domain}/dataset_K{args.k}.jsonl")
     if not dataset_path.exists():
         print(f"Dataset not found: {dataset_path}")
         return

@@ -131,8 +131,8 @@ Only include reviews in supporting_evidence that directly contribute to the verd
 
 def find_allergy_relevant_restaurant() -> str | None:
     """Find a restaurant with G1_allergy topic coverage that's in the dataset."""
-    selection_file = Path("data/selected/yelp/topic_100.json")
-    dataset_file = Path("data/processed/yelp/dataset_K50.jsonl")
+    selection_file = Path("data/selection/yelp/topic_100.json")
+    dataset_file = Path("data/context/yelp/dataset_K50.jsonl")
 
     if not selection_file.exists():
         print(f"Warning: {selection_file} not found")
@@ -164,7 +164,7 @@ def find_allergy_relevant_restaurant() -> str | None:
 
 def load_restaurant(business_id: str) -> dict | None:
     """Load restaurant data from dataset."""
-    dataset_path = Path("data/processed/yelp/dataset_K50.jsonl")
+    dataset_path = Path("data/context/yelp/dataset_K50.jsonl")
     if not dataset_path.exists():
         print(f"Warning: {dataset_path} not found")
         return None
