@@ -93,17 +93,48 @@ ps aux | grep -E '(python|node|npm|pytest)' | grep -v grep | head -5
 
 Alert if processes are running.
 
-### 6. Final Message
+### 6. Documentation Reminder
+
+If significant changes were made this session, remind about doc maintenance:
 
 ```
-Session context saved to: docs/logs/session_YYYY-MM-DD_<topic>.md
-CLAUDE.md updated with resume pointer.
+📝 You made changes this session. Consider:
+   /sync  - Check doc consistency (.claude/ ↔ docs/)
+   /audit - Verify docs match code (deep check)
+```
 
-Next session: Read the log file to continue where we left off.
+### 7. Final Message with Two Paths
 
-Exit with Ctrl+C (safest) or Ctrl+D.
+```
+✓ Session context saved to: docs/logs/session_YYYY-MM-DD_<topic>.md
+
+Next steps:
+• To leave: exit or Ctrl+C (safest for MCP servers)
+• To reset: /compact then /hello (fresh start, same session)
+
+─────────────────────────────────────────
+
+📊 For project progress: /roadmap
+📋 For session history: /hello
 
 Goodbye!
+```
+
+## Two Exit Paths
+
+```
+/bye
+  │
+  ├─► Save session context
+  │
+  └─► Two options:
+      │
+      ├─► exit / Ctrl+C
+      │   └─► Leave the session entirely
+      │
+      └─► /compact + /hello
+          └─► Fresh context, same session
+              (useful when switching to unrelated task)
 ```
 
 ## Important Guidelines
@@ -215,7 +246,9 @@ User invokes /bye
 │
 ├─► 6. Check processes
 │
-└─► 7. Display exit message
+├─► 7. Show doc maintenance reminder (if changes made)
+│
+└─► 8. Display exit message with two paths
 ```
 
 ## Related
@@ -223,3 +256,6 @@ User invokes /bye
 - `/hello` - Session startup, reads session logs, produces overview
 - `/orient` - General project orientation (reads CLAUDE.md)
 - `/doc` - Quick documentation capture
+- `/roadmap` - Project progress tracking
+- `/sync` - Quick doc consistency check
+- `/audit` - Deep doc verification

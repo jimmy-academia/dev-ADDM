@@ -1,5 +1,15 @@
 # ADDM Project Memory
 
+## Active Work
+
+**Current Phase**: Ground Truth Generation (Phase 3)
+**Status**: Multi-model extraction framework complete, extracting 18 topics
+**Next**: Complete topic extraction, compute GT for all 72 policies
+
+See `docs/ROADMAP.md` for full project progress.
+
+---
+
 ## Git Rules
 
 ### NEVER do these:
