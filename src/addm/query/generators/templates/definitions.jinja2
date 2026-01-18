@@ -1,10 +1,18 @@
-============================================================
-Definitions
-============================================================
+## Definitions of Terms
+{% if incident_definition %}
+
+### Incident
+
+{{ incident_definition }}
+{% endif %}
 {% for term in terms %}
 
-{{ term.name }}
+### {{ term.name }}
+{% if term.description %}
+{{ term.description }}
+
+{% endif %}
 {% for value in term.values %}
-- {{ value.id }}: {{ value.description }}
+- **{{ value.label }}**: {{ value.description }}
 {% endfor %}
 {% endfor %}

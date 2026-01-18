@@ -1,0 +1,24 @@
+## Scoring System
+{% if description %}
+
+{{ description.strip() }}
+{% endif %}
+
+For each firsthand incident, assign points based on severity:
+{% for item in severity_points %}
+- {{ item.label }}: {{ item.points }} points
+{% endfor %}
+{% if modifiers %}
+
+Additional modifiers:
+{% for item in modifiers %}
+- {{ item.label }}{% if item.description %} ({{ item.description }}){% endif %}: +{{ item.points }} points
+{% endfor %}
+{% endif %}
+{% if recency_rules %}
+
+Recency weighting:
+{% for rule in recency_rules %}
+- {{ rule.age }}: {{ rule.weight }}
+{% endfor %}
+{% endif %}

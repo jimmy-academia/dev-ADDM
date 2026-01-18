@@ -19,15 +19,102 @@ from .logic import Condition, OperatorType
 class Overview:
     """Overview section of a policy (informative)."""
 
+    title: str  # Title for the prompt (e.g., "Allergy Safety Risk Assessment")
     purpose: str  # What this policy does
-    evidence_scope: str  # What counts as relevant evidence
+    incident_definition: str  # What counts as an incident (for Definitions section)
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "Overview":
         """Create Overview from dictionary."""
         return cls(
+            title=data.get("title", ""),
             purpose=data.get("purpose", ""),
-            evidence_scope=data.get("evidence_scope", ""),
+            incident_definition=data.get("incident_definition", ""),
+        )
+
+
+@dataclass
+class ScoringPoint:
+    """A single scoring item (severity or modifier)."""
+
+    label: str  # Display label (e.g., "Mild incident")
+    points: int  # Point value
+    description: Optional[str] = None  # Optional explanation
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ScoringPoint":
+        """Create ScoringPoint from dictionary."""
+        return cls(
+            label=data.get("label", ""),
+            points=data.get("points", 0),
+            description=data.get("description"),
+        )
+
+
+@dataclass
+class ScoringThreshold:
+    """A threshold for verdict based on score."""
+
+    verdict: str  # Verdict name (e.g., "Critical Risk")
+    min_score: int  # Minimum score for this verdict
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ScoringThreshold":
+        """Create ScoringThreshold from dictionary."""
+        return cls(
+            verdict=data.get("verdict", ""),
+            min_score=data.get("min_score", 0),
+        )
+
+
+@dataclass
+class RecencyRule:
+    """A recency weighting rule."""
+
+    age: str  # Age description (e.g., "within 2 years")
+    weight: str  # Weight description (e.g., "full point value")
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "RecencyRule":
+        """Create RecencyRule from dictionary."""
+        return cls(
+            age=data.get("age", ""),
+            weight=data.get("weight", ""),
+        )
+
+
+@dataclass
+class ScoringSystem:
+    """Point-based scoring system for V2+ policies.
+
+    Defines:
+    - Severity points: points per incident severity level
+    - Modifiers: bonus/penalty points for specific conditions
+    - Recency rules: how incident age affects scoring
+    - Thresholds: score thresholds for each verdict
+    """
+
+    severity_points: List[ScoringPoint]  # Points by severity
+    modifiers: List[ScoringPoint]  # Bonus/penalty modifiers
+    thresholds: List[ScoringThreshold]  # Score thresholds for verdicts
+    description: Optional[str] = None  # Intro text for scoring section
+    recency_rules: List[RecencyRule] = field(default_factory=list)  # Recency weighting
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ScoringSystem":
+        """Create ScoringSystem from dictionary."""
+        return cls(
+            severity_points=[
+                ScoringPoint.from_dict(p) for p in data.get("severity_points", [])
+            ],
+            modifiers=[ScoringPoint.from_dict(p) for p in data.get("modifiers", [])],
+            thresholds=[
+                ScoringThreshold.from_dict(t) for t in data.get("thresholds", [])
+            ],
+            description=data.get("description"),
+            recency_rules=[
+                RecencyRule.from_dict(r) for r in data.get("recency_rules", [])
+            ],
         )
 
 
@@ -108,6 +195,7 @@ class NormativeCore:
     terms: List[str]  # Term references (e.g., "shared:ACCOUNT_TYPE")
     decision: DecisionPolicy
     output: OutputSpec
+    scoring: Optional[ScoringSystem] = None  # Optional scoring system for V2+
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "NormativeCore":
@@ -120,10 +208,16 @@ class NormativeCore:
             elif isinstance(t, str):
                 terms.append(t)
 
+        # Handle optional scoring system
+        scoring = None
+        if "scoring" in data:
+            scoring = ScoringSystem.from_dict(data["scoring"])
+
         return cls(
             terms=terms,
             decision=DecisionPolicy.from_dict(data.get("decision", {})),
             output=OutputSpec.from_dict(data.get("output", {})),
+            scoring=scoring,
         )
 
 

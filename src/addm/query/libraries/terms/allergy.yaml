@@ -2,7 +2,7 @@
 # Referenced as "allergy:TERM_ID"
 
 INCIDENT_SEVERITY:
-  name: Incident severity
+  name: Incident Severity
   type: enum
   description: Severity of allergic reaction if one occurred
   values:
@@ -48,7 +48,7 @@ INCIDENT_SEVERITY:
   default: none
 
 ASSURANCE_CLAIM:
-  name: Assurance of safety
+  name: Assurance of Safety
   type: enum
   description: Whether staff explicitly assured the food was safe for the allergy
   values:
@@ -75,7 +75,7 @@ ASSURANCE_CLAIM:
   default: "false"
 
 ALLERGEN_TYPE:
-  name: Allergen type
+  name: Allergen Type
   type: enum
   description: Type of allergen involved
   values:
@@ -140,7 +140,7 @@ ALLERGEN_TYPE:
   default: unspecified
 
 CUISINE_BASELINE_RISK:
-  name: Cuisine baseline risk
+  name: Cuisine Baseline Risk
   type: enum
   description: Baseline risk level based on cuisine type and common use of allergens
   values:

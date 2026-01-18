@@ -1,36 +1,22 @@
-============================================================
-Verdict Rules
-============================================================
+## Verdict Rules
 {% for rule in rules %}
 {% if rule.default %}
 
-[{{ rule.label }}] otherwise{% if rule.especially_when %}, especially when:
+**{{ rule.verdict }}** otherwise{% if rule.especially_when %}, especially when:
 {% for condition in rule.especially_when %}
-  - {{ condition }}
+- {{ condition }}
 {% endfor %}
 {% endif %}
 {% else %}
+{% if loop.first %}
 
-[{{ rule.label }}]{% if rule.precondition %} if {{ rule.precondition }} and {% else %} if {% endif %}any of the following is true:
+A restaurant is considered **{{ rule.verdict }}** if any of the following is true:
+{% else %}
+
+**{{ rule.verdict }}**{% if rule.precondition %} if {{ rule.precondition }}, but {% else %} if {% endif %}any of the following is true:
+{% endif %}
 {% for condition in rule.conditions %}
-  - {{ condition }}
-{% endfor %}
-{% if rule.exceptions is defined and rule.exceptions %}
-
-  Exceptions:
-{% for exception in rule.exceptions %}
-  - {{ exception }}
+- {{ condition }}
 {% endfor %}
 {% endif %}
-{% endif %}
-{% endfor %}
-
-============================================================
-Required Output
-============================================================
-
-{% for field_name, field_spec in output_fields.items() %}
-- {{ field_name }}: {{ field_spec["type"] }}{% if "values" in field_spec %} ({{ field_spec["values"] | join(" | ") }}){% endif %}{% if "note" in field_spec %} -- {{ field_spec["note"] }}{% endif %}{% if "description" in field_spec %}
-  {{ field_spec["description"] }}{% endif %}
-
 {% endfor %}

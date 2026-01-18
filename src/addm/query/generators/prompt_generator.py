@@ -12,7 +12,7 @@ from typing import List, Optional
 
 from jinja2 import Environment, FileSystemLoader
 
-from ..models.policy import PolicyIR, DecisionRule
+from ..models.policy import PolicyIR, DecisionRule, ScoringSystem
 from ..models.term import Term, TermLibrary
 
 
@@ -54,9 +54,13 @@ class PromptGenerator:
 
         # 2. Definitions section
         terms = self._resolve_terms(policy.normative.terms)
-        sections.append(self._render_definitions(terms))
+        sections.append(self._render_definitions(policy, terms))
 
-        # 3. Verdict Rules section
+        # 3. Scoring section (optional, for V2+)
+        if policy.normative.scoring:
+            sections.append(self._render_scoring(policy.normative.scoring))
+
+        # 4. Verdict Rules section
         sections.append(self._render_verdict_rules(policy))
 
         return "\n\n".join(sections)
@@ -69,14 +73,28 @@ class PromptGenerator:
         """Render the Overview section."""
         template = self.env.get_template("overview.jinja2")
         return template.render(
+            title=policy.overview.title,
             purpose=policy.overview.purpose.strip(),
-            evidence_scope=policy.overview.evidence_scope.strip(),
         )
 
-    def _render_definitions(self, terms: List[Term]) -> str:
+    def _render_definitions(self, policy: PolicyIR, terms: List[Term]) -> str:
         """Render the Definitions section from resolved terms."""
         template = self.env.get_template("definitions.jinja2")
-        return template.render(terms=terms)
+        return template.render(
+            terms=terms,
+            incident_definition=policy.overview.incident_definition.strip() if policy.overview.incident_definition else None,
+        )
+
+    def _render_scoring(self, scoring: ScoringSystem) -> str:
+        """Render the Scoring System section (for V2+ policies)."""
+        template = self.env.get_template("scoring.jinja2")
+        return template.render(
+            description=scoring.description,
+            severity_points=scoring.severity_points,
+            modifiers=scoring.modifiers,
+            thresholds=scoring.thresholds,
+            recency_rules=scoring.recency_rules,
+        )
 
     def _render_verdict_rules(self, policy: PolicyIR) -> str:
         """Render the Verdict Rules section."""

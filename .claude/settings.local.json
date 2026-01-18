@@ -18,7 +18,8 @@
       "Bash(git merge-base:*)",
       "Bash(ps aux:*)",
       "Bash(git status:*)",
-      "Bash(git diff:*)"
+      "Bash(git diff:*)",
+      "Bash(grep:*)"
     ]
   }
 }

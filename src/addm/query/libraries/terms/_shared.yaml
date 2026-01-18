@@ -2,7 +2,7 @@
 # These terms are domain-agnostic and can be referenced as "shared:TERM_ID"
 
 ACCOUNT_TYPE:
-  name: Account type
+  name: Account Type
   type: enum
   description: How the reviewer relates to the described event
   values:
@@ -37,7 +37,7 @@ ACCOUNT_TYPE:
   default: hypothetical
 
 STAFF_RESPONSE:
-  name: Staff response
+  name: Staff Response
   type: enum
   description: How staff responded when the concern was raised
   values:
@@ -98,7 +98,7 @@ RECENCY:
   default: moderate
 
 CONFIDENCE_LEVEL:
-  name: Confidence level
+  name: Confidence Level
   type: enum
   description: Confidence in the verdict based on evidence volume
   values:

@@ -1,5 +1,5 @@
-# G1_allergy_V3: Allergy Safety with Policy Update
-# V3 = Update: Realistic policy change (exception for old incidents, stricter thresholds)
+# G1_allergy_V3: Allergy Safety with Recency & Exceptions
+# V3 = Recency: Adds recency modifiers and policy exceptions for old incidents
 
 policy_id: "G1_allergy_V3"
 extends: "G1_allergy_V2"
@@ -7,27 +7,26 @@ version: "1.0"
 
 # === OVERVIEW (generates Overview section) ===
 overview:
-  purpose: |
-    Assign a restaurant an Allergy Safety Risk label (Low Risk / High Risk / Critical Risk)
-    using customer reviews as evidence.
+  title: "Allergy Safety Risk Assessment"
 
-  evidence_scope: |
-    A review is considered allergy-relevant if it meaningfully discusses any of the following:
+  purpose: |
+    Help assess the allergy safety risk for this restaurant using customer reviews as evidence.
+    Assign a risk label: Low Risk, High Risk, or Critical Risk.
+
+    This assessment uses a point-based scoring system with recency weighting.
+
+  incident_definition: |
+    Only firsthand accounts are treated as confirmed incident evidence. An account is
+    considered an incident if it meaningfully discusses any of the following:
     - an allergic reaction or suspected cross-contact
     - requesting allergy accommodation (e.g., "peanut allergy", "nut-free")
     - staff communication about allergy safety
     - explicit statements about allergy safety guarantees (e.g., "they assured it was nut-free")
 
-    Ingredient mentions without allergy context (e.g., "peanut sauce is great") are NOT considered allergy-relevant.
+    Ingredient mentions without allergy context (e.g., "peanut sauce is great") are
+    NOT considered incidents but ARE considered allergy-relevant.
 
-    **Recency principle**: More recent incidents weigh more heavily than older incidents.
-    However, severe incidents remain important even if older.
-
-    **Policy update (V3)**: Incidents older than 3 years may be discounted if there is
-    substantial recent evidence of improved handling. This exception does NOT apply
-    to severe incidents.
-
-# === NORMATIVE (generates Definitions + Verdict Rules) ===
+# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
 normative:
   # Terms -> auto-generates Definitions section
   terms:
@@ -35,8 +34,45 @@ normative:
     - ref: "allergy:INCIDENT_SEVERITY"
     - ref: "allergy:ASSURANCE_CLAIM"
     - ref: "shared:STAFF_RESPONSE"
-    - ref: "allergy:CUISINE_BASELINE_RISK"
-    - ref: "shared:CONFIDENCE_LEVEL"
+
+  # Scoring system -> generates Scoring System section
+  scoring:
+    description: |
+      Calculate a total risk score by summing points from all firsthand incidents,
+      with recency weighting applied.
+
+    severity_points:
+      - label: "Mild incident"
+        points: 2
+      - label: "Moderate incident"
+        points: 5
+      - label: "Severe incident"
+        points: 15
+
+    modifiers:
+      - label: "False assurance"
+        description: "incident after explicit safety guarantee"
+        points: 5
+      - label: "Dismissive staff"
+        description: "staff dismissed allergy concern during incident"
+        points: 3
+      - label: "High-risk cuisine"
+        description: "restaurant is Thai, Vietnamese, or Chinese cuisine"
+        points: 2
+
+    recency_rules:
+      - age: "Within 2 years"
+        weight: "full point value"
+      - age: "2-3 years old"
+        weight: "half point value (multiply by 0.5)"
+      - age: "Over 3 years old"
+        weight: "quarter point value (multiply by 0.25), or discard entirely if 3+ recent reviews show improved handling"
+
+    thresholds:
+      - verdict: "Critical Risk"
+        min_score: 8
+      - verdict: "High Risk"
+        min_score: 4
 
   # Decision policy -> generates Verdict Rules section
   decision:
@@ -48,29 +84,22 @@ normative:
         label: "CRITICAL"
         logic: ANY
         conditions:
-          - "A single severe firsthand incident is reported (regardless of age)"
-          - "A firsthand incident is reported after an explicit assurance of safety, and the incident is moderate-or-severe"
-          - "Two or more moderate firsthand incidents within the last 2 years"
+          - "Total risk score is 8 or higher (after recency weighting)"
 
       - verdict: "High Risk"
         label: "HIGH"
-        precondition: "CRITICAL does not apply"
+        precondition: "Critical Risk does not apply"
         logic: ANY
         conditions:
-          - "At least one moderate firsthand incident within the last 2 years"
-          - "A firsthand incident occurs after an explicit assurance of safety, even if mild"
-          - "Reviews repeatedly describe staff as refusing or being dismissive about allergy concerns"
-          - "Baseline cuisine risk is high AND evidence suggests inconsistent allergy handling"
-        exceptions:
-          - "Old incidents (>3 years) may be discounted if there are 3+ recent reviews showing improved handling"
+          - "Total risk score is 4 or higher (after recency weighting)"
 
       - verdict: "Low Risk"
         label: "LOW"
         default: true
         especially_when:
           - "No firsthand incidents are reported"
-          - "Allergy-relevant reviews describe consistent accommodation behavior"
-          - "Only old incidents exist AND recent reviews show improvement"
+          - "Total risk score is below 4"
+          - "Only old incidents (>3 years) exist AND 3+ recent reviews show improved handling"
 
   # Output format
   output:
@@ -86,13 +115,17 @@ normative:
         quote: string
       description: "Relevant quotes supporting the verdict"
 
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence and recency weighting were used to arrive at the final verdict"
+
     confidence:
       type: enum
       values: ["low", "medium", "high"]
       note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
-      required: true
 
-    reasoning:
+    other_notes:
       type: string
-      description: "Brief explanation of how evidence was weighted, including any exceptions applied"
       optional: true
+      description: "Any other relevant observations or caveats"
