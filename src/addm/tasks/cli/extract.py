@@ -17,6 +17,8 @@ import asyncio
 import json
 import shlex
 import sys
+import uuid
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -39,6 +41,66 @@ from addm.tasks.policy_gt import (
     load_term_library,
 )
 from addm.utils.cron import install_cron_job, remove_cron_job
+
+# Batch size limit (OpenAI max is 50K, use 40K for safety margin)
+MAX_BATCH_SIZE = 40000
+
+
+def _get_manifest_path(domain: str, manifest_id: str) -> Path:
+    """Get path to batch manifest file."""
+    return Path(f"data/tasks/{domain}/batch_manifest_{manifest_id}.json")
+
+
+def _save_manifest(domain: str, manifest_id: str, manifest: Dict[str, Any]) -> None:
+    """Save batch manifest to disk."""
+    path = _get_manifest_path(domain, manifest_id)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w") as f:
+        json.dump(manifest, f, indent=2)
+
+
+def _load_manifest(domain: str, manifest_id: str) -> Optional[Dict[str, Any]]:
+    """Load batch manifest from disk."""
+    path = _get_manifest_path(domain, manifest_id)
+    if path.exists():
+        with open(path) as f:
+            return json.load(f)
+    return None
+
+
+def _delete_manifest(domain: str, manifest_id: str) -> None:
+    """Delete batch manifest file."""
+    path = _get_manifest_path(domain, manifest_id)
+    if path.exists():
+        path.unlink()
+
+
+def _split_into_batches(items: List[Any], max_size: int) -> List[List[Any]]:
+    """Split list into chunks of max_size."""
+    return [items[i:i + max_size] for i in range(0, len(items), max_size)]
+
+
+def parse_models_config(models_str: str) -> Dict[str, int]:
+    """Parse --models flag into dict.
+
+    Format: 'model:runs,model:runs,...'
+    Example: 'gpt-5-nano:1' or 'gpt-5-nano:5,gpt-5-mini:3,gpt-5.1:1'
+    """
+    config = {}
+    for part in models_str.split(","):
+        part = part.strip()
+        if ":" not in part:
+            raise ValueError(f"Invalid model config: {part} (expected model:runs)")
+        model, runs = part.rsplit(":", 1)
+        config[model.strip()] = int(runs.strip())
+    return config
+
+
+def get_models_config(args: argparse.Namespace) -> Dict[str, int]:
+    """Get models config from args or use default."""
+    if args.models:
+        return parse_models_config(args.models)
+    return REQUIRED_RUNS
 
 
 # =============================================================================
@@ -205,7 +267,7 @@ async def extract_reviews_for_restaurant(
     # Build all prompts
     messages_batch: List[List[Dict[str, str]]] = []
     for review in to_extract:
-        review_text = review.get("text", "")[:2000]
+        review_text = review.get("text", "")[:8000]
         prompt = build_extraction_prompt(l0_schema, review_text, review.get("review_id", ""))
         messages_batch.append([{"role": "user", "content": prompt}])
 
@@ -408,7 +470,7 @@ async def main_task_async(args: argparse.Namespace) -> None:
     request_items = []
     for biz_id, review in to_extract:
         review_id = review.get("review_id", "")
-        review_text = review.get("text", "")[:2000]
+        review_text = review.get("text", "")[:8000]
         prompt = build_extraction_prompt(task.l0_schema, review_text, review_id)
         messages = [{"role": "user", "content": prompt}]
         custom_id = _build_review_custom_id(task.task_id, biz_id, review_id)
@@ -487,12 +549,12 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
             print("       Proceeding with existing cache (add --invalidate to clear)")
 
     # Store term hash metadata
-    cache.set_topic_metadata(topic, term_hash, REQUIRED_RUNS)
-
-    # Multi-model configuration
-    models_config = REQUIRED_RUNS
-    total_runs = sum(models_config.values())  # 9 runs per review
+    # Multi-model configuration (from --models flag or default)
+    models_config = get_models_config(args)
+    total_runs = sum(models_config.values())
     print(f"Multi-model config: {models_config} ({total_runs} runs per review)")
+
+    cache.set_topic_metadata(topic, term_hash, models_config)
 
     initial_agg = cache.count_aggregated(topic)
     print(f"Cache has {initial_agg} aggregated judgments for {topic}")
@@ -535,7 +597,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
                 if not needed:
                     continue
 
-                review_text = review.get("text", "")[:2000]
+                review_text = review.get("text", "")[:8000]
                 prompt = build_extraction_prompt(
                     l0_schema, review_text, review_id, task_description="relevant information"
                 )
@@ -552,7 +614,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
                         )
 
                     try:
-                        response = await llm.call([{"role": "user", "content": prompt}])
+                        response = await llm.call_async([{"role": "user", "content": prompt}])
                         judgment = parse_extraction_response(response)
                         judgment = validate_judgment(judgment, l0_schema)
 
@@ -692,7 +754,143 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
             print(f"[WARN] Failed to remove cron job: {exc}")
         return
 
-    # Submit batch - generate multi-model requests
+    # Handle manifest-based multi-batch processing
+    if args.manifest_id:
+        manifest = _load_manifest(args.domain, args.manifest_id)
+        if not manifest:
+            print(f"[ERROR] Manifest not found: {args.manifest_id}")
+            return
+
+        batch_client = BatchClient()
+        all_complete = True
+        any_failed = False
+
+        print(f"Checking {len(manifest['batches'])} batches...")
+
+        for batch_info in manifest["batches"]:
+            batch_id = batch_info["batch_id"]
+            if batch_info.get("processed"):
+                continue
+
+            batch = batch_client.get_batch(batch_id)
+            status = _get_batch_field(batch, "status")
+
+            if status not in {"completed", "failed", "expired", "cancelled"}:
+                print(f"  Batch {batch_id[:20]}... status: {status}")
+                all_complete = False
+                continue
+
+            if status != "completed":
+                print(f"  Batch {batch_id[:20]}... FAILED: {status}")
+                any_failed = True
+                batch_info["processed"] = True
+                batch_info["status"] = status
+                continue
+
+            # Process this batch
+            output_file_id = _get_batch_field(batch, "output_file_id")
+            if not output_file_id:
+                print(f"  Batch {batch_id[:20]}... no output file")
+                batch_info["processed"] = True
+                batch_info["status"] = "no_output"
+                continue
+
+            print(f"  Processing batch {batch_id[:20]}...")
+            output_bytes = batch_client.download_file(output_file_id)
+            review_index = _index_reviews(restaurants)
+
+            batch_raw = 0
+            for line in output_bytes.splitlines():
+                if not line:
+                    continue
+                item = json.loads(line)
+                custom_id = item.get("custom_id", "")
+
+                try:
+                    batch_topic, business_id, review_id, model, run = _parse_policy_custom_id(
+                        custom_id
+                    )
+                except ValueError:
+                    continue
+
+                if batch_topic != topic:
+                    continue
+
+                response_text = _get_batch_response_text(item)
+                if response_text is None:
+                    continue
+
+                review = review_index.get((business_id, review_id))
+                if not review:
+                    continue
+
+                try:
+                    judgment = parse_extraction_response(response_text)
+                    judgment = validate_judgment(judgment, l0_schema)
+                    judgment["review_id"] = review_id
+                    judgment["date"] = review.get("date", "")
+                    judgment["stars"] = review.get("stars", 0)
+                    judgment["useful"] = review.get("useful", 0)
+
+                    cache.set_raw(topic, review_id, model, run, judgment)
+                    batch_raw += 1
+                except Exception:
+                    continue
+
+            print(f"    Processed {batch_raw} raw extractions")
+            batch_info["processed"] = True
+            batch_info["status"] = "completed"
+            batch_info["raw_count"] = batch_raw
+
+        # Save updated manifest
+        _save_manifest(args.domain, args.manifest_id, manifest)
+        cache.save()
+
+        if not all_complete:
+            print("\nSome batches still processing. Will check again.")
+            return
+
+        # All batches complete - run aggregation
+        print("\nAll batches complete. Running aggregation...")
+        total_aggregated = 0
+        all_review_ids = set()
+
+        # Collect all review IDs from restaurants
+        for restaurant in restaurants:
+            for review in restaurant.get("reviews", []):
+                review_id = review.get("review_id", "")
+                if review_id:
+                    all_review_ids.add(review_id)
+
+        for review_id in all_review_ids:
+            if cache.is_quota_satisfied(topic, review_id, models_config):
+                if not cache.has_aggregated(topic, review_id):
+                    raw_judgments = cache.get_raw_by_review(topic, review_id)
+                    aggregated = aggregate_judgments(raw_judgments, l0_schema)
+                    cache.set_aggregated(topic, review_id, aggregated)
+                    total_aggregated += 1
+
+        cache.save()
+        final_agg = cache.count_aggregated(topic)
+        print(f"\nDone. Added {total_aggregated} aggregated judgments.")
+        print(f"Cache now has {final_agg} aggregated judgments for {topic}")
+
+        if any_failed:
+            print("[WARN] Some batches failed. Check manifest for details.")
+
+        # Cleanup
+        marker = f"ADDM_MANIFEST_{args.manifest_id}"
+        try:
+            remove_cron_job(marker)
+            print(f"Removed cron job for manifest {args.manifest_id}")
+        except Exception as exc:
+            print(f"[WARN] Failed to remove cron job: {exc}")
+
+        _delete_manifest(args.domain, args.manifest_id)
+        print(f"Deleted manifest file")
+        return
+
+    # Submit batch(es) - generate multi-model requests
     request_items = []
     reviews_to_extract = 0
 
@@ -711,7 +909,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
                 continue
 
             reviews_to_extract += 1
-            review_text = review.get("text", "")[:2000]
+            review_text = review.get("text", "")[:8000]
 
             # Build prompt (same for all models)
             prompt = build_extraction_prompt(
@@ -735,20 +933,90 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         print("No reviews need extraction. All quotas satisfied.")
         return
 
-    print(f"Submitting {len(request_items)} requests for {reviews_to_extract} reviews")
+    print(f"Total requests: {len(request_items)} for {reviews_to_extract} reviews")
+
+    # Split into batches if needed
+    batch_chunks = _split_into_batches(request_items, MAX_BATCH_SIZE)
+    print(f"Splitting into {len(batch_chunks)} batch(es) (max {MAX_BATCH_SIZE} per batch)")
 
     batch_client = BatchClient()
-    input_file_id = batch_client.upload_batch_file(request_items)
-    batch_id = batch_client.submit_batch(input_file_id)
-    print(f"Submitted batch: {batch_id}")
 
-    marker = f"ADDM_POLICY_BATCH_{batch_id}"
-    cron_line = f"*/5 * * * * {_build_policy_cron_command(args, batch_id, topic)} # {marker}"
-    try:
-        install_cron_job(cron_line, marker)
-        print(f"Installed cron job for batch {batch_id}")
-    except Exception as exc:
-        print(f"[WARN] Failed to install cron job: {exc}")
+    if len(batch_chunks) == 1:
+        # Single batch - use simple flow
+        input_file_id = batch_client.upload_batch_file(request_items)
+        batch_id = batch_client.submit_batch(input_file_id)
+        print(f"Submitted batch: {batch_id}")
+
+        marker = f"ADDM_POLICY_BATCH_{batch_id}"
+        cron_line = f"*/5 * * * * {_build_policy_cron_command(args, batch_id, topic)} # {marker}"
+        try:
+            install_cron_job(cron_line, marker)
+            print(f"Installed cron job for batch {batch_id}")
+        except Exception as exc:
+            print(f"[WARN] Failed to install cron job: {exc}")
+    else:
+        # Multiple batches - use manifest
+        manifest_id = f"{topic}_{uuid.uuid4().hex[:8]}"
+        manifest = {
+            "manifest_id": manifest_id,
+            "topic": topic,
+            "domain": args.domain,
+            "k": args.k,
+            "models_config": models_config,
+            "total_requests": len(request_items),
+            "created_at": datetime.now().isoformat(),
+            "batches": [],
+        }
+
+        for i, chunk in enumerate(batch_chunks):
+            print(f"  Submitting batch {i+1}/{len(batch_chunks)} ({len(chunk)} requests)...")
+            input_file_id = batch_client.upload_batch_file(chunk)
+            batch_id = batch_client.submit_batch(input_file_id)
+            manifest["batches"].append({
+                "batch_id": batch_id,
+                "chunk_index": i,
+                "request_count": len(chunk),
+                "processed": False,
+            })
+            print(f"    Batch ID: {batch_id}")
+
+        _save_manifest(args.domain, manifest_id, manifest)
+        print(f"\nCreated manifest: {manifest_id}")
+
+        # Build cron command for manifest processing
+        repo_root = Path.cwd().resolve()
+        cmd = [
+            sys.executable,
+            "-m",
+            "addm.tasks.cli.extract",
+            "--topic",
+            topic,
+            "--domain",
+            args.domain,
+            "--k",
+            str(args.k),
+            "--mode",
+            "24hrbatch",
+            "--manifest-id",
+            manifest_id,
+        ]
+        if args.limit:
+            cmd.extend(["--limit", str(args.limit)])
+        cmd.extend(["--provider", args.provider])
+        if args.models:
+            cmd.extend(["--models", args.models])
+        if args.verbose:
+            cmd.append("--verbose")
+        command = " ".join(shlex.quote(c) for c in cmd)
+        cron_cmd = f"cd {shlex.quote(str(repo_root))} && {command}"
+
+        marker = f"ADDM_MANIFEST_{manifest_id}"
+        cron_line = f"*/5 * * * * {cron_cmd} # {marker}"
+        try:
+            install_cron_job(cron_line, marker)
+            print(f"Installed cron job for manifest {manifest_id}")
+        except Exception as exc:
+            print(f"[WARN] Failed to install cron job: {exc}")
 
 
 # =============================================================================
@@ -839,12 +1107,15 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
             if args.invalidate:
                 count = cache.invalidate_topic(topic)
                 print(f"       Invalidated {count} entries")
-        cache.set_topic_metadata(topic, term_hash, REQUIRED_RUNS)
 
-    # Multi-model config
-    models_config = REQUIRED_RUNS
+    # Multi-model config (from --models flag or default)
+    models_config = get_models_config(args)
     total_runs = sum(models_config.values())
     print(f"Multi-model config: {models_config} ({total_runs} runs per review per topic)")
+
+    # Store metadata for all topics
+    for topic, term_hash in topic_hashes.items():
+        cache.set_topic_metadata(topic, term_hash, models_config)
 
     if args.mode == "ondemand":
         print("[ERROR] --all requires 24hrbatch mode (too many requests for ondemand)")
@@ -855,8 +1126,148 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
         print("24hrbatch mode only supports provider=openai")
         return
 
+    # Handle manifest-based multi-batch processing for --all mode
+    if args.manifest_id:
+        manifest = _load_manifest(args.domain, args.manifest_id)
+        if not manifest:
+            print(f"[ERROR] Manifest not found: {args.manifest_id}")
+            return
+
+        batch_client = BatchClient()
+        all_complete = True
+        any_failed = False
+
+        print(f"Checking {len(manifest['batches'])} batches...")
+
+        review_index = _index_reviews(restaurants)
+        total_raw = 0
+        reviews_by_topic: Dict[str, set] = {t: set() for t in topic_schemas}
+
+        for batch_info in manifest["batches"]:
+            batch_id = batch_info["batch_id"]
+            if batch_info.get("processed"):
+                continue
+
+            batch = batch_client.get_batch(batch_id)
+            status = _get_batch_field(batch, "status")
+
+            if status not in {"completed", "failed", "expired", "cancelled"}:
+                print(f"  Batch {batch_id[:20]}... status: {status}")
+                all_complete = False
+                continue
+
+            if status != "completed":
+                print(f"  Batch {batch_id[:20]}... FAILED: {status}")
+                any_failed = True
+                batch_info["processed"] = True
+                batch_info["status"] = status
+                continue
+
+            # Process this batch
+            output_file_id = _get_batch_field(batch, "output_file_id")
+            if not output_file_id:
+                print(f"  Batch {batch_id[:20]}... no output file")
+                batch_info["processed"] = True
+                batch_info["status"] = "no_output"
+                continue
+
+            print(f"  Processing batch {batch_id[:20]}...")
+            output_bytes = batch_client.download_file(output_file_id)
+
+            batch_raw = 0
+            for line in output_bytes.splitlines():
+                if not line:
+                    continue
+                item = json.loads(line)
+                custom_id = item.get("custom_id", "")
+
+                try:
+                    batch_topic, business_id, review_id, model, run = _parse_policy_custom_id(
+                        custom_id
+                    )
+                except ValueError:
+                    continue
+
+                if batch_topic not in topic_schemas:
+                    continue
+
+                response_text = _get_batch_response_text(item)
+                if response_text is None:
+                    continue
+
+                review = review_index.get((business_id, review_id))
+                if not review:
+                    continue
+
+                l0_schema = topic_schemas[batch_topic]
+
+                try:
+                    judgment = parse_extraction_response(response_text)
+                    judgment = validate_judgment(judgment, l0_schema)
+                    judgment["review_id"] = review_id
+                    judgment["date"] = review.get("date", "")
+                    judgment["stars"] = review.get("stars", 0)
+                    judgment["useful"] = review.get("useful", 0)
+
+                    cache.set_raw(batch_topic, review_id, model, run, judgment)
+                    batch_raw += 1
+                    total_raw += 1
+                    reviews_by_topic[batch_topic].add(review_id)
+                except Exception:
+                    continue
+
+            print(f"    Processed {batch_raw} raw extractions")
+            batch_info["processed"] = True
+            batch_info["status"] = "completed"
+            batch_info["raw_count"] = batch_raw
+
+        # Save updated manifest
+        _save_manifest(args.domain, args.manifest_id, manifest)
+        cache.save()
+
+        if not all_complete:
+            print("\nSome batches still processing. Will check again.")
+            return
+
+        # All batches complete - run aggregation
+        print(f"\nAll batches complete. Processed {total_raw} total raw extractions.")
+        print("Running aggregation...")
+
+        total_aggregated = 0
+        for topic, review_ids in reviews_by_topic.items():
+            l0_schema = topic_schemas[topic]
+            for review_id in review_ids:
+                if cache.is_quota_satisfied(topic, review_id, models_config):
+                    if not cache.has_aggregated(topic, review_id):
+                        raw_judgments = cache.get_raw_by_review(topic, review_id)
+                        aggregated = aggregate_judgments(raw_judgments, l0_schema)
+                        cache.set_aggregated(topic, review_id, aggregated)
+                        total_aggregated += 1
+
+        cache.save()
+        print(f"\nDone. Added {total_aggregated} aggregated judgments across all topics.")
+
+        for topic in topic_schemas:
+            count = cache.count_aggregated(topic)
+            print(f"  {topic}: {count} aggregated")
+
+        if any_failed:
+            print("[WARN] Some batches failed. Check manifest for details.")
+
+        # Cleanup
+        marker = f"ADDM_MANIFEST_ALL_{args.manifest_id}"
+        try:
+            remove_cron_job(marker)
+            print(f"Removed cron job for manifest {args.manifest_id}")
+        except Exception as exc:
+            print(f"[WARN] Failed to remove cron job: {exc}")
+
+        _delete_manifest(args.domain, args.manifest_id)
+        print(f"Deleted manifest file")
+        return
+
     if args.batch_id:
-        # Process batch results for all topics
+        # Legacy single-batch processing (kept for backwards compatibility)
         batch_client = BatchClient()
         batch = batch_client.get_batch(args.batch_id)
         status = _get_batch_field(batch, "status")
@@ -954,7 +1365,7 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
             print(f"[WARN] Failed to remove cron job: {exc}")
         return
 
-    # Submit batch for all topics
+    # Submit batch(es) for all topics
     request_items = []
     reviews_to_extract = 0
 
@@ -967,7 +1378,7 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
             if not review_id:
                 continue
 
-            review_text = review.get("text", "")[:2000]
+            review_text = review.get("text", "")[:8000]
 
             # For each topic
             for topic, l0_schema in topic_schemas.items():
@@ -996,46 +1407,115 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
         print("No reviews need extraction. All quotas satisfied.")
         return
 
-    n_reviews = len(restaurants) * sum(1 for _ in restaurants[0].get("reviews", []))
-    print(f"Submitting {len(request_items)} requests")
+    print(f"Total requests: {len(request_items)}")
     print(f"  ({len(topic_schemas)} topics × {reviews_to_extract} review-topics × {total_runs} runs)")
 
+    # Split into batches if needed
+    batch_chunks = _split_into_batches(request_items, MAX_BATCH_SIZE)
+    print(f"Splitting into {len(batch_chunks)} batch(es) (max {MAX_BATCH_SIZE} per batch)")
+
     batch_client = BatchClient()
-    input_file_id = batch_client.upload_batch_file(request_items)
-    batch_id = batch_client.submit_batch(input_file_id)
-    print(f"Submitted batch: {batch_id}")
-
-    # Build cron command for --all mode
     repo_root = Path.cwd().resolve()
-    cmd = [
-        sys.executable,
-        "-m",
-        "addm.tasks.cli.extract",
-        "--all",
-        "--domain",
-        args.domain,
-        "--k",
-        str(args.k),
-        "--mode",
-        "24hrbatch",
-        "--batch-id",
-        batch_id,
-    ]
-    if args.limit:
-        cmd.extend(["--limit", str(args.limit)])
-    cmd.extend(["--provider", args.provider])
-    if args.verbose:
-        cmd.append("--verbose")
-    command = " ".join(shlex.quote(c) for c in cmd)
-    cron_cmd = f"cd {shlex.quote(str(repo_root))} && {command}"
 
-    marker = f"ADDM_ALL_BATCH_{batch_id}"
-    cron_line = f"*/5 * * * * {cron_cmd} # {marker}"
-    try:
-        install_cron_job(cron_line, marker)
-        print(f"Installed cron job for batch {batch_id}")
-    except Exception as exc:
-        print(f"[WARN] Failed to install cron job: {exc}")
+    if len(batch_chunks) == 1:
+        # Single batch - use simple flow
+        input_file_id = batch_client.upload_batch_file(request_items)
+        batch_id = batch_client.submit_batch(input_file_id)
+        print(f"Submitted batch: {batch_id}")
+
+        # Build cron command for single-batch --all mode
+        cmd = [
+            sys.executable,
+            "-m",
+            "addm.tasks.cli.extract",
+            "--all",
+            "--domain",
+            args.domain,
+            "--k",
+            str(args.k),
+            "--mode",
+            "24hrbatch",
+            "--batch-id",
+            batch_id,
+        ]
+        if args.limit:
+            cmd.extend(["--limit", str(args.limit)])
+        cmd.extend(["--provider", args.provider])
+        if args.models:
+            cmd.extend(["--models", args.models])
+        if args.verbose:
+            cmd.append("--verbose")
+        command = " ".join(shlex.quote(c) for c in cmd)
+        cron_cmd = f"cd {shlex.quote(str(repo_root))} && {command}"
+
+        marker = f"ADDM_ALL_BATCH_{batch_id}"
+        cron_line = f"*/5 * * * * {cron_cmd} # {marker}"
+        try:
+            install_cron_job(cron_line, marker)
+            print(f"Installed cron job for batch {batch_id}")
+        except Exception as exc:
+            print(f"[WARN] Failed to install cron job: {exc}")
+    else:
+        # Multiple batches - use manifest
+        manifest_id = f"all_topics_{uuid.uuid4().hex[:8]}"
+        manifest = {
+            "manifest_id": manifest_id,
+            "mode": "all_topics",
+            "domain": args.domain,
+            "k": args.k,
+            "models_config": models_config,
+            "total_requests": len(request_items),
+            "created_at": datetime.now().isoformat(),
+            "batches": [],
+        }
+
+        for i, chunk in enumerate(batch_chunks):
+            print(f"  Submitting batch {i+1}/{len(batch_chunks)} ({len(chunk)} requests)...")
+            input_file_id = batch_client.upload_batch_file(chunk)
+            batch_id = batch_client.submit_batch(input_file_id)
+            manifest["batches"].append({
+                "batch_id": batch_id,
+                "chunk_index": i,
+                "request_count": len(chunk),
+                "processed": False,
+            })
+            print(f"    Batch ID: {batch_id}")
+
+        _save_manifest(args.domain, manifest_id, manifest)
+        print(f"\nCreated manifest: {manifest_id}")
+
+        # Build cron command for manifest processing
+        cmd = [
+            sys.executable,
+            "-m",
+            "addm.tasks.cli.extract",
+            "--all",
+            "--domain",
+            args.domain,
+            "--k",
+            str(args.k),
+            "--mode",
+            "24hrbatch",
+            "--manifest-id",
+            manifest_id,
+        ]
+        if args.limit:
+            cmd.extend(["--limit", str(args.limit)])
+        cmd.extend(["--provider", args.provider])
+        if args.models:
+            cmd.extend(["--models", args.models])
+        if args.verbose:
+            cmd.append("--verbose")
+        command = " ".join(shlex.quote(c) for c in cmd)
+        cron_cmd = f"cd {shlex.quote(str(repo_root))} && {command}"
+
+        marker = f"ADDM_MANIFEST_ALL_{manifest_id}"
+        cron_line = f"*/5 * * * * {cron_cmd} # {marker}"
+        try:
+            install_cron_job(cron_line, marker)
+            print(f"Installed cron job for manifest {manifest_id}")
+        except Exception as exc:
+            print(f"[WARN] Failed to install cron job: {exc}")
 
 
 # =============================================================================
@@ -1102,20 +1582,26 @@ def main() -> None:
         help="LLM execution mode (default: 24hrbatch)",
     )
     parser.add_argument(
-        "--batch-id", type=str, default=None, help="Batch ID for fetch-only runs"
+        "--batch-id", type=str, default=None, help="Batch ID for fetch-only runs (legacy single batch)"
+    )
+    parser.add_argument(
+        "--manifest-id", type=str, default=None, help="Manifest ID for multi-batch runs"
     )
     parser.add_argument(
         "--invalidate",
         action="store_true",
         help="Invalidate cache if term hash changed (policy mode)",
     )
+    parser.add_argument(
+        "--models",
+        type=str,
+        default=None,
+        help="Model config as model:runs,... (e.g., 'gpt-5-nano:1' or 'gpt-5-nano:5,gpt-5-mini:3,gpt-5.1:1')",
+    )
 
     args = parser.parse_args()
 
-    # Validate required arguments
-    if not args.task and not args.topic and not args.policy:
-        parser.error("Must specify one of: --task, --topic, or --policy")
-
+    # No validation needed - defaults to --all if no target specified
     asyncio.run(main_async(args))
 
 

@@ -7,11 +7,11 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from addm.tasks.prompt_parser import get_l0_field_order
 
-# Multi-model configuration for GT extraction
+# Multi-model configuration for GT extraction (cost-optimized)
+# See docs/future/high_quality_gt.md for more robust config
 REQUIRED_RUNS = {
-    "gpt-5.1": 1,
-    "gpt-5-mini": 3,
-    "gpt-5-nano": 5,
+    "gpt-5-mini": 1,
+    "gpt-5-nano": 3,
 }
 
 

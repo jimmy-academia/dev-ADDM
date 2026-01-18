@@ -19,20 +19,19 @@ from addm.query.models.policy import PolicyIR, ScoringSystem
 from addm.query.models.term import Term, TermLibrary
 
 # =============================================================================
-# Multi-model aggregation constants
+# Multi-model aggregation constants (cost-optimized)
+# See docs/future/high_quality_gt.md for more robust config
 # =============================================================================
 
 MODEL_WEIGHTS = {
-    "gpt-5.1": 3,
     "gpt-5-mini": 2,
     "gpt-5-nano": 1,
 }
 REQUIRED_RUNS = {
-    "gpt-5.1": 1,
-    "gpt-5-mini": 3,
-    "gpt-5-nano": 5,
+    "gpt-5-mini": 1,
+    "gpt-5-nano": 3,
 }
-TOTAL_WEIGHT = sum(MODEL_WEIGHTS[m] * REQUIRED_RUNS[m] for m in MODEL_WEIGHTS)  # 14
+TOTAL_WEIGHT = sum(MODEL_WEIGHTS[m] * REQUIRED_RUNS[m] for m in MODEL_WEIGHTS)  # 5
 
 # =============================================================================
 # Cuisine risk detection
@@ -106,9 +105,12 @@ def build_l0_schema_from_policy(
 
 def build_l0_schema_from_topic(topic: str, library: TermLibrary) -> Dict[str, Dict[str, str]]:
     """
-    Build L0 extraction schema from a topic (loads any V* policy to get term refs).
+    Build L0 extraction schema from a topic (union of all V* policy term refs).
 
     Topic format: "G1_allergy" (group_topic)
+
+    Uses the union of terms across V0-V3 to ensure all fields needed by any
+    policy version are extracted.
 
     Args:
         topic: Topic identifier (e.g., "G1_allergy")
@@ -124,15 +126,28 @@ def build_l0_schema_from_topic(topic: str, library: TermLibrary) -> Dict[str, Di
 
     group, topic_name = parts
 
-    # Load any policy file (V0 is base)
+    # Collect union of terms across all versions
     policies_dir = Path("src/addm/query/policies")
-    policy_path = policies_dir / group / topic_name / "V0.yaml"
+    topic_dir = policies_dir / group / topic_name
 
-    if not policy_path.exists():
-        raise FileNotFoundError(f"Policy not found: {policy_path}")
+    if not topic_dir.exists():
+        raise FileNotFoundError(f"Topic directory not found: {topic_dir}")
 
-    policy = PolicyIR.load(policy_path)
-    return build_l0_schema_from_policy(policy, library)
+    schema: Dict[str, Dict[str, str]] = {}
+    for version in ["V0", "V1", "V2", "V3"]:
+        policy_path = topic_dir / f"{version}.yaml"
+        if policy_path.exists():
+            policy = PolicyIR.load(policy_path)
+            version_schema = build_l0_schema_from_policy(policy, library)
+            # Merge into union (later versions may add fields)
+            for field, values in version_schema.items():
+                if field not in schema:
+                    schema[field] = values
+
+    if not schema:
+        raise ValueError(f"No valid policies found for topic: {topic}")
+
+    return schema
 
 
 # =============================================================================

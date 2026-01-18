@@ -268,24 +268,32 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Compute ground truth from cached judgments")
 
     # Target (mutually exclusive)
-    target_group = parser.add_mutually_exclusive_group(required=True)
+    target_group = parser.add_mutually_exclusive_group()
     target_group.add_argument("--task", type=str, help="Task ID (e.g., G1a) - legacy mode")
     target_group.add_argument(
         "--policy",
         type=str,
         help="Policy ID(s), comma-separated (e.g., G1_allergy_V2 or G1_allergy_V0,V1,V2,V3)",
     )
+    target_group.add_argument(
+        "--all", action="store_true", help="Compute GT for ALL policies (72 total) - default"
+    )
 
     # Common options
     parser.add_argument("--domain", type=str, default="yelp", help="Domain (default: yelp)")
-    parser.add_argument("--k", type=int, default=50, help="Dataset K value (default: 50)")
+    parser.add_argument("--k", type=int, default=200, help="Dataset K value (default: 200)")
     parser.add_argument("--verbose", action="store_true", help="Verbose output")
 
     args = parser.parse_args()
 
     if args.task:
         main_task(args)
+    elif args.policy:
+        main_policy(args)
     else:
+        # Default: compute GT for all policies
+        print("No target specified, defaulting to --all (72 policies)")
+        args.policy = ",".join(ALL_POLICIES)
         main_policy(args)
 
 
