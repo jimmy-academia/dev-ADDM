@@ -322,14 +322,16 @@ async def run_baseline(
         raise ValueError("Either task_id or policy_id must be provided")
 
     # Determine run mode and load agenda
+    system_prompt = None
     if policy_id:
-        # Policy mode: load from data/query/
+        # Policy mode: load from data/query/ with system prompt
         agenda = load_policy_prompt(policy_id, domain)
+        system_prompt = load_system_prompt()
         run_id = policy_id.replace("/", "_")
         # Map policy to task for ground truth comparison
         gt_task_id = policy_to_task_id(policy_id)
     else:
-        # Legacy task mode: load from data/tasks/
+        # Legacy task mode: load from data/tasks/ (no system prompt)
         task = load_task(task_id, domain)
         agenda = task.parsed_prompt.full_text
         run_id = task_id
@@ -357,7 +359,7 @@ async def run_baseline(
     llm.configure(model=model, temperature=0.0)
 
     # Run evaluations (with concurrency limit)
-    tasks = [eval_restaurant(r, agenda, llm) for r in restaurants]
+    tasks = [eval_restaurant(r, agenda, llm, system_prompt) for r in restaurants]
     results = await gather_with_concurrency(32, tasks)
 
     # Load ground truth for scoring

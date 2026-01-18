@@ -1,0 +1,94 @@
+# G3_price_worth_V1: Price-Worth with Override Triggers
+# V1 = Override: Adds single-instance triggers
+
+policy_id: "G3_price_worth_V1"
+extends: "G3_price_worth_V0"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
+overview:
+  title: "Price-Worth Value Assessment"
+
+  purpose: |
+    Help assess the value-for-money at this restaurant using customer reviews as evidence.
+    Assign a value label: Poor Value, Fair Value, or Good Value.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - price perception (expensive, cheap, worth it)
+    - portion sizes relative to price
+    - quality relative to price
+    - deals, happy hours, lunch specials
+    - overall value assessment
+
+    Reviews that only discuss food quality without mentioning price carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
+normative:
+  # Terms -> auto-generates Definitions section
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "price_worth:PRICE_PERCEPTION"
+    - ref: "price_worth:PORTION_SIZE"
+    - ref: "price_worth:QUALITY_FOR_PRICE"
+    - ref: "price_worth:RETURN_INTENT"
+
+  # Decision policy -> generates Verdict Rules section
+  decision:
+    verdicts: ["Poor Value", "Fair Value", "Good Value"]
+    ordered: true
+
+    rules:
+      - verdict: "Good Value"
+        label: "GOOD"
+        logic: ANY
+        conditions:
+          - "At least 1 review calls it 'best value in the area' or similar"
+          - "Happy hour or lunch specials described as exceptional value"
+          - "Fine dining quality at casual dining prices"
+
+      - verdict: "Poor Value"
+        label: "POOR"
+        precondition: "Good Value does not apply"
+        logic: ANY
+        conditions:
+          - "At least 1 review uses words like 'ripoff' or 'highway robbery'"
+          - "Described as tourist trap or overpriced"
+          - "Portion sizes described as 'laughable' or 'insulting'"
+
+      - verdict: "Fair Value"
+        label: "FAIR"
+        default: true
+        especially_when:
+          - "Prices match quality and expectations"
+          - "Standard for the cuisine or neighborhood"
+          - "Some dishes are good value, others less so"
+
+  # Output format
+  output:
+    verdict:
+      type: enum
+      values: ["Poor Value", "Fair Value", "Good Value"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

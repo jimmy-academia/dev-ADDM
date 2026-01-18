@@ -1,0 +1,22 @@
+{
+  "run_id": "G1_allergy_V2",
+  "task_id": null,
+  "policy_id": "G1_allergy_V2",
+  "gt_task_id": "G1a",
+  "domain": "yelp",
+  "model": "gpt-5-nano",
+  "k": 25,
+  "n": 1,
+  "timestamp": "20260117_224737",
+  "accuracy": 0.0,
+  "correct": 0,
+  "total": 0,
+  "auprc": {},
+  "results": [
+    {
+      "business_id": "eZ-t73r7ETHjyclRB7SnwQ",
+      "name": "Bliss",
+      "error": "Error code: 400 - {'error': {'message': \"Unsupported value: 'temperature' does not support 0.0 with this model. Only the default (1) value is supported.\", 'type': 'invalid_request_error', 'param': 'temperature', 'code': 'unsupported_value'}}"
+    }
+  ]
+}
