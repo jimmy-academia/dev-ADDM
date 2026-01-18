@@ -61,7 +61,9 @@ Task prompts: `data/query/yelp/G{1-6}{a-l}_prompt.txt` or `G{n}_{topic}_V{0-3}_p
 
 ## Output & Evaluation
 
-- [Results Schema (specs/outputs.md)](specs/outputs.md) - Results and metrics schema
+- [Output System Architecture (specs/output_system.md)](specs/output_system.md) - Console output, logging, and usage tracking
+- [Results Schema (specs/outputs.md)](specs/outputs.md) - Results file format and fields
+- [Usage Tracking (specs/usage_tracking.md)](specs/usage_tracking.md) - Token/cost tracking implementation
 
 ## Data Analysis
 

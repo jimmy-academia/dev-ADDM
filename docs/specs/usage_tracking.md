@@ -4,8 +4,8 @@
 
 ADDM tracks LLM usage at three levels:
 1. **Per-call**: Every API call recorded with tokens, cost, latency
-2. **Per-sample**: Aggregated in results.jsonl
-3. **Per-run**: Summary in usage.json
+2. **Per-sample**: Aggregated in results.json (in the `results` array)
+3. **Per-run**: Summary metadata in results.json (top-level fields)
 
 ## Components
 
@@ -68,14 +68,17 @@ responses, usages = await llm.batch_call_with_usage(batch, context={...})
 
 ## Output Files
 
-### results.jsonl (enhanced)
+### results.json
 
-Each result now includes usage fields:
+Single JSON file per run containing both run-level metadata and per-sample results.
+
+**Per-sample usage fields** (in `results` array):
 
 ```json
 {
-  "sample_id": "S001",
-  "output": "...",
+  "business_id": "S001",
+  "response": "...",
+  "verdict": "RISKY",
   "prompt_tokens": 1234,
   "completion_tokens": 567,
   "total_tokens": 1801,
@@ -85,46 +88,28 @@ Each result now includes usage fields:
 }
 ```
 
-### usage.json (new)
-
-Run-level aggregation:
+**Run-level metadata** (top-level fields):
 
 ```json
 {
-  "run_id": "20250116_143022_test",
-  "total_samples": 100,
-  "total_calls": 100,
-  "total_prompt_tokens": 123456,
-  "total_completion_tokens": 56789,
-  "total_tokens": 180245,
-  "total_cost_usd": 0.45,
-  "total_latency_ms": 89250.0,
-  "by_model": {
-    "gpt-4o-mini": {
-      "calls": 100,
-      "prompt_tokens": 123456,
-      "completion_tokens": 56789,
-      "cost_usd": 0.45
-    }
-  }
+  "run_id": "G1_allergy_V2",
+  "method": "direct",
+  "model": "gpt-5-nano",
+  "k": 50,
+  "n": 100,
+  "timestamp": "20260116_143022",
+  "accuracy": 0.85,
+  "correct": 85,
+  "total": 100,
+  "results": [...]
 }
 ```
 
-### debug/{sample_id}.jsonl (new)
+**Note:** The separate `usage.json` file mentioned in older documentation is no longer created. All usage data is consolidated into `results.json`.
 
-Full prompts and responses per sample:
+### Debug Logging (optional)
 
-```json
-{
-  "timestamp": "2025-01-16T14:30:22.123456",
-  "sample_id": "S001",
-  "phase": "main",
-  "model": "gpt-4o-mini",
-  "latency_ms": 892.5,
-  "prompt": "You are a restaurant review analyst...",
-  "response": "Based on the reviews provided..."
-}
-```
+The `DebugLogger` can capture full prompts and responses when explicitly enabled. This is not used in standard baseline runs. See `src/addm/utils/debug_logger.py` for implementation details.
 
 ## Model Pricing
 

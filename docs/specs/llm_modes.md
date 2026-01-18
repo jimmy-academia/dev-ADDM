@@ -74,3 +74,67 @@ If not complete, exit quietly; cron will retry.
 - Transient errors: log and let cron retry.
 - Batch expired (30 days): log and remove cron entry.
 - Partial failures: requeue only failed items (future enhancement).
+
+## Cron Job Management
+
+**Implementation:** `src/addm/utils/cron.py`
+
+### Installing a cron job
+
+When running with `--mode 24hrbatch`, a cron job is automatically installed:
+
+```python
+from addm.utils.cron import install_batch_cron
+
+install_batch_cron(
+    batch_id="batch_abc123",
+    command="path/to/python -m addm.tasks.cli.run_baseline --batch-id batch_abc123 --mode 24hrbatch",
+    marker="addm_G1a_20260116_143022"
+)
+```
+
+**Cron line format:**
+```bash
+*/5 * * * * cd /path/to/repo && .venv/bin/python -m addm.tasks.cli.run_baseline --batch-id batch_abc123 --mode 24hrbatch >> /path/to/logs/cron.log 2>&1  # ADDM_BATCH_batch_abc123
+```
+
+**Key features:**
+- Runs every 5 minutes (`*/5 * * * *`)
+- Marker comment for identification: `# ADDM_BATCH_{batch_id}`
+- Logs to file for debugging
+- Working directory set to repo root
+
+### Removing a cron job
+
+After batch completion, the cron job is automatically removed:
+
+```python
+from addm.utils.cron import remove_batch_cron
+
+remove_batch_cron(marker="addm_G1a_20260116_143022")
+```
+
+**How it works:**
+1. Reads current crontab
+2. Filters out lines with the marker comment
+3. Writes back the filtered crontab
+
+### Manual management
+
+**List active batch cron jobs:**
+```bash
+crontab -l | grep "ADDM_BATCH"
+```
+
+**Manually remove a cron job:**
+```bash
+# Edit crontab and delete the line with the marker
+crontab -e
+
+# Or programmatically
+python -c "from addm.utils.cron import remove_batch_cron; remove_batch_cron('addm_G1a_20260116_143022')"
+```
+
+**Platform support:**
+- Unix/Linux/macOS: Full support via `crontab` command
+- Windows: Not supported (warning printed, no cron created)

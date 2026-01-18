@@ -92,20 +92,19 @@ src/addm/
 
 See `docs/specs/query_construction.md` for details.
 
-## Usage Tracking
+## Output & Logging
 
 **Output files per run:**
 ```
 results/dev/{timestamp}_{name}/
-├── results.jsonl    # Per-sample with usage fields
-├── usage.json       # Run-level aggregation
-└── debug/           # Full prompts/responses
-    └── {sample_id}.jsonl
+└── results.json     # Single JSON with run metadata + per-sample results array
 ```
 
 **Key modules:**
+- `src/addm/utils/output.py` - OutputManager singleton, Rich console output
+- `src/addm/utils/logging.py` - ResultLogger for experiment result capture
 - `src/addm/utils/usage.py` - UsageTracker singleton, MODEL_PRICING, compute_cost
-- `src/addm/utils/debug_logger.py` - DebugLogger for prompt/response capture
+- `src/addm/utils/debug_logger.py` - DebugLogger for prompt/response capture (if enabled)
 
 **Usage in methods:**
 ```python
