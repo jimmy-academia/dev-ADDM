@@ -1,0 +1,125 @@
+# G1_hygiene_V2: Hygiene Risk with Point-Based Scoring
+# V2 = Scoring: Adds point system with numeric thresholds
+
+policy_id: "G1_hygiene_V2"
+extends: "G1_hygiene_V1"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
+overview:
+  title: "Hygiene and Food Safety Risk Assessment"
+
+  purpose: |
+    Help assess the hygiene and food safety risk for this restaurant using customer reviews as evidence.
+    Assign a risk label: Low Risk, High Risk, or Critical Risk.
+
+    This assessment uses a point-based scoring system to quantify risk.
+
+  incident_definition: |
+    Only firsthand observations are treated as confirmed evidence. An account is
+    considered relevant if it meaningfully discusses any of the following:
+    - visible cleanliness issues (dirty tables, floors, kitchen, bathroom)
+    - pest sightings (insects, rodents)
+    - food safety concerns (hair in food, undercooked, spoiled)
+    - illness after eating at the restaurant
+
+    Vague statements without specific observations (e.g., "seemed clean") carry less weight.
+
+# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
+normative:
+  # Terms -> auto-generates Definitions section
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "hygiene:ISSUE_TYPE"
+    - ref: "hygiene:ISSUE_SEVERITY"
+    - ref: "hygiene:OBSERVATION_TYPE"
+    - ref: "hygiene:ILLNESS_REPORTED"
+    - ref: "shared:STAFF_RESPONSE"
+
+  # Scoring system -> generates Scoring System section
+  scoring:
+    description: |
+      Calculate a total risk score by summing points from all firsthand hygiene incidents.
+
+    severity_points:
+      - label: "Minor issue"
+        points: 2
+      - label: "Major issue"
+        points: 5
+      - label: "Severe issue (illness, rodent)"
+        points: 15
+
+    modifiers:
+      - label: "Food poisoning"
+        description: "reviewer or party got sick after eating"
+        points: 10
+      - label: "Pest sighting"
+        description: "roaches, flies, rodents observed"
+        points: 5
+      - label: "Dismissive staff"
+        description: "staff dismissed or ignored hygiene complaint"
+        points: 3
+      - label: "Multiple affected"
+        description: "multiple people in party experienced same issue"
+        points: 3
+
+    thresholds:
+      - verdict: "Critical Risk"
+        min_score: 10
+      - verdict: "High Risk"
+        min_score: 5
+
+  # Decision policy -> generates Verdict Rules section
+  decision:
+    verdicts: ["Low Risk", "High Risk", "Critical Risk"]
+    ordered: true
+
+    rules:
+      - verdict: "Critical Risk"
+        label: "CRITICAL"
+        logic: ANY
+        conditions:
+          - "Total risk score is 10 or higher"
+
+      - verdict: "High Risk"
+        label: "HIGH"
+        precondition: "Critical Risk does not apply"
+        logic: ANY
+        conditions:
+          - "Total risk score is 5 or higher"
+
+      - verdict: "Low Risk"
+        label: "LOW"
+        default: true
+        especially_when:
+          - "No hygiene issues are reported"
+          - "Total risk score is below 5"
+
+  # Output format
+  output:
+    verdict:
+      type: enum
+      values: ["Low Risk", "High Risk", "Critical Risk"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

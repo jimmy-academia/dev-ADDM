@@ -19,7 +19,10 @@
       "Bash(ps aux:*)",
       "Bash(git status:*)",
       "Bash(git diff:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(tree:*)",
+      "Bash(cloc:*)",
+      "Bash(cat:*)"
     ]
   }
 }

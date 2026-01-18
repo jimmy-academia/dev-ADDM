@@ -1,0 +1,140 @@
+# G2_group_V2: Group Dining with Point-Based Scoring
+# V2 = Scoring: Adds point system with numeric thresholds
+
+policy_id: "G2_group_V2"
+extends: "G2_group_V1"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
+overview:
+  title: "Group Dining Suitability Assessment"
+
+  purpose: |
+    Help assess how suitable this restaurant is for group dining (large parties, celebrations, family gatherings)
+    using customer reviews as evidence.
+    Assign a suitability label: Not Recommended, Acceptable, or Recommended.
+
+    This assessment uses a point-based scoring system to quantify suitability.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - large group dining, parties, celebrations, birthday dinners
+    - ability to accommodate large parties
+    - wait times for groups, reservation handling
+    - check splitting, group service coordination
+    - family-friendliness (if relevant)
+
+    Reviews from solo diners or couples carry less weight unless they comment on observed group experiences.
+
+# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
+normative:
+  # Terms -> auto-generates Definitions section
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "group:GROUP_SIZE"
+    - ref: "group:ACCOMMODATION_QUALITY"
+    - ref: "group:CHECK_SPLITTING"
+    - ref: "group:WAIT_TIME"
+    - ref: "group:FAMILY_FRIENDLINESS"
+    - ref: "group:GROUP_OUTCOME"
+
+  # Scoring system -> generates Scoring System section
+  scoring:
+    description: |
+      Calculate a group suitability score by summing points from relevant reviews.
+      Positive points indicate group suitability, negative points indicate drawbacks.
+
+    severity_points:
+      - label: "Perfect group event"
+        points: 15
+      - label: "Positive group experience"
+        points: 5
+      - label: "Neutral mention"
+        points: 0
+      - label: "Minor group issue"
+        points: -2
+      - label: "Major group issue"
+        points: -5
+      - label: "Group disaster"
+        points: -15
+
+    modifiers:
+      - label: "Private room available"
+        description: "private dining space for groups"
+        points: 5
+      - label: "Easy check splitting"
+        description: "no issues splitting checks"
+        points: 3
+      - label: "Family-friendly"
+        description: "kids menu, high chairs, family welcoming"
+        points: 3
+      - label: "Refused check split"
+        description: "would not split the check"
+        points: -5
+      - label: "Long wait despite reservation"
+        description: "waited excessively despite having reservation"
+        points: -5
+      - label: "Group split across tables"
+        description: "party was not seated together"
+        points: -3
+
+    thresholds:
+      - verdict: "Recommended"
+        min_score: 8
+      - verdict: "Not Recommended"
+        max_score: -5
+
+  # Decision policy -> generates Verdict Rules section
+  decision:
+    verdicts: ["Not Recommended", "Acceptable", "Recommended"]
+    ordered: true
+
+    rules:
+      - verdict: "Recommended"
+        label: "RECOMMENDED"
+        logic: ANY
+        conditions:
+          - "Total suitability score is 8 or higher"
+
+      - verdict: "Not Recommended"
+        label: "NOT_RECOMMENDED"
+        precondition: "Recommended does not apply"
+        logic: ANY
+        conditions:
+          - "Total suitability score is -5 or lower"
+
+      - verdict: "Acceptable"
+        label: "ACCEPTABLE"
+        default: true
+        especially_when:
+          - "Total suitability score is between -4 and 7"
+          - "Mixed positive and negative indicators"
+
+  # Output format
+  output:
+    verdict:
+      type: enum
+      values: ["Not Recommended", "Acceptable", "Recommended"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

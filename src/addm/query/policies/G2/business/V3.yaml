@@ -1,0 +1,145 @@
+# G2_business_V3: Business Dining with Recency & Context
+# V3 = Recency: Adds recency modifiers and situational context
+
+policy_id: "G2_business_V3"
+extends: "G2_business_V2"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
+overview:
+  title: "Business Dining Suitability Assessment"
+
+  purpose: |
+    Help assess how suitable this restaurant is for business dining (client meetings, work lunches, interviews)
+    using customer reviews as evidence.
+    Assign a suitability label: Not Recommended, Acceptable, or Recommended.
+
+    This assessment uses a point-based scoring system with recency weighting.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - business lunches, client meetings, interviews, work events
+    - noise level and ability to have conversation
+    - service efficiency and professionalism
+    - privacy for business discussions
+    - overall professional atmosphere
+
+    Reviews that only discuss food without mentioning the business context carry less weight.
+
+# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
+normative:
+  # Terms -> auto-generates Definitions section
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "business:PROFESSIONALISM"
+    - ref: "business:CONVERSATION_SUITABILITY"
+    - ref: "business:SERVICE_EFFICIENCY"
+    - ref: "business:PRIVACY_LEVEL"
+    - ref: "business:MEETING_OUTCOME"
+
+  # Scoring system -> generates Scoring System section
+  scoring:
+    description: |
+      Calculate a business suitability score by summing points from relevant reviews,
+      with recency weighting applied.
+
+    severity_points:
+      - label: "Successful client meeting"
+        points: 15
+      - label: "Positive business meal"
+        points: 5
+      - label: "Neutral mention"
+        points: 0
+      - label: "Minor issue (slightly loud, slow)"
+        points: -2
+      - label: "Major issue (too loud, very slow)"
+        points: -5
+      - label: "Client embarrassment"
+        points: -15
+
+    modifiers:
+      - label: "Private room available"
+        description: "mentions private dining room or secluded area"
+        points: 5
+      - label: "Quiet atmosphere"
+        description: "explicitly describes as quiet or easy to talk"
+        points: 3
+      - label: "Efficient service"
+        description: "service described as quick and professional"
+        points: 3
+      - label: "Loud environment"
+        description: "noise level prevents easy conversation"
+        points: -5
+      - label: "Slow service"
+        description: "service too slow for business timing"
+        points: -3
+
+    recency_rules:
+      - age: "Within 1 year"
+        weight: "full point value"
+      - age: "1-2 years old"
+        weight: "half point value (multiply by 0.5)"
+      - age: "Over 2 years old"
+        weight: "quarter point value (multiply by 0.25), unless describing permanent features"
+
+    thresholds:
+      - verdict: "Recommended"
+        min_score: 8
+      - verdict: "Not Recommended"
+        max_score: -5
+
+  # Decision policy -> generates Verdict Rules section
+  decision:
+    verdicts: ["Not Recommended", "Acceptable", "Recommended"]
+    ordered: true
+
+    rules:
+      - verdict: "Recommended"
+        label: "RECOMMENDED"
+        logic: ANY
+        conditions:
+          - "Total suitability score is 8 or higher (after recency weighting)"
+
+      - verdict: "Not Recommended"
+        label: "NOT_RECOMMENDED"
+        precondition: "Recommended does not apply"
+        logic: ANY
+        conditions:
+          - "Total suitability score is -5 or lower (after recency weighting)"
+
+      - verdict: "Acceptable"
+        label: "ACCEPTABLE"
+        default: true
+        especially_when:
+          - "Total suitability score is between -4 and 7"
+          - "Recent reviews show consistent professional experience"
+          - "Minor issues are from older reviews"
+
+  # Output format
+  output:
+    verdict:
+      type: enum
+      values: ["Not Recommended", "Acceptable", "Recommended"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence and recency weighting were used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

@@ -1,0 +1,159 @@
+# Terms specific to hidden costs assessment
+# Referenced as "hidden_costs:TERM_ID"
+
+COST_TYPE:
+  name: Cost Type
+  type: enum
+  description: Type of hidden or unexpected cost
+  values:
+    - id: service_charge
+      label: Service Charge
+      description: Mandatory service charge added to bill
+      cues:
+        - "service charge"
+        - "service fee"
+        - "18%"
+        - "20% added"
+
+    - id: auto_gratuity
+      label: Auto Gratuity
+      description: Automatic tip added to bill
+      cues:
+        - "auto gratuity"
+        - "automatic tip"
+        - "tip included"
+        - "gratuity added"
+
+    - id: corkage
+      label: Corkage Fee
+      description: Fee for bringing own wine
+      cues:
+        - "corkage"
+        - "BYOB fee"
+
+    - id: split_fee
+      label: Split Fee
+      description: Fee for splitting dishes or checks
+      cues:
+        - "split fee"
+        - "sharing charge"
+        - "plate charge"
+
+    - id: other
+      label: Other
+      description: Other unexpected charges
+      cues:
+        - "extra charge"
+        - "hidden fee"
+        - "surprise charge"
+
+  default: other
+
+DISCLOSURE_LEVEL:
+  name: Disclosure Level
+  type: enum
+  description: How well the hidden cost was disclosed
+  values:
+    - id: none
+      label: No Disclosure
+      description: Not mentioned until bill arrived
+      cues:
+        - "no warning"
+        - "didn't know"
+        - "surprise"
+        - "never told"
+
+    - id: fine_print
+      label: Fine Print
+      description: Mentioned in small print on menu
+      cues:
+        - "fine print"
+        - "bottom of menu"
+        - "small text"
+
+    - id: verbal
+      label: Verbal
+      description: Server mentioned it verbally
+      cues:
+        - "told us"
+        - "mentioned"
+        - "warned us"
+
+    - id: clear
+      label: Clear
+      description: Clearly displayed or communicated
+      cues:
+        - "clearly marked"
+        - "obvious"
+        - "well known"
+
+  default: none
+
+IMPACT_SEVERITY:
+  name: Impact Severity
+  type: enum
+  description: Impact of hidden cost on total bill
+  values:
+    - id: minor
+      label: Minor
+      description: Small percentage of bill (<5%)
+      cues:
+        - "few dollars"
+        - "small amount"
+
+    - id: moderate
+      label: Moderate
+      description: Noticeable addition (5-15%)
+      cues:
+        - "added up"
+        - "noticeable"
+
+    - id: significant
+      label: Significant
+      description: Major impact on bill (>15%)
+      cues:
+        - "huge"
+        - "significant"
+        - "major addition"
+        - "doubled"
+
+  default: moderate
+
+CUSTOMER_REACTION:
+  name: Customer Reaction
+  type: enum
+  description: Customer's reaction to the hidden cost
+  values:
+    - id: upset
+      label: Upset
+      description: Very unhappy about undisclosed charges
+      cues:
+        - "angry"
+        - "furious"
+        - "unacceptable"
+        - "never again"
+
+    - id: annoyed
+      label: Annoyed
+      description: Mildly annoyed but not deal-breaker
+      cues:
+        - "annoying"
+        - "wish they'd said"
+        - "frustrating"
+
+    - id: neutral
+      label: Neutral
+      description: Accepted the charge
+      cues:
+        - "okay with it"
+        - "standard"
+
+    - id: understanding
+      label: Understanding
+      description: Understood and accepted the charge
+      cues:
+        - "makes sense"
+        - "fair enough"
+        - "understand"
+
+  default: annoyed

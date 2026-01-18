@@ -1,0 +1,169 @@
+# Terms specific to price-worth value assessment
+# Referenced as "price_worth:TERM_ID"
+
+PRICE_PERCEPTION:
+  name: Price Perception
+  type: enum
+  description: Perception of value for money
+  values:
+    - id: ripoff
+      label: Ripoff
+      description: Extremely overpriced, feel cheated
+      cues:
+        - "ripoff"
+        - "robbery"
+        - "scam"
+        - "insane prices"
+
+    - id: overpriced
+      label: Overpriced
+      description: Prices higher than expected for quality
+      cues:
+        - "overpriced"
+        - "too expensive"
+        - "not worth it"
+
+    - id: fair
+      label: Fair
+      description: Prices appropriate for what you get
+      cues:
+        - "fair prices"
+        - "reasonable"
+        - "expected"
+
+    - id: good_value
+      label: Good Value
+      description: Good quality for the price
+      cues:
+        - "good value"
+        - "worth it"
+        - "great deal"
+
+    - id: steal
+      label: Steal
+      description: Exceptional value, surprisingly affordable
+      cues:
+        - "steal"
+        - "amazing value"
+        - "can't beat"
+        - "bargain"
+
+  default: fair
+
+PORTION_SIZE:
+  name: Portion Size
+  type: enum
+  description: Assessment of portion sizes relative to price
+  values:
+    - id: tiny
+      label: Tiny
+      description: Portions much too small for the price
+      cues:
+        - "tiny"
+        - "minuscule"
+        - "still hungry"
+        - "laughable portion"
+
+    - id: small
+      label: Small
+      description: Portions smaller than expected
+      cues:
+        - "small portions"
+        - "could be bigger"
+        - "wanted more"
+
+    - id: adequate
+      label: Adequate
+      description: Portions are appropriate
+      cues:
+        - "normal"
+        - "adequate"
+        - "satisfying"
+
+    - id: generous
+      label: Generous
+      description: Large, generous portions
+      cues:
+        - "generous"
+        - "huge portions"
+        - "leftovers"
+        - "couldn't finish"
+
+  default: adequate
+
+QUALITY_FOR_PRICE:
+  name: Quality For Price
+  type: enum
+  description: Food quality relative to cost
+  values:
+    - id: poor
+      label: Poor
+      description: Quality far below what price suggests
+      cues:
+        - "cafeteria food"
+        - "not worth"
+        - "should be better"
+
+    - id: fair
+      label: Fair
+      description: Quality matches price point
+      cues:
+        - "you get what you pay"
+        - "expected quality"
+
+    - id: good
+      label: Good
+      description: Quality exceeds price expectation
+      cues:
+        - "better than expected"
+        - "great quality"
+        - "worth every penny"
+
+    - id: excellent
+      label: Excellent
+      description: Premium quality at reasonable price
+      cues:
+        - "fine dining quality"
+        - "incredible"
+        - "punches above"
+
+  default: fair
+
+RETURN_INTENT:
+  name: Return Intent
+  type: enum
+  description: Would return based on value assessment
+  values:
+    - id: never
+      label: Never
+      description: Won't return due to poor value
+      cues:
+        - "never again"
+        - "won't be back"
+        - "waste of money"
+
+    - id: maybe
+      label: Maybe
+      description: Might return if prices improve
+      cues:
+        - "maybe if"
+        - "if they lower"
+        - "on special occasion"
+
+    - id: "yes"
+      label: Yes
+      description: Will return, acceptable value
+      cues:
+        - "will return"
+        - "coming back"
+        - "worth it"
+
+    - id: definitely
+      label: Definitely
+      description: Great value, will definitely return
+      cues:
+        - "definitely coming back"
+        - "my new spot"
+        - "regular now"
+
+  default: maybe

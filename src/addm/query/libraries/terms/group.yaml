@@ -1,0 +1,228 @@
+# Terms specific to group/family dining assessment
+# Referenced as "group:TERM_ID"
+
+GROUP_SIZE:
+  name: Group Size
+  type: enum
+  description: Size of the dining group
+  values:
+    - id: small
+      label: Small (4-6)
+      description: Small group of 4-6 people
+      cues:
+        - "four of us"
+        - "party of 5"
+        - "6 people"
+
+    - id: medium
+      label: Medium (7-10)
+      description: Medium group of 7-10 people
+      cues:
+        - "8 of us"
+        - "party of 10"
+        - "about 10"
+
+    - id: large
+      label: Large (10+)
+      description: Large group of more than 10 people
+      cues:
+        - "large group"
+        - "15 people"
+        - "party of 20"
+        - "big group"
+
+  default: small
+
+ACCOMMODATION_QUALITY:
+  name: Accommodation Quality
+  type: enum
+  description: How well the restaurant handled the group
+  values:
+    - id: poor
+      label: Poor
+      description: Could not or would not accommodate group well
+      cues:
+        - "turned away"
+        - "couldn't seat us"
+        - "split up"
+        - "no room"
+
+    - id: adequate
+      label: Adequate
+      description: Basic accommodation, nothing special
+      cues:
+        - "managed to seat"
+        - "squeezed us in"
+        - "made it work"
+
+    - id: good
+      label: Good
+      description: Handled group well, smooth experience
+      cues:
+        - "seated together"
+        - "handled well"
+        - "no problem"
+
+    - id: excellent
+      label: Excellent
+      description: Exceptional group handling, private room, coordinated service
+      cues:
+        - "private room"
+        - "perfect for groups"
+        - "set up beautifully"
+        - "dedicated server"
+
+  default: adequate
+
+CHECK_SPLITTING:
+  name: Check Splitting
+  type: enum
+  description: How easy it was to split the check
+  values:
+    - id: refused
+      label: Refused
+      description: Restaurant would not split the check
+      cues:
+        - "wouldn't split"
+        - "refused to"
+        - "one check only"
+
+    - id: difficult
+      label: Difficult
+      description: Splitting was possible but problematic
+      cues:
+        - "took forever"
+        - "mistakes on split"
+        - "confusing"
+
+    - id: easy
+      label: Easy
+      description: No issues splitting the check
+      cues:
+        - "easy to split"
+        - "no problem"
+        - "quick split"
+        - "handled it well"
+
+  default: easy
+
+WAIT_TIME:
+  name: Wait Time
+  type: enum
+  description: Wait time for large party seating
+  values:
+    - id: excessive
+      label: Excessive
+      description: Unreasonably long wait despite reservation
+      cues:
+        - "waited over an hour"
+        - "despite reservation"
+        - "ridiculous wait"
+
+    - id: long
+      label: Long
+      description: Significant wait but not unreasonable
+      cues:
+        - "45 minutes"
+        - "waited a while"
+        - "long wait"
+
+    - id: reasonable
+      label: Reasonable
+      description: Acceptable wait for group size
+      cues:
+        - "15 minutes"
+        - "not too bad"
+        - "expected wait"
+
+    - id: quick
+      label: Quick
+      description: Seated quickly, minimal wait
+      cues:
+        - "seated immediately"
+        - "right away"
+        - "no wait"
+
+  default: reasonable
+
+FAMILY_FRIENDLINESS:
+  name: Family Friendliness
+  type: enum
+  description: How family-friendly the restaurant is
+  values:
+    - id: not_suitable
+      label: Not Suitable
+      description: Not appropriate for children/families
+      cues:
+        - "not for kids"
+        - "adults only"
+        - "inappropriate"
+
+    - id: tolerant
+      label: Tolerant
+      description: Allows children but not particularly welcoming
+      cues:
+        - "kids allowed"
+        - "tolerated"
+        - "frowned upon"
+
+    - id: friendly
+      label: Friendly
+      description: Welcoming to families, kids menu available
+      cues:
+        - "kids menu"
+        - "high chairs"
+        - "family friendly"
+        - "great with kids"
+
+    - id: exceptional
+      label: Exceptional
+      description: Designed for families, activities for kids
+      cues:
+        - "kids love it"
+        - "entertainment"
+        - "family focused"
+        - "perfect for families"
+
+  default: friendly
+
+GROUP_OUTCOME:
+  name: Group Outcome
+  type: enum
+  description: Overall success of the group dining experience
+  values:
+    - id: disaster
+      label: Disaster
+      description: Group experience was a disaster
+      cues:
+        - "ruined"
+        - "disaster"
+        - "nightmare"
+        - "never again"
+
+    - id: mixed
+      label: Mixed
+      description: Some issues but overall acceptable
+      cues:
+        - "some issues"
+        - "mixed"
+        - "could be better"
+
+    - id: success
+      label: Success
+      description: Group had a good experience
+      cues:
+        - "great time"
+        - "everyone happy"
+        - "worked well"
+
+    - id: great
+      label: Great
+      description: Exceptional group experience
+      cues:
+        - "perfect party"
+        - "amazing celebration"
+        - "best birthday"
+        - "will be back with group"
+
+  default: success

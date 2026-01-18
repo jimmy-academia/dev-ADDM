@@ -120,6 +120,14 @@ Agenda:
 """
 
 
+def load_system_prompt() -> str:
+    """Load the output schema system prompt."""
+    path = Path(__file__).parent.parent.parent / "query" / "prompts" / "output_schema.txt"
+    if not path.exists():
+        raise FileNotFoundError(f"System prompt not found: {path}")
+    return path.read_text()
+
+
 def load_dataset(domain: str, k: int) -> List[Dict[str, Any]]:
     """Load dataset for given K value."""
     dataset_path = Path(f"data/context/{domain}/dataset_K{k}.jsonl")
@@ -138,6 +146,36 @@ def build_prompt(restaurant: Dict[str, Any], agenda: str) -> str:
     # Context is just str(dict) of the restaurant data
     context = str(restaurant)
     return PROMPT_TEMPLATE.format(context=context, agenda=agenda)
+
+
+def build_messages(restaurant: Dict[str, Any], agenda: str, system_prompt: str) -> List[Dict[str, str]]:
+    """Build messages list for LLM call with system prompt."""
+    context = str(restaurant)
+    user_content = PROMPT_TEMPLATE.format(context=context, agenda=agenda)
+    return [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_content},
+    ]
+
+
+def extract_json_response(response: str) -> Dict[str, Any]:
+    """Extract structured JSON response from LLM output.
+
+    Returns:
+        Parsed JSON dict, or dict with error key if parsing fails.
+    """
+    try:
+        # Handle markdown code blocks
+        if "```json" in response:
+            json_str = response.split("```json")[1].split("```")[0]
+        elif "```" in response:
+            json_str = response.split("```")[1].split("```")[0]
+        else:
+            json_str = response
+
+        return json.loads(json_str.strip())
+    except (json.JSONDecodeError, IndexError) as e:
+        return {"verdict": None, "parse_error": str(e)}
 
 
 def extract_verdict(response: str) -> Optional[str]:
@@ -183,16 +221,58 @@ async def eval_restaurant(
     restaurant: Dict[str, Any],
     agenda: str,
     llm: LLMService,
+    system_prompt: Optional[str] = None,
 ) -> Dict[str, Any]:
-    """Evaluate a single restaurant."""
+    """Evaluate a single restaurant.
+
+    Args:
+        restaurant: Restaurant data dict
+        agenda: The agenda/prompt text
+        llm: LLM service instance
+        system_prompt: Optional system prompt for structured output
+    """
     business = restaurant.get("business", {})
     name = business.get("name", "Unknown")
     business_id = business.get("business_id", "")
 
-    prompt = build_prompt(restaurant, agenda)
+    # Build messages with or without system prompt
+    if system_prompt:
+        messages = build_messages(restaurant, agenda, system_prompt)
+        prompt_chars = sum(len(m["content"]) for m in messages)
+    else:
+        prompt = build_prompt(restaurant, agenda)
+        messages = [{"role": "user", "content": prompt}]
+        prompt_chars = len(prompt)
 
     try:
-        response = await llm.call_async([{"role": "user", "content": prompt}])
+        response = await llm.call_async(messages)
+
+        # Try JSON parsing first (for structured output)
+        parsed = extract_json_response(response)
+        if "parse_error" not in parsed:
+            # Successfully parsed JSON
+            verdict = parsed.get("verdict")
+            # Normalize verdict
+            if verdict:
+                v_lower = verdict.lower()
+                if "low" in v_lower:
+                    verdict = "Low Risk"
+                elif "critical" in v_lower:
+                    verdict = "Critical Risk"
+                elif "high" in v_lower:
+                    verdict = "High Risk"
+
+            return {
+                "business_id": business_id,
+                "name": name,
+                "response": response,
+                "parsed": parsed,
+                "verdict": verdict,
+                "risk_score": None,  # JSON format doesn't use numeric score
+                "prompt_chars": prompt_chars,
+            }
+
+        # Fallback to regex extraction (legacy format)
         verdict = extract_verdict(response)
         risk_score = extract_risk_score(response)
 
@@ -202,7 +282,7 @@ async def eval_restaurant(
             "response": response,
             "verdict": verdict,
             "risk_score": risk_score,
-            "prompt_chars": len(prompt),
+            "prompt_chars": prompt_chars,
         }
     except Exception as e:
         return {

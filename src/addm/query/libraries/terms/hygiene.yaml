@@ -1,0 +1,186 @@
+# Terms specific to hygiene and food safety assessment
+# Referenced as "hygiene:TERM_ID"
+
+ISSUE_TYPE:
+  name: Issue Type
+  type: enum
+  description: Type of hygiene issue reported
+  values:
+    - id: cleanliness
+      label: Cleanliness
+      description: General cleanliness issues (dirty tables, floors, etc.)
+      cues:
+        - "dirty"
+        - "filthy"
+        - "sticky"
+        - "grime"
+        - "mess"
+
+    - id: pest
+      label: Pest
+      description: Pest sighting (insects, rodents)
+      cues:
+        - "roach"
+        - "cockroach"
+        - "bug"
+        - "fly"
+        - "flies"
+        - "mouse"
+        - "rat"
+        - "ant"
+
+    - id: food_safety
+      label: Food Safety
+      description: Food handling or preparation issues
+      cues:
+        - "raw"
+        - "undercooked"
+        - "spoiled"
+        - "expired"
+        - "mold"
+        - "hair in food"
+        - "foreign object"
+
+    - id: bathroom
+      label: Bathroom
+      description: Bathroom cleanliness issues
+      cues:
+        - "bathroom"
+        - "restroom"
+        - "toilet"
+        - "no soap"
+        - "no paper"
+
+    - id: other
+      label: Other
+      description: Other hygiene issues not categorized above
+      cues: []
+
+  default: other
+
+ISSUE_SEVERITY:
+  name: Issue Severity
+  type: enum
+  description: Severity of the hygiene issue
+  values:
+    - id: none
+      label: No issue
+      description: No hygiene issue described
+      cues:
+        - "spotless"
+        - "immaculate"
+        - "very clean"
+
+    - id: minor
+      label: Minor issue
+      description: Small cleanliness issue that doesn't affect food safety
+      cues:
+        - "could be cleaner"
+        - "a bit dusty"
+        - "slightly dirty"
+
+    - id: major
+      label: Major issue
+      description: Significant cleanliness problem, health concern
+      cues:
+        - "really dirty"
+        - "disgusting"
+        - "gross"
+        - "unacceptable"
+
+    - id: severe
+      label: Severe issue
+      description: Health code violation level, food poisoning reported
+      cues:
+        - "health department"
+        - "food poisoning"
+        - "got sick"
+        - "hospitalized"
+        - "health code"
+
+  default: none
+
+OBSERVATION_TYPE:
+  name: Observation Type
+  type: enum
+  description: How the hygiene issue was observed
+  values:
+    - id: witnessed
+      label: Witnessed
+      description: Reviewer directly saw the issue
+      cues:
+        - "I saw"
+        - "we saw"
+        - "I noticed"
+        - "right in front of"
+
+    - id: inferred
+      label: Inferred
+      description: Reviewer inferred issue from other evidence
+      cues:
+        - "must have been"
+        - "probably"
+        - "smelled like"
+        - "tasted off"
+
+    - id: reported
+      label: Reported
+      description: Issue reported by others or known from external source
+      cues:
+        - "I heard"
+        - "friend said"
+        - "health inspection"
+        - "on the news"
+
+  default: witnessed
+
+ILLNESS_REPORTED:
+  name: Illness Reported
+  type: enum
+  description: Whether the reviewer or their party got sick
+  values:
+    - id: "true"
+      label: Yes
+      description: Reviewer or party members reported getting sick after eating
+      cues:
+        - "got sick"
+        - "food poisoning"
+        - "stomach"
+        - "threw up"
+        - "vomiting"
+        - "diarrhea"
+        - "ill"
+
+    - id: "false"
+      label: No
+      description: No illness reported
+      cues: []
+
+    - id: unknown
+      label: Unknown
+      description: Unclear from the review
+      cues: []
+
+  default: "false"
+
+MULTIPLE_REPORTS:
+  name: Multiple Reports
+  type: enum
+  description: Whether the review mentions others having similar issues
+  values:
+    - id: "true"
+      label: Yes
+      description: Review mentions others in the party or other reviews noting same issue
+      cues:
+        - "everyone"
+        - "multiple people"
+        - "other reviews"
+        - "not just me"
+        - "entire party"
+
+    - id: "false"
+      label: No
+      description: Only the reviewer experienced the issue
+      cues: []
+
+  default: "false"

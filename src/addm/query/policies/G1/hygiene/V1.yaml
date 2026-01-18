@@ -1,0 +1,97 @@
+# G1_hygiene_V1: Hygiene Risk with Override Triggers
+# V1 = Override: Adds high-priority single-instance triggers
+
+policy_id: "G1_hygiene_V1"
+extends: "G1_hygiene_V0"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
+overview:
+  title: "Hygiene and Food Safety Risk Assessment"
+
+  purpose: |
+    Help assess the hygiene and food safety risk for this restaurant using customer reviews as evidence.
+    Assign a risk label: Low Risk, High Risk, or Critical Risk.
+
+  incident_definition: |
+    Only firsthand observations are treated as confirmed evidence. An account is
+    considered relevant if it meaningfully discusses any of the following:
+    - visible cleanliness issues (dirty tables, floors, kitchen, bathroom)
+    - pest sightings (insects, rodents)
+    - food safety concerns (hair in food, undercooked, spoiled)
+    - illness after eating at the restaurant
+
+    Vague statements without specific observations (e.g., "seemed clean") carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
+normative:
+  # Terms -> auto-generates Definitions section
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "hygiene:ISSUE_TYPE"
+    - ref: "hygiene:ISSUE_SEVERITY"
+    - ref: "hygiene:OBSERVATION_TYPE"
+    - ref: "hygiene:ILLNESS_REPORTED"
+    - ref: "shared:STAFF_RESPONSE"
+
+  # Decision policy -> generates Verdict Rules section
+  # V1 adds single-instance OVERRIDES to V0's aggregation-based rules
+  decision:
+    verdicts: ["Low Risk", "High Risk", "Critical Risk"]
+    ordered: true
+
+    rules:
+      - verdict: "Critical Risk"
+        label: "CRITICAL"
+        logic: ANY
+        conditions:
+          - "At least 1 firsthand report of food poisoning requiring medical attention"
+          - "Rodent sighting (mouse, rat) reported firsthand"
+          - "Multiple people in same party report getting sick"
+
+      - verdict: "High Risk"
+        label: "HIGH"
+        precondition: "Critical Risk does not apply"
+        logic: ANY
+        conditions:
+          - "At least 1 firsthand report of food poisoning (not requiring medical attention)"
+          - "Cockroach or multiple insect sightings reported firsthand"
+          - "Hair or foreign object in food reported firsthand"
+          - "Staff was dismissive when hygiene issue was reported"
+
+      - verdict: "Low Risk"
+        label: "LOW"
+        default: true
+        especially_when:
+          - "No hygiene issues are reported"
+          - "Reviews describe the restaurant as clean"
+          - "Minor issues were addressed promptly by staff"
+
+  # Output format
+  output:
+    verdict:
+      type: enum
+      values: ["Low Risk", "High Risk", "Critical Risk"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

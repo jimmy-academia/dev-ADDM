@@ -1,0 +1,217 @@
+# Terms specific to dietary restriction accommodation assessment
+# Referenced as "dietary:TERM_ID"
+
+RESTRICTION_TYPE:
+  name: Restriction Type
+  type: enum
+  description: Type of dietary restriction
+  values:
+    - id: gluten
+      label: Gluten-free
+      description: Gluten allergy, celiac disease, or gluten intolerance
+      cues:
+        - "gluten free"
+        - "gluten-free"
+        - "celiac"
+        - "wheat free"
+
+    - id: dairy
+      label: Dairy-free
+      description: Dairy allergy, lactose intolerance, or dairy avoidance
+      cues:
+        - "dairy free"
+        - "dairy-free"
+        - "lactose"
+        - "no dairy"
+        - "milk allergy"
+
+    - id: vegan
+      label: Vegan
+      description: No animal products (dietary or ethical)
+      cues:
+        - "vegan"
+        - "plant based"
+        - "plant-based"
+        - "no animal"
+
+    - id: vegetarian
+      label: Vegetarian
+      description: No meat (may include eggs/dairy)
+      cues:
+        - "vegetarian"
+        - "no meat"
+        - "meatless"
+
+    - id: other
+      label: Other
+      description: Other dietary restriction (kosher, halal, keto, etc.)
+      cues:
+        - "kosher"
+        - "halal"
+        - "keto"
+        - "low sodium"
+        - "diabetic"
+
+  default: other
+
+ACCOMMODATION_LEVEL:
+  name: Accommodation Level
+  type: enum
+  description: How well the restaurant accommodated the dietary restriction
+  values:
+    - id: none
+      label: No accommodation
+      description: Restaurant refused or had no options for the restriction
+      cues:
+        - "nothing for me"
+        - "couldn't eat anything"
+        - "no options"
+        - "had to leave"
+
+    - id: poor
+      label: Poor accommodation
+      description: Limited options, mistakes made, or staff seemed annoyed
+      cues:
+        - "only one option"
+        - "messed up"
+        - "cross contaminated"
+        - "seemed annoyed"
+
+    - id: adequate
+      label: Adequate accommodation
+      description: Basic options available, needs were met
+      cues:
+        - "they had options"
+        - "could eat"
+        - "worked out"
+
+    - id: excellent
+      label: Excellent accommodation
+      description: Many options, knowledgeable staff, went above and beyond
+      cues:
+        - "so many options"
+        - "chef came out"
+        - "entire menu"
+        - "paradise"
+
+  default: none
+
+MENU_LABELING:
+  name: Menu Labeling
+  type: enum
+  description: Quality of dietary restriction labeling on the menu
+  values:
+    - id: none
+      label: No labeling
+      description: Menu has no dietary restriction indicators
+      cues:
+        - "no labels"
+        - "had to ask"
+        - "couldn't tell"
+
+    - id: vague
+      label: Vague labeling
+      description: Some symbols or notes but unclear or incomplete
+      cues:
+        - "confusing"
+        - "some marked"
+        - "inconsistent"
+
+    - id: clear
+      label: Clear labeling
+      description: Clear symbols or indicators for common restrictions
+      cues:
+        - "clearly marked"
+        - "labeled"
+        - "symbols"
+
+    - id: detailed
+      label: Detailed labeling
+      description: Comprehensive allergen info, ingredient lists available
+      cues:
+        - "ingredient list"
+        - "allergen info"
+        - "detailed menu"
+        - "every ingredient"
+
+  default: none
+
+INCIDENT_SEVERITY:
+  name: Incident Severity
+  type: enum
+  description: Severity of any dietary incident that occurred
+  values:
+    - id: none
+      label: No incident
+      description: No dietary incident described
+      cues:
+        - "no issues"
+        - "was fine"
+
+    - id: mild
+      label: Mild incident
+      description: Wrong ingredient served but caught before eating, or minor discomfort
+      cues:
+        - "caught it"
+        - "noticed before"
+        - "slight stomach"
+
+    - id: moderate
+      label: Moderate incident
+      description: Ate restricted food accidentally, noticeable symptoms
+      cues:
+        - "got sick"
+        - "stomach upset"
+        - "reaction"
+        - "had to take medication"
+
+    - id: severe
+      label: Severe incident
+      description: Serious health consequences requiring medical attention
+      cues:
+        - "hospital"
+        - "emergency"
+        - "severe reaction"
+        - "days to recover"
+
+  default: none
+
+STAFF_KNOWLEDGE:
+  name: Staff Knowledge
+  type: enum
+  description: Staff knowledge about ingredients and dietary accommodations
+  values:
+    - id: none
+      label: No knowledge
+      description: Staff had no knowledge of ingredients or restrictions
+      cues:
+        - "didn't know"
+        - "had no idea"
+        - "clueless"
+
+    - id: poor
+      label: Poor knowledge
+      description: Staff made incorrect claims or guesses
+      cues:
+        - "wrong about"
+        - "said it was safe but"
+        - "misinformed"
+
+    - id: adequate
+      label: Adequate knowledge
+      description: Staff knew basics, checked with kitchen when unsure
+      cues:
+        - "checked with chef"
+        - "went to ask"
+        - "verified"
+
+    - id: excellent
+      label: Excellent knowledge
+      description: Staff was highly knowledgeable about all ingredients
+      cues:
+        - "knew everything"
+        - "very knowledgeable"
+        - "expert"
+        - "could answer all"
+
+  default: none

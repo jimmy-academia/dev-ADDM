@@ -1,0 +1,194 @@
+# Terms specific to business dining assessment
+# Referenced as "business:TERM_ID"
+
+PROFESSIONALISM:
+  name: Professionalism
+  type: enum
+  description: Overall professional atmosphere
+  values:
+    - id: poor
+      label: Poor
+      description: Unprofessional, inappropriate for business
+      cues:
+        - "too casual"
+        - "dive bar"
+        - "unprofessional"
+        - "sports bar"
+
+    - id: adequate
+      label: Adequate
+      description: Acceptable for casual business, not formal
+      cues:
+        - "casual enough"
+        - "works for lunch"
+        - "decent"
+
+    - id: good
+      label: Good
+      description: Professional atmosphere, suitable for most business
+      cues:
+        - "professional"
+        - "nice setting"
+        - "appropriate"
+
+    - id: excellent
+      label: Excellent
+      description: Highly professional, suitable for important clients
+      cues:
+        - "impressive"
+        - "upscale"
+        - "perfect for clients"
+        - "power lunch"
+
+  default: adequate
+
+CONVERSATION_SUITABILITY:
+  name: Conversation Suitability
+  type: enum
+  description: Suitability for business conversation
+  values:
+    - id: poor
+      label: Poor
+      description: Too loud or distracting for business discussion
+      cues:
+        - "couldn't hear"
+        - "too loud"
+        - "screaming"
+        - "music blaring"
+
+    - id: fair
+      label: Fair
+      description: Possible to talk but some challenges
+      cues:
+        - "a bit loud"
+        - "had to lean in"
+
+    - id: good
+      label: Good
+      description: Comfortable for business conversation
+      cues:
+        - "could talk"
+        - "reasonable"
+        - "quiet enough"
+
+    - id: excellent
+      label: Excellent
+      description: Perfect for confidential or important discussions
+      cues:
+        - "private"
+        - "quiet"
+        - "perfect for meeting"
+        - "could discuss"
+
+  default: fair
+
+SERVICE_EFFICIENCY:
+  name: Service Efficiency
+  type: enum
+  description: Service efficiency for busy professionals
+  values:
+    - id: slow
+      label: Slow
+      description: Service too slow for business meal
+      cues:
+        - "took forever"
+        - "waited ages"
+        - "slow service"
+        - "had to leave before"
+
+    - id: normal
+      label: Normal
+      description: Average pace, not ideal for quick meetings
+      cues:
+        - "normal pace"
+        - "standard"
+
+    - id: efficient
+      label: Efficient
+      description: Quick and professional service
+      cues:
+        - "quick"
+        - "efficient"
+        - "on time"
+        - "prompt"
+
+    - id: exemplary
+      label: Exemplary
+      description: Exceptional timing, understands business needs
+      cues:
+        - "in and out"
+        - "timed perfectly"
+        - "knew we were busy"
+
+  default: normal
+
+MEETING_OUTCOME:
+  name: Meeting Outcome
+  type: enum
+  description: How the business meal/meeting went
+  values:
+    - id: negative
+      label: Negative
+      description: Restaurant negatively impacted the meeting
+      cues:
+        - "embarrassed"
+        - "client unimpressed"
+        - "ruined the meeting"
+        - "uncomfortable"
+
+    - id: neutral
+      label: Neutral
+      description: Restaurant was adequate, didn't stand out
+      cues:
+        - "it worked"
+        - "fine"
+        - "adequate"
+
+    - id: positive
+      label: Positive
+      description: Restaurant contributed positively to the meeting
+      cues:
+        - "great choice"
+        - "client loved it"
+        - "impressed"
+        - "successful"
+
+  default: neutral
+
+PRIVACY_LEVEL:
+  name: Privacy Level
+  type: enum
+  description: Privacy available for business discussions
+  values:
+    - id: none
+      label: None
+      description: Very public, no privacy for sensitive topics
+      cues:
+        - "too close"
+        - "everyone can hear"
+        - "cramped"
+
+    - id: low
+      label: Low
+      description: Limited privacy, must be careful what is discussed
+      cues:
+        - "tables close"
+        - "can overhear"
+
+    - id: moderate
+      label: Moderate
+      description: Reasonable privacy for most business talk
+      cues:
+        - "spaced out"
+        - "private enough"
+
+    - id: high
+      label: High
+      description: Private rooms or very secluded tables available
+      cues:
+        - "private room"
+        - "secluded"
+        - "private booth"
+        - "very private"
+
+  default: low

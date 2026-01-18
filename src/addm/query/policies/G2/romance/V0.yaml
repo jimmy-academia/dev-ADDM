@@ -1,0 +1,93 @@
+# G2_romance_V0: Base Romantic Dining Suitability Assessment
+# V0 = Base: Simple per-instance reasoning, basic thresholds
+
+policy_id: "G2_romance_V0"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
+overview:
+  title: "Romantic Dining Suitability Assessment"
+
+  purpose: |
+    Help assess how suitable this restaurant is for romantic dining (dates, anniversaries, proposals)
+    using customer reviews as evidence.
+    Assign a suitability label: Not Recommended, Acceptable, or Recommended.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - date nights, anniversaries, romantic occasions, proposals
+    - ambiance, lighting, noise level, privacy
+    - service style (rushed vs. attentive)
+    - overall romantic atmosphere
+
+    Reviews that only discuss food without mentioning atmosphere carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
+normative:
+  # Terms -> auto-generates Definitions section
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "romance:AMBIANCE_QUALITY"
+    - ref: "romance:NOISE_LEVEL"
+    - ref: "romance:LIGHTING_QUALITY"
+    - ref: "romance:SERVICE_STYLE"
+
+  # Decision policy -> generates Verdict Rules section
+  decision:
+    verdicts: ["Not Recommended", "Acceptable", "Recommended"]
+    ordered: true  # Higher = better suitability
+
+    rules:
+      - verdict: "Recommended"
+        label: "RECOMMENDED"
+        logic: ANY
+        conditions:
+          - "Multiple reviews describe excellent romantic ambiance"
+          - "Reviews mention successful dates, proposals, or anniversaries"
+          - "Consistently described as quiet, intimate, or romantic"
+
+      - verdict: "Not Recommended"
+        label: "NOT_RECOMMENDED"
+        precondition: "Recommended does not apply"
+        logic: ANY
+        conditions:
+          - "Multiple reviews describe loud noise preventing conversation"
+          - "Reviews describe harsh lighting or unromantic atmosphere"
+          - "Multiple date experiences described as negative"
+
+      - verdict: "Acceptable"
+        label: "ACCEPTABLE"
+        default: true
+        especially_when:
+          - "Mixed reviews about romantic suitability"
+          - "Atmosphere is neutral - neither romantic nor anti-romantic"
+          - "Food is good but ambiance is not particularly romantic"
+
+  # Output format
+  output:
+    verdict:
+      type: enum
+      values: ["Not Recommended", "Acceptable", "Recommended"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

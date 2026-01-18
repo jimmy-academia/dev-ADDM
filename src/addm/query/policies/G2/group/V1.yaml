@@ -1,0 +1,97 @@
+# G2_group_V1: Group Dining with Override Triggers
+# V1 = Override: Adds single-instance triggers
+
+policy_id: "G2_group_V1"
+extends: "G2_group_V0"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
+overview:
+  title: "Group Dining Suitability Assessment"
+
+  purpose: |
+    Help assess how suitable this restaurant is for group dining (large parties, celebrations, family gatherings)
+    using customer reviews as evidence.
+    Assign a suitability label: Not Recommended, Acceptable, or Recommended.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - large group dining, parties, celebrations, birthday dinners
+    - ability to accommodate large parties
+    - wait times for groups, reservation handling
+    - check splitting, group service coordination
+    - family-friendliness (if relevant)
+
+    Reviews from solo diners or couples carry less weight unless they comment on observed group experiences.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
+normative:
+  # Terms -> auto-generates Definitions section
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "group:GROUP_SIZE"
+    - ref: "group:ACCOMMODATION_QUALITY"
+    - ref: "group:CHECK_SPLITTING"
+    - ref: "group:WAIT_TIME"
+    - ref: "group:FAMILY_FRIENDLINESS"
+    - ref: "group:GROUP_OUTCOME"
+
+  # Decision policy -> generates Verdict Rules section
+  decision:
+    verdicts: ["Not Recommended", "Acceptable", "Recommended"]
+    ordered: true
+
+    rules:
+      - verdict: "Recommended"
+        label: "RECOMMENDED"
+        logic: ANY
+        conditions:
+          - "At least 1 review describes a 'perfect' group event (birthday, celebration)"
+          - "Private room or group menu explicitly praised"
+          - "Described as 'great for groups' or 'perfect for parties'"
+
+      - verdict: "Not Recommended"
+        label: "NOT_RECOMMENDED"
+        precondition: "Recommended does not apply"
+        logic: ANY
+        conditions:
+          - "At least 1 review describes a group event being 'ruined' by the restaurant"
+          - "Group was split across multiple tables despite reservation"
+          - "Refused to accommodate a group or split checks"
+
+      - verdict: "Acceptable"
+        label: "ACCEPTABLE"
+        default: true
+        especially_when:
+          - "Handles groups adequately but not exceptionally"
+          - "Suitable for medium groups but struggles with large ones"
+          - "Mixed experiences reported"
+
+  # Output format
+  output:
+    verdict:
+      type: enum
+      values: ["Not Recommended", "Acceptable", "Recommended"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

@@ -1,0 +1,123 @@
+# G1_dietary_V2: Dietary Accommodation with Point-Based Scoring
+# V2 = Scoring: Adds point system with numeric thresholds
+
+policy_id: "G1_dietary_V2"
+extends: "G1_dietary_V1"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
+overview:
+  title: "Dietary Accommodation Risk Assessment"
+
+  purpose: |
+    Help assess the dietary accommodation risk for this restaurant using customer reviews as evidence.
+    Assign a risk label: Low Risk, High Risk, or Critical Risk.
+
+    This assessment uses a point-based scoring system to quantify risk.
+
+  incident_definition: |
+    Only firsthand accounts are treated as confirmed evidence. An account is
+    considered relevant if it meaningfully discusses any of the following:
+    - requesting accommodation for a dietary restriction (gluten-free, dairy-free, vegan, vegetarian)
+    - staff response to dietary restriction requests
+    - incidents where restricted foods were served despite requests
+    - menu labeling or ingredient transparency
+
+    General food preference mentions (e.g., "I like vegan food") are NOT considered
+    incidents unless they describe an accommodation attempt.
+
+# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
+normative:
+  # Terms -> auto-generates Definitions section
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "dietary:RESTRICTION_TYPE"
+    - ref: "dietary:ACCOMMODATION_LEVEL"
+    - ref: "dietary:INCIDENT_SEVERITY"
+    - ref: "dietary:STAFF_KNOWLEDGE"
+    - ref: "shared:STAFF_RESPONSE"
+
+  # Scoring system -> generates Scoring System section
+  scoring:
+    description: |
+      Calculate a total risk score by summing points from all firsthand dietary incidents.
+
+    severity_points:
+      - label: "Mild incident"
+        points: 2
+      - label: "Moderate incident"
+        points: 5
+      - label: "Severe incident"
+        points: 15
+
+    modifiers:
+      - label: "False assurance"
+        description: "incident after staff confirmed food was safe for restriction"
+        points: 5
+      - label: "Dismissive staff"
+        description: "staff dismissed dietary concern or was rude about request"
+        points: 3
+      - label: "Medical restriction"
+        description: "restriction is medical (celiac, allergy) rather than preference"
+        points: 2
+
+    thresholds:
+      - verdict: "Critical Risk"
+        min_score: 8
+      - verdict: "High Risk"
+        min_score: 4
+
+  # Decision policy -> generates Verdict Rules section
+  decision:
+    verdicts: ["Low Risk", "High Risk", "Critical Risk"]
+    ordered: true
+
+    rules:
+      - verdict: "Critical Risk"
+        label: "CRITICAL"
+        logic: ANY
+        conditions:
+          - "Total risk score is 8 or higher"
+
+      - verdict: "High Risk"
+        label: "HIGH"
+        precondition: "Critical Risk does not apply"
+        logic: ANY
+        conditions:
+          - "Total risk score is 4 or higher"
+
+      - verdict: "Low Risk"
+        label: "LOW"
+        default: true
+        especially_when:
+          - "No dietary incidents are reported"
+          - "Total risk score is below 4"
+
+  # Output format
+  output:
+    verdict:
+      type: enum
+      values: ["Low Risk", "High Risk", "Critical Risk"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

@@ -1,0 +1,96 @@
+# G2_business_V1: Business Dining with Override Triggers
+# V1 = Override: Adds single-instance triggers
+
+policy_id: "G2_business_V1"
+extends: "G2_business_V0"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
+overview:
+  title: "Business Dining Suitability Assessment"
+
+  purpose: |
+    Help assess how suitable this restaurant is for business dining (client meetings, work lunches, interviews)
+    using customer reviews as evidence.
+    Assign a suitability label: Not Recommended, Acceptable, or Recommended.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - business lunches, client meetings, interviews, work events
+    - noise level and ability to have conversation
+    - service efficiency and professionalism
+    - privacy for business discussions
+    - overall professional atmosphere
+
+    Reviews that only discuss food without mentioning the business context carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
+normative:
+  # Terms -> auto-generates Definitions section
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "business:PROFESSIONALISM"
+    - ref: "business:CONVERSATION_SUITABILITY"
+    - ref: "business:SERVICE_EFFICIENCY"
+    - ref: "business:PRIVACY_LEVEL"
+    - ref: "business:MEETING_OUTCOME"
+
+  # Decision policy -> generates Verdict Rules section
+  decision:
+    verdicts: ["Not Recommended", "Acceptable", "Recommended"]
+    ordered: true
+
+    rules:
+      - verdict: "Recommended"
+        label: "RECOMMENDED"
+        logic: ANY
+        conditions:
+          - "At least 1 review describes impressing a client at this restaurant"
+          - "Private rooms or secluded seating explicitly mentioned"
+          - "Described as 'perfect for business' or 'power lunch spot'"
+
+      - verdict: "Not Recommended"
+        label: "NOT_RECOMMENDED"
+        precondition: "Recommended does not apply"
+        logic: ANY
+        conditions:
+          - "At least 1 review describes embarrassment with a client due to restaurant"
+          - "Described as 'couldn't hear each other' or 'had to shout'"
+          - "Service so slow that it impacted a business meeting"
+
+      - verdict: "Acceptable"
+        label: "ACCEPTABLE"
+        default: true
+        especially_when:
+          - "Suitable for internal team lunches but not client entertainment"
+          - "Professional enough for casual business dining"
+          - "Mixed reviews about noise or service speed"
+
+  # Output format
+  output:
+    verdict:
+      type: enum
+      values: ["Not Recommended", "Acceptable", "Recommended"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

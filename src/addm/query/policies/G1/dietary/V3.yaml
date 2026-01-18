@@ -1,0 +1,133 @@
+# G1_dietary_V3: Dietary Accommodation with Recency & Exceptions
+# V3 = Recency: Adds recency modifiers and policy exceptions for old incidents
+
+policy_id: "G1_dietary_V3"
+extends: "G1_dietary_V2"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
+overview:
+  title: "Dietary Accommodation Risk Assessment"
+
+  purpose: |
+    Help assess the dietary accommodation risk for this restaurant using customer reviews as evidence.
+    Assign a risk label: Low Risk, High Risk, or Critical Risk.
+
+    This assessment uses a point-based scoring system with recency weighting.
+
+  incident_definition: |
+    Only firsthand accounts are treated as confirmed evidence. An account is
+    considered relevant if it meaningfully discusses any of the following:
+    - requesting accommodation for a dietary restriction (gluten-free, dairy-free, vegan, vegetarian)
+    - staff response to dietary restriction requests
+    - incidents where restricted foods were served despite requests
+    - menu labeling or ingredient transparency
+
+    General food preference mentions (e.g., "I like vegan food") are NOT considered
+    incidents unless they describe an accommodation attempt.
+
+# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
+normative:
+  # Terms -> auto-generates Definitions section
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "dietary:RESTRICTION_TYPE"
+    - ref: "dietary:ACCOMMODATION_LEVEL"
+    - ref: "dietary:INCIDENT_SEVERITY"
+    - ref: "dietary:STAFF_KNOWLEDGE"
+    - ref: "shared:STAFF_RESPONSE"
+
+  # Scoring system -> generates Scoring System section
+  scoring:
+    description: |
+      Calculate a total risk score by summing points from all firsthand dietary incidents,
+      with recency weighting applied.
+
+    severity_points:
+      - label: "Mild incident"
+        points: 2
+      - label: "Moderate incident"
+        points: 5
+      - label: "Severe incident"
+        points: 15
+
+    modifiers:
+      - label: "False assurance"
+        description: "incident after staff confirmed food was safe for restriction"
+        points: 5
+      - label: "Dismissive staff"
+        description: "staff dismissed dietary concern or was rude about request"
+        points: 3
+      - label: "Medical restriction"
+        description: "restriction is medical (celiac, allergy) rather than preference"
+        points: 2
+
+    recency_rules:
+      - age: "Within 2 years"
+        weight: "full point value"
+      - age: "2-3 years old"
+        weight: "half point value (multiply by 0.5)"
+      - age: "Over 3 years old"
+        weight: "quarter point value (multiply by 0.25), or discard entirely if 3+ recent reviews show improved accommodation"
+
+    thresholds:
+      - verdict: "Critical Risk"
+        min_score: 8
+      - verdict: "High Risk"
+        min_score: 4
+
+  # Decision policy -> generates Verdict Rules section
+  decision:
+    verdicts: ["Low Risk", "High Risk", "Critical Risk"]
+    ordered: true
+
+    rules:
+      - verdict: "Critical Risk"
+        label: "CRITICAL"
+        logic: ANY
+        conditions:
+          - "Total risk score is 8 or higher (after recency weighting)"
+
+      - verdict: "High Risk"
+        label: "HIGH"
+        precondition: "Critical Risk does not apply"
+        logic: ANY
+        conditions:
+          - "Total risk score is 4 or higher (after recency weighting)"
+
+      - verdict: "Low Risk"
+        label: "LOW"
+        default: true
+        especially_when:
+          - "No dietary incidents are reported"
+          - "Total risk score is below 4"
+          - "Only old incidents (>3 years) exist AND 3+ recent reviews show improved accommodation"
+
+  # Output format
+  output:
+    verdict:
+      type: enum
+      values: ["Low Risk", "High Risk", "Critical Risk"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence and recency weighting were used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

@@ -1,0 +1,92 @@
+# G1_hygiene_V0: Base Hygiene Risk Assessment
+# V0 = Base: Simple per-instance reasoning, basic thresholds
+
+policy_id: "G1_hygiene_V0"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
+overview:
+  title: "Hygiene and Food Safety Risk Assessment"
+
+  purpose: |
+    Help assess the hygiene and food safety risk for this restaurant using customer reviews as evidence.
+    Assign a risk label: Low Risk, High Risk, or Critical Risk.
+
+  incident_definition: |
+    Only firsthand observations are treated as confirmed evidence. An account is
+    considered relevant if it meaningfully discusses any of the following:
+    - visible cleanliness issues (dirty tables, floors, kitchen, bathroom)
+    - pest sightings (insects, rodents)
+    - food safety concerns (hair in food, undercooked, spoiled)
+    - illness after eating at the restaurant
+
+    Vague statements without specific observations (e.g., "seemed clean") carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
+normative:
+  # Terms -> auto-generates Definitions section
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "hygiene:ISSUE_TYPE"
+    - ref: "hygiene:ISSUE_SEVERITY"
+    - ref: "hygiene:OBSERVATION_TYPE"
+    - ref: "hygiene:ILLNESS_REPORTED"
+
+  # Decision policy -> generates Verdict Rules section
+  decision:
+    verdicts: ["Low Risk", "High Risk", "Critical Risk"]
+    ordered: true  # Higher = worse risk
+
+    rules:
+      - verdict: "Critical Risk"
+        label: "CRITICAL"
+        logic: ANY
+        conditions:
+          - "2 or more reviews report food poisoning or illness"
+          - "Pest sightings (roaches, rodents) reported in multiple reviews"
+
+      - verdict: "High Risk"
+        label: "HIGH"
+        precondition: "Critical Risk does not apply"
+        logic: ANY
+        conditions:
+          - "2 or more reviews describe major cleanliness issues"
+          - "At least 1 review reports food poisoning"
+          - "Multiple reviews describe hair or foreign objects in food"
+
+      - verdict: "Low Risk"
+        label: "LOW"
+        default: true
+        especially_when:
+          - "No hygiene issues are reported"
+          - "Reviews describe the restaurant as clean"
+          - "No illness reports"
+
+  # Output format
+  output:
+    verdict:
+      type: enum
+      values: ["Low Risk", "High Risk", "Critical Risk"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

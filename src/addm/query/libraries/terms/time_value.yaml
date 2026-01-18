@@ -1,0 +1,163 @@
+# Terms specific to time-value assessment
+# Referenced as "time_value:TERM_ID"
+
+WAIT_TYPE:
+  name: Wait Type
+  type: enum
+  description: What type of wait occurred
+  values:
+    - id: seating
+      label: Seating
+      description: Wait for a table
+      cues:
+        - "wait for table"
+        - "wait to be seated"
+        - "hour wait"
+
+    - id: food
+      label: Food
+      description: Wait for food to arrive
+      cues:
+        - "food took"
+        - "waited for food"
+        - "forever for"
+
+    - id: check
+      label: Check
+      description: Wait for check/bill
+      cues:
+        - "waited for check"
+        - "couldn't get bill"
+        - "flagged down"
+
+    - id: reservation
+      label: Reservation
+      description: Wait despite having reservation
+      cues:
+        - "had reservation"
+        - "despite reservation"
+        - "reservation but waited"
+
+  default: seating
+
+WAIT_DURATION:
+  name: Wait Duration
+  type: enum
+  description: How long the wait was
+  values:
+    - id: none
+      label: No Wait
+      description: Seated or served immediately
+      cues:
+        - "immediately"
+        - "right away"
+        - "no wait"
+
+    - id: short
+      label: Short
+      description: Brief wait (under 15 minutes)
+      cues:
+        - "few minutes"
+        - "10 minutes"
+        - "quick"
+
+    - id: moderate
+      label: Moderate
+      description: Moderate wait (15-30 minutes)
+      cues:
+        - "20 minutes"
+        - "half hour"
+        - "reasonable wait"
+
+    - id: long
+      label: Long
+      description: Long wait (30-60 minutes)
+      cues:
+        - "45 minutes"
+        - "an hour"
+        - "long wait"
+
+    - id: excessive
+      label: Excessive
+      description: Unreasonably long wait (over 60 minutes)
+      cues:
+        - "over an hour"
+        - "forever"
+        - "ridiculous"
+        - "left without"
+
+  default: moderate
+
+WAIT_JUSTIFICATION:
+  name: Wait Justification
+  type: enum
+  description: Was the wait justified by the experience
+  values:
+    - id: not_worth_it
+      label: Not Worth It
+      description: Wait was not worth the experience
+      cues:
+        - "not worth"
+        - "waste of time"
+        - "regret waiting"
+
+    - id: barely
+      label: Barely Worth It
+      description: Marginal justification for the wait
+      cues:
+        - "barely worth"
+        - "could have skipped"
+
+    - id: worth_it
+      label: Worth It
+      description: Experience justified the wait
+      cues:
+        - "worth the wait"
+        - "glad we waited"
+
+    - id: definitely_worth_it
+      label: Definitely Worth It
+      description: Experience far exceeded expectations, wait was trivial
+      cues:
+        - "so worth it"
+        - "would wait again"
+        - "amazing"
+
+  default: barely
+
+WOULD_WAIT_AGAIN:
+  name: Would Wait Again
+  type: enum
+  description: Would customer wait again for this restaurant
+  values:
+    - id: never
+      label: Never
+      description: Would not wait again
+      cues:
+        - "never again"
+        - "not worth"
+        - "skip"
+
+    - id: maybe
+      label: Maybe
+      description: Might wait under certain conditions
+      cues:
+        - "maybe"
+        - "depends"
+        - "if shorter"
+
+    - id: "yes"
+      label: Yes
+      description: Would wait again
+      cues:
+        - "would wait"
+        - "happy to wait"
+
+    - id: definitely
+      label: Definitely
+      description: Would definitely wait again
+      cues:
+        - "definitely"
+        - "always worth"
+
+  default: maybe

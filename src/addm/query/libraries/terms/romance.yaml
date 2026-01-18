@@ -1,0 +1,205 @@
+# Terms specific to romantic dining assessment
+# Referenced as "romance:TERM_ID"
+
+AMBIANCE_QUALITY:
+  name: Ambiance Quality
+  type: enum
+  description: Overall romantic ambiance assessment
+  values:
+    - id: poor
+      label: Poor
+      description: Not romantic at all - bright, loud, unromantic decor
+      cues:
+        - "not romantic"
+        - "too bright"
+        - "fluorescent"
+        - "fast food vibe"
+
+    - id: fair
+      label: Fair
+      description: Some romantic elements but significant drawbacks
+      cues:
+        - "could be romantic"
+        - "some charm"
+        - "decent atmosphere"
+
+    - id: good
+      label: Good
+      description: Pleasant romantic atmosphere, suitable for dates
+      cues:
+        - "nice atmosphere"
+        - "romantic"
+        - "cozy"
+        - "intimate"
+
+    - id: excellent
+      label: Excellent
+      description: Exceptional romantic setting, perfect for special occasions
+      cues:
+        - "perfect for dates"
+        - "most romantic"
+        - "magical"
+        - "enchanting"
+
+  default: fair
+
+NOISE_LEVEL:
+  name: Noise Level
+  type: enum
+  description: Noise level affecting intimate conversation
+  values:
+    - id: loud
+      label: Loud
+      description: Difficult to have conversation, must shout
+      cues:
+        - "so loud"
+        - "couldn't hear"
+        - "screaming"
+        - "deafening"
+
+    - id: moderate
+      label: Moderate
+      description: Some background noise but conversation is possible
+      cues:
+        - "bit noisy"
+        - "lively"
+        - "buzzing"
+
+    - id: quiet
+      label: Quiet
+      description: Easy to have private conversation
+      cues:
+        - "quiet"
+        - "peaceful"
+        - "easy to talk"
+
+    - id: intimate
+      label: Intimate
+      description: Very quiet, perfect for intimate conversation
+      cues:
+        - "whisper"
+        - "intimate"
+        - "private"
+        - "secluded"
+
+  default: moderate
+
+LIGHTING_QUALITY:
+  name: Lighting Quality
+  type: enum
+  description: Lighting appropriateness for romantic dining
+  values:
+    - id: harsh
+      label: Harsh
+      description: Bright overhead or fluorescent lighting
+      cues:
+        - "too bright"
+        - "fluorescent"
+        - "harsh"
+        - "like a cafeteria"
+
+    - id: neutral
+      label: Neutral
+      description: Standard restaurant lighting, not particularly romantic
+      cues:
+        - "normal lighting"
+        - "well lit"
+
+    - id: dim
+      label: Dim
+      description: Subdued lighting, romantic feel
+      cues:
+        - "dim"
+        - "low lighting"
+        - "mood lighting"
+
+    - id: candlelit
+      label: Candlelit
+      description: Candles or very soft romantic lighting
+      cues:
+        - "candles"
+        - "candlelit"
+        - "romantic lighting"
+
+  default: neutral
+
+SERVICE_STYLE:
+  name: Service Style
+  type: enum
+  description: Service style appropriateness for romantic dining
+  values:
+    - id: rushed
+      label: Rushed
+      description: Staff rush the meal, no time to linger
+      cues:
+        - "rushed"
+        - "hurried"
+        - "quick turn"
+        - "wanted us out"
+
+    - id: normal
+      label: Normal
+      description: Standard service, neither rushed nor especially attentive
+      cues:
+        - "fine service"
+        - "standard"
+
+    - id: attentive
+      label: Attentive
+      description: Attentive without being intrusive
+      cues:
+        - "attentive"
+        - "good timing"
+        - "checked on us"
+
+    - id: romantic
+      label: Romantic
+      description: Service enhances romantic experience (special touches)
+      cues:
+        - "special touches"
+        - "made us feel special"
+        - "anniversary treatment"
+        - "rose petals"
+
+  default: normal
+
+DATE_OUTCOME:
+  name: Date Outcome
+  type: enum
+  description: How the date/romantic occasion went
+  values:
+    - id: negative
+      label: Negative
+      description: Date was negatively affected by restaurant experience
+      cues:
+        - "ruined the date"
+        - "embarrassing"
+        - "terrible experience"
+        - "never again"
+
+    - id: neutral
+      label: Neutral
+      description: Restaurant didn't particularly help or hurt the date
+      cues:
+        - "it was okay"
+        - "nothing special"
+
+    - id: positive
+      label: Positive
+      description: Restaurant contributed positively to the date
+      cues:
+        - "great date"
+        - "wonderful evening"
+        - "loved it"
+
+    - id: memorable
+      label: Memorable
+      description: Exceptional experience, memorable occasion
+      cues:
+        - "proposal"
+        - "said yes"
+        - "unforgettable"
+        - "perfect anniversary"
+        - "magical"
+
+  default: neutral

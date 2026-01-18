@@ -1,0 +1,96 @@
+# G2_romance_V1: Romantic Dining with Override Triggers
+# V1 = Override: Adds single-instance triggers for exceptional experiences
+
+policy_id: "G2_romance_V1"
+extends: "G2_romance_V0"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
+overview:
+  title: "Romantic Dining Suitability Assessment"
+
+  purpose: |
+    Help assess how suitable this restaurant is for romantic dining (dates, anniversaries, proposals)
+    using customer reviews as evidence.
+    Assign a suitability label: Not Recommended, Acceptable, or Recommended.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - date nights, anniversaries, romantic occasions, proposals
+    - ambiance, lighting, noise level, privacy
+    - service style (rushed vs. attentive)
+    - overall romantic atmosphere
+
+    Reviews that only discuss food without mentioning atmosphere carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
+normative:
+  # Terms -> auto-generates Definitions section
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "romance:AMBIANCE_QUALITY"
+    - ref: "romance:NOISE_LEVEL"
+    - ref: "romance:LIGHTING_QUALITY"
+    - ref: "romance:SERVICE_STYLE"
+    - ref: "romance:DATE_OUTCOME"
+
+  # Decision policy -> generates Verdict Rules section
+  # V1 adds single-instance OVERRIDES
+  decision:
+    verdicts: ["Not Recommended", "Acceptable", "Recommended"]
+    ordered: true
+
+    rules:
+      - verdict: "Recommended"
+        label: "RECOMMENDED"
+        logic: ANY
+        conditions:
+          - "At least 1 review describes a successful proposal or memorable anniversary"
+          - "Candlelit or intimate atmosphere explicitly praised"
+          - "Multiple reviews describe it as 'perfect for dates'"
+
+      - verdict: "Not Recommended"
+        label: "NOT_RECOMMENDED"
+        precondition: "Recommended does not apply"
+        logic: ANY
+        conditions:
+          - "At least 1 review describes a date being 'ruined' by the experience"
+          - "Described as 'too loud to talk' or 'like a cafeteria'"
+          - "Rushed service that doesn't allow lingering"
+
+      - verdict: "Acceptable"
+        label: "ACCEPTABLE"
+        default: true
+        especially_when:
+          - "Atmosphere is pleasant but not particularly romantic"
+          - "Good for casual dates but not special occasions"
+          - "Mixed reviews about ambiance"
+
+  # Output format
+  output:
+    verdict:
+      type: enum
+      values: ["Not Recommended", "Acceptable", "Recommended"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"
