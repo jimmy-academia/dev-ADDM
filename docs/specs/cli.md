@@ -12,6 +12,8 @@ Core:
 - `--max-concurrent`: max concurrent LLM calls
 - `--batch-size`: batch size for async calls
 - `--sequential`: disable async batching
+- `--mode`: LLM execution mode (`ondemand` or `24hrbatch`)
+- `--batch-id`: batch ID for fetch-only runs (used by cron)
 
 Run control:
 - `--limit`: limit number of samples

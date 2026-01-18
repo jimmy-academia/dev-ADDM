@@ -53,8 +53,9 @@ Task prompts: `data/query/yelp/G{1-6}{a-l}_prompt.txt` or `G{n}_{topic}_V{0-3}_p
 
 - [Query Construction System (specs/query_construction.md)](specs/query_construction.md) - PolicyIR → NL prompt generation
 
-## Method Specifications
+## Baselines & Methods
 
+- [Baselines (BASELINES.md)](BASELINES.md) - Implemented baseline methods with citations
 - [Context Selection (specs/selection.md)](specs/selection.md) - Core context selection strategy
 
 ## Output & Evaluation

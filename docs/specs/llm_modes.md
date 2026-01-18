@@ -17,7 +17,7 @@ LLM execution modes:
 ## CLI behavior
 
 New/updated flags:
-- `--llm-mode {ondemand,24hrbatch}` (default: `ondemand`)
+- `--mode {ondemand,24hrbatch}` (default: `ondemand`)
 - `--batch-id <id>` optional; if present, fetch-only mode for cron runs.
 
 No explicit `--batch-submit`/`--batch-fetch` flags. The presence of

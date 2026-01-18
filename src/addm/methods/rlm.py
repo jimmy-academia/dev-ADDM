@@ -278,7 +278,7 @@ async def eval_restaurant_rlm(
     agenda: str,
     system_prompt: Optional[str] = None,
     model: str = "gpt-5-nano",
-    max_iterations: int = 15,
+    max_iterations: int = 30,
     token_limit: Optional[int] = None,
 ) -> Dict[str, Any]:
     """Standalone function to evaluate a restaurant using RLM.
@@ -340,7 +340,7 @@ else:
 ```
 
 The `context` variable contains {num_reviews} reviews. Write Python code to search and analyze them.
-When you reach a conclusion, call FINAL("verdict") with Low Risk, High Risk, or Critical Risk.
+When done, call FINAL with your verdict string, e.g., FINAL("Low Risk") or FINAL("High Risk") or FINAL("Critical Risk").
 """
 
     start_time = time.perf_counter()
@@ -395,11 +395,32 @@ When you reach a conclusion, call FINAL("verdict") with Low Risk, High Risk, or 
 
 
 def _parse_rlm_result(result: str) -> Dict[str, Any]:
-    """Parse FINAL() output from RLM result."""
+    """Parse RLM result - may be direct verdict or JSON."""
     if not result:
         return {"parse_error": "Empty result"}
 
-    # Look for FINAL(...) pattern with JSON
+    result = result.strip()
+
+    # RLM extracts FINAL() content directly - check if it's a verdict string
+    if result in ("Low Risk", "High Risk", "Critical Risk"):
+        return {"verdict": result}
+
+    # Check for verdict-like strings (case insensitive)
+    result_lower = result.lower()
+    if "low risk" in result_lower:
+        return {"verdict": "Low Risk"}
+    if "critical risk" in result_lower:
+        return {"verdict": "Critical Risk"}
+    if "high risk" in result_lower:
+        return {"verdict": "High Risk"}
+
+    # Try parsing as JSON
+    try:
+        return json.loads(result)
+    except json.JSONDecodeError:
+        pass
+
+    # Look for FINAL(...) pattern with JSON (fallback)
     match = re.search(r"FINAL\s*\(\s*(\{.*?\})\s*\)", result, re.DOTALL)
     if match:
         try:

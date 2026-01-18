@@ -178,6 +178,34 @@ total_usage = self._accumulate_usage([usage1, usage2, ...])
 
 **Exit cleanly**: After `/bye`, use `Ctrl+C` or `Ctrl+D` (safest for MCP servers).
 
+## Methods
+
+Available methods for `--method` flag in `run_baseline.py`:
+
+| Method | Description | Token Cost |
+|--------|-------------|------------|
+| `direct` | Send all K reviews in prompt (default) | ~K×200 tokens |
+| `rlm` | Recursive LLM - code execution to search reviews | ~50k tokens (16 iters) |
+
+**RLM Method** (`src/addm/methods/rlm.py`):
+- Uses [recursive-llm](https://github.com/ysz/recursive-llm) library (forked to `lib/recursive-llm/`)
+- Stores reviews as Python variable, LLM writes code to search
+- Token budget: `--token-limit 50000` (default), ~3000 tokens/iteration
+- Known limitation: gpt-5-nano produces inconsistent results with RLM
+
+**Running RLM:**
+```bash
+# Basic RLM run
+.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 1 --k 50 --dev --method rlm
+
+# With custom token limit
+.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 1 --k 50 --dev --method rlm --token-limit 30000
+```
+
+**Token budget comparison:**
+- ANoT (user's method): ~5k tokens/restaurant
+- RLM: ~50k tokens/restaurant (10x, accepted as reasonable for comparison)
+
 ## Current Status
 
 - **Formula modules**: ✅ All 72 complete (G1a-G6l)
@@ -188,3 +216,9 @@ total_usage = self._accumulate_usage([usage1, usage2, ...])
   - ✅ Allergy V0-V3 prompts complete
   - ✅ Experiment code updated (`--policy`, `--dev` flags)
   - ⏳ Other topics pending (dietary, hygiene, G2-G6)
+- **RLM Method**: ⚠️ Implemented but unreliable with gpt-5-nano
+  - ✅ `src/addm/methods/rlm.py` created
+  - ✅ `--method` and `--token-limit` CLI flags added
+  - ✅ recursive-llm forked to `lib/recursive-llm/`
+  - ⚠️ gpt-5-nano outputs inconsistent results (sometimes literal placeholders)
+  - ⏳ Decision pending: accept unreliability, try other model, or document limitation

@@ -18,6 +18,13 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     parser.add_argument("--max-concurrent", type=int, default=32, help="Max concurrent LLM calls")
     parser.add_argument("--batch-size", type=int, default=16, help="Batch size for async calls")
     parser.add_argument("--sequential", action="store_true", help="Disable async batching")
+    parser.add_argument(
+        "--mode",
+        default="ondemand",
+        choices=["ondemand", "24hrbatch"],
+        help="LLM execution mode",
+    )
+    parser.add_argument("--batch-id", default=None, help="Batch ID for fetch-only runs")
     parser.add_argument("--limit", type=int, default=None, help="Limit number of samples")
     parser.add_argument("--run-name", default="run", help="Run name for output directory")
     parser.add_argument("--benchmark", action="store_true", help="Use benchmark results path")

@@ -21,6 +21,8 @@ import argparse
 import asyncio
 import json
 import re
+import shlex
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -28,9 +30,11 @@ from typing import Any, Dict, List, Optional
 import numpy as np
 
 from addm.llm import LLMService
+from addm.llm_batch import BatchClient, build_chat_batch_item
 from addm.methods.rlm import eval_restaurant_rlm
 from addm.tasks.base import load_task
 from addm.utils.async_utils import gather_with_concurrency
+from addm.utils.cron import install_cron_job, remove_cron_job
 from addm.eval import compute_ordinal_auprc, VERDICT_TO_ORDINAL
 
 
@@ -121,6 +125,65 @@ Agenda:
 """
 
 
+def _build_sample_custom_id(run_id: str, business_id: str) -> str:
+    return f"sample::{run_id}::{business_id}"
+
+
+def _parse_sample_custom_id(custom_id: str) -> tuple[str, str]:
+    parts = custom_id.split("::")
+    if len(parts) != 3 or parts[0] != "sample":
+        raise ValueError(f"Invalid custom_id: {custom_id}")
+    _, run_id, business_id = parts
+    return run_id, business_id
+
+
+def _get_batch_response_text(item: Dict[str, Any]) -> Optional[str]:
+    response = item.get("response") or {}
+    body = response.get("body") or {}
+    choices = body.get("choices") or []
+    if choices:
+        message = choices[0].get("message") or {}
+        return message.get("content")
+    return None
+
+
+def _build_cron_command(args: argparse.Namespace, batch_id: str) -> str:
+    repo_root = Path.cwd().resolve()
+    cmd = [
+        sys.executable,
+        "-m",
+        "addm.tasks.cli.run_baseline",
+        "--domain",
+        args.domain,
+        "--k",
+        str(args.k),
+        "-n",
+        str(args.n),
+        "--skip",
+        str(args.skip),
+        "--model",
+        args.model,
+        "--method",
+        args.method,
+        "--token-limit",
+        str(args.token_limit),
+        "--mode",
+        "24hrbatch",
+        "--batch-id",
+        batch_id,
+    ]
+    if args.task:
+        cmd.extend(["--task", args.task])
+    if args.policy:
+        cmd.extend(["--policy", args.policy])
+    if args.quiet:
+        cmd.append("--quiet")
+    if args.dev:
+        cmd.append("--dev")
+    command = " ".join(shlex.quote(c) for c in cmd)
+    return f"cd {shlex.quote(str(repo_root))} && {command}"
+
+
 def load_system_prompt() -> str:
     """Load the output schema system prompt."""
     path = Path(__file__).parent.parent.parent / "query" / "prompts" / "output_schema.txt"
@@ -149,7 +212,11 @@ def build_prompt(restaurant: Dict[str, Any], agenda: str) -> str:
     return PROMPT_TEMPLATE.format(context=context, agenda=agenda)
 
 
-def build_messages(restaurant: Dict[str, Any], agenda: str, system_prompt: str) -> List[Dict[str, str]]:
+def build_messages(
+    restaurant: Dict[str, Any],
+    agenda: str,
+    system_prompt: str,
+) -> List[Dict[str, str]]:
     """Build messages list for LLM call with system prompt."""
     context = str(restaurant)
     user_content = PROMPT_TEMPLATE.format(context=context, agenda=agenda)
@@ -216,6 +283,64 @@ def extract_risk_score(response: str) -> Optional[float]:
             except ValueError:
                 continue
     return None
+
+
+def _get_batch_field(batch: Any, key: str) -> Optional[Any]:
+    if isinstance(batch, dict):
+        return batch.get(key)
+    return getattr(batch, key, None)
+
+
+def build_result_from_response(
+    restaurant: Dict[str, Any],
+    agenda: str,
+    response: str,
+    system_prompt: Optional[str] = None,
+) -> Dict[str, Any]:
+    """Build a result dict from a response string."""
+    business = restaurant.get("business", {})
+    name = business.get("name", "Unknown")
+    business_id = business.get("business_id", "")
+
+    if system_prompt:
+        messages = build_messages(restaurant, agenda, system_prompt)
+        prompt_chars = sum(len(m["content"]) for m in messages)
+    else:
+        prompt = build_prompt(restaurant, agenda)
+        prompt_chars = len(prompt)
+
+    parsed = extract_json_response(response)
+    if "parse_error" not in parsed:
+        verdict = parsed.get("verdict")
+        if verdict:
+            v_lower = verdict.lower()
+            if "low" in v_lower:
+                verdict = "Low Risk"
+            elif "critical" in v_lower:
+                verdict = "Critical Risk"
+            elif "high" in v_lower:
+                verdict = "High Risk"
+
+        return {
+            "business_id": business_id,
+            "name": name,
+            "response": response,
+            "parsed": parsed,
+            "verdict": verdict,
+            "risk_score": None,
+            "prompt_chars": prompt_chars,
+        }
+
+    verdict = extract_verdict(response)
+    risk_score = extract_risk_score(response)
+    return {
+        "business_id": business_id,
+        "name": name,
+        "response": response,
+        "verdict": verdict,
+        "risk_score": risk_score,
+        "prompt_chars": prompt_chars,
+    }
 
 
 async def eval_restaurant(
@@ -305,6 +430,8 @@ async def run_baseline(
     dev: bool = False,
     method: str = "direct",
     token_limit: Optional[int] = None,
+    mode: str = "ondemand",
+    batch_id: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Run baseline evaluation.
 
@@ -356,30 +483,119 @@ async def run_baseline(
         print(f"Ground truth from: {gt_task_id}")
     print(f"{'='*70}")
     print(f"Method: {method}")
-    if method == "rlm" and token_limit:
-        print(f"Token limit: {token_limit} (~{token_limit // 3000} iterations)")
+    token_msg = f"Token limit: {token_limit}"
+    if method == "rlm":
+        token_msg += f" (~{token_limit // 3000} RLM iterations)"
+    print(token_msg)
     print(f"Restaurants: {len(restaurants)}")
     print(f"Model: {model}")
     print(f"K: {k}")
     print(f"{'='*70}\n")
 
-    # Configure LLM
-    llm = LLMService()
-    llm.configure(model=model, temperature=0.0)
+    if mode == "24hrbatch":
+        if method == "rlm":
+            raise ValueError("24hrbatch mode is only supported for method=direct")
 
-    # Run evaluations (with concurrency limit)
-    if method == "rlm":
-        # RLM method - uses recursive exploration
-        tasks = [
-            eval_restaurant_rlm(r, agenda, system_prompt, model=model, token_limit=token_limit)
-            for r in restaurants
-        ]
-        # RLM has lower concurrency due to multiple internal LLM calls
-        results = await gather_with_concurrency(4, tasks)
+        batch_client = BatchClient()
+
+        if batch_id:
+            batch = batch_client.get_batch(batch_id)
+            status = _get_batch_field(batch, "status")
+            if status not in {"completed", "failed", "expired", "cancelled"}:
+                print(f"Batch {batch_id} status: {status}")
+                return {}
+
+            output_file_id = _get_batch_field(batch, "output_file_id")
+            error_file_id = _get_batch_field(batch, "error_file_id")
+            if error_file_id:
+                print(f"[WARN] Batch has error file: {error_file_id}")
+
+            if not output_file_id:
+                print(f"[WARN] No output file available for batch {batch_id}")
+                marker = f"ADDM_BATCH_{batch_id}"
+                try:
+                    remove_cron_job(marker)
+                    print(f"Removed cron job for {batch_id}")
+                except Exception as exc:
+                    print(f"[WARN] Failed to remove cron job: {exc}")
+                return {}
+
+            output_bytes = batch_client.download_file(output_file_id)
+            restaurant_map = {
+                r.get("business", {}).get("business_id", ""): r
+                for r in restaurants
+            }
+
+            results: List[Dict[str, Any]] = []
+            for line in output_bytes.splitlines():
+                if not line:
+                    continue
+                item = json.loads(line)
+                custom_id = item.get("custom_id", "")
+                try:
+                    run_tag, business_id = _parse_sample_custom_id(custom_id)
+                except ValueError:
+                    continue
+                if run_tag != run_id:
+                    continue
+
+                response_text = _get_batch_response_text(item)
+                if response_text is None:
+                    continue
+
+                restaurant = restaurant_map.get(business_id)
+                if not restaurant:
+                    continue
+
+                result = build_result_from_response(
+                    restaurant=restaurant,
+                    agenda=agenda,
+                    response=response_text,
+                    system_prompt=system_prompt,
+                )
+                results.append(result)
+        else:
+            request_items = []
+            for restaurant in restaurants:
+                business = restaurant.get("business", {})
+                business_id = business.get("business_id", "")
+                if system_prompt:
+                    messages = build_messages(restaurant, agenda, system_prompt)
+                else:
+                    prompt = build_prompt(restaurant, agenda)
+                    messages = [{"role": "user", "content": prompt}]
+                custom_id = _build_sample_custom_id(run_id, business_id)
+                request_items.append(
+                    build_chat_batch_item(
+                        custom_id=custom_id,
+                        model=model,
+                        messages=messages,
+                        temperature=0.0,
+                    )
+                )
+
+            input_file_id = batch_client.upload_batch_file(request_items)
+            batch_id = batch_client.submit_batch(input_file_id)
+            print(f"Submitted batch: {batch_id}")
+            return {"batch_id": batch_id}
     else:
-        # Direct method - single LLM call with full context
-        tasks = [eval_restaurant(r, agenda, llm, system_prompt) for r in restaurants]
-        results = await gather_with_concurrency(32, tasks)
+        # Configure LLM
+        llm = LLMService()
+        llm.configure(model=model, temperature=0.0)
+
+        # Run evaluations (with concurrency limit)
+        if method == "rlm":
+            # RLM method - uses recursive exploration
+            tasks = [
+                eval_restaurant_rlm(r, agenda, system_prompt, model=model, token_limit=token_limit)
+                for r in restaurants
+            ]
+            # RLM has lower concurrency due to multiple internal LLM calls
+            results = await gather_with_concurrency(4, tasks)
+        else:
+            # Direct method - single LLM call with full context
+            tasks = [eval_restaurant(r, agenda, llm, system_prompt) for r in restaurants]
+            results = await gather_with_concurrency(32, tasks)
 
     # Load ground truth for scoring
     gt_verdicts = {}
@@ -413,7 +629,11 @@ async def run_baseline(
         risk_score = result.get("risk_score")
         print(f"\n{'='*70}")
         print(f"Restaurant: {result['name']}")
-        print(f"Predicted: {pred_verdict} (score={risk_score}) | GT: {gt_verdict} | {'✓' if is_correct else '✗'}")
+        verdict_mark = "✓" if is_correct else "✗"
+        print(
+            f"Predicted: {pred_verdict} (score={risk_score}) | "
+            f"GT: {gt_verdict} | {verdict_mark}"
+        )
         print(f"{'='*70}")
         if verbose:
             # Print first 1000 chars of response
@@ -501,7 +721,11 @@ def main() -> None:
     # Task or policy (mutually exclusive, one required)
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--task", type=str, help="Legacy task ID (e.g., G1a)")
-    group.add_argument("--policy", type=str, help="Policy ID (e.g., G1_allergy_V2 or G1/allergy/V2)")
+    group.add_argument(
+        "--policy",
+        type=str,
+        help="Policy ID (e.g., G1_allergy_V2 or G1/allergy/V2)",
+    )
 
     parser.add_argument("--domain", type=str, default="yelp", help="Domain")
     parser.add_argument("--k", type=int, default=50, help="Reviews per restaurant")
@@ -509,7 +733,11 @@ def main() -> None:
     parser.add_argument("--skip", type=int, default=0, help="Skip first N")
     parser.add_argument("--model", type=str, default="gpt-5-nano", help="Model")
     parser.add_argument("--quiet", action="store_true", help="Less verbose output")
-    parser.add_argument("--dev", action="store_true", help="Dev mode: save to results/dev/{timestamp}_{id}/")
+    parser.add_argument(
+        "--dev",
+        action="store_true",
+        help="Dev mode: save to results/dev/{timestamp}_{id}/",
+    )
     parser.add_argument(
         "--method",
         type=str,
@@ -520,13 +748,21 @@ def main() -> None:
     parser.add_argument(
         "--token-limit",
         type=int,
-        default=None,
-        help="Token budget for RLM (~3000 tokens/iteration). E.g., 30000 = ~10 iterations",
+        default=50000,
+        help="Token budget per restaurant. RLM: ~3000 tokens/iter, so 50000 = ~16 iterations",
     )
+    parser.add_argument(
+        "--mode",
+        type=str,
+        default="ondemand",
+        choices=["ondemand", "24hrbatch"],
+        help="LLM execution mode",
+    )
+    parser.add_argument("--batch-id", type=str, default=None, help="Batch ID for fetch-only runs")
 
     args = parser.parse_args()
 
-    asyncio.run(
+    output = asyncio.run(
         run_baseline(
             task_id=args.task,
             policy_id=args.policy,
@@ -539,8 +775,30 @@ def main() -> None:
             dev=args.dev,
             method=args.method,
             token_limit=args.token_limit,
+            mode=args.mode,
+            batch_id=args.batch_id,
         )
     )
+
+    if args.mode == "24hrbatch":
+        if args.batch_id:
+            if output:
+                marker = f"ADDM_BATCH_{args.batch_id}"
+                try:
+                    remove_cron_job(marker)
+                    print(f"Removed cron job for {args.batch_id}")
+                except Exception as exc:
+                    print(f"[WARN] Failed to remove cron job: {exc}")
+        else:
+            batch_id = output.get("batch_id") if isinstance(output, dict) else None
+            if batch_id:
+                marker = f"ADDM_BATCH_{batch_id}"
+                cron_line = f"*/5 * * * * {_build_cron_command(args, batch_id)} # {marker}"
+                try:
+                    install_cron_job(cron_line, marker)
+                    print(f"Installed cron job for batch {batch_id}")
+                except Exception as exc:
+                    print(f"[WARN] Failed to install cron job: {exc}")
 
 
 if __name__ == "__main__":
