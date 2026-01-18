@@ -1,0 +1,132 @@
+# G3_time_value_V2: Time-Value with Point-Based Scoring
+# V2 = Scoring: Adds point system with numeric thresholds
+
+policy_id: "G3_time_value_V2"
+extends: "G3_time_value_V1"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
+overview:
+  title: "Time-Value Assessment"
+
+  purpose: |
+    Help assess whether waiting at this restaurant is worth it using customer reviews as evidence.
+    Assign a verdict: Not Worth Waiting, Worth Waiting, or Definitely Worth Waiting.
+
+    This assessment uses a point-based scoring system to quantify time-value.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - wait times for seating, food, or service
+    - reservations and whether they were honored
+    - whether the wait was justified by the experience
+    - willingness to wait again
+
+    Reviews that don't mention timing or waiting carry less weight.
+
+# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
+normative:
+  # Terms -> auto-generates Definitions section
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "time_value:WAIT_TYPE"
+    - ref: "time_value:WAIT_DURATION"
+    - ref: "time_value:WAIT_JUSTIFICATION"
+    - ref: "time_value:WOULD_WAIT_AGAIN"
+
+  # Scoring system -> generates Scoring System section
+  scoring:
+    description: |
+      Calculate a time-value score by summing points from relevant reviews.
+      Positive points indicate worth waiting, negative points indicate not worth it.
+
+    severity_points:
+      - label: "Exceptional - worth any wait"
+        points: 10
+      - label: "Worth the wait"
+        points: 5
+      - label: "Neutral/acceptable wait"
+        points: 0
+      - label: "Wait somewhat not worth it"
+        points: -3
+      - label: "Definitely not worth waiting"
+        points: -5
+      - label: "Left due to wait/complete waste"
+        points: -10
+
+    modifiers:
+      - label: "No wait ever"
+        description: "always seated immediately"
+        points: 3
+      - label: "Reservations honored"
+        description: "reservations work well"
+        points: 2
+      - label: "Would wait again"
+        description: "reviewer would gladly wait again"
+        points: 3
+      - label: "Reservations not honored"
+        description: "had reservation but still waited long"
+        points: -5
+      - label: "Would not wait again"
+        description: "reviewer explicitly wouldn't wait again"
+        points: -3
+
+    thresholds:
+      - verdict: "Definitely Worth Waiting"
+        min_score: 8
+      - verdict: "Not Worth Waiting"
+        max_score: -6
+
+  # Decision policy -> generates Verdict Rules section
+  decision:
+    verdicts: ["Not Worth Waiting", "Worth Waiting", "Definitely Worth Waiting"]
+    ordered: true
+
+    rules:
+      - verdict: "Definitely Worth Waiting"
+        label: "DEFINITELY"
+        logic: ANY
+        conditions:
+          - "Total time-value score is 8 or higher"
+
+      - verdict: "Not Worth Waiting"
+        label: "NOT_WORTH"
+        precondition: "Definitely Worth Waiting does not apply"
+        logic: ANY
+        conditions:
+          - "Total time-value score is -6 or lower"
+
+      - verdict: "Worth Waiting"
+        label: "WORTH"
+        default: true
+        especially_when:
+          - "Total time-value score is between -5 and 7"
+
+  # Output format
+  output:
+    verdict:
+      type: enum
+      values: ["Not Worth Waiting", "Worth Waiting", "Definitely Worth Waiting"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

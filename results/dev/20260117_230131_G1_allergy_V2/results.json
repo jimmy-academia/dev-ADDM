@@ -1,0 +1,47 @@
+{
+  "run_id": "G1_allergy_V2",
+  "task_id": null,
+  "policy_id": "G1_allergy_V2",
+  "gt_task_id": "G1a",
+  "domain": "yelp",
+  "model": "gpt-5-nano",
+  "k": 200,
+  "n": 1,
+  "timestamp": "20260117_230131",
+  "accuracy": 0.0,
+  "correct": 0,
+  "total": 0,
+  "auprc": {},
+  "results": [
+    {
+      "business_id": "eZ-t73r7ETHjyclRB7SnwQ",
+      "name": "Bliss",
+      "response": "{\n  \"verdict\": \"Low Risk\",\n  \"evidences\": [\n    {\n      \"evidence_id\": \"E1\",\n      \"review_id\": \"wsQz5A-CNT0sKIAs5g5qcg\",\n      \"field\": \"GlutenFreeAccommodations\",\n      \"judgement\": \"Firsthand\",\n      \"snippet\": \"\\\"My client is a celiac and can't eat gluten/wheat. The kitchen did get her requests correct and the item was gluten free.\\\"\"\n    }\n  ],\n  \"justification\": {\n    \"triggered_rule\": \"Gluten-free accommodation acknowledged\",\n    \"direct_evidence\": [\"E1\"],\n    \"reasoning\": \"There is at least one firsthand account describing a gluten-free accommodation with no reported reaction. This constitutes a mild allergy-related incident (accommodation). Since the incident is handled successfully with no adverse reaction, the risk score remains low (2 points), placing the restaurant in the Low Risk category.\"\n  },\n  \"other_notes\": null\n}",
+      "parsed": {
+        "verdict": "Low Risk",
+        "evidences": [
+          {
+            "evidence_id": "E1",
+            "review_id": "wsQz5A-CNT0sKIAs5g5qcg",
+            "field": "GlutenFreeAccommodations",
+            "judgement": "Firsthand",
+            "snippet": "\"My client is a celiac and can't eat gluten/wheat. The kitchen did get her requests correct and the item was gluten free.\""
+          }
+        ],
+        "justification": {
+          "triggered_rule": "Gluten-free accommodation acknowledged",
+          "direct_evidence": [
+            "E1"
+          ],
+          "reasoning": "There is at least one firsthand account describing a gluten-free accommodation with no reported reaction. This constitutes a mild allergy-related incident (accommodation). Since the incident is handled successfully with no adverse reaction, the risk score remains low (2 points), placing the restaurant in the Low Risk category."
+        },
+        "other_notes": null
+      },
+      "verdict": "Low Risk",
+      "risk_score": null,
+      "prompt_chars": 145721,
+      "gt_verdict": null,
+      "correct": false
+    }
+  ]
+}

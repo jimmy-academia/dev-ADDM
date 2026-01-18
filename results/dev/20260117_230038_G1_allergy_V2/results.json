@@ -1,0 +1,47 @@
+{
+  "run_id": "G1_allergy_V2",
+  "task_id": null,
+  "policy_id": "G1_allergy_V2",
+  "gt_task_id": "G1a",
+  "domain": "yelp",
+  "model": "gpt-5-nano",
+  "k": 100,
+  "n": 1,
+  "timestamp": "20260117_230038",
+  "accuracy": 0.0,
+  "correct": 0,
+  "total": 0,
+  "auprc": {},
+  "results": [
+    {
+      "business_id": "Ipt9ga67vVC_2ob3YmVwNA",
+      "name": "Lincoln Square Pancake House",
+      "response": "{\n  \"verdict\": \"High Risk\",\n  \"evidences\": [\n    {\n      \"evidence_id\": \"E1\",\n      \"review_id\": \"CXgswKlc8g7y3TWfyMOCPw\",\n      \"field\": \"Allergy Safety Incident\",\n      \"judgement\": \"Firsthand\",\n      \"snippet\": \"I explained that I'm allergic to onion and strongly dislike green pepper. When I use to live near by they would always just substitute it for me. I was assured this wasn't an issue. Allergies are no joke. I will never attend any of their establishments again because if you as a company desires to lie when a customer complains because you could have hospitalized them, then clearly you care more about your reputation then doing what is right. If you have food allergies this establishment is not\"\n    }\n  ],\n  \"justification\": {\n    \"triggered_rule\": \"High Risk\",\n    \"direct_evidence\": [\"E1\"],\n    \"reasoning\": \"The review contains a firsthand allergy concern (onion allergy) with an explicit assurance of safety that was cited as a problem, indicating a potential safety risk. This yields a mild incident (2 points) plus a false-assurance modifier (+5), totaling 7, which meets the threshold for High Risk under the provided scoring rules.\"\n  },\n  \"other_notes\": null\n}",
+      "parsed": {
+        "verdict": "High Risk",
+        "evidences": [
+          {
+            "evidence_id": "E1",
+            "review_id": "CXgswKlc8g7y3TWfyMOCPw",
+            "field": "Allergy Safety Incident",
+            "judgement": "Firsthand",
+            "snippet": "I explained that I'm allergic to onion and strongly dislike green pepper. When I use to live near by they would always just substitute it for me. I was assured this wasn't an issue. Allergies are no joke. I will never attend any of their establishments again because if you as a company desires to lie when a customer complains because you could have hospitalized them, then clearly you care more about your reputation then doing what is right. If you have food allergies this establishment is not"
+          }
+        ],
+        "justification": {
+          "triggered_rule": "High Risk",
+          "direct_evidence": [
+            "E1"
+          ],
+          "reasoning": "The review contains a firsthand allergy concern (onion allergy) with an explicit assurance of safety that was cited as a problem, indicating a potential safety risk. This yields a mild incident (2 points) plus a false-assurance modifier (+5), totaling 7, which meets the threshold for High Risk under the provided scoring rules."
+        },
+        "other_notes": null
+      },
+      "verdict": "High Risk",
+      "risk_score": null,
+      "prompt_chars": 102530,
+      "gt_verdict": null,
+      "correct": false
+    }
+  ]
+}

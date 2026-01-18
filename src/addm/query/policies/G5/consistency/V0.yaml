@@ -1,0 +1,73 @@
+# G5_consistency_V0: Base Consistency Assessment
+# Owner perspective on quality consistency over time
+
+policy_id: "G5_consistency_V0"
+version: "1.0"
+
+overview:
+  title: "Consistency Assessment"
+  purpose: |
+    Help assess the quality consistency at this restaurant using reviews as evidence.
+    This is from the perspective of a business owner diagnosing reliability.
+    Assign a label: Needs Improvement, Satisfactory, or Excellent.
+  incident_definition: |
+    Consider reviews that mention:
+    - quality changes over time
+    - comparison to previous visits
+    - reliability and predictability
+    - repeat customer observations
+
+normative:
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "consistency:QUALITY_TREND"
+    - ref: "consistency:VISIT_COMPARISON"
+    - ref: "consistency:RELIABILITY"
+    - ref: "consistency:VISIT_FREQUENCY"
+
+  decision:
+    verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
+    ordered: true
+    rules:
+      - verdict: "Excellent"
+        label: "EXCELLENT"
+        logic: ANY
+        conditions:
+          - "Multiple regular customers praise consistency"
+          - "Described as 'always reliable' or 'never disappoints'"
+          - "Quality stable or improving over time"
+      - verdict: "Needs Improvement"
+        label: "NEEDS_IMPROVEMENT"
+        precondition: "Excellent does not apply"
+        logic: ANY
+        conditions:
+          - "Multiple reviews describe declining quality"
+          - "Described as 'hit or miss' or unpredictable"
+          - "Regular customers noting worsening experience"
+      - verdict: "Satisfactory"
+        label: "SATISFACTORY"
+        default: true
+        especially_when:
+          - "Generally consistent with occasional variation"
+          - "Most visits are good"
+          - "Mixed reviews on reliability"
+
+  output:
+    verdict:
+      type: enum
+      values: ["Needs Improvement", "Satisfactory", "Excellent"]
+      required: true
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+    justification:
+      type: string
+      required: true
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+    other_notes:
+      type: string
+      optional: true

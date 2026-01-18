@@ -1,0 +1,78 @@
+# G5_capacity_V0: Base Capacity Management Assessment
+# V0 = Base: Owner perspective on handling customer volume
+
+policy_id: "G5_capacity_V0"
+version: "1.0"
+
+overview:
+  title: "Capacity Management Assessment"
+
+  purpose: |
+    Help assess how well this restaurant handles customer volume using reviews as evidence.
+    This is from the perspective of a business owner diagnosing staffing and capacity issues.
+    Assign a label: Needs Improvement, Satisfactory, or Excellent.
+
+  incident_definition: |
+    Consider reviews that mention:
+    - staffing levels relative to busyness
+    - how crowded the restaurant was
+    - whether service suffered when busy
+    - peak time handling (weekends, holidays)
+
+normative:
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "capacity:STAFFING_LEVEL"
+    - ref: "capacity:CROWD_LEVEL"
+    - ref: "capacity:SERVICE_DEGRADATION"
+    - ref: "capacity:VOLUME_HANDLING"
+
+  decision:
+    verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
+    ordered: true
+
+    rules:
+      - verdict: "Excellent"
+        label: "EXCELLENT"
+        logic: ANY
+        conditions:
+          - "Multiple reviews praise volume handling during busy times"
+          - "Consistently well-staffed observations"
+          - "No service degradation reported even when packed"
+
+      - verdict: "Needs Improvement"
+        label: "NEEDS_IMPROVEMENT"
+        precondition: "Excellent does not apply"
+        logic: ANY
+        conditions:
+          - "Multiple reviews describe understaffing"
+          - "Consistent service degradation when busy"
+          - "Reports of restaurant 'falling apart' under volume"
+
+      - verdict: "Satisfactory"
+        label: "SATISFACTORY"
+        default: true
+        especially_when:
+          - "Handles normal volume adequately"
+          - "Some struggles during peak times but manages"
+          - "Mixed reports on busy-time handling"
+
+  output:
+    verdict:
+      type: enum
+      values: ["Needs Improvement", "Satisfactory", "Excellent"]
+      required: true
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+    justification:
+      type: string
+      required: true
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+    other_notes:
+      type: string
+      optional: true

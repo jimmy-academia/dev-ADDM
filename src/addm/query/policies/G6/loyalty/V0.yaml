@@ -1,0 +1,74 @@
+# G6_loyalty_V0: Base Customer Loyalty Assessment
+# Owner perspective on customer retention and loyalty
+
+policy_id: "G6_loyalty_V0"
+version: "1.0"
+
+overview:
+  title: "Customer Loyalty Assessment"
+  purpose: |
+    Help assess customer loyalty and retention indicators using reviews as evidence.
+    This is from the perspective of a business owner evaluating customer loyalty.
+    Assign a label: Low Loyalty, Moderate Loyalty, or High Loyalty.
+  incident_definition: |
+    Consider reviews that mention:
+    - return visits or intention to return
+    - recommendations to others
+    - emotional attachment or connection
+    - loyalty despite issues
+
+normative:
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "loyalty:RETURN_INTENT"
+    - ref: "loyalty:RECOMMEND_INTENT"
+    - ref: "loyalty:EMOTIONAL_CONNECTION"
+    - ref: "loyalty:LOYALTY_DRIVER"
+
+  decision:
+    verdicts: ["Low Loyalty", "Moderate Loyalty", "High Loyalty"]
+    ordered: true
+    rules:
+      - verdict: "High Loyalty"
+        label: "HIGH_LOYALTY"
+        logic: ANY
+        conditions:
+          - "Multiple reviews describe regulars or repeat customers"
+          - "Strong emotional connection expressed"
+          - "Customers recommend enthusiastically"
+          - "Customers return despite issues"
+      - verdict: "Low Loyalty"
+        label: "LOW_LOYALTY"
+        precondition: "High Loyalty does not apply"
+        logic: ANY
+        conditions:
+          - "Multiple reviews say 'won't return'"
+          - "No repeat customer mentions"
+          - "Actively discourage others from visiting"
+      - verdict: "Moderate Loyalty"
+        label: "MODERATE_LOYALTY"
+        default: true
+        especially_when:
+          - "Mixed signals on return intent"
+          - "Conditional recommendations"
+          - "Some repeat customers mentioned"
+
+  output:
+    verdict:
+      type: enum
+      values: ["Low Loyalty", "Moderate Loyalty", "High Loyalty"]
+      required: true
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+    justification:
+      type: string
+      required: true
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+    other_notes:
+      type: string
+      optional: true

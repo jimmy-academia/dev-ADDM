@@ -1,0 +1,208 @@
+# Terms specific to server performance assessment
+# Referenced as "server:TERM_ID"
+
+ATTENTIVENESS:
+  name: Attentiveness
+  type: enum
+  description: How attentive was the server
+  values:
+    - id: absent
+      label: Absent
+      description: Server was nowhere to be found
+      cues:
+        - "couldn't find"
+        - "disappeared"
+        - "abandoned"
+        - "forgotten"
+
+    - id: poor
+      label: Poor
+      description: Server rarely checked on table
+      cues:
+        - "ignored"
+        - "had to flag down"
+        - "waited forever"
+
+    - id: adequate
+      label: Adequate
+      description: Acceptable level of attention
+      cues:
+        - "fine"
+        - "did the job"
+        - "okay"
+
+    - id: good
+      label: Good
+      description: Checked in appropriately, responsive
+      cues:
+        - "attentive"
+        - "checked on us"
+        - "responsive"
+
+    - id: excellent
+      label: Excellent
+      description: Anticipatory service, exceptional attention
+      cues:
+        - "anticipated"
+        - "perfect timing"
+        - "always there"
+
+  default: adequate
+
+FRIENDLINESS:
+  name: Friendliness
+  type: enum
+  description: Demeanor of the server
+  values:
+    - id: rude
+      label: Rude
+      description: Actively rude or hostile
+      cues:
+        - "rude"
+        - "attitude"
+        - "condescending"
+        - "insulting"
+
+    - id: cold
+      label: Cold
+      description: Distant, unfriendly manner
+      cues:
+        - "cold"
+        - "standoffish"
+        - "unwelcoming"
+
+    - id: neutral
+      label: Neutral
+      description: Neither friendly nor unfriendly
+      cues:
+        - "fine"
+        - "okay"
+        - "professional"
+
+    - id: friendly
+      label: Friendly
+      description: Warm and personable
+      cues:
+        - "friendly"
+        - "nice"
+        - "pleasant"
+        - "helpful"
+
+    - id: warm
+      label: Warm
+      description: Exceptionally warm, made guests feel special
+      cues:
+        - "wonderful"
+        - "made our night"
+        - "felt like family"
+        - "amazing personality"
+
+  default: neutral
+
+MENU_KNOWLEDGE:
+  name: Menu Knowledge
+  type: enum
+  description: Server's knowledge of menu and ingredients
+  values:
+    - id: none
+      label: None
+      description: No knowledge, couldn't answer questions
+      cues:
+        - "didn't know"
+        - "no idea"
+        - "couldn't answer"
+
+    - id: poor
+      label: Poor
+      description: Limited knowledge, many uncertainties
+      cues:
+        - "unsure"
+        - "had to check"
+        - "wrong info"
+
+    - id: adequate
+      label: Adequate
+      description: Basic knowledge, can handle common questions
+      cues:
+        - "knew basics"
+        - "could answer"
+
+    - id: good
+      label: Good
+      description: Good knowledge with recommendations
+      cues:
+        - "helpful suggestions"
+        - "good recommendations"
+        - "knew the menu"
+
+    - id: excellent
+      label: Excellent
+      description: Expert knowledge, excellent recommendations
+      cues:
+        - "expert"
+        - "sommelier"
+        - "perfect recommendations"
+        - "knew everything"
+
+  default: adequate
+
+SERVICE_ERRORS:
+  name: Service Errors
+  type: enum
+  description: Errors made by the server
+  values:
+    - id: none
+      label: None
+      description: No service errors
+      cues:
+        - "perfect"
+        - "no issues"
+        - "flawless"
+
+    - id: minor
+      label: Minor
+      description: Small mistakes quickly corrected
+      cues:
+        - "small mistake"
+        - "quickly fixed"
+        - "minor issue"
+
+    - id: significant
+      label: Significant
+      description: Notable errors affecting experience
+      cues:
+        - "wrong order"
+        - "forgot"
+        - "never came"
+        - "mixed up"
+
+    - id: severe
+      label: Severe
+      description: Major errors significantly impacting experience
+      cues:
+        - "ruined"
+        - "disaster"
+        - "completely wrong"
+        - "never recovered"
+
+  default: none
+
+NAMED_POSITIVELY:
+  name: Named Positively
+  type: enum
+  description: Whether server was named positively
+  values:
+    - id: "true"
+      label: Yes
+      description: Server mentioned by name with praise
+      cues:
+        - "our server [Name]"
+        - "[Name] was amazing"
+        - "ask for [Name]"
+
+    - id: "false"
+      label: No
+      description: Server not named or not praised by name
+      cues: []
+
+  default: "false"

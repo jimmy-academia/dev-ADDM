@@ -1,0 +1,150 @@
+# Terms specific to uniqueness/differentiation assessment
+# Referenced as "uniqueness:TERM_ID"
+
+UNIQUE_ASPECT:
+  name: Unique Aspect
+  type: enum
+  description: What aspect makes this restaurant unique
+  values:
+    - id: food
+      label: Food
+      description: Unique or standout food
+      cues:
+        - "unique dishes"
+        - "never had anything like"
+        - "signature dish"
+
+    - id: atmosphere
+      label: Atmosphere
+      description: Unique ambiance or setting
+      cues:
+        - "amazing atmosphere"
+        - "one of a kind setting"
+        - "unique decor"
+
+    - id: service
+      label: Service
+      description: Unique service approach
+      cues:
+        - "like no other service"
+        - "unique experience"
+
+    - id: concept
+      label: Concept
+      description: Unique restaurant concept
+      cues:
+        - "original concept"
+        - "innovative"
+        - "unlike any other"
+
+    - id: location
+      label: Location
+      description: Unique location or view
+      cues:
+        - "amazing view"
+        - "unique location"
+        - "one of a kind spot"
+
+    - id: none
+      label: None
+      description: Nothing particularly unique
+      cues: []
+
+  default: none
+
+DIFFERENTIATION_LEVEL:
+  name: Differentiation Level
+  type: enum
+  description: Degree of uniqueness
+  values:
+    - id: generic
+      label: Generic
+      description: Nothing differentiates from competitors
+      cues:
+        - "generic"
+        - "like any other"
+        - "nothing special"
+
+    - id: somewhat_different
+      label: Somewhat Different
+      description: Some distinguishing features
+      cues:
+        - "a bit different"
+        - "has some charm"
+
+    - id: unique
+      label: Unique
+      description: Clearly unique offerings
+      cues:
+        - "unique"
+        - "different"
+        - "special"
+
+    - id: one_of_a_kind
+      label: One of a Kind
+      description: Truly irreplaceable experience
+      cues:
+        - "one of a kind"
+        - "only place"
+        - "can't find elsewhere"
+
+  default: somewhat_different
+
+MEMORABILITY:
+  name: Memorability
+  type: enum
+  description: How memorable the experience is
+  values:
+    - id: forgettable
+      label: Forgettable
+      description: Nothing memorable about it
+      cues:
+        - "forgettable"
+        - "won't remember"
+        - "bland"
+
+    - id: average
+      label: Average
+      description: Neither memorable nor forgettable
+      cues:
+        - "okay"
+        - "fine"
+
+    - id: memorable
+      label: Memorable
+      description: Stands out in memory
+      cues:
+        - "memorable"
+        - "will remember"
+        - "stood out"
+
+    - id: unforgettable
+      label: Unforgettable
+      description: Truly unforgettable experience
+      cues:
+        - "unforgettable"
+        - "life changing"
+        - "never forget"
+
+  default: average
+
+SIGNATURE_ITEM:
+  name: Signature Item
+  type: enum
+  description: Whether a must-try signature item exists
+  values:
+    - id: "true"
+      label: Yes
+      description: Has a famous must-try item
+      cues:
+        - "must try"
+        - "famous for"
+        - "known for"
+        - "signature"
+
+    - id: "false"
+      label: No
+      description: No standout signature item
+      cues: []
+
+  default: "false"

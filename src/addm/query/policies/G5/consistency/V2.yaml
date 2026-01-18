@@ -1,0 +1,94 @@
+# G5_consistency_V2: Consistency with Scoring
+
+policy_id: "G5_consistency_V2"
+extends: "G5_consistency_V1"
+version: "1.0"
+
+overview:
+  title: "Consistency Assessment"
+  purpose: |
+    Help assess quality consistency using a point-based scoring system.
+  incident_definition: |
+    Consider reviews mentioning quality trends, visit comparisons, and reliability.
+
+normative:
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "consistency:QUALITY_TREND"
+    - ref: "consistency:VISIT_COMPARISON"
+    - ref: "consistency:RELIABILITY"
+    - ref: "consistency:VISIT_FREQUENCY"
+
+  scoring:
+    description: |
+      Calculate a consistency score by summing points from relevant reviews.
+    severity_points:
+      - label: "Always excellent"
+        points: 10
+      - label: "Mostly reliable"
+        points: 5
+      - label: "Adequate consistency"
+        points: 0
+      - label: "Some inconsistency"
+        points: -2
+      - label: "Hit or miss"
+        points: -5
+      - label: "Completely unpredictable"
+        points: -10
+    modifiers:
+      - label: "Improving trend"
+        description: "quality getting better"
+        points: 3
+      - label: "Regular customer praise"
+        description: "frequent visitor praises consistency"
+        points: 3
+      - label: "Declining trend"
+        description: "quality getting worse"
+        points: -5
+      - label: "Management change decline"
+        description: "quality dropped after ownership/management change"
+        points: -3
+    thresholds:
+      - verdict: "Excellent"
+        min_score: 8
+      - verdict: "Needs Improvement"
+        max_score: -5
+
+  decision:
+    verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
+    ordered: true
+    rules:
+      - verdict: "Excellent"
+        label: "EXCELLENT"
+        logic: ANY
+        conditions:
+          - "Total score is 8 or higher"
+      - verdict: "Needs Improvement"
+        label: "NEEDS_IMPROVEMENT"
+        precondition: "Excellent does not apply"
+        logic: ANY
+        conditions:
+          - "Total score is -5 or lower"
+      - verdict: "Satisfactory"
+        label: "SATISFACTORY"
+        default: true
+
+  output:
+    verdict:
+      type: enum
+      values: ["Needs Improvement", "Satisfactory", "Excellent"]
+      required: true
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+    justification:
+      type: string
+      required: true
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+    other_notes:
+      type: string
+      optional: true

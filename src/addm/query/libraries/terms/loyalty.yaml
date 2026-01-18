@@ -1,0 +1,169 @@
+# Terms specific to customer loyalty assessment
+# Referenced as "loyalty:TERM_ID"
+
+RETURN_INTENT:
+  name: Return Intent
+  type: enum
+  description: Intention to return
+  values:
+    - id: never
+      label: Never
+      description: Will never return
+      cues:
+        - "never again"
+        - "won't be back"
+        - "never returning"
+
+    - id: unlikely
+      label: Unlikely
+      description: Probably won't return
+      cues:
+        - "probably not"
+        - "doubtful"
+        - "unlikely"
+
+    - id: likely
+      label: Likely
+      description: Will probably return
+      cues:
+        - "will return"
+        - "coming back"
+        - "next time"
+
+    - id: definitely
+      label: Definitely
+      description: Will definitely return
+      cues:
+        - "definitely coming back"
+        - "can't wait"
+        - "already planning"
+
+  default: likely
+
+RECOMMEND_INTENT:
+  name: Recommend Intent
+  type: enum
+  description: Intention to recommend to others
+  values:
+    - id: warn_others
+      label: Warn Others
+      description: Would warn others to stay away
+      cues:
+        - "avoid"
+        - "don't go"
+        - "warning"
+
+    - id: neutral
+      label: Neutral
+      description: Neither recommend nor warn
+      cues:
+        - "okay"
+        - "nothing special"
+
+    - id: recommend
+      label: Recommend
+      description: Would recommend
+      cues:
+        - "recommend"
+        - "should try"
+        - "check it out"
+
+    - id: strongly_recommend
+      label: Strongly Recommend
+      description: Would strongly recommend
+      cues:
+        - "must go"
+        - "highly recommend"
+        - "tell everyone"
+
+  default: recommend
+
+EMOTIONAL_CONNECTION:
+  name: Emotional Connection
+  type: enum
+  description: Emotional attachment to restaurant
+  values:
+    - id: none
+      label: None
+      description: No emotional connection
+      cues:
+        - "whatever"
+        - "don't care"
+
+    - id: low
+      label: Low
+      description: Minor positive feeling
+      cues:
+        - "like it"
+        - "nice"
+
+    - id: moderate
+      label: Moderate
+      description: Noticeable affection
+      cues:
+        - "really like"
+        - "enjoy"
+        - "happy here"
+
+    - id: high
+      label: High
+      description: Strong emotional connection
+      cues:
+        - "love this place"
+        - "obsessed"
+        - "my spot"
+        - "feels like home"
+
+  default: low
+
+LOYALTY_DRIVER:
+  name: Loyalty Driver
+  type: enum
+  description: Primary reason for loyalty
+  values:
+    - id: price
+      label: Price
+      description: Loyal because of value
+      cues:
+        - "good value"
+        - "affordable"
+        - "cheap"
+
+    - id: quality
+      label: Quality
+      description: Loyal because of food quality
+      cues:
+        - "best food"
+        - "quality"
+        - "delicious"
+
+    - id: service
+      label: Service
+      description: Loyal because of service
+      cues:
+        - "great service"
+        - "staff"
+        - "they know me"
+
+    - id: convenience
+      label: Convenience
+      description: Loyal because of convenience
+      cues:
+        - "convenient"
+        - "close by"
+        - "easy"
+
+    - id: love
+      label: Love
+      description: Genuine love for the restaurant
+      cues:
+        - "love"
+        - "favorite"
+        - "special to me"
+
+    - id: none
+      label: None
+      description: No clear driver
+      cues: []
+
+  default: none

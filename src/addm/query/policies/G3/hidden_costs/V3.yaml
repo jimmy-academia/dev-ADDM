@@ -1,0 +1,137 @@
+# G3_hidden_costs_V3: Hidden Costs with Recency & Context
+# V3 = Recency: Adds recency modifiers
+
+policy_id: "G3_hidden_costs_V3"
+extends: "G3_hidden_costs_V2"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
+overview:
+  title: "Hidden Costs Risk Assessment"
+
+  purpose: |
+    Help assess the risk of unexpected charges at this restaurant using customer reviews as evidence.
+    Assign a risk label: Low Risk, High Risk, or Critical Risk.
+
+    This assessment uses a point-based scoring system with recency weighting.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - unexpected charges on the bill
+    - mandatory service charges or auto-gratuity
+    - corkage fees, split fees, or other surcharges
+    - bill surprises or lack of price transparency
+    - fine print charges
+
+    Reviews that only discuss food without mentioning billing carry less weight.
+
+# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
+normative:
+  # Terms -> auto-generates Definitions section
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "hidden_costs:COST_TYPE"
+    - ref: "hidden_costs:DISCLOSURE_LEVEL"
+    - ref: "hidden_costs:IMPACT_SEVERITY"
+    - ref: "hidden_costs:CUSTOMER_REACTION"
+
+  # Scoring system -> generates Scoring System section
+  scoring:
+    description: |
+      Calculate a risk score by summing points from hidden cost incidents,
+      with recency weighting. Pricing policies can change, so recent reviews
+      are weighted more heavily.
+
+    severity_points:
+      - label: "Minor hidden cost (<5% impact)"
+        points: 2
+      - label: "Moderate hidden cost (5-15% impact)"
+        points: 5
+      - label: "Significant hidden cost (>15% impact)"
+        points: 10
+
+    modifiers:
+      - label: "No disclosure"
+        description: "charge was not disclosed until bill arrived"
+        points: 5
+      - label: "Fine print only"
+        description: "charge mentioned only in small print"
+        points: 3
+      - label: "Multiple hidden charges"
+        description: "more than one type of hidden charge reported"
+        points: 3
+      - label: "Customer very upset"
+        description: "reviewer expressed strong negative reaction"
+        points: 2
+
+    recency_rules:
+      - age: "Within 6 months"
+        weight: "full point value"
+      - age: "6 months to 1 year"
+        weight: "three-quarter point value (multiply by 0.75)"
+      - age: "1-2 years old"
+        weight: "half point value (multiply by 0.5)"
+      - age: "Over 2 years old"
+        weight: "quarter point value (multiply by 0.25) - policies may have changed"
+
+    thresholds:
+      - verdict: "Critical Risk"
+        min_score: 10
+      - verdict: "High Risk"
+        min_score: 5
+
+  # Decision policy -> generates Verdict Rules section
+  decision:
+    verdicts: ["Low Risk", "High Risk", "Critical Risk"]
+    ordered: true
+
+    rules:
+      - verdict: "Critical Risk"
+        label: "CRITICAL"
+        logic: ANY
+        conditions:
+          - "Total risk score is 10 or higher (after recency weighting)"
+
+      - verdict: "High Risk"
+        label: "HIGH"
+        precondition: "Critical Risk does not apply"
+        logic: ANY
+        conditions:
+          - "Total risk score is 5 or higher (after recency weighting)"
+
+      - verdict: "Low Risk"
+        label: "LOW"
+        default: true
+        especially_when:
+          - "No hidden cost incidents reported"
+          - "Total risk score is below 5"
+          - "Only old complaints and recent reviews show transparency"
+
+  # Output format
+  output:
+    verdict:
+      type: enum
+      values: ["Low Risk", "High Risk", "Critical Risk"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence and recency weighting were used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

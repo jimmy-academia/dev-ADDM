@@ -1,0 +1,130 @@
+# G4_environment_V2: Environment with Point-Based Scoring
+# V2 = Scoring: Adds point system with numeric thresholds
+
+policy_id: "G4_environment_V2"
+extends: "G4_environment_V1"
+version: "1.0"
+
+overview:
+  title: "Environment Quality Assessment"
+
+  purpose: |
+    Help assess the physical environment quality at this restaurant using customer reviews as evidence.
+    This is from the perspective of a business owner evaluating ambiance and comfort.
+    Assign a quality label: Needs Improvement, Satisfactory, or Excellent.
+
+    This assessment uses a point-based scoring system to quantify quality.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - cleanliness of the space
+    - noise level
+    - seating comfort
+    - temperature comfort (AC, heating)
+    - ambiance and decor fit with concept
+
+normative:
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "environment:CLEANLINESS"
+    - ref: "environment:NOISE_LEVEL"
+    - ref: "environment:COMFORT"
+    - ref: "environment:TEMPERATURE"
+    - ref: "environment:AMBIANCE_FIT"
+
+  scoring:
+    description: |
+      Calculate a quality score by summing points from relevant reviews.
+      Positive points indicate good environment, negative points indicate issues.
+
+    severity_points:
+      - label: "Exceptional atmosphere"
+        points: 10
+      - label: "Pleasant environment"
+        points: 5
+      - label: "Adequate environment"
+        points: 0
+      - label: "Minor environment issue"
+        points: -2
+      - label: "Significant environment issue"
+        points: -5
+      - label: "Terrible environment"
+        points: -10
+
+    modifiers:
+      - label: "Spotless clean"
+        description: "cleanliness specifically praised"
+        points: 3
+      - label: "Perfect ambiance"
+        description: "atmosphere matches and enhances concept"
+        points: 3
+      - label: "Comfortable seating"
+        description: "seating comfort praised"
+        points: 2
+      - label: "Too loud"
+        description: "noise level a significant problem"
+        points: -4
+      - label: "Temperature issues"
+        description: "too hot or too cold"
+        points: -3
+      - label: "Dirty/unclean"
+        description: "cleanliness issues noted"
+        points: -5
+
+    thresholds:
+      - verdict: "Excellent"
+        min_score: 8
+      - verdict: "Needs Improvement"
+        max_score: -5
+
+  decision:
+    verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
+    ordered: true
+
+    rules:
+      - verdict: "Excellent"
+        label: "EXCELLENT"
+        logic: ANY
+        conditions:
+          - "Total quality score is 8 or higher"
+
+      - verdict: "Needs Improvement"
+        label: "NEEDS_IMPROVEMENT"
+        precondition: "Excellent does not apply"
+        logic: ANY
+        conditions:
+          - "Total quality score is -5 or lower"
+
+      - verdict: "Satisfactory"
+        label: "SATISFACTORY"
+        default: true
+        especially_when:
+          - "Total quality score is between -4 and 7"
+
+  output:
+    verdict:
+      type: enum
+      values: ["Needs Improvement", "Satisfactory", "Excellent"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

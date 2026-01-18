@@ -1,0 +1,159 @@
+# Terms specific to consistency assessment
+# Referenced as "consistency:TERM_ID"
+
+QUALITY_TREND:
+  name: Quality Trend
+  type: enum
+  description: Trend in quality over time
+  values:
+    - id: declining
+      label: Declining
+      description: Quality has gotten worse
+      cues:
+        - "used to be good"
+        - "went downhill"
+        - "not like before"
+        - "declined"
+
+    - id: stable
+      label: Stable
+      description: Quality remains consistent
+      cues:
+        - "same as always"
+        - "still good"
+        - "consistent"
+
+    - id: improving
+      label: Improving
+      description: Quality has improved
+      cues:
+        - "better now"
+        - "improved"
+        - "getting better"
+
+  default: stable
+
+VISIT_COMPARISON:
+  name: Visit Comparison
+  type: enum
+  description: Current visit compared to previous
+  values:
+    - id: much_worse
+      label: Much Worse
+      description: Significantly worse than before
+      cues:
+        - "so much worse"
+        - "ruined"
+        - "unrecognizable"
+
+    - id: worse
+      label: Worse
+      description: Noticeably worse than before
+      cues:
+        - "worse"
+        - "not as good"
+        - "disappointing"
+
+    - id: same
+      label: Same
+      description: Same quality as before
+      cues:
+        - "same"
+        - "as expected"
+        - "consistent"
+
+    - id: better
+      label: Better
+      description: Better than before
+      cues:
+        - "better"
+        - "improved"
+        - "even better"
+
+    - id: much_better
+      label: Much Better
+      description: Significantly improved
+      cues:
+        - "so much better"
+        - "transformed"
+        - "amazing improvement"
+
+  default: same
+
+RELIABILITY:
+  name: Reliability
+  type: enum
+  description: How reliable the experience is
+  values:
+    - id: unpredictable
+      label: Unpredictable
+      description: Never know what you'll get
+      cues:
+        - "unpredictable"
+        - "never know"
+        - "coin flip"
+
+    - id: hit_or_miss
+      label: Hit or Miss
+      description: Sometimes good, sometimes not
+      cues:
+        - "hit or miss"
+        - "depends"
+        - "inconsistent"
+
+    - id: mostly_reliable
+      label: Mostly Reliable
+      description: Usually consistent with occasional issues
+      cues:
+        - "usually good"
+        - "mostly consistent"
+        - "reliable"
+
+    - id: always_reliable
+      label: Always Reliable
+      description: Consistently excellent every time
+      cues:
+        - "always good"
+        - "never disappoints"
+        - "count on it"
+
+  default: mostly_reliable
+
+VISIT_FREQUENCY:
+  name: Visit Frequency
+  type: enum
+  description: How often reviewer has visited
+  values:
+    - id: first
+      label: First Visit
+      description: First time at this restaurant
+      cues:
+        - "first time"
+        - "never been"
+        - "finally tried"
+
+    - id: few
+      label: Few Visits
+      description: Have been a few times
+      cues:
+        - "few times"
+        - "second visit"
+        - "been here before"
+
+    - id: regular
+      label: Regular
+      description: Visit regularly
+      cues:
+        - "regular"
+        - "often"
+        - "come here a lot"
+
+    - id: frequent
+      label: Frequent
+      description: Very frequent visitor
+      cues:
+        - "every week"
+        - "all the time"
+        - "lost count"
+
+  default: first

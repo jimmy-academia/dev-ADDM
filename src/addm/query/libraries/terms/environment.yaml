@@ -1,0 +1,202 @@
+# Terms specific to environment assessment
+# Referenced as "environment:TERM_ID"
+
+CLEANLINESS:
+  name: Cleanliness
+  type: enum
+  description: Cleanliness of the restaurant environment
+  values:
+    - id: dirty
+      label: Dirty
+      description: Visibly dirty, concerning
+      cues:
+        - "dirty"
+        - "filthy"
+        - "gross"
+        - "sticky"
+
+    - id: fair
+      label: Fair
+      description: Could be cleaner but acceptable
+      cues:
+        - "could be cleaner"
+        - "okay"
+        - "not great"
+
+    - id: clean
+      label: Clean
+      description: Clean and well-maintained
+      cues:
+        - "clean"
+        - "nice"
+        - "well kept"
+
+    - id: spotless
+      label: Spotless
+      description: Exceptionally clean
+      cues:
+        - "spotless"
+        - "immaculate"
+        - "pristine"
+
+  default: clean
+
+NOISE_LEVEL:
+  name: Noise Level
+  type: enum
+  description: Noise level in the restaurant
+  values:
+    - id: deafening
+      label: Deafening
+      description: Extremely loud, cannot converse
+      cues:
+        - "deafening"
+        - "couldn't hear"
+        - "screaming"
+
+    - id: loud
+      label: Loud
+      description: Loud, conversation difficult
+      cues:
+        - "very loud"
+        - "noisy"
+        - "loud music"
+
+    - id: moderate
+      label: Moderate
+      description: Some noise but conversation possible
+      cues:
+        - "busy"
+        - "lively"
+        - "bustling"
+
+    - id: quiet
+      label: Quiet
+      description: Quiet, easy conversation
+      cues:
+        - "quiet"
+        - "peaceful"
+        - "calm"
+
+  default: moderate
+
+COMFORT:
+  name: Comfort
+  type: enum
+  description: Physical comfort of seating/space
+  values:
+    - id: uncomfortable
+      label: Uncomfortable
+      description: Seating or space is uncomfortable
+      cues:
+        - "uncomfortable"
+        - "cramped"
+        - "hard seats"
+        - "tight"
+
+    - id: fair
+      label: Fair
+      description: Acceptable but not particularly comfortable
+      cues:
+        - "okay seating"
+        - "basic"
+
+    - id: comfortable
+      label: Comfortable
+      description: Comfortable seating and spacing
+      cues:
+        - "comfortable"
+        - "nice booths"
+        - "cozy"
+
+    - id: very_comfortable
+      label: Very Comfortable
+      description: Exceptionally comfortable environment
+      cues:
+        - "plush"
+        - "luxurious"
+        - "could sit for hours"
+
+  default: comfortable
+
+TEMPERATURE:
+  name: Temperature
+  type: enum
+  description: Room temperature comfort
+  values:
+    - id: too_cold
+      label: Too Cold
+      description: Uncomfortably cold
+      cues:
+        - "freezing"
+        - "too cold"
+        - "AC blasting"
+
+    - id: cold
+      label: Cold
+      description: On the cold side
+      cues:
+        - "chilly"
+        - "bring a jacket"
+
+    - id: comfortable
+      label: Comfortable
+      description: Temperature is comfortable
+      cues:
+        - "comfortable"
+        - "nice temperature"
+
+    - id: hot
+      label: Hot
+      description: On the warm side
+      cues:
+        - "warm"
+        - "stuffy"
+
+    - id: too_hot
+      label: Too Hot
+      description: Uncomfortably hot
+      cues:
+        - "too hot"
+        - "sweating"
+        - "no AC"
+
+  default: comfortable
+
+AMBIANCE_FIT:
+  name: Ambiance Fit
+  type: enum
+  description: How well ambiance matches the concept
+  values:
+    - id: poor
+      label: Poor
+      description: Ambiance doesn't fit the concept
+      cues:
+        - "doesn't match"
+        - "confusing"
+        - "wrong vibe"
+
+    - id: fair
+      label: Fair
+      description: Ambiance partially matches
+      cues:
+        - "okay"
+        - "basic decor"
+
+    - id: good
+      label: Good
+      description: Ambiance matches concept well
+      cues:
+        - "nice ambiance"
+        - "fits the theme"
+        - "appropriate"
+
+    - id: excellent
+      label: Excellent
+      description: Ambiance perfectly complements concept
+      cues:
+        - "perfect atmosphere"
+        - "immersive"
+        - "transports you"
+
+  default: good

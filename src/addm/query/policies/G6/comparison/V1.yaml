@@ -1,0 +1,63 @@
+# G6_comparison_V1: Comparison with Override Triggers
+
+policy_id: "G6_comparison_V1"
+extends: "G6_comparison_V0"
+version: "1.0"
+
+overview:
+  title: "Competitive Comparison Assessment"
+  purpose: |
+    Help assess competitive position using reviews as evidence.
+  incident_definition: |
+    Consider reviews mentioning comparisons, preferences, and switching behavior.
+
+normative:
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "comparison:COMPARISON_OUTCOME"
+    - ref: "comparison:COMPARED_ASPECT"
+    - ref: "comparison:PREFERENCE_STATED"
+    - ref: "comparison:SWITCHING_INTENT"
+
+  decision:
+    verdicts: ["Weaker", "Comparable", "Stronger"]
+    ordered: true
+    rules:
+      - verdict: "Stronger"
+        label: "STRONGER"
+        logic: ANY
+        conditions:
+          - "At least 1 review calls it 'best in the area'"
+          - "Described as replacement for closed favorite"
+          - "Named competitor described as inferior"
+      - verdict: "Weaker"
+        label: "WEAKER"
+        precondition: "Stronger does not apply"
+        logic: ANY
+        conditions:
+          - "At least 1 review says 'go to X instead'"
+          - "Explicitly inferior to named competitor"
+          - "Customers leaving for competitor"
+      - verdict: "Comparable"
+        label: "COMPARABLE"
+        default: true
+
+  output:
+    verdict:
+      type: enum
+      values: ["Weaker", "Comparable", "Stronger"]
+      required: true
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+    justification:
+      type: string
+      required: true
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+    other_notes:
+      type: string
+      optional: true

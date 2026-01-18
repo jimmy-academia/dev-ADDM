@@ -1,0 +1,139 @@
+# G4_kitchen_V3: Kitchen Performance with Recency & Context
+# V3 = Recency: Adds recency modifiers
+
+policy_id: "G4_kitchen_V3"
+extends: "G4_kitchen_V2"
+version: "1.0"
+
+overview:
+  title: "Kitchen Performance Assessment"
+
+  purpose: |
+    Help assess the kitchen performance at this restaurant using customer reviews as evidence.
+    This is from the perspective of a business owner evaluating their kitchen team's execution.
+    Assign a performance label: Needs Improvement, Satisfactory, or Excellent.
+
+    This assessment uses a point-based scoring system with recency weighting.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - food quality issues (temperature, doneness, taste)
+    - consistency of food quality across visits
+    - presentation and plating
+    - chef skill level
+    - food sent back or complaints addressed
+
+normative:
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "kitchen:FOOD_ISSUE_TYPE"
+    - ref: "kitchen:ISSUE_SEVERITY"
+    - ref: "kitchen:CONSISTENCY"
+    - ref: "kitchen:CHEF_SKILL"
+    - ref: "kitchen:FOOD_SENT_BACK"
+
+  scoring:
+    description: |
+      Calculate a performance score by summing points from relevant reviews,
+      with recency weighting applied. Chef changes and menu updates mean
+      recent reviews are more indicative of current quality.
+
+    severity_points:
+      - label: "Exceptional food quality"
+        points: 10
+      - label: "Good food quality"
+        points: 5
+      - label: "Adequate food quality"
+        points: 0
+      - label: "Minor food issue"
+        points: -2
+      - label: "Significant food issue"
+        points: -5
+      - label: "Inedible food"
+        points: -10
+
+    modifiers:
+      - label: "Consistent excellence"
+        description: "same great quality across visits"
+        points: 5
+      - label: "Creative/unique dishes"
+        description: "chef praised for creativity"
+        points: 3
+      - label: "Beautiful presentation"
+        description: "plating and presentation praised"
+        points: 2
+      - label: "Inconsistent quality"
+        description: "hit or miss between visits"
+        points: -5
+      - label: "Food sent back"
+        description: "dish had to be returned"
+        points: -3
+
+    recency_rules:
+      - age: "Within 6 months"
+        weight: "full point value"
+      - age: "6 months to 1 year"
+        weight: "three-quarter point value (multiply by 0.75)"
+      - age: "1-2 years old"
+        weight: "half point value (multiply by 0.5)"
+      - age: "Over 2 years old"
+        weight: "quarter point value (multiply by 0.25) - chef/menu may have changed"
+
+    thresholds:
+      - verdict: "Excellent"
+        min_score: 8
+      - verdict: "Needs Improvement"
+        max_score: -5
+
+  decision:
+    verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
+    ordered: true
+
+    rules:
+      - verdict: "Excellent"
+        label: "EXCELLENT"
+        logic: ANY
+        conditions:
+          - "Total performance score is 8 or higher (after recency weighting)"
+
+      - verdict: "Needs Improvement"
+        label: "NEEDS_IMPROVEMENT"
+        precondition: "Excellent does not apply"
+        logic: ANY
+        conditions:
+          - "Total performance score is -5 or lower (after recency weighting)"
+
+      - verdict: "Satisfactory"
+        label: "SATISFACTORY"
+        default: true
+        especially_when:
+          - "Total performance score is between -4 and 7"
+          - "Recent reviews show improvement in food quality"
+
+  output:
+    verdict:
+      type: enum
+      values: ["Needs Improvement", "Satisfactory", "Excellent"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence and recency weighting were used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

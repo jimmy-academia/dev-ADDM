@@ -1,0 +1,71 @@
+# G5_capacity_V1: Capacity Management with Override Triggers
+
+policy_id: "G5_capacity_V1"
+extends: "G5_capacity_V0"
+version: "1.0"
+
+overview:
+  title: "Capacity Management Assessment"
+  purpose: |
+    Help assess how well this restaurant handles customer volume using reviews as evidence.
+    This is from the perspective of a business owner diagnosing staffing and capacity issues.
+    Assign a label: Needs Improvement, Satisfactory, or Excellent.
+  incident_definition: |
+    Consider reviews that mention staffing levels, crowding, and service during busy periods.
+
+normative:
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "capacity:STAFFING_LEVEL"
+    - ref: "capacity:CROWD_LEVEL"
+    - ref: "capacity:SERVICE_DEGRADATION"
+    - ref: "capacity:VOLUME_HANDLING"
+
+  decision:
+    verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
+    ordered: true
+
+    rules:
+      - verdict: "Excellent"
+        label: "EXCELLENT"
+        logic: ANY
+        conditions:
+          - "At least 1 review praises handling of extremely busy night"
+          - "Described as 'well-oiled machine' even when packed"
+          - "Peak time execution specifically praised"
+
+      - verdict: "Needs Improvement"
+        label: "NEEDS_IMPROVEMENT"
+        precondition: "Excellent does not apply"
+        logic: ANY
+        conditions:
+          - "At least 1 review describes 'one server for entire restaurant'"
+          - "Customers left due to overwhelming wait from understaffing"
+          - "Described as 'chaos' or 'disaster' during busy period"
+
+      - verdict: "Satisfactory"
+        label: "SATISFACTORY"
+        default: true
+        especially_when:
+          - "Adequate handling most of the time"
+          - "Occasional peak-time struggles"
+
+  output:
+    verdict:
+      type: enum
+      values: ["Needs Improvement", "Satisfactory", "Excellent"]
+      required: true
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+    justification:
+      type: string
+      required: true
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+    other_notes:
+      type: string
+      optional: true

@@ -1,0 +1,143 @@
+# Terms specific to competitive comparison assessment
+# Referenced as "comparison:TERM_ID"
+
+COMPARISON_OUTCOME:
+  name: Comparison Outcome
+  type: enum
+  description: How this restaurant compares to named competitors
+  values:
+    - id: unfavorable
+      label: Unfavorable
+      description: Competitor is better
+      cues:
+        - "not as good as"
+        - "prefer"
+        - "go to X instead"
+
+    - id: neutral
+      label: Neutral
+      description: About the same as competitors
+      cues:
+        - "similar to"
+        - "like"
+        - "comparable"
+
+    - id: favorable
+      label: Favorable
+      description: Better than competitors
+      cues:
+        - "better than"
+        - "beats"
+        - "superior to"
+
+  default: neutral
+
+COMPARED_ASPECT:
+  name: Compared Aspect
+  type: enum
+  description: What aspect is being compared
+  values:
+    - id: price
+      label: Price
+      description: Price comparison
+      cues:
+        - "cheaper than"
+        - "more expensive"
+        - "better value"
+
+    - id: quality
+      label: Quality
+      description: Food quality comparison
+      cues:
+        - "better food"
+        - "higher quality"
+        - "not as good"
+
+    - id: service
+      label: Service
+      description: Service comparison
+      cues:
+        - "better service"
+        - "friendlier"
+
+    - id: atmosphere
+      label: Atmosphere
+      description: Ambiance comparison
+      cues:
+        - "nicer atmosphere"
+        - "better vibe"
+
+    - id: overall
+      label: Overall
+      description: Overall comparison
+      cues:
+        - "overall better"
+        - "prefer overall"
+
+  default: overall
+
+PREFERENCE_STATED:
+  name: Preference Stated
+  type: enum
+  description: Whether a preference is stated
+  values:
+    - id: prefer_other
+      label: Prefer Other
+      description: Prefers the competitor
+      cues:
+        - "prefer X"
+        - "go to X instead"
+
+    - id: no_preference
+      label: No Preference
+      description: No clear preference
+      cues:
+        - "both good"
+        - "different"
+
+    - id: prefer_this
+      label: Prefer This
+      description: Prefers this restaurant
+      cues:
+        - "prefer this"
+        - "my favorite"
+        - "beats the rest"
+
+  default: no_preference
+
+SWITCHING_INTENT:
+  name: Switching Intent
+  type: enum
+  description: Intent to switch to/from this restaurant
+  values:
+    - id: switching_away
+      label: Switching Away
+      description: Will go to competitor instead
+      cues:
+        - "going to X now"
+        - "switched to"
+        - "found better"
+
+    - id: considering
+      label: Considering
+      description: Considering switching
+      cues:
+        - "might try"
+        - "considering"
+
+    - id: staying
+      label: Staying
+      description: Will stay with this restaurant
+      cues:
+        - "staying here"
+        - "still my go-to"
+
+    - id: switching_to
+      label: Switching To
+      description: Switching to this restaurant from competitor
+      cues:
+        - "new favorite"
+        - "replaced"
+        - "found my spot"
+
+  default: staying

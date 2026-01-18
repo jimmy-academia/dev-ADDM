@@ -1,0 +1,63 @@
+{
+  "run_id": "G1_allergy_V2",
+  "task_id": null,
+  "policy_id": "G1_allergy_V2",
+  "gt_task_id": "G1a",
+  "domain": "yelp",
+  "model": "gpt-5-nano",
+  "k": 25,
+  "n": 1,
+  "timestamp": "20260117_225602",
+  "accuracy": 0.0,
+  "correct": 0,
+  "total": 0,
+  "auprc": {},
+  "results": [
+    {
+      "business_id": "Ipt9ga67vVC_2ob3YmVwNA",
+      "name": "Lincoln Square Pancake House",
+      "response": "{\n  \"verdict\": \"High Risk\",\n  \"evidences\": [\n    {\n      \"evidence_id\": \"E1\",\n      \"review_id\": \"paj8asshd1V25f-486zrxQ\",\n      \"field\": \"Incident\",\n      \"judgement\": \"No reaction\",\n      \"snippet\": \"Yesterday while my sister was getting treatment I ordered a Togo order at Lincoln square pancake house I got the meat lovers omelette and explained that I wanted to sub spinach and tomato for the green pepper and onion. I emphasized this. Explained that I'm allergic to onion and strongly dislike green pepper. When I use to live near by they would always just substitute it for me. I was assured this wasn't an issue.\"\n    },\n    {\n      \"evidence_id\": \"E2\",\n      \"review_id\": \"paj8asshd1V25f-486zrxQ\",\n      \"field\": \"Assurance of Safety\",\n      \"judgement\": \"Assurance given\",\n      \"snippet\": \"I was assured this wasn't an issue.\"\n    },\n    {\n      \"evidence_id\": \"E3\",\n      \"review_id\": \"paj8asshd1V25f-486zrxQ\",\n      \"field\": \"Staff Response\",\n      \"judgement\": \"Accommodated\",\n      \"snippet\": \"The owner of the franchise did reach out to me personally via Facebook. He apologized for their social media person and said they would be handled and agreed that the response was not ok. He also sent me a gift card enough for my husband and I to make up for not only the meal I couldn't eat but the whole situation.\"\n    }\n  ],\n  \"justification\": {\n    \"triggered_rule\": \"High Risk threshold met (total risk score >= 4)\",\n    \"direct_evidence\": [\"E1\",\"E2\",\"E3\"],\n    \"reasoning\": \"The review describes a firsthand allergy to onion with a request for substitution that was assured not to be an issue (false assurance). A later management response included an apology and gift card, indicating a safety concern and inadequate initial handling. Even with no actual reaction reported, the combination of allergy risk, explicit assurance and imperfect handling pushes the risk score above the High Risk threshold.\"\n  },\n  \"other_notes\": null\n}",
+      "parsed": {
+        "verdict": "High Risk",
+        "evidences": [
+          {
+            "evidence_id": "E1",
+            "review_id": "paj8asshd1V25f-486zrxQ",
+            "field": "Incident",
+            "judgement": "No reaction",
+            "snippet": "Yesterday while my sister was getting treatment I ordered a Togo order at Lincoln square pancake house I got the meat lovers omelette and explained that I wanted to sub spinach and tomato for the green pepper and onion. I emphasized this. Explained that I'm allergic to onion and strongly dislike green pepper. When I use to live near by they would always just substitute it for me. I was assured this wasn't an issue."
+          },
+          {
+            "evidence_id": "E2",
+            "review_id": "paj8asshd1V25f-486zrxQ",
+            "field": "Assurance of Safety",
+            "judgement": "Assurance given",
+            "snippet": "I was assured this wasn't an issue."
+          },
+          {
+            "evidence_id": "E3",
+            "review_id": "paj8asshd1V25f-486zrxQ",
+            "field": "Staff Response",
+            "judgement": "Accommodated",
+            "snippet": "The owner of the franchise did reach out to me personally via Facebook. He apologized for their social media person and said they would be handled and agreed that the response was not ok. He also sent me a gift card enough for my husband and I to make up for not only the meal I couldn't eat but the whole situation."
+          }
+        ],
+        "justification": {
+          "triggered_rule": "High Risk threshold met (total risk score >= 4)",
+          "direct_evidence": [
+            "E1",
+            "E2",
+            "E3"
+          ],
+          "reasoning": "The review describes a firsthand allergy to onion with a request for substitution that was assured not to be an issue (false assurance). A later management response included an apology and gift card, indicating a safety concern and inadequate initial handling. Even with no actual reaction reported, the combination of allergy risk, explicit assurance and imperfect handling pushes the risk score above the High Risk threshold."
+        },
+        "other_notes": null
+      },
+      "verdict": "High Risk",
+      "risk_score": null,
+      "prompt_chars": 29857,
+      "gt_verdict": null,
+      "correct": false
+    }
+  ]
+}

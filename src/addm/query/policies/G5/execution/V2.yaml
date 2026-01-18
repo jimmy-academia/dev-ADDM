@@ -1,0 +1,94 @@
+# G5_execution_V2: Execution with Scoring
+
+policy_id: "G5_execution_V2"
+extends: "G5_execution_V1"
+version: "1.0"
+
+overview:
+  title: "Execution Quality Assessment"
+  purpose: |
+    Help assess execution quality using a point-based scoring system.
+  incident_definition: |
+    Consider reviews mentioning order accuracy, modifications, promises, and resolution.
+
+normative:
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "execution:ORDER_ACCURACY"
+    - ref: "execution:MODIFICATION_HANDLING"
+    - ref: "execution:PROMISE_KEPT"
+    - ref: "execution:ISSUE_RESOLUTION"
+
+  scoring:
+    description: |
+      Calculate an execution score by summing points from relevant reviews.
+    severity_points:
+      - label: "Perfect execution"
+        points: 10
+      - label: "Good execution"
+        points: 5
+      - label: "Adequate execution"
+        points: 0
+      - label: "Minor execution error"
+        points: -2
+      - label: "Significant execution error"
+        points: -5
+      - label: "Complete failure"
+        points: -10
+    modifiers:
+      - label: "Above and beyond resolution"
+        description: "issue resolved exceptionally"
+        points: 5
+      - label: "Modifications handled perfectly"
+        description: "special requests always correct"
+        points: 3
+      - label: "Modification ignored"
+        description: "special request not honored"
+        points: -5
+      - label: "No resolution attempt"
+        description: "issue not addressed"
+        points: -5
+    thresholds:
+      - verdict: "Excellent"
+        min_score: 8
+      - verdict: "Needs Improvement"
+        max_score: -5
+
+  decision:
+    verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
+    ordered: true
+    rules:
+      - verdict: "Excellent"
+        label: "EXCELLENT"
+        logic: ANY
+        conditions:
+          - "Total score is 8 or higher"
+      - verdict: "Needs Improvement"
+        label: "NEEDS_IMPROVEMENT"
+        precondition: "Excellent does not apply"
+        logic: ANY
+        conditions:
+          - "Total score is -5 or lower"
+      - verdict: "Satisfactory"
+        label: "SATISFACTORY"
+        default: true
+
+  output:
+    verdict:
+      type: enum
+      values: ["Needs Improvement", "Satisfactory", "Excellent"]
+      required: true
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+    justification:
+      type: string
+      required: true
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+    other_notes:
+      type: string
+      optional: true

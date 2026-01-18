@@ -1,0 +1,93 @@
+# G3_time_value_V1: Time-Value with Override Triggers
+# V1 = Override: Adds single-instance triggers
+
+policy_id: "G3_time_value_V1"
+extends: "G3_time_value_V0"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
+overview:
+  title: "Time-Value Assessment"
+
+  purpose: |
+    Help assess whether waiting at this restaurant is worth it using customer reviews as evidence.
+    Assign a verdict: Not Worth Waiting, Worth Waiting, or Definitely Worth Waiting.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - wait times for seating, food, or service
+    - reservations and whether they were honored
+    - whether the wait was justified by the experience
+    - willingness to wait again
+
+    Reviews that don't mention timing or waiting carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
+normative:
+  # Terms -> auto-generates Definitions section
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "time_value:WAIT_TYPE"
+    - ref: "time_value:WAIT_DURATION"
+    - ref: "time_value:WAIT_JUSTIFICATION"
+    - ref: "time_value:WOULD_WAIT_AGAIN"
+
+  # Decision policy -> generates Verdict Rules section
+  decision:
+    verdicts: ["Not Worth Waiting", "Worth Waiting", "Definitely Worth Waiting"]
+    ordered: true
+
+    rules:
+      - verdict: "Definitely Worth Waiting"
+        label: "DEFINITELY"
+        logic: ANY
+        conditions:
+          - "At least 1 review describes an hour+ wait that was 'totally worth it'"
+          - "Described as 'would wait any amount of time to eat here again'"
+          - "Iconic or destination restaurant where wait is part of the experience"
+
+      - verdict: "Not Worth Waiting"
+        label: "NOT_WORTH"
+        precondition: "Definitely Worth Waiting does not apply"
+        logic: ANY
+        conditions:
+          - "At least 1 review describes leaving due to wait"
+          - "Reservation not honored with excessive additional wait"
+          - "Described as 'waste of time' or 'not worth the hassle'"
+
+      - verdict: "Worth Waiting"
+        label: "WORTH"
+        default: true
+        especially_when:
+          - "Reasonable waits for good food"
+          - "Some timing issues but overall positive"
+          - "Wait acceptable for the type of restaurant"
+
+  # Output format
+  output:
+    verdict:
+      type: enum
+      values: ["Not Worth Waiting", "Worth Waiting", "Definitely Worth Waiting"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

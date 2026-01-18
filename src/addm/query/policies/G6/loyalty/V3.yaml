@@ -1,0 +1,102 @@
+# G6_loyalty_V3: Loyalty with Recency
+
+policy_id: "G6_loyalty_V3"
+extends: "G6_loyalty_V2"
+version: "1.0"
+
+overview:
+  title: "Customer Loyalty Assessment"
+  purpose: |
+    Help assess customer loyalty with recency weighting.
+  incident_definition: |
+    Consider reviews mentioning return visits, recommendations, and emotional connection.
+
+normative:
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "loyalty:RETURN_INTENT"
+    - ref: "loyalty:RECOMMEND_INTENT"
+    - ref: "loyalty:EMOTIONAL_CONNECTION"
+    - ref: "loyalty:LOYALTY_DRIVER"
+
+  scoring:
+    description: |
+      Calculate a loyalty score with recency weighting.
+      Loyalty patterns can shift as restaurants change.
+    severity_points:
+      - label: "Regular customer"
+        points: 10
+      - label: "Will definitely return"
+        points: 5
+      - label: "Might return"
+        points: 2
+      - label: "Probably won't return"
+        points: -5
+      - label: "Never returning"
+        points: -10
+    modifiers:
+      - label: "Strong recommendation"
+        description: "actively tells others to go"
+        points: 5
+      - label: "Returned after issue"
+        description: "loyalty despite problems"
+        points: 8
+      - label: "Warns others away"
+        description: "actively discourages visits"
+        points: -5
+      - label: "Switched to competitor"
+        description: "explicitly left for alternative"
+        points: -8
+    recency_rules:
+      - age: "Within 6 months"
+        weight: "full point value"
+      - age: "6 months to 1 year"
+        weight: "three-quarter point value"
+      - age: "1-2 years old"
+        weight: "half point value"
+      - age: "Over 2 years old"
+        weight: "quarter point value"
+    thresholds:
+      - verdict: "High Loyalty"
+        min_score: 10
+      - verdict: "Low Loyalty"
+        max_score: -5
+
+  decision:
+    verdicts: ["Low Loyalty", "Moderate Loyalty", "High Loyalty"]
+    ordered: true
+    rules:
+      - verdict: "High Loyalty"
+        label: "HIGH_LOYALTY"
+        logic: ANY
+        conditions:
+          - "Total score is 10 or higher (after recency weighting)"
+      - verdict: "Low Loyalty"
+        label: "LOW_LOYALTY"
+        precondition: "High Loyalty does not apply"
+        logic: ANY
+        conditions:
+          - "Total score is -5 or lower (after recency weighting)"
+      - verdict: "Moderate Loyalty"
+        label: "MODERATE_LOYALTY"
+        default: true
+
+  output:
+    verdict:
+      type: enum
+      values: ["Low Loyalty", "Moderate Loyalty", "High Loyalty"]
+      required: true
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+    justification:
+      type: string
+      required: true
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+    other_notes:
+      type: string
+      optional: true

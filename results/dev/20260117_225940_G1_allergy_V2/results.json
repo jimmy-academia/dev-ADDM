@@ -1,0 +1,37 @@
+{
+  "run_id": "G1_allergy_V2",
+  "task_id": null,
+  "policy_id": "G1_allergy_V2",
+  "gt_task_id": "G1a",
+  "domain": "yelp",
+  "model": "gpt-5-nano",
+  "k": 100,
+  "n": 1,
+  "timestamp": "20260117_225940",
+  "accuracy": 0.0,
+  "correct": 0,
+  "total": 0,
+  "auprc": {},
+  "results": [
+    {
+      "business_id": "eZ-t73r7ETHjyclRB7SnwQ",
+      "name": "Bliss",
+      "response": "{\n  \"verdict\": \"Low Risk\",\n  \"evidences\": [],\n  \"justification\": {\n    \"triggered_rule\": \"No allergy incidents detected\",\n    \"direct_evidence\": [],\n    \"reasoning\": \"No firsthand accounts describe allergic reactions, allergy accommodations, or staff safety assurances. Reviews frequently mention seafood items but do not discuss allergies.\"\n  },\n  \"other_notes\": null\n}",
+      "parsed": {
+        "verdict": "Low Risk",
+        "evidences": [],
+        "justification": {
+          "triggered_rule": "No allergy incidents detected",
+          "direct_evidence": [],
+          "reasoning": "No firsthand accounts describe allergic reactions, allergy accommodations, or staff safety assurances. Reviews frequently mention seafood items but do not discuss allergies."
+        },
+        "other_notes": null
+      },
+      "verdict": "Low Risk",
+      "risk_score": null,
+      "prompt_chars": 113529,
+      "gt_verdict": null,
+      "correct": false
+    }
+  ]
+}

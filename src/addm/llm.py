@@ -174,9 +174,11 @@ class LLMService:
                     kwargs: Dict[str, Any] = {
                         "model": model,
                         "messages": messages,
-                        "temperature": temperature,
                         "timeout": timeout,
                     }
+                    # gpt-5-nano only supports temperature=1 (default), skip for that model
+                    if model != "gpt-5-nano":
+                        kwargs["temperature"] = temperature
                     if max_tokens:
                         kwargs["max_tokens"] = max_tokens
                     resp = await client.chat.completions.create(**kwargs)

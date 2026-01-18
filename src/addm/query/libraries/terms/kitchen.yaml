@@ -1,0 +1,190 @@
+# Terms specific to kitchen performance assessment
+# Referenced as "kitchen:TERM_ID"
+
+FOOD_ISSUE_TYPE:
+  name: Food Issue Type
+  type: enum
+  description: Type of food quality issue
+  values:
+    - id: temperature
+      label: Temperature
+      description: Food served at wrong temperature
+      cues:
+        - "cold"
+        - "lukewarm"
+        - "not hot"
+        - "too hot"
+
+    - id: doneness
+      label: Doneness
+      description: Food over or undercooked
+      cues:
+        - "overcooked"
+        - "undercooked"
+        - "raw"
+        - "burnt"
+
+    - id: taste
+      label: Taste
+      description: Flavor issues (bland, too salty, etc.)
+      cues:
+        - "bland"
+        - "too salty"
+        - "no flavor"
+        - "off taste"
+
+    - id: presentation
+      label: Presentation
+      description: Visual presentation issues
+      cues:
+        - "sloppy"
+        - "messy"
+        - "unappetizing"
+
+    - id: portion
+      label: Portion
+      description: Portion size issues
+      cues:
+        - "tiny"
+        - "small portion"
+        - "not enough"
+
+    - id: none
+      label: None
+      description: No food issues mentioned
+      cues: []
+
+  default: none
+
+ISSUE_SEVERITY:
+  name: Issue Severity
+  type: enum
+  description: Severity of food quality issues
+  values:
+    - id: none
+      label: None
+      description: No issues, food was good
+      cues:
+        - "perfect"
+        - "delicious"
+        - "excellent"
+
+    - id: minor
+      label: Minor
+      description: Small issues, still edible
+      cues:
+        - "minor issue"
+        - "slightly"
+        - "could be better"
+
+    - id: major
+      label: Major
+      description: Significant issues affecting enjoyment
+      cues:
+        - "disappointed"
+        - "not good"
+        - "bad"
+
+    - id: inedible
+      label: Inedible
+      description: Food was not edible
+      cues:
+        - "inedible"
+        - "couldn't eat"
+        - "sent back"
+        - "disgusting"
+
+  default: none
+
+CONSISTENCY:
+  name: Consistency
+  type: enum
+  description: Consistency of food quality
+  values:
+    - id: inconsistent
+      label: Inconsistent
+      description: Quality varies significantly between visits/dishes
+      cues:
+        - "hit or miss"
+        - "inconsistent"
+        - "depends"
+        - "varies"
+
+    - id: variable
+      label: Variable
+      description: Some variation but generally acceptable
+      cues:
+        - "usually good"
+        - "sometimes"
+        - "mostly"
+
+    - id: consistent
+      label: Consistent
+      description: Reliable quality every time
+      cues:
+        - "always good"
+        - "consistent"
+        - "reliable"
+        - "never disappoints"
+
+  default: variable
+
+CHEF_SKILL:
+  name: Chef Skill
+  type: enum
+  description: Perceived skill level of kitchen
+  values:
+    - id: poor
+      label: Poor
+      description: Kitchen seems unskilled
+      cues:
+        - "amateur"
+        - "no skill"
+        - "basic"
+
+    - id: average
+      label: Average
+      description: Competent but unremarkable
+      cues:
+        - "okay"
+        - "standard"
+        - "average"
+
+    - id: good
+      label: Good
+      description: Skilled kitchen, quality execution
+      cues:
+        - "well made"
+        - "good chef"
+        - "knows what they're doing"
+
+    - id: excellent
+      label: Excellent
+      description: Exceptional culinary skill
+      cues:
+        - "chef is amazing"
+        - "artistry"
+        - "masterful"
+        - "culinary genius"
+
+  default: average
+
+FOOD_SENT_BACK:
+  name: Food Sent Back
+  type: enum
+  description: Whether food was sent back
+  values:
+    - id: "true"
+      label: Yes
+      description: Food was sent back to kitchen
+      cues:
+        - "sent back"
+        - "returned"
+        - "refused"
+
+    - id: "false"
+      label: No
+      description: Food was not sent back
+      cues: []
+
+  default: "false"

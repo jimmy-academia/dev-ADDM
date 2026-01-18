@@ -1,0 +1,73 @@
+# G6_comparison_V0: Base Competitive Comparison Assessment
+# Owner perspective on competitive position
+
+policy_id: "G6_comparison_V0"
+version: "1.0"
+
+overview:
+  title: "Competitive Comparison Assessment"
+  purpose: |
+    Help assess how this restaurant compares to competitors using reviews as evidence.
+    This is from the perspective of a business owner evaluating competitive position.
+    Assign a label: Weaker, Comparable, or Stronger.
+  incident_definition: |
+    Consider reviews that mention:
+    - comparisons to other restaurants
+    - preferences between this and competitors
+    - switching behavior (to or from)
+    - relative strengths and weaknesses
+
+normative:
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "comparison:COMPARISON_OUTCOME"
+    - ref: "comparison:COMPARED_ASPECT"
+    - ref: "comparison:PREFERENCE_STATED"
+    - ref: "comparison:SWITCHING_INTENT"
+
+  decision:
+    verdicts: ["Weaker", "Comparable", "Stronger"]
+    ordered: true
+    rules:
+      - verdict: "Stronger"
+        label: "STRONGER"
+        logic: ANY
+        conditions:
+          - "Multiple reviews favorably compare to competitors"
+          - "Customers switching from competitors to here"
+          - "Consistently described as better than alternatives"
+      - verdict: "Weaker"
+        label: "WEAKER"
+        precondition: "Stronger does not apply"
+        logic: ANY
+        conditions:
+          - "Multiple reviews prefer competitors"
+          - "Customers switching to competitors"
+          - "Consistently described as inferior to alternatives"
+      - verdict: "Comparable"
+        label: "COMPARABLE"
+        default: true
+        especially_when:
+          - "Mixed comparisons"
+          - "Similar to competitors"
+          - "Different strengths and weaknesses"
+
+  output:
+    verdict:
+      type: enum
+      values: ["Weaker", "Comparable", "Stronger"]
+      required: true
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+    justification:
+      type: string
+      required: true
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+    other_notes:
+      type: string
+      optional: true

@@ -1,0 +1,94 @@
+# G3_hidden_costs_V1: Hidden Costs with Override Triggers
+# V1 = Override: Adds single-instance triggers
+
+policy_id: "G3_hidden_costs_V1"
+extends: "G3_hidden_costs_V0"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
+overview:
+  title: "Hidden Costs Risk Assessment"
+
+  purpose: |
+    Help assess the risk of unexpected charges at this restaurant using customer reviews as evidence.
+    Assign a risk label: Low Risk, High Risk, or Critical Risk.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - unexpected charges on the bill
+    - mandatory service charges or auto-gratuity
+    - corkage fees, split fees, or other surcharges
+    - bill surprises or lack of price transparency
+    - fine print charges
+
+    Reviews that only discuss food without mentioning billing carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
+normative:
+  # Terms -> auto-generates Definitions section
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "hidden_costs:COST_TYPE"
+    - ref: "hidden_costs:DISCLOSURE_LEVEL"
+    - ref: "hidden_costs:IMPACT_SEVERITY"
+    - ref: "hidden_costs:CUSTOMER_REACTION"
+
+  # Decision policy -> generates Verdict Rules section
+  decision:
+    verdicts: ["Low Risk", "High Risk", "Critical Risk"]
+    ordered: true
+
+    rules:
+      - verdict: "Critical Risk"
+        label: "CRITICAL"
+        logic: ANY
+        conditions:
+          - "At least 1 review describes bill being significantly higher than expected without warning"
+          - "Undisclosed fees greater than 15% of expected bill"
+          - "Multiple charges hidden from customers until bill arrives"
+
+      - verdict: "High Risk"
+        label: "HIGH"
+        precondition: "Critical Risk does not apply"
+        logic: ANY
+        conditions:
+          - "At least 1 review mentions unexpected service charge or auto-gratuity"
+          - "Fees mentioned only in fine print or not disclosed"
+          - "Customer describes feeling deceived about pricing"
+
+      - verdict: "Low Risk"
+        label: "LOW"
+        default: true
+        especially_when:
+          - "No mentions of hidden charges"
+          - "Fees are clearly disclosed upfront"
+          - "Transparent pricing praised"
+
+  # Output format
+  output:
+    verdict:
+      type: enum
+      values: ["Low Risk", "High Risk", "Critical Risk"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

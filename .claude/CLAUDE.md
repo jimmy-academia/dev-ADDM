@@ -5,6 +5,7 @@
 ### NEVER do these:
 - **NEVER add "Co-Authored-By: Claude" or similar co-author lines to commits**
 - Never use vague commit messages like "just another push for progress"
+- **NEVER switch LLM models without asking** - Always use `gpt-5-nano` as default. If it fails, ASK before trying another model.
 
 ### Commit message format:
 ```
@@ -51,6 +52,18 @@ src/addm/
 
 .claude/                # Claude Code configuration
 ```
+
+## Data Notes
+
+**Hits lists** (`data/hits/yelp/G1_*.json`):
+- `critical_list` and `high_list` are regex-based, not 100% accurate
+- Use as starting point for finding relevant restaurants
+- Critical reviews may not be in K=25 subset (sampling effect)
+- Always verify actual review content in the dataset
+
+**Research goal**: Find complexity that causes baseline LLM to make errors
+- Test across K=25, 50, 100, 200 to observe scaling behavior
+- Look for cases where more context leads to incorrect verdicts
 
 ## Context Pipeline
 

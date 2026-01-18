@@ -1,0 +1,151 @@
+# Terms specific to execution/order accuracy assessment
+# Referenced as "execution:TERM_ID"
+
+ORDER_ACCURACY:
+  name: Order Accuracy
+  type: enum
+  description: Whether orders were fulfilled correctly
+  values:
+    - id: perfect
+      label: Perfect
+      description: Everything correct, no issues
+      cues:
+        - "perfect"
+        - "exactly right"
+        - "as ordered"
+
+    - id: minor_error
+      label: Minor Error
+      description: Small mistake, easily fixed
+      cues:
+        - "small mistake"
+        - "forgot one thing"
+        - "minor error"
+
+    - id: significant_error
+      label: Significant Error
+      description: Major order problem
+      cues:
+        - "wrong order"
+        - "completely wrong"
+        - "not what I ordered"
+
+    - id: multiple_errors
+      label: Multiple Errors
+      description: Several mistakes on single order
+      cues:
+        - "multiple mistakes"
+        - "nothing right"
+        - "disaster"
+
+  default: perfect
+
+MODIFICATION_HANDLING:
+  name: Modification Handling
+  type: enum
+  description: How well they handled special requests
+  values:
+    - id: refused
+      label: Refused
+      description: Would not accommodate modification
+      cues:
+        - "refused"
+        - "wouldn't do it"
+        - "can't modify"
+
+    - id: ignored
+      label: Ignored
+      description: Modification request was ignored
+      cues:
+        - "ignored"
+        - "didn't do it"
+        - "still had"
+
+    - id: attempted
+      label: Attempted
+      description: Tried but got it wrong
+      cues:
+        - "tried"
+        - "still had some"
+        - "not quite"
+
+    - id: successful
+      label: Successful
+      description: Modification handled correctly
+      cues:
+        - "did it"
+        - "no problem"
+        - "accommodated"
+
+  default: successful
+
+PROMISE_KEPT:
+  name: Promise Kept
+  type: enum
+  description: Whether stated commitments were honored
+  values:
+    - id: broken
+      label: Broken
+      description: Promise was not kept
+      cues:
+        - "lied"
+        - "didn't happen"
+        - "never came"
+
+    - id: partial
+      label: Partial
+      description: Promise partially fulfilled
+      cues:
+        - "sort of"
+        - "eventually"
+        - "not quite"
+
+    - id: kept
+      label: Kept
+      description: Promise was fulfilled
+      cues:
+        - "as promised"
+        - "did it"
+        - "followed through"
+
+  default: kept
+
+ISSUE_RESOLUTION:
+  name: Issue Resolution
+  type: enum
+  description: How well problems were resolved
+  values:
+    - id: none
+      label: None
+      description: Issue not addressed
+      cues:
+        - "nothing done"
+        - "ignored"
+        - "didn't care"
+
+    - id: poor
+      label: Poor
+      description: Attempted but inadequate resolution
+      cues:
+        - "barely tried"
+        - "half-hearted"
+        - "not enough"
+
+    - id: adequate
+      label: Adequate
+      description: Acceptable resolution
+      cues:
+        - "fixed it"
+        - "took care of"
+        - "resolved"
+
+    - id: excellent
+      label: Excellent
+      description: Went above and beyond to fix
+      cues:
+        - "comped"
+        - "manager came"
+        - "made it right"
+        - "above and beyond"
+
+  default: adequate

@@ -1,0 +1,158 @@
+# Terms specific to capacity/volume handling assessment
+# Referenced as "capacity:TERM_ID"
+
+STAFFING_LEVEL:
+  name: Staffing Level
+  type: enum
+  description: Perceived staffing level relative to customer volume
+  values:
+    - id: severely_understaffed
+      label: Severely Understaffed
+      description: Far too few staff for customer volume
+      cues:
+        - "severely understaffed"
+        - "one server for entire restaurant"
+        - "overwhelmed"
+
+    - id: understaffed
+      label: Understaffed
+      description: Noticeably insufficient staff
+      cues:
+        - "understaffed"
+        - "short staffed"
+        - "not enough servers"
+
+    - id: adequate
+      label: Adequate
+      description: Sufficient staff for the volume
+      cues:
+        - "enough staff"
+        - "handled it"
+        - "no issues"
+
+    - id: well_staffed
+      label: Well Staffed
+      description: Plenty of staff, smooth operations
+      cues:
+        - "well staffed"
+        - "plenty of servers"
+        - "smooth"
+
+  default: adequate
+
+CROWD_LEVEL:
+  name: Crowd Level
+  type: enum
+  description: How crowded the restaurant was
+  values:
+    - id: empty
+      label: Empty
+      description: Very few or no other customers
+      cues:
+        - "empty"
+        - "no one else"
+        - "dead"
+
+    - id: moderate
+      label: Moderate
+      description: Normal level of customers
+      cues:
+        - "some tables"
+        - "normal"
+        - "comfortable"
+
+    - id: busy
+      label: Busy
+      description: Restaurant was busy
+      cues:
+        - "busy"
+        - "crowded"
+        - "full"
+
+    - id: packed
+      label: Packed
+      description: Extremely crowded
+      cues:
+        - "packed"
+        - "wall to wall"
+        - "couldn't move"
+        - "insane"
+
+  default: moderate
+
+SERVICE_DEGRADATION:
+  name: Service Degradation
+  type: enum
+  description: Whether busyness affected service quality
+  values:
+    - id: none
+      label: None
+      description: Service maintained despite volume
+      cues:
+        - "still great"
+        - "didn't affect"
+        - "handled well"
+
+    - id: minor
+      label: Minor
+      description: Slight degradation noticeable
+      cues:
+        - "slightly slower"
+        - "a bit rushed"
+
+    - id: significant
+      label: Significant
+      description: Clear service decline due to volume
+      cues:
+        - "overwhelmed"
+        - "couldn't keep up"
+        - "suffered"
+
+    - id: complete
+      label: Complete
+      description: Service completely collapsed under volume
+      cues:
+        - "disaster"
+        - "chaos"
+        - "fell apart"
+
+  default: none
+
+VOLUME_HANDLING:
+  name: Volume Handling
+  type: enum
+  description: How well they handled customer volume
+  values:
+    - id: collapsed
+      label: Collapsed
+      description: Could not handle the volume at all
+      cues:
+        - "collapsed"
+        - "couldn't handle"
+        - "disaster"
+
+    - id: struggled
+      label: Struggled
+      description: Visible difficulty managing volume
+      cues:
+        - "struggled"
+        - "stressed"
+        - "barely managed"
+
+    - id: managed
+      label: Managed
+      description: Acceptable handling of volume
+      cues:
+        - "managed"
+        - "got through"
+        - "okay"
+
+    - id: handled_well
+      label: Handled Well
+      description: Impressed by volume management
+      cues:
+        - "handled well"
+        - "impressive"
+        - "smooth despite"
+
+  default: managed

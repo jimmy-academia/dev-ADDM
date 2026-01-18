@@ -1,0 +1,92 @@
+# G6_comparison_V2: Comparison with Scoring
+
+policy_id: "G6_comparison_V2"
+extends: "G6_comparison_V1"
+version: "1.0"
+
+overview:
+  title: "Competitive Comparison Assessment"
+  purpose: |
+    Help assess competitive position using a point-based scoring system.
+  incident_definition: |
+    Consider reviews mentioning comparisons, preferences, and switching behavior.
+
+normative:
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "comparison:COMPARISON_OUTCOME"
+    - ref: "comparison:COMPARED_ASPECT"
+    - ref: "comparison:PREFERENCE_STATED"
+    - ref: "comparison:SWITCHING_INTENT"
+
+  scoring:
+    description: |
+      Calculate a competitive position score by summing points from relevant reviews.
+    severity_points:
+      - label: "Best in area"
+        points: 10
+      - label: "Better than competitor"
+        points: 5
+      - label: "Comparable"
+        points: 0
+      - label: "Worse than competitor"
+        points: -5
+      - label: "Much worse"
+        points: -10
+    modifiers:
+      - label: "Customer switched here"
+        description: "won customer from competitor"
+        points: 5
+      - label: "Recommended over competitor"
+        description: "explicitly preferred"
+        points: 3
+      - label: "Customer switched away"
+        description: "lost customer to competitor"
+        points: -5
+      - label: "Warned to go elsewhere"
+        description: "told to go to competitor instead"
+        points: -3
+    thresholds:
+      - verdict: "Stronger"
+        min_score: 8
+      - verdict: "Weaker"
+        max_score: -5
+
+  decision:
+    verdicts: ["Weaker", "Comparable", "Stronger"]
+    ordered: true
+    rules:
+      - verdict: "Stronger"
+        label: "STRONGER"
+        logic: ANY
+        conditions:
+          - "Total score is 8 or higher"
+      - verdict: "Weaker"
+        label: "WEAKER"
+        precondition: "Stronger does not apply"
+        logic: ANY
+        conditions:
+          - "Total score is -5 or lower"
+      - verdict: "Comparable"
+        label: "COMPARABLE"
+        default: true
+
+  output:
+    verdict:
+      type: enum
+      values: ["Weaker", "Comparable", "Stronger"]
+      required: true
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+    justification:
+      type: string
+      required: true
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+    other_notes:
+      type: string
+      optional: true

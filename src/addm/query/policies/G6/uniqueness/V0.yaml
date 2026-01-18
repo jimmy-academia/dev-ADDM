@@ -1,0 +1,73 @@
+# G6_uniqueness_V0: Base Uniqueness Assessment
+# Owner perspective on market differentiation
+
+policy_id: "G6_uniqueness_V0"
+version: "1.0"
+
+overview:
+  title: "Uniqueness Assessment"
+  purpose: |
+    Help assess how unique and differentiated this restaurant is using reviews as evidence.
+    This is from the perspective of a business owner evaluating competitive positioning.
+    Assign a label: Generic, Differentiated, or Highly Unique.
+  incident_definition: |
+    Consider reviews that mention:
+    - what makes the restaurant special or different
+    - signature dishes or unique offerings
+    - memorable experiences
+    - comparisons to other restaurants
+
+normative:
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "uniqueness:UNIQUE_ASPECT"
+    - ref: "uniqueness:DIFFERENTIATION_LEVEL"
+    - ref: "uniqueness:MEMORABILITY"
+    - ref: "uniqueness:SIGNATURE_ITEM"
+
+  decision:
+    verdicts: ["Generic", "Differentiated", "Highly Unique"]
+    ordered: true
+    rules:
+      - verdict: "Highly Unique"
+        label: "HIGHLY_UNIQUE"
+        logic: ANY
+        conditions:
+          - "Multiple reviews describe it as 'one of a kind'"
+          - "Signature items frequently praised"
+          - "Described as unforgettable or irreplaceable"
+      - verdict: "Generic"
+        label: "GENERIC"
+        precondition: "Highly Unique does not apply"
+        logic: ANY
+        conditions:
+          - "Multiple reviews describe it as 'nothing special'"
+          - "No distinguishing features mentioned"
+          - "Easily confused with competitors"
+      - verdict: "Differentiated"
+        label: "DIFFERENTIATED"
+        default: true
+        especially_when:
+          - "Has some unique elements"
+          - "Memorable but not irreplaceable"
+          - "Some signature items"
+
+  output:
+    verdict:
+      type: enum
+      values: ["Generic", "Differentiated", "Highly Unique"]
+      required: true
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+    justification:
+      type: string
+      required: true
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+    other_notes:
+      type: string
+      optional: true

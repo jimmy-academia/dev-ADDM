@@ -1,0 +1,89 @@
+# G4_environment_V1: Environment with Override Triggers
+# V1 = Override: Adds single-instance triggers
+
+policy_id: "G4_environment_V1"
+extends: "G4_environment_V0"
+version: "1.0"
+
+overview:
+  title: "Environment Quality Assessment"
+
+  purpose: |
+    Help assess the physical environment quality at this restaurant using customer reviews as evidence.
+    This is from the perspective of a business owner evaluating ambiance and comfort.
+    Assign a quality label: Needs Improvement, Satisfactory, or Excellent.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - cleanliness of the space
+    - noise level
+    - seating comfort
+    - temperature comfort (AC, heating)
+    - ambiance and decor fit with concept
+
+normative:
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "environment:CLEANLINESS"
+    - ref: "environment:NOISE_LEVEL"
+    - ref: "environment:COMFORT"
+    - ref: "environment:TEMPERATURE"
+    - ref: "environment:AMBIANCE_FIT"
+
+  decision:
+    verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
+    ordered: true
+
+    rules:
+      - verdict: "Excellent"
+        label: "EXCELLENT"
+        logic: ANY
+        conditions:
+          - "At least 1 review describes atmosphere as 'stunning' or 'perfect'"
+          - "Environment specifically mentioned as reason to return"
+          - "Immersive or transportive experience praised"
+
+      - verdict: "Needs Improvement"
+        label: "NEEDS_IMPROVEMENT"
+        precondition: "Excellent does not apply"
+        logic: ANY
+        conditions:
+          - "At least 1 review describes space as 'filthy' or 'disgusting'"
+          - "Noise level so loud customers left or couldn't converse"
+          - "Temperature issues (freezing/sweltering) significantly impacted meal"
+
+      - verdict: "Satisfactory"
+        label: "SATISFACTORY"
+        default: true
+        especially_when:
+          - "Environment is pleasant but not remarkable"
+          - "Minor issues but overall acceptable"
+          - "Gets the job done without standing out"
+
+  output:
+    verdict:
+      type: enum
+      values: ["Needs Improvement", "Satisfactory", "Excellent"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

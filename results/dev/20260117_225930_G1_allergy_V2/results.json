@@ -1,0 +1,47 @@
+{
+  "run_id": "G1_allergy_V2",
+  "task_id": null,
+  "policy_id": "G1_allergy_V2",
+  "gt_task_id": "G1a",
+  "domain": "yelp",
+  "model": "gpt-5-nano",
+  "k": 50,
+  "n": 1,
+  "timestamp": "20260117_225930",
+  "accuracy": 0.0,
+  "correct": 0,
+  "total": 0,
+  "auprc": {},
+  "results": [
+    {
+      "business_id": "Ipt9ga67vVC_2ob3YmVwNA",
+      "name": "Lincoln Square Pancake House",
+      "response": "{\n  \"verdict\": \"Low Risk\",\n  \"evidences\": [\n    {\n      \"evidence_id\": \"E1\",\n      \"review_id\": \"CXgswKlc8g7y3TWfyMOCPw\",\n      \"field\": \"AllergyAccommodationRequest\",\n      \"judgement\": \"Firsthand\",\n      \"snippet\": \"I explained that I'm allergic. Severely disappointed and threw away $12 because I can't eat this now.\"\n    }\n  ],\n  \"justification\": {\n    \"triggered_rule\": \"Presence of a firsthand allergy incident with no actual reaction, resulting in low risk\",\n    \"direct_evidence\": [\"E1\"],\n    \"reasoning\": \"The review describes a firsthand allergy concern stated by the diner, with no allergic reaction reported, only an inability to eat the meal and subsequent disappointment. This constitutes a mild, non-reaction incident, leading to a Low Risk assessment.\"\n  },\n  \"other_notes\": null\n}",
+      "parsed": {
+        "verdict": "Low Risk",
+        "evidences": [
+          {
+            "evidence_id": "E1",
+            "review_id": "CXgswKlc8g7y3TWfyMOCPw",
+            "field": "AllergyAccommodationRequest",
+            "judgement": "Firsthand",
+            "snippet": "I explained that I'm allergic. Severely disappointed and threw away $12 because I can't eat this now."
+          }
+        ],
+        "justification": {
+          "triggered_rule": "Presence of a firsthand allergy incident with no actual reaction, resulting in low risk",
+          "direct_evidence": [
+            "E1"
+          ],
+          "reasoning": "The review describes a firsthand allergy concern stated by the diner, with no allergic reaction reported, only an inability to eat the meal and subsequent disappointment. This constitutes a mild, non-reaction incident, leading to a Low Risk assessment."
+        },
+        "other_notes": null
+      },
+      "verdict": "Low Risk",
+      "risk_score": null,
+      "prompt_chars": 49176,
+      "gt_verdict": null,
+      "correct": false
+    }
+  ]
+}

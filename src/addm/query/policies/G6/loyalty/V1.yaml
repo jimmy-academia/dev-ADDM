@@ -1,0 +1,64 @@
+# G6_loyalty_V1: Loyalty with Override Triggers
+
+policy_id: "G6_loyalty_V1"
+extends: "G6_loyalty_V0"
+version: "1.0"
+
+overview:
+  title: "Customer Loyalty Assessment"
+  purpose: |
+    Help assess customer loyalty using reviews as evidence.
+  incident_definition: |
+    Consider reviews mentioning return visits, recommendations, and emotional connection.
+
+normative:
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "loyalty:RETURN_INTENT"
+    - ref: "loyalty:RECOMMEND_INTENT"
+    - ref: "loyalty:EMOTIONAL_CONNECTION"
+    - ref: "loyalty:LOYALTY_DRIVER"
+
+  decision:
+    verdicts: ["Low Loyalty", "Moderate Loyalty", "High Loyalty"]
+    ordered: true
+    rules:
+      - verdict: "High Loyalty"
+        label: "HIGH_LOYALTY"
+        logic: ANY
+        conditions:
+          - "At least 1 review mentions being a 'regular' or '10+ visits'"
+          - "Customer returned after bad experience"
+          - "Described as 'favorite restaurant' or equivalent"
+          - "Recommendation with strong enthusiasm ('must go', 'best in city')"
+      - verdict: "Low Loyalty"
+        label: "LOW_LOYALTY"
+        precondition: "High Loyalty does not apply"
+        logic: ANY
+        conditions:
+          - "At least 1 review explicitly says 'never coming back'"
+          - "Customer warns others not to visit"
+          - "Explicitly switched to competitor"
+      - verdict: "Moderate Loyalty"
+        label: "MODERATE_LOYALTY"
+        default: true
+
+  output:
+    verdict:
+      type: enum
+      values: ["Low Loyalty", "Moderate Loyalty", "High Loyalty"]
+      required: true
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+    justification:
+      type: string
+      required: true
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+    other_notes:
+      type: string
+      optional: true

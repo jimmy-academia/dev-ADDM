@@ -1,0 +1,63 @@
+# G6_uniqueness_V1: Uniqueness with Override Triggers
+
+policy_id: "G6_uniqueness_V1"
+extends: "G6_uniqueness_V0"
+version: "1.0"
+
+overview:
+  title: "Uniqueness Assessment"
+  purpose: |
+    Help assess how unique this restaurant is using reviews as evidence.
+  incident_definition: |
+    Consider reviews mentioning uniqueness, signature items, and memorable experiences.
+
+normative:
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "uniqueness:UNIQUE_ASPECT"
+    - ref: "uniqueness:DIFFERENTIATION_LEVEL"
+    - ref: "uniqueness:MEMORABILITY"
+    - ref: "uniqueness:SIGNATURE_ITEM"
+
+  decision:
+    verdicts: ["Generic", "Differentiated", "Highly Unique"]
+    ordered: true
+    rules:
+      - verdict: "Highly Unique"
+        label: "HIGHLY_UNIQUE"
+        logic: ANY
+        conditions:
+          - "At least 1 review describes it as 'only place in the city'"
+          - "Described as destination restaurant worth traveling for"
+          - "'Hidden gem' that reviewers don't want to share"
+      - verdict: "Generic"
+        label: "GENERIC"
+        precondition: "Highly Unique does not apply"
+        logic: ANY
+        conditions:
+          - "At least 1 review says 'could be any restaurant'"
+          - "Described as chain-restaurant quality"
+          - "No distinctive features mentioned across reviews"
+      - verdict: "Differentiated"
+        label: "DIFFERENTIATED"
+        default: true
+
+  output:
+    verdict:
+      type: enum
+      values: ["Generic", "Differentiated", "Highly Unique"]
+      required: true
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+    justification:
+      type: string
+      required: true
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+    other_notes:
+      type: string
+      optional: true
