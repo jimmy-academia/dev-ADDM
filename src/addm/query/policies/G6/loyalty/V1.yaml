@@ -1,17 +1,31 @@
 # G6_loyalty_V1: Loyalty with Override Triggers
+# V1 = Override: Adds single-instance triggers for strong loyalty signals
 
 policy_id: "G6_loyalty_V1"
 extends: "G6_loyalty_V0"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Customer Loyalty Assessment"
-  purpose: |
-    Help assess customer loyalty using reviews as evidence.
-  incident_definition: |
-    Consider reviews mentioning return visits, recommendations, and emotional connection.
 
+  purpose: |
+    Help assess customer loyalty and retention indicators using reviews as evidence.
+    This is from the perspective of a business owner evaluating customer loyalty.
+    Assign a label: Low Loyalty, Moderate Loyalty, or High Loyalty.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - return visits or intention to return
+    - recommendations to others
+    - emotional attachment or connection
+    - loyalty despite issues
+
+    Reviews from first-time visitors that don't mention return intent carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "loyalty:RETURN_INTENT"
@@ -19,9 +33,12 @@ normative:
     - ref: "loyalty:EMOTIONAL_CONNECTION"
     - ref: "loyalty:LOYALTY_DRIVER"
 
+  # Decision policy -> generates Verdict Rules section
+  # V1 adds single-instance OVERRIDES
   decision:
     verdicts: ["Low Loyalty", "Moderate Loyalty", "High Loyalty"]
     ordered: true
+
     rules:
       - verdict: "High Loyalty"
         label: "HIGH_LOYALTY"
@@ -31,6 +48,7 @@ normative:
           - "Customer returned after bad experience"
           - "Described as 'favorite restaurant' or equivalent"
           - "Recommendation with strong enthusiasm ('must go', 'best in city')"
+
       - verdict: "Low Loyalty"
         label: "LOW_LOYALTY"
         precondition: "High Loyalty does not apply"
@@ -39,26 +57,40 @@ normative:
           - "At least 1 review explicitly says 'never coming back'"
           - "Customer warns others not to visit"
           - "Explicitly switched to competitor"
+
       - verdict: "Moderate Loyalty"
         label: "MODERATE_LOYALTY"
         default: true
+        especially_when:
+          - "Will return but not enthusiastic"
+          - "Recommendations with caveats"
+          - "No strong emotional connection"
 
+  # Output format
   output:
     verdict:
       type: enum
       values: ["Low Loyalty", "Moderate Loyalty", "High Loyalty"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
       values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
+      description: "Any other relevant observations or caveats"

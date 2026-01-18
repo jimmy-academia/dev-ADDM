@@ -10,6 +10,7 @@ requires-python = ">=3.10"
 dependencies = [
     "numpy>=2.2.6",
     "orjson>=3.11.5",
+    "recursive-llm @ git+https://github.com/ysz/recursive-llm.git",
     "rich>=14.2.0",
     "scikit-learn>=1.7.2",
 ]

@@ -1,17 +1,33 @@
-# G6_comparison_V3: Comparison with Recency
+# G6_comparison_V3: Comparison with Recency & Context
+# V3 = Recency: Adds recency modifiers for competitive landscape changes
 
 policy_id: "G6_comparison_V3"
 extends: "G6_comparison_V2"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Competitive Comparison Assessment"
-  purpose: |
-    Help assess competitive position with recency weighting.
-  incident_definition: |
-    Consider reviews mentioning comparisons, preferences, and switching behavior.
 
+  purpose: |
+    Help assess how this restaurant compares to competitors using reviews as evidence.
+    This is from the perspective of a business owner evaluating competitive position.
+    Assign a label: Weaker, Comparable, or Stronger.
+
+    This assessment uses a point-based scoring system with recency weighting.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - comparisons to other restaurants
+    - preferences between this and competitors
+    - switching behavior (to or from)
+    - relative strengths and weaknesses
+
+    Reviews that don't mention competitors or comparisons carry less weight.
+
+# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "comparison:COMPARISON_OUTCOME"
@@ -19,10 +35,13 @@ normative:
     - ref: "comparison:PREFERENCE_STATED"
     - ref: "comparison:SWITCHING_INTENT"
 
+  # Scoring system -> generates Scoring System section
   scoring:
     description: |
-      Calculate a competitive position score with recency weighting.
-      Competition can change as restaurants improve or decline.
+      Calculate a competitive position score by summing points from relevant reviews,
+      with recency weighting. Competition can change as restaurants improve or decline,
+      so recent reviews are weighted more heavily.
+
     severity_points:
       - label: "Best in area"
         points: 10
@@ -34,6 +53,7 @@ normative:
         points: -5
       - label: "Much worse"
         points: -10
+
     modifiers:
       - label: "Customer switched here"
         description: "won customer from competitor"
@@ -47,56 +67,74 @@ normative:
       - label: "Warned to go elsewhere"
         description: "told to go to competitor instead"
         points: -3
+
     recency_rules:
       - age: "Within 6 months"
         weight: "full point value"
       - age: "6 months to 1 year"
-        weight: "three-quarter point value"
+        weight: "three-quarter point value (multiply by 0.75)"
       - age: "1-2 years old"
-        weight: "half point value"
+        weight: "half point value (multiply by 0.5)"
       - age: "Over 2 years old"
-        weight: "quarter point value"
+        weight: "quarter point value (multiply by 0.25) - competitive landscape may have changed"
+
     thresholds:
       - verdict: "Stronger"
         min_score: 8
       - verdict: "Weaker"
         max_score: -5
 
+  # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Weaker", "Comparable", "Stronger"]
     ordered: true
+
     rules:
       - verdict: "Stronger"
         label: "STRONGER"
         logic: ANY
         conditions:
           - "Total score is 8 or higher (after recency weighting)"
+
       - verdict: "Weaker"
         label: "WEAKER"
         precondition: "Stronger does not apply"
         logic: ANY
         conditions:
           - "Total score is -5 or lower (after recency weighting)"
+
       - verdict: "Comparable"
         label: "COMPARABLE"
         default: true
+        especially_when:
+          - "Total score is between -4 and 7"
+          - "Recent reviews show stable competitive position"
 
+  # Output format
   output:
     verdict:
       type: enum
       values: ["Weaker", "Comparable", "Stronger"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
+      description: "Explain how the evidence and recency weighting were used to arrive at the final verdict"
+
     confidence:
       type: enum
       values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
+      description: "Any other relevant observations or caveats"

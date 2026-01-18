@@ -1,23 +1,31 @@
 # G6_loyalty_V0: Base Customer Loyalty Assessment
-# Owner perspective on customer retention and loyalty
+# V0 = Base: Simple per-instance reasoning, basic thresholds
+# Owner perspective: Evaluating customer retention and loyalty
 
 policy_id: "G6_loyalty_V0"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Customer Loyalty Assessment"
+
   purpose: |
     Help assess customer loyalty and retention indicators using reviews as evidence.
     This is from the perspective of a business owner evaluating customer loyalty.
     Assign a label: Low Loyalty, Moderate Loyalty, or High Loyalty.
+
   incident_definition: |
-    Consider reviews that mention:
+    Consider reviews that mention any of the following:
     - return visits or intention to return
     - recommendations to others
     - emotional attachment or connection
     - loyalty despite issues
 
+    Reviews from first-time visitors that don't mention return intent carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "loyalty:RETURN_INTENT"
@@ -25,9 +33,11 @@ normative:
     - ref: "loyalty:EMOTIONAL_CONNECTION"
     - ref: "loyalty:LOYALTY_DRIVER"
 
+  # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Low Loyalty", "Moderate Loyalty", "High Loyalty"]
-    ordered: true
+    ordered: true  # Higher = stronger loyalty
+
     rules:
       - verdict: "High Loyalty"
         label: "HIGH_LOYALTY"
@@ -37,6 +47,7 @@ normative:
           - "Strong emotional connection expressed"
           - "Customers recommend enthusiastically"
           - "Customers return despite issues"
+
       - verdict: "Low Loyalty"
         label: "LOW_LOYALTY"
         precondition: "High Loyalty does not apply"
@@ -45,6 +56,7 @@ normative:
           - "Multiple reviews say 'won't return'"
           - "No repeat customer mentions"
           - "Actively discourage others from visiting"
+
       - verdict: "Moderate Loyalty"
         label: "MODERATE_LOYALTY"
         default: true
@@ -53,22 +65,31 @@ normative:
           - "Conditional recommendations"
           - "Some repeat customers mentioned"
 
+  # Output format
   output:
     verdict:
       type: enum
       values: ["Low Loyalty", "Moderate Loyalty", "High Loyalty"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
       values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
+      description: "Any other relevant observations or caveats"

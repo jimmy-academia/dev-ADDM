@@ -1,17 +1,33 @@
-# G6_comparison_V2: Comparison with Scoring
+# G6_comparison_V2: Comparison with Point-Based Scoring
+# V2 = Scoring: Adds point system with numeric thresholds
 
 policy_id: "G6_comparison_V2"
 extends: "G6_comparison_V1"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Competitive Comparison Assessment"
-  purpose: |
-    Help assess competitive position using a point-based scoring system.
-  incident_definition: |
-    Consider reviews mentioning comparisons, preferences, and switching behavior.
 
+  purpose: |
+    Help assess how this restaurant compares to competitors using reviews as evidence.
+    This is from the perspective of a business owner evaluating competitive position.
+    Assign a label: Weaker, Comparable, or Stronger.
+
+    This assessment uses a point-based scoring system to quantify competitive position.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - comparisons to other restaurants
+    - preferences between this and competitors
+    - switching behavior (to or from)
+    - relative strengths and weaknesses
+
+    Reviews that don't mention competitors or comparisons carry less weight.
+
+# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "comparison:COMPARISON_OUTCOME"
@@ -19,9 +35,12 @@ normative:
     - ref: "comparison:PREFERENCE_STATED"
     - ref: "comparison:SWITCHING_INTENT"
 
+  # Scoring system -> generates Scoring System section
   scoring:
     description: |
       Calculate a competitive position score by summing points from relevant reviews.
+      Positive points indicate stronger position, negative points indicate weaker.
+
     severity_points:
       - label: "Best in area"
         points: 10
@@ -33,6 +52,7 @@ normative:
         points: -5
       - label: "Much worse"
         points: -10
+
     modifiers:
       - label: "Customer switched here"
         description: "won customer from competitor"
@@ -46,47 +66,64 @@ normative:
       - label: "Warned to go elsewhere"
         description: "told to go to competitor instead"
         points: -3
+
     thresholds:
       - verdict: "Stronger"
         min_score: 8
       - verdict: "Weaker"
         max_score: -5
 
+  # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Weaker", "Comparable", "Stronger"]
     ordered: true
+
     rules:
       - verdict: "Stronger"
         label: "STRONGER"
         logic: ANY
         conditions:
           - "Total score is 8 or higher"
+
       - verdict: "Weaker"
         label: "WEAKER"
         precondition: "Stronger does not apply"
         logic: ANY
         conditions:
           - "Total score is -5 or lower"
+
       - verdict: "Comparable"
         label: "COMPARABLE"
         default: true
+        especially_when:
+          - "Total score is between -4 and 7"
+          - "Mixed competitive signals"
 
+  # Output format
   output:
     verdict:
       type: enum
       values: ["Weaker", "Comparable", "Stronger"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
       values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
+      description: "Any other relevant observations or caveats"

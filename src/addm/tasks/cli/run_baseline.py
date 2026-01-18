@@ -28,6 +28,7 @@ from typing import Any, Dict, List, Optional
 import numpy as np
 
 from addm.llm import LLMService
+from addm.methods.rlm import eval_restaurant_rlm
 from addm.tasks.base import load_task
 from addm.utils.async_utils import gather_with_concurrency
 from addm.eval import compute_ordinal_auprc, VERDICT_TO_ORDINAL
@@ -302,6 +303,7 @@ async def run_baseline(
     model: str = "gpt-5-nano",
     verbose: bool = True,
     dev: bool = False,
+    method: str = "direct",
 ) -> Dict[str, Any]:
     """Run baseline evaluation.
 
@@ -315,6 +317,7 @@ async def run_baseline(
         model: LLM model to use
         verbose: Print detailed output
         dev: If True, save to results/dev/ instead of results/baseline/
+        method: Method to use - "direct" (default) or "rlm" (recursive LLM)
 
     Either task_id or policy_id must be provided.
     """
@@ -344,11 +347,13 @@ async def run_baseline(
     else:
         restaurants = restaurants[skip:]
 
+    method_name = "RLM (Recursive LLM)" if method == "rlm" else "Direct LLM"
     print(f"\n{'='*70}")
-    print(f"Direct LLM Baseline: {run_id}")
+    print(f"{method_name} Baseline: {run_id}")
     if policy_id and gt_task_id:
         print(f"Ground truth from: {gt_task_id}")
     print(f"{'='*70}")
+    print(f"Method: {method}")
     print(f"Restaurants: {len(restaurants)}")
     print(f"Model: {model}")
     print(f"K: {k}")
@@ -359,8 +364,18 @@ async def run_baseline(
     llm.configure(model=model, temperature=0.0)
 
     # Run evaluations (with concurrency limit)
-    tasks = [eval_restaurant(r, agenda, llm, system_prompt) for r in restaurants]
-    results = await gather_with_concurrency(32, tasks)
+    if method == "rlm":
+        # RLM method - uses recursive exploration
+        tasks = [
+            eval_restaurant_rlm(r, agenda, system_prompt, model=model)
+            for r in restaurants
+        ]
+        # RLM has lower concurrency due to multiple internal LLM calls
+        results = await gather_with_concurrency(4, tasks)
+    else:
+        # Direct method - single LLM call with full context
+        tasks = [eval_restaurant(r, agenda, llm, system_prompt) for r in restaurants]
+        results = await gather_with_concurrency(32, tasks)
 
     # Load ground truth for scoring
     gt_verdicts = {}
@@ -453,6 +468,7 @@ async def run_baseline(
         "policy_id": policy_id,
         "gt_task_id": gt_task_id,
         "domain": domain,
+        "method": method,
         "model": model,
         "k": k,
         "n": len(results),
@@ -490,6 +506,13 @@ def main() -> None:
     parser.add_argument("--model", type=str, default="gpt-5-nano", help="Model")
     parser.add_argument("--quiet", action="store_true", help="Less verbose output")
     parser.add_argument("--dev", action="store_true", help="Dev mode: save to results/dev/{timestamp}_{id}/")
+    parser.add_argument(
+        "--method",
+        type=str,
+        default="direct",
+        choices=["direct", "rlm"],
+        help="Method: direct (default) or rlm (recursive LLM)",
+    )
 
     args = parser.parse_args()
 
@@ -504,6 +527,7 @@ def main() -> None:
             model=args.model,
             verbose=not args.quiet,
             dev=args.dev,
+            method=args.method,
         )
     )
 

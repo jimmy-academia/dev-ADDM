@@ -1,17 +1,33 @@
-# G6_loyalty_V2: Loyalty with Scoring
+# G6_loyalty_V2: Loyalty with Point-Based Scoring
+# V2 = Scoring: Adds point system with numeric thresholds
 
 policy_id: "G6_loyalty_V2"
 extends: "G6_loyalty_V1"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Customer Loyalty Assessment"
-  purpose: |
-    Help assess customer loyalty using a point-based scoring system.
-  incident_definition: |
-    Consider reviews mentioning return visits, recommendations, and emotional connection.
 
+  purpose: |
+    Help assess customer loyalty and retention indicators using reviews as evidence.
+    This is from the perspective of a business owner evaluating customer loyalty.
+    Assign a label: Low Loyalty, Moderate Loyalty, or High Loyalty.
+
+    This assessment uses a point-based scoring system to quantify loyalty.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - return visits or intention to return
+    - recommendations to others
+    - emotional attachment or connection
+    - loyalty despite issues
+
+    Reviews from first-time visitors that don't mention return intent carry less weight.
+
+# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "loyalty:RETURN_INTENT"
@@ -19,9 +35,12 @@ normative:
     - ref: "loyalty:EMOTIONAL_CONNECTION"
     - ref: "loyalty:LOYALTY_DRIVER"
 
+  # Scoring system -> generates Scoring System section
   scoring:
     description: |
       Calculate a loyalty score by summing points from relevant reviews.
+      Positive points indicate strong loyalty, negative points indicate weak loyalty.
+
     severity_points:
       - label: "Regular customer"
         points: 10
@@ -33,6 +52,7 @@ normative:
         points: -5
       - label: "Never returning"
         points: -10
+
     modifiers:
       - label: "Strong recommendation"
         description: "actively tells others to go"
@@ -46,47 +66,64 @@ normative:
       - label: "Switched to competitor"
         description: "explicitly left for alternative"
         points: -8
+
     thresholds:
       - verdict: "High Loyalty"
         min_score: 10
       - verdict: "Low Loyalty"
         max_score: -5
 
+  # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Low Loyalty", "Moderate Loyalty", "High Loyalty"]
     ordered: true
+
     rules:
       - verdict: "High Loyalty"
         label: "HIGH_LOYALTY"
         logic: ANY
         conditions:
           - "Total score is 10 or higher"
+
       - verdict: "Low Loyalty"
         label: "LOW_LOYALTY"
         precondition: "High Loyalty does not apply"
         logic: ANY
         conditions:
           - "Total score is -5 or lower"
+
       - verdict: "Moderate Loyalty"
         label: "MODERATE_LOYALTY"
         default: true
+        especially_when:
+          - "Total score is between -4 and 9"
+          - "Mixed loyalty signals"
 
+  # Output format
   output:
     verdict:
       type: enum
       values: ["Low Loyalty", "Moderate Loyalty", "High Loyalty"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
       values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
+      description: "Any other relevant observations or caveats"
