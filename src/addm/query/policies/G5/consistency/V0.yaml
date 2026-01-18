@@ -1,23 +1,31 @@
 # G5_consistency_V0: Base Consistency Assessment
-# Owner perspective on quality consistency over time
+# V0 = Base: Simple per-instance reasoning, basic thresholds
+# Owner perspective: Evaluating quality reliability over time
 
 policy_id: "G5_consistency_V0"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Consistency Assessment"
+
   purpose: |
     Help assess the quality consistency at this restaurant using reviews as evidence.
     This is from the perspective of a business owner diagnosing reliability.
     Assign a label: Needs Improvement, Satisfactory, or Excellent.
+
   incident_definition: |
-    Consider reviews that mention:
+    Consider reviews that mention any of the following:
     - quality changes over time
     - comparison to previous visits
     - reliability and predictability
     - repeat customer observations
 
+    Reviews from first-time visitors that don't mention consistency carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "consistency:QUALITY_TREND"
@@ -25,9 +33,11 @@ normative:
     - ref: "consistency:RELIABILITY"
     - ref: "consistency:VISIT_FREQUENCY"
 
+  # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
-    ordered: true
+    ordered: true  # Higher = better performance
+
     rules:
       - verdict: "Excellent"
         label: "EXCELLENT"
@@ -36,6 +46,7 @@ normative:
           - "Multiple regular customers praise consistency"
           - "Described as 'always reliable' or 'never disappoints'"
           - "Quality stable or improving over time"
+
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
@@ -44,6 +55,7 @@ normative:
           - "Multiple reviews describe declining quality"
           - "Described as 'hit or miss' or unpredictable"
           - "Regular customers noting worsening experience"
+
       - verdict: "Satisfactory"
         label: "SATISFACTORY"
         default: true
@@ -52,22 +64,31 @@ normative:
           - "Most visits are good"
           - "Mixed reviews on reliability"
 
+  # Output format
   output:
     verdict:
       type: enum
       values: ["Needs Improvement", "Satisfactory", "Excellent"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
       values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
+      description: "Any other relevant observations or caveats"

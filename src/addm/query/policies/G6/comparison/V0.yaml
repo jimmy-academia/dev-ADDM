@@ -1,23 +1,31 @@
 # G6_comparison_V0: Base Competitive Comparison Assessment
-# Owner perspective on competitive position
+# V0 = Base: Simple per-instance reasoning, basic thresholds
+# Owner perspective: Evaluating competitive position
 
 policy_id: "G6_comparison_V0"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Competitive Comparison Assessment"
+
   purpose: |
     Help assess how this restaurant compares to competitors using reviews as evidence.
     This is from the perspective of a business owner evaluating competitive position.
     Assign a label: Weaker, Comparable, or Stronger.
+
   incident_definition: |
-    Consider reviews that mention:
+    Consider reviews that mention any of the following:
     - comparisons to other restaurants
     - preferences between this and competitors
     - switching behavior (to or from)
     - relative strengths and weaknesses
 
+    Reviews that don't mention competitors or comparisons carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "comparison:COMPARISON_OUTCOME"
@@ -25,9 +33,11 @@ normative:
     - ref: "comparison:PREFERENCE_STATED"
     - ref: "comparison:SWITCHING_INTENT"
 
+  # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Weaker", "Comparable", "Stronger"]
-    ordered: true
+    ordered: true  # Higher = better competitive position
+
     rules:
       - verdict: "Stronger"
         label: "STRONGER"
@@ -36,6 +46,7 @@ normative:
           - "Multiple reviews favorably compare to competitors"
           - "Customers switching from competitors to here"
           - "Consistently described as better than alternatives"
+
       - verdict: "Weaker"
         label: "WEAKER"
         precondition: "Stronger does not apply"
@@ -44,6 +55,7 @@ normative:
           - "Multiple reviews prefer competitors"
           - "Customers switching to competitors"
           - "Consistently described as inferior to alternatives"
+
       - verdict: "Comparable"
         label: "COMPARABLE"
         default: true
@@ -52,22 +64,31 @@ normative:
           - "Similar to competitors"
           - "Different strengths and weaknesses"
 
+  # Output format
   output:
     verdict:
       type: enum
       values: ["Weaker", "Comparable", "Stronger"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
       values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
+      description: "Any other relevant observations or caveats"

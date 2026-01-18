@@ -1,17 +1,33 @@
-# G5_consistency_V2: Consistency with Scoring
+# G5_consistency_V2: Consistency with Point-Based Scoring
+# V2 = Scoring: Adds point system with numeric thresholds
 
 policy_id: "G5_consistency_V2"
 extends: "G5_consistency_V1"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Consistency Assessment"
-  purpose: |
-    Help assess quality consistency using a point-based scoring system.
-  incident_definition: |
-    Consider reviews mentioning quality trends, visit comparisons, and reliability.
 
+  purpose: |
+    Help assess the quality consistency at this restaurant using reviews as evidence.
+    This is from the perspective of a business owner diagnosing reliability.
+    Assign a label: Needs Improvement, Satisfactory, or Excellent.
+
+    This assessment uses a point-based scoring system to quantify performance.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - quality changes over time
+    - comparison to previous visits
+    - reliability and predictability
+    - repeat customer observations
+
+    Reviews from first-time visitors that don't mention consistency carry less weight.
+
+# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "consistency:QUALITY_TREND"
@@ -19,9 +35,12 @@ normative:
     - ref: "consistency:RELIABILITY"
     - ref: "consistency:VISIT_FREQUENCY"
 
+  # Scoring system -> generates Scoring System section
   scoring:
     description: |
       Calculate a consistency score by summing points from relevant reviews.
+      Positive points indicate good reliability, negative points indicate inconsistency.
+
     severity_points:
       - label: "Always excellent"
         points: 10
@@ -35,6 +54,7 @@ normative:
         points: -5
       - label: "Completely unpredictable"
         points: -10
+
     modifiers:
       - label: "Improving trend"
         description: "quality getting better"
@@ -48,47 +68,64 @@ normative:
       - label: "Management change decline"
         description: "quality dropped after ownership/management change"
         points: -3
+
     thresholds:
       - verdict: "Excellent"
         min_score: 8
       - verdict: "Needs Improvement"
         max_score: -5
 
+  # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
     ordered: true
+
     rules:
       - verdict: "Excellent"
         label: "EXCELLENT"
         logic: ANY
         conditions:
           - "Total score is 8 or higher"
+
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
           - "Total score is -5 or lower"
+
       - verdict: "Satisfactory"
         label: "SATISFACTORY"
         default: true
+        especially_when:
+          - "Total score is between -4 and 7"
+          - "Mixed positive and negative indicators"
 
+  # Output format
   output:
     verdict:
       type: enum
       values: ["Needs Improvement", "Satisfactory", "Excellent"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
       values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
+      description: "Any other relevant observations or caveats"

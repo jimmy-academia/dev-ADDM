@@ -1,17 +1,33 @@
-# G6_uniqueness_V3: Uniqueness with Recency
+# G6_uniqueness_V3: Uniqueness with Recency & Context
+# V3 = Recency: Adds recency modifiers (uniqueness relatively stable)
 
 policy_id: "G6_uniqueness_V3"
 extends: "G6_uniqueness_V2"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Uniqueness Assessment"
-  purpose: |
-    Help assess uniqueness with recency weighting.
-  incident_definition: |
-    Consider reviews mentioning uniqueness, signature items, and memorable experiences.
 
+  purpose: |
+    Help assess how unique and differentiated this restaurant is using reviews as evidence.
+    This is from the perspective of a business owner evaluating competitive positioning.
+    Assign a label: Generic, Differentiated, or Highly Unique.
+
+    This assessment uses a point-based scoring system with recency weighting.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - what makes the restaurant special or different
+    - signature dishes or unique offerings
+    - memorable experiences
+    - comparisons to other restaurants
+
+    Reviews that don't mention distinctiveness or memorability carry less weight.
+
+# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "uniqueness:UNIQUE_ASPECT"
@@ -19,9 +35,13 @@ normative:
     - ref: "uniqueness:MEMORABILITY"
     - ref: "uniqueness:SIGNATURE_ITEM"
 
+  # Scoring system -> generates Scoring System section
   scoring:
     description: |
-      Calculate a uniqueness score with recency weighting.
+      Calculate a uniqueness score by summing points from relevant reviews,
+      with recency weighting. Uniqueness is relatively stable over time,
+      so older reviews still carry meaningful weight.
+
     severity_points:
       - label: "One of a kind"
         points: 10
@@ -33,6 +53,7 @@ normative:
         points: -2
       - label: "Generic/forgettable"
         points: -5
+
     modifiers:
       - label: "Signature dish praised"
         description: "famous must-try item"
@@ -46,54 +67,72 @@ normative:
       - label: "Like a chain"
         description: "described as generic"
         points: -5
+
     recency_rules:
       - age: "Within 1 year"
         weight: "full point value"
       - age: "1-2 years old"
-        weight: "three-quarter point value"
+        weight: "three-quarter point value (multiply by 0.75)"
       - age: "Over 2 years old"
-        weight: "half point value - uniqueness is relatively stable"
+        weight: "half point value (multiply by 0.5) - uniqueness is relatively stable"
+
     thresholds:
       - verdict: "Highly Unique"
         min_score: 10
       - verdict: "Generic"
         max_score: -3
 
+  # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Generic", "Differentiated", "Highly Unique"]
     ordered: true
+
     rules:
       - verdict: "Highly Unique"
         label: "HIGHLY_UNIQUE"
         logic: ANY
         conditions:
           - "Total score is 10 or higher (after recency weighting)"
+
       - verdict: "Generic"
         label: "GENERIC"
         precondition: "Highly Unique does not apply"
         logic: ANY
         conditions:
           - "Total score is -3 or lower (after recency weighting)"
+
       - verdict: "Differentiated"
         label: "DIFFERENTIATED"
         default: true
+        especially_when:
+          - "Total score is between -2 and 9"
+          - "Consistent uniqueness signals over time"
 
+  # Output format
   output:
     verdict:
       type: enum
       values: ["Generic", "Differentiated", "Highly Unique"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
+      description: "Explain how the evidence and recency weighting were used to arrive at the final verdict"
+
     confidence:
       type: enum
       values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
+      description: "Any other relevant observations or caveats"

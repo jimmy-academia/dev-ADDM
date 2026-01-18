@@ -1,17 +1,31 @@
 # G6_comparison_V1: Comparison with Override Triggers
+# V1 = Override: Adds single-instance triggers for strong competitive signals
 
 policy_id: "G6_comparison_V1"
 extends: "G6_comparison_V0"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Competitive Comparison Assessment"
-  purpose: |
-    Help assess competitive position using reviews as evidence.
-  incident_definition: |
-    Consider reviews mentioning comparisons, preferences, and switching behavior.
 
+  purpose: |
+    Help assess how this restaurant compares to competitors using reviews as evidence.
+    This is from the perspective of a business owner evaluating competitive position.
+    Assign a label: Weaker, Comparable, or Stronger.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - comparisons to other restaurants
+    - preferences between this and competitors
+    - switching behavior (to or from)
+    - relative strengths and weaknesses
+
+    Reviews that don't mention competitors or comparisons carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "comparison:COMPARISON_OUTCOME"
@@ -19,9 +33,12 @@ normative:
     - ref: "comparison:PREFERENCE_STATED"
     - ref: "comparison:SWITCHING_INTENT"
 
+  # Decision policy -> generates Verdict Rules section
+  # V1 adds single-instance OVERRIDES
   decision:
     verdicts: ["Weaker", "Comparable", "Stronger"]
     ordered: true
+
     rules:
       - verdict: "Stronger"
         label: "STRONGER"
@@ -30,6 +47,7 @@ normative:
           - "At least 1 review calls it 'best in the area'"
           - "Described as replacement for closed favorite"
           - "Named competitor described as inferior"
+
       - verdict: "Weaker"
         label: "WEAKER"
         precondition: "Stronger does not apply"
@@ -38,26 +56,40 @@ normative:
           - "At least 1 review says 'go to X instead'"
           - "Explicitly inferior to named competitor"
           - "Customers leaving for competitor"
+
       - verdict: "Comparable"
         label: "COMPARABLE"
         default: true
+        especially_when:
+          - "Similar quality to nearby competitors"
+          - "Trade-offs between restaurants"
+          - "No clear winner in comparisons"
 
+  # Output format
   output:
     verdict:
       type: enum
       values: ["Weaker", "Comparable", "Stronger"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
       values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
+      description: "Any other relevant observations or caveats"

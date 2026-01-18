@@ -1,23 +1,31 @@
 # G6_uniqueness_V0: Base Uniqueness Assessment
-# Owner perspective on market differentiation
+# V0 = Base: Simple per-instance reasoning, basic thresholds
+# Owner perspective: Evaluating market differentiation
 
 policy_id: "G6_uniqueness_V0"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Uniqueness Assessment"
+
   purpose: |
     Help assess how unique and differentiated this restaurant is using reviews as evidence.
     This is from the perspective of a business owner evaluating competitive positioning.
     Assign a label: Generic, Differentiated, or Highly Unique.
+
   incident_definition: |
-    Consider reviews that mention:
+    Consider reviews that mention any of the following:
     - what makes the restaurant special or different
     - signature dishes or unique offerings
     - memorable experiences
     - comparisons to other restaurants
 
+    Reviews that don't mention distinctiveness or memorability carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "uniqueness:UNIQUE_ASPECT"
@@ -25,9 +33,11 @@ normative:
     - ref: "uniqueness:MEMORABILITY"
     - ref: "uniqueness:SIGNATURE_ITEM"
 
+  # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Generic", "Differentiated", "Highly Unique"]
-    ordered: true
+    ordered: true  # Higher = more unique
+
     rules:
       - verdict: "Highly Unique"
         label: "HIGHLY_UNIQUE"
@@ -36,6 +46,7 @@ normative:
           - "Multiple reviews describe it as 'one of a kind'"
           - "Signature items frequently praised"
           - "Described as unforgettable or irreplaceable"
+
       - verdict: "Generic"
         label: "GENERIC"
         precondition: "Highly Unique does not apply"
@@ -44,6 +55,7 @@ normative:
           - "Multiple reviews describe it as 'nothing special'"
           - "No distinguishing features mentioned"
           - "Easily confused with competitors"
+
       - verdict: "Differentiated"
         label: "DIFFERENTIATED"
         default: true
@@ -52,22 +64,31 @@ normative:
           - "Memorable but not irreplaceable"
           - "Some signature items"
 
+  # Output format
   output:
     verdict:
       type: enum
       values: ["Generic", "Differentiated", "Highly Unique"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
       values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
+      description: "Any other relevant observations or caveats"

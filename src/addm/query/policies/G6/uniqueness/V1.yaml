@@ -1,17 +1,31 @@
 # G6_uniqueness_V1: Uniqueness with Override Triggers
+# V1 = Override: Adds single-instance triggers for exceptional/poor uniqueness
 
 policy_id: "G6_uniqueness_V1"
 extends: "G6_uniqueness_V0"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Uniqueness Assessment"
-  purpose: |
-    Help assess how unique this restaurant is using reviews as evidence.
-  incident_definition: |
-    Consider reviews mentioning uniqueness, signature items, and memorable experiences.
 
+  purpose: |
+    Help assess how unique and differentiated this restaurant is using reviews as evidence.
+    This is from the perspective of a business owner evaluating competitive positioning.
+    Assign a label: Generic, Differentiated, or Highly Unique.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - what makes the restaurant special or different
+    - signature dishes or unique offerings
+    - memorable experiences
+    - comparisons to other restaurants
+
+    Reviews that don't mention distinctiveness or memorability carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "uniqueness:UNIQUE_ASPECT"
@@ -19,9 +33,12 @@ normative:
     - ref: "uniqueness:MEMORABILITY"
     - ref: "uniqueness:SIGNATURE_ITEM"
 
+  # Decision policy -> generates Verdict Rules section
+  # V1 adds single-instance OVERRIDES
   decision:
     verdicts: ["Generic", "Differentiated", "Highly Unique"]
     ordered: true
+
     rules:
       - verdict: "Highly Unique"
         label: "HIGHLY_UNIQUE"
@@ -30,6 +47,7 @@ normative:
           - "At least 1 review describes it as 'only place in the city'"
           - "Described as destination restaurant worth traveling for"
           - "'Hidden gem' that reviewers don't want to share"
+
       - verdict: "Generic"
         label: "GENERIC"
         precondition: "Highly Unique does not apply"
@@ -38,26 +56,40 @@ normative:
           - "At least 1 review says 'could be any restaurant'"
           - "Described as chain-restaurant quality"
           - "No distinctive features mentioned across reviews"
+
       - verdict: "Differentiated"
         label: "DIFFERENTIATED"
         default: true
+        especially_when:
+          - "Some unique elements noted"
+          - "Has character but not irreplaceable"
+          - "Memorable aspects mentioned"
 
+  # Output format
   output:
     verdict:
       type: enum
       values: ["Generic", "Differentiated", "Highly Unique"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
       values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
+      description: "Any other relevant observations or caveats"

@@ -9,5 +9,5 @@ class TestCLI(unittest.TestCase):
         args = parse_args(["--data", "sample.jsonl"])
         self.assertEqual(args.method, "direct")
         self.assertEqual(args.provider, "openai")
-        self.assertEqual(args.model, "gpt-4o-mini")
+        self.assertEqual(args.model, "gpt-5-nano")
         self.assertIsInstance(args.data_path, Path)

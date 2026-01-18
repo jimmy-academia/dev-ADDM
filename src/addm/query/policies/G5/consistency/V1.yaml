@@ -1,17 +1,31 @@
 # G5_consistency_V1: Consistency with Override Triggers
+# V1 = Override: Adds single-instance triggers for exceptional/poor consistency
 
 policy_id: "G5_consistency_V1"
 extends: "G5_consistency_V0"
 version: "1.0"
 
+# === OVERVIEW (generates Overview section) ===
 overview:
   title: "Consistency Assessment"
-  purpose: |
-    Help assess quality consistency using reviews as evidence.
-  incident_definition: |
-    Consider reviews mentioning quality trends, visit comparisons, and reliability.
 
+  purpose: |
+    Help assess the quality consistency at this restaurant using reviews as evidence.
+    This is from the perspective of a business owner diagnosing reliability.
+    Assign a label: Needs Improvement, Satisfactory, or Excellent.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - quality changes over time
+    - comparison to previous visits
+    - reliability and predictability
+    - repeat customer observations
+
+    Reviews from first-time visitors that don't mention consistency carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
     - ref: "consistency:QUALITY_TREND"
@@ -19,9 +33,12 @@ normative:
     - ref: "consistency:RELIABILITY"
     - ref: "consistency:VISIT_FREQUENCY"
 
+  # Decision policy -> generates Verdict Rules section
+  # V1 adds single-instance OVERRIDES
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
     ordered: true
+
     rules:
       - verdict: "Excellent"
         label: "EXCELLENT"
@@ -30,6 +47,7 @@ normative:
           - "At least 1 frequent customer describes 'never disappoints'"
           - "Multiple visits described as consistently excellent"
           - "Long-term regular customer praises maintained quality"
+
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
@@ -38,26 +56,40 @@ normative:
           - "At least 1 regular customer describes 'went downhill'"
           - "Management change leading to quality decline"
           - "Described as 'coin flip' or completely unpredictable"
+
       - verdict: "Satisfactory"
         label: "SATISFACTORY"
         default: true
+        especially_when:
+          - "Generally reliable with occasional variation"
+          - "No strong positive or negative trends"
+          - "Adequate consistency for most visits"
 
+  # Output format
   output:
     verdict:
       type: enum
       values: ["Needs Improvement", "Satisfactory", "Excellent"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
       values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
+      description: "Any other relevant observations or caveats"
