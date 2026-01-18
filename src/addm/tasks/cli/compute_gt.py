@@ -2,6 +2,9 @@
 CLI: Compute ground truth from cached judgments.
 
 Usage:
+    # Compute GT for ALL policies (default)
+    python -m addm.tasks.cli.compute_gt
+
     # Legacy task-based GT (single formula module)
     python -m addm.tasks.cli.compute_gt --task G1a --domain yelp --k 50
 
@@ -25,6 +28,19 @@ from addm.tasks.policy_gt import (
     get_topic_from_policy_id,
     load_policy,
 )
+
+# All topics (must match extract.py)
+ALL_TOPICS = [
+    "G1_allergy", "G1_dietary", "G1_hygiene",
+    "G2_romance", "G2_business", "G2_group",
+    "G3_price_worth", "G3_hidden_costs", "G3_time_value",
+    "G4_server", "G4_kitchen", "G4_environment",
+    "G5_capacity", "G5_execution", "G5_consistency",
+    "G6_uniqueness", "G6_comparison", "G6_loyalty",
+]
+
+# All policies: each topic × V0-V3
+ALL_POLICIES = [f"{topic}_{v}" for topic in ALL_TOPICS for v in ["V0", "V1", "V2", "V3"]]
 
 
 def _get_policy_cache_path(domain: str) -> Path:
