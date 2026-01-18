@@ -13,9 +13,13 @@ python main.py --data path/to/dataset.jsonl --method direct --provider openai --
 ### Data Pipeline
 
 ```bash
-# Full pipeline (topic analysis → selection → build)
+# Step 1: Topic Analysis - scan 7M reviews for 18 topics
 .venv/bin/python scripts/build_topic_selection.py --data yelp
+
+# Step 2: Restaurant Selection - layered greedy by 36 cells (topic × severity)
 .venv/bin/python scripts/select_topic_restaurants.py --data yelp
+
+# Step 3: Build Datasets - K reviews per restaurant with full text
 .venv/bin/python scripts/build_dataset.py --data yelp
 
 # Extract L0 judgments and compute ground truth

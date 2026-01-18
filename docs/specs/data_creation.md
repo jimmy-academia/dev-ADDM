@@ -98,35 +98,48 @@ Each line in `dataset_K*.jsonl`:
 ```json
 {
   "business_id": "abc123",
-  "stratification": "HighVol_HighStars",
   "business": {
     "business_id": "abc123",
     "name": "Restaurant Name",
-    "address": "...",
+    "address": "123 Main St",
     "city": "Philadelphia",
+    "state": "PA",
+    "postal_code": "19102",
+    "latitude": 39.948591,
+    "longitude": -75.164706,
     "stars": 4.5,
     "review_count": 150,
+    "is_open": 1,
+    "attributes": {...},
     "categories": "Italian, Pizza",
-    "hours": {...},
-    "attributes": {...}
+    "hours": {...}
   },
   "reviews": [
     {
       "review_id": "...",
       "user_id": "...",
+      "business_id": "...",
       "stars": 5,
-      "date": "2023-01-15",
-      "text": "...",
+      "useful": 0,
+      "funny": 0,
+      "cool": 0,
+      "text": "Full review text (not truncated)",
+      "date": "2023-01-15 12:30:00",
       "user": {
         "name": "...",
         "review_count": 45,
-        "average_stars": 4.2
+        "yelping_since": "2010-01-15 10:00:00",
+        "elite": "",
+        "average_stars": 4.2,
+        "fans": 5
       }
     }
   ],
   "review_count_actual": 50
 }
 ```
+
+Note: Review text is preserved in full (not truncated). The `user` object is embedded from the Yelp user dataset.
 
 ## Custom Datasets
 
