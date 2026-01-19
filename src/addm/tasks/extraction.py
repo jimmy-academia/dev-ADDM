@@ -153,14 +153,25 @@ class PolicyJudgmentCache:
                 results.append(value)
         return results
 
-    def count_cached_runs(self, topic: str, review_id: str, model: str) -> int:
-        """Count how many runs are cached for a model."""
+    def get_cached_runs(self, topic: str, review_id: str, model: str) -> set:
+        """Get which run numbers are cached for a model."""
         prefix = f"{topic}::{review_id}::{model}::run"
-        count = 0
+        runs = set()
         for key in self._data["raw"].keys():
             if key.startswith(prefix):
-                count += 1
-        return count
+                # Extract run number from key like "topic::rid::model::run2"
+                run_part = key.split("::")[-1]  # "run2"
+                if run_part.startswith("run"):
+                    try:
+                        run_num = int(run_part[3:])
+                        runs.add(run_num)
+                    except ValueError:
+                        pass
+        return runs
+
+    def count_cached_runs(self, topic: str, review_id: str, model: str) -> int:
+        """Count how many runs are cached for a model."""
+        return len(self.get_cached_runs(topic, review_id, model))
 
     def count_raw_by_model(self, topic: str) -> Dict[str, int]:
         """Count raw entries by model for a topic.
@@ -244,9 +255,12 @@ class PolicyJudgmentCache:
 
         needed: List[Tuple[str, int]] = []
         for model, required in required_runs.items():
-            existing = self.count_cached_runs(topic, review_id, model)
-            for run in range(existing + 1, required + 1):
-                needed.append((model, run))
+            # Get WHICH runs exist, not just count
+            existing_runs = self.get_cached_runs(topic, review_id, model)
+            # Check each required run (1, 2, ..., required)
+            for run in range(1, required + 1):
+                if run not in existing_runs:
+                    needed.append((model, run))
 
         return needed
 

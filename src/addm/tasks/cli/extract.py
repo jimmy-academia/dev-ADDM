@@ -710,32 +710,24 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
             output.print(f"  {model}: {cached}/{expected} (need {expected - cached})")
 
     if args.mode == "ondemand":
-        # Ondemand mode for testing - runs all models sequentially
-        output.info("Running in ondemand mode (for testing)")
-        output.print("       For production, use: --mode 24hrbatch")
+        # Ondemand mode - immediate execution (no 50% batch discount)
+        output.info("Running in ondemand mode (immediate, no batch discount)")
 
-        # Count what needs extraction per model BEFORE we start
-        needed_by_model: Dict[str, int] = {model: 0 for model in models_config.keys()}
-        reviews_needing_extraction = 0
-        for restaurant in restaurants:
-            for review in restaurant.get("reviews", []):
-                review_id = review.get("review_id", "")
-                if not review_id:
-                    continue
-                needed = cache.needs_extraction(topic, review_id, models_config)
-                if needed:
-                    reviews_needing_extraction += 1
-                    for model, _run in needed:
-                        needed_by_model[model] += 1
+        # Check if anything needs extraction (use cache status already computed above)
+        raw_by_model = cache.count_raw_by_model(topic)
+        all_complete = True
+        for model, required_runs in models_config.items():
+            cached = raw_by_model.get(model, 0)
+            expected = total_reviews * required_runs
+            if cached < expected:
+                all_complete = False
+                break
 
-        if reviews_needing_extraction == 0:
+        if all_complete:
             output.success("All extractions complete - nothing to do!")
             return
 
-        output.info(f"Need to extract {reviews_needing_extraction} reviews:")
-        for model, count in needed_by_model.items():
-            if count > 0:
-                output.print(f"  {model}: {count} runs needed")
+        output.print("Iterating restaurants to find incomplete reviews...")
 
         llm = LLMService()
         if args.dry_run:
@@ -798,6 +790,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
 
                         cache.set_raw(topic, review_id, model, run, judgment)
                         success_by_model[model] += 1
+                        output.print(f"  + Extracted: {review_id[:12]}... {model} run{run}")
 
                         if args.verbose:
                             is_rel = judgment.get("is_allergy_related", False)
@@ -820,6 +813,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
                 cache.save()
 
         cache.save()
+        output.print(f"Cache saved to {cache.cache_path}")
 
         # Final summary
         total_success = sum(success_by_model.values())
@@ -827,17 +821,8 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         output.print()
         output.success(f"Done. Added {total_success} raw extractions, {total_aggregated} aggregated.")
 
-        # Per-model breakdown
-        output.info("Extraction results by model:")
-        for model in models_config.keys():
-            success = success_by_model[model]
-            errors = error_by_model[model]
-            needed = needed_by_model[model]
-            if needed > 0:
-                if errors > 0:
-                    output.print(f"  {model}: {success}/{needed} success, {errors} errors")
-                else:
-                    output.print(f"  {model}: {success}/{needed} ✓")
+        if total_errors > 0:
+            output.warn(f"Errors by model: {error_by_model}")
 
         # Show final cache status
         output.info("Final cache status:")

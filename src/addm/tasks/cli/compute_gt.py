@@ -2,17 +2,17 @@
 CLI: Compute ground truth from cached judgments.
 
 Usage:
+    # Compute GT for a topic (all V0-V3 variants)
+    python -m addm.tasks.cli.compute_gt --topic G1_allergy
+
     # Compute GT for ALL policies (default)
     python -m addm.tasks.cli.compute_gt
 
+    # Single policy
+    python -m addm.tasks.cli.compute_gt --policy G1_allergy_V2
+
     # Legacy task-based GT (single formula module)
     python -m addm.tasks.cli.compute_gt --task G1a --domain yelp --k 50
-
-    # Policy-based GT (uses policy scoring rules)
-    python -m addm.tasks.cli.compute_gt --policy G1_allergy_V2 --k 50
-
-    # Multiple policies (shared cached judgments)
-    python -m addm.tasks.cli.compute_gt --policy G1_allergy_V0,G1_allergy_V1,G1_allergy_V2,G1_allergy_V3 --k 50
 """
 
 import argparse
@@ -271,6 +271,11 @@ def main() -> None:
     target_group = parser.add_mutually_exclusive_group()
     target_group.add_argument("--task", type=str, help="Task ID (e.g., G1a) - legacy mode")
     target_group.add_argument(
+        "--topic",
+        type=str,
+        help="Topic (e.g., G1_allergy) - computes all V0-V3 variants",
+    )
+    target_group.add_argument(
         "--policy",
         type=str,
         help="Policy ID(s), comma-separated (e.g., G1_allergy_V2 or G1_allergy_V0,V1,V2,V3)",
@@ -288,6 +293,14 @@ def main() -> None:
 
     if args.task:
         main_task(args)
+    elif args.topic:
+        # Compute all V0-V3 for this topic
+        if args.topic not in ALL_TOPICS:
+            print(f"[ERROR] Unknown topic: {args.topic}")
+            print(f"        Valid topics: {ALL_TOPICS}")
+            return
+        args.policy = ",".join(f"{args.topic}_{v}" for v in ["V0", "V1", "V2", "V3"])
+        main_policy(args)
     elif args.policy:
         main_policy(args)
     else:

@@ -44,7 +44,8 @@
       "Bash(head:*)",
       "Bash(git mv:*)",
       "Bash(chmod:*)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(/Users/jimmyyeh/Documents/Station/dev-ADDM/.venv/bin/python:*)"
     ]
   }
 }
