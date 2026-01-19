@@ -56,7 +56,8 @@
       "Bash(do grep -o '\"\"method\"\": \"\"[^\"\"]*\"\"' \"$f\")",
       "Bash(while read f)",
       "Bash(do echo \"=== $f ===\")",
-      "Bash(do jq:*)"
+      "Bash(do jq:*)",
+      "Bash(tee:*)"
     ]
   }
 }

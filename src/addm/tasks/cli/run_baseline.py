@@ -687,13 +687,15 @@ async def run_baseline(
                 for r in restaurants
             ]
 
-            # Run via method interface (sequential to share Formula Seed cache)
-            results = []
-            for sample in samples:
+            # Pre-load Formula Seed (Phase 1) to enable parallel Phase 2 execution
+            await amos_method._get_formula_seed(agenda, llm)
+
+            # Run all samples in parallel (Phase 2 only)
+            async def process_amos_sample(sample: Sample) -> Dict[str, Any]:
                 raw_result = await amos_method.run_sample(sample, llm)
                 restaurant = next((r for r in restaurants if r["business"]["business_id"] == raw_result["sample_id"]), None)
                 if not restaurant:
-                    continue
+                    return None
 
                 verdict = raw_result.get("verdict")
                 if verdict:
@@ -705,7 +707,7 @@ async def run_baseline(
                     elif "high" in v_lower:
                         verdict = "High Risk"
 
-                results.append({
+                return {
                     "business_id": raw_result["sample_id"],
                     "name": restaurant["business"]["name"],
                     "response": raw_result.get("output", ""),
@@ -717,7 +719,11 @@ async def run_baseline(
                     "extractions_count": raw_result.get("extractions_count", 0),
                     "phase1_cached": raw_result.get("phase1_cached", False),
                     "llm_calls": raw_result.get("llm_calls", 0),
-                })
+                }
+
+            tasks = [process_amos_sample(s) for s in samples]
+            raw_results = await gather_with_concurrency(8, tasks)  # 8 concurrent restaurants
+            results = [r for r in raw_results if r is not None]
         else:
             # Direct method - single LLM call with full context
             tasks = [eval_restaurant(r, agenda, llm, system_prompt) for r in restaurants]

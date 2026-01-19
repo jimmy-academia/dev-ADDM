@@ -19,6 +19,66 @@ from addm.query.models.policy import PolicyIR, ScoringSystem
 from addm.query.models.term import Term, TermLibrary
 
 # =============================================================================
+# Human judgment overrides
+# =============================================================================
+
+OVERRIDE_FILE = Path("data/answers/yelp/judgment_overrides.json")
+
+
+def load_overrides(topic: str) -> Dict[str, Dict[str, Any]]:
+    """Load human judgment overrides for a topic.
+
+    Args:
+        topic: Topic name (e.g., "G1_allergy")
+
+    Returns:
+        Dict mapping review_id to override spec
+    """
+    if not OVERRIDE_FILE.exists():
+        return {}
+
+    with open(OVERRIDE_FILE) as f:
+        data = json.load(f)
+
+    # Get overrides for this topic
+    topic_overrides = data.get(topic, [])
+
+    # Index by review_id for fast lookup
+    return {o["review_id"]: o for o in topic_overrides}
+
+
+def apply_overrides(
+    judgment: Dict[str, Any],
+    overrides: Dict[str, Dict[str, Any]]
+) -> Dict[str, Any]:
+    """Apply human overrides to an aggregated judgment.
+
+    Args:
+        judgment: Aggregated judgment dict
+        overrides: Dict of review_id -> override spec
+
+    Returns:
+        Judgment with overrides applied (if any)
+    """
+    review_id = judgment.get("review_id")
+    if review_id not in overrides:
+        return judgment
+
+    override = overrides[review_id]
+    result = judgment.copy()
+
+    # Apply corrected values
+    for field, value in override.get("corrected", {}).items():
+        result[field] = value
+
+    # Mark as overridden for audit trail
+    result["_override_applied"] = True
+    result["_override_reason"] = override.get("reason", "")
+
+    return result
+
+
+# =============================================================================
 # Multi-model aggregation constants (cost-optimized)
 # See docs/future/high_quality_gt.md for more robust config
 # =============================================================================
@@ -281,6 +341,7 @@ def compute_gt_from_policy_scoring(
     judgments: List[Dict[str, Any]],
     policy: PolicyIR,
     restaurant_meta: Dict[str, Any],
+    overrides: Optional[Dict[str, Dict[str, Any]]] = None,
 ) -> Dict[str, Any]:
     """
     Compute GT using policy scoring rules (V2+).
@@ -289,6 +350,7 @@ def compute_gt_from_policy_scoring(
         judgments: List of aggregated L0 judgments (one per review)
         policy: PolicyIR with scoring system
         restaurant_meta: Restaurant metadata with 'categories' field
+        overrides: Optional dict of review_id -> override spec (from load_overrides)
 
     Returns:
         Dict with verdict, score, and incident details
@@ -296,6 +358,10 @@ def compute_gt_from_policy_scoring(
     scoring = policy.normative.scoring
     if not scoring:
         raise ValueError(f"Policy {policy.policy_id} has no scoring system")
+
+    # Apply overrides before processing
+    overrides = overrides or {}
+    judgments = [apply_overrides(j, overrides) for j in judgments]
 
     categories = restaurant_meta.get("categories", "")
     total_score = 0
@@ -348,8 +414,9 @@ def compute_gt_from_policy_scoring(
         })
 
     # Cuisine modifier (restaurant-level, not per-incident)
+    # Only applies when there are actual incidents (per V2 policy)
     cuisine_modifier_applied = False
-    if is_high_risk_cuisine(categories):
+    if is_high_risk_cuisine(categories) and len(incidents) > 0:
         mod_pts = get_modifier_points("High-risk cuisine", scoring)
         total_score += mod_pts
         if mod_pts > 0:
@@ -488,6 +555,7 @@ def compute_gt_from_policy(
     judgments: List[Dict[str, Any]],
     policy: PolicyIR,
     restaurant_meta: Dict[str, Any],
+    overrides: Optional[Dict[str, Dict[str, Any]]] = None,
 ) -> Dict[str, Any]:
     """
     Compute ground truth using policy rules.
@@ -498,12 +566,13 @@ def compute_gt_from_policy(
         judgments: List of aggregated L0 judgments (one per review)
         policy: PolicyIR loaded from YAML
         restaurant_meta: Restaurant metadata with 'categories' field
+        overrides: Optional dict of review_id -> override spec (from load_overrides)
 
     Returns:
         Dict with verdict and supporting details
     """
     if policy.normative.scoring:
-        return compute_gt_from_policy_scoring(judgments, policy, restaurant_meta)
+        return compute_gt_from_policy_scoring(judgments, policy, restaurant_meta, overrides)
     else:
         return compute_gt_from_policy_qualitative(judgments, policy, restaurant_meta)
 

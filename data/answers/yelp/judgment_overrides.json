@@ -1,0 +1,32 @@
+{
+  "_comment": "Human corrections to LLM judgment errors. Applied during GT computation at the aggregated judgment level.",
+  "created_at": "2026-01-19",
+  "last_updated": "2026-01-19",
+
+  "G1_allergy": [
+    {
+      "review_id": "a-ptEPsf-ea_7tpK2yoimw",
+      "business_id": "IhN-DlnytNvnzCoTIwwfgQ",
+      "original": {
+        "incident_severity": "severe",
+        "is_allergy_related": true
+      },
+      "corrected": {
+        "incident_severity": "none"
+      },
+      "reason": "Review is POSITIVE - customer praised allergy handling ('took my unusual anaphylaxis case seriously'), no reaction occurred"
+    },
+    {
+      "review_id": "roT4J43wWrc5gxQCWJ5fzQ",
+      "business_id": "gjCxTVItFxk46rCZ-YaiFA",
+      "original": {
+        "incident_severity": "mild",
+        "staff_response": "dismissive"
+      },
+      "corrected": {
+        "incident_severity": "none"
+      },
+      "reason": "Review mentions 'allergic reaction' but no actual symptoms described - failed accommodation without ingestion per Option A (strict) interpretation"
+    }
+  ]
+}

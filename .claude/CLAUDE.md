@@ -3,20 +3,21 @@
 ## Active Work
 
 **Current Phase**: Phase I - G1_allergy Pipeline Validation
-**Status**: G1_allergy extracted (raw), ready for aggregation
-**Next**: Aggregate G1_allergy GT → implement baselines → AMOS development
+**Status**: G1_allergy GT complete with human override system
+**Next**: Run AMOS evaluation → verify >75% on all metrics → scale to other topics
 
 **Strategy**: Two-phase approach
 - **Week 1 (Phase I)**: Validate full pipeline on G1_allergy before scaling
 - **Week 2 (Phase II)**: Scale to all 18 topics with batch runs
 
-**Today's Focus** (Jan 18):
-- [ ] A1: Aggregate G1_allergy raw judgments → consensus L0
-- [ ] B1: Polish Introduction, define key claims for Discussion
+**Today's Focus** (Jan 19):
+- [ ] Run AMOS evaluation on G1_allergy_V2 K=50
+- [ ] Verify >75% accuracy on all three metrics
+- [ ] Add more overrides if needed based on failure analysis
 
 **Deadlines**:
-- Goal: Feb 1 (14 days)
-- Hard: Feb 8 (21 days)
+- Goal: Feb 1 (13 days)
+- Hard: Feb 8 (20 days)
 
 See `docs/ROADMAP.md` for detailed operational roadmap with daily tasks.
 
@@ -54,6 +55,7 @@ data/
 ├── query/{dataset}/        # Task prompts
 └── answers/{dataset}/      # Ground truth & caches
     ├── judgement_cache.json        # L0 judgement cache (raw + aggregated)
+    ├── judgment_overrides.json     # Human corrections to LLM judgment errors
     ├── *_K*_groundtruth.json       # Ground truth files
     ├── batch_manifest_*.json       # Multi-batch tracking (gitignored)
     └── batch_errors_*.jsonl        # Batch API errors for diagnostics (gitignored)
@@ -347,10 +349,17 @@ Two-step flow for policy-based GT:
 ```
 
 **Key files:**
-- `src/addm/tasks/policy_gt.py` - Aggregation, scoring, qualitative evaluation
+- `src/addm/tasks/policy_gt.py` - Aggregation, scoring, qualitative evaluation, override functions
 - `src/addm/tasks/extraction.py` - `PolicyJudgmentCache` with raw/aggregated dual cache
 - `data/answers/yelp/judgement_cache.json` - Cached L0 judgements
+- `data/answers/yelp/judgment_overrides.json` - Human corrections to LLM errors
 - `results/cache/rag_embeddings.json` - RAG embedding/retrieval cache (gitignored)
 - `data/answers/yelp/{policy}_K{k}_groundtruth.json` - GT outputs
+
+**Human Override System:**
+- Overrides stored in `judgment_overrides.json`, applied at aggregated judgment level
+- Auto-loaded during `compute_gt.py` execution (logged if found)
+- One override applies to all policy variants (V0-V3) and K values for the topic
+- Format: `{"G1_allergy": [{"review_id": "...", "corrected": {"incident_severity": "none"}, "reason": "..."}]}`
 
 See `docs/specs/ground_truth.md` for full details.

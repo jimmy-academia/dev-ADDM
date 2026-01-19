@@ -209,14 +209,68 @@ Example:
 .venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 50 --mode 24hrbatch
 ```
 
+## Human Override System
+
+LLM extraction sometimes makes errors (e.g., misclassifying positive reviews as incidents). The override system allows human corrections without modifying the raw cache.
+
+### Override Level
+
+Overrides apply at the **aggregated judgment level**:
+- One override affects all policy variants (V0-V3) for that topic
+- One override affects all K values (25, 50, 100, 200)
+- Original LLM outputs preserved in raw cache for analysis
+
+### Override File
+
+Location: `data/answers/yelp/judgment_overrides.json`
+
+Format:
+```json
+{
+  "_comment": "Human corrections to LLM judgment errors.",
+  "created_at": "2026-01-19",
+  "last_updated": "2026-01-19",
+  "G1_allergy": [
+    {
+      "review_id": "abc123",
+      "business_id": "biz456",
+      "original": {"incident_severity": "severe"},
+      "corrected": {"incident_severity": "none"},
+      "reason": "Positive review - customer praised allergy handling, no reaction occurred"
+    }
+  ]
+}
+```
+
+### How It Works
+
+1. `compute_gt.py` calls `load_overrides(topic)` at startup
+2. Returns dict mapping `review_id` → override spec
+3. `apply_overrides()` modifies judgment before scoring loop
+4. Overridden judgments get `_override_applied: true` flag
+
+### Adding Overrides
+
+1. Identify incorrect judgments via evaluation failures
+2. Check raw cache to see original LLM outputs
+3. Add entry to `judgment_overrides.json` with:
+   - `review_id` (required)
+   - `business_id` (for documentation)
+   - `original` (what LLM said, for audit)
+   - `corrected` (field values to override)
+   - `reason` (why correction is needed)
+4. Regenerate GT: `.venv/bin/python -m addm.tasks.cli.compute_gt --policy G1_allergy_V2 --k 50`
+
 ## Files
 
 | File | Description |
 |------|-------------|
-| `src/addm/tasks/policy_gt.py` | Core GT computation logic |
+| `src/addm/tasks/policy_gt.py` | Core GT computation, override functions |
 | `src/addm/tasks/extraction.py` | JudgmentCache, PolicyJudgmentCache |
 | `src/addm/tasks/cli/extract.py` | Extraction CLI |
 | `src/addm/tasks/cli/compute_gt.py` | GT computation CLI |
+| `data/answers/yelp/judgement_cache.json` | Raw + aggregated L0 judgments |
+| `data/answers/yelp/judgment_overrides.json` | Human corrections to LLM errors |
 
 ## Legacy Task Mode
 

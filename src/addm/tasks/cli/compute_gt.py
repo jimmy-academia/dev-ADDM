@@ -26,6 +26,7 @@ from addm.tasks.extraction import JudgmentCache, PolicyJudgmentCache
 from addm.tasks.policy_gt import (
     compute_gt_from_policy,
     get_topic_from_policy_id,
+    load_overrides,
     load_policy,
 )
 
@@ -176,6 +177,11 @@ def main_policy(args: argparse.Namespace) -> None:
         print("        Run extraction first: python -m addm.tasks.cli.extract --topic", topic)
         return
 
+    # Load human judgment overrides for this topic
+    overrides = load_overrides(topic)
+    if overrides:
+        print(f"Loaded {len(overrides)} judgment overrides for {topic}")
+
     # Process each policy
     for policy_id in policy_ids:
         print(f"\n{'='*60}")
@@ -223,9 +229,9 @@ def main_policy(args: argparse.Namespace) -> None:
                 else:
                     missing_judgments += 1
 
-            # Compute GT using policy scoring
+            # Compute GT using policy scoring (with human overrides)
             restaurant_meta = {"categories": categories, "name": name}
-            gt = compute_gt_from_policy(restaurant_judgments, policy, restaurant_meta)
+            gt = compute_gt_from_policy(restaurant_judgments, policy, restaurant_meta, overrides)
 
             # Store result
             verdict = gt.get("verdict", "Unknown")

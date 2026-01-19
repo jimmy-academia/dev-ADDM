@@ -25,13 +25,13 @@ PROCESS_WEIGHTS = {
 
 # Verdict scoring thresholds (from V2 policy)
 SEVERITY_BASE_POINTS = {
-    "mild": 1,
-    "moderate": 3,
-    "severe": 5,
+    "mild": 2,
+    "moderate": 5,
+    "severe": 15,
 }
 
 MODIFIER_POINTS = {
-    "False assurance": 3,
+    "False assurance": 5,
     "Dismissive staff": 3,
 }
 

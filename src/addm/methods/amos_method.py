@@ -39,7 +39,7 @@ class AMOSMethod(Method):
         self.policy_id = policy_id
         self.max_concurrent = max_concurrent
         self.force_regenerate = force_regenerate
-        self.cache_dir = cache_dir or Path("data/formula_seeds")
+        self.cache_dir = cache_dir or Path("results/cache/formula_seeds")
 
         # Cached Formula Seed (loaded on first sample)
         self._seed: Optional[Dict[str, Any]] = None
