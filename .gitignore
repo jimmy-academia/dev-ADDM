@@ -227,3 +227,9 @@ data/tasks/*/judgement_cache.json
 
 # Debug and extraction logs (regenerable)
 results/logs/
+
+results/dev/
+
+# Method caches (large, regenerable)
+results/cache/
+

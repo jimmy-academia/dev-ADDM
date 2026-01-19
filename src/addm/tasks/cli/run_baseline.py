@@ -398,6 +398,7 @@ async def run_baseline(
     mode: str = "ondemand",
     batch_id: Optional[str] = None,
     top_k: int = 20,
+    regenerate_seed: bool = False,
 ) -> Dict[str, Any]:
     """Run baseline evaluation.
 
@@ -411,8 +412,9 @@ async def run_baseline(
         model: LLM model to use
         verbose: Print detailed output
         dev: If True, save to results/dev/ instead of results/baseline/
-        method: Method to use - "direct" (default) or "rlm" (recursive LLM)
+        method: Method to use - "direct" (default), "rlm", "rag", or "amos"
         token_limit: Token budget for RLM (converts to iterations via ~3000 tokens/iter)
+        regenerate_seed: Force regenerate Formula Seed for AMOS method
 
     Either task_id or policy_id must be provided.
     """
@@ -586,7 +588,7 @@ async def run_baseline(
 
             registry = build_method_registry()
             rag_class = registry.get("rag")
-            rag_method = rag_class(top_k=top_k)
+            rag_method = rag_class(top_k=top_k, system_prompt=system_prompt)
 
             # Convert restaurants to Sample objects
             samples = [
@@ -661,6 +663,61 @@ async def run_baseline(
                         "cache_hit_embeddings": raw_result.get("cache_hit_embeddings", False),
                         "cache_hit_retrieval": raw_result.get("cache_hit_retrieval", False),
                     })
+        elif method == "amos":
+            # AMOS method - Agenda-Driven Mining with Observable Steps
+            from addm.methods import build_method_registry
+            from addm.data.types import Sample
+
+            registry = build_method_registry()
+            amos_class = registry.get("amos")
+            amos_method = amos_class(
+                policy_id=run_id,
+                max_concurrent=32,
+                force_regenerate=regenerate_seed,
+            )
+
+            # Convert restaurants to Sample objects
+            samples = [
+                Sample(
+                    sample_id=r["business"]["business_id"],
+                    query=agenda,
+                    context=json.dumps(r),
+                    metadata={"restaurant_name": r["business"]["name"]},
+                )
+                for r in restaurants
+            ]
+
+            # Run via method interface (sequential to share Formula Seed cache)
+            results = []
+            for sample in samples:
+                raw_result = await amos_method.run_sample(sample, llm)
+                restaurant = next((r for r in restaurants if r["business"]["business_id"] == raw_result["sample_id"]), None)
+                if not restaurant:
+                    continue
+
+                verdict = raw_result.get("verdict")
+                if verdict:
+                    v_lower = verdict.lower()
+                    if "low" in v_lower:
+                        verdict = "Low Risk"
+                    elif "critical" in v_lower:
+                        verdict = "Critical Risk"
+                    elif "high" in v_lower:
+                        verdict = "High Risk"
+
+                results.append({
+                    "business_id": raw_result["sample_id"],
+                    "name": restaurant["business"]["name"],
+                    "response": raw_result.get("output", ""),
+                    "verdict": verdict,
+                    "risk_score": raw_result.get("risk_score"),
+                    "prompt_chars": raw_result.get("prompt_tokens", 0) * 4,
+                    # AMOS-specific metrics
+                    "filter_stats": raw_result.get("filter_stats", {}),
+                    "extractions_count": raw_result.get("extractions_count", 0),
+                    "phase1_cached": raw_result.get("phase1_cached", False),
+                    "llm_calls": raw_result.get("llm_calls", 0),
+                })
         else:
             # Direct method - single LLM call with full context
             tasks = [eval_restaurant(r, agenda, llm, system_prompt) for r in restaurants]
@@ -826,8 +883,8 @@ def main() -> None:
         "--method",
         type=str,
         default="direct",
-        choices=["direct", "rlm", "rag"],
-        help="Method: direct (default), rlm (recursive LLM), or rag (retrieval augmented generation)",
+        choices=["direct", "rlm", "rag", "amos"],
+        help="Method: direct (default), rlm (recursive LLM), rag (retrieval), or amos (agenda-driven mining)",
     )
     parser.add_argument(
         "--token-limit",
@@ -840,6 +897,11 @@ def main() -> None:
         type=int,
         default=20,
         help="RAG: Number of reviews to retrieve (default: 20, ~10%% of K=200)",
+    )
+    parser.add_argument(
+        "--regenerate-seed",
+        action="store_true",
+        help="AMOS: Force regenerate Formula Seed even if cached",
     )
     parser.add_argument(
         "--mode",
@@ -868,6 +930,7 @@ def main() -> None:
             mode=args.mode,
             batch_id=args.batch_id,
             top_k=args.top_k,
+            regenerate_seed=args.regenerate_seed,
         )
     )
 

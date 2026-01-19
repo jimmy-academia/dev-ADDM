@@ -47,7 +47,15 @@
       "Bash(git rm:*)",
       "Bash(/Users/jimmyyeh/Documents/Station/dev-ADDM/.venv/bin/python:*)",
       "Skill(audit)",
-      "Bash(test:*)"
+      "Bash(test:*)",
+      "Bash(.venv/bin/pip show:*)",
+      "Bash(.venv/bin/pip:*)",
+      "Bash(.venv/bin/ruff check src/ --select F401,F841,E --statistics)",
+      "Skill(hello)",
+      "Bash(for f in /Users/jimmyyeh/Documents/Station/dev-ADDM/results/dev/*/results.json)",
+      "Bash(do grep -o '\"\"method\"\": \"\"[^\"\"]*\"\"' \"$f\")",
+      "Bash(while read f)",
+      "Bash(do echo \"=== $f ===\")"
     ]
   }
 }

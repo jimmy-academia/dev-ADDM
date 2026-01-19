@@ -39,17 +39,20 @@ class RAGMethod(Method):
         top_k: int = 20,
         embedding_model: str = "text-embedding-3-large",
         cache_path: Optional[Path] = None,
+        system_prompt: Optional[str] = None,
     ):
         """Initialize RAG method.
 
         Args:
             top_k: Number of reviews to retrieve (default: 20, ~10% of K=200)
             embedding_model: OpenAI embedding model (default: text-embedding-3-large)
-            cache_path: Path to policy cache file (default: data/answers/yelp/policy_cache.json)
+            cache_path: Path to embedding cache file (default: results/cache/rag_embeddings.json)
+            system_prompt: System prompt for structured output (optional)
         """
         self.top_k = top_k
         self.embedding_model = embedding_model
-        self.cache_path = cache_path or Path("data/answers/yelp/policy_cache.json")
+        self.cache_path = cache_path or Path("results/cache/rag_embeddings.json")
+        self.system_prompt = system_prompt
         self._embedding_client: Optional[AsyncOpenAI] = None
         self._cache: Dict[str, Any] = {}
         self._load_cache()
@@ -66,33 +69,44 @@ class RAGMethod(Method):
         with open(self.cache_path, "w") as f:
             json.dump(self._cache, f, indent=2)
 
-    def _get_embedding_cache_key(self, sample_id: str) -> str:
-        """Generate cache key for embeddings."""
-        return f"rag_embeddings_{sample_id}"
+    def _get_embedding_cache_key(self, sample_id: str, num_reviews: int) -> str:
+        """Generate cache key for embeddings.
 
-    def _get_retrieval_cache_key(self, sample_id: str, k: int) -> str:
-        """Generate cache key for retrieval results."""
-        return f"rag_retrieval_{sample_id}_k{k}"
+        Args:
+            sample_id: Sample identifier
+            num_reviews: Number of reviews in the dataset (to prevent cross-K cache hits)
+        """
+        return f"rag_embeddings_{sample_id}_K{num_reviews}"
 
-    def _load_cached_embeddings(self, sample_id: str) -> Optional[Dict[str, Any]]:
+    def _get_retrieval_cache_key(self, sample_id: str, num_reviews: int, k: int) -> str:
+        """Generate cache key for retrieval results.
+
+        Args:
+            sample_id: Sample identifier
+            num_reviews: Number of reviews in the source dataset (K value)
+            k: Number of reviews to retrieve (top_k)
+        """
+        return f"rag_retrieval_{sample_id}_K{num_reviews}_topk{k}"
+
+    def _load_cached_embeddings(self, sample_id: str, num_reviews: int) -> Optional[Dict[str, Any]]:
         """Load cached embeddings for a sample."""
-        key = self._get_embedding_cache_key(sample_id)
+        key = self._get_embedding_cache_key(sample_id, num_reviews)
         return self._cache.get(key)
 
-    def _save_embeddings_to_cache(self, sample_id: str, data: Dict[str, Any]) -> None:
+    def _save_embeddings_to_cache(self, sample_id: str, num_reviews: int, data: Dict[str, Any]) -> None:
         """Save embeddings to cache."""
-        key = self._get_embedding_cache_key(sample_id)
+        key = self._get_embedding_cache_key(sample_id, num_reviews)
         self._cache[key] = data
         self._save_cache()
 
-    def _load_cached_retrieval(self, sample_id: str, k: int) -> Optional[Dict[str, Any]]:
+    def _load_cached_retrieval(self, sample_id: str, num_reviews: int, k: int) -> Optional[Dict[str, Any]]:
         """Load cached retrieval results."""
-        key = self._get_retrieval_cache_key(sample_id, k)
+        key = self._get_retrieval_cache_key(sample_id, num_reviews, k)
         return self._cache.get(key)
 
-    def _save_retrieval_to_cache(self, sample_id: str, k: int, data: Dict[str, Any]) -> None:
+    def _save_retrieval_to_cache(self, sample_id: str, num_reviews: int, k: int, data: Dict[str, Any]) -> None:
         """Save retrieval results to cache."""
-        key = self._get_retrieval_cache_key(sample_id, k)
+        key = self._get_retrieval_cache_key(sample_id, num_reviews, k)
         self._cache[key] = data
         self._save_cache()
 
@@ -158,6 +172,33 @@ class RAGMethod(Method):
         }
         return json.dumps(reduced)
 
+    def _build_messages(self, query: str, context: str) -> List[Dict[str, str]]:
+        """Build messages for LLM call.
+
+        Uses system_prompt if provided (for structured output), otherwise
+        falls back to simple evaluator prompt.
+
+        Args:
+            query: The agenda/query text
+            context: Restaurant context (JSON string)
+
+        Returns:
+            List of message dicts for LLM call
+        """
+        if self.system_prompt:
+            # Use structured output format matching direct method
+            user_content = f"Context:\n\n{context}\n\nAgenda:\n{query}"
+            return [
+                {"role": "system", "content": self.system_prompt},
+                {"role": "user", "content": user_content},
+            ]
+        else:
+            # Fallback to simple prompt
+            return [
+                {"role": "system", "content": "You are a precise evaluator. Answer strictly based on the provided context."},
+                {"role": "user", "content": f"Query: {query}\n\nContext:\n{context}\n\nReturn answer required by the Query."},
+            ]
+
     async def run_sample(self, sample: Sample, llm: LLMService) -> Dict[str, Any]:
         """Run RAG evaluation on a sample.
 
@@ -192,10 +233,7 @@ class RAGMethod(Method):
         # Edge case: If K ≤ top_k, use all reviews (no retrieval needed)
         if num_reviews <= self.top_k:
             context = sample.context or ""
-            messages = [
-                {"role": "system", "content": "You are a precise evaluator. Answer strictly based on the provided context."},
-                {"role": "user", "content": f"Query: {sample.query}\n\nContext:\n{context}\n\nReturn answer required by the Query."},
-            ]
+            messages = self._build_messages(sample.query, context)
 
             # Call LLM
             response, usage = await llm.call_async_with_usage(
@@ -226,17 +264,14 @@ class RAGMethod(Method):
             }
 
         # Try to load cached retrieval results first
-        cached_retrieval = self._load_cached_retrieval(sample.sample_id, self.top_k)
+        cached_retrieval = self._load_cached_retrieval(sample.sample_id, num_reviews, self.top_k)
         if cached_retrieval:
             # Cache hit - use cached retrieval results
             top_indices = cached_retrieval["top_indices"]
             top_reviews = [reviews[i] for i in top_indices]
             reduced_context = self._build_reduced_context(restaurant, top_reviews)
 
-            messages = [
-                {"role": "system", "content": "You are a precise evaluator. Answer strictly based on the provided context."},
-                {"role": "user", "content": f"Query: {sample.query}\n\nContext:\n{reduced_context}\n\nReturn answer required by the Query."},
-            ]
+            messages = self._build_messages(sample.query, reduced_context)
 
             # Call LLM
             response, usage = await llm.call_async_with_usage(
@@ -267,7 +302,7 @@ class RAGMethod(Method):
             }
 
         # Try to load cached embeddings
-        cached_embeddings = self._load_cached_embeddings(sample.sample_id)
+        cached_embeddings = self._load_cached_embeddings(sample.sample_id, num_reviews)
         cache_hit_embeddings = cached_embeddings is not None
 
         if cached_embeddings:
@@ -295,6 +330,7 @@ class RAGMethod(Method):
             # Save embeddings to cache
             self._save_embeddings_to_cache(
                 sample.sample_id,
+                num_reviews,
                 {
                     "query_embedding": query_embedding,
                     "review_embeddings": review_embeddings,
@@ -317,6 +353,7 @@ class RAGMethod(Method):
         # Save retrieval results to cache
         self._save_retrieval_to_cache(
             sample.sample_id,
+            num_reviews,
             self.top_k,
             {
                 "top_indices": top_indices,
@@ -330,10 +367,7 @@ class RAGMethod(Method):
         reduced_context = self._build_reduced_context(restaurant, top_reviews)
 
         # Build prompt (same format as DirectMethod)
-        messages = [
-            {"role": "system", "content": "You are a precise evaluator. Answer strictly based on the provided context."},
-            {"role": "user", "content": f"Query: {sample.query}\n\nContext:\n{reduced_context}\n\nReturn answer required by the Query."},
-        ]
+        messages = self._build_messages(sample.query, reduced_context)
 
         # Call LLM with reduced context
         response, usage = await llm.call_async_with_usage(
