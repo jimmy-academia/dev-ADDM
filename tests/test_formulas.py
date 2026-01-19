@@ -1,7 +1,20 @@
-"""Comprehensive tests for all 72 formula modules.
+"""DEPRECATED: Tests for formula modules that no longer exist.
 
+The ADDM project has transitioned from formula modules (src/addm/tasks/formulas/)
+to a policy-based system (src/addm/query/policies/). These tests will fail with
+ModuleNotFoundError and are kept only for historical reference.
+
+Original purpose:
+Comprehensive tests for all 72 formula modules.
 Converted from scripts/verify_formulas.py to pytest format.
 Tests basic functionality and schema compliance for all task formulas.
+
+Current system:
+- Policy definitions: src/addm/query/policies/ (72 YAML files, G1-G6)
+- Term libraries: src/addm/query/libraries/terms/
+- Ground truth: src/addm/tasks/policy_gt.py (policy-based GT computation)
+
+All 382 tests in this file will fail. This is expected and intentional.
 """
 
 import importlib

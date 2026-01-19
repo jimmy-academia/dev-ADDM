@@ -29,7 +29,7 @@ from typing import Any, Dict, List, Optional
 
 import numpy as np
 
-from addm.eval import VERDICT_TO_ORDINAL, compute_ordinal_auprc
+from addm.eval import VERDICT_TO_ORDINAL, compute_ordinal_auprc, compute_unified_metrics
 from addm.llm import LLMService
 from addm.llm_batch import BatchClient, build_chat_batch_item
 from addm.methods.rlm import eval_restaurant_rlm

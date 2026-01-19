@@ -129,10 +129,10 @@ output.cron_removed(marker="addm_G1a_20260116")
 from addm.utils.logging import ResultLogger
 
 # Initialize (provide output file path)
-logger = ResultLogger(output_file=Path("results/dev/run1/results.jsonl"))
+logger = ResultLogger(output_file=Path("results/dev/run1/results.json"))
 
 # Enable/disable dynamically
-logger.enable(output_file=Path("results.jsonl"))
+logger.enable(output_file=Path("results.json"))
 logger.disable()
 
 # Log a single result
@@ -227,7 +227,7 @@ from addm.utils.usage import usage_tracker
 output.configure(quiet=args.quiet, mode=args.mode)
 
 # Set up result logger
-result_logger = ResultLogger(output_file=run_paths.root / "results.jsonl")
+result_logger = ResultLogger(output_file=run_paths.root / "results.json")
 set_result_logger(result_logger)
 
 # UsageTracker is global singleton (always active)

@@ -54,12 +54,14 @@ Jan 18 ────────────────────────�
 ### Draft (needs revision)
 - Paper: Problem (Sec 3) - needs alignment with GT approach
 
-### In Progress
-- AMOS method (draft implementation prioritized)
+### Completed (Infrastructure)
+- **AMOS method**: ✅ Fully implemented (Phase 1 + Phase 2, tested)
+- **RAG baseline**: ✅ Implemented with caching (experimental results: 75% accuracy)
+- **RLM baseline**: ✅ Implemented (known issue: unreliable with gpt-5-nano)
 
 ### Not Started
 - Other topic extractions, GT computation (17 topics)
-- All baselines beyond direct
+- AMOS validation on G1_allergy (Phase I)
 - Paper: Related Work, Method, Experiments, Discussion, Conclusion
 
 ---

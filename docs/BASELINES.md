@@ -1,6 +1,20 @@
 # Baselines
 
-This document tracks baseline methods for ADDM experiments.
+This document describes baseline methods and the proposed AMOS method for ADDM experiments.
+
+---
+
+## Overview
+
+ADDM evaluates methods on 72 benchmark tasks requiring analysis of restaurant reviews (K=25/50/100/200).
+
+**Proposed Method:**
+- **AMOS** - Adaptive Multi-Output Sampling: Two-phase approach with cached Formula Seed and parallel extraction
+
+**Baseline Methods:**
+- **Direct** - Full-context prompting (all K reviews)
+- **RAG** - Retrieval-augmented generation (semantic search)
+- **RLM** - Recursive LLM with code execution
 
 ---
 
@@ -10,13 +24,118 @@ Methods are categorized by how they handle restaurant review context:
 
 | Mode | Method | Description | Token Cost |
 |------|--------|-------------|------------|
+| **Proposed** | **`amos`** | **Two-phase: Formula Seed generation + parallel extraction** | **~5k tokens** |
 | Full-context | `direct` | All K reviews in prompt | ~K×200 tokens |
 | Retrieval | `rag` | Embed query + reviews, retrieve top-k, LLM analyzes subset | ~4k tokens + embedding |
 | Code-execution | `rlm` | Reviews as Python variable, LLM writes search code | ~50k tokens |
 
 ---
 
-## Implemented Methods
+## Proposed Method
+
+### AMOS (Adaptive Multi-Output Sampling)
+
+| Attribute | Value |
+|-----------|-------|
+| Method | `amos` |
+| File | `src/addm/methods/amos_method.py` |
+| Description | Two-phase method: (1) LLM generates executable Formula Seed from policy, (2) Interpreter executes seed with parallel extraction |
+| Context handling | Keyword filtering + parallel LLM extraction of structured fields |
+| Token cost | ~5k tokens per restaurant (Phase 1 amortized across all samples) |
+| Strengths | Explicit search strategy, parallel extraction, deterministic aggregation, cached compilation |
+| Weaknesses | Depends on keyword filtering quality, may miss subtle incidents |
+
+**Key Innovation:** Separates policy understanding (Phase 1, cached) from data analysis (Phase 2, per-restaurant), enabling efficient parallel processing.
+
+**Usage:**
+```bash
+# Basic run
+.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 10 --method amos
+
+# Force regenerate Formula Seed (if policy changed)
+.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 10 --method amos --regenerate-seed
+
+# Dev mode
+.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 10 --method amos --dev
+```
+
+**How AMOS Works:**
+
+**Phase 1: Formula Seed Generation (once per policy)**
+1. LLM reads policy agenda/prompt
+2. LLM produces executable JSON specification (Formula Seed) with:
+   - **Filter**: Keywords to identify relevant reviews
+   - **Extract**: Structured fields to extract (enum/int/float/bool with possible values)
+   - **Compute**: Aggregation rules to calculate verdict
+3. Formula Seed cached to `data/formula_seeds/{policy_id}.json`
+4. Reused for all restaurants in the policy
+
+Example Formula Seed snippet:
+```json
+{
+  "task_name": "G1_allergy_V2",
+  "filter": {
+    "keywords": ["allergy", "allergic", "anaphylaxis", "epipen", ...]
+  },
+  "extract": {
+    "fields": [
+      {
+        "name": "incident_severity",
+        "type": "enum",
+        "values": {
+          "none": "No allergy incident",
+          "mild": "Minor reaction (itching, rash)",
+          "moderate": "Significant reaction (swelling, breathing difficulty)",
+          "severe": "Life-threatening (anaphylaxis, hospitalization)"
+        }
+      }
+    ]
+  },
+  "compute": [
+    {"name": "N_SEVERE", "op": "count", "where": {"incident_severity": "severe"}},
+    {"name": "SCORE", "op": "expr", "expr": "N_SEVERE * 15 + N_MODERATE * 5"},
+    {"name": "VERDICT", "op": "case", "source": "SCORE", "rules": [...]}
+  ]
+}
+```
+
+**Phase 2: Execution (per restaurant)**
+1. **Filter**: Scan all K reviews for keyword matches → relevant subset
+2. **Extract**: For each relevant review, LLM extracts structured fields in parallel (max 32 concurrent)
+3. **Compute**: Deterministic aggregation of extracted fields → final verdict
+
+**Caching:**
+- Formula Seeds cached in `data/formula_seeds/{policy_id}.json`
+- Use `--regenerate-seed` to force regeneration (e.g., after policy changes)
+
+**Design Rationale:**
+
+1. **Compilation model**: Separates policy understanding (expensive, done once) from data processing (cheaper, per-sample)
+2. **Observable steps**: Each phase produces inspectable artifacts (Formula Seed, extracted fields)
+3. **Deterministic aggregation**: Computation rules are explicit, not black-box LLM reasoning
+4. **Scalability**: Parallel extraction across reviews enables efficient processing at K=200
+
+**Comparison to Baselines:**
+
+| Aspect | AMOS | Direct | RAG | RLM |
+|--------|------|--------|-----|-----|
+| **Context strategy** | Keyword filter + parallel extract | Full context | Semantic retrieval | Code execution |
+| **Policy encoding** | Explicit Formula Seed | Implicit in prompt | Implicit in embedding | Implicit in code |
+| **Aggregation** | Deterministic rules | LLM reasoning | LLM reasoning | LLM reasoning |
+| **Scalability** | Parallel (32 concurrent) | Single call | Single call | Sequential iterations |
+| **Token cost** | ~5k | ~K×200 | ~4k + embed | ~50k |
+| **Phase 1 cost** | ~2k (amortized) | N/A | N/A | N/A |
+
+**Expected Performance:**
+- Should outperform Direct at K=100, 200 (avoids context rot)
+- Should match or exceed RAG (explicit keyword search vs. semantic similarity)
+- More efficient than RLM (lower token cost, parallel execution)
+
+**Status:** ✅ Fully implemented, ready for Phase I validation on G1_allergy
+
+---
+
+## Baseline Methods
 
 ### Direct Baseline
 
@@ -141,17 +260,19 @@ Methods are categorized by how they handle restaurant review context:
 
 For fair comparison across methods:
 
-| Method | Tokens/Restaurant | Relative Cost |
-|--------|-------------------|---------------|
-| ANoT (reference) | ~5,000 | 1x |
-| RAG (K=200, top-20) | ~4,000 + embed | 0.8x + embed |
-| Direct (K=50) | ~10,000 | 2x |
-| Direct (K=200) | ~40,000 | 8x |
-| RLM | ~50,000 | 10x |
+| Method | Tokens/Restaurant | Phase 1 Cost | Relative Cost |
+|--------|-------------------|--------------|---------------|
+| **AMOS (proposed)** | **~5,000** | **~2,000 (amortized)** | **1x** |
+| RAG (K=200, top-20) | ~4,000 + embed | N/A | 0.8x + embed |
+| Direct (K=50) | ~10,000 | N/A | 2x |
+| Direct (K=200) | ~40,000 | N/A | 8x |
+| RLM | ~50,000 | N/A | 10x |
 
 **Notes:**
-- RLM is ~10x more expensive than ANoT. This is accepted for baseline comparison purposes.
+- **AMOS Phase 1** cost is amortized across all samples (e.g., for 100 restaurants, adds ~20 tokens/restaurant)
+- RLM is ~10x more expensive than AMOS/RAG. This is accepted for baseline comparison purposes.
 - RAG embedding cost: ~$0.13/1M tokens. For K=200 (~40k tokens), embedding costs ~$0.005/restaurant.
+- **AMOS is designed to match RAG's token efficiency while providing explicit search strategies**
 
 ---
 
@@ -169,6 +290,8 @@ For fair comparison across methods:
 
 | Date | Change |
 |------|--------|
+| 2026-01-18 | **Added AMOS (Adaptive Multi-Output Sampling) as proposed method** - Two-phase approach with Formula Seed compilation and parallel extraction |
+| 2026-01-18 | Reorganized document structure to highlight AMOS as proposed method vs. baselines |
 | 2026-01-18 | Added RAG method with experimental results (75% accuracy, semantic retrieval limitations) |
 | 2026-01-18 | Fixed RAG cache key bug (cross-K contamination) |
 | 2026-01-18 | Added RLM method with 50k token budget |

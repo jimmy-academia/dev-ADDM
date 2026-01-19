@@ -81,7 +81,7 @@ scripts/
 │   ├── select_topic_restaurants.py
 │   └── download_amazon.sh
 ├── utils/              # Utility scripts
-│   ├── verify_formulas.py
+│   ├── verify_formulas.py  # (deprecated - formula modules no longer exist)
 │   └── test_allergy_query.py
 ├── run_g1_allergy.sh   # G1_allergy extraction pipeline
 └── manual_review.txt   # Reference doc

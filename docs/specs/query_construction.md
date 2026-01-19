@@ -241,11 +241,11 @@ STAFF_RESPONSE:
 ### NL-Only Prompts
 Prompts contain only natural language descriptions. No L0/L1/L2 pseudo-code or programmatic notation. The scoring system is described in words, not formulas.
 
-### Formulas Separate
-Python formula modules (`src/addm/tasks/formulas/`) remain separate from prompts. This allows:
-- Prompts to be human-readable
-- Formulas to be programmatically precise
-- Independent evolution of each
+### Policy-Based Ground Truth
+Ground truth computation uses policy definitions (`src/addm/query/policies/`) with deterministic scoring rules in `src/addm/tasks/policy_gt.py`. This allows:
+- Prompts to be human-readable (natural language)
+- Ground truth computation to be programmatically precise (structured rules)
+- Independent evolution of policy variants (V0-V3)
 
 ### No Bypass Rules in V2/V3
 V2 and V3 use score-based thresholds exclusively, with no single-instance bypasses (e.g., "severe incident → Critical"). This forces the model to perform full scoring calculation.
@@ -255,6 +255,8 @@ Thai, Vietnamese, and Chinese cuisines receive +2 points due to common use of pe
 
 ## Current Status
 
-- **Allergy topic**: ✅ V0-V3 complete
-- **Other topics**: Pending (dietary, hygiene, then G2-G6)
-- **Formula alignment**: Pending (formulas still use a/b/c/d naming)
+- **Policy definitions**: ✅ All 72 complete (G1-G6, all topics, V0-V3)
+- **Term libraries**: ✅ All 18 topics complete
+- **Prompt generation**: ✅ CLI tool implemented (`addm.query.cli.generate`)
+- **System integration**: ✅ Experiment code updated (`--policy` flag in run_baseline.py)
+- **Legacy support**: ✅ Task IDs (G1a-G6l) still supported for backward compatibility

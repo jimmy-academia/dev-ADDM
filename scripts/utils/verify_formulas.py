@@ -1,5 +1,19 @@
 #!/usr/bin/env python3
 """
+DEPRECATED: This script verifies formula modules that no longer exist.
+
+The ADDM project has transitioned from formula modules (src/addm/tasks/formulas/)
+to a policy-based system (src/addm/query/policies/). This script is no longer
+functional and is kept only for historical reference.
+
+For the current system:
+- Policy definitions: src/addm/query/policies/ (72 YAML files, G1-G6)
+- Term libraries: src/addm/query/libraries/terms/
+- Prompt generation: .venv/bin/python -m addm.query.cli.generate
+
+This script will fail with ModuleNotFoundError when executed.
+
+Original purpose:
 Verify all 72 formula modules (GT formulas).
 
 4-Tier Verification:
@@ -7,9 +21,6 @@ Verify all 72 formula modules (GT formulas).
 - Tier 2: Cross-variant verification (a/b/c/d differentiation, L1.5 presence)
 - Tier 3: Prompt-constant sync (BASE_SCORE, thresholds)
 - Tier 4: Manual review file generation (non-blocking)
-
-Usage:
-    .venv/bin/python scripts/verify_formulas.py
 """
 
 import importlib
