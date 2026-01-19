@@ -635,9 +635,9 @@ async def main_task_async(args: argparse.Namespace) -> None:
 # =============================================================================
 
 
-def _get_policy_cache_path(domain: str) -> Path:
-    """Get cache path for policy-based extraction."""
-    return Path(f"data/tasks/{domain}/policy_cache.json")
+def _get_judgement_cache_path(domain: str) -> Path:
+    """Get cache path for L0 judgement extraction."""
+    return Path(f"data/tasks/{domain}/judgement_cache.json")
 
 
 async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
@@ -671,7 +671,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
     output.info(f"Processing {len(restaurants)} restaurants from {dataset_path.name}")
 
     # Initialize policy cache
-    cache_path = _get_policy_cache_path(args.domain)
+    cache_path = _get_judgement_cache_path(args.domain)
     cache = PolicyJudgmentCache(cache_path)
 
     # Check term hash for version mismatch
@@ -1260,7 +1260,7 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
     output.info(f"Processing {len(restaurants)} restaurants from {dataset_path.name}")
 
     # Initialize cache
-    cache_path = _get_policy_cache_path(args.domain)
+    cache_path = _get_judgement_cache_path(args.domain)
     cache = PolicyJudgmentCache(cache_path)
 
     # Check term hashes and set metadata

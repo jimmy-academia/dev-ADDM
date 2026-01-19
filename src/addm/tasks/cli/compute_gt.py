@@ -43,9 +43,9 @@ ALL_TOPICS = [
 ALL_POLICIES = [f"{topic}_{v}" for topic in ALL_TOPICS for v in ["V0", "V1", "V2", "V3"]]
 
 
-def _get_policy_cache_path(domain: str) -> Path:
-    """Get cache path for policy-based extraction."""
-    return Path(f"data/tasks/{domain}/policy_cache.json")
+def _get_judgement_cache_path(domain: str) -> Path:
+    """Get cache path for L0 judgement extraction."""
+    return Path(f"data/tasks/{domain}/judgement_cache.json")
 
 
 def _get_policy_gt_path(policy_id: str, domain: str, k: int) -> Path:
@@ -163,7 +163,7 @@ def main_policy(args: argparse.Namespace) -> None:
         restaurants = [json.loads(line) for line in f]
 
     # Load policy cache (aggregated judgments)
-    cache_path = _get_policy_cache_path(args.domain)
+    cache_path = _get_judgement_cache_path(args.domain)
     cache = PolicyJudgmentCache(cache_path)
     all_judgments = cache.get_all_aggregated(topic)
     print(f"Loaded {len(all_judgments)} aggregated judgments for {topic}")
