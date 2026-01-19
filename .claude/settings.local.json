@@ -55,7 +55,8 @@
       "Bash(for f in /Users/jimmyyeh/Documents/Station/dev-ADDM/results/dev/*/results.json)",
       "Bash(do grep -o '\"\"method\"\": \"\"[^\"\"]*\"\"' \"$f\")",
       "Bash(while read f)",
-      "Bash(do echo \"=== $f ===\")"
+      "Bash(do echo \"=== $f ===\")",
+      "Bash(do jq:*)"
     ]
   }
 }

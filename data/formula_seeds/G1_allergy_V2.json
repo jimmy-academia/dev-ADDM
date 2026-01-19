@@ -50,10 +50,10 @@
         "name": "INCIDENT_SEVERITY",
         "type": "enum",
         "values": {
-          "none": "No incident mentioned",
-          "Mild": "Mild incident (discomfort, minor symptoms)",
-          "Moderate": "Moderate incident (visible symptoms or medicated, not life-threatening)",
-          "Severe": "Severe incident (life-threatening, anaphylaxis, EpiPen, hospitalisation)"
+          "none": "No actual allergic reaction occurred - includes near-misses, hypotheticals ('could have'), failed accommodations where food wasn't eaten, and concerns without symptoms",
+          "Mild": "Actual mild allergic reaction occurred - reviewer experienced discomfort or minor symptoms after eating",
+          "Moderate": "Actual moderate allergic reaction occurred - reviewer experienced visible symptoms, needed medication, but not life-threatening",
+          "Severe": "Actual severe allergic reaction occurred - life-threatening symptoms, anaphylaxis, EpiPen used, or hospitalization required"
         }
       },
       {
@@ -108,7 +108,7 @@
         "name": "FIRSTHAND_INCIDENT_PRESENT",
         "type": "bool",
         "values": {
-          "true": "Represents a firsthand incident",
+          "true": "Represents a firsthand incident with actual allergic reaction or safety concern",
           "false": "No firsthand incident described"
         }
       }
@@ -119,101 +119,67 @@
       "name": "N_INCIDENTS",
       "op": "count",
       "where": {
-        "field": "FIRSTHAND_INCIDENT_PRESENT",
-        "value": true
+        "INCIDENT_SEVERITY": ["Mild", "Moderate", "Severe"]
+      }
+    },
+    {
+      "name": "MILD_POINTS",
+      "op": "sum",
+      "expr": "2",
+      "where": {
+        "INCIDENT_SEVERITY": "Mild"
+      }
+    },
+    {
+      "name": "MODERATE_POINTS",
+      "op": "sum",
+      "expr": "5",
+      "where": {
+        "INCIDENT_SEVERITY": "Moderate"
+      }
+    },
+    {
+      "name": "SEVERE_POINTS",
+      "op": "sum",
+      "expr": "15",
+      "where": {
+        "INCIDENT_SEVERITY": "Severe"
       }
     },
     {
       "name": "INCIDENT_POINTS",
-      "op": "case",
-      "source": "INCIDENT_SEVERITY",
-      "rules": [
-        {
-          "when": "Mild",
-          "then": 2
-        },
-        {
-          "when": "Moderate",
-          "then": 5
-        },
-        {
-          "when": "Severe",
-          "then": 15
-        },
-        {
-          "when": "none",
-          "then": 0
-        }
-      ]
+      "op": "expr",
+      "expr": "MILD_POINTS + MODERATE_POINTS + SEVERE_POINTS"
     },
     {
       "name": "ASSURANCE_POINTS",
-      "op": "case",
-      "source": "ASSURANCE_OF_SAFETY",
-      "rules": [
-        {
-          "when": "Assurance_given",
-          "then": 5
-        },
-        {
-          "when": "none",
-          "then": 0
-        },
-        {
-          "when": "No_assurance",
-          "then": 0
-        }
-      ]
+      "op": "sum",
+      "expr": "5",
+      "where": {
+        "INCIDENT_SEVERITY": ["Mild", "Moderate", "Severe"],
+        "ASSURANCE_OF_SAFETY": "Assurance_given"
+      },
+      "_comment": "False assurance modifier: +5 only when there's an incident AND explicit assurance was given"
     },
     {
       "name": "STAFF_POINTS",
-      "op": "case",
-      "source": "STAFF_RESPONSE",
-      "rules": [
-        {
-          "when": "Dismissive",
-          "then": 3
-        },
-        {
-          "when": "Accommodated",
-          "then": 0
-        },
-        {
-          "when": "Refused",
-          "then": 0
-        },
-        {
-          "when": "Not_described",
-          "then": 0
-        },
-        {
-          "when": "none",
-          "then": 0
-        }
-      ]
+      "op": "sum",
+      "expr": "3",
+      "where": {
+        "INCIDENT_SEVERITY": ["Mild", "Moderate", "Severe"],
+        "STAFF_RESPONSE": "Dismissive"
+      },
+      "_comment": "Dismissive staff modifier: +3 only when there's an incident AND staff was dismissive"
     },
     {
       "name": "CUISINE_POINTS",
-      "op": "case",
-      "source": "CUISINE_RISK",
-      "rules": [
-        {
-          "when": "Thai",
-          "then": 2
-        },
-        {
-          "when": "Vietnamese",
-          "then": 2
-        },
-        {
-          "when": "Chinese",
-          "then": 2
-        },
-        {
-          "when": "none",
-          "then": 0
-        }
-      ]
+      "op": "sum",
+      "expr": "2",
+      "where": {
+        "INCIDENT_SEVERITY": ["Mild", "Moderate", "Severe"],
+        "CUISINE_RISK": ["Thai", "Vietnamese", "Chinese"]
+      },
+      "_comment": "High-risk cuisine modifier: +2 only when there's an incident AND restaurant is Thai/Vietnamese/Chinese"
     },
     {
       "name": "SCORE",
@@ -247,6 +213,7 @@
   "_metadata": {
     "agenda_hash": "e6f4009275516f82",
     "policy_id": "G1_allergy_V2",
-    "generated_by": "gpt-5-nano"
+    "generated_by": "gpt-5-nano",
+    "fixed_by": "manual_correction_v1"
   }
 }

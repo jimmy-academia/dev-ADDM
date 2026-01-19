@@ -86,26 +86,29 @@ def normalize_amos_output(result: Dict[str, Any]) -> Dict[str, Any]:
         # Not an AMOS output, return original
         return result
 
-    # Build evidences from extractions
+    # Build evidences from extractions - only include actual incidents (severity != "none")
     evidences = []
     evidence_ids = []
     for i, extraction in enumerate(extractions):
         if not extraction.get("is_relevant", False):
             continue
 
+        # Only include extractions with actual incidents (not "none" severity)
+        severity = extraction.get("INCIDENT_SEVERITY")
+        if not severity or severity.lower() == "none":
+            continue  # Skip non-incidents
+
         review_id = extraction.get("review_id", f"unknown_{i}")
         evidence_id = f"E{i + 1}"
         evidence_ids.append(evidence_id)
 
         # Extract INCIDENT_SEVERITY field
-        severity = extraction.get("INCIDENT_SEVERITY")
-        if severity:
-            evidences.append({
-                "evidence_id": evidence_id,
-                "review_id": review_id,
-                "field": "INCIDENT_SEVERITY",
-                "judgement": severity.lower() if isinstance(severity, str) else str(severity),
-            })
+        evidences.append({
+            "evidence_id": evidence_id,
+            "review_id": review_id,
+            "field": "INCIDENT_SEVERITY",
+            "judgement": severity.lower() if isinstance(severity, str) else str(severity),
+        })
 
         # Extract ASSURANCE_CLAIM field (boolean)
         assurance = extraction.get("ASSURANCE_CLAIM")

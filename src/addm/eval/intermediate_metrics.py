@@ -350,9 +350,16 @@ def compute_verdict_support(
         # Check score consistency if method provided scoring_trace
         claimed_score = scoring_trace.get("total_score")
         if claimed_score is not None:
-            score_total += 1
-            if abs(computed_score - claimed_score) < 0.01:
-                score_matches += 1
+            # Convert to float if it's a string (LLM may return as string in JSON)
+            try:
+                claimed_score_float = float(claimed_score)
+            except (ValueError, TypeError):
+                claimed_score_float = None
+
+            if claimed_score_float is not None:
+                score_total += 1
+                if abs(computed_score - claimed_score_float) < 0.01:
+                    score_matches += 1
 
         per_sample.append({
             "business_id": biz_id,

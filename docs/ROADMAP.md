@@ -46,7 +46,7 @@ Jan 18 ────────────────────────�
 ### Completed (Phases 1-2)
 - [x] Data pipeline (18 topics, K=25/50/100/200)
 - [x] Query construction (72 policies, term libraries)
-- [x] Paper: Abstract, Introduction (~70%), Appendix A & C
+- [x] Paper: Abstract, Introduction (✅ first draft complete), Appendix A & C
 
 ### Completed (Phase I)
 - G1_allergy extraction and aggregation (raw + consensus L0 + GT V0-V3)
@@ -278,12 +278,16 @@ B4: Method (after A4 AMOS) → B5: Experiments
 
 ### B1. Introduction (Sec 1)
 
-Current: ~70% complete
+Current: ✅ **COMPLETE** (First Draft)
 
-- [ ] Adjust narrative for clear story flow
-- [ ] Define key claims that Discussion will address
-- [ ] Ensure contributions list matches final results
-- [ ] Link to Appendix A for extended justification
+- [x] Adjust narrative for clear story flow
+- [x] Define key claims that Discussion will address
+- [x] Add concrete motivating example showing versatility
+- [x] Expand method preview (AMOS two-phase framework)
+- [x] Expand experiment preview (benchmark characteristics)
+- [x] Strengthen positioning vs semantic operators
+- [ ] Ensure contributions list matches final results (pending experiments)
+- [x] Link to Appendix A for extended justification
 
 **Outputs for downstream sections**:
 - Key claims → B6 Discussion

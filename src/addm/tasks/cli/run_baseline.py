@@ -853,6 +853,32 @@ async def run_baseline(
                 if int_rows:
                     output.print_table("Intermediate Metrics", ["Metric", "Value"], int_rows)
 
+    # Compute unified 3-score metrics
+    unified_metrics = {}
+    if gt_verdicts:
+        # Load full GT data for unified metrics
+        from addm.eval.intermediate_metrics import load_gt_with_incidents, build_reviews_data
+
+        gt_data_full, _ = load_gt_with_incidents(gt_task_id, domain, k)
+        reviews_data = build_reviews_data(restaurants)
+
+        unified_metrics = compute_unified_metrics(
+            results=results,
+            gt_data=gt_data_full,
+            gt_verdicts=gt_verdicts,
+            method=method,
+            reviews_data=reviews_data,
+        )
+
+        # Display 3-score summary table
+        output.rule()
+        score_rows = [
+            ["AUPRC", f"{unified_metrics['auprc']:.1%}", "Higher = better ranking"],
+            ["Process", f"{unified_metrics['process_score']:.1f}%", ">75% = good"],
+            ["Consistency", f"{unified_metrics['consistency_score']:.1f}%", ">75% = good"],
+        ]
+        output.print_table("UNIFIED EVALUATION SCORES", ["Metric", "Score", "Target"], score_rows)
+
     # Log metrics to result logger if enabled
     if result_logger := get_result_logger():
         result_logger.log_metrics(
@@ -880,6 +906,12 @@ async def run_baseline(
         "total": total,
         "auprc": auprc_metrics,
         "intermediate_metrics": intermediate_metrics,
+        "unified_scores": {
+            "auprc": unified_metrics.get("auprc", 0.0),
+            "process_score": unified_metrics.get("process_score", 0.0),
+            "consistency_score": unified_metrics.get("consistency_score", 0.0),
+        } if unified_metrics else None,
+        "unified_metrics_full": unified_metrics if unified_metrics else None,
         "results": results,
     }
 
