@@ -52,9 +52,8 @@ data/
 ├── selection/{dataset}/    # Restaurant selections (topic_100.json)
 ├── context/{dataset}/      # Built datasets (K=25/50/100/200)
 ├── query/{dataset}/        # Task prompts
-└── evaluation/{dataset}/   # Ground truth & caches
+└── answers/{dataset}/      # Ground truth & caches
     ├── judgement_cache.json        # L0 judgement cache (raw + aggregated)
-    ├── policy_cache.json           # RAG embeddings/retrieval cache
     ├── *_K*_groundtruth.json       # Ground truth files
     ├── batch_manifest_*.json       # Multi-batch tracking (gitignored)
     └── batch_errors_*.jsonl        # Batch API errors for diagnostics (gitignored)
@@ -62,6 +61,8 @@ data/
 results/
 ├── dev/{timestamp}_{name}/     # Dev run outputs (results.json)
 ├── prod/                       # Production runs
+├── cache/                      # Method caches (gitignored)
+│   └── rag_embeddings.json     # RAG embedding/retrieval cache
 └── logs/                       # Debug & pipeline logs (gitignored)
     ├── extraction/             # Extraction pipeline logs
     └── debug/{run_id}/         # LLM prompt/response capture
@@ -86,13 +87,12 @@ scripts/
 └── manual_review.txt   # Reference doc
 
 src/addm/
-├── methods/            # LLM methods (direct, etc.)
-├── tasks/formulas/     # Formula modules per task
+├── methods/            # LLM methods (direct, rlm, rag, amos)
 ├── tasks/              # Extraction, execution, CLI
 ├── query/              # Query construction system
 │   ├── models/         # PolicyIR, Term, Operator
 │   ├── libraries/      # Term & operator YAML files
-│   ├── policies/       # Policy definitions (V0-V3)
+│   ├── policies/       # Policy definitions (G1-G6, V0-V3)
 │   └── generators/     # Prompt generation
 ├── data/               # Dataset loaders
 ├── eval/               # Evaluation metrics
@@ -227,7 +227,6 @@ total_usage = self._accumulate_usage([usage1, usage2, ...])
 **Other commands:**
 - Extract L0: `.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode 24hrbatch`
 - Compute GT: `.venv/bin/python -m addm.tasks.cli.compute_gt --policy G1_allergy_V2 --k 200`
-- Verify formulas: `.venv/bin/python scripts/utils/verify_formulas.py`
 - Generate prompt: `.venv/bin/python -m addm.query.cli.generate --policy G1/allergy/V2`
 
 **Useful flags:**
@@ -268,6 +267,10 @@ Available methods for `--method` flag in `run_baseline.py`:
 |--------|-------------|------------|
 | `direct` | Send all K reviews in prompt (default) | ~K×200 tokens |
 | `rlm` | Recursive LLM - code execution to search reviews | ~50k tokens (16 iters) |
+| `rag` | Retrieval-Augmented Generation - embed & retrieve relevant reviews | ~5k tokens (varies by --top-k) |
+| `amos` | Adaptive Multi-Output Sampling (proposed method) | ~5k tokens (seed + sampling) |
+
+See `docs/BASELINES.md` for detailed specifications of each method.
 
 **RLM Method** (`src/addm/methods/rlm.py`):
 - Uses [recursive-llm](https://github.com/ysz/recursive-llm) library (forked to `lib/recursive-llm/`)
@@ -290,20 +293,24 @@ Available methods for `--method` flag in `run_baseline.py`:
 
 ## Current Status
 
-- **Formula modules**: ✅ All 72 complete (G1a-G6l)
-- **Verification**: ✅ All pass - see `scripts/utils/verify_formulas.py`
-- **Manual review**: See `scripts/manual_review.txt`
-- **Query construction**: ✅ Complete
+- **Policy system**: ✅ Complete - Transitioned from formula modules to policy-based approach
   - ✅ ALL 72 policy definitions complete (G1-G6, all topics, V0-V3)
   - ✅ Term libraries for all 18 topics (`src/addm/query/libraries/terms/`)
   - ✅ Experiment code updated (`--policy`, `--dev` flags)
-- **Ground Truth Generation**: ✅ Complete - Two-step policy-based flow
+  - 📝 Legacy task IDs (G1a-G6l) still supported for backward compatibility
+- **Ground Truth Generation**: ✅ Infrastructure complete, 🔄 G1_allergy in progress
   - ✅ `src/addm/tasks/policy_gt.py` - Core GT computation logic
   - ✅ `src/addm/tasks/extraction.py` - PolicyJudgmentCache with dual cache
   - ✅ `src/addm/tasks/cli/extract.py` - Multi-model batch extraction (`--topic`, `--policy`, `--all`)
   - ✅ `src/addm/tasks/cli/compute_gt.py` - Policy-based GT computation
   - ✅ `docs/specs/ground_truth.md` - Full documentation
-- **Baselines**: See `docs/BASELINES.md` for full details
+  - ✅ G1_allergy: 16 GT files complete (V0-V3 × K=25/50/100/200)
+  - 🔄 G2-G6 topics: Pending (17 topics remaining)
+- **Methods**: See `docs/BASELINES.md` for full details
+  - ✅ Direct baseline (default)
+  - ✅ RLM baseline (code-execution approach)
+  - ✅ RAG baseline (retrieval-based approach)
+  - ✅ AMOS (proposed method - Adaptive Multi-Output Sampling)
 - **RLM Method**: ⚠️ Implemented but unreliable with gpt-5-nano
   - ✅ `src/addm/methods/rlm.py` created
   - ✅ `--method` and `--token-limit` CLI flags added
@@ -343,7 +350,7 @@ Two-step flow for policy-based GT:
 - `src/addm/tasks/policy_gt.py` - Aggregation, scoring, qualitative evaluation
 - `src/addm/tasks/extraction.py` - `PolicyJudgmentCache` with raw/aggregated dual cache
 - `data/answers/yelp/judgement_cache.json` - Cached L0 judgements
-- `data/answers/yelp/policy_cache.json` - RAG embeddings/retrieval cache
+- `results/cache/rag_embeddings.json` - RAG embedding/retrieval cache (gitignored)
 - `data/answers/yelp/{policy}_K{k}_groundtruth.json` - GT outputs
 
 See `docs/specs/ground_truth.md` for full details.

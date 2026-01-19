@@ -82,10 +82,12 @@ data/
 └── query/yelp/         # Task prompts
 
 src/addm/
-├── methods/            # LLM methods
-├── tasks/formulas/     # Formula modules (G1a.py, etc.)
-├── tasks/              # Extraction, execution
+├── methods/            # LLM methods (direct, rlm, rag, amos)
+├── tasks/              # Extraction, execution, CLI
 ├── query/              # Query construction (PolicyIR → prompts)
+│   ├── models/         # PolicyIR, Term, Operator
+│   ├── libraries/      # Term & operator YAML files
+│   └── policies/       # Policy definitions (G1-G6, V0-V3)
 ├── data/               # Dataset loaders
 └── eval/               # Metrics
 ```

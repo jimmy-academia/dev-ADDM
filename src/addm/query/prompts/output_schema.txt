@@ -22,6 +22,17 @@ Respond ONLY with a valid JSON object. Do not include any text before or after t
   "justification": {
     "triggered_rule": "<which verdict rule was triggered>",
     "direct_evidence": ["E1", "E2"],
+    "scoring_trace": {
+      "total_score": "<numeric total score>",
+      "breakdown": [
+        {
+          "evidence_id": "E1",
+          "base_points": "<points from severity>",
+          "modifiers": ["<modifier name if applicable>"],
+          "subtotal": "<points for this incident>"
+        }
+      ]
+    },
     "reasoning": "<1-3 sentences explaining how the evidence leads to the verdict>"
   },
 
@@ -42,6 +53,13 @@ Respond ONLY with a valid JSON object. Do not include any text before or after t
 - **justification**: Explanation of how you reached the verdict
   - **triggered_rule**: Which rule from the verdict rules was triggered (use the rule label if provided)
   - **direct_evidence**: List of evidence_ids (e.g., ["E1", "E3"]) that directly support triggering this rule. These must match IDs defined in the evidences array above.
+  - **scoring_trace**: Shows how points were calculated (required if the agenda uses point-based scoring)
+    - **total_score**: The sum of all points
+    - **breakdown**: Array showing each evidence item's contribution
+      - **evidence_id**: References an item in the evidences array
+      - **base_points**: Points from the severity/classification
+      - **modifiers**: Any modifier bonuses applied (e.g., "False assurance", "Dismissive staff")
+      - **subtotal**: Total points for this incident (base + modifiers)
   - **reasoning**: Brief explanation connecting the evidence to the verdict (1-3 sentences)
 
 - **other_notes**: Any additional observations, caveats, or uncertainties (optional, can be null)
@@ -49,7 +67,8 @@ Respond ONLY with a valid JSON object. Do not include any text before or after t
 ## Guidelines
 
 1. Extract ALL relevant evidence from the reviews, even if it doesn't change the verdict
-2. Use verbatim quotes for snippets - do not paraphrase
+2. Use EXACT verbatim quotes for snippets - copy text directly from the review without any changes or paraphrasing. The snippet must be a substring of the original review text.
 3. Each piece of evidence should have exactly one field classification
 4. The triggered_rule should match the rule labels defined in the agenda
 5. If no incidents are found, still provide the verdict with empty or minimal evidence
+6. When the agenda uses point-based scoring, always include scoring_trace showing how points were calculated

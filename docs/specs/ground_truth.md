@@ -223,14 +223,15 @@ Example:
 The legacy `--task` flag still works for backwards compatibility:
 
 ```bash
-# Extract (single model)
+# Extract (single model, uses task-to-topic mapping)
 .venv/bin/python -m addm.tasks.cli.extract --task G1a --k 50
 
-# Compute GT (uses formula module)
+# Compute GT (uses task-to-policy mapping)
 .venv/bin/python -m addm.tasks.cli.compute_gt --task G1a --k 50
 ```
 
-Legacy mode uses:
-- Single model extraction (no multi-model)
-- Formula modules (`src/addm/tasks/formulas/G1a.py`)
-- Separate cache (`data/answers/yelp/cache.json`)
+Legacy mode:
+- Maps task IDs (G1a) to topics (G1_allergy) via hardcoded mapping
+- Uses single model extraction (no multi-model ensemble)
+- Maintained for backward compatibility with existing scripts
+- **Note**: Policy-based mode (`--policy`, `--topic`) is recommended for new work

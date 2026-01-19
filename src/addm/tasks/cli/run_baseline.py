@@ -813,6 +813,46 @@ async def run_baseline(
         if auprc_rows:
             output.print_table("AUPRC Metrics", ["Metric", "Value"], auprc_rows)
 
+    # Compute intermediate metrics (if structured output available)
+    intermediate_metrics = None
+    has_structured = any(
+        r.get("parsed") and isinstance(r.get("parsed"), dict)
+        and "evidences" in r.get("parsed", {})
+        for r in results
+    )
+    if has_structured and gt_task_id:
+        from addm.eval.intermediate_metrics import (
+            compute_intermediate_metrics,
+            load_gt_with_incidents,
+            build_reviews_data,
+        )
+
+        # Load full GT with incidents
+        gt_data, _ = load_gt_with_incidents(gt_task_id, domain, k)
+
+        if gt_data:
+            # Build reviews data for snippet validation
+            reviews_data = build_reviews_data(restaurants)
+
+            intermediate_metrics = compute_intermediate_metrics(
+                results, gt_data, reviews_data
+            )
+
+            # Display summary
+            if intermediate_metrics.get("summary"):
+                summary = intermediate_metrics["summary"]
+                int_rows = []
+                for key in ["n_structured", "incident_precision", "severity_accuracy",
+                           "snippet_validity", "verdict_support_rate"]:
+                    val = summary.get(key)
+                    if val is not None:
+                        if isinstance(val, float):
+                            int_rows.append([key, f"{val:.3f}"])
+                        else:
+                            int_rows.append([key, str(val)])
+                if int_rows:
+                    output.print_table("Intermediate Metrics", ["Metric", "Value"], int_rows)
+
     # Log metrics to result logger if enabled
     if result_logger := get_result_logger():
         result_logger.log_metrics(
@@ -839,6 +879,7 @@ async def run_baseline(
         "correct": correct,
         "total": total,
         "auprc": auprc_metrics,
+        "intermediate_metrics": intermediate_metrics,
         "results": results,
     }
 
