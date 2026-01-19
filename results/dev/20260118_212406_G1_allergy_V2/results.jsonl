@@ -1,0 +1,2 @@
+{"timestamp": "2026-01-18T21:24:37.768917", "sample_id": "eZ-t73r7ETHjyclRB7SnwQ", "verdict": "Low Risk", "correct": false}
+{"timestamp": "2026-01-18T21:24:37.775393", "type": "metrics", "metrics": {"accuracy": 0.0}, "metadata": {"run_id": "G1_allergy_V2", "n_samples": 0}}

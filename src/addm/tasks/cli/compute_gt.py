@@ -42,6 +42,9 @@ ALL_TOPICS = [
 # All policies: each topic × V0-V3
 ALL_POLICIES = [f"{topic}_{v}" for topic in ALL_TOPICS for v in ["V0", "V1", "V2", "V3"]]
 
+# K values to generate GT for (when using --topic)
+K_VALUES = [25, 50, 100, 200]
+
 
 def _get_judgement_cache_path(domain: str) -> Path:
     """Get cache path for L0 judgement extraction."""
@@ -273,7 +276,7 @@ def main() -> None:
     target_group.add_argument(
         "--topic",
         type=str,
-        help="Topic (e.g., G1_allergy) - computes all V0-V3 variants",
+        help="Topic (e.g., G1_allergy) - computes all V0-V3 variants for K=25,50,100,200",
     )
     target_group.add_argument(
         "--policy",
@@ -286,7 +289,7 @@ def main() -> None:
 
     # Common options
     parser.add_argument("--domain", type=str, default="yelp", help="Domain (default: yelp)")
-    parser.add_argument("--k", type=int, default=200, help="Dataset K value (default: 200)")
+    parser.add_argument("--k", type=int, default=200, help="Dataset K value (default: 200, ignored when using --topic)")
     parser.add_argument("--verbose", action="store_true", help="Verbose output")
 
     args = parser.parse_args()
@@ -294,13 +297,26 @@ def main() -> None:
     if args.task:
         main_task(args)
     elif args.topic:
-        # Compute all V0-V3 for this topic
+        # Compute all V0-V3 for this topic across all K values
         if args.topic not in ALL_TOPICS:
             print(f"[ERROR] Unknown topic: {args.topic}")
             print(f"        Valid topics: {ALL_TOPICS}")
             return
+
+        # Generate GT for all K values (25, 50, 100, 200)
         args.policy = ",".join(f"{args.topic}_{v}" for v in ["V0", "V1", "V2", "V3"])
-        main_policy(args)
+        print(f"\n{'='*70}")
+        print(f"Generating GT for topic: {args.topic}")
+        print(f"K values: {K_VALUES}")
+        print(f"Policies: {args.policy}")
+        print(f"{'='*70}\n")
+
+        for k_value in K_VALUES:
+            print(f"\n{'#'*70}")
+            print(f"# K = {k_value}")
+            print(f"{'#'*70}\n")
+            args.k = k_value
+            main_policy(args)
     elif args.policy:
         main_policy(args)
     else:

@@ -388,7 +388,7 @@ async def run_baseline(
     policy_id: Optional[str] = None,
     domain: str = "yelp",
     k: int = 50,
-    n: int = 1,
+    n: int = 100,
     skip: int = 0,
     model: str = "gpt-5-nano",
     verbose: bool = True,
@@ -397,6 +397,7 @@ async def run_baseline(
     token_limit: Optional[int] = None,
     mode: str = "ondemand",
     batch_id: Optional[str] = None,
+    top_k: int = 20,
 ) -> Dict[str, Any]:
     """Run baseline evaluation.
 
@@ -462,7 +463,12 @@ async def run_baseline(
     else:
         output_dir = Path(f"results/baseline/{run_id}")
 
-    method_name = "RLM (Recursive LLM)" if method == "rlm" else "Direct LLM"
+    method_name_map = {
+        "rlm": "RLM (Recursive LLM)",
+        "rag": "RAG (Retrieval Augmented Generation)",
+        "direct": "Direct LLM",
+    }
+    method_name = method_name_map.get(method, "Direct LLM")
     output.header(f"{method_name} Baseline", run_id)
 
     # Build token limit display string
@@ -481,7 +487,7 @@ async def run_baseline(
         output.status(f"Ground truth from: {gt_task_id}")
 
     if mode == "24hrbatch":
-        if method == "rlm":
+        if method in ["rlm", "rag"]:
             raise ValueError("24hrbatch mode is only supported for method=direct")
 
         batch_client = BatchClient()
@@ -573,6 +579,88 @@ async def run_baseline(
             ]
             # RLM has lower concurrency due to multiple internal LLM calls
             results = await gather_with_concurrency(4, tasks)
+        elif method == "rag":
+            # RAG method - retrieval augmented generation
+            from addm.methods import build_method_registry
+            from addm.data.types import Sample
+
+            registry = build_method_registry()
+            rag_class = registry.get("rag")
+            rag_method = rag_class(top_k=top_k)
+
+            # Convert restaurants to Sample objects
+            samples = [
+                Sample(
+                    sample_id=r["business"]["business_id"],
+                    query=agenda,
+                    context=json.dumps(r),
+                    metadata={"restaurant_name": r["business"]["name"]},
+                )
+                for r in restaurants
+            ]
+
+            # Run via method interface
+            tasks = [rag_method.run_sample(s, llm) for s in samples]
+            results_raw = await gather_with_concurrency(32, tasks)
+
+            # Convert RAG results to expected format (build_result_from_response format)
+            results = []
+            for raw_result in results_raw:
+                sample_id = raw_result["sample_id"]
+                restaurant = next((r for r in restaurants if r["business"]["business_id"] == sample_id), None)
+                if not restaurant:
+                    continue
+
+                response = raw_result["output"]
+                parsed = extract_json_response(response)
+
+                if "parse_error" not in parsed:
+                    verdict = parsed.get("verdict")
+                    if verdict:
+                        v_lower = verdict.lower()
+                        if "low" in v_lower:
+                            verdict = "Low Risk"
+                        elif "critical" in v_lower:
+                            verdict = "Critical Risk"
+                        elif "high" in v_lower:
+                            verdict = "High Risk"
+
+                    results.append({
+                        "business_id": sample_id,
+                        "name": restaurant["business"]["name"],
+                        "response": response,
+                        "parsed": parsed,
+                        "verdict": verdict,
+                        "risk_score": None,
+                        "prompt_chars": raw_result.get("prompt_tokens", 0) * 4,  # Estimate
+                        # RAG-specific metrics
+                        "embedding_tokens": raw_result.get("embedding_tokens", 0),
+                        "embedding_cost_usd": raw_result.get("embedding_cost_usd", 0.0),
+                        "reviews_retrieved": raw_result.get("reviews_retrieved", 0),
+                        "reviews_total": raw_result.get("reviews_total", 0),
+                        "top_review_indices": raw_result.get("top_review_indices", []),
+                        "cache_hit_embeddings": raw_result.get("cache_hit_embeddings", False),
+                        "cache_hit_retrieval": raw_result.get("cache_hit_retrieval", False),
+                    })
+                else:
+                    verdict = extract_verdict(response)
+                    risk_score = extract_risk_score(response)
+                    results.append({
+                        "business_id": sample_id,
+                        "name": restaurant["business"]["name"],
+                        "response": response,
+                        "verdict": verdict,
+                        "risk_score": risk_score,
+                        "prompt_chars": raw_result.get("prompt_tokens", 0) * 4,
+                        # RAG-specific metrics
+                        "embedding_tokens": raw_result.get("embedding_tokens", 0),
+                        "embedding_cost_usd": raw_result.get("embedding_cost_usd", 0.0),
+                        "reviews_retrieved": raw_result.get("reviews_retrieved", 0),
+                        "reviews_total": raw_result.get("reviews_total", 0),
+                        "top_review_indices": raw_result.get("top_review_indices", []),
+                        "cache_hit_embeddings": raw_result.get("cache_hit_embeddings", False),
+                        "cache_hit_retrieval": raw_result.get("cache_hit_retrieval", False),
+                    })
         else:
             # Direct method - single LLM call with full context
             tasks = [eval_restaurant(r, agenda, llm, system_prompt) for r in restaurants]
@@ -725,7 +813,7 @@ def main() -> None:
 
     parser.add_argument("--domain", type=str, default="yelp", help="Domain")
     parser.add_argument("--k", type=int, default=50, help="Reviews per restaurant")
-    parser.add_argument("-n", type=int, default=1, help="Number of restaurants (0=all)")
+    parser.add_argument("-n", type=int, default=100, help="Number of restaurants (0=all)")
     parser.add_argument("--skip", type=int, default=0, help="Skip first N")
     parser.add_argument("--model", type=str, default="gpt-5-nano", help="Model")
     parser.add_argument("--quiet", action="store_true", help="Less verbose output")
@@ -738,14 +826,20 @@ def main() -> None:
         "--method",
         type=str,
         default="direct",
-        choices=["direct", "rlm"],
-        help="Method: direct (default) or rlm (recursive LLM)",
+        choices=["direct", "rlm", "rag"],
+        help="Method: direct (default), rlm (recursive LLM), or rag (retrieval augmented generation)",
     )
     parser.add_argument(
         "--token-limit",
         type=int,
         default=50000,
         help="Token budget per restaurant. RLM: ~3000 tokens/iter, so 50000 = ~16 iterations",
+    )
+    parser.add_argument(
+        "--top-k",
+        type=int,
+        default=20,
+        help="RAG: Number of reviews to retrieve (default: 20, ~10%% of K=200)",
     )
     parser.add_argument(
         "--mode",
@@ -773,6 +867,7 @@ def main() -> None:
             token_limit=args.token_limit,
             mode=args.mode,
             batch_id=args.batch_id,
+            top_k=args.top_k,
         )
     )
 
