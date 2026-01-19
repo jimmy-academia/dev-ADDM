@@ -28,42 +28,33 @@ Ensures session context is captured for seamless resume in next session.
 
 Create a session log at `docs/sessions/session_YYYY-MM-DD_<topic-slug>.md`:
 
+**Use compact format (max 20 lines):**
+
 ```markdown
-# Session Log: <Topic>
+# [YYYY-MM-DD] <Topic> <✅|🔄|⛔>
 
-**Date**: YYYY-MM-DD HH:MM
-**Status**: <in-progress | completed | blocked>
+**What**: One-sentence summary of what was worked on.
 
-## Summary
+**Impact**: Key outcome or result (optional, if significant).
 
-<2-3 sentence summary of what was worked on>
+**Files**:
+- `path/to/file.py` - Brief note
+- `path/to/other.py` - Brief note
 
-## Decisions Made
+**Next**:
+- Next step 1
+- Next step 2
 
-- <Decision 1>
-- <Decision 2>
+**Status**: <Uncommitted: X files | Blocked: reason | Ready: next action>
 
-## Current State
-
-<Where we left off - be specific enough that someone can continue>
-
-## Next Steps
-
-1. <Next step 1>
-2. <Next step 2>
-
-## Open Questions
-
-- <Question or unresolved choice>
-
-## Key Files
-
-- `path/to/file.py` - <why relevant>
-
-## Context & Background
-
-<Any important context, links to docs, or background info>
+**Context**: Any critical background (1-2 sentences max, optional)
 ```
+
+**Format guidelines**:
+- Use emojis: ✅ (completed), 🔄 (in-progress), ⛔ (blocked)
+- Keep total length under 20 lines
+- Be specific but concise
+- Focus on actionable information
 
 ### 2. Session Log Location
 
@@ -79,11 +70,13 @@ git status --short
 
 Display if there are uncommitted changes. Do NOT offer to commit - just inform.
 
-### 4. Todo Check
+### 4. Todo Check & Clear
 
 Check current todo list:
 - List any incomplete todos
-- These should be captured in the session log's "Next Steps"
+- Capture these in the session log's "Next Steps"
+- **Clear the todo list after archiving**: `TodoWrite(todos=[])`
+- This ensures fresh start for next session (todos persisted in session log only)
 
 ### 5. Background Process Check
 
@@ -177,54 +170,23 @@ If work is completed (not just paused):
 ## Example Session Log
 
 ```markdown
-# Session Log: Ground Truth Generation Script
+# [2025-01-18] Ground Truth Generation Script 🔄
 
-**Date**: 2025-01-18 14:30
-**Status**: in-progress
+**What**: Designed batch mode approach for GT generation. Chose Option A (single OpenAI batch) over concurrent batches for simplicity.
 
-## Summary
+**Files**:
+- `src/addm/tasks/cli/extract.py` - Has `--mode 24hrbatch` support
+- `src/addm/tasks/cli/compute_gt.py` - Needs PolicyIR support (currently uses old formulas)
+- `src/addm/llm_batch.py` - BatchClient infrastructure
 
-Designed the batch mode approach for ground truth generation. Decided on Option A
-(single OpenAI batch) over Option C (multiple concurrent batches) for simplicity.
+**Next**:
+- Decide: modify compute_gt.py or create new unified script
+- Implement batch submission for judgment extraction
+- Test with G1_allergy_V2 policy
 
-## Decisions Made
+**Status**: Uncommitted: 3 files
 
-- Use Option A: single batch submission via OpenAI Batch API
-- Reuse existing `extract.py` batch infrastructure (already implements Option A)
-- Goal: unify judgment extraction + GT computation into one script
-
-## Current State
-
-- Discovered `extract.py` already has `--mode 24hrbatch` support
-- `compute_gt.py` exists but uses old formula modules (G1a/b/c/d), not new PolicyIR (V0-V3)
-- Need to either:
-  - Add `--mode 24hrbatch` to `compute_gt.py`, OR
-  - Create new unified script
-
-## Next Steps
-
-1. Decide: modify `compute_gt.py` or create new script
-2. Implement batch submission for judgment extraction
-3. Implement collection + GT computation on batch completion
-4. Test with G1_allergy_V2 policy
-
-## Open Questions
-
-- Should compute_gt.py gain --mode support, or create compute_gt_batch.py?
-- How to handle PolicyIR scoring (V2/V3) vs old formula modules?
-
-## Key Files
-
-- `src/addm/tasks/cli/extract.py` - existing batch mode implementation
-- `src/addm/tasks/cli/compute_gt.py` - current GT computation (old formulas)
-- `src/addm/llm_batch.py` - BatchClient, build_chat_batch_item
-- `src/addm/query/policies/G1/allergy/V2.yaml` - example PolicyIR with scoring
-
-## Context & Background
-
-- Project uses PolicyIR system (V0-V3) replacing old formula modules (a/b/c/d)
-- See `docs/specs/query_construction.md` for PolicyIR details
-- Batch API gives 50% cost discount, 24hr completion window
+**Context**: Project now uses PolicyIR (V0-V3) instead of old formula modules (a/b/c/d). Batch API gives 50% cost discount, 24hr window.
 ```
 
 ## Decision Tree

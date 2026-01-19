@@ -169,7 +169,11 @@ class FormulaSeedInterpreter:
         review_id = review.get("review_id", "unknown")
         review_text = review.get("text", "")
 
-        prompt = _build_extraction_prompt(fields, review_text, review_id)
+        # Filter out temporal fields that should be populated from metadata
+        temporal_field_names = {"REVIEW_DATE", "AGE_YEARS"}
+        llm_fields = [f for f in fields if f.get("name") not in temporal_field_names]
+
+        prompt = _build_extraction_prompt(llm_fields, review_text, review_id)
         messages = [{"role": "user", "content": prompt}]
 
         response, usage = await self.llm.call_async_with_usage(
@@ -181,6 +185,30 @@ class FormulaSeedInterpreter:
 
         extraction = _parse_extraction_response(response)
         extraction["review_id"] = review_id
+
+        # Populate temporal fields from review metadata
+        if any(f.get("name") in temporal_field_names for f in fields):
+            from datetime import datetime
+
+            review_date = review.get("date")  # Expecting ISO format or datetime object
+            if review_date:
+                # Convert to datetime if string
+                if isinstance(review_date, str):
+                    try:
+                        review_date_dt = datetime.fromisoformat(review_date.replace("Z", "+00:00"))
+                    except ValueError:
+                        review_date_dt = None
+                else:
+                    review_date_dt = review_date
+
+                # Populate REVIEW_DATE if requested
+                if any(f.get("name") == "REVIEW_DATE" for f in fields) and review_date_dt:
+                    extraction["REVIEW_DATE"] = review_date_dt.strftime("%Y-%m-%d")
+
+                # Populate AGE_YEARS if requested
+                if any(f.get("name") == "AGE_YEARS" for f in fields) and review_date_dt:
+                    age_days = (datetime.now() - review_date_dt).days
+                    extraction["AGE_YEARS"] = age_days / 365.25
 
         return extraction
 

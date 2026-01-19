@@ -35,13 +35,24 @@ Define what semantic signals must be extracted from each relevant review.
 - Types: "enum" (categorical), "int" (count), "float" (score), "bool" (yes/no)
 - For enum types, include "none" as the first value for reviews with no relevant content
 
+TEMPORAL INFORMATION:
+- If the task mentions recency, time-based scoring, or temporal decay, extract review dates
+- Use field name "REVIEW_DATE" with type "string" (format: "YYYY-MM-DD")
+- Add an "AGE_YEARS" field with type "float" to represent years since review
+- The computation phase can apply time-based weighting (e.g., decay factors, recency multipliers)
+
 ### 3. COMPUTATION
 Define how to aggregate extractions into final results:
 - "count": Count extractions matching conditions
-- "sum": Sum values from extractions
+- "sum": Sum values from extractions (can include conditional weighting)
 - "expr": Mathematical expression using other computed values
 - "lookup": Map restaurant attributes to values
 - "case": Threshold-based classification rules
+
+TEMPORAL WEIGHTING:
+- If the task requires recency weighting, use "sum" with conditional multipliers
+- Example: {{"op": "sum", "expr": "5 if AGE_YEARS < 2 else 2.5 if AGE_YEARS < 3 else 1.25", "where": {{...}}}}
+- Common patterns: full weight (recent), half weight (moderate age), quarter weight (old)
 
 Think step by step about what the task requires, then output the JSON specification.
 

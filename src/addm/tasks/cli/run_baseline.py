@@ -697,15 +697,10 @@ async def run_baseline(
                 if not restaurant:
                     return None
 
+                # Extract verdict directly from AMOS output (no normalization)
+                # Each policy defines its own verdict labels (e.g., "Low Risk", "Recommended", "Good Value")
+                # Hardcoded normalization was breaking non-risk tasks (G2-G6)
                 verdict = raw_result.get("verdict")
-                if verdict:
-                    v_lower = verdict.lower()
-                    if "low" in v_lower:
-                        verdict = "Low Risk"
-                    elif "critical" in v_lower:
-                        verdict = "Critical Risk"
-                    elif "high" in v_lower:
-                        verdict = "High Risk"
 
                 return {
                     "business_id": raw_result["sample_id"],

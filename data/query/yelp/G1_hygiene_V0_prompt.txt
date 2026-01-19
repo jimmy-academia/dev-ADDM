@@ -58,15 +58,8 @@ Whether the reviewer or their party got sick
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- {'text': '2 or more reviews report food poisoning or illness', 'type': 'count_threshold', 'filter': {'illness_reported': True, 'account_type': 'firsthand'}, 'min_count': 2}
-- {'text': 'Pest sightings (roaches, rodents) reported in multiple reviews', 'type': 'count_threshold', 'filter': {'issue_type': ['pest', 'rodent', 'roach'], 'account_type': 'firsthand'}, 'min_count': 2}
-
+- 2 or more reviews report food poisoning or illness- Pest sightings (roaches, rodents) reported in multiple reviews
 **High Risk** if Critical Risk does not apply, but any of the following is true:
-- {'text': '2 or more reviews describe major cleanliness issues', 'type': 'count_threshold', 'filter': {'issue_severity': 'major', 'account_type': 'firsthand'}, 'min_count': 2}
-- {'text': 'At least 1 review reports food poisoning', 'type': 'count_threshold', 'filter': {'illness_reported': True, 'account_type': 'firsthand'}, 'min_count': 1}
-- {'text': 'Multiple reviews describe hair or foreign objects in food', 'type': 'count_threshold', 'filter': {'issue_type': ['foreign_object', 'hair'], 'account_type': 'firsthand'}, 'min_count': 2}
-
+- 2 or more reviews describe major cleanliness issues- At least 1 review reports food poisoning- Multiple reviews describe hair or foreign objects in food
 **Low Risk** otherwise, especially when:
-- No hygiene issues are reported
-- Reviews describe the restaurant as clean
-- No illness reports
+- No hygiene issues are reported- Reviews describe the restaurant as clean- No illness reports

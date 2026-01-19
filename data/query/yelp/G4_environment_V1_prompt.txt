@@ -69,16 +69,8 @@ How well ambiance matches the concept
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- {'text': "At least 1 review describes atmosphere as 'stunning' or 'perfect'", 'type': 'count_threshold', 'filter': {'ambiance_fit': 'stunning'}, 'min_count': 1}
-- {'text': 'Environment specifically mentioned as reason to return', 'type': 'count_threshold', 'filter': {'ambiance_fit': 'return_worthy'}, 'min_count': 1}
-- {'text': 'Immersive or transportive experience praised', 'type': 'count_threshold', 'filter': {'ambiance_fit': 'immersive'}, 'min_count': 1}
-
+- At least 1 review describes atmosphere as 'stunning' or 'perfect'- Environment specifically mentioned as reason to return- Immersive or transportive experience praised
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- {'text': "At least 1 review describes space as 'filthy' or 'disgusting'", 'type': 'count_threshold', 'filter': {'cleanliness': 'filthy'}, 'min_count': 1}
-- {'text': "Noise level so loud customers left or couldn't converse", 'type': 'count_threshold', 'filter': {'noise_level': 'unbearable'}, 'min_count': 1}
-- {'text': 'Temperature issues (freezing/sweltering) significantly impacted meal', 'type': 'count_threshold', 'filter': {'temperature': 'extreme'}, 'min_count': 1}
-
+- At least 1 review describes space as 'filthy' or 'disgusting'- Noise level so loud customers left or couldn't converse- Temperature issues (freezing/sweltering) significantly impacted meal
 **Satisfactory** otherwise, especially when:
-- Environment is pleasant but not remarkable
-- Minor issues but overall acceptable
-- Gets the job done without standing out
+- Environment is pleasant but not remarkable- Minor issues but overall acceptable- Gets the job done without standing out

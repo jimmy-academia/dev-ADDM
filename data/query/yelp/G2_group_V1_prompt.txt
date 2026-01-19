@@ -74,16 +74,8 @@ Overall success of the group dining experience
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- {'text': "At least 1 review describes a 'perfect' group event (birthday, celebration)", 'type': 'count_threshold', 'filter': {'group_outcome': 'exceptional'}, 'min_count': 1}
-- {'text': 'Private room or group menu explicitly praised', 'type': 'count_threshold', 'filter': {'accommodation_quality': 'excellent'}, 'min_count': 1}
-- {'text': "Described as 'great for groups' or 'perfect for parties'", 'type': 'count_threshold', 'filter': {'accommodation_quality': ['excellent', 'great']}, 'min_count': 1}
-
+- At least 1 review describes a 'perfect' group event (birthday, celebration)- Private room or group menu explicitly praised- Described as 'great for groups' or 'perfect for parties'
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- {'text': "At least 1 review describes a group event being 'ruined' by the restaurant", 'type': 'count_threshold', 'filter': {'group_outcome': 'ruined'}, 'min_count': 1}
-- {'text': 'Group was split across multiple tables despite reservation', 'type': 'count_threshold', 'filter': {'accommodation_quality': ['poor', 'split']}, 'min_count': 1}
-- {'text': 'Refused to accommodate a group or split checks', 'type': 'count_threshold', 'filter': {'check_splitting': 'refused'}, 'min_count': 1}
-
+- At least 1 review describes a group event being 'ruined' by the restaurant- Group was split across multiple tables despite reservation- Refused to accommodate a group or split checks
 **Acceptable** otherwise, especially when:
-- Handles groups adequately but not exceptionally
-- Suitable for medium groups but struggles with large ones
-- Mixed experiences reported
+- Handles groups adequately but not exceptionally- Suitable for medium groups but struggles with large ones- Mixed experiences reported

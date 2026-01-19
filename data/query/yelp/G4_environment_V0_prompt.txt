@@ -69,16 +69,8 @@ How well ambiance matches the concept
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- {'text': 'Multiple reviews praise the atmosphere and environment', 'type': 'count_threshold', 'filter': {'ambiance_fit': 'excellent'}, 'min_count': 2}
-- {'text': 'Consistently described as clean, comfortable, and well-designed', 'type': 'count_threshold', 'filter': {'cleanliness': 'spotless', 'comfort': 'excellent'}, 'min_count': 2}
-- {'text': 'Ambiance enhances the dining experience', 'type': 'count_threshold', 'filter': {'ambiance_fit': 'enhances'}, 'min_count': 2}
-
+- Multiple reviews praise the atmosphere and environment- Consistently described as clean, comfortable, and well-designed- Ambiance enhances the dining experience
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- {'text': 'Multiple reviews describe cleanliness issues', 'type': 'count_threshold', 'filter': {'cleanliness': 'dirty'}, 'min_count': 2}
-- {'text': 'Consistent complaints about noise, temperature, or comfort', 'type': 'count_threshold', 'filter': {'noise_level': ['too_loud', 'unbearable']}, 'min_count': 2}
-- {'text': 'Environment detracts from dining experience', 'type': 'count_threshold', 'filter': {'ambiance_fit': 'detracts'}, 'min_count': 2}
-
+- Multiple reviews describe cleanliness issues- Consistent complaints about noise, temperature, or comfort- Environment detracts from dining experience
 **Satisfactory** otherwise, especially when:
-- Environment is acceptable but unremarkable
-- Some positive and some negative comments
-- Basic expectations met but not exceeded
+- Environment is acceptable but unremarkable- Some positive and some negative comments- Basic expectations met but not exceeded

@@ -59,16 +59,8 @@ Would customer wait again for this restaurant
 ## Verdict Rules
 
 A restaurant is considered **Definitely Worth Waiting** if any of the following is true:
-- {'text': "Multiple reviews say the experience was 'worth the wait'", 'type': 'count_threshold', 'filter': {'wait_justification': 'justified'}, 'min_count': 2}
-- {'text': 'Long waits consistently justified by exceptional experience', 'type': 'count_threshold', 'filter': {'wait_duration': 'long', 'wait_justification': 'exceptional'}, 'min_count': 2}
-- {'text': 'Reviewers say they would gladly wait again', 'type': 'count_threshold', 'filter': {'would_wait_again': True}, 'min_count': 2}
-
+- Multiple reviews say the experience was 'worth the wait'- Long waits consistently justified by exceptional experience- Reviewers say they would gladly wait again
 **Not Worth Waiting** if Definitely Worth Waiting does not apply, but any of the following is true:
-- {'text': "Multiple reviews describe waits as 'not worth it'", 'type': 'count_threshold', 'filter': {'wait_justification': 'not_justified'}, 'min_count': 2}
-- {'text': 'Reservations frequently not honored', 'type': 'count_threshold', 'filter': {'wait_type': 'reservation_not_honored'}, 'min_count': 2}
-- {'text': 'Long waits for mediocre experience', 'type': 'count_threshold', 'filter': {'wait_duration': 'long', 'wait_justification': 'not_justified'}, 'min_count': 2}
-
+- Multiple reviews describe waits as 'not worth it'- Reservations frequently not honored- Long waits for mediocre experience
 **Worth Waiting** otherwise, especially when:
-- Wait times are reasonable for the quality
-- Mixed reviews about whether wait is justified
-- Good experience but some timing issues
+- Wait times are reasonable for the quality- Mixed reviews about whether wait is justified- Good experience but some timing issues

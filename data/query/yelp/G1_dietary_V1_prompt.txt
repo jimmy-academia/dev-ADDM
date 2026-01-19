@@ -70,15 +70,8 @@ How staff responded when the concern was raised
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- {'text': 'At least 1 severe dietary incident (hospitalization, severe reaction)', 'type': 'count_threshold', 'filter': {'incident_severity': 'severe', 'account_type': 'firsthand'}, 'min_count': 1}
-- {'text': 'Staff confirmed food was safe for restriction, but it contained restricted ingredient (false assurance)', 'type': 'compound', 'filter': {'incident_severity': ['moderate', 'severe'], 'account_type': 'firsthand'}, 'requires': {'assurance_claim': 'true'}}
-
+- At least 1 severe dietary incident (hospitalization, severe reaction)- Staff confirmed food was safe for restriction, but it contained restricted ingredient (false assurance)
 **High Risk** if Critical Risk does not apply, but any of the following is true:
-- {'text': 'At least 1 moderate dietary incident (got sick, had symptoms)', 'type': 'count_threshold', 'filter': {'incident_severity': 'moderate', 'account_type': 'firsthand'}, 'min_count': 1}
-- {'text': 'Staff gave incorrect ingredient information that led to eating restricted food', 'type': 'compound', 'filter': {'account_type': 'firsthand'}, 'requires': {'staff_knowledge': 'incorrect'}}
-- {'text': 'Multiple reviews describe staff being dismissive of dietary requests', 'type': 'count_threshold', 'filter': {'staff_response': 'dismissive'}, 'min_count': 2}
-
+- At least 1 moderate dietary incident (got sick, had symptoms)- Staff gave incorrect ingredient information that led to eating restricted food- Multiple reviews describe staff being dismissive of dietary requests
 **Low Risk** otherwise, especially when:
-- No dietary incidents are reported
-- Reviews describe knowledgeable staff and successful accommodation
-- Menu clearly labels dietary options
+- No dietary incidents are reported- Reviews describe knowledgeable staff and successful accommodation- Menu clearly labels dietary options

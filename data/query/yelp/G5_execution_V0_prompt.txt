@@ -58,16 +58,8 @@ How well problems were resolved
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- {'text': 'Multiple reviews praise order accuracy', 'type': 'count_threshold', 'filter': {'order_accuracy': 'perfect'}, 'min_count': 2}
-- {'text': 'Modifications consistently handled well', 'type': 'count_threshold', 'filter': {'modification_handling': 'excellent'}, 'min_count': 2}
-- {'text': 'Issue resolution goes above and beyond', 'type': 'count_threshold', 'filter': {'issue_resolution': 'exceptional'}, 'min_count': 2}
-
+- Multiple reviews praise order accuracy- Modifications consistently handled well- Issue resolution goes above and beyond
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- {'text': 'Multiple reviews report wrong orders', 'type': 'count_threshold', 'filter': {'order_accuracy': 'wrong'}, 'min_count': 2}
-- {'text': 'Modifications frequently ignored', 'type': 'count_threshold', 'filter': {'modification_handling': 'ignored'}, 'min_count': 2}
-- {'text': 'Promises consistently broken', 'type': 'count_threshold', 'filter': {'promise_kept': 'broken'}, 'min_count': 2}
-
+- Multiple reviews report wrong orders- Modifications frequently ignored- Promises consistently broken
 **Satisfactory** otherwise, especially when:
-- Orders generally correct
-- Occasional issues handled adequately
-- Most promises kept
+- Orders generally correct- Occasional issues handled adequately- Most promises kept

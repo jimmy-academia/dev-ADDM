@@ -13,37 +13,41 @@ Reads recent session logs and produces an actionable briefing for the current se
 
 **You have NO memory of previous sessions.** This command recovers context by reading session logs written by `/bye`.
 
-## Protocol
+## Protocol (Optimized for Token Efficiency)
 
-### 1. Read Project Roadmap
+### 1. Read Project Roadmap Summary
 
 ```bash
-cat docs/ROADMAP.md 2>/dev/null
+cat docs/ROADMAP_SUMMARY.md 2>/dev/null
 ```
 
-If roadmap exists, extract:
-- Current phase and status
-- Days remaining to deadline
-- Today's focus (from weekly schedule)
-- Critical path tasks
-- Blockers/risks
+**If ROADMAP_SUMMARY.md exists**, it contains:
+- Current phase, timeline, days to deadline
+- Today's focus, critical path status, blockers
+
+**If it doesn't exist**, fall back to reading `docs/ROADMAP.md` but extract ONLY:
+- Current phase line
+- Timeline section (goal/hard deadline dates)
+- Today's focus line
+- Critical blockers (if any)
 
 ### 2. Discover Recent Session Logs
 
 ```bash
-ls -t docs/sessions/*.md 2>/dev/null | head -5
+ls -t docs/sessions/*.md 2>/dev/null | head -2
 ```
 
-If no logs exist, skip to step 5.
+Read only **1-2 most recent** session logs (not 5, not 3-5).
+
+If no logs exist, skip to step 4.
 
 ### 3. Read Latest Session Logs
 
-Read the **2-3 most recent** session logs. For each, extract:
-- Topic/summary
-- Status (in-progress, completed, blocked)
-- Key decisions
+Session logs now use compact format (max 20 lines each). Extract:
+- Topic/summary from title
+- Status emoji (✅/🔄/⛔)
 - Next steps
-- Open questions
+- Uncommitted file count (if any)
 
 ### 4. Produce Overview
 
@@ -132,18 +136,21 @@ If the user wants to continue previous work, use TodoWrite to populate the todo 
 ## Output Format Guidelines
 
 **DO:**
-- Be concise - this is a briefing, not a novel
-- **Start with roadmap status** (phase, timeline, today's focus)
-- **Integrate roadmap + session logs** in suggested todos
-- Prioritize in-progress work over completed
-- Highlight blockers or open questions from both roadmap and sessions
-- List concrete next steps aligned with project timeline
+- **Be ultra-concise** - target 30-40 lines total output
+- Use ROADMAP_SUMMARY.md (not full ROADMAP.md)
+- Read only 1-2 session logs (not 3-5)
+- Session logs are now compact (max 20 lines each)
+- Show status emojis (✅/🔄/⛔) not verbose descriptions
+- List 3-5 todos max (prioritize critical path)
+- List 3-5 key files max (most relevant only)
 
 **DON'T:**
-- Dump entire session logs or roadmap
-- Include completed work details (just note it's done)
-- Overwhelm with too many todos (4-6 max)
-- Skip the overview and jump into work
+- Run git status (adds tokens, low value)
+- Include completed work details (just show status emoji)
+- Read full ROADMAP.md (528 lines → use summary instead)
+- List all files from session logs (pick 3-5 most critical)
+
+**Token budget target**: <5,000 tokens for entire /hello execution
 
 **If roadmap doesn't exist:**
 - Omit the PROJECT STATUS section
@@ -153,45 +160,39 @@ If the user wants to continue previous work, use TodoWrite to populate the todo 
 ## Example Output
 
 ```
-🗓️ PROJECT STATUS (from ROADMAP.md)
+🗓️ PROJECT STATUS
 
 Phase: Phase I - G1_allergy Pipeline Validation
-Timeline: 14 days to goal (Feb 1), 21 days to hard deadline (Feb 8)
-Today's Focus: A1 (Aggregate GT), B1 (Polish Introduction)
-Blockers: gpt-5-mini batch needs re-submission
+Timeline: 13 days to goal (Feb 1), 20 days to hard deadline (Feb 8)
+Today's Focus: A4 (AMOS), B2 (Related Work)
+Blockers: None
 
 ─────────────────────────────────────────
 
 📋 RECENT SESSIONS
 
-1. [2026-01-18] Topic: Batch Pipeline Refactor
-   Status: completed
-   Summary: Removed cron, created run_g1_allergy.sh polling script.
-   Next: Test pipeline script, commit changes
+1. [2026-01-19] AMOS Generalization Fixes ✅
+   Next: Validate on diverse policies, commit changes
 
-2. [2026-01-18] Topic: Temperature Fix
-   Status: completed
-   Summary: Fixed gpt-5-mini batch failures (temperature=0 unsupported).
-   Next: Re-submit missing gpt-5-mini extractions
+2. [2026-01-19] Evaluation Docs & CLI ✅
+   Next: Run AMOS evaluation, verify >75% accuracy
 
 ─────────────────────────────────────────
 
 🎯 SUGGESTED TODOS
 
-Based on roadmap + recent sessions:
-- [ ] A1: Aggregate G1_allergy raw judgments → consensus L0
-- [ ] Re-submit gpt-5-mini batch (18,440 requests)
-- [ ] Test run_g1_allergy.sh pipeline script
-- [ ] B1: Polish Introduction, define key claims for Discussion
+- [ ] A4: Run AMOS evaluation on G1_allergy_V2 (K=50)
+- [ ] Commit AMOS generalization fixes (8 modified, 2 new)
+- [ ] Validate AMOS on G2_romance_V2, G3_price_worth_V2
+- [ ] B2: Draft Related Work (informs baseline selection)
 
 ─────────────────────────────────────────
 
-📁 KEY FILES (from recent sessions)
+📁 KEY FILES
 
-- scripts/run_g1_allergy.sh - New polling script
-- src/addm/tasks/cli/extract.py - Batch extraction CLI
-- src/addm/tasks/extraction.py - PolicyJudgmentCache
-- data/answers/yelp/policy_cache.json - L0 judgment cache
+- src/addm/methods/amos/ - Phase 1 & 2 (temporal support added)
+- docs/AMOS_GENERALIZATION.md - Generalizability analysis
+- docs/specs/evaluation.md - 3-score evaluation system
 
 ─────────────────────────────────────────
 

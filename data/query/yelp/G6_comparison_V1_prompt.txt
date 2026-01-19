@@ -58,16 +58,8 @@ Intent to switch to/from this restaurant
 ## Verdict Rules
 
 A restaurant is considered **Stronger** if any of the following is true:
-- {'text': "At least 1 review calls it 'best in the area'", 'type': 'count_threshold', 'filter': {'comparison_outcome': 'best_in_area'}, 'min_count': 1}
-- {'text': 'Described as replacement for closed favorite', 'type': 'count_threshold', 'filter': {'comparison_outcome': 'replacement'}, 'min_count': 1}
-- {'text': 'Named competitor described as inferior', 'type': 'count_threshold', 'filter': {'comparison_outcome': 'competitor_inferior'}, 'min_count': 1}
-
+- At least 1 review calls it 'best in the area'- Described as replacement for closed favorite- Named competitor described as inferior
 **Weaker** if Stronger does not apply, but any of the following is true:
-- {'text': "At least 1 review says 'go to X instead'", 'type': 'count_threshold', 'filter': {'preference_stated': 'competitor'}, 'min_count': 1}
-- {'text': 'Explicitly inferior to named competitor', 'type': 'count_threshold', 'filter': {'comparison_outcome': 'inferior'}, 'min_count': 1}
-- {'text': 'Customers leaving for competitor', 'type': 'count_threshold', 'filter': {'switching_intent': 'switching_from'}, 'min_count': 1}
-
+- At least 1 review says 'go to X instead'- Explicitly inferior to named competitor- Customers leaving for competitor
 **Comparable** otherwise, especially when:
-- Similar quality to nearby competitors
-- Trade-offs between restaurants
-- No clear winner in comparisons
+- Similar quality to nearby competitors- Trade-offs between restaurants- No clear winner in comparisons

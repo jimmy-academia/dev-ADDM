@@ -59,16 +59,8 @@ Service style appropriateness for romantic dining
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- {'text': 'Multiple reviews describe excellent romantic ambiance', 'type': 'count_threshold', 'filter': {'ambiance_quality': 'excellent'}, 'min_count': 2}
-- {'text': 'Reviews mention successful dates, proposals, or anniversaries', 'type': 'count_threshold', 'filter': {'date_outcome': 'positive'}, 'min_count': 2}
-- {'text': 'Consistently described as quiet, intimate, or romantic', 'type': 'count_threshold', 'filter': {'ambiance_quality': ['intimate', 'romantic']}, 'min_count': 2}
-
+- Multiple reviews describe excellent romantic ambiance- Reviews mention successful dates, proposals, or anniversaries- Consistently described as quiet, intimate, or romantic
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- {'text': 'Multiple reviews describe loud noise preventing conversation', 'type': 'count_threshold', 'filter': {'noise_level': 'loud'}, 'min_count': 2}
-- {'text': 'Reviews describe harsh lighting or unromantic atmosphere', 'type': 'count_threshold', 'filter': {'ambiance_quality': ['harsh', 'unromantic']}, 'min_count': 2}
-- {'text': 'Multiple date experiences described as negative', 'type': 'count_threshold', 'filter': {'date_outcome': 'negative'}, 'min_count': 2}
-
+- Multiple reviews describe loud noise preventing conversation- Reviews describe harsh lighting or unromantic atmosphere- Multiple date experiences described as negative
 **Acceptable** otherwise, especially when:
-- Mixed reviews about romantic suitability
-- Atmosphere is neutral - neither romantic nor anti-romantic
-- Food is good but ambiance is not particularly romantic
+- Mixed reviews about romantic suitability- Atmosphere is neutral - neither romantic nor anti-romantic- Food is good but ambiance is not particularly romantic

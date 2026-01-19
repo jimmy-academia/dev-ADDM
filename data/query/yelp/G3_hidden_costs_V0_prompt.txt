@@ -59,15 +59,8 @@ Customer's reaction to the hidden cost
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- {'text': 'Multiple reviews report significant undisclosed charges', 'type': 'count_threshold', 'filter': {'impact_severity': 'significant', 'disclosure_level': 'none'}, 'min_count': 2}
-- {'text': 'Pattern of bill surprises exceeding 20% of expected total', 'type': 'count_threshold', 'filter': {'impact_severity': 'major'}, 'min_count': 2}
-
+- Multiple reviews report significant undisclosed charges- Pattern of bill surprises exceeding 20% of expected total
 **High Risk** if Critical Risk does not apply, but any of the following is true:
-- {'text': 'Multiple reviews mention hidden fees or charges', 'type': 'count_threshold', 'filter': {'cost_type': ['hidden_fee', 'surcharge']}, 'min_count': 2}
-- {'text': 'Charges are poorly disclosed (fine print or not at all)', 'type': 'count_threshold', 'filter': {'disclosure_level': ['fine_print', 'none']}, 'min_count': 2}
-- {'text': "Reviews describe feeling 'scammed' or 'tricked'", 'type': 'count_threshold', 'filter': {'customer_reaction': 'deceived'}, 'min_count': 2}
-
+- Multiple reviews mention hidden fees or charges- Charges are poorly disclosed (fine print or not at all)- Reviews describe feeling 'scammed' or 'tricked'
 **Low Risk** otherwise, especially when:
-- No mentions of unexpected charges
-- Any fees are clearly disclosed
-- Billing is transparent and straightforward
+- No mentions of unexpected charges- Any fees are clearly disclosed- Billing is transparent and straightforward

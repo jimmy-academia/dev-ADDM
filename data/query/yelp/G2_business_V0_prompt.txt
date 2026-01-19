@@ -60,16 +60,8 @@ Privacy available for business discussions
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- {'text': 'Multiple reviews describe successful business meals or client meetings', 'type': 'count_threshold', 'filter': {'meeting_outcome': 'positive'}, 'min_count': 2}
-- {'text': 'Consistently described as professional, quiet, or suitable for meetings', 'type': 'count_threshold', 'filter': {'professionalism': ['professional', 'excellent']}, 'min_count': 2}
-- {'text': 'Efficient service that respects busy schedules', 'type': 'count_threshold', 'filter': {'service_efficiency': 'efficient'}, 'min_count': 2}
-
+- Multiple reviews describe successful business meals or client meetings- Consistently described as professional, quiet, or suitable for meetings- Efficient service that respects busy schedules
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- {'text': 'Multiple reviews describe it as too loud for conversation', 'type': 'count_threshold', 'filter': {'conversation_suitability': 'poor'}, 'min_count': 2}
-- {'text': 'Service is consistently described as too slow for business meals', 'type': 'count_threshold', 'filter': {'service_efficiency': 'slow'}, 'min_count': 2}
-- {'text': 'Atmosphere described as too casual or unprofessional', 'type': 'count_threshold', 'filter': {'professionalism': 'unprofessional'}, 'min_count': 2}
-
+- Multiple reviews describe it as too loud for conversation- Service is consistently described as too slow for business meals- Atmosphere described as too casual or unprofessional
 **Acceptable** otherwise, especially when:
-- Suitable for casual business but not formal client entertainment
-- Adequate noise level and service speed
-- Mixed reviews about business suitability
+- Suitable for casual business but not formal client entertainment- Adequate noise level and service speed- Mixed reviews about business suitability

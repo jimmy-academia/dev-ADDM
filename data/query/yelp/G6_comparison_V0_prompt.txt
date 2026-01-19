@@ -58,16 +58,8 @@ Intent to switch to/from this restaurant
 ## Verdict Rules
 
 A restaurant is considered **Stronger** if any of the following is true:
-- {'text': 'Multiple reviews favorably compare to competitors', 'type': 'count_threshold', 'filter': {'comparison_outcome': 'favorable'}, 'min_count': 2}
-- {'text': 'Customers switching from competitors to here', 'type': 'count_threshold', 'filter': {'switching_intent': 'switching_to'}, 'min_count': 2}
-- {'text': 'Consistently described as better than alternatives', 'type': 'count_threshold', 'filter': {'comparison_outcome': 'better'}, 'min_count': 2}
-
+- Multiple reviews favorably compare to competitors- Customers switching from competitors to here- Consistently described as better than alternatives
 **Weaker** if Stronger does not apply, but any of the following is true:
-- {'text': 'Multiple reviews prefer competitors', 'type': 'count_threshold', 'filter': {'preference_stated': 'competitor'}, 'min_count': 2}
-- {'text': 'Customers switching to competitors', 'type': 'count_threshold', 'filter': {'switching_intent': 'switching_from'}, 'min_count': 2}
-- {'text': 'Consistently described as inferior to alternatives', 'type': 'count_threshold', 'filter': {'comparison_outcome': 'inferior'}, 'min_count': 2}
-
+- Multiple reviews prefer competitors- Customers switching to competitors- Consistently described as inferior to alternatives
 **Comparable** otherwise, especially when:
-- Mixed comparisons
-- Similar to competitors
-- Different strengths and weaknesses
+- Mixed comparisons- Similar to competitors- Different strengths and weaknesses

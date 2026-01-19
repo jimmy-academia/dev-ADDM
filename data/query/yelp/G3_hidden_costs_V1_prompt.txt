@@ -59,16 +59,8 @@ Customer's reaction to the hidden cost
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- {'text': 'At least 1 review describes bill being significantly higher than expected without warning', 'type': 'count_threshold', 'filter': {'impact_severity': 'major', 'disclosure_level': 'none'}, 'min_count': 1}
-- {'text': 'Undisclosed fees greater than 15% of expected bill', 'type': 'count_threshold', 'filter': {'impact_severity': 'significant'}, 'min_count': 1}
-- {'text': 'Multiple charges hidden from customers until bill arrives', 'type': 'count_threshold', 'filter': {'disclosure_level': 'none'}, 'min_count': 2}
-
+- At least 1 review describes bill being significantly higher than expected without warning- Undisclosed fees greater than 15% of expected bill- Multiple charges hidden from customers until bill arrives
 **High Risk** if Critical Risk does not apply, but any of the following is true:
-- {'text': 'At least 1 review mentions unexpected service charge or auto-gratuity', 'type': 'count_threshold', 'filter': {'cost_type': ['service_charge', 'auto_gratuity']}, 'min_count': 1}
-- {'text': 'Fees mentioned only in fine print or not disclosed', 'type': 'count_threshold', 'filter': {'disclosure_level': ['fine_print', 'none']}, 'min_count': 1}
-- {'text': 'Customer describes feeling deceived about pricing', 'type': 'count_threshold', 'filter': {'customer_reaction': 'deceived'}, 'min_count': 1}
-
+- At least 1 review mentions unexpected service charge or auto-gratuity- Fees mentioned only in fine print or not disclosed- Customer describes feeling deceived about pricing
 **Low Risk** otherwise, especially when:
-- No mentions of hidden charges
-- Fees are clearly disclosed upfront
-- Transparent pricing praised
+- No mentions of hidden charges- Fees are clearly disclosed upfront- Transparent pricing praised

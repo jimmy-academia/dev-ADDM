@@ -59,16 +59,8 @@ Would customer wait again for this restaurant
 ## Verdict Rules
 
 A restaurant is considered **Definitely Worth Waiting** if any of the following is true:
-- {'text': "At least 1 review describes an hour+ wait that was 'totally worth it'", 'type': 'count_threshold', 'filter': {'wait_duration': 'very_long', 'wait_justification': 'exceptional'}, 'min_count': 1}
-- {'text': "Described as 'would wait any amount of time to eat here again'", 'type': 'count_threshold', 'filter': {'would_wait_again': 'definitely'}, 'min_count': 1}
-- {'text': 'Iconic or destination restaurant where wait is part of the experience', 'type': 'count_threshold', 'filter': {'wait_justification': 'iconic'}, 'min_count': 1}
-
+- At least 1 review describes an hour+ wait that was 'totally worth it'- Described as 'would wait any amount of time to eat here again'- Iconic or destination restaurant where wait is part of the experience
 **Not Worth Waiting** if Definitely Worth Waiting does not apply, but any of the following is true:
-- {'text': 'At least 1 review describes leaving due to wait', 'type': 'count_threshold', 'filter': {'would_wait_again': 'left'}, 'min_count': 1}
-- {'text': 'Reservation not honored with excessive additional wait', 'type': 'count_threshold', 'filter': {'wait_type': 'reservation_not_honored', 'wait_duration': 'excessive'}, 'min_count': 1}
-- {'text': "Described as 'waste of time' or 'not worth the hassle'", 'type': 'count_threshold', 'filter': {'wait_justification': 'waste'}, 'min_count': 1}
-
+- At least 1 review describes leaving due to wait- Reservation not honored with excessive additional wait- Described as 'waste of time' or 'not worth the hassle'
 **Worth Waiting** otherwise, especially when:
-- Reasonable waits for good food
-- Some timing issues but overall positive
-- Wait acceptable for the type of restaurant
+- Reasonable waits for good food- Some timing issues but overall positive- Wait acceptable for the type of restaurant

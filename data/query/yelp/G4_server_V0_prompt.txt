@@ -63,16 +63,8 @@ Errors made by the server
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- {'text': 'Multiple reviews praise server attentiveness and friendliness', 'type': 'count_threshold', 'filter': {'attentiveness': 'high', 'friendliness': 'high'}, 'min_count': 2}
-- {'text': 'Servers mentioned by name with exceptional praise', 'type': 'count_threshold', 'filter': {'named_positively': True}, 'min_count': 2}
-- {'text': 'Consistently described as knowledgeable and helpful', 'type': 'count_threshold', 'filter': {'menu_knowledge': 'excellent'}, 'min_count': 2}
-
+- Multiple reviews praise server attentiveness and friendliness- Servers mentioned by name with exceptional praise- Consistently described as knowledgeable and helpful
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- {'text': 'Multiple reviews describe inattentive or absent servers', 'type': 'count_threshold', 'filter': {'attentiveness': 'low'}, 'min_count': 2}
-- {'text': 'Consistent complaints about rude or unfriendly service', 'type': 'count_threshold', 'filter': {'friendliness': 'rude'}, 'min_count': 2}
-- {'text': 'Frequent service errors reported', 'type': 'count_threshold', 'filter': {'service_errors': 'frequent'}, 'min_count': 2}
-
+- Multiple reviews describe inattentive or absent servers- Consistent complaints about rude or unfriendly service- Frequent service errors reported
 **Satisfactory** otherwise, especially when:
-- Service is acceptable but not exceptional
-- Mixed reviews about server quality
-- Some good experiences, some issues
+- Service is acceptable but not exceptional- Mixed reviews about server quality- Some good experiences, some issues

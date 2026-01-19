@@ -59,16 +59,8 @@ How often reviewer has visited
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- {'text': 'Multiple regular customers praise consistency', 'type': 'count_threshold', 'filter': {'reliability': 'excellent', 'visit_frequency': 'regular'}, 'min_count': 2}
-- {'text': "Described as 'always reliable' or 'never disappoints'", 'type': 'count_threshold', 'filter': {'reliability': 'always'}, 'min_count': 2}
-- {'text': 'Quality stable or improving over time', 'type': 'count_threshold', 'filter': {'quality_trend': ['stable', 'improving']}, 'min_count': 2}
-
+- Multiple regular customers praise consistency- Described as 'always reliable' or 'never disappoints'- Quality stable or improving over time
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- {'text': 'Multiple reviews describe declining quality', 'type': 'count_threshold', 'filter': {'quality_trend': 'declining'}, 'min_count': 2}
-- {'text': "Described as 'hit or miss' or unpredictable", 'type': 'count_threshold', 'filter': {'reliability': 'unpredictable'}, 'min_count': 2}
-- {'text': 'Regular customers noting worsening experience', 'type': 'count_threshold', 'filter': {'visit_comparison': 'worse', 'visit_frequency': 'regular'}, 'min_count': 2}
-
+- Multiple reviews describe declining quality- Described as 'hit or miss' or unpredictable- Regular customers noting worsening experience
 **Satisfactory** otherwise, especially when:
-- Generally consistent with occasional variation
-- Most visits are good
-- Mixed reviews on reliability
+- Generally consistent with occasional variation- Most visits are good- Mixed reviews on reliability

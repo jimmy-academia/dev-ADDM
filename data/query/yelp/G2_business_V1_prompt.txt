@@ -67,16 +67,8 @@ How the business meal/meeting went
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- {'text': 'At least 1 review describes impressing a client at this restaurant', 'type': 'count_threshold', 'filter': {'meeting_outcome': 'exceptional'}, 'min_count': 1}
-- {'text': 'Private rooms or secluded seating explicitly mentioned', 'type': 'count_threshold', 'filter': {'privacy_level': 'private'}, 'min_count': 1}
-- {'text': "Described as 'perfect for business' or 'power lunch spot'", 'type': 'count_threshold', 'filter': {'professionalism': 'excellent'}, 'min_count': 1}
-
+- At least 1 review describes impressing a client at this restaurant- Private rooms or secluded seating explicitly mentioned- Described as 'perfect for business' or 'power lunch spot'
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- {'text': 'At least 1 review describes embarrassment with a client due to restaurant', 'type': 'count_threshold', 'filter': {'meeting_outcome': 'negative'}, 'min_count': 1}
-- {'text': "Described as 'couldn't hear each other' or 'had to shout'", 'type': 'count_threshold', 'filter': {'conversation_suitability': 'impossible'}, 'min_count': 1}
-- {'text': 'Service so slow that it impacted a business meeting', 'type': 'compound', 'filter': {'service_efficiency': 'very_slow'}, 'requires': {'meeting_outcome': 'negative'}}
-
+- At least 1 review describes embarrassment with a client due to restaurant- Described as 'couldn't hear each other' or 'had to shout'- Service so slow that it impacted a business meeting
 **Acceptable** otherwise, especially when:
-- Suitable for internal team lunches but not client entertainment
-- Professional enough for casual business dining
-- Mixed reviews about noise or service speed
+- Suitable for internal team lunches but not client entertainment- Professional enough for casual business dining- Mixed reviews about noise or service speed
