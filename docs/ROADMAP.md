@@ -48,16 +48,18 @@ Jan 18 ────────────────────────�
 - [x] Query construction (72 policies, term libraries)
 - [x] Paper: Abstract, Introduction (~70%), Appendix A & C
 
+### Completed (Phase I)
+- G1_allergy extraction and aggregation (raw + consensus L0 + GT V0-V3)
+
 ### Draft (needs revision)
 - Paper: Problem (Sec 3) - needs alignment with GT approach
 
 ### In Progress
-- G1_allergy extracted (raw only, needs aggregation)
+- AMOS method (draft implementation prioritized)
 
 ### Not Started
-- Other topic extractions, GT computation
+- Other topic extractions, GT computation (17 topics)
 - All baselines beyond direct
-- AMOS method
 - Paper: Related Work, Method, Experiments, Discussion, Conclusion
 
 ---
@@ -66,10 +68,10 @@ Jan 18 ────────────────────────�
 
 ### A1. Ground Truth Completion
 
-**Phase I (G1_allergy validation)**:
-- [ ] Aggregate G1_allergy raw judgments → consensus L0
-- [ ] Compute GT for G1_allergy V0-V3 policies
-- [ ] Verify GT quality (spot-check 5-10 samples)
+**Phase I (G1_allergy validation)**: ✅ COMPLETE
+- [x] Aggregate G1_allergy raw judgments → consensus L0
+- [x] Compute GT for G1_allergy V0-V3 policies
+- [ ] Verify GT quality (spot-check 5-10 samples) - optional
 
 **Phase II (Scale to all topics)**:
 - [ ] Submit batch extraction for remaining 17 topics (parallel)
@@ -399,18 +401,19 @@ Structure:
 
 | Day | Coding | Paper |
 |-----|--------|-------|
-| Sat 18 | A1: Aggregate G1_allergy GT | B1: Intro polish, define claims |
-| Sun 19 | A2: Experiment infrastructure design | **B2: Related Work draft** (informs baseline selection) |
-| Mon 20 | A3: Implement CoT, ReACT, RAG (per B2) | B2: Related Work complete, **B3: Problem revision** |
-| Tue 21 | A3: Run initial baselines on G1_allergy | B3: Align with GT approach |
-| Wed 22 | A4: AMOS design & implementation | - |
-| Thu 23 | A4: AMOS tuning, **validate beats baselines** | B4: Method (after AMOS works) |
-| Fri 24 | A5: LOTUS, ToT, GoT impl (per B2 positioning) | B4: Method complete |
-| Sat 25 | A5: Run advanced baselines, compare vs AMOS | - |
+| Sat 18 | ✅ A1: Aggregate G1_allergy GT | B1: Intro polish, define claims |
+| Sun 19 | **A4: AMOS draft implementation** | **B2: Related Work draft** (informs baseline selection) |
+| Mon 20 | A4: AMOS continued, basic functionality | B2: Related Work complete, **B3: Problem revision** |
+| Tue 21 | A2: Experiment infrastructure (informed by AMOS) | B3: Align with GT approach |
+| Wed 22 | A3: Implement CoT, ReACT, RAG (per B2) | - |
+| Thu 23 | A3: Run initial baselines + AMOS on G1_allergy | B4: Method (after AMOS works) |
+| Fri 24 | A4: AMOS tuning, **validate beats baselines** | B4: Method complete |
+| Sat 25 | A5: LOTUS, ToT, GoT impl + comparison | - |
 
 **Checkpoint (Sat 25)**: AMOS beats all baselines on G1_allergy ✓
 
 **Key insights**:
+- **AMOS first (Sun-Mon)** → informs experiment infrastructure needs (A2)
 - B2 Related Work early (Sun 19) → informs which baselines to implement (A3, A5)
 - B3 Problem revision (Mon-Tue) → must align with A1 GT approach
 
@@ -443,13 +446,15 @@ Structure:
 ### Phase I Critical Path (Week 1)
 
 ```
-A1: G1_allergy GT aggregation
+✅ A1: G1_allergy GT aggregation (COMPLETE)
     ↓
-A2: Experiment infrastructure (design for Phase II)
+A4: AMOS draft implementation (Sun-Mon)
+    ↓
+A2: Experiment infrastructure (design informed by AMOS needs)
     ↓
 A3: Initial Baselines (Direct, CoT, ReACT, RAG) on G1_allergy
     ↓
-A4: AMOS implementation & tuning
+A4: AMOS tuning & validation
     ↓
 B4: Paper Method section (AFTER AMOS works)
     ↓
@@ -474,7 +479,7 @@ B5: Paper Experiments (fill results)
 A9: Case Studies → B6: Discussion
 ```
 
-**Critical Path**: G1_allergy GT → baselines → AMOS validated → 17 topics batch → full runs → paper
+**Critical Path**: ✅ G1_allergy GT → AMOS draft → infrastructure → baselines → AMOS validated → 17 topics batch → full runs → paper
 
 ---
 
@@ -493,10 +498,10 @@ A9: Case Studies → B6: Discussion
 
 | Track | Task | Status | Target | Notes |
 |-------|------|--------|--------|-------|
-| A1 | GT Completion | In Progress | Jan 22 | G1_allergy raw done |
-| A2 | Experiment Infra | Not Started | Jan 19 | Design for Phase II |
-| A3 | Initial Baselines | Not Started | Jan 21 | CoT, ReACT, RAG |
-| A4 | AMOS | Not Started | Jan 23 | Critical |
+| A1 | GT Completion | ✅ Complete | Jan 18 | G1_allergy done (Phase I) |
+| A4 | AMOS | In Progress | Jan 20 | Draft first, then tune |
+| A2 | Experiment Infra | Not Started | Jan 21 | Design after AMOS draft |
+| A3 | Initial Baselines | Not Started | Jan 22 | CoT, ReACT, RAG |
 | A5 | Advanced Baselines | Not Started | Jan 25 | LOTUS, ToT, GoT |
 | A6 | Ablations | Not Started | Jan 27 | After AMOS |
 | A7 | Sensitivity | Not Started | Jan 29 | K variation |
@@ -513,4 +518,4 @@ A9: Case Studies → B6: Discussion
 
 ---
 
-*Last updated: Jan 18, 2026*
+*Last updated: Jan 18, 2026 (evening - A1 complete, AMOS prioritized)*
