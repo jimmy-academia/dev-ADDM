@@ -15,15 +15,28 @@ Reads recent session logs and produces an actionable briefing for the current se
 
 ## Protocol
 
-### 1. Discover Recent Session Logs
+### 1. Read Project Roadmap
 
 ```bash
-ls -t docs/logs/*.md 2>/dev/null | head -5
+cat docs/ROADMAP.md 2>/dev/null
 ```
 
-If no logs exist, skip to step 4.
+If roadmap exists, extract:
+- Current phase and status
+- Days remaining to deadline
+- Today's focus (from weekly schedule)
+- Critical path tasks
+- Blockers/risks
 
-### 2. Read Latest Session Logs
+### 2. Discover Recent Session Logs
+
+```bash
+ls -t docs/sessions/*.md 2>/dev/null | head -5
+```
+
+If no logs exist, skip to step 5.
+
+### 3. Read Latest Session Logs
 
 Read the **2-3 most recent** session logs. For each, extract:
 - Topic/summary
@@ -32,11 +45,20 @@ Read the **2-3 most recent** session logs. For each, extract:
 - Next steps
 - Open questions
 
-### 3. Produce Overview
+### 4. Produce Overview
 
 Display a concise briefing:
 
 ```
+🗓️ PROJECT STATUS (from ROADMAP.md)
+
+Phase: <current phase>
+Timeline: <days remaining> to goal, <days remaining> to hard deadline
+Today's Focus: <tasks from weekly schedule>
+Blockers: <critical blockers if any>
+
+─────────────────────────────────────────
+
 📋 RECENT SESSIONS
 
 1. [DATE] Topic: <topic>
@@ -51,10 +73,11 @@ Display a concise briefing:
 
 🎯 SUGGESTED TODOS
 
-Based on recent sessions, consider:
+Based on roadmap + recent sessions:
+- [ ] <Today's focus from roadmap>
 - [ ] <Next step from most recent in-progress session>
+- [ ] <Critical path task if applicable>
 - [ ] <Open question that needs resolution>
-- [ ] <Pending task>
 
 ─────────────────────────────────────────
 
@@ -68,82 +91,126 @@ Based on recent sessions, consider:
 Ready to continue. What would you like to work on?
 ```
 
-### 4. If No Session Logs Exist
+### 5. If No Session Logs Exist
+
+Still show roadmap status if available:
 
 ```
+🗓️ PROJECT STATUS (from ROADMAP.md)
+
+Phase: <current phase>
+Timeline: <days remaining> to goal
+Today's Focus: <tasks from weekly schedule>
+
+─────────────────────────────────────────
+
 📋 NO SESSION LOGS FOUND
 
 This appears to be a fresh start or logs haven't been created yet.
 
 To enable session persistence:
 - Use /bye when ending sessions to save context
-- Session logs will be stored in docs/logs/
-
-Ready to start. What would you like to work on?
-```
-
-### 5. Populate Todo List (Optional)
-
-If the user wants to continue previous work, use TodoWrite to populate the todo list with next steps from the session log.
-
-## Output Format Guidelines
-
-**DO:**
-- Be concise - this is a briefing, not a novel
-- Prioritize in-progress work over completed
-- Highlight blockers or open questions
-- List concrete next steps
-
-**DON'T:**
-- Dump entire session logs
-- Include completed work details (just note it's done)
-- Overwhelm with too many todos
-- Skip the overview and jump into work
-
-## Example Output
-
-```
-📋 RECENT SESSIONS
-
-1. [2025-01-18] Topic: Ground Truth Generation Batch Mode
-   Status: in-progress
-   Summary: Designed batch approach for GT generation. Decided Option A
-   (single batch). Found extract.py already supports --mode 24hrbatch.
-   Next: Decide whether to modify compute_gt.py or create new script
-
-2. [2025-01-17] Topic: Fix Auth Token Refresh
-   Status: completed
-   Summary: Fixed token refresh race condition in auth middleware.
+- Session logs will be stored in docs/sessions/
 
 ─────────────────────────────────────────
 
 🎯 SUGGESTED TODOS
 
-Based on recent sessions, consider:
-- [ ] Continue GT generation: decide compute_gt.py vs new script
-- [ ] Open question: How to handle PolicyIR scoring (V2/V3)?
+Based on roadmap:
+- [ ] <Today's focus from roadmap>
+- [ ] <Critical path task>
+
+─────────────────────────────────────────
+
+Ready to start. What would you like to work on?
+```
+
+### 6. Populate Todo List (Optional)
+
+If the user wants to continue previous work, use TodoWrite to populate the todo list with next steps from roadmap and session logs.
+
+## Output Format Guidelines
+
+**DO:**
+- Be concise - this is a briefing, not a novel
+- **Start with roadmap status** (phase, timeline, today's focus)
+- **Integrate roadmap + session logs** in suggested todos
+- Prioritize in-progress work over completed
+- Highlight blockers or open questions from both roadmap and sessions
+- List concrete next steps aligned with project timeline
+
+**DON'T:**
+- Dump entire session logs or roadmap
+- Include completed work details (just note it's done)
+- Overwhelm with too many todos (4-6 max)
+- Skip the overview and jump into work
+
+**If roadmap doesn't exist:**
+- Omit the PROJECT STATUS section
+- Fall back to session logs only
+- Note that `/roadmap` can be used to track milestones
+
+## Example Output
+
+```
+🗓️ PROJECT STATUS (from ROADMAP.md)
+
+Phase: Phase I - G1_allergy Pipeline Validation
+Timeline: 14 days to goal (Feb 1), 21 days to hard deadline (Feb 8)
+Today's Focus: A1 (Aggregate GT), B1 (Polish Introduction)
+Blockers: gpt-5-mini batch needs re-submission
+
+─────────────────────────────────────────
+
+📋 RECENT SESSIONS
+
+1. [2026-01-18] Topic: Batch Pipeline Refactor
+   Status: completed
+   Summary: Removed cron, created run_g1_allergy.sh polling script.
+   Next: Test pipeline script, commit changes
+
+2. [2026-01-18] Topic: Temperature Fix
+   Status: completed
+   Summary: Fixed gpt-5-mini batch failures (temperature=0 unsupported).
+   Next: Re-submit missing gpt-5-mini extractions
+
+─────────────────────────────────────────
+
+🎯 SUGGESTED TODOS
+
+Based on roadmap + recent sessions:
+- [ ] A1: Aggregate G1_allergy raw judgments → consensus L0
+- [ ] Re-submit gpt-5-mini batch (18,440 requests)
+- [ ] Test run_g1_allergy.sh pipeline script
+- [ ] B1: Polish Introduction, define key claims for Discussion
 
 ─────────────────────────────────────────
 
 📁 KEY FILES (from recent sessions)
 
-- src/addm/tasks/cli/extract.py - has batch mode implementation
-- src/addm/tasks/cli/compute_gt.py - current GT computation
-- src/addm/llm_batch.py - BatchClient
+- scripts/run_g1_allergy.sh - New polling script
+- src/addm/tasks/cli/extract.py - Batch extraction CLI
+- src/addm/tasks/extraction.py - PolicyJudgmentCache
+- data/tasks/yelp/policy_cache.json - L0 judgment cache
 
 ─────────────────────────────────────────
 
 Ready to continue. What would you like to work on?
 ```
 
-## Integration with /bye
+## Integration with Other Commands
 
-| /bye (session end) | /hello (session start) |
-|--------------------|------------------------|
-| Analyzes conversation | Reads session logs |
-| Writes to docs/logs/ | Discovers latest logs |
-| Captures decisions, state, next steps | Extracts and displays them |
-| No CLAUDE.md pointer (concurrent sessions) | Auto-discovers logs |
+| Command | Purpose | What /hello uses |
+|---------|---------|------------------|
+| `/bye` | Session end | Writes to docs/sessions/ → /hello reads them |
+| `/roadmap` | Milestone tracking | Updates ROADMAP.md → /hello shows project status |
+| `/orient` | Project overview | Reads CLAUDE.md for structure |
+
+**Session workflow:**
+1. `/hello` at start → roadmap + session logs → suggested todos
+2. Work on tasks
+3. `/roadmap` to update milestones (if needed)
+4. `/bye` at end → writes session log for next time
 
 ## When to Use
 
@@ -155,4 +222,6 @@ Ready to continue. What would you like to work on?
 ## Related
 
 - `/bye` - Session end, writes session logs
+- `/roadmap` - Project milestone tracking (updates ROADMAP.md)
 - `/orient` - General project orientation (reads CLAUDE.md)
+- `/doc` - Quick context capture

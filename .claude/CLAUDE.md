@@ -2,11 +2,23 @@
 
 ## Active Work
 
-**Current Phase**: Ground Truth Generation (Phase 3)
-**Status**: Multi-model extraction framework complete, extracting 18 topics
-**Next**: Complete topic extraction, compute GT for all 72 policies
+**Current Phase**: Phase I - G1_allergy Pipeline Validation
+**Status**: G1_allergy extracted (raw), ready for aggregation
+**Next**: Aggregate G1_allergy GT → implement baselines → AMOS development
 
-See `docs/ROADMAP.md` for full project progress.
+**Strategy**: Two-phase approach
+- **Week 1 (Phase I)**: Validate full pipeline on G1_allergy before scaling
+- **Week 2 (Phase II)**: Scale to all 18 topics with batch runs
+
+**Today's Focus** (Jan 18):
+- [ ] A1: Aggregate G1_allergy raw judgments → consensus L0
+- [ ] B1: Polish Introduction, define key claims for Discussion
+
+**Deadlines**:
+- Goal: Feb 1 (14 days)
+- Hard: Feb 8 (21 days)
+
+See `docs/ROADMAP.md` for detailed operational roadmap with daily tasks.
 
 ---
 
@@ -42,21 +54,34 @@ data/
 ├── query/{dataset}/        # Task prompts
 └── tasks/{dataset}/        # Extraction cache & batch files
     ├── policy_cache.json       # L0 judgment cache (raw + aggregated)
-    ├── batch_manifest_*.json   # Multi-batch tracking
-    ├── batch_manifest_*.log    # Manifest sidecar log (auto-deleted on completion)
-    └── batch_*.log             # Single-batch log (auto-deleted on completion)
+    ├── batch_manifest_*.json   # Multi-batch tracking (gitignored)
+    └── batch_errors_*.jsonl    # Batch API errors for diagnostics (gitignored)
 
 results/
-├── dev/{timestamp}_{name}/     # Dev run outputs
-│   ├── results.json            # Run results
-│   └── debug/                  # Debug logs (prompt/response capture)
-└── prod/                       # Production runs
+├── dev/{timestamp}_{name}/     # Dev run outputs (results.json)
+├── prod/                       # Production runs
+└── logs/                       # Debug & pipeline logs (gitignored)
+    ├── extraction/             # Extraction pipeline logs
+    └── debug/{run_id}/         # LLM prompt/response capture
 
 docs/
+├── sessions/           # Claude session logs (written by /bye)
 ├── README.md           # Doc index
 ├── architecture.md     # System overview
 ├── tasks/TAXONOMY.md   # 72 task definitions (6 groups × 12 tasks)
 └── specs/              # Detailed specifications
+
+scripts/
+├── data/               # Data preparation scripts
+│   ├── build_dataset.py
+│   ├── build_topic_selection.py
+│   ├── select_topic_restaurants.py
+│   └── download_amazon.sh
+├── utils/              # Utility scripts
+│   ├── verify_formulas.py
+│   └── test_allergy_query.py
+├── run_g1_allergy.sh   # G1_allergy extraction pipeline
+└── manual_review.txt   # Reference doc
 
 src/addm/
 ├── methods/            # LLM methods (direct, etc.)
@@ -90,12 +115,12 @@ src/addm/
 
 ```bash
 # Full pipeline (analyze → select → build)
-.venv/bin/python scripts/build_topic_selection.py --data yelp
-.venv/bin/python scripts/select_topic_restaurants.py --data yelp
-.venv/bin/python scripts/build_dataset.py --data yelp
+.venv/bin/python scripts/data/build_topic_selection.py --data yelp
+.venv/bin/python scripts/data/select_topic_restaurants.py --data yelp
+.venv/bin/python scripts/data/build_dataset.py --data yelp
 
 # Rebuild datasets only (if topic_100.json exists)
-.venv/bin/python scripts/build_dataset.py --data yelp
+.venv/bin/python scripts/data/build_dataset.py --data yelp
 ```
 
 **Selection algorithm**: Layered greedy by cell coverage
@@ -200,24 +225,36 @@ total_usage = self._accumulate_usage([usage1, usage2, ...])
 **Other commands:**
 - Extract L0: `.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode 24hrbatch`
 - Compute GT: `.venv/bin/python -m addm.tasks.cli.compute_gt --policy G1_allergy_V2 --k 200`
-- Verify formulas: `.venv/bin/python scripts/verify_formulas.py`
+- Verify formulas: `.venv/bin/python scripts/utils/verify_formulas.py`
 - Generate prompt: `.venv/bin/python -m addm.query.cli.generate --policy G1/allergy/V2`
 
 **Useful flags:**
-- `--show-status` (extract): Show progress during cron runs
 - `--dry-run` (extract): Test without API calls
 - `--verbose` (extract, compute_gt): Detailed output
 
+**Pipeline script:**
+```bash
+# Run G1_allergy GT extraction (waits for batches, Ctrl+C to stop)
+./scripts/run_g1_allergy.sh
+
+# Logs: results/logs/extraction/g1_allergy.log
+```
+
 ## Session Workflow
 
-**Starting a session**: Read this file (done automatically via session-startup.md)
+**Starting a session**: Use `/hello` (runs automatically via session-startup.md)
+- Reads `docs/ROADMAP.md` for project status and timeline
+- Reads recent session logs from `docs/sessions/`
+- Shows project phase, today's focus, and suggested todos
 
 **Ending a session**: Use `/bye` to:
 - Sync documentation (automatic)
 - Check git status and uncommitted work
 - Document incomplete todos
-- Capture session notes
+- Capture session notes to `docs/sessions/`
 - Get clean exit instructions
+
+**Tracking progress**: Use `/roadmap` to update project milestones
 
 **Exit cleanly**: After `/bye`, use `Ctrl+C` or `Ctrl+D` (safest for MCP servers).
 
@@ -252,7 +289,7 @@ Available methods for `--method` flag in `run_baseline.py`:
 ## Current Status
 
 - **Formula modules**: ✅ All 72 complete (G1a-G6l)
-- **Verification**: ✅ All pass - see `scripts/verify_formulas.py`
+- **Verification**: ✅ All pass - see `scripts/utils/verify_formulas.py`
 - **Manual review**: See `scripts/manual_review.txt`
 - **Query construction**: ✅ Complete
   - ✅ ALL 72 policy definitions complete (G1-G6, all topics, V0-V3)

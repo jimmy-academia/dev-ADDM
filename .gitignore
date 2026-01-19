@@ -219,5 +219,11 @@ data/selection/yelp/topic_all.json
 # Batch job manifests (temporary, machine-specific)
 data/tasks/*/batch_manifest_*.json
 
+# Batch error logs (diagnostic files, regenerable)
+data/tasks/*/batch_errors_*.jsonl
+
 # Extraction cache (large, regenerable)
 data/tasks/*/policy_cache.json
+
+# Debug and extraction logs (regenerable)
+results/logs/

@@ -1,6 +1,6 @@
 ---
 name: bye
-description: Clean exit with session context capture. Writes detailed resume log to docs/logs/, updates CLAUDE.md with pointer. Use when ending a session.
+description: Clean exit with session context capture. Writes detailed resume log to docs/sessions/, updates CLAUDE.md with pointer. Use when ending a session.
 user-invocable: true
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob, TodoWrite, Task, AskUserQuestion
 ---
@@ -26,7 +26,7 @@ Ensures session context is captured for seamless resume in next session.
 - **Open Questions**: Unresolved issues or choices
 - **Key Files**: Files that were discussed or modified
 
-Create a session log at `docs/logs/session_YYYY-MM-DD_<topic-slug>.md`:
+Create a session log at `docs/sessions/session_YYYY-MM-DD_<topic-slug>.md`:
 
 ```markdown
 # Session Log: <Topic>
@@ -67,9 +67,9 @@ Create a session log at `docs/logs/session_YYYY-MM-DD_<topic-slug>.md`:
 
 ### 2. Session Log Location
 
-Session logs are stored in `docs/logs/`. **Do NOT update CLAUDE.md with a pointer** - the user runs multiple concurrent sessions, so a single pointer would cause conflicts.
+Session logs are stored in `docs/sessions/`. **Do NOT update CLAUDE.md with a pointer** - the user runs multiple concurrent sessions, so a single pointer would cause conflicts.
 
-At session startup, Claude automatically reads the latest session logs from `docs/logs/` to understand recent context.
+At session startup, Claude automatically reads the latest session logs from `docs/sessions/` to understand recent context.
 
 ### 3. Git Status Check
 
@@ -106,7 +106,7 @@ If significant changes were made this session, remind about doc maintenance:
 ### 7. Final Message with Two Paths
 
 ```
-✓ Session context saved to: docs/logs/session_YYYY-MM-DD_<topic>.md
+✓ Session context saved to: docs/sessions/session_YYYY-MM-DD_<topic>.md
 
 ─────────────────────────────────────────
 
@@ -236,7 +236,7 @@ User invokes /bye
 │   └─► Extract: topic, decisions, state, next steps, questions
 │
 ├─► 2. Write session log
-│   └─► docs/logs/session_YYYY-MM-DD_<topic>.md
+│   └─► docs/sessions/session_YYYY-MM-DD_<topic>.md
 │
 ├─► 3. (No CLAUDE.md update - concurrent sessions)
 │   └─► Session logs auto-discovered at startup

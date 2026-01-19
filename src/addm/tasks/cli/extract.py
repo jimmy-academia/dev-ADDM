@@ -40,29 +40,34 @@ from addm.tasks.policy_gt import (
     get_topic_from_policy_id,
     load_term_library,
 )
-from addm.utils.cron import install_cron_job, remove_cron_job
 from addm.utils.output import output
 
 # Batch size limit (OpenAI max is 50K, use 40K for safety margin)
 MAX_BATCH_SIZE = 40000
 
 
-def _print_cron_installed(identifier: str, topic: str = None) -> None:
-    """Print cron installation message with status check instructions."""
-    import platform
-    output.success(f"Installed cron job: {identifier}")
-    output.info("Cron will poll every 5 minutes until batch completes.")
-    system = platform.system()
-    if system == "Linux":
-        output.warn("Cron output may not appear in terminal (check: mail or logs).")
-    elif system == "Darwin":
-        output.info("Mac users: Click 'Allow' if a permission popup appears.")
-    output.info("To check status manually:")
+def _log_batch_error(topic: str, custom_id: str, error: dict) -> None:
+    """Log batch error to audit file for diagnostics."""
+    log_path = Path(f"data/tasks/yelp/batch_errors_{topic}.jsonl")
+    entry = {
+        "timestamp": datetime.now().isoformat(),
+        "custom_id": custom_id,
+        "error": error,
+    }
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(log_path, "a") as f:
+        f.write(json.dumps(entry) + "\n")
+
+
+def _print_batch_submitted(identifier: str, topic: str = None) -> None:
+    """Print batch submitted message with status check instructions."""
+    output.success(f"Batch submitted: {identifier}")
+    output.info("Batch API processes requests within 24 hours.")
+    output.info("To check status, re-run this command (it will poll and process when ready).")
     if topic:
-        output.console.print(f"  [dim]crontab -l | grep ADDM[/dim]")
         output.console.print(f"  [dim].venv/bin/python -m addm.tasks.cli.extract --topic {topic}[/dim]")
-    else:
-        output.console.print(f"  [dim]crontab -l | grep ADDM[/dim]")
+    output.info("Or use the wrapper script:")
+    output.console.print(f"  [dim]./scripts/run_g1_allergy.sh[/dim]")
 
 
 def _get_manifest_path(domain: str, manifest_id: str) -> Path:
@@ -133,29 +138,6 @@ def _find_existing_manifests(domain: str, topic: str) -> List[Tuple[str, Dict[st
     return results
 
 
-def _find_cron_for_topic(topic: str) -> Optional[str]:
-    """Check if there's an existing cron job for this topic.
-
-    Returns the cron entry if found, None otherwise.
-    """
-    import subprocess
-    try:
-        result = subprocess.run(
-            ["crontab", "-l"],
-            capture_output=True,
-            text=True,
-            timeout=5
-        )
-        if result.returncode != 0:
-            return None
-        for line in result.stdout.split("\n"):
-            if f"ADDM_MANIFEST_{topic}_" in line:
-                return line
-        return None
-    except Exception:
-        return None
-
-
 def _check_and_report_status(args, topic: str) -> bool:
     """Check for existing batches and report status.
 
@@ -164,94 +146,82 @@ def _check_and_report_status(args, topic: str) -> bool:
     """
     from addm.llm_batch import BatchClient
 
-    # Check for existing cron job
-    cron_entry = _find_cron_for_topic(topic)
-
     # Check for existing manifest files
     manifests = _find_existing_manifests(args.domain, topic)
 
-    if not cron_entry and not manifests:
+    if not manifests:
         return False  # No existing job, proceed
 
     output.print(f"\n{'='*60}")
     output.print(f"EXISTING BATCH JOB DETECTED FOR: {topic}")
     output.print(f"{'='*60}\n")
 
-    if cron_entry:
-        # Extract manifest ID from cron entry
-        import re
-        match = re.search(r"--manifest-id\s+(\S+)", cron_entry)
-        manifest_id = match.group(1) if match else "unknown"
-        output.info(f"Cron job active: ADDM_MANIFEST_{manifest_id}")
+    batch_client = BatchClient()
 
-    if manifests:
-        batch_client = BatchClient()
+    for manifest_id, manifest in manifests:
+        output.print(f"\nManifest: {manifest_id}")
+        output.print(f"  Created: {manifest.get('created_at', 'unknown')}")
+        output.print(f"  Batches: {len(manifest.get('batches', []))}")
 
-        for manifest_id, manifest in manifests:
-            output.print(f"\nManifest: {manifest_id}")
-            output.print(f"  Created: {manifest.get('created_at', 'unknown')}")
-            output.print(f"  Batches: {len(manifest.get('batches', []))}")
+        # Check status of each batch
+        completed = 0
+        in_progress = 0
+        failed = 0
+        total_requests = 0
+        completed_requests = 0
+        failed_requests = 0
 
-            # Check status of each batch
-            completed = 0
-            in_progress = 0
-            failed = 0
-            total_requests = 0
-            completed_requests = 0
-            failed_requests = 0
+        for batch_info in manifest.get("batches", []):
+            batch_id = batch_info.get("batch_id", "")
+            if batch_info.get("processed"):
+                completed += 1
+                continue
 
-            for batch_info in manifest.get("batches", []):
-                batch_id = batch_info.get("batch_id", "")
-                if batch_info.get("processed"):
+            try:
+                batch = batch_client.get_batch(batch_id)
+                status = batch.status if hasattr(batch, "status") else batch.get("status", "unknown")
+                req_counts = batch.request_counts if hasattr(batch, "request_counts") else {}
+                total = getattr(req_counts, "total", 0) if hasattr(req_counts, "total") else req_counts.get("total", 0)
+                done = getattr(req_counts, "completed", 0) if hasattr(req_counts, "completed") else req_counts.get("completed", 0)
+                fail = getattr(req_counts, "failed", 0) if hasattr(req_counts, "failed") else req_counts.get("failed", 0)
+
+                total_requests += total
+                completed_requests += done
+                failed_requests += fail
+
+                model = batch_info.get("model", "?")
+
+                if status == "completed":
                     completed += 1
-                    continue
+                    output.success(f"  {batch_id[:20]}... [{model}] COMPLETED ({done}/{total})")
+                elif status in ("failed", "expired", "cancelled"):
+                    failed += 1
+                    output.error(f"  {batch_id[:20]}... [{model}] FAILED: {status}")
+                else:
+                    in_progress += 1
+                    output.status(f"  {batch_id[:20]}... [{model}] {status} ({done}/{total})")
+            except Exception as e:
+                output.error(f"  {batch_id[:20]}... ERROR: {e}")
 
-                try:
-                    batch = batch_client.get_batch(batch_id)
-                    status = batch.status if hasattr(batch, "status") else batch.get("status", "unknown")
-                    req_counts = batch.request_counts if hasattr(batch, "request_counts") else {}
-                    total = getattr(req_counts, "total", 0) if hasattr(req_counts, "total") else req_counts.get("total", 0)
-                    done = getattr(req_counts, "completed", 0) if hasattr(req_counts, "completed") else req_counts.get("completed", 0)
-                    fail = getattr(req_counts, "failed", 0) if hasattr(req_counts, "failed") else req_counts.get("failed", 0)
+        output.print(f"\n  Summary: {completed} completed, {in_progress} in-progress, {failed} failed")
+        if total_requests > 0:
+            output.print(f"  Requests: {completed_requests}/{total_requests} completed, {failed_requests} failed")
 
-                    total_requests += total
-                    completed_requests += done
-                    failed_requests += fail
-
-                    model = batch_info.get("model", "?")
-
-                    if status == "completed":
-                        completed += 1
-                        output.success(f"  {batch_id[:20]}... [{model}] COMPLETED ({done}/{total})")
-                    elif status in ("failed", "expired", "cancelled"):
-                        failed += 1
-                        output.error(f"  {batch_id[:20]}... [{model}] FAILED: {status}")
-                    else:
-                        in_progress += 1
-                        output.status(f"  {batch_id[:20]}... [{model}] {status} ({done}/{total})")
-                except Exception as e:
-                    output.error(f"  {batch_id[:20]}... ERROR: {e}")
-
-            output.print(f"\n  Summary: {completed} completed, {in_progress} in-progress, {failed} failed")
-            if total_requests > 0:
-                output.print(f"  Requests: {completed_requests}/{total_requests} completed, {failed_requests} failed")
-
-            if in_progress > 0:
-                output.info("\n  Status: STILL PROCESSING - cron will auto-process when complete")
-            elif failed > 0 and completed > 0:
-                output.warn("\n  Status: PARTIALLY FAILED - some batches failed")
-                output.print("  Action: Check failed batches, then re-run to submit missing requests")
-            elif failed > 0:
-                output.error("\n  Status: ALL FAILED - check errors above")
-            else:
-                output.success("\n  Status: ALL COMPLETE - run again to process results")
+        if in_progress > 0:
+            output.info("\n  Status: STILL PROCESSING - re-run to check again")
+        elif failed > 0 and completed > 0:
+            output.warn("\n  Status: PARTIALLY FAILED - some batches failed")
+            output.print("  Action: Check failed batches, then re-run to submit missing requests")
+        elif failed > 0:
+            output.error("\n  Status: ALL FAILED - check errors above")
+        else:
+            output.success("\n  Status: ALL COMPLETE - run again to process results")
 
     output.print(f"\n{'='*60}")
-    output.print("To check batch status manually:")
+    output.print("To check batch status:")
     output.print(f"  .venv/bin/python -m addm.tasks.cli.extract --topic {topic}")
     output.print("\nTo force new extraction (clears existing):")
-    output.print(f"  # First remove cron: crontab -l | grep -v 'ADDM_MANIFEST_{topic}' | crontab -")
-    output.print(f"  # Then delete manifest: rm data/tasks/{args.domain}/batch_manifest_{topic}_*.json")
+    output.print(f"  rm data/tasks/{args.domain}/batch_manifest_{topic}_*.json")
     output.print(f"{'='*60}\n")
 
     return True  # Existing job found, caller should exit
@@ -366,6 +336,22 @@ def _parse_policy_custom_id(
 # =============================================================================
 
 
+def _check_batch_item_error(item: Dict[str, Any], custom_id: str, topic: str) -> bool:
+    """Check if batch item has an error and log it.
+
+    Returns True if there was an error (caller should skip this item),
+    False if no error.
+    """
+    error = item.get("error")
+    if error:
+        error_code = error.get("code", "unknown")
+        error_msg = error.get("message", "no message")
+        output.warn(f"  Request failed [{custom_id[:30]}...]: {error_code}")
+        _log_batch_error(topic, custom_id, error)
+        return True
+    return False
+
+
 def _get_batch_response_text(item: Dict[str, Any]) -> Optional[str]:
     response = item.get("response") or {}
     body = response.get("body") or {}
@@ -374,62 +360,6 @@ def _get_batch_response_text(item: Dict[str, Any]) -> Optional[str]:
         message = choices[0].get("message") or {}
         return message.get("content")
     return None
-
-
-def _build_cron_command(args: argparse.Namespace, batch_id: str) -> str:
-    """Build cron command for legacy task extraction."""
-    repo_root = Path.cwd().resolve()
-    cmd = [
-        sys.executable,
-        "-m",
-        "addm.tasks.cli.extract",
-        "--task",
-        args.task,
-        "--domain",
-        args.domain,
-        "--k",
-        str(args.k),
-        "--mode",
-        "24hrbatch",
-        "--batch-id",
-        batch_id,
-    ]
-    if args.limit:
-        cmd.extend(["--limit", str(args.limit)])
-    cmd.extend(["--provider", args.provider, "--model", args.model])
-    if args.verbose:
-        cmd.append("--verbose")
-    command = " ".join(shlex.quote(c) for c in cmd)
-    log_path = _get_batch_log_path(args.domain, batch_id)
-    return f"cd {shlex.quote(str(repo_root))} && {command} >> {shlex.quote(str(log_path))} 2>&1"
-
-
-def _build_policy_cron_command(args: argparse.Namespace, batch_id: str, topic: str) -> str:
-    """Build cron command for policy-based extraction."""
-    repo_root = Path.cwd().resolve()
-    cmd = [
-        sys.executable,
-        "-m",
-        "addm.tasks.cli.extract",
-        "--topic",
-        topic,
-        "--domain",
-        args.domain,
-        "--k",
-        str(args.k),
-        "--mode",
-        "24hrbatch",
-        "--batch-id",
-        batch_id,
-    ]
-    if args.limit:
-        cmd.extend(["--limit", str(args.limit)])
-    cmd.extend(["--provider", args.provider])
-    if args.verbose:
-        cmd.append("--verbose")
-    command = " ".join(shlex.quote(c) for c in cmd)
-    log_path = _get_batch_log_path(args.domain, batch_id)
-    return f"cd {shlex.quote(str(repo_root))} && {command} >> {shlex.quote(str(log_path))} 2>&1"
 
 
 def _index_reviews(
@@ -613,13 +543,7 @@ async def main_task_async(args: argparse.Namespace) -> None:
 
         if not output_file_id:
             output.warn(f"No output file available for batch {args.batch_id}")
-            marker = f"ADDM_BATCH_{args.batch_id}"
-            try:
-                remove_cron_job(marker)
-                _delete_batch_log(args.domain, args.batch_id)
-                output.info(f"Removed cron job for {args.batch_id}")
-            except Exception as exc:
-                output.warn(f"Failed to remove cron job: {exc}")
+            _delete_batch_log(args.domain, args.batch_id)
             return
 
         output_bytes = batch_client.download_file(output_file_id)
@@ -636,6 +560,8 @@ async def main_task_async(args: argparse.Namespace) -> None:
             except ValueError:
                 continue
             if task_id != task.task_id:
+                continue
+            if _check_batch_item_error(item, custom_id, task.task_id):
                 continue
             response_text = _get_batch_response_text(item)
             if response_text is None:
@@ -664,13 +590,7 @@ async def main_task_async(args: argparse.Namespace) -> None:
         output.success(f"\nDone. Added {total_new} new judgments.")
         output.info(f"Cache now has {final_count} judgments for {task.task_id}")
 
-        marker = f"ADDM_BATCH_{args.batch_id}"
-        try:
-            remove_cron_job(marker)
-            _delete_batch_log(args.domain, args.batch_id)
-            output.info(f"Removed cron job for {args.batch_id}")
-        except Exception as exc:
-            output.warn(f"Failed to remove cron job: {exc}")
+        _delete_batch_log(args.domain, args.batch_id)
         return
 
     # Submit batch
@@ -707,13 +627,7 @@ async def main_task_async(args: argparse.Namespace) -> None:
     batch_id = batch_client.submit_batch(input_file_id)
     output.success(f"Submitted batch: {batch_id}")
 
-    marker = f"ADDM_BATCH_{batch_id}"
-    cron_line = f"*/5 * * * * {_build_cron_command(args, batch_id)} # {marker}"
-    try:
-        install_cron_job(cron_line, marker)
-        _print_cron_installed(batch_id)
-    except Exception as exc:
-        output.error(f"Failed to install cron job: {exc}")
+    _print_batch_submitted(batch_id)
 
 
 # =============================================================================
@@ -800,6 +714,29 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         output.info("Running in ondemand mode (for testing)")
         output.print("       For production, use: --mode 24hrbatch")
 
+        # Count what needs extraction per model BEFORE we start
+        needed_by_model: Dict[str, int] = {model: 0 for model in models_config.keys()}
+        reviews_needing_extraction = 0
+        for restaurant in restaurants:
+            for review in restaurant.get("reviews", []):
+                review_id = review.get("review_id", "")
+                if not review_id:
+                    continue
+                needed = cache.needs_extraction(topic, review_id, models_config)
+                if needed:
+                    reviews_needing_extraction += 1
+                    for model, _run in needed:
+                        needed_by_model[model] += 1
+
+        if reviews_needing_extraction == 0:
+            output.success("All extractions complete - nothing to do!")
+            return
+
+        output.info(f"Need to extract {reviews_needing_extraction} reviews:")
+        for model, count in needed_by_model.items():
+            if count > 0:
+                output.print(f"  {model}: {count} runs needed")
+
         llm = LLMService()
         if args.dry_run:
             def mock_responder(messages):
@@ -813,7 +750,9 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
                 max_concurrent=args.concurrency,
             )
 
-        total_raw = 0
+        # Track progress per model
+        success_by_model: Dict[str, int] = {model: 0 for model in models_config.keys()}
+        error_by_model: Dict[str, int] = {model: 0 for model in models_config.keys()}
         total_aggregated = 0
 
         for i, restaurant in enumerate(restaurants):
@@ -858,13 +797,14 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
                         judgment["useful"] = review.get("useful", 0)
 
                         cache.set_raw(topic, review_id, model, run, judgment)
-                        total_raw += 1
+                        success_by_model[model] += 1
 
                         if args.verbose:
                             is_rel = judgment.get("is_allergy_related", False)
                             output.print(f"    {review_id[:8]}... {model} run{run} rel={is_rel}")
 
                     except Exception as e:
+                        error_by_model[model] += 1
                         output.error(f"    Error {review_id[:8]} {model} run{run}: {e}")
                         continue
 
@@ -880,8 +820,37 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
                 cache.save()
 
         cache.save()
+
+        # Final summary
+        total_success = sum(success_by_model.values())
+        total_errors = sum(error_by_model.values())
+        output.print()
+        output.success(f"Done. Added {total_success} raw extractions, {total_aggregated} aggregated.")
+
+        # Per-model breakdown
+        output.info("Extraction results by model:")
+        for model in models_config.keys():
+            success = success_by_model[model]
+            errors = error_by_model[model]
+            needed = needed_by_model[model]
+            if needed > 0:
+                if errors > 0:
+                    output.print(f"  {model}: {success}/{needed} success, {errors} errors")
+                else:
+                    output.print(f"  {model}: {success}/{needed} ✓")
+
+        # Show final cache status
+        output.info("Final cache status:")
+        final_raw_by_model = cache.count_raw_by_model(topic)
+        for model, required_runs in models_config.items():
+            cached = final_raw_by_model.get(model, 0)
+            expected = total_reviews * required_runs
+            if cached >= expected:
+                output.print(f"  {model}: {cached}/{expected} ✓ complete")
+            else:
+                output.print(f"  {model}: {cached}/{expected} (still need {expected - cached})")
+
         final_agg = cache.count_aggregated(topic)
-        output.success(f"\nDone. Added {total_raw} raw, {total_aggregated} aggregated.")
         output.info(f"Cache now has {final_agg} aggregated judgments for {topic}")
         return
 
@@ -906,13 +875,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
 
         if not output_file_id:
             output.warn(f"No output file available for batch {args.batch_id}")
-            marker = f"ADDM_POLICY_BATCH_{args.batch_id}"
-            try:
-                remove_cron_job(marker)
-                _delete_batch_log(args.domain, args.batch_id)
-                output.info(f"Removed cron job for {args.batch_id}")
-            except Exception as exc:
-                output.warn(f"Failed to remove cron job: {exc}")
+            _delete_batch_log(args.domain, args.batch_id)
             return
 
         output_bytes = batch_client.download_file(output_file_id)
@@ -938,6 +901,8 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
             if batch_topic != topic:
                 continue
 
+            if _check_batch_item_error(item, custom_id, topic):
+                continue
             response_text = _get_batch_response_text(item)
             if response_text is None:
                 continue
@@ -982,28 +947,16 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         output.success(f"\nDone. Added {total_aggregated} aggregated judgments.")
         output.info(f"Cache now has {final_agg} aggregated judgments for {topic}")
 
-        marker = f"ADDM_POLICY_BATCH_{args.batch_id}"
-        try:
-            remove_cron_job(marker)
-            _delete_batch_log(args.domain, args.batch_id)
-            output.info(f"Removed cron job for {args.batch_id}")
-        except Exception as exc:
-            output.warn(f"Failed to remove cron job: {exc}")
+        _delete_batch_log(args.domain, args.batch_id)
         return
 
     # Handle manifest-based multi-batch processing
     if args.manifest_id:
         manifest = _load_manifest(args.domain, args.manifest_id)
         if not manifest:
-            # Manifest file deleted - clean up stale cron job
+            # Manifest file deleted
             output.warn(f"Manifest not found: {args.manifest_id} (likely already processed or deleted)")
-            marker = f"ADDM_MANIFEST_{args.manifest_id}"
-            try:
-                remove_cron_job(marker)
-                _delete_manifest(args.domain, args.manifest_id)  # Clean up any leftover files
-                output.info(f"Cleaned up stale cron job: {marker}")
-            except Exception:
-                pass  # Cron may already be removed
+            _delete_manifest(args.domain, args.manifest_id)  # Clean up any leftover files
             return
 
         batch_client = BatchClient()
@@ -1070,6 +1023,8 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
                 if batch_topic != topic:
                     continue
 
+                if _check_batch_item_error(item, custom_id, topic):
+                    continue
                 response_text = _get_batch_response_text(item)
                 if response_text is None:
                     continue
@@ -1131,13 +1086,6 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         output.info(f"Cache now has {final_agg} aggregated judgments for {topic}")
 
         # Cleanup - always delete manifest (cache is source of truth)
-        marker = f"ADDM_MANIFEST_{args.manifest_id}"
-        try:
-            remove_cron_job(marker)
-            output.info(f"Removed cron job: {marker}")
-        except Exception as exc:
-            output.warn(f"Failed to remove cron job: {exc}")
-
         _delete_manifest(args.domain, args.manifest_id)
 
         # Check if extraction is complete
@@ -1217,13 +1165,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         batch_id = batch_client.submit_batch(input_file_id)
         output.success(f"Submitted batch: {batch_id} ({model})")
 
-        marker = f"ADDM_POLICY_BATCH_{batch_id}"
-        cron_line = f"*/5 * * * * {_build_policy_cron_command(args, batch_id, topic)} # {marker}"
-        try:
-            install_cron_job(cron_line, marker)
-            _print_cron_installed(batch_id, topic)
-        except Exception as exc:
-            output.error(f"Failed to install cron job: {exc}")
+        _print_batch_submitted(batch_id, topic)
     else:
         # Multiple batches - use manifest
         manifest_id = f"{topic}_{uuid.uuid4().hex[:8]}"
@@ -1254,41 +1196,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         _save_manifest(args.domain, manifest_id, manifest)
         output.success(f"\nCreated manifest: {manifest_id}")
 
-        # Build cron command for manifest processing
-        repo_root = Path.cwd().resolve()
-        cmd = [
-            sys.executable,
-            "-m",
-            "addm.tasks.cli.extract",
-            "--topic",
-            topic,
-            "--domain",
-            args.domain,
-            "--k",
-            str(args.k),
-            "--mode",
-            "24hrbatch",
-            "--manifest-id",
-            manifest_id,
-        ]
-        if args.limit:
-            cmd.extend(["--limit", str(args.limit)])
-        cmd.extend(["--provider", args.provider])
-        if args.models:
-            cmd.extend(["--models", args.models])
-        if args.verbose:
-            cmd.append("--verbose")
-        command = " ".join(shlex.quote(c) for c in cmd)
-        log_path = _get_manifest_log_path(args.domain, manifest_id)
-        cron_cmd = f"cd {shlex.quote(str(repo_root))} && {command} >> {shlex.quote(str(log_path))} 2>&1"
-
-        marker = f"ADDM_MANIFEST_{manifest_id}"
-        cron_line = f"*/5 * * * * {cron_cmd} # {marker}"
-        try:
-            install_cron_job(cron_line, marker)
-            _print_cron_installed(manifest_id, topic)
-        except Exception as exc:
-            output.error(f"Failed to install cron job: {exc}")
+        _print_batch_submitted(manifest_id, topic)
 
 
 # =============================================================================
@@ -1463,6 +1371,8 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
                 if batch_topic not in topic_schemas:
                     continue
 
+                if _check_batch_item_error(item, custom_id, batch_topic):
+                    continue
                 response_text = _get_batch_response_text(item)
                 if response_text is None:
                     continue
@@ -1525,12 +1435,6 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
             output.print(f"  {topic}: {count} aggregated")
 
         # Cleanup - always delete manifest (cache is source of truth)
-        marker = f"ADDM_MANIFEST_ALL_{args.manifest_id}"
-        try:
-            remove_cron_job(marker)
-            output.info(f"Removed cron job: {marker}")
-        except Exception as exc:
-            output.warn(f"Failed to remove cron job: {exc}")
 
         _delete_manifest(args.domain, args.manifest_id)
 
@@ -1570,11 +1474,6 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
 
         if not output_file_id:
             output.warn(f"No output file for batch {args.batch_id}")
-            marker = f"ADDM_ALL_BATCH_{args.batch_id}"
-            try:
-                remove_cron_job(marker)
-            except Exception:
-                pass
             return
 
         output_bytes = batch_client.download_file(output_file_id)
@@ -1600,6 +1499,8 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
             if batch_topic not in topic_schemas:
                 continue
 
+            if _check_batch_item_error(item, custom_id, batch_topic):
+                continue
             response_text = _get_batch_response_text(item)
             if response_text is None:
                 continue
@@ -1645,13 +1546,7 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
             count = cache.count_aggregated(topic)
             output.print(f"  {topic}: {count} aggregated")
 
-        marker = f"ADDM_ALL_BATCH_{args.batch_id}"
-        try:
-            remove_cron_job(marker)
-            _delete_batch_log(args.domain, args.batch_id)
-            output.info(f"Removed cron job for {args.batch_id}")
-        except Exception as exc:
-            output.warn(f"Failed to remove cron job: {exc}")
+        _delete_batch_log(args.domain, args.batch_id)
         return
 
     # Submit batch(es) for all topics
@@ -1740,39 +1635,7 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
         _save_manifest(args.domain, manifest_id, manifest)
         output.success(f"\nCreated manifest: {manifest_id}")
 
-        # Build cron command for manifest processing
-        cmd = [
-            sys.executable,
-            "-m",
-            "addm.tasks.cli.extract",
-            "--all",
-            "--domain",
-            args.domain,
-            "--k",
-            str(args.k),
-            "--mode",
-            "24hrbatch",
-            "--manifest-id",
-            manifest_id,
-        ]
-        if args.limit:
-            cmd.extend(["--limit", str(args.limit)])
-        cmd.extend(["--provider", args.provider])
-        if args.models:
-            cmd.extend(["--models", args.models])
-        if args.verbose:
-            cmd.append("--verbose")
-        command = " ".join(shlex.quote(c) for c in cmd)
-        log_path = _get_manifest_log_path(args.domain, manifest_id)
-        cron_cmd = f"cd {shlex.quote(str(repo_root))} && {command} >> {shlex.quote(str(log_path))} 2>&1"
-
-        marker = f"ADDM_MANIFEST_ALL_{manifest_id}"
-        cron_line = f"*/5 * * * * {cron_cmd} # {marker}"
-        try:
-            install_cron_job(cron_line, marker)
-            _print_cron_installed(manifest_id)
-        except Exception as exc:
-            output.error(f"Failed to install cron job: {exc}")
+        _print_batch_submitted(manifest_id)
 
 
 # =============================================================================

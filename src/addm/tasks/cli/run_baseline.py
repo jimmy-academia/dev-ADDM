@@ -35,7 +35,6 @@ from addm.llm_batch import BatchClient, build_chat_batch_item
 from addm.methods.rlm import eval_restaurant_rlm
 from addm.tasks.base import load_task
 from addm.utils.async_utils import gather_with_concurrency
-from addm.utils.cron import install_cron_job, remove_cron_job
 from addm.utils.debug_logger import DebugLogger, get_debug_logger, set_debug_logger
 from addm.utils.logging import ResultLogger, get_result_logger, set_result_logger
 from addm.utils.output import output
@@ -148,43 +147,6 @@ def _get_batch_response_text(item: Dict[str, Any]) -> Optional[str]:
         message = choices[0].get("message") or {}
         return message.get("content")
     return None
-
-
-def _build_cron_command(args: argparse.Namespace, batch_id: str) -> str:
-    repo_root = Path.cwd().resolve()
-    cmd = [
-        sys.executable,
-        "-m",
-        "addm.tasks.cli.run_baseline",
-        "--domain",
-        args.domain,
-        "--k",
-        str(args.k),
-        "-n",
-        str(args.n),
-        "--skip",
-        str(args.skip),
-        "--model",
-        args.model,
-        "--method",
-        args.method,
-        "--token-limit",
-        str(args.token_limit),
-        "--mode",
-        "24hrbatch",
-        "--batch-id",
-        batch_id,
-    ]
-    if args.task:
-        cmd.extend(["--task", args.task])
-    if args.policy:
-        cmd.extend(["--policy", args.policy])
-    if args.quiet:
-        cmd.append("--quiet")
-    if args.dev:
-        cmd.append("--dev")
-    command = " ".join(shlex.quote(c) for c in cmd)
-    return f"cd {shlex.quote(str(repo_root))} && {command}"
 
 
 def load_system_prompt() -> str:
@@ -492,8 +454,10 @@ async def run_baseline(
         result_logger = ResultLogger(output_dir / "results.jsonl")
         set_result_logger(result_logger)
 
-        # Setup debug logger
-        debug_logger = DebugLogger(output_dir)
+        # Setup debug logger (centralized in results/logs/debug/)
+        debug_dir = Path(f"results/logs/debug/{run_id}")
+        debug_dir.mkdir(parents=True, exist_ok=True)
+        debug_logger = DebugLogger(debug_dir)
         set_debug_logger(debug_logger)
     else:
         output_dir = Path(f"results/baseline/{run_id}")
@@ -536,12 +500,6 @@ async def run_baseline(
 
             if not output_file_id:
                 output.warn(f"No output file available for batch {batch_id}")
-                marker = f"ADDM_BATCH_{batch_id}"
-                try:
-                    remove_cron_job(marker)
-                    output.cron_removed(marker)
-                except Exception as exc:
-                    output.warn(f"Failed to remove cron job: {exc}")
                 return {}
 
             output_bytes = batch_client.download_file(output_file_id)
@@ -819,24 +777,12 @@ def main() -> None:
     )
 
     if args.mode == "24hrbatch":
-        if args.batch_id:
-            if run_result:
-                marker = f"ADDM_BATCH_{args.batch_id}"
-                try:
-                    remove_cron_job(marker)
-                    output.cron_removed(marker)
-                except Exception as exc:
-                    output.warn(f"Failed to remove cron job: {exc}")
-        else:
+        if not args.batch_id:
+            # Batch submitted - print instructions to check status
             batch_id = run_result.get("batch_id") if isinstance(run_result, dict) else None
             if batch_id:
-                marker = f"ADDM_BATCH_{batch_id}"
-                cron_line = f"*/5 * * * * {_build_cron_command(args, batch_id)} # {marker}"
-                try:
-                    install_cron_job(cron_line, marker)
-                    output.cron_installed(marker)
-                except Exception as exc:
-                    output.warn(f"Failed to install cron job: {exc}")
+                output.info("Batch submitted. Re-run this command with --batch-id to check status.")
+                output.console.print(f"  [dim]--batch-id {batch_id}[/dim]")
 
 
 if __name__ == "__main__":

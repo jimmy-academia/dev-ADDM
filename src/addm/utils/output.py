@@ -161,14 +161,6 @@ class OutputManager:
         """Print batch completion message."""
         self.success(f"Batch [cyan]{batch_id}[/cyan] completed with {n_results} results")
 
-    def cron_installed(self, marker: str) -> None:
-        """Print cron job installation confirmation."""
-        self.success(f"Cron job installed (marker: {marker})")
-
-    def cron_removed(self, marker: str) -> None:
-        """Print cron job removal confirmation."""
-        self.success(f"Cron job removed (marker: {marker})")
-
 
 # Global singleton instance
 output = OutputManager()

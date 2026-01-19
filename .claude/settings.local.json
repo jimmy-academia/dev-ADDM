@@ -40,7 +40,11 @@
       "Bash(.venv/bin/pytest tests/ -q --tb=no)",
       "Bash(git log:*)",
       "Bash(git -C /Users/jimmyyeh/Documents/Station/dev-ADDM log --oneline --all -- src/addm/query/cli/compute_gt.py)",
-      "Bash(git -C /Users/jimmyyeh/Documents/Station/dev-ADDM log --oneline --all -- src/addm/tasks/cli/audit.py)"
+      "Bash(git -C /Users/jimmyyeh/Documents/Station/dev-ADDM log --oneline --all -- src/addm/tasks/cli/audit.py)",
+      "Bash(head:*)",
+      "Bash(git mv:*)",
+      "Bash(chmod:*)",
+      "Bash(git rm:*)"
     ]
   }
 }
