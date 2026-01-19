@@ -16,7 +16,21 @@ This separation allows:
 
 ## Multi-Model Strategy
 
-Since batch mode is ~50% cheaper, we use savings for robustness via multi-model ensemble:
+Since batch mode is ~50% cheaper, we use savings for robustness via multi-model ensemble.
+
+### Default Config (Fast)
+
+Used for initial extraction runs:
+
+| Model | Runs | Weight | Total Weight |
+|-------|------|--------|--------------|
+| gpt-5-mini | 1 | 2 | 2 |
+| gpt-5-nano | 3 | 1 | 3 |
+| **Total** | 4 | - | **5** |
+
+### High-Quality Config
+
+For production ground truth (more expensive, more robust):
 
 | Model | Runs | Weight | Total Weight |
 |-------|------|--------|--------------|
@@ -24,6 +38,8 @@ Since batch mode is ~50% cheaper, we use savings for robustness via multi-model 
 | gpt-5-mini | 3 | 2 | 6 |
 | gpt-5-nano | 5 | 1 | 5 |
 | **Total** | 9 | - | **14** |
+
+Use `--models "gpt-5.1:1,gpt-5-mini:3,gpt-5-nano:5"` to specify high-quality config.
 
 ### Weighted Majority Voting
 

@@ -203,6 +203,11 @@ total_usage = self._accumulate_usage([usage1, usage2, ...])
 - Verify formulas: `.venv/bin/python scripts/verify_formulas.py`
 - Generate prompt: `.venv/bin/python -m addm.query.cli.generate --policy G1/allergy/V2`
 
+**Useful flags:**
+- `--show-status` (extract): Show progress during cron runs
+- `--dry-run` (extract): Test without API calls
+- `--verbose` (extract, compute_gt): Detailed output
+
 ## Session Workflow
 
 **Starting a session**: Read this file (done automatically via session-startup.md)

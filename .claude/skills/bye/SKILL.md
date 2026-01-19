@@ -108,16 +108,17 @@ If significant changes were made this session, remind about doc maintenance:
 ```
 ✓ Session context saved to: docs/logs/session_YYYY-MM-DD_<topic>.md
 
-Next steps:
-• To leave: exit or Ctrl+C (safest for MCP servers)
-• To reset: /compact then /hello (fresh start, same session)
+─────────────────────────────────────────
+
+What's next?
+
+  Continue working?  →  /compact  (clears context, keeps session)
+  Done for now?      →  /exit     (ends session)
 
 ─────────────────────────────────────────
 
-📊 For project progress: /roadmap
-📋 For session history: /hello
-
-Goodbye!
+📊 Project progress: /roadmap
+📋 Session history:  /hello
 ```
 
 ## Two Exit Paths
@@ -129,12 +130,12 @@ Goodbye!
   │
   └─► Two options:
       │
-      ├─► exit / Ctrl+C
-      │   └─► Leave the session entirely
+      ├─► /compact
+      │   └─► Clear context, stay in session
+      │       (good for switching to unrelated task)
       │
-      └─► /compact + /hello
-          └─► Fresh context, same session
-              (useful when switching to unrelated task)
+      └─► /exit
+          └─► End session entirely
 ```
 
 ## Important Guidelines
@@ -248,7 +249,9 @@ User invokes /bye
 │
 ├─► 7. Show doc maintenance reminder (if changes made)
 │
-└─► 8. Display exit message with two paths
+└─► 8. Display two options:
+    ├─► /compact (continue working, fresh context)
+    └─► /exit (done for now)
 ```
 
 ## Related

@@ -4,6 +4,7 @@
 
 - [Architecture Overview (architecture.md)](architecture.md) - Pipeline overview and module responsibilities
 - [CLI Reference (specs/cli.md)](specs/cli.md) - CLI arguments and defaults
+- [Project Roadmap (ROADMAP.md)](ROADMAP.md) - Milestones, progress, and technical debt
 
 ## Data Pipeline
 

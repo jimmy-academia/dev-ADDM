@@ -38,7 +38,9 @@
       "Bash(.venv/bin/pytest tests/ -q --cov=src/addm --cov-report=term)",
       "Bash(.venv/bin/ruff check src/addm/eval/metrics.py)",
       "Bash(.venv/bin/pytest tests/ -q --tb=no)",
-      "Bash(git log:*)"
+      "Bash(git log:*)",
+      "Bash(git -C /Users/jimmyyeh/Documents/Station/dev-ADDM log --oneline --all -- src/addm/query/cli/compute_gt.py)",
+      "Bash(git -C /Users/jimmyyeh/Documents/Station/dev-ADDM log --oneline --all -- src/addm/tasks/cli/audit.py)"
     ]
   }
 }
