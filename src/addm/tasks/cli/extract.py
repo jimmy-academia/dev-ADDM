@@ -48,7 +48,7 @@ MAX_BATCH_SIZE = 40000
 
 def _log_batch_error(topic: str, custom_id: str, error: dict) -> None:
     """Log batch error to audit file for diagnostics."""
-    log_path = Path(f"data/tasks/yelp/batch_errors_{topic}.jsonl")
+    log_path = Path(f"data/answers/yelp/batch_errors_{topic}.jsonl")
     entry = {
         "timestamp": datetime.now().isoformat(),
         "custom_id": custom_id,
@@ -72,17 +72,17 @@ def _print_batch_submitted(identifier: str, topic: str = None) -> None:
 
 def _get_manifest_path(domain: str, manifest_id: str) -> Path:
     """Get path to batch manifest file."""
-    return Path(f"data/tasks/{domain}/batch_manifest_{manifest_id}.json")
+    return Path(f"data/answers/{domain}/batch_manifest_{manifest_id}.json")
 
 
 def _get_manifest_log_path(domain: str, manifest_id: str) -> Path:
     """Get path to batch manifest log file (sidecar)."""
-    return Path(f"data/tasks/{domain}/batch_manifest_{manifest_id}.log")
+    return Path(f"data/answers/{domain}/batch_manifest_{manifest_id}.log")
 
 
 def _get_batch_log_path(domain: str, batch_id: str) -> Path:
     """Get path to single-batch log file."""
-    return Path(f"data/tasks/{domain}/batch_{batch_id[:16]}.log")
+    return Path(f"data/answers/{domain}/batch_{batch_id[:16]}.log")
 
 
 def _delete_batch_log(domain: str, batch_id: str) -> None:
@@ -125,7 +125,7 @@ def _find_existing_manifests(domain: str, topic: str) -> List[Tuple[str, Dict[st
     Returns list of (manifest_id, manifest_data) tuples.
     """
     import glob
-    pattern = f"data/tasks/{domain}/batch_manifest_{topic}_*.json"
+    pattern = f"data/answers/{domain}/batch_manifest_{topic}_*.json"
     results = []
     for path in glob.glob(pattern):
         manifest_id = Path(path).stem.replace("batch_manifest_", "")
@@ -221,7 +221,7 @@ def _check_and_report_status(args, topic: str) -> bool:
     output.print("To check batch status:")
     output.print(f"  .venv/bin/python -m addm.tasks.cli.extract --topic {topic}")
     output.print("\nTo force new extraction (clears existing):")
-    output.print(f"  rm data/tasks/{args.domain}/batch_manifest_{topic}_*.json")
+    output.print(f"  rm data/answers/{args.domain}/batch_manifest_{topic}_*.json")
     output.print(f"{'='*60}\n")
 
     return True  # Existing job found, caller should exit
@@ -637,7 +637,7 @@ async def main_task_async(args: argparse.Namespace) -> None:
 
 def _get_judgement_cache_path(domain: str) -> Path:
     """Get cache path for L0 judgement extraction."""
-    return Path(f"data/tasks/{domain}/judgement_cache.json")
+    return Path(f"data/answers/{domain}/judgement_cache.json")
 
 
 async def main_policy_async(args: argparse.Namespace, topic: str) -> None:

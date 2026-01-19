@@ -124,7 +124,7 @@ This submits a batch with 9 requests per review (multi-model) and installs a cro
 
 Ground truth files are saved to:
 ```
-data/tasks/{domain}/{policy_id}_K{k}_groundtruth.json
+data/answers/{domain}/{policy_id}_K{k}_groundtruth.json
 ```
 
 Example output:
@@ -233,4 +233,4 @@ The legacy `--task` flag still works for backwards compatibility:
 Legacy mode uses:
 - Single model extraction (no multi-model)
 - Formula modules (`src/addm/tasks/formulas/G1a.py`)
-- Separate cache (`data/tasks/yelp/cache.json`)
+- Separate cache (`data/answers/yelp/cache.json`)

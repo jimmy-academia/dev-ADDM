@@ -48,12 +48,12 @@ K_VALUES = [25, 50, 100, 200]
 
 def _get_judgement_cache_path(domain: str) -> Path:
     """Get cache path for L0 judgement extraction."""
-    return Path(f"data/tasks/{domain}/judgement_cache.json")
+    return Path(f"data/answers/{domain}/judgement_cache.json")
 
 
 def _get_policy_gt_path(policy_id: str, domain: str, k: int) -> Path:
     """Get GT output path for a policy."""
-    return Path(f"data/tasks/{domain}/{policy_id}_K{k}_groundtruth.json")
+    return Path(f"data/answers/{domain}/{policy_id}_K{k}_groundtruth.json")
 
 
 def main_task(args: argparse.Namespace) -> None:

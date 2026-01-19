@@ -2,7 +2,7 @@
 CLI: Run direct LLM baseline evaluation.
 
 Usage:
-    # Legacy task-based (loads from data/tasks/yelp/G1a_prompt.txt)
+    # Legacy task-based (loads from data/answers/yelp/G1a_prompt.txt)
     .venv/bin/python -m addm.tasks.cli.run_baseline --task G1a -n 5
 
     # New policy-based (loads from data/query/yelp/G1_allergy_V2_prompt.txt)
@@ -99,10 +99,10 @@ def load_policy_prompt(policy_id: str, domain: str = "yelp") -> str:
 
 def load_ground_truth(task_id: str, domain: str, k: int) -> Dict[str, str]:
     """Load ground truth verdicts by business_id."""
-    gt_path = Path(f"data/tasks/{domain}/{task_id}_K{k}_groundtruth.json")
+    gt_path = Path(f"data/answers/{domain}/{task_id}_K{k}_groundtruth.json")
     if not gt_path.exists():
         # Fallback to old format without K
-        gt_path = Path(f"data/tasks/{domain}/{task_id}_groundtruth.json")
+        gt_path = Path(f"data/answers/{domain}/{task_id}_groundtruth.json")
         if not gt_path.exists():
             return {}
 
@@ -402,7 +402,7 @@ async def run_baseline(
     """Run baseline evaluation.
 
     Args:
-        task_id: Legacy task ID (e.g., "G1a") - loads from data/tasks/
+        task_id: Legacy task ID (e.g., "G1a") - loads from data/answers/
         policy_id: Policy ID (e.g., "G1_allergy_V2") - loads from data/query/
         domain: Domain (default: yelp)
         k: Reviews per restaurant
@@ -426,10 +426,10 @@ async def run_baseline(
         agenda = load_policy_prompt(policy_id, domain)
         system_prompt = load_system_prompt()
         run_id = policy_id.replace("/", "_")
-        # Map policy to task for ground truth comparison
-        gt_task_id = policy_to_task_id(policy_id)
+        # Use policy ID directly for ground truth (policy-based GT files)
+        gt_task_id = run_id
     else:
-        # Legacy task mode: load from data/tasks/ (no system prompt)
+        # Legacy task mode: load from data/answers/ (no system prompt)
         task = load_task(task_id, domain)
         agenda = task.parsed_prompt.full_text
         run_id = task_id
@@ -483,8 +483,8 @@ async def run_baseline(
         "Model": model,
         "K": k,
     })
-    if policy_id and gt_task_id:
-        output.status(f"Ground truth from: {gt_task_id}")
+    if gt_task_id:
+        output.status(f"Ground truth: {gt_task_id}_K{k}_groundtruth.json")
 
     if mode == "24hrbatch":
         if method in ["rlm", "rag"]:

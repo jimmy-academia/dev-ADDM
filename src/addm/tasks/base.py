@@ -42,16 +42,16 @@ class TaskConfig:
     @property
     def prompt_path(self) -> Path:
         """Path to the prompt file."""
-        return Path(f"data/tasks/{self.domain}/{self.task_id}_prompt.txt")
+        return Path(f"data/answers/{self.domain}/{self.task_id}_prompt.txt")
 
     def groundtruth_path(self, k: int = 50) -> Path:
         """Path to the ground truth file for given K."""
-        return Path(f"data/tasks/{self.domain}/{self.task_id}_K{k}_groundtruth.json")
+        return Path(f"data/answers/{self.domain}/{self.task_id}_K{k}_groundtruth.json")
 
     @property
     def cache_path(self) -> Path:
         """Path to the judgment cache."""
-        return Path(f"data/tasks/{self.domain}/cache.json")
+        return Path(f"data/answers/{self.domain}/cache.json")
 
 
 def load_task(task_id: str, domain: str = "yelp") -> TaskConfig:
@@ -66,7 +66,7 @@ def load_task(task_id: str, domain: str = "yelp") -> TaskConfig:
         TaskConfig with parsed prompt and formula module
     """
     # Load prompt
-    prompt_path = Path(f"data/tasks/{domain}/{task_id}_prompt.txt")
+    prompt_path = Path(f"data/answers/{domain}/{task_id}_prompt.txt")
     if not prompt_path.exists():
         raise FileNotFoundError(f"Prompt not found: {prompt_path}")
 

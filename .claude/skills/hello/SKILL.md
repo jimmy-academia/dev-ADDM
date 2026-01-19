@@ -191,7 +191,7 @@ Based on roadmap + recent sessions:
 - scripts/run_g1_allergy.sh - New polling script
 - src/addm/tasks/cli/extract.py - Batch extraction CLI
 - src/addm/tasks/extraction.py - PolicyJudgmentCache
-- data/tasks/yelp/policy_cache.json - L0 judgment cache
+- data/answers/yelp/policy_cache.json - L0 judgment cache
 
 ─────────────────────────────────────────
 

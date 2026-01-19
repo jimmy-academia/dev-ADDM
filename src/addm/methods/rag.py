@@ -45,11 +45,11 @@ class RAGMethod(Method):
         Args:
             top_k: Number of reviews to retrieve (default: 20, ~10% of K=200)
             embedding_model: OpenAI embedding model (default: text-embedding-3-large)
-            cache_path: Path to policy cache file (default: data/tasks/yelp/policy_cache.json)
+            cache_path: Path to policy cache file (default: data/answers/yelp/policy_cache.json)
         """
         self.top_k = top_k
         self.embedding_model = embedding_model
-        self.cache_path = cache_path or Path("data/tasks/yelp/policy_cache.json")
+        self.cache_path = cache_path or Path("data/answers/yelp/policy_cache.json")
         self._embedding_client: Optional[AsyncOpenAI] = None
         self._cache: Dict[str, Any] = {}
         self._load_cache()

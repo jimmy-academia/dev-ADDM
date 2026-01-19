@@ -52,10 +52,12 @@ data/
 ├── selection/{dataset}/    # Restaurant selections (topic_100.json)
 ├── context/{dataset}/      # Built datasets (K=25/50/100/200)
 ├── query/{dataset}/        # Task prompts
-└── tasks/{dataset}/        # Extraction cache & batch files
-    ├── judgement_cache.json     # L0 judgement cache (raw + aggregated)
-    ├── batch_manifest_*.json   # Multi-batch tracking (gitignored)
-    └── batch_errors_*.jsonl    # Batch API errors for diagnostics (gitignored)
+└── evaluation/{dataset}/   # Ground truth & caches
+    ├── judgement_cache.json        # L0 judgement cache (raw + aggregated)
+    ├── policy_cache.json           # RAG embeddings/retrieval cache
+    ├── *_K*_groundtruth.json       # Ground truth files
+    ├── batch_manifest_*.json       # Multi-batch tracking (gitignored)
+    └── batch_errors_*.jsonl        # Batch API errors for diagnostics (gitignored)
 
 results/
 ├── dev/{timestamp}_{name}/     # Dev run outputs (results.json)
@@ -340,7 +342,8 @@ Two-step flow for policy-based GT:
 **Key files:**
 - `src/addm/tasks/policy_gt.py` - Aggregation, scoring, qualitative evaluation
 - `src/addm/tasks/extraction.py` - `PolicyJudgmentCache` with raw/aggregated dual cache
-- `data/tasks/yelp/judgement_cache.json` - Cached L0 judgements
-- `data/tasks/yelp/{policy}_K{k}_groundtruth.json` - GT outputs
+- `data/answers/yelp/judgement_cache.json` - Cached L0 judgements
+- `data/answers/yelp/policy_cache.json` - RAG embeddings/retrieval cache
+- `data/answers/yelp/{policy}_K{k}_groundtruth.json` - GT outputs
 
 See `docs/specs/ground_truth.md` for full details.
