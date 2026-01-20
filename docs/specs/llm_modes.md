@@ -50,7 +50,7 @@ Ondemand flow stays in `src/addm/llm.py`.
 
 Batch flow adds a small OpenAI batch client module (new file), used by:
 - `src/addm/tasks/cli/extract.py` (per-review judgments)
-- `src/addm/tasks/cli/run_baseline.py` (per-restaurant judgments)
+- `src/addm/tasks/cli/run_experiment.py` (per-restaurant judgments)
 
 ## 24hrbatch flow
 
@@ -88,14 +88,14 @@ from addm.utils.cron import install_batch_cron
 
 install_batch_cron(
     batch_id="batch_abc123",
-    command="path/to/python -m addm.tasks.cli.run_baseline --batch-id batch_abc123 --mode 24hrbatch",
+    command="path/to/python -m addm.tasks.cli.run_experiment --batch-id batch_abc123 --mode 24hrbatch",
     marker="addm_G1a_20260116_143022"
 )
 ```
 
 **Cron line format:**
 ```bash
-*/5 * * * * cd /path/to/repo && .venv/bin/python -m addm.tasks.cli.run_baseline --batch-id batch_abc123 --mode 24hrbatch >> /path/to/logs/cron.log 2>&1  # ADDM_BATCH_batch_abc123
+*/5 * * * * cd /path/to/repo && .venv/bin/python -m addm.tasks.cli.run_experiment --batch-id batch_abc123 --mode 24hrbatch >> /path/to/logs/cron.log 2>&1  # ADDM_BATCH_batch_abc123
 ```
 
 **Key features:**

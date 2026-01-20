@@ -1,6 +1,6 @@
 # Methods
 
-Available methods for `--method` flag in `run_baseline.py`:
+Available methods for `--method` flag in `run_experiment.py`:
 
 | Method | Description | Token Cost |
 |--------|-------------|------------|
@@ -19,11 +19,11 @@ Uses [recursive-llm](https://github.com/ysz/recursive-llm) (forked to `lib/recur
 
 ```bash
 # Basic RLM
-.venv/bin/python -m addm.tasks.cli.run_baseline \
+.venv/bin/python -m addm.tasks.cli.run_experiment \
     --policy G1_allergy_V2 -n 1 --k 50 --dev --method rlm
 
 # Custom token limit
-.venv/bin/python -m addm.tasks.cli.run_baseline \
+.venv/bin/python -m addm.tasks.cli.run_experiment \
     --policy G1_allergy_V2 -n 1 --k 50 --dev --method rlm --token-limit 30000
 ```
 

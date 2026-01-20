@@ -196,7 +196,7 @@ Each run produces a `results.json` file with this structure:
 
 ## Console Output
 
-When running `run_baseline.py`, you'll see output like:
+When running `run_experiment.py`, you'll see output like:
 
 ```
 ═══════════════════════════════════════════════════════════════════

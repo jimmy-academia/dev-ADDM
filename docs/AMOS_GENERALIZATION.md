@@ -15,7 +15,7 @@ AMOS was originally designed and tested only on **G1_allergy_V2**. This document
 
 **Problem**: Hardcoded normalization forced all verdicts into "risk" vocabulary
 ```python
-# BEFORE (lines 701-708 in run_baseline.py)
+# BEFORE (lines 701-708 in run_experiment.py)
 if "low" in verdict.lower():
     verdict = "Low Risk"  # WRONG for G2-G6 tasks!
 ```
@@ -24,7 +24,7 @@ if "low" in verdict.lower():
 
 **Fix**: Removed normalization entirely. AMOS now outputs verdicts directly from Formula Seed.
 
-**Files Changed**: `src/addm/tasks/cli/run_baseline.py`
+**Files Changed**: `src/addm/tasks/cli/run_experiment.py`
 
 ---
 

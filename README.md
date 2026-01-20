@@ -27,7 +27,7 @@ python main.py --data path/to/dataset.jsonl --method direct --provider openai --
 .venv/bin/python -m addm.tasks.cli.compute_gt --policy G1_allergy_V2 --k 50
 
 # Run a direct LLM baseline on a task
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 --k 50 -n 5
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 --k 50 -n 5
 ```
 
 ## Project Structure

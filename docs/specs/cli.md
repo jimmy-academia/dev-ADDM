@@ -4,14 +4,14 @@ Complete documentation for all ADDM command-line interfaces.
 
 ## Table of Contents
 
-- [run_baseline](#run_baseline) - Run baseline methods on benchmark tasks
+- [run_experiment](#run_experiment) - Run baseline methods on benchmark tasks
 - [extract](#extract) - Extract L0 judgments from reviews
 - [compute_gt](#compute_gt) - Compute ground truth from cached judgments
 - [generate](#generate) - Generate prompts from policy definitions
 
 ---
 
-## run_baseline
+## run_experiment
 
 Run baseline methods (direct, RLM, RAG, AMOS) on benchmark tasks.
 
@@ -19,10 +19,10 @@ Run baseline methods (direct, RLM, RAG, AMOS) on benchmark tasks.
 
 ```bash
 # Policy-based (recommended)
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5
 
 # Legacy task-based
-.venv/bin/python -m addm.tasks.cli.run_baseline --task G1a -n 5
+.venv/bin/python -m addm.tasks.cli.run_experiment --task G1a -n 5
 ```
 
 ### Target Selection
@@ -83,28 +83,28 @@ Run baseline methods (direct, RLM, RAG, AMOS) on benchmark tasks.
 
 ```bash
 # Basic run (5 restaurants, default method)
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5
 
 # Dev mode run
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --dev
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --dev
 
 # RLM method with custom token limit
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 1 --method rlm --token-limit 30000
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 1 --method rlm --token-limit 30000
 
 # RAG method with custom retrieval count
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 10 --method rag --top-k 30
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 10 --method rag --top-k 30
 
 # AMOS method with seed regeneration
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 10 --method amos --regenerate-seed
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 10 --method amos --regenerate-seed
 
 # Batch mode (async, 24hr)
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 100 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100 --mode 24hrbatch
 
 # Different K value
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --k 50
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --k 50
 
 # Skip first 10 restaurants
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --skip 10
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --skip 10
 ```
 
 ### Output
@@ -397,7 +397,7 @@ Example: `data/query/yelp/G1_allergy_V2_prompt.txt`
 
 Quick reference for default values across all CLIs:
 
-| Flag | run_baseline | extract | compute_gt | generate |
+| Flag | run_experiment | extract | compute_gt | generate |
 |------|--------------|---------|------------|----------|
 | `--domain` | `yelp` | `yelp` | `yelp` | N/A |
 | `--k` | `200` | `200` | `200` | N/A |
@@ -424,10 +424,10 @@ Quick reference for default values across all CLIs:
 .venv/bin/python -m addm.tasks.cli.compute_gt --topic G1_allergy
 
 # Step 3: Run baselines
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 10 --method direct
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 10 --method rlm
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 10 --method rag
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 10 --method amos
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 10 --method direct
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 10 --method rlm
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 10 --method rag
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 10 --method amos
 ```
 
 ### Phase II: Scale to All Topics

@@ -1,19 +1,19 @@
 """
-CLI: Run direct LLM baseline evaluation.
+CLI: Run experiment evaluation (all methods: direct, rlm, rag, amos).
 
 Usage:
     # Policy-based run (benchmark mode by default, quota-controlled)
-    .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 100
-    .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1/allergy/V2 -n 100
+    .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100
+    .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1/allergy/V2 -n 100
 
     # Dev mode (saves to results/dev/, no quota)
-    .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --dev
+    .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --dev
 
     # Force run even if quota is met
-    .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 100 --force
+    .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100 --force
 
     # Legacy task-based (loads from data/answers/yelp/G1a_prompt.txt)
-    .venv/bin/python -m addm.tasks.cli.run_baseline --task G1a -n 5
+    .venv/bin/python -m addm.tasks.cli.run_experiment --task G1a -n 5
 
 Output directories:
     (default):   results/{method}/{policy_id}_K{k}/run_N/results.json (benchmark mode)
@@ -388,7 +388,7 @@ async def eval_restaurant(
         }
 
 
-async def run_baseline(
+async def run_experiment(
     task_id: Optional[str] = None,
     policy_id: Optional[str] = None,
     domain: str = "yelp",
@@ -409,7 +409,7 @@ async def run_baseline(
     amos_adaptive: bool = False,
     amos_hybrid: bool = False,
 ) -> Dict[str, Any]:
-    """Run baseline evaluation.
+    """Run experiment evaluation.
 
     Args:
         task_id: Legacy task ID (e.g., "G1a") - loads from data/answers/
@@ -499,8 +499,8 @@ async def run_baseline(
             return {"quota_met": True, "method": method, "policy_id": run_id, "k": k}
 
     else:
-        # Legacy mode: results/baseline/{run_id}/
-        output_dir = Path(f"results/baseline/{run_id}")
+        # Legacy mode: results/legacy/{run_id}/
+        output_dir = Path(f"results/legacy/{run_id}")
         output_dir.mkdir(parents=True, exist_ok=True)
         (output_dir / "item_logs").mkdir(exist_ok=True)
 
@@ -745,6 +745,7 @@ async def run_baseline(
                 force_regenerate=regenerate_seed,
                 adaptive=amos_adaptive,
                 hybrid=amos_hybrid,
+                system_prompt=system_prompt,  # Pass system_prompt for consistency
             )
 
             # Convert restaurants to Sample objects
@@ -773,10 +774,15 @@ async def run_baseline(
                 # Hardcoded normalization was breaking non-risk tasks (G2-G6)
                 verdict = raw_result.get("verdict")
 
+                # AMOS now returns standard output format in `parsed` field
+                # This matches the output_schema.txt structure
+                parsed = raw_result.get("parsed", {})
+
                 return {
                     "business_id": raw_result["sample_id"],
                     "name": restaurant["business"]["name"],
                     "response": raw_result.get("output", ""),
+                    "parsed": parsed,  # Standard output format: {verdict, evidences, justification}
                     "verdict": verdict,
                     "risk_score": raw_result.get("risk_score"),
                     "prompt_chars": raw_result.get("prompt_tokens", 0) * 4,
@@ -1018,7 +1024,7 @@ async def run_baseline(
 
 def main() -> None:
     """CLI entry point."""
-    parser = argparse.ArgumentParser(description="Run direct LLM baseline")
+    parser = argparse.ArgumentParser(description="Run experiment evaluation")
 
     # Task or policy (mutually exclusive, one required)
     group = parser.add_mutually_exclusive_group(required=True)
@@ -1094,7 +1100,7 @@ def main() -> None:
     benchmark = not args.dev
 
     run_result = asyncio.run(
-        run_baseline(
+        run_experiment(
             task_id=args.task,
             policy_id=args.policy,
             domain=args.domain,

@@ -1185,35 +1185,10 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
 
 
 # =============================================================================
-# All topics definition
+# All topics definition (imported from shared constants)
 # =============================================================================
 
-ALL_TOPICS = [
-    # G1: Customer Safety
-    "G1_allergy",
-    "G1_dietary",
-    "G1_hygiene",
-    # G2: Customer Experience
-    "G2_romance",
-    "G2_business",
-    "G2_group",
-    # G3: Customer Value
-    "G3_price_worth",
-    "G3_hidden_costs",
-    "G3_time_value",
-    # G4: Owner Operations
-    "G4_server",
-    "G4_kitchen",
-    "G4_environment",
-    # G5: Owner Performance
-    "G5_capacity",
-    "G5_execution",
-    "G5_consistency",
-    # G6: Owner Strategy
-    "G6_uniqueness",
-    "G6_comparison",
-    "G6_loyalty",
-]
+from addm.tasks.constants import ALL_TOPICS
 
 
 # =============================================================================

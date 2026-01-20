@@ -49,10 +49,10 @@ Run an evaluation:
 
 ```bash
 # Dev mode (results go to results/dev/)
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 --k 50 -n 5 --dev
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 --k 50 -n 5 --dev
 
 # Production mode (results go to results/prod/)
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 --k 50 -n 5
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 --k 50 -n 5
 ```
 
 ## Step 5: View Results
@@ -75,23 +75,23 @@ The `results.json` contains:
 
 ```bash
 # RAG (retrieval-augmented)
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --method rag
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --method rag
 
 # RLM (recursive LLM with code execution)
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --method rlm
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --method rlm
 
 # AMOS (proposed method)
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --method amos
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --method amos
 ```
 
 ### Scale Up
 
 ```bash
 # More samples with batch mode
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 100 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100 --mode 24hrbatch
 
 # Larger context size
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --k 200
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --k 200
 ```
 
 ### Explore Other Policies
@@ -100,10 +100,10 @@ The benchmark includes 72 policies (6 groups × 3 topics × 4 variants):
 
 ```bash
 # G2 social context
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G2_romance_V2 -n 5 --dev
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G2_romance_V2 -n 5 --dev
 
 # G3 economic value
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G3_price_worth_V2 -n 5 --dev
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G3_price_worth_V2 -n 5 --dev
 ```
 
 ## Reference

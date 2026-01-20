@@ -258,5 +258,5 @@ Thai, Vietnamese, and Chinese cuisines receive +2 points due to common use of pe
 - **Policy definitions**: ✅ All 72 complete (G1-G6, all topics, V0-V3)
 - **Term libraries**: ✅ All 18 topics complete
 - **Prompt generation**: ✅ CLI tool implemented (`addm.query.cli.generate`)
-- **System integration**: ✅ Experiment code updated (`--policy` flag in run_baseline.py)
+- **System integration**: ✅ Experiment code updated (`--policy` flag in run_experiment.py)
 - **Legacy support**: ✅ Task IDs (G1a-G6l) still supported for backward compatibility

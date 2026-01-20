@@ -96,7 +96,7 @@ def build_method_registry() -> MethodRegistry:
 ### 4. Test Locally
 
 ```bash
-.venv/bin/python -m addm.tasks.cli.run_baseline \
+.venv/bin/python -m addm.tasks.cli.run_experiment \
     --policy G1_allergy_V2 -n 1 --method mymethod --dev
 ```
 

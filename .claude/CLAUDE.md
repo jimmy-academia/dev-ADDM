@@ -15,8 +15,8 @@ Research benchmark: 72 policy evaluation tasks across restaurant reviews (Yelp).
 **First time?** See the full [Quickstart Guide](../docs/quickstart.md) for step-by-step setup.
 
 ```bash
-# Run baseline experiment
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --dev
+# Run experiment
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --dev
 
 # Extract ground truth
 .venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode 24hrbatch

@@ -30,21 +30,8 @@ from addm.tasks.policy_gt import (
     load_policy,
 )
 
-# All topics (must match extract.py)
-ALL_TOPICS = [
-    "G1_allergy", "G1_dietary", "G1_hygiene",
-    "G2_romance", "G2_business", "G2_group",
-    "G3_price_worth", "G3_hidden_costs", "G3_time_value",
-    "G4_server", "G4_kitchen", "G4_environment",
-    "G5_capacity", "G5_execution", "G5_consistency",
-    "G6_uniqueness", "G6_comparison", "G6_loyalty",
-]
-
-# All policies: each topic × V0-V3
-ALL_POLICIES = [f"{topic}_{v}" for topic in ALL_TOPICS for v in ["V0", "V1", "V2", "V3"]]
-
-# K values to generate GT for (when using --topic)
-K_VALUES = [25, 50, 100, 200]
+# All topics, policies, and K values (imported from shared constants)
+from addm.tasks.constants import ALL_TOPICS, ALL_POLICIES, K_VALUES
 
 
 def _get_judgement_cache_path(domain: str) -> Path:

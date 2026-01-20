@@ -50,13 +50,13 @@ Methods are categorized by how they handle restaurant review context:
 **Usage:**
 ```bash
 # Basic run
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 10 --method amos
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 10 --method amos
 
 # Force regenerate Formula Seed (if policy changed)
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 10 --method amos --regenerate-seed
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 10 --method amos --regenerate-seed
 
 # Dev mode
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 10 --method amos --dev
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 10 --method amos --dev
 ```
 
 **How AMOS Works:**
@@ -151,7 +151,7 @@ Example Formula Seed snippet:
 
 **Usage:**
 ```bash
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --k 50 --method direct
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --k 50 --method direct
 ```
 
 ---
@@ -176,10 +176,10 @@ Example Formula Seed snippet:
 **Usage:**
 ```bash
 # Basic run
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 1 --k 50 --method rlm
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 1 --k 50 --method rlm
 
 # Custom token budget
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 1 --k 50 --method rlm --token-limit 30000
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 1 --k 50 --method rlm --token-limit 30000
 ```
 
 **How RLM works:**
@@ -211,10 +211,10 @@ Example Formula Seed snippet:
 **Usage:**
 ```bash
 # Basic run (top-20 retrieval)
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --k 200 --method rag
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --k 200 --method rag
 
 # Custom top-k
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --k 200 --method rag --top-k 30
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --k 200 --method rag --top-k 30
 ```
 
 **How RAG works:**

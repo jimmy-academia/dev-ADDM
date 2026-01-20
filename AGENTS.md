@@ -66,7 +66,7 @@ src/addm/
 
 ## Quick Reference
 
-- Run baseline: `.venv/bin/python -m addm.tasks.cli.run_baseline --task G1a -n 5`
+- Run baseline: `.venv/bin/python -m addm.tasks.cli.run_experiment --task G1a -n 5`
 - Compute GT: `.venv/bin/python -m addm.tasks.cli.compute_gt --task G1a --domain yelp --k 50`
 - Extract judgments: `.venv/bin/python -m addm.tasks.cli.extract --task G1a`
 - Run tests: `.venv/bin/python -m pytest`

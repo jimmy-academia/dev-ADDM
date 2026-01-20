@@ -4,22 +4,22 @@
 
 ```bash
 # Default: benchmark mode (quota-controlled)
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 100
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100
 
 # Dev mode (no quota, saves to results/dev/)
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --dev
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --dev
 
 # Force run even if quota is met
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 100 --force
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100 --force
 
 # Specific method
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 1 --method rlm
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 1 --method rlm
 
 # Batch mode (24hr async)
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 100 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100 --mode 24hrbatch
 
 # Legacy task ID (still works)
-.venv/bin/python -m addm.tasks.cli.run_baseline --task G1a -n 5
+.venv/bin/python -m addm.tasks.cli.run_experiment --task G1a -n 5
 ```
 
 ## Ground Truth Pipeline
@@ -49,13 +49,13 @@
 
 | Flag | Commands | Description |
 |------|----------|-------------|
-| `--dev` | run_baseline | Dev mode (saves to results/dev/, no quota) |
-| `--force` | run_baseline | Override benchmark quota |
-| `--method` | run_baseline | Method (direct/rlm/rag/amos) |
+| `--dev` | run_experiment | Dev mode (saves to results/dev/, no quota) |
+| `--force` | run_experiment | Override benchmark quota |
+| `--method` | run_experiment | Method (direct/rlm/rag/amos) |
 | `--models` | extract | Custom model config (e.g., "gpt-5-nano:3,gpt-5-mini:1") |
 | `--k` | all | Context size (25/50/100/200) |
-| `-n` | run_baseline | Number of samples |
-| `--token-limit` | run_baseline | RLM token budget |
+| `-n` | run_experiment | Number of samples |
+| `--token-limit` | run_experiment | RLM token budget |
 | `--dry-run` | extract | Test without API calls |
 | `--verbose` | extract, compute_gt | Detailed output |
 
