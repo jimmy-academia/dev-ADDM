@@ -40,7 +40,7 @@ python_functions = ["test_*"]
 asyncio_mode = "auto"
 addopts = [
     "--cov=src/addm",
-    "--cov-report=html",
+    "--cov-report=html:tests/htmlcov",
     "--cov-report=term-missing",
     "--strict-markers",
     "-v",
