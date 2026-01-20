@@ -848,6 +848,253 @@ class FormulaSeedInterpreter:
 
         return result
 
+    def _build_standard_output(self) -> Dict[str, Any]:
+        """Transform internal _extractions + _namespace to standard output format.
+
+        Converts AMOS internal format to the format defined in output_schema.txt:
+        {
+            "verdict": str,
+            "evidences": [{evidence_id, review_id, field, judgement, snippet}],
+            "justification": {triggered_rule, direct_evidence, scoring_trace, reasoning}
+        }
+
+        Returns:
+            Dict in standard output format
+        """
+        evidences = []
+        evidence_idx = 1
+
+        for ext in self._extractions:
+            review_id = ext.get("review_id", ext.get("_review_id", "unknown"))
+            snippet = ext.get("_snippet", "")
+
+            # If no snippet stored, try to get from extraction metadata
+            if not snippet and "_source_text" in ext:
+                snippet = ext["_source_text"][:200]  # Limit snippet length
+
+            for field, value in ext.items():
+                # Skip internal fields and metadata
+                if field.startswith("_") or field in ("review_id", "is_relevant"):
+                    continue
+
+                evidences.append({
+                    "evidence_id": f"E{evidence_idx}",
+                    "review_id": review_id,
+                    "field": field.lower(),
+                    "judgement": str(value).lower() if value else "none",
+                    "snippet": snippet,
+                })
+                evidence_idx += 1
+
+        # Build justification from computed values
+        justification = self._build_justification(evidences)
+
+        return {
+            "verdict": self._namespace.get("VERDICT"),
+            "evidences": evidences,
+            "justification": justification,
+            "other_notes": None,
+        }
+
+    def _build_justification(self, evidences: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Build justification section from computed values.
+
+        Args:
+            evidences: List of evidence dicts from _build_standard_output
+
+        Returns:
+            Justification dict with triggered_rule, direct_evidence, scoring_trace, reasoning
+        """
+        # Get score from namespace (try common names)
+        score = self._namespace.get("SCORE", 0)
+        if score == 0:
+            score = self._namespace.get("FINAL_RISK_SCORE", 0)
+        if score == 0:
+            score = self._namespace.get("RISK_SCORE", 0)
+
+        verdict = self._namespace.get("VERDICT", "Unknown")
+
+        # Determine if this is a scoring-based policy (V2/V3) or count-based (V0/V1)
+        is_scoring_based = "SCORE" in self._namespace or "INCIDENT_POINTS" in self._namespace
+
+        # Build scoring trace from incident data
+        breakdown = []
+        if is_scoring_based:
+            # Scoring-based policies (V2/V3): Show point breakdown
+            for ev in evidences:
+                if ev["field"] in ("incident_severity", "severity"):
+                    points = self._get_points_for_severity(ev["judgement"])
+                    if points > 0:
+                        modifiers = []
+                        # Check for V3 recency modifiers
+                        age_years = self._namespace.get("AGE_YEARS")
+                        if age_years is not None and age_years > 2.0:
+                            modifiers.append("recency_decay")
+
+                        breakdown.append({
+                            "evidence_id": ev["evidence_id"],
+                            "base_points": str(points),
+                            "modifiers": modifiers,
+                            "subtotal": str(points),
+                        })
+        else:
+            # Count-based policies (V0/V1): Show count as breakdown
+            incident_count = self._namespace.get("N_INCIDENTS", 0)
+            if incident_count > 0:
+                # Add one breakdown entry per counted incident
+                for ev in evidences:
+                    if ev["field"] in ("incident_severity", "severity"):
+                        breakdown.append({
+                            "evidence_id": ev["evidence_id"],
+                            "base_points": "1",
+                            "modifiers": [],
+                            "subtotal": "1",
+                        })
+
+        # Find direct evidence that triggered verdict
+        direct = [b["evidence_id"] for b in breakdown if int(b.get("subtotal", 0)) > 0][:5]
+
+        # Build triggered rule description
+        if is_scoring_based:
+            triggered_rule = self._get_triggered_rule_scoring(score, verdict)
+        else:
+            incident_count = self._namespace.get("N_INCIDENTS", 0)
+            triggered_rule = self._get_triggered_rule_count(incident_count, verdict)
+
+        # Generate reasoning
+        reasoning = self._generate_reasoning(score, verdict, len(breakdown), is_scoring_based)
+
+        return {
+            "triggered_rule": triggered_rule,
+            "direct_evidence": direct if direct else [],
+            "scoring_trace": {
+                "total_score": str(score) if is_scoring_based else str(len(breakdown)),
+                "breakdown": breakdown,
+            },
+            "reasoning": reasoning,
+        }
+
+    def _get_points_for_severity(self, severity: str) -> int:
+        """Get point value for a severity level.
+
+        Args:
+            severity: Severity string (e.g., "severe", "moderate", "mild")
+
+        Returns:
+            Point value for the severity
+        """
+        # Default point mapping (can be overridden by seed)
+        severity_points = {
+            "severe": 15,
+            "moderate": 8,
+            "mild": 3,
+            "none": 0,
+        }
+
+        # Try to get points from seed compute operations
+        for op in self.seed.get("compute", []):
+            if op.get("op") == "case" and op.get("source") == "incident_severity":
+                for rule in op.get("rules", []):
+                    if rule.get("when", "").lower() == severity.lower():
+                        try:
+                            return int(rule.get("then", 0))
+                        except (ValueError, TypeError):
+                            pass
+
+        return severity_points.get(severity.lower(), 0)
+
+    def _get_triggered_rule_scoring(self, score: float, verdict: str) -> str:
+        """Get triggered rule description for scoring-based policies.
+
+        Args:
+            score: The computed score
+            verdict: The verdict
+
+        Returns:
+            Rule description string
+        """
+        # Find the case operation that produces VERDICT
+        for op in self.seed.get("compute", []):
+            if op.get("name") == "VERDICT" and op.get("op") == "case":
+                for rule in op.get("rules", []):
+                    when = rule.get("when", "")
+                    then = rule.get("then", "")
+                    if then == verdict:
+                        return f"{when} → {verdict}"
+
+        # Default description
+        return f"score = {score} → {verdict}"
+
+    def _get_triggered_rule_count(self, count: int, verdict: str) -> str:
+        """Get triggered rule description for count-based policies.
+
+        Args:
+            count: The incident count
+            verdict: The verdict
+
+        Returns:
+            Rule description string
+        """
+        # Find the case operation that produces VERDICT
+        for op in self.seed.get("compute", []):
+            if op.get("name") == "VERDICT" and op.get("op") == "case":
+                for rule in op.get("rules", []):
+                    when = rule.get("when", "")
+                    then = rule.get("then", "")
+                    if then == verdict:
+                        return f"{when} → {verdict}"
+
+        # Default description
+        return f"count = {count} → {verdict}"
+
+    def _generate_reasoning(
+        self, score: float, verdict: str, n_incidents: int, is_scoring_based: bool
+    ) -> str:
+        """Generate reasoning text for the justification.
+
+        Args:
+            score: The computed score or count
+            verdict: The verdict
+            n_incidents: Number of incidents found
+            is_scoring_based: Whether this is a scoring-based policy
+
+        Returns:
+            Reasoning string (1-3 sentences)
+        """
+        if n_incidents == 0:
+            return f"No relevant incidents found in the reviews. Verdict: {verdict}."
+
+        if is_scoring_based:
+            return (
+                f"Found {n_incidents} incident(s) totaling {score} points. "
+                f"Based on the scoring thresholds, this results in verdict: {verdict}."
+            )
+        else:
+            return (
+                f"Found {n_incidents} incident(s). "
+                f"Based on the count thresholds, this results in verdict: {verdict}."
+            )
+
+    def get_standard_output(self) -> Dict[str, Any]:
+        """Get output in standard format (matching output_schema.txt).
+
+        Should be called after execute() to get the standardized output.
+
+        Returns:
+            Dict with verdict, evidences, justification, other_notes
+        """
+        standard = self._build_standard_output()
+
+        # Add AMOS-specific metadata (for debugging, not part of standard)
+        standard["_amos_metadata"] = {
+            "extractions_count": len(self._extractions),
+            "stopped_early": self._stopped_early,
+            "reviews_skipped": self._reviews_skipped,
+            "namespace": self._namespace,
+        }
+
+        return standard
+
     def get_usage_metrics(self) -> Dict[str, Any]:
         """Get aggregated usage metrics from all LLM calls.
 

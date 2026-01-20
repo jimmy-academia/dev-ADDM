@@ -88,26 +88,37 @@ Use Python code to:
 3. Apply the scoring rules from the agenda above
 4. Call `FINAL(result)` with your JSON assessment when done
 
-## Output Format
+## Output Format (REQUIRED)
 
-When you reach a conclusion, call FINAL with a JSON object:
+When you reach a conclusion, call FINAL with a JSON object matching this exact structure:
 
 ```python
 FINAL({{
-    "verdict": "<one of: Low Risk, High Risk, Critical Risk>",
+    "verdict": "<one of the verdict options from the agenda>",
     "evidences": [
         {{
             "evidence_id": "E1",
-            "review_id": "<review id>",
-            "field": "<the term/field>",
-            "judgement": "<classification>",
-            "snippet": "<verbatim quote>"
+            "review_id": "<id of the source review>",
+            "field": "<the term/field this evidence relates to>",
+            "judgement": "<your classification for this field>",
+            "snippet": "<verbatim quote from the review>"
         }}
     ],
     "justification": {{
-        "triggered_rule": "<rule label>",
-        "direct_evidence": ["E1"],
-        "reasoning": "<1-3 sentences>"
+        "triggered_rule": "<which verdict rule was triggered>",
+        "direct_evidence": ["E1", "E2"],
+        "scoring_trace": {{
+            "total_score": "<numeric total score>",
+            "breakdown": [
+                {{
+                    "evidence_id": "E1",
+                    "base_points": "<points from severity>",
+                    "modifiers": ["<modifier name if applicable>"],
+                    "subtotal": "<points for this incident>"
+                }}
+            ]
+        }},
+        "reasoning": "<1-3 sentences explaining how the evidence leads to the verdict>"
     }},
     "other_notes": null
 }})
@@ -288,7 +299,7 @@ async def eval_restaurant_rlm(
     Args:
         restaurant: Restaurant data dict with 'business' and 'reviews'
         agenda: The policy agenda/prompt text
-        system_prompt: Output schema (included in agenda for RLM)
+        system_prompt: Output schema instructions (integrated into RLM query)
         model: LLM model to use
         max_iterations: Maximum RLM iterations (ignored if token_limit set)
         token_limit: Token budget - converted to iterations via TOKENS_PER_ITERATION
@@ -306,42 +317,12 @@ async def eval_restaurant_rlm(
     context = _format_reviews_context(restaurant)
     num_reviews = len(restaurant.get("reviews", []))
 
-    # Build query - simplified for RLM code execution
-    # Extract key search terms from agenda (allergy-related keywords)
-    query = f"""## Task: Allergy Risk Assessment
-
-Search the restaurant reviews for allergy-related incidents.
-
-## Step-by-Step Instructions
-
-1. First, print len(context) to see how much text there is
-2. Search for allergy keywords: 'allerg', 'reaction', 'epipen', 'anaphyla'
-3. For each match found, extract the review snippet
-4. Determine verdict based on findings:
-   - "Critical Risk" = severe reaction (epipen, anaphylaxis, hospitalization)
-   - "High Risk" = allergic reaction mentioned
-   - "Low Risk" = no allergy incidents found
-
-## Code Example
-
-```python
-import re
-# Find allergy mentions
-matches = re.findall(r'.{{0,100}}(allerg|reaction|epipen|anaphyla).{{0,100}}', context, re.I)
-if matches:
-    print("Found allergy mentions:", matches)
-    # Check severity
-    if any('epipen' in m.lower() or 'anaphyla' in m.lower() for m in matches):
-        FINAL("Critical Risk")
-    else:
-        FINAL("High Risk")
-else:
-    FINAL("Low Risk")
-```
-
-The `context` variable contains {num_reviews} reviews. Write Python code to search and analyze them.
-When done, call FINAL with your verdict string, e.g., FINAL("Low Risk") or FINAL("High Risk") or FINAL("Critical Risk").
-"""
+    # Build query using the proper template with agenda
+    # This uses the standard output format defined in RLM_QUERY_TEMPLATE
+    query = RLM_QUERY_TEMPLATE.format(
+        agenda=agenda,
+        num_reviews=num_reviews,
+    )
 
     start_time = time.perf_counter()
 

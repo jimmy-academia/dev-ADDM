@@ -46,6 +46,7 @@ class AMOSMethod(Method):
         config: Optional[AMOSConfig] = None,
         adaptive: bool = False,
         hybrid: bool = False,
+        system_prompt: Optional[str] = None,
     ):
         """Initialize AMOS method.
 
@@ -57,11 +58,14 @@ class AMOSMethod(Method):
             config: Full AMOS configuration (overrides individual params)
             adaptive: Enable adaptive mode (batch processing with early stopping)
             hybrid: Enable hybrid embedding retrieval
+            system_prompt: System prompt for output format (AMOS transforms internally,
+                          so this is stored for reference but not directly used)
         """
         self.policy_id = policy_id
         self.max_concurrent = max_concurrent
         self.force_regenerate = force_regenerate
         self.cache_dir = cache_dir or Path("results/cache/formula_seeds")
+        self.system_prompt = system_prompt  # Stored for consistency with other methods
 
         # Build config from parameters or use provided config
         if config:
@@ -131,7 +135,7 @@ class AMOSMethod(Method):
             llm: LLM service for API calls
 
         Returns:
-            Dict with sample_id, output, verdict, and usage metrics
+            Dict with sample_id, output (in standard format), verdict, and usage metrics
         """
         # Get or generate Formula Seed (Phase 1)
         seed = await self._get_formula_seed(sample.query, llm)
@@ -160,6 +164,9 @@ class AMOSMethod(Method):
             query=sample.query,
             sample_id=sample.sample_id,
         )
+
+        # Get standard output format (matching output_schema.txt)
+        standard_output = interpreter.get_standard_output()
 
         # Extract verdict and risk score from computed output
         verdict = result.get("VERDICT")
@@ -196,7 +203,10 @@ class AMOSMethod(Method):
 
         return {
             "sample_id": sample.sample_id,
-            "output": json.dumps(result),
+            # Output in standard format (JSON string for compatibility)
+            "output": json.dumps(standard_output),
+            # Also include parsed standard output for direct access
+            "parsed": standard_output,
             "verdict": verdict,
             "risk_score": risk_score,
             # Usage metrics
