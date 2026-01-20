@@ -59,7 +59,8 @@
       "Bash(do jq:*)",
       "Bash(tee:*)",
       "Bash(echo:*)",
-      "Bash(__NEW_LINE_f9745691a99f9128__ echo \"\")"
+      "Bash(__NEW_LINE_f9745691a99f9128__ echo \"\")",
+      "Bash(git -C /Users/jimmyyeh/Documents/Station/dev-ADDM ls-files:*)"
     ]
   }
 }

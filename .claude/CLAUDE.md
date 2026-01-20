@@ -8,6 +8,7 @@ Research benchmark: 72 policy evaluation tasks across restaurant reviews (Yelp).
 - **LLM**: Default `gpt-5-nano`. ASK before switching models.
 - **Console**: Use `output` singleton from `src/addm/utils/output.py`, not `print()`
 - **Git**: See global rules. Additional: NEVER add "Co-Authored-By: Claude" lines.
+- **Docs**: Check `docs/` FIRST - before writing code, creating docs, or answering questions. Link, don't duplicate.
 
 ## Quick Start
 

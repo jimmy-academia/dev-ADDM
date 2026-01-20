@@ -233,3 +233,7 @@ results/dev/
 # Method caches (large, regenerable)
 results/cache/
 
+# Experiment results (ephemeral)
+results/baseline/
+results/test_queries/
+
