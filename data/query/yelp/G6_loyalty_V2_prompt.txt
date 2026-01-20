@@ -75,8 +75,8 @@ For each firsthand incident, assign points based on severity:
 Additional modifiers:
 - Strong recommendation (actively tells others to go): +5 points
 - Returned after issue (loyalty despite problems): +8 points
-- Warns others away (actively discourages visits): +-5 points
-- Switched to competitor (explicitly left for alternative): +-8 points
+- Warns others away (actively discourages visits): -5 points
+- Switched to competitor (explicitly left for alternative): -8 points
 
 
 ## Verdict Rules

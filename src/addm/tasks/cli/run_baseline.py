@@ -399,6 +399,8 @@ async def run_baseline(
     batch_id: Optional[str] = None,
     top_k: int = 20,
     regenerate_seed: bool = False,
+    amos_adaptive: bool = False,
+    amos_hybrid: bool = False,
 ) -> Dict[str, Any]:
     """Run baseline evaluation.
 
@@ -415,6 +417,8 @@ async def run_baseline(
         method: Method to use - "direct" (default), "rlm", "rag", or "amos"
         token_limit: Token budget for RLM (converts to iterations via ~3000 tokens/iter)
         regenerate_seed: Force regenerate Formula Seed for AMOS method
+        amos_adaptive: Enable AMOS adaptive mode (batch processing with early stopping)
+        amos_hybrid: Enable AMOS hybrid embedding retrieval
 
     Either task_id or policy_id must be provided.
     """
@@ -674,6 +678,8 @@ async def run_baseline(
                 policy_id=run_id,
                 max_concurrent=32,
                 force_regenerate=regenerate_seed,
+                adaptive=amos_adaptive,
+                hybrid=amos_hybrid,
             )
 
             # Convert restaurants to Sample objects
@@ -714,6 +720,14 @@ async def run_baseline(
                     "extractions_count": raw_result.get("extractions_count", 0),
                     "phase1_cached": raw_result.get("phase1_cached", False),
                     "llm_calls": raw_result.get("llm_calls", 0),
+                    # Strategy metrics (new)
+                    "strategy_stats": raw_result.get("strategy_stats", {}),
+                    "adaptive_mode": raw_result.get("adaptive_mode", False),
+                    "stopped_early": raw_result.get("stopped_early", False),
+                    "reviews_skipped": raw_result.get("reviews_skipped", 0),
+                    # Embedding metrics (hybrid mode)
+                    "embedding_tokens": raw_result.get("embedding_tokens", 0),
+                    "embedding_cost_usd": raw_result.get("embedding_cost_usd", 0.0),
                 }
 
             tasks = [process_amos_sample(s) for s in samples]
@@ -978,6 +992,16 @@ def main() -> None:
         help="AMOS: Force regenerate Formula Seed even if cached",
     )
     parser.add_argument(
+        "--amos-adaptive",
+        action="store_true",
+        help="AMOS: Enable adaptive mode (batch processing with early stopping)",
+    )
+    parser.add_argument(
+        "--amos-hybrid",
+        action="store_true",
+        help="AMOS: Enable hybrid embedding retrieval (experimental)",
+    )
+    parser.add_argument(
         "--mode",
         type=str,
         default="ondemand",
@@ -1005,6 +1029,8 @@ def main() -> None:
             batch_id=args.batch_id,
             top_k=args.top_k,
             regenerate_seed=args.regenerate_seed,
+            amos_adaptive=args.amos_adaptive,
+            amos_hybrid=args.amos_hybrid,
         )
     )
 

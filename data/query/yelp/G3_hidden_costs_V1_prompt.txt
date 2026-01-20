@@ -59,8 +59,16 @@ Customer's reaction to the hidden cost
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- At least 1 review describes bill being significantly higher than expected without warning- Undisclosed fees greater than 15% of expected bill- Multiple charges hidden from customers until bill arrives
+- At least 1 review describes bill being significantly higher than expected without warning
+- Undisclosed fees greater than 15% of expected bill
+- Multiple charges hidden from customers until bill arrives
+
 **High Risk** if Critical Risk does not apply, but any of the following is true:
-- At least 1 review mentions unexpected service charge or auto-gratuity- Fees mentioned only in fine print or not disclosed- Customer describes feeling deceived about pricing
+- At least 1 review mentions unexpected service charge or auto-gratuity
+- Fees mentioned only in fine print or not disclosed
+- Customer describes feeling deceived about pricing
+
 **Low Risk** otherwise, especially when:
-- No mentions of hidden charges- Fees are clearly disclosed upfront- Transparent pricing praised
+- No mentions of hidden charges
+- Fees are clearly disclosed upfront
+- Transparent pricing praised

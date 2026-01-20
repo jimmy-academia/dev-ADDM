@@ -58,8 +58,16 @@ How well problems were resolved
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- Multiple reviews praise order accuracy- Modifications consistently handled well- Issue resolution goes above and beyond
+- Multiple reviews praise order accuracy
+- Modifications consistently handled well
+- Issue resolution goes above and beyond
+
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- Multiple reviews report wrong orders- Modifications frequently ignored- Promises consistently broken
+- Multiple reviews report wrong orders
+- Modifications frequently ignored
+- Promises consistently broken
+
 **Satisfactory** otherwise, especially when:
-- Orders generally correct- Occasional issues handled adequately- Most promises kept
+- Orders generally correct
+- Occasional issues handled adequately
+- Most promises kept

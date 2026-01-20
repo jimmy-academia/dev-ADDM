@@ -83,8 +83,8 @@ Additional modifiers:
 - Candlelit atmosphere (explicitly mentions candles or romantic lighting): +3 points
 - Private seating (mentions privacy, secluded tables, or booths): +3 points
 - Live music (romantic live music mentioned): +2 points
-- Rushed service (service was rushed, couldn't linger): +-3 points
-- Loud music/crowd (noise prevented conversation): +-5 points
+- Rushed service (service was rushed, couldn't linger): -3 points
+- Loud music/crowd (noise prevented conversation): -5 points
 
 
 ## Verdict Rules

@@ -59,8 +59,16 @@ How often reviewer has visited
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- At least 1 frequent customer describes 'never disappoints'- Multiple visits described as consistently excellent- Long-term regular customer praises maintained quality
+- At least 1 frequent customer describes 'never disappoints'
+- Multiple visits described as consistently excellent
+- Long-term regular customer praises maintained quality
+
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- At least 1 regular customer describes 'went downhill'- Management change leading to quality decline- Described as 'coin flip' or completely unpredictable
+- At least 1 regular customer describes 'went downhill'
+- Management change leading to quality decline
+- Described as 'coin flip' or completely unpredictable
+
 **Satisfactory** otherwise, especially when:
-- Generally reliable with occasional variation- No strong positive or negative trends- Adequate consistency for most visits
+- Generally reliable with occasional variation
+- No strong positive or negative trends
+- Adequate consistency for most visits

@@ -67,8 +67,17 @@ How staff responded when the concern was raised
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- At least 1 firsthand report of food poisoning requiring medical attention- Rodent sighting (mouse, rat) reported firsthand- Multiple people in same party report getting sick
+- At least 1 firsthand report of food poisoning requiring medical attention
+- Rodent sighting (mouse, rat) reported firsthand
+- Multiple people in same party report getting sick
+
 **High Risk** if Critical Risk does not apply, but any of the following is true:
-- At least 1 firsthand report of food poisoning (not requiring medical attention)- Cockroach or multiple insect sightings reported firsthand- Hair or foreign object in food reported firsthand- Staff was dismissive when hygiene issue was reported
+- At least 1 firsthand report of food poisoning (not requiring medical attention)
+- Cockroach or multiple insect sightings reported firsthand
+- Hair or foreign object in food reported firsthand
+- Staff was dismissive when hygiene issue was reported
+
 **Low Risk** otherwise, especially when:
-- No hygiene issues are reported- Reviews describe the restaurant as clean- Minor issues were addressed promptly by staff
+- No hygiene issues are reported
+- Reviews describe the restaurant as clean
+- Minor issues were addressed promptly by staff

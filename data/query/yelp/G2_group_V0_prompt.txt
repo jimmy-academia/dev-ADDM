@@ -66,8 +66,16 @@ How family-friendly the restaurant is
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- Multiple reviews describe successful large group events- Private rooms or dedicated group areas mentioned positively- Consistently praised for handling groups well
+- Multiple reviews describe successful large group events
+- Private rooms or dedicated group areas mentioned positively
+- Consistently praised for handling groups well
+
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- Multiple reviews describe groups being turned away or poorly handled- Consistent complaints about long waits despite reservations- Unable or unwilling to split checks for groups
+- Multiple reviews describe groups being turned away or poorly handled
+- Consistent complaints about long waits despite reservations
+- Unable or unwilling to split checks for groups
+
 **Acceptable** otherwise, especially when:
-- Can accommodate groups with advance notice- Mixed reviews about group experiences- Suitable for small groups but not large parties
+- Can accommodate groups with advance notice
+- Mixed reviews about group experiences
+- Suitable for small groups but not large parties

@@ -61,8 +61,16 @@ Perceived skill level of kitchen
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- Multiple reviews praise food quality and consistency- Chef skill consistently praised as exceptional- Rarely or never any food quality issues reported
+- Multiple reviews praise food quality and consistency
+- Chef skill consistently praised as exceptional
+- Rarely or never any food quality issues reported
+
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- Multiple reviews report food quality issues- Consistency problems reported (hit or miss)- Food frequently sent back or described as inedible
+- Multiple reviews report food quality issues
+- Consistency problems reported (hit or miss)
+- Food frequently sent back or described as inedible
+
 **Satisfactory** otherwise, especially when:
-- Food quality is acceptable but not exceptional- Some good dishes, some less impressive- Occasional issues but generally competent
+- Food quality is acceptable but not exceptional
+- Some good dishes, some less impressive
+- Occasional issues but generally competent

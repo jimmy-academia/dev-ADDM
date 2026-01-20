@@ -61,8 +61,17 @@ Primary reason for loyalty
 ## Verdict Rules
 
 A restaurant is considered **High Loyalty** if any of the following is true:
-- At least 1 review mentions being a 'regular' or '10+ visits'- Customer returned after bad experience- Described as 'favorite restaurant' or equivalent- Recommendation with strong enthusiasm ('must go', 'best in city')
+- At least 1 review mentions being a 'regular' or '10+ visits'
+- Customer returned after bad experience
+- Described as 'favorite restaurant' or equivalent
+- Recommendation with strong enthusiasm ('must go', 'best in city')
+
 **Low Loyalty** if High Loyalty does not apply, but any of the following is true:
-- At least 1 review explicitly says 'never coming back'- Customer warns others not to visit- Explicitly switched to competitor
+- At least 1 review explicitly says 'never coming back'
+- Customer warns others not to visit
+- Explicitly switched to competitor
+
 **Moderate Loyalty** otherwise, especially when:
-- Will return but not enthusiastic- Recommendations with caveats- No strong emotional connection
+- Will return but not enthusiastic
+- Recommendations with caveats
+- No strong emotional connection

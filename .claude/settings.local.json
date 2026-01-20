@@ -58,7 +58,8 @@
       "Bash(do echo \"=== $f ===\")",
       "Bash(do jq:*)",
       "Bash(tee:*)",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Bash(__NEW_LINE_f9745691a99f9128__ echo \"\")"
     ]
   }
 }

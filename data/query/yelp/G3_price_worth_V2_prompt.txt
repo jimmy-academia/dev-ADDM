@@ -76,8 +76,8 @@ Additional modifiers:
 - Generous portions (portions described as large or generous): +3 points
 - Quality exceeds price (food quality better than price suggests): +3 points
 - Great deals available (happy hour, lunch specials, or deals praised): +2 points
-- Tiny portions (portions described as too small): +-3 points
-- Quality below price (food quality worse than price suggests): +-3 points
+- Tiny portions (portions described as too small): -3 points
+- Quality below price (food quality worse than price suggests): -3 points
 
 
 ## Verdict Rules

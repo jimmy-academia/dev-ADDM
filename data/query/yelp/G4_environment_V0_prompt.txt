@@ -69,8 +69,16 @@ How well ambiance matches the concept
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- Multiple reviews praise the atmosphere and environment- Consistently described as clean, comfortable, and well-designed- Ambiance enhances the dining experience
+- Multiple reviews praise the atmosphere and environment
+- Consistently described as clean, comfortable, and well-designed
+- Ambiance enhances the dining experience
+
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- Multiple reviews describe cleanliness issues- Consistent complaints about noise, temperature, or comfort- Environment detracts from dining experience
+- Multiple reviews describe cleanliness issues
+- Consistent complaints about noise, temperature, or comfort
+- Environment detracts from dining experience
+
 **Satisfactory** otherwise, especially when:
-- Environment is acceptable but unremarkable- Some positive and some negative comments- Basic expectations met but not exceeded
+- Environment is acceptable but unremarkable
+- Some positive and some negative comments
+- Basic expectations met but not exceeded

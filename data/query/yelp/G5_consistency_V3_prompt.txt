@@ -75,8 +75,8 @@ For each firsthand incident, assign points based on severity:
 Additional modifiers:
 - Improving trend (quality getting better): +3 points
 - Regular customer praise (frequent visitor praises consistency): +3 points
-- Declining trend (quality getting worse): +-5 points
-- Management change decline (quality dropped after ownership/management change): +-3 points
+- Declining trend (quality getting worse): -5 points
+- Management change decline (quality dropped after ownership/management change): -3 points
 
 Recency weighting:
 - Within 6 months: full point value

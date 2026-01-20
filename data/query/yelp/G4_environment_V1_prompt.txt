@@ -69,8 +69,16 @@ How well ambiance matches the concept
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- At least 1 review describes atmosphere as 'stunning' or 'perfect'- Environment specifically mentioned as reason to return- Immersive or transportive experience praised
+- At least 1 review describes atmosphere as 'stunning' or 'perfect'
+- Environment specifically mentioned as reason to return
+- Immersive or transportive experience praised
+
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- At least 1 review describes space as 'filthy' or 'disgusting'- Noise level so loud customers left or couldn't converse- Temperature issues (freezing/sweltering) significantly impacted meal
+- At least 1 review describes space as 'filthy' or 'disgusting'
+- Noise level so loud customers left or couldn't converse
+- Temperature issues (freezing/sweltering) significantly impacted meal
+
 **Satisfactory** otherwise, especially when:
-- Environment is pleasant but not remarkable- Minor issues but overall acceptable- Gets the job done without standing out
+- Environment is pleasant but not remarkable
+- Minor issues but overall acceptable
+- Gets the job done without standing out

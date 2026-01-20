@@ -85,8 +85,8 @@ Additional modifiers:
 - Named with praise (server mentioned by name with positive feedback): +5 points
 - Excellent recommendations (server gave great food/drink recommendations): +3 points
 - Recovery from error (error occurred but was handled well): +2 points
-- Rude or hostile (server described as rude or having attitude): +-5 points
-- Unrecovered error (service error not addressed properly): +-3 points
+- Rude or hostile (server described as rude or having attitude): -5 points
+- Unrecovered error (service error not addressed properly): -3 points
 
 
 ## Verdict Rules

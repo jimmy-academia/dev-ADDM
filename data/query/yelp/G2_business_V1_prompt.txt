@@ -67,8 +67,16 @@ How the business meal/meeting went
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- At least 1 review describes impressing a client at this restaurant- Private rooms or secluded seating explicitly mentioned- Described as 'perfect for business' or 'power lunch spot'
+- At least 1 review describes impressing a client at this restaurant
+- Private rooms or secluded seating explicitly mentioned
+- Described as 'perfect for business' or 'power lunch spot'
+
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- At least 1 review describes embarrassment with a client due to restaurant- Described as 'couldn't hear each other' or 'had to shout'- Service so slow that it impacted a business meeting
+- At least 1 review describes embarrassment with a client due to restaurant
+- Described as 'couldn't hear each other' or 'had to shout'
+- Service so slow that it impacted a business meeting
+
 **Acceptable** otherwise, especially when:
-- Suitable for internal team lunches but not client entertainment- Professional enough for casual business dining- Mixed reviews about noise or service speed
+- Suitable for internal team lunches but not client entertainment
+- Professional enough for casual business dining
+- Mixed reviews about noise or service speed

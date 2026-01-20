@@ -86,9 +86,9 @@ Additional modifiers:
 - Spotless clean (cleanliness specifically praised): +3 points
 - Perfect ambiance (atmosphere matches and enhances concept): +3 points
 - Comfortable seating (seating comfort praised): +2 points
-- Too loud (noise level a significant problem): +-4 points
-- Temperature issues (too hot or too cold): +-3 points
-- Dirty/unclean (cleanliness issues noted): +-5 points
+- Too loud (noise level a significant problem): -4 points
+- Temperature issues (too hot or too cold): -3 points
+- Dirty/unclean (cleanliness issues noted): -5 points
 
 Recency weighting:
 - Within 6 months: full point value

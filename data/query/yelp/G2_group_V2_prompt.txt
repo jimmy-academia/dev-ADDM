@@ -90,9 +90,9 @@ Additional modifiers:
 - Private room available (private dining space for groups): +5 points
 - Easy check splitting (no issues splitting checks): +3 points
 - Family-friendly (kids menu, high chairs, family welcoming): +3 points
-- Refused check split (would not split the check): +-5 points
-- Long wait despite reservation (waited excessively despite having reservation): +-5 points
-- Group split across tables (party was not seated together): +-3 points
+- Refused check split (would not split the check): -5 points
+- Long wait despite reservation (waited excessively despite having reservation): -5 points
+- Group split across tables (party was not seated together): -3 points
 
 
 ## Verdict Rules

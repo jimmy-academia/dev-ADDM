@@ -83,8 +83,8 @@ Additional modifiers:
 - Private room available (mentions private dining room or secluded area): +5 points
 - Quiet atmosphere (explicitly describes as quiet or easy to talk): +3 points
 - Efficient service (service described as quick and professional): +3 points
-- Loud environment (noise level prevents easy conversation): +-5 points
-- Slow service (service too slow for business timing): +-3 points
+- Loud environment (noise level prevents easy conversation): -5 points
+- Slow service (service too slow for business timing): -3 points
 
 
 ## Verdict Rules

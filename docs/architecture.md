@@ -30,3 +30,62 @@ Three independent components handle output:
 - **UsageTracker** (`src/addm/utils/usage.py`): Token/cost tracking with pricing model
 
 See [Output System Spec](specs/output_system.md) for details.
+
+## Project Structure
+
+```
+data/
+├── raw/{dataset}/          # Raw academic dataset
+├── hits/{dataset}/         # Topic analysis results (~1.2GB)
+├── selection/{dataset}/    # Restaurant selections (topic_100.json)
+├── context/{dataset}/      # Built datasets (K=25/50/100/200)
+├── query/{dataset}/        # Task prompts
+└── answers/{dataset}/      # Ground truth & caches
+    ├── judgement_cache.json        # L0 judgement cache (raw + aggregated)
+    ├── judgment_overrides.json     # Human corrections to LLM judgment errors
+    ├── *_K*_groundtruth.json       # Ground truth files
+    ├── batch_manifest_*.json       # Multi-batch tracking (gitignored)
+    └── batch_errors_*.jsonl        # Batch API errors for diagnostics (gitignored)
+
+results/
+├── dev/{timestamp}_{name}/     # Dev run outputs (results.json)
+├── prod/                       # Production runs
+├── cache/                      # Method caches (gitignored)
+│   └── rag_embeddings.json     # RAG embedding/retrieval cache
+└── logs/                       # Debug & pipeline logs (gitignored)
+    ├── extraction/             # Extraction pipeline logs
+    └── debug/{run_id}/         # LLM prompt/response capture
+
+docs/
+├── sessions/           # Claude session logs (written by /bye)
+├── README.md           # Doc index
+├── architecture.md     # This file
+├── tasks/TAXONOMY.md   # 72 task definitions (6 groups × 12 tasks)
+└── specs/              # Detailed specifications
+
+scripts/
+├── data/               # Data preparation scripts
+│   ├── build_dataset.py
+│   ├── build_topic_selection.py
+│   ├── select_topic_restaurants.py
+│   └── download_amazon.sh
+├── utils/              # Utility scripts
+├── run_g1_allergy.sh   # G1_allergy extraction pipeline
+└── manual_review.txt   # Reference doc
+
+src/addm/
+├── methods/            # LLM methods (direct, rlm, rag, amos)
+├── tasks/              # Extraction, execution, CLI
+├── query/              # Query construction system
+│   ├── models/         # PolicyIR, Term, Operator
+│   ├── libraries/      # Term & operator YAML files
+│   ├── policies/       # Policy definitions (G1-G6, V0-V3)
+│   └── generators/     # Prompt generation
+├── data/               # Dataset loaders
+├── eval/               # Evaluation metrics
+└── llm.py              # LLM service
+
+.claude/                # Claude Code configuration
+├── CLAUDE.md           # Project essentials (minimal)
+└── rules/              # Detailed reference docs
+```

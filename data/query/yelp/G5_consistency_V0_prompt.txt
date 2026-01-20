@@ -59,8 +59,16 @@ How often reviewer has visited
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- Multiple regular customers praise consistency- Described as 'always reliable' or 'never disappoints'- Quality stable or improving over time
+- Multiple regular customers praise consistency
+- Described as 'always reliable' or 'never disappoints'
+- Quality stable or improving over time
+
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- Multiple reviews describe declining quality- Described as 'hit or miss' or unpredictable- Regular customers noting worsening experience
+- Multiple reviews describe declining quality
+- Described as 'hit or miss' or unpredictable
+- Regular customers noting worsening experience
+
 **Satisfactory** otherwise, especially when:
-- Generally consistent with occasional variation- Most visits are good- Mixed reviews on reliability
+- Generally consistent with occasional variation
+- Most visits are good
+- Mixed reviews on reliability

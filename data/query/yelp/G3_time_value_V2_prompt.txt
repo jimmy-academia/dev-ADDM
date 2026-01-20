@@ -75,8 +75,8 @@ Additional modifiers:
 - No wait ever (always seated immediately): +3 points
 - Reservations honored (reservations work well): +2 points
 - Would wait again (reviewer would gladly wait again): +3 points
-- Reservations not honored (had reservation but still waited long): +-5 points
-- Would not wait again (reviewer explicitly wouldn't wait again): +-3 points
+- Reservations not honored (had reservation but still waited long): -5 points
+- Would not wait again (reviewer explicitly wouldn't wait again): -3 points
 
 
 ## Verdict Rules

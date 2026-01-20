@@ -59,8 +59,16 @@ Whether a must-try signature item exists
 ## Verdict Rules
 
 A restaurant is considered **Highly Unique** if any of the following is true:
-- At least 1 review describes it as 'only place in the city'- Described as destination restaurant worth traveling for- 'Hidden gem' that reviewers don't want to share
+- At least 1 review describes it as 'only place in the city'
+- Described as destination restaurant worth traveling for
+- 'Hidden gem' that reviewers don't want to share
+
 **Generic** if Highly Unique does not apply, but any of the following is true:
-- At least 1 review says 'could be any restaurant'- Described as chain-restaurant quality- No distinctive features mentioned across reviews
+- At least 1 review says 'could be any restaurant'
+- Described as chain-restaurant quality
+- No distinctive features mentioned across reviews
+
 **Differentiated** otherwise, especially when:
-- Some unique elements noted- Has character but not irreplaceable- Memorable aspects mentioned
+- Some unique elements noted
+- Has character but not irreplaceable
+- Memorable aspects mentioned

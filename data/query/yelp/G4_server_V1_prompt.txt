@@ -69,8 +69,16 @@ Whether server was named positively
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- At least 1 server mentioned by name with exceptional praise- Service described as 'best I've ever had' or similar- Consistent praise for anticipatory, exceptional service
+- At least 1 server mentioned by name with exceptional praise
+- Service described as 'best I've ever had' or similar
+- Consistent praise for anticipatory, exceptional service
+
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- At least 1 review describes actively rude or hostile server- Server described as 'worst service ever' or similar- Pattern of complaints about being ignored or forgotten
+- At least 1 review describes actively rude or hostile server
+- Server described as 'worst service ever' or similar
+- Pattern of complaints about being ignored or forgotten
+
 **Satisfactory** otherwise, especially when:
-- Service is professional and adequate- No major complaints or exceptional praise- Servers do their job without standing out
+- Service is professional and adequate
+- No major complaints or exceptional praise
+- Servers do their job without standing out

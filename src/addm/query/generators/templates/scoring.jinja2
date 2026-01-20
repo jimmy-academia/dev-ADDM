@@ -12,7 +12,7 @@ For each firsthand incident, assign points based on severity:
 
 Additional modifiers:
 {% for item in modifiers %}
-- {{ item.label }}{% if item.description %} ({{ item.description }}){% endif %}: +{{ item.points }} points
+- {{ item.label }}{% if item.description %} ({{ item.description }}){% endif %}: {% if item.points >= 0 %}+{% endif %}{{ item.points }} points
 {% endfor %}
 {% endif %}
 {% if recency_rules %}

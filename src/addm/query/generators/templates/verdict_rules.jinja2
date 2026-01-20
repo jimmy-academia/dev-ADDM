@@ -4,7 +4,11 @@
 
 **{{ rule.verdict }}** otherwise{% if rule.especially_when %}, especially when:
 {% for condition in rule.especially_when %}
-{% if condition is mapping %}- {{ condition.text }}{% else %}- {{ condition }}{% endif %}
+{% if condition is mapping %}
+- {{ condition.text }}
+{% else %}
+- {{ condition }}
+{% endif %}
 {% endfor %}
 {% endif %}
 {% else %}
@@ -16,7 +20,11 @@ A restaurant is considered **{{ rule.verdict }}** if any of the following is tru
 **{{ rule.verdict }}**{% if rule.precondition %} if {{ rule.precondition }}, but {% else %} if {% endif %}any of the following is true:
 {% endif %}
 {% for condition in rule.conditions %}
-{% if condition is mapping %}- {{ condition.text }}{% else %}- {{ condition }}{% endif %}
+{% if condition is mapping %}
+- {{ condition.text }}
+{% else %}
+- {{ condition }}
+{% endif %}
 {% endfor %}
 {% endif %}
 {% endfor %}

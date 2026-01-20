@@ -83,8 +83,8 @@ Additional modifiers:
 - Consistent excellence (same great quality across visits): +5 points
 - Creative/unique dishes (chef praised for creativity): +3 points
 - Beautiful presentation (plating and presentation praised): +2 points
-- Inconsistent quality (hit or miss between visits): +-5 points
-- Food sent back (dish had to be returned): +-3 points
+- Inconsistent quality (hit or miss between visits): -5 points
+- Food sent back (dish had to be returned): -3 points
 
 
 ## Verdict Rules

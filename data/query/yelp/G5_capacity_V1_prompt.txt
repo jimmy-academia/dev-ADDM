@@ -59,8 +59,16 @@ How well they handled customer volume
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- At least 1 review praises handling of extremely busy night- Described as 'well-oiled machine' even when packed- Peak time execution specifically praised
+- At least 1 review praises handling of extremely busy night
+- Described as 'well-oiled machine' even when packed
+- Peak time execution specifically praised
+
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- At least 1 review describes 'one server for entire restaurant'- Customers left due to overwhelming wait from understaffing- Described as 'chaos' or 'disaster' during busy period
+- At least 1 review describes 'one server for entire restaurant'
+- Customers left due to overwhelming wait from understaffing
+- Described as 'chaos' or 'disaster' during busy period
+
 **Satisfactory** otherwise, especially when:
-- Adequate handling most of the time- Occasional peak-time struggles- Generally manages volume acceptably
+- Adequate handling most of the time
+- Occasional peak-time struggles
+- Generally manages volume acceptably

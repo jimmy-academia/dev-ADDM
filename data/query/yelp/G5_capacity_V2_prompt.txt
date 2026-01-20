@@ -74,8 +74,8 @@ For each firsthand incident, assign points based on severity:
 Additional modifiers:
 - Well staffed (staffing praised): +3 points
 - Smooth peak times (busy times handled well): +3 points
-- Understaffed (not enough staff): +-5 points
-- Service collapsed (service fell apart under volume): +-5 points
+- Understaffed (not enough staff): -5 points
+- Service collapsed (service fell apart under volume): -5 points
 
 
 ## Verdict Rules

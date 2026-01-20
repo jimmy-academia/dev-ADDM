@@ -67,8 +67,16 @@ How the date/romantic occasion went
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- At least 1 review describes a successful proposal or memorable anniversary- Candlelit or intimate atmosphere explicitly praised- Multiple reviews describe it as 'perfect for dates'
+- At least 1 review describes a successful proposal or memorable anniversary
+- Candlelit or intimate atmosphere explicitly praised
+- Multiple reviews describe it as 'perfect for dates'
+
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- At least 1 review describes a date being 'ruined' by the experience- Described as 'too loud to talk' or 'like a cafeteria'- Rushed service that doesn't allow lingering
+- At least 1 review describes a date being 'ruined' by the experience
+- Described as 'too loud to talk' or 'like a cafeteria'
+- Rushed service that doesn't allow lingering
+
 **Acceptable** otherwise, especially when:
-- Atmosphere is pleasant but not particularly romantic- Good for casual dates but not special occasions- Mixed reviews about ambiance
+- Atmosphere is pleasant but not particularly romantic
+- Good for casual dates but not special occasions
+- Mixed reviews about ambiance

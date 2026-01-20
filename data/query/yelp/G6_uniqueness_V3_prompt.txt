@@ -75,7 +75,7 @@ Additional modifiers:
 - Signature dish praised (famous must-try item): +5 points
 - Destination restaurant (worth traveling for): +5 points
 - Unforgettable experience (truly memorable): +3 points
-- Like a chain (described as generic): +-5 points
+- Like a chain (described as generic): -5 points
 
 Recency weighting:
 - Within 1 year: full point value

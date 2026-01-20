@@ -59,8 +59,16 @@ How well they handled customer volume
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- Multiple reviews praise volume handling during busy times- Consistently well-staffed observations- No service degradation reported even when packed
+- Multiple reviews praise volume handling during busy times
+- Consistently well-staffed observations
+- No service degradation reported even when packed
+
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- Multiple reviews describe understaffing- Consistent service degradation when busy- Reports of restaurant 'falling apart' under volume
+- Multiple reviews describe understaffing
+- Consistent service degradation when busy
+- Reports of restaurant 'falling apart' under volume
+
 **Satisfactory** otherwise, especially when:
-- Handles normal volume adequately- Some struggles during peak times but manages- Mixed reports on busy-time handling
+- Handles normal volume adequately
+- Some struggles during peak times but manages
+- Mixed reports on busy-time handling

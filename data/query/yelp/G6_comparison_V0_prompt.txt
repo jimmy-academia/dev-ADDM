@@ -58,8 +58,16 @@ Intent to switch to/from this restaurant
 ## Verdict Rules
 
 A restaurant is considered **Stronger** if any of the following is true:
-- Multiple reviews favorably compare to competitors- Customers switching from competitors to here- Consistently described as better than alternatives
+- Multiple reviews favorably compare to competitors
+- Customers switching from competitors to here
+- Consistently described as better than alternatives
+
 **Weaker** if Stronger does not apply, but any of the following is true:
-- Multiple reviews prefer competitors- Customers switching to competitors- Consistently described as inferior to alternatives
+- Multiple reviews prefer competitors
+- Customers switching to competitors
+- Consistently described as inferior to alternatives
+
 **Comparable** otherwise, especially when:
-- Mixed comparisons- Similar to competitors- Different strengths and weaknesses
+- Mixed comparisons
+- Similar to competitors
+- Different strengths and weaknesses

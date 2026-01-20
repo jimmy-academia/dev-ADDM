@@ -59,8 +59,16 @@ Whether a must-try signature item exists
 ## Verdict Rules
 
 A restaurant is considered **Highly Unique** if any of the following is true:
-- Multiple reviews describe it as 'one of a kind'- Signature items frequently praised- Described as unforgettable or irreplaceable
+- Multiple reviews describe it as 'one of a kind'
+- Signature items frequently praised
+- Described as unforgettable or irreplaceable
+
 **Generic** if Highly Unique does not apply, but any of the following is true:
-- Multiple reviews describe it as 'nothing special'- No distinguishing features mentioned- Easily confused with competitors
+- Multiple reviews describe it as 'nothing special'
+- No distinguishing features mentioned
+- Easily confused with competitors
+
 **Differentiated** otherwise, especially when:
-- Has some unique elements- Memorable but not irreplaceable- Some signature items
+- Has some unique elements
+- Memorable but not irreplaceable
+- Some signature items
