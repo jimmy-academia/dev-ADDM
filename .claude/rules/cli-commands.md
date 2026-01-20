@@ -3,11 +3,14 @@
 ## Run Experiments
 
 ```bash
-# Basic run (policy-based)
-.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5
+# Default: benchmark mode (quota-controlled)
+.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 100
 
-# Dev mode (saves to results/dev/)
+# Dev mode (no quota, saves to results/dev/)
 .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --dev
+
+# Force run even if quota is met
+.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 100 --force
 
 # Specific method
 .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 1 --method rlm

@@ -36,9 +36,11 @@ Layered greedy by cell coverage:
 PolicyIR → NL prompts
 
 ```bash
-.venv/bin/python -m addm.query.cli.generate \
-    --policy src/addm/query/policies/G1/allergy/V2.yaml \
-    --output data/query/yelp/G1_allergy_V2_prompt.txt
+# Generate all 72 policy prompts (default)
+.venv/bin/python -m addm.query.cli.generate
+
+# Or generate single policy
+.venv/bin/python -m addm.query.cli.generate --policy G1/allergy/V2
 ```
 
 ---

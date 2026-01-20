@@ -2,23 +2,22 @@
 CLI: Run direct LLM baseline evaluation.
 
 Usage:
+    # Policy-based run (benchmark mode by default, quota-controlled)
+    .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 100
+    .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1/allergy/V2 -n 100
+
+    # Dev mode (saves to results/dev/, no quota)
+    .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --dev
+
+    # Force run even if quota is met
+    .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 100 --force
+
     # Legacy task-based (loads from data/answers/yelp/G1a_prompt.txt)
     .venv/bin/python -m addm.tasks.cli.run_baseline --task G1a -n 5
 
-    # New policy-based (loads from data/query/yelp/G1_allergy_V2_prompt.txt)
-    .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5
-    .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1/allergy/V2 -n 5
-
-    # Dev mode (saves to results/dev/{YYYYMMDD}_{run_name}/)
-    .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --dev
-
-    # Benchmark mode (quota-controlled: 1 ondemand + 4 batch runs)
-    .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 100 --benchmark
-
 Output directories:
+    (default):   results/{method}/{policy_id}_K{k}/run_N/results.json (benchmark mode)
     --dev:       results/dev/{YYYYMMDD}_{run_name}/results.json
-    --benchmark: results/{method}/{policy_id}/run_N/results.json
-    (default):   results/baseline/{run_id}/results.json
 """
 
 import argparse
@@ -1039,12 +1038,7 @@ def main() -> None:
     parser.add_argument(
         "--dev",
         action="store_true",
-        help="Dev mode: save to results/dev/{YYYYMMDD}_{run_name}/",
-    )
-    parser.add_argument(
-        "--benchmark",
-        action="store_true",
-        help="Benchmark mode: quota-controlled runs to results/{method}/{policy_id}/run_N/",
+        help="Dev mode: save to results/dev/{YYYYMMDD}_{run_name}/ (no quota)",
     )
     parser.add_argument(
         "--force",
@@ -1096,9 +1090,8 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    # Validate mutually exclusive modes
-    if args.dev and args.benchmark:
-        parser.error("--dev and --benchmark are mutually exclusive")
+    # Benchmark mode is default (unless --dev is specified)
+    benchmark = not args.dev
 
     run_result = asyncio.run(
         run_baseline(
@@ -1111,7 +1104,7 @@ def main() -> None:
             model=args.model,
             verbose=not args.quiet,
             dev=args.dev,
-            benchmark=args.benchmark,
+            benchmark=benchmark,
             force=args.force,
             method=args.method,
             token_limit=args.token_limit,

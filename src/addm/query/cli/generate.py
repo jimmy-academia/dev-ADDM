@@ -1,11 +1,11 @@
 """CLI for generating prompts from policy IRs.
 
 Usage:
+    # Generate all policies (default)
+    .venv/bin/python -m addm.query.cli.generate
+
     # Generate single policy
     .venv/bin/python -m addm.query.cli.generate --policy G1/allergy/V1
-
-    # Generate all policies to data/query/yelp/
-    .venv/bin/python -m addm.query.cli.generate --all
 
     # Generate to custom output directory
     .venv/bin/python -m addm.query.cli.generate --policy G1/allergy/V1 --output data/query/custom/
@@ -132,12 +132,7 @@ def main():
     parser = argparse.ArgumentParser(description="Generate prompt from policy IR")
     parser.add_argument(
         "--policy",
-        help="Policy path (e.g., G1/allergy/V1 or full path)",
-    )
-    parser.add_argument(
-        "--all",
-        action="store_true",
-        help="Generate all policies",
+        help="Policy path (e.g., G1/allergy/V1 or full path). If not specified, generates all policies.",
     )
     parser.add_argument(
         "--output",
@@ -152,10 +147,7 @@ def main():
 
     args = parser.parse_args()
 
-    if args.all:
-        generated = generate_all(args.output)
-        print(f"\nGenerated {len(generated)} prompts")
-    elif args.policy:
+    if args.policy:
         prompt, output_file = generate_prompt(
             args.policy,
             args.output,
@@ -166,7 +158,9 @@ def main():
         else:
             print(f"Saved to: {output_file}")
     else:
-        parser.error("Either --policy or --all is required")
+        # Default: generate all policies
+        generated = generate_all(args.output)
+        print(f"\nGenerated {len(generated)} prompts")
 
 
 if __name__ == "__main__":
