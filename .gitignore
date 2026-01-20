@@ -210,10 +210,8 @@ __marimo__/
 data/raw/
 data/raw/**
 
-# Keyword hits and topic analysis (large)
-data/hits/
-
-# Large selection files
+# Large selection files (topic hits + topic_all.json)
+data/selection/yelp/G*.json
 data/selection/yelp/topic_all.json
 
 # Batch job manifests (temporary, machine-specific)
@@ -228,12 +226,20 @@ data/tasks/*/judgement_cache.json
 # Debug and extraction logs (regenerable)
 results/logs/
 
+# Dev runs (ephemeral, not tracked)
 results/dev/
 
-# Method caches (large, regenerable)
-results/cache/
+# Benchmark runs - track results.json, ignore debug files
+results/*/G*/run_*/debug.jsonl
+results/*/G*/run_*/item_logs/
 
-# Experiment results (ephemeral)
+# Shared caches (large, regenerable)
+results/shared/
+
+# Legacy experiment results (ephemeral)
 results/baseline/
 results/test_queries/
+
+# Method caches (legacy, moving to results/shared/)
+results/cache/
 

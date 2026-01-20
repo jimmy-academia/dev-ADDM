@@ -5,7 +5,7 @@ This document specifies the programmatic system for generating natural-language 
 ## Overview
 
 The Query Construction System replaces manual prompt authoring with a structured approach:
-- **PolicyIR**: YAML-based intermediate representation of evaluation policies
+- **PolicyIR** (Policy Intermediate Representation): YAML-based structured format for evaluation policies
 - **Term Libraries**: Reusable definitions shared across topics
 - **Prompt Generator**: Jinja2 templates that render PolicyIR to NL prompts
 

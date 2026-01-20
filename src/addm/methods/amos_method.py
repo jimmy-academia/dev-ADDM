@@ -78,6 +78,25 @@ class AMOSMethod(Method):
         self._seed: Optional[Dict[str, Any]] = None
         self._phase1_usage: Dict[str, Any] = {}
 
+    def save_formula_seed_to_run_dir(self, run_dir: Path) -> None:
+        """Save a copy of the Formula Seed to the run directory.
+
+        Creates formula_seed.json in the run directory for artifact tracking.
+
+        Args:
+            run_dir: Run directory (e.g., results/dev/20260120_G1_allergy_V2/)
+        """
+        if self._seed is None:
+            return
+
+        output_path = run_dir / "formula_seed.json"
+        with open(output_path, "w") as f:
+            json.dump(self._seed, f, indent=2)
+
+    def get_formula_seed(self) -> Optional[Dict[str, Any]]:
+        """Get the current Formula Seed (if loaded)."""
+        return self._seed
+
     async def _get_formula_seed(self, agenda: str, llm: LLMService) -> Dict[str, Any]:
         """Get or generate Formula Seed.
 

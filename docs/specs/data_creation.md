@@ -13,7 +13,7 @@ Place raw files in `data/raw/{dataset}/`. For Yelp:
 ## Pipeline Overview
 
 ```
-data/raw/ → data/hits/ → data/selection/ → data/context/
+data/raw/ → data/selection/ (hits + restaurant selections) → data/context/
 ```
 
 ### Step 1: Topic Analysis (`scripts/build_topic_selection.py`)
@@ -32,7 +32,7 @@ Uses weighted regex patterns to score reviews by severity (critical vs. high).
 .venv/bin/python scripts/build_topic_selection.py --dry-run
 ```
 
-Output: `data/hits/{dataset}/G{1-6}_{topic}.json`
+Output: `data/selection/{dataset}/G{1-6}_{topic}.json`
 
 ### Step 2: Restaurant Selection (`scripts/select_topic_restaurants.py`)
 
@@ -81,11 +81,10 @@ data/
 │   ├── {dataset}_academic_dataset_business.json
 │   ├── {dataset}_academic_dataset_review.json
 │   └── {dataset}_academic_dataset_user.json
-├── hits/{dataset}/         # Topic analysis results
-│   └── G{1-6}_{topic}.json
-├── selection/{dataset}/    # Restaurant selections
-│   ├── topic_100.json
-│   └── topic_all.json
+├── selection/{dataset}/    # Topic hits + restaurant selections
+│   ├── G{1-6}_{topic}.json  # Topic analysis results (hits)
+│   ├── topic_100.json       # Selected restaurants
+│   └── topic_all.json       # Full ranking
 ├── context/{dataset}/      # Built datasets
 │   └── dataset_K{25,50,100,200}.jsonl
 └── query/{dataset}/        # Task prompts

@@ -11,6 +11,7 @@ from openai import AsyncOpenAI
 from addm.data.types import Sample
 from addm.llm import LLMService
 from addm.methods.base import Method
+from addm.utils.results_manager import get_results_manager
 
 
 # Embedding pricing (text-embedding-3-large): $0.13 per 1M tokens
@@ -46,12 +47,17 @@ class RAGMethod(Method):
         Args:
             top_k: Number of reviews to retrieve (default: 20, ~10% of K=200)
             embedding_model: OpenAI embedding model (default: text-embedding-3-large)
-            cache_path: Path to embedding cache file (default: results/cache/rag_embeddings.json)
+            cache_path: Path to embedding cache file (default: results/shared/yelp_embeddings.json)
             system_prompt: System prompt for structured output (optional)
         """
         self.top_k = top_k
         self.embedding_model = embedding_model
-        self.cache_path = cache_path or Path("results/cache/rag_embeddings.json")
+        # Use shared cache path from results manager
+        if cache_path is None:
+            results_manager = get_results_manager()
+            self.cache_path = results_manager.get_shared_embeddings_path()
+        else:
+            self.cache_path = cache_path
         self.system_prompt = system_prompt
         self._embedding_client: Optional[AsyncOpenAI] = None
         self._cache: Dict[str, Any] = {}

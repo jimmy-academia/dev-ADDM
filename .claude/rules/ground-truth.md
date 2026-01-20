@@ -65,4 +65,6 @@ Overrides correct LLM judgment errors at the aggregated level.
 | `data/answers/yelp/judgment_overrides.json` | Human corrections |
 | `data/answers/yelp/{policy}_K{k}_groundtruth.json` | GT outputs |
 
-See `docs/specs/ground_truth.md` for full details.
+---
+
+**Full documentation:** [docs/specs/ground_truth.md](../../docs/specs/ground_truth.md) | **Troubleshooting:** [docs/troubleshooting.md](../../docs/troubleshooting.md)

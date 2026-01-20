@@ -21,7 +21,7 @@ Layered greedy by cell coverage:
 
 ## Data Notes
 
-**Hits lists** (`data/hits/yelp/G1_*.json`):
+**Hits lists** (`data/selection/yelp/G1_*.json`):
 - `critical_list` and `high_list` are regex-based, not 100% accurate
 - Use as starting point for finding relevant restaurants
 - Critical reviews may not be in K=25 subset (sampling effect)
@@ -41,4 +41,6 @@ PolicyIR → NL prompts
     --output data/query/yelp/G1_allergy_V2_prompt.txt
 ```
 
-See `docs/specs/query_construction.md` for details.
+---
+
+**Full documentation:** [docs/specs/data_creation.md](../../docs/specs/data_creation.md) | **Query system:** [docs/specs/query_construction.md](../../docs/specs/query_construction.md)

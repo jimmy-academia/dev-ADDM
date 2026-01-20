@@ -276,6 +276,18 @@ For fair comparison across methods:
 
 ---
 
+## Adding New Methods
+
+To implement a new baseline method, see the **[Adding a New Method](developer/add-method.md)** guide.
+
+The guide covers:
+- Creating a method file from the `direct.py` template
+- Implementing the `Method` interface with usage tracking
+- Registering the method in `__init__.py`
+- Testing and documenting the method
+
+---
+
 ## To Be Considered
 
 | Method | Paper | Venue | Year | Notes |

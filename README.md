@@ -23,11 +23,11 @@ python main.py --data path/to/dataset.jsonl --method direct --provider openai --
 .venv/bin/python scripts/build_dataset.py --data yelp
 
 # Extract L0 judgments and compute ground truth
-.venv/bin/python -m addm.tasks.cli.extract --task G1a --domain yelp --k 50
-.venv/bin/python -m addm.tasks.cli.compute_gt --task G1a --domain yelp --k 50
+.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 50 --mode ondemand
+.venv/bin/python -m addm.tasks.cli.compute_gt --policy G1_allergy_V2 --k 50
 
 # Run a direct LLM baseline on a task
-.venv/bin/python -m addm.tasks.cli.run_baseline --task G1a --k 50 -n 5
+.venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 --k 50 -n 5
 ```
 
 ## Project Structure
@@ -47,7 +47,11 @@ See [Data Creation Workflow (docs/specs/data_creation.md)](docs/specs/data_creat
 
 ## Documentation
 
-- [CLI Reference (docs/specs/cli.md)](docs/specs/cli.md) for arguments
-- [Dataset Schema (docs/specs/datasets.md)](docs/specs/datasets.md) for dataset schema
-- [Results Schema (docs/specs/outputs.md)](docs/specs/outputs.md) for results schema
-- [Architecture Overview (docs/architecture.md)](docs/architecture.md) for the pipeline overview
+**New to ADDM?** Start with the **[Quickstart Guide](docs/quickstart.md)** - run your first evaluation in 5 steps.
+
+See **[docs/README.md](docs/README.md)** for the full documentation index including:
+- Architecture overview and CLI reference
+- Data pipeline (raw data → datasets → queries)
+- 72 benchmark tasks (6 groups × 3 topics × 4 variants)
+- Baseline methods and evaluation
+- [Troubleshooting](docs/troubleshooting.md) - common issues and solutions

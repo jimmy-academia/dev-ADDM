@@ -57,3 +57,7 @@
 ./scripts/run_g1_allergy.sh
 # Logs: results/logs/extraction/g1_allergy.log
 ```
+
+---
+
+**Full documentation:** [docs/specs/cli.md](../../docs/specs/cli.md) | **Troubleshooting:** [docs/troubleshooting.md](../../docs/troubleshooting.md)

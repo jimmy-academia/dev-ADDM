@@ -1,4 +1,9 @@
-"""Debug logger for full prompt/response capture."""
+"""Debug logger for full prompt/response capture.
+
+Supports two modes:
+- Consolidated (default): Single debug.jsonl in run directory
+- Per-sample: Separate files per sample_id (legacy mode)
+"""
 
 from pathlib import Path
 from threading import RLock
@@ -10,35 +15,57 @@ from typing import Any
 class DebugLogger:
     """Logger for capturing full prompts and responses.
 
-    Organizes debug entries by sample_id for easy inspection.
+    Supports consolidated mode (single debug.jsonl) or per-sample files.
     Thread-safe for concurrent logging.
     """
 
-    def __init__(self, output_dir: Path | None = None):
+    def __init__(
+        self,
+        output_dir: Path | None = None,
+        consolidated: bool = True,
+    ):
         """Initialize the debug logger.
 
         Args:
             output_dir: Directory where debug files will be written.
                        If None, logging is disabled.
+            consolidated: If True, write all entries to single debug.jsonl.
+                         If False, write per-sample files (legacy mode).
         """
         self.output_dir = output_dir
+        self.consolidated = consolidated
         self._entries: list[dict] = []
         self._lock = RLock()
         self._enabled = output_dir is not None
+        self._debug_file_path: Path | None = None
+
+        # Setup consolidated file path
+        if self._enabled and self.consolidated and self.output_dir:
+            self._debug_file_path = self.output_dir / "debug.jsonl"
 
     @property
     def enabled(self) -> bool:
         """Whether debug logging is enabled."""
         return self._enabled
 
-    def enable(self, output_dir: Path):
+    def enable(self, output_dir: Path, consolidated: bool | None = None):
         """Enable debug logging to the specified directory.
 
         Args:
             output_dir: Directory for debug output
+            consolidated: If provided, override consolidated mode setting
         """
         self.output_dir = output_dir
         self._enabled = True
+
+        if consolidated is not None:
+            self.consolidated = consolidated
+
+        # Setup consolidated file path
+        if self.consolidated:
+            self._debug_file_path = self.output_dir / "debug.jsonl"
+        else:
+            self._debug_file_path = None
 
     def disable(self):
         """Disable debug logging."""
@@ -110,34 +137,44 @@ class DebugLogger:
             self._entries.append(entry)
 
     def flush(self):
-        """Write accumulated entries to disk, organized by sample.
+        """Write accumulated entries to disk.
 
-        Creates a debug/ subdirectory with per-sample JSONL files.
+        In consolidated mode: Appends all entries to single debug.jsonl
+        In per-sample mode: Creates debug/ subdirectory with per-sample JSONL files
         """
         if not self._enabled or not self._entries or self.output_dir is None:
             return
 
-        debug_dir = self.output_dir / "debug"
-        debug_dir.mkdir(parents=True, exist_ok=True)
-
-        # Group by sample_id
-        by_sample: dict[str, list[dict]] = {}
         with self._lock:
-            for entry in self._entries:
+            entries_to_write = list(self._entries)
+            self._entries.clear()
+
+        if self.consolidated:
+            # Write all entries to single debug.jsonl
+            with open(self._debug_file_path, "a") as f:
+                for entry in entries_to_write:
+                    f.write(json.dumps(entry) + "\n")
+        else:
+            # Legacy mode: Write per-sample files
+            debug_dir = self.output_dir / "debug"
+            debug_dir.mkdir(parents=True, exist_ok=True)
+
+            # Group by sample_id
+            by_sample: dict[str, list[dict]] = {}
+            for entry in entries_to_write:
                 sid = entry.get("sample_id", "unknown")
                 if sid not in by_sample:
                     by_sample[sid] = []
                 by_sample[sid].append(entry)
-            self._entries.clear()
 
-        # Write per-sample files
-        for sample_id, entries in by_sample.items():
-            # Sanitize sample_id for use as filename
-            safe_id = "".join(c if c.isalnum() or c in "-_" else "_" for c in sample_id)
-            path = debug_dir / f"{safe_id}.jsonl"
-            with open(path, "a") as f:
-                for entry in entries:
-                    f.write(json.dumps(entry) + "\n")
+            # Write per-sample files
+            for sample_id, entries in by_sample.items():
+                # Sanitize sample_id for use as filename
+                safe_id = "".join(c if c.isalnum() or c in "-_" else "_" for c in sample_id)
+                path = debug_dir / f"{safe_id}.jsonl"
+                with open(path, "a") as f:
+                    for entry in entries:
+                        f.write(json.dumps(entry) + "\n")
 
     def get_entries(self, sample_id: str | None = None) -> list[dict]:
         """Get accumulated entries, optionally filtered by sample_id.

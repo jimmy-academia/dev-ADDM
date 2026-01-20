@@ -11,7 +11,7 @@ The framework is organized into five layers:
 ## Package Layout
 
 - `src/addm/` holds the importable package. This `src/` layout avoids accidental imports from the repo root and mirrors how the package is installed.
-- Add new methods as modules under `src/addm/methods/` and register them in `src/addm/methods/__init__.py`.
+- Add new methods as modules under `src/addm/methods/` and register them in `src/addm/methods/__init__.py`. See [Adding a New Method](developer/add-method.md) for step-by-step instructions.
 
 ## Execution Flow
 
@@ -89,3 +89,11 @@ src/addm/
 ├── CLAUDE.md           # Project essentials (minimal)
 └── rules/              # Detailed reference docs
 ```
+
+## See Also
+
+- [Quickstart Guide](quickstart.md) - Run your first evaluation
+- [Adding a New Method](developer/add-method.md) - Implement a baseline method
+- [Output System Spec](specs/output_system.md) - Console, logging, usage tracking details
+- [CLI Reference](specs/cli.md) - All command-line options
+- [Troubleshooting](troubleshooting.md) - Common issues and solutions

@@ -42,7 +42,7 @@ def main():
         "--hits-dir",
         type=Path,
         default=None,
-        help="Override topic hits directory (default: data/hits/{data}/)",
+        help="Override topic hits directory (default: data/selection/{data}/)",
     )
     parser.add_argument(
         "--output-dir",
@@ -65,7 +65,7 @@ def main():
 
     # Derive paths from --data, allow overrides
     data_root = Path("data")
-    hits_dir = args.hits_dir or (data_root / "hits" / args.data)
+    hits_dir = args.hits_dir or (data_root / "selection" / args.data)
     output_dir = args.output_dir or (data_root / "selection" / args.data)
 
     config = TopicSelectionConfig(

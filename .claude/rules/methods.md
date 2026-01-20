@@ -34,4 +34,6 @@ Uses [recursive-llm](https://github.com/ysz/recursive-llm) (forked to `lib/recur
 | AMOS (proposed) | ~5k |
 | RLM | ~50k (10x, acceptable for comparison) |
 
-See `docs/BASELINES.md` for detailed specifications.
+---
+
+**Full documentation:** [docs/BASELINES.md](../../docs/BASELINES.md) | **Add new method:** [docs/developer/add-method.md](../../docs/developer/add-method.md)

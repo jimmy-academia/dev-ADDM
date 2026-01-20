@@ -2,16 +2,16 @@
 
 ## Quick Start
 
+- **[Quickstart Guide (quickstart.md)](quickstart.md)** - Run your first evaluation in 5 steps
 - [Architecture Overview (architecture.md)](architecture.md) - Pipeline overview and module responsibilities
 - [CLI Reference (specs/cli.md)](specs/cli.md) - CLI arguments and defaults
 - [Project Roadmap (ROADMAP.md)](ROADMAP.md) - Milestones, progress, and technical debt
+- [Troubleshooting (troubleshooting.md)](troubleshooting.md) - Common issues and solutions
 
 ## Data Pipeline
 
-- [Data Creation Workflow (specs/data_creation.md)](specs/data_creation.md) - End-to-end data creation workflow
-- [Raw Data Sources (specs/raw_data.md)](specs/raw_data.md) - Raw data sources and storage
-- [Dataset Build (specs/dataset_build.md)](specs/dataset_build.md) - Build datasets with reviews
-- [Dataset Schema (specs/datasets.md)](specs/datasets.md) - Dataset structure and fields
+- [Data Creation Workflow (specs/data_creation.md)](specs/data_creation.md) - End-to-end: raw data → topics → selection → datasets
+- [Raw Data Sources (specs/raw_data.md)](specs/raw_data.md) - Yelp dataset format and storage
 
 ## Benchmark Tasks
 
@@ -57,14 +57,18 @@ Task prompts: `data/query/yelp/G{1-6}{a-l}_prompt.txt` or `G{n}_{topic}_V{0-3}_p
 ## Baselines & Methods
 
 - [Baselines (BASELINES.md)](BASELINES.md) - Implemented baseline methods with citations
-- [Context Selection (specs/selection.md)](specs/selection.md) - Core context selection strategy
 - [LLM Modes (specs/llm_modes.md)](specs/llm_modes.md) - Ondemand vs 24hrbatch execution
+
+## Developer Guides
+
+- [Adding a New Method (developer/add-method.md)](developer/add-method.md) - Step-by-step guide to implement a baseline method
 
 ## Output & Evaluation
 
-- [Output System Architecture (specs/output_system.md)](specs/output_system.md) - Console output, logging, and usage tracking
-- [Results Schema (specs/outputs.md)](specs/outputs.md) - Results file format and fields
+- [Output System Architecture (specs/output_system.md)](specs/output_system.md) - Console output, logging, result schema, and usage tracking
 - [Usage Tracking (specs/usage_tracking.md)](specs/usage_tracking.md) - Token/cost tracking implementation
+- [Ground Truth System (specs/ground_truth.md)](specs/ground_truth.md) - GT generation, aggregation, human overrides
+- [Evaluation Metrics (specs/evaluation.md)](specs/evaluation.md) - AUPRC, process score, consistency
 
 ## Data Analysis
 

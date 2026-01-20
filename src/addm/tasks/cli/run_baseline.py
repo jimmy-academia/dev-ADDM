@@ -9,12 +9,16 @@ Usage:
     .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5
     .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1/allergy/V2 -n 5
 
-    # Dev mode (saves to results/dev/{timestamp}_{id}/)
+    # Dev mode (saves to results/dev/{YYYYMMDD}_{run_name}/)
     .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 5 --dev
 
+    # Benchmark mode (quota-controlled: 1 ondemand + 4 batch runs)
+    .venv/bin/python -m addm.tasks.cli.run_baseline --policy G1_allergy_V2 -n 100 --benchmark
+
 Output directories:
-    --dev:     results/dev/{timestamp}_{run_id}/results.json
-    (default): results/baseline/{run_id}/results.json
+    --dev:       results/dev/{YYYYMMDD}_{run_name}/results.json
+    --benchmark: results/{method}/{policy_id}/run_N/results.json
+    (default):   results/baseline/{run_id}/results.json
 """
 
 import argparse
@@ -36,8 +40,10 @@ from addm.methods.rlm import eval_restaurant_rlm
 from addm.tasks.base import load_task
 from addm.utils.async_utils import gather_with_concurrency
 from addm.utils.debug_logger import DebugLogger, get_debug_logger, set_debug_logger
+from addm.utils.item_logger import ItemLogger, get_item_logger, set_item_logger
 from addm.utils.logging import ResultLogger, get_result_logger, set_result_logger
 from addm.utils.output import output
+from addm.utils.results_manager import ResultsManager, get_results_manager
 
 
 # Mapping from policy topic to legacy task ID for ground truth comparison
@@ -393,9 +399,11 @@ async def run_baseline(
     model: str = "gpt-5-nano",
     verbose: bool = True,
     dev: bool = False,
+    benchmark: bool = False,
+    force: bool = False,
     method: str = "direct",
     token_limit: Optional[int] = None,
-    mode: str = "ondemand",
+    mode: Optional[str] = None,
     batch_id: Optional[str] = None,
     top_k: int = 20,
     regenerate_seed: bool = False,
@@ -413,9 +421,13 @@ async def run_baseline(
         skip: Skip first N restaurants
         model: LLM model to use
         verbose: Print detailed output
-        dev: If True, save to results/dev/ instead of results/baseline/
+        dev: If True, save to results/dev/{YYYYMMDD}_{run_name}/
+        benchmark: If True, use quota-controlled benchmark mode
+        force: If True, create new run even if quota met
         method: Method to use - "direct" (default), "rlm", "rag", or "amos"
         token_limit: Token budget for RLM (converts to iterations via ~3000 tokens/iter)
+        mode: Explicit mode override ("ondemand" or "24hrbatch").
+              In benchmark mode, auto-selected based on quota state if not specified.
         regenerate_seed: Force regenerate Formula Seed for AMOS method
         amos_adaptive: Enable AMOS adaptive mode (batch processing with early stopping)
         amos_hybrid: Enable AMOS hybrid embedding retrieval
@@ -448,26 +460,70 @@ async def run_baseline(
     else:
         restaurants = restaurants[skip:]
 
-    # Configure output manager
-    output.configure(quiet=not verbose, mode=mode)
-
-    # Setup loggers in dev mode (need to determine output_dir early)
+    # Get results manager
+    results_manager = get_results_manager()
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    # Determine run mode (ondemand vs 24hrbatch)
+    effective_mode = mode  # Explicit override takes precedence
+
+    # Determine output directory based on run type
     if dev:
-        output_dir = Path(f"results/dev/{timestamp}_{run_id}")
-        output_dir.mkdir(parents=True, exist_ok=True)
+        # Dev mode: results/dev/{YYYYMMDD}_{run_name}/
+        output_dir = results_manager.create_dev_run_dir(run_id, timestamp)
 
-        # Setup result logger
-        result_logger = ResultLogger(output_dir / "results.jsonl")
-        set_result_logger(result_logger)
+        # Default to ondemand for dev runs
+        if effective_mode is None:
+            effective_mode = "ondemand"
 
-        # Setup debug logger (centralized in results/logs/debug/)
-        debug_dir = Path(f"results/logs/debug/{run_id}")
-        debug_dir.mkdir(parents=True, exist_ok=True)
-        debug_logger = DebugLogger(debug_dir)
-        set_debug_logger(debug_logger)
+    elif benchmark:
+        # Benchmark mode: results/{method}/{policy_id}_K{k}/run_N/
+        # Include K in the benchmark identifier for separate tracking
+        benchmark_id = f"{run_id}_K{k}"
+
+        # Auto-select mode based on quota state
+        if effective_mode is None:
+            effective_mode = results_manager.get_next_mode(method, benchmark_id)
+
+            if effective_mode is None and not force:
+                # Quota met - print aggregate and exit
+                output.info(f"Benchmark quota met for {method}/{benchmark_id}")
+                results_manager.print_aggregate_summary(method, benchmark_id, output.print)
+                return {"quota_met": True, "method": method, "policy_id": run_id, "k": k}
+
+        # Create run directory
+        output_dir = results_manager.get_or_create_run_dir(method, benchmark_id, force=force)
+        if output_dir is None and not force:
+            # Quota met
+            output.info(f"Benchmark quota met for {method}/{benchmark_id}")
+            results_manager.print_aggregate_summary(method, benchmark_id, output.print)
+            return {"quota_met": True, "method": method, "policy_id": run_id, "k": k}
+
     else:
+        # Legacy mode: results/baseline/{run_id}/
         output_dir = Path(f"results/baseline/{run_id}")
+        output_dir.mkdir(parents=True, exist_ok=True)
+        (output_dir / "item_logs").mkdir(exist_ok=True)
+
+        # Default to ondemand for legacy runs
+        if effective_mode is None:
+            effective_mode = "ondemand"
+
+    # Configure output manager
+    output.configure(quiet=not verbose, mode=effective_mode)
+
+    # Setup loggers
+    # Result logger writes to results.jsonl
+    result_logger = ResultLogger(output_dir / "results.jsonl")
+    set_result_logger(result_logger)
+
+    # Debug logger writes to debug.jsonl (consolidated mode)
+    debug_logger = DebugLogger(output_dir, consolidated=True)
+    set_debug_logger(debug_logger)
+
+    # Item logger writes to item_logs/{business_id}.json
+    item_logger = ItemLogger(output_dir)
+    set_item_logger(item_logger)
 
     method_name_map = {
         "rlm": "RLM (Recursive LLM)",
@@ -492,7 +548,17 @@ async def run_baseline(
     if gt_task_id:
         output.status(f"Ground truth: {gt_task_id}_K{k}_groundtruth.json")
 
-    if mode == "24hrbatch":
+    # Log query template for item logger
+    if item_logger := get_item_logger():
+        example_context = str(restaurants[0]) if restaurants else "No context"
+        item_logger.log_query_template(
+            policy_id=run_id,
+            query_text=agenda,
+            example_context=example_context[:500] + "..." if len(example_context) > 500 else example_context,
+            system_prompt=system_prompt,
+        )
+
+    if effective_mode == "24hrbatch":
         if method in ["rlm", "rag"]:
             raise ValueError("24hrbatch mode is only supported for method=direct")
 
@@ -733,6 +799,9 @@ async def run_baseline(
             tasks = [process_amos_sample(s) for s in samples]
             raw_results = await gather_with_concurrency(8, tasks)  # 8 concurrent restaurants
             results = [r for r in raw_results if r is not None]
+
+            # Save Formula Seed to run directory for artifact tracking
+            amos_method.save_formula_seed_to_run_dir(output_dir)
         else:
             # Direct method - single LLM call with full context
             tasks = [eval_restaurant(r, agenda, llm, system_prompt) for r in restaurants]
@@ -905,14 +974,19 @@ async def run_baseline(
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / "results.json"
 
+    # Extract run_N from output_dir for benchmark runs
+    run_dir_name = output_dir.name if benchmark else None
+
     run_output = {
-        "run_id": run_id,
+        "run_id": run_dir_name or run_id,
         "task_id": task_id,
         "policy_id": policy_id,
         "gt_task_id": gt_task_id,
         "domain": domain,
         "method": method,
         "model": model,
+        "mode": effective_mode,
+        "has_latency": effective_mode == "ondemand",
         "k": k,
         "n": len(results),
         "timestamp": timestamp,
@@ -965,7 +1039,17 @@ def main() -> None:
     parser.add_argument(
         "--dev",
         action="store_true",
-        help="Dev mode: save to results/dev/{timestamp}_{id}/",
+        help="Dev mode: save to results/dev/{YYYYMMDD}_{run_name}/",
+    )
+    parser.add_argument(
+        "--benchmark",
+        action="store_true",
+        help="Benchmark mode: quota-controlled runs to results/{method}/{policy_id}/run_N/",
+    )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Force run even if benchmark quota is met",
     )
     parser.add_argument(
         "--method",
@@ -1004,13 +1088,17 @@ def main() -> None:
     parser.add_argument(
         "--mode",
         type=str,
-        default="ondemand",
+        default=None,
         choices=["ondemand", "24hrbatch"],
-        help="LLM execution mode",
+        help="LLM execution mode (auto-selected in benchmark mode if not specified)",
     )
     parser.add_argument("--batch-id", type=str, default=None, help="Batch ID for fetch-only runs")
 
     args = parser.parse_args()
+
+    # Validate mutually exclusive modes
+    if args.dev and args.benchmark:
+        parser.error("--dev and --benchmark are mutually exclusive")
 
     run_result = asyncio.run(
         run_baseline(
@@ -1023,6 +1111,8 @@ def main() -> None:
             model=args.model,
             verbose=not args.quiet,
             dev=args.dev,
+            benchmark=args.benchmark,
+            force=args.force,
             method=args.method,
             token_limit=args.token_limit,
             mode=args.mode,
@@ -1034,13 +1124,13 @@ def main() -> None:
         )
     )
 
-    if args.mode == "24hrbatch":
-        if not args.batch_id:
+    # Handle batch submission notification
+    if isinstance(run_result, dict):
+        batch_id = run_result.get("batch_id")
+        if batch_id and not args.batch_id:
             # Batch submitted - print instructions to check status
-            batch_id = run_result.get("batch_id") if isinstance(run_result, dict) else None
-            if batch_id:
-                output.info("Batch submitted. Re-run this command with --batch-id to check status.")
-                output.console.print(f"  [dim]--batch-id {batch_id}[/dim]")
+            output.info("Batch submitted. Re-run this command with --batch-id to check status.")
+            output.console.print(f"  [dim]--batch-id {batch_id}[/dim]")
 
 
 if __name__ == "__main__":
