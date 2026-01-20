@@ -38,6 +38,10 @@
 ## Prompt Generation
 
 ```bash
+# Generate all 72 policy prompts (default)
+.venv/bin/python -m addm.query.cli.generate
+
+# Generate single policy
 .venv/bin/python -m addm.query.cli.generate --policy G1/allergy/V2
 ```
 
@@ -45,13 +49,24 @@
 
 | Flag | Commands | Description |
 |------|----------|-------------|
-| `--dry-run` | extract | Test without API calls |
-| `--verbose` | extract, compute_gt | Detailed output |
+| `--dev` | run_baseline | Dev mode (saves to results/dev/, no quota) |
+| `--force` | run_baseline | Override benchmark quota |
+| `--method` | run_baseline | Method (direct/rlm/rag/amos) |
+| `--models` | extract | Custom model config (e.g., "gpt-5-nano:3,gpt-5-mini:1") |
 | `--k` | all | Context size (25/50/100/200) |
 | `-n` | run_baseline | Number of samples |
-| `--dev` | run_baseline | Save to results/dev/ |
-| `--method` | run_baseline | Method (direct/rlm/rag/amos) |
 | `--token-limit` | run_baseline | RLM token budget |
+| `--dry-run` | extract | Test without API calls |
+| `--verbose` | extract, compute_gt | Detailed output |
+
+## Benchmark Quota
+
+Default quota: 5 runs per policy/K combination (1 ondemand + 4 batch).
+
+**Configuration:** `src/addm/utils/results_manager.py:27`
+```python
+DEFAULT_QUOTA = 5  # Adjust this constant to change quota
+```
 
 ## Pipeline Script
 
