@@ -68,6 +68,14 @@ Every Formula Seed must have these extraction fields:
 
 Additional fields may be added based on agenda requirements (e.g., modifiers).
 
+## REQUIRED COMPUTE OPERATIONS
+
+Every Formula Seed must have a VERDICT operation (named exactly "VERDICT") that:
+- Uses the threshold values from the agenda
+- Uses the verdict LABELS from the agenda (e.g., "Poor Value", "Critical Risk", etc.)
+- Uses this exact structure:
+  {{"name": "VERDICT", "op": "case", "source": "SCORE", "rules": [{{"when": ">= X", "then": "Label1"}}, {{"when": ">= Y", "then": "Label2"}}, {{"else": "Label3"}}]}}
+
 ## CURRENT STATE
 
 {current_state}
@@ -78,16 +86,16 @@ Additional fields may be added based on agenda requirements (e.g., modifiers).
    {{"action": "ADD_KEYWORDS", "keywords": ["word1", "word2"], "reasoning": "why these keywords"}}
 
 2. ADD_FIELD: Add an extraction field
-   {{"action": "ADD_FIELD", "field": {{"name": "FIELD_NAME", "type": "enum|string|int|float", "values": {{...}}}}, "reasoning": "why needed"}}
+   {{"action": "ADD_FIELD", "field": {{"name": "FIELD_NAME", "type": "enum|string|int|float", "values": {{"...": "..."}}}}, "reasoning": "why needed"}}
 
 3. ADD_COMPUTE: Add a compute operation
-   {{"action": "ADD_COMPUTE", "operation": {{"name": "...", "op": "count|sum|expr|case", ...}}, "reasoning": "why needed"}}
+   {{"action": "ADD_COMPUTE", "operation": {{"name": "OP_NAME", "op": "count|sum|expr|case"}}, "reasoning": "why needed"}}
 
 4. REFINE_KEYWORDS: Remove bad keywords, add better ones
    {{"action": "REFINE_KEYWORDS", "remove": ["bad1"], "add": ["better1"], "reasoning": "why this change"}}
 
 5. SET_SEARCH_STRATEGY: Define search optimization
-   {{"action": "SET_SEARCH_STRATEGY", "strategy": {{"priority_keywords": [...], "stopping_condition": "...", ...}}, "reasoning": "why"}}
+   {{"action": "SET_SEARCH_STRATEGY", "strategy": {{"priority_keywords": ["kw1"], "stopping_condition": "score >= 10"}}, "reasoning": "why"}}
 
 6. FINALIZE: Declare the seed complete
    {{"action": "FINALIZE", "reasoning": "why it's complete"}}
@@ -101,7 +109,7 @@ THOUGHT: <your reasoning about what's needed next>
 
 ACTION:
 ```json
-{{"action": "...", ...}}
+{{"action": "ACTION_TYPE", "param": "value", "reasoning": "why"}}
 ```
 ```
 
@@ -181,27 +189,24 @@ THOUGHT: <what the first step should be>
 
 ACTION:
 ```json
-{{"action": "...", ...}}
+{{"action": "ADD_KEYWORDS", "keywords": ["term1", "term2"], "reasoning": "why"}}
 ```
 ```
 '''
 
 
 def _extract_json_from_response(response: str) -> Dict[str, Any]:
-    """Extract JSON from LLM response."""
+    """Extract JSON from LLM response, handling nested objects."""
     import re
 
-    # Find JSON in response (may be in code block)
-    json_match = re.search(r'```(?:json)?\s*(\{[\s\S]*?\})\s*```', response)
+    # Find JSON in code block (use greedy match to get full content)
+    json_match = re.search(r'```(?:json)?\s*(\{[\s\S]*\})\s*```', response)
     if json_match:
         json_str = json_match.group(1)
     else:
-        # Try to find bare JSON object
-        brace_start = response.rfind("{")
-        brace_end = response.rfind("}")
-        if brace_start >= 0 and brace_end > brace_start:
-            json_str = response[brace_start:brace_end + 1]
-        else:
+        # Try to find bare JSON object with balanced braces
+        json_str = _find_balanced_json(response)
+        if not json_str:
             raise ValueError("No JSON found in response")
 
     # Clean up common issues
@@ -209,6 +214,44 @@ def _extract_json_from_response(response: str) -> Dict[str, Any]:
     json_str = re.sub(r',\s*,', ',', json_str)
 
     return json.loads(json_str)
+
+
+def _find_balanced_json(text: str) -> Optional[str]:
+    """Find a balanced JSON object in text using brace counting."""
+    # Find the first opening brace
+    start = text.find("{")
+    if start < 0:
+        return None
+
+    # Count braces to find matching close
+    depth = 0
+    in_string = False
+    escape_next = False
+
+    for i, char in enumerate(text[start:], start):
+        if escape_next:
+            escape_next = False
+            continue
+
+        if char == '\\' and in_string:
+            escape_next = True
+            continue
+
+        if char == '"' and not escape_next:
+            in_string = not in_string
+            continue
+
+        if in_string:
+            continue
+
+        if char == '{':
+            depth += 1
+        elif char == '}':
+            depth -= 1
+            if depth == 0:
+                return text[start:i + 1]
+
+    return None
 
 
 def _accumulate_usage(usages: List[Dict[str, Any]]) -> Dict[str, Any]:
@@ -226,7 +269,12 @@ def _accumulate_usage(usages: List[Dict[str, Any]]) -> Dict[str, Any]:
 
 
 def _create_empty_seed(policy_id: str) -> Dict[str, Any]:
-    """Create an empty Formula Seed structure."""
+    """Create an empty Formula Seed structure.
+
+    Output array is minimal - only VERDICT is truly required.
+    Additional outputs (SCORE, N_INCIDENTS, etc.) should be added
+    dynamically based on what the LLM generates in compute operations.
+    """
     return {
         "task_name": policy_id,
         "filter": {
@@ -236,7 +284,7 @@ def _create_empty_seed(policy_id: str) -> Dict[str, Any]:
             "fields": []
         },
         "compute": [],
-        "output": ["VERDICT", "SCORE", "N_INCIDENTS"],
+        "output": ["VERDICT"],  # Only VERDICT is required; others added dynamically
         "search_strategy": {}
     }
 
@@ -440,92 +488,196 @@ async def _init_analysis(
 
 
 def _ensure_required_fields(seed: Dict[str, Any]) -> Dict[str, Any]:
-    """Ensure required extraction fields are present."""
-    seed = deepcopy(seed)
+    """Ensure required extraction fields are present.
 
-    required = [
-        {
+    Only adds minimal STRUCTURAL placeholders if the LLM failed to generate them.
+    Does NOT add content-specific values (enum values, descriptions, etc.)
+    - those must come from the LLM based on the agenda.
+
+    If the LLM didn't generate proper fields, Phase 2 will fail clearly
+    rather than silently using wrong task-specific values.
+    """
+    seed = deepcopy(seed)
+    existing_names = {f.get("name") for f in seed["extract"]["fields"]}
+
+    # ACCOUNT_TYPE is a structural constant - same across all tasks
+    # (firsthand/secondhand/general is how we categorize review perspective)
+    if "ACCOUNT_TYPE" not in existing_names:
+        logger.warning("ReAct: LLM did not generate ACCOUNT_TYPE field - adding structural placeholder")
+        seed["extract"]["fields"].append({
             "name": "ACCOUNT_TYPE",
             "type": "enum",
-            "values": {
-                "firsthand": "Reviewer personally experienced it",
-                "secondhand": "Reviewer heard from others",
-                "general": "General statement without specific incident"
-            }
-        },
-        {
+            "values": {"firsthand": "firsthand", "secondhand": "secondhand", "general": "general"}
+        })
+
+    # INCIDENT_SEVERITY values are TASK-SPECIFIC - don't hardcode!
+    # Let the LLM generate appropriate values based on the agenda.
+    # If missing, add empty placeholder so Phase 2 fails clearly.
+    if "INCIDENT_SEVERITY" not in existing_names:
+        logger.warning("ReAct: LLM did not generate INCIDENT_SEVERITY field - adding empty placeholder")
+        seed["extract"]["fields"].append({
             "name": "INCIDENT_SEVERITY",
             "type": "enum",
-            "values": {
-                "none": "No relevant incident",
-                "mild": "Minor issue",
-                "moderate": "Significant issue",
-                "severe": "Serious issue"
-            }
-        },
-        {
+            "values": {}  # Empty - LLM should have generated task-specific values
+        })
+
+    if "SPECIFIC_INCIDENT" not in existing_names:
+        logger.warning("ReAct: LLM did not generate SPECIFIC_INCIDENT field - adding structural placeholder")
+        seed["extract"]["fields"].append({
             "name": "SPECIFIC_INCIDENT",
             "type": "string",
-            "description": "Brief description of what happened"
-        }
-    ]
-
-    existing_names = {f.get("name") for f in seed["extract"]["fields"]}
-    for field in required:
-        if field["name"] not in existing_names:
-            seed["extract"]["fields"].append(field)
+            "description": "Description of what happened"
+        })
 
     return seed
 
 
 def _ensure_compute_operations(seed: Dict[str, Any]) -> Dict[str, Any]:
-    """Ensure minimal compute operations are present."""
+    """Ensure minimal compute operations are present.
+
+    DESIGN PRINCIPLE: Fallbacks should only be STRUCTURAL, not content-specific.
+    - OK: "Must have a VERDICT operation" (structure)
+    - NOT OK: "VERDICT must use 'Has Issues' label" (content)
+
+    If LLM generates task-specific content, trust it completely.
+    Only add minimal structural fallbacks if LLM generates NOTHING,
+    and let Phase 2 fail clearly if the structure is wrong rather
+    than silently using incorrect task-specific values.
+    """
     seed = deepcopy(seed)
-
     existing_names = {op.get("name") for op in seed["compute"]}
 
-    # Add N_INCIDENTS if missing
-    if "N_INCIDENTS" not in existing_names:
-        seed["compute"].append({
-            "name": "N_INCIDENTS",
-            "op": "count",
-            "where": {"ACCOUNT_TYPE": "firsthand", "INCIDENT_SEVERITY": ["mild", "moderate", "severe"]}
-        })
+    # If LLM generated any compute operations, trust them fully
+    if len(seed["compute"]) > 0:
+        # Check if VERDICT exists (exact name)
+        if "VERDICT" in existing_names:
+            return seed
 
-    # Add BASE_POINTS if missing
-    if "BASE_POINTS" not in existing_names:
-        seed["compute"].append({
-            "name": "BASE_POINTS",
-            "op": "sum",
-            "expr": "CASE WHEN INCIDENT_SEVERITY = 'severe' THEN 15 WHEN INCIDENT_SEVERITY = 'moderate' THEN 8 WHEN INCIDENT_SEVERITY = 'mild' THEN 3 ELSE 0 END",
-            "where": {"ACCOUNT_TYPE": "firsthand"}
-        })
+        # Look for verdict-like operations with flexible detection:
+        # - Contains "VERDICT" (e.g., PRICE_WORTH_VERDICT, RISK_VERDICT)
+        # - Ends with common classification suffixes
+        # - Accept any op type that produces categorical output (case, expr)
+        verdict_op = None
+        verdict_idx = None
+        for idx, op in enumerate(seed["compute"]):
+            name = op.get("name", "").upper()
+            op_type = op.get("op", "")
 
-    # Re-check after additions
-    existing_names = {op.get("name") for op in seed["compute"]}
+            # Flexible detection: VERDICT in name, or classification-like suffixes
+            is_verdict_like = (
+                "VERDICT" in name or
+                name.endswith("_CLASSIFICATION") or
+                name.endswith("_JUDGMENT") or
+                name.endswith("_RESULT") or
+                name.endswith("_DECISION")
+            )
 
-    # Add SCORE if missing
-    if "SCORE" not in existing_names:
-        seed["compute"].append({
-            "name": "SCORE",
-            "op": "expr",
-            "expr": "BASE_POINTS"
-        })
+            # Accept case or expr operations (both can produce verdicts)
+            is_categorical_op = op_type in ("case", "expr")
 
-    # Add VERDICT if missing
-    if "VERDICT" not in existing_names:
+            if is_verdict_like and is_categorical_op:
+                verdict_op = op
+                verdict_idx = idx
+                break
+
+        if verdict_op:
+            # Rename to VERDICT and normalize structure (preserves LLM's labels/thresholds)
+            normalized = _normalize_verdict_op(verdict_op)
+            seed["compute"][verdict_idx] = normalized
+            return seed
+
+        # LLM generated compute ops but no verdict-like op found
+        # Log error but DON'T add generic fallback with hardcoded content
+        # Let Phase 2 fail clearly if there's no verdict logic
+        logger.error(
+            "ReAct: LLM generated compute ops but no VERDICT found. "
+            f"Operations: {[op.get('name') for op in seed['compute']]}. "
+            "Seed will likely fail in Phase 2."
+        )
+        # Add structural placeholder with empty rules - Phase 2 will fail clearly
         seed["compute"].append({
             "name": "VERDICT",
             "op": "case",
-            "source": "SCORE",
-            "rules": [
-                {"when": ">= 8", "then": "Critical Risk"},
-                {"when": ">= 4", "then": "High Risk"},
-                {"else": "Low Risk"}
-            ]
+            "source": None,
+            "rules": []  # Empty - LLM should have generated task-specific rules
         })
+        return seed
+
+    # LLM generated NO compute ops at all - add minimal structural fallback
+    # This is a serious LLM failure - log error and add empty structure
+    logger.error(
+        "ReAct: LLM generated NO compute operations. "
+        "Adding empty structural fallback - seed will fail in Phase 2."
+    )
+
+    seed["compute"] = [
+        {
+            "name": "VERDICT",
+            "op": "case",
+            "source": None,
+            "rules": []  # Empty - no hardcoded thresholds or labels
+        }
+    ]
 
     return seed
+
+
+def _normalize_verdict_op(op: Dict[str, Any]) -> Dict[str, Any]:
+    """Normalize a verdict operation to standard structure.
+
+    Handles different formats LLM might generate:
+    - {cases: [{cond, value}], default} -> {rules: [{when, then}, {else}]}
+    - Already correct format -> return as-is with name=VERDICT
+    """
+    normalized = {"name": "VERDICT", "op": "case"}
+
+    # Copy source if present
+    if "source" in op:
+        normalized["source"] = op["source"]
+
+    # Already has rules format
+    if "rules" in op:
+        normalized["rules"] = op["rules"]
+        return normalized
+
+    # Convert cases/default format to rules format
+    if "cases" in op:
+        rules = []
+        for case in op["cases"]:
+            cond = case.get("cond", case.get("condition", ""))
+            value = case.get("value", case.get("then", ""))
+            # Extract operator and threshold from condition like "SCORE >= 5"
+            if ">=" in cond:
+                parts = cond.split(">=")
+                threshold = parts[-1].strip()
+                rules.append({"when": f">= {threshold}", "then": value})
+            elif ">" in cond:
+                parts = cond.split(">")
+                threshold = parts[-1].strip()
+                rules.append({"when": f"> {threshold}", "then": value})
+            elif "<=" in cond:
+                parts = cond.split("<=")
+                threshold = parts[-1].strip()
+                rules.append({"when": f"<= {threshold}", "then": value})
+            elif "<" in cond:
+                parts = cond.split("<")
+                threshold = parts[-1].strip()
+                rules.append({"when": f"< {threshold}", "then": value})
+            else:
+                # Unknown format, use as-is
+                rules.append({"when": cond, "then": value})
+
+        # Add default as else
+        if "default" in op:
+            rules.append({"else": op["default"]})
+
+        normalized["rules"] = rules
+        return normalized
+
+    # Unknown format - return original with name changed
+    result = deepcopy(op)
+    result["name"] = "VERDICT"
+    return result
 
 
 async def generate_react(

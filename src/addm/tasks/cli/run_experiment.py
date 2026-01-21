@@ -409,6 +409,7 @@ async def run_experiment(
     amos_adaptive: bool = False,
     amos_hybrid: bool = False,
     sample_ids: Optional[List[str]] = None,
+    observe: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Run experiment evaluation.
 
@@ -432,11 +433,16 @@ async def run_experiment(
         amos_adaptive: Enable AMOS adaptive mode (batch processing with early stopping)
         amos_hybrid: Enable AMOS hybrid embedding retrieval
         sample_ids: If provided, only run on these specific business IDs (filters dataset)
+        observe: Observation mode for testing pipeline stages (e.g., "phase1" for AMOS)
 
     Either task_id or policy_id must be provided.
     """
     if not task_id and not policy_id:
         raise ValueError("Either task_id or policy_id must be provided")
+
+    # Validate observe mode compatibility
+    if observe == "phase1" and method != "amos":
+        raise ValueError("--observe phase1 is only supported for --method amos")
 
     # Determine run mode and load agenda
     system_prompt = None
@@ -775,7 +781,36 @@ async def run_experiment(
             ]
 
             # Pre-load Formula Seed (Phase 1) to enable parallel Phase 2 execution
-            await amos_method._get_formula_seed(agenda, llm)
+            seed = await amos_method._get_formula_seed(agenda, llm)
+
+            # Handle observe=phase1: exit after Phase 1 without running samples
+            if observe == "phase1":
+                # Save Formula Seed to run directory
+                amos_method.save_formula_seed_to_run_dir(output_dir)
+
+                # Print summary
+                filter_spec = seed.get("filter", {})
+                extract_spec = seed.get("extract", {})
+                compute_spec = seed.get("compute", [])
+
+                output.success(f"Phase 1 complete: {seed.get('task_name', run_id)}")
+                output.print(f"  Keywords: {len(filter_spec.get('keywords', []))}")
+                output.print(f"  Fields: {len(extract_spec.get('fields', []))}")
+                output.print(f"  Compute ops: {len(compute_spec)}")
+                output.print(f"  Saved to: {output_dir / 'formula_seed.json'}")
+
+                return {
+                    "observe": "phase1",
+                    "policy_id": run_id,
+                    "output_dir": str(output_dir),
+                    "seed": seed,
+                    "seed_summary": {
+                        "task_name": seed.get("task_name"),
+                        "keywords": len(filter_spec.get("keywords", [])),
+                        "fields": len(extract_spec.get("fields", [])),
+                        "compute_ops": len(compute_spec),
+                    },
+                }
 
             # Run all samples in parallel (Phase 2 only)
             async def process_amos_sample(sample: Sample) -> Dict[str, Any]:
@@ -1101,6 +1136,13 @@ def main() -> None:
         help="AMOS: Enable hybrid embedding retrieval (experimental)",
     )
     parser.add_argument(
+        "--observe",
+        type=str,
+        default=None,
+        choices=["phase1"],
+        help="Observation mode: 'phase1' runs only Formula Seed generation (AMOS), then exits",
+    )
+    parser.add_argument(
         "--mode",
         type=str,
         default=None,
@@ -1125,38 +1167,104 @@ def main() -> None:
     if args.sample_ids:
         sample_ids = [s.strip() for s in args.sample_ids.split(",") if s.strip()]
 
-    run_result = asyncio.run(
-        run_experiment(
-            task_id=args.task,
-            policy_id=args.policy,
-            domain=args.domain,
-            k=args.k,
-            n=args.n,
-            skip=args.skip,
-            model=args.model,
-            verbose=not args.quiet,
-            dev=args.dev,
-            benchmark=benchmark,
-            force=args.force,
-            method=args.method,
-            token_limit=args.token_limit,
-            mode=args.mode,
-            batch_id=args.batch_id,
-            top_k=args.top_k,
-            regenerate_seed=args.regenerate_seed,
-            amos_adaptive=args.amos_adaptive,
-            amos_hybrid=args.amos_hybrid,
-            sample_ids=sample_ids,
-        )
-    )
+    # Parse policies - support comma-separated list for parallel execution
+    policies = []
+    if args.policy:
+        policies = [p.strip() for p in args.policy.split(",") if p.strip()]
 
-    # Handle batch submission notification
-    if isinstance(run_result, dict):
-        batch_id = run_result.get("batch_id")
-        if batch_id and not args.batch_id:
-            # Batch submitted - print instructions to check status
-            output.info("Batch submitted. Re-run this command with --batch-id to check status.")
-            output.console.print(f"  [dim]--batch-id {batch_id}[/dim]")
+    if len(policies) > 1:
+        # Multiple policies - run in parallel
+        async def run_single_policy_safe(policy: str) -> Dict[str, Any]:
+            """Run a single policy with error handling."""
+            try:
+                return await run_experiment(
+                    task_id=args.task,
+                    policy_id=policy,
+                    domain=args.domain,
+                    k=args.k,
+                    n=args.n,
+                    skip=args.skip,
+                    model=args.model,
+                    verbose=False,  # Quiet for parallel runs
+                    dev=args.dev,
+                    benchmark=benchmark,
+                    force=args.force,
+                    method=args.method,
+                    token_limit=args.token_limit,
+                    mode=args.mode,
+                    batch_id=args.batch_id,
+                    top_k=args.top_k,
+                    regenerate_seed=args.regenerate_seed,
+                    amos_adaptive=args.amos_adaptive,
+                    amos_hybrid=args.amos_hybrid,
+                    sample_ids=sample_ids,
+                    observe=args.observe,
+                )
+            except Exception as e:
+                return {"error": str(e), "policy_id": policy}
+
+        async def run_multiple_policies():
+            tasks = [run_single_policy_safe(policy) for policy in policies]
+            results = await gather_with_concurrency(len(policies), tasks)
+            return dict(zip(policies, results))
+
+        run_result = asyncio.run(run_multiple_policies())
+
+        # Print summary for multiple policies
+        if args.observe == "phase1":
+            output.rule()
+            success_count = sum(1 for r in run_result.values() if isinstance(r, dict) and r.get("observe") == "phase1")
+            error_count = len(policies) - success_count
+            output.success(f"Phase 1 Batch Complete: {success_count}/{len(policies)} succeeded")
+            rows = []
+            for policy_id, result in run_result.items():
+                if isinstance(result, dict) and result.get("error"):
+                    rows.append([policy_id, "ERROR", result.get("error", "")[:60]])
+                elif isinstance(result, dict) and result.get("observe") == "phase1":
+                    summary = result.get("seed_summary", {})
+                    rows.append([
+                        policy_id,
+                        "OK",
+                        f"kw={summary.get('keywords', '?')} fld={summary.get('fields', '?')} ops={summary.get('compute_ops', '?')}"
+                    ])
+                else:
+                    rows.append([policy_id, "?", str(result)[:60]])
+            output.print_table("Results", ["Policy", "Status", "Summary"], rows)
+    else:
+        # Single policy (or task)
+        run_result = asyncio.run(
+            run_experiment(
+                task_id=args.task,
+                policy_id=policies[0] if policies else None,
+                domain=args.domain,
+                k=args.k,
+                n=args.n,
+                skip=args.skip,
+                model=args.model,
+                verbose=not args.quiet,
+                dev=args.dev,
+                benchmark=benchmark,
+                force=args.force,
+                method=args.method,
+                token_limit=args.token_limit,
+                mode=args.mode,
+                batch_id=args.batch_id,
+                top_k=args.top_k,
+                regenerate_seed=args.regenerate_seed,
+                amos_adaptive=args.amos_adaptive,
+                amos_hybrid=args.amos_hybrid,
+                sample_ids=sample_ids,
+                observe=args.observe,
+            )
+        )
+
+        # Handle batch submission notification
+        if isinstance(run_result, dict):
+            batch_id = run_result.get("batch_id")
+            if batch_id and not args.batch_id:
+                # Batch submitted - print instructions to check status
+                output.info("Batch submitted. Re-run this command with --batch-id to check status.")
+                output.console.print(f"  [dim]--batch-id {batch_id}[/dim]")
 
 
 if __name__ == "__main__":

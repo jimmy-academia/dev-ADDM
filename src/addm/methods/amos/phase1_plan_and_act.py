@@ -30,70 +30,102 @@ OBSERVE_PROMPT = '''Analyze this task agenda and extract EXACTLY what it specifi
 
 ## YOUR JOB
 
-Read the agenda carefully. Extract the components it EXPLICITLY mentions.
-Do NOT add assumptions or domain knowledge - only extract what the text says.
+Read the agenda carefully. There are TWO types of verdict logic - identify which one this agenda uses:
 
-Identify:
-1. **Core Concepts**: What specific things does the agenda ask about? (Extract exact terms used)
-2. **Evaluation Criteria**: How does the agenda define what counts/doesn't count?
-3. **Severity Levels**: What severity classifications does the agenda specify?
-4. **Account Types**: Does it distinguish firsthand vs secondhand accounts?
-5. **Modifiers**: Any additional factors that affect scoring?
-6. **Thresholds**: What numerical thresholds determine verdicts?
-7. **Verdict Labels**: Exact text for each verdict level?
+### TYPE A: SCORING-BASED (uses point values)
+The agenda specifies point values for categories (e.g., "Severe: 15 points, Moderate: 5 points").
+Verdict is determined by total score vs thresholds (e.g., "Critical if score >= 8").
 
-Output a JSON object with your observations:
+### TYPE B: RULE-BASED (uses count thresholds)
+The agenda specifies count thresholds for verdict rules (e.g., "Critical if 2+ severe incidents").
+NO point values are assigned to categories. Verdict is determined by counting occurrences.
+
+## WHAT TO EXTRACT
+
+### 1. Policy Type
+Determine if this is "scoring" (point values given) or "rule_based" (count thresholds only).
+
+### 2. Severity/Outcome Categories
+What categories exist? (e.g., "Mild", "Moderate", "Severe" or "Poor", "Fair", "Good", "Excellent")
+
+### 3. For SCORING-BASED policies:
+- Extract EXACT point values for each category (can be positive or negative)
+- Extract modifier point adjustments
+
+### 4. For RULE-BASED policies:
+- Extract count threshold rules (e.g., "2+ severe incidents" → "Critical")
+- No point values - these use counts directly
+
+### 5. Verdict Rules
+- For SCORING: thresholds on total score (e.g., ">= 8" → "Critical")
+- For RULE-BASED: count conditions (e.g., "severe_count >= 2" → "Critical")
+
+## OUTPUT FORMAT
 
 ```json
 {{
   "core_concepts": {{
-    "primary_topic": "<the main subject of evaluation, in the agenda's own words>",
-    "explicit_terms": ["<terms the agenda explicitly uses>"],
-    "related_concepts": ["<concepts the agenda explicitly relates to the topic>"]
+    "primary_topic": "<main subject>",
+    "explicit_terms": ["<terms from agenda>"]
   }},
+
+  "policy_type": "<scoring OR rule_based>",
 
   "evaluation_criteria": {{
-    "what_counts": "<exact criteria from agenda>",
-    "what_does_not_count": "<exclusions from agenda, if any>",
-    "special_cases": ["<any special handling mentioned>"]
+    "what_counts": "<from agenda>",
+    "what_does_not_count": "<from agenda>"
   }},
 
-  "severity_framework": {{
-    "levels": [
-      {{"level": "none", "description": "<from agenda>", "points": 0}},
-      {{"level": "mild", "description": "<from agenda>", "points": "<from agenda>"}},
-      {{"level": "moderate", "description": "<from agenda>", "points": "<from agenda>"}},
-      {{"level": "severe", "description": "<from agenda>", "points": "<from agenda>"}}
+  "categories": {{
+    "field_name": "<what to call this: INCIDENT_SEVERITY, OUTCOME, QUALITY_LEVEL, etc.>",
+    "values": [
+      {{"name": "<category name>", "description": "<from agenda>"}}
+    ]
+  }},
+
+  "scoring_system": {{
+    "has_scoring": <true if point values are specified, false otherwise>,
+    "description": "<how scoring works, or 'N/A - rule-based' if no scoring>",
+    "base_point_categories": [
+      {{"category": "<exact name>", "points": <exact number, can be negative>}}
     ],
-    "scoring_notes": "<any scoring details from agenda>"
+    "modifiers": [
+      {{"name": "<modifier name>", "condition": "<when it applies>", "points": <exact number>}}
+    ]
+  }},
+
+  "verdict_rules": {{
+    "type": "<scoring OR rule_based>",
+    "verdicts": ["<verdict1>", "<verdict2>", "<verdict3>"],
+    "rules": [
+      {{
+        "verdict": "<verdict label>",
+        "condition_type": "<score_threshold OR count_threshold>",
+        "condition": "<exact condition: '>= 8' for scoring, or 'severe_count >= 2' for rule-based>",
+        "description": "<human readable rule from agenda>"
+      }}
+    ],
+    "default_verdict": "<verdict when no rules match>"
   }},
 
   "account_handling": {{
     "types": [
-      {{"type": "firsthand", "weight": 1.0, "description": "<from agenda>"}},
-      {{"type": "secondhand", "weight": "<from agenda>", "description": "<from agenda>"}},
-      {{"type": "general", "weight": "<from agenda>", "description": "<from agenda>"}}
+      {{"type": "firsthand", "description": "<from agenda>", "counts_for_verdict": true}},
+      {{"type": "secondhand", "description": "<from agenda>", "counts_for_verdict": <true/false>}},
+      {{"type": "general", "description": "<from agenda>", "counts_for_verdict": false}}
     ]
   }},
 
-  "modifiers": [
-    {{"name": "<modifier from agenda>", "condition": "<when it applies>", "effect": "<point adjustment>"}}
-  ],
-
-  "verdict_thresholds": {{
-    "critical": {{"min_score": "<from agenda>", "label": "<exact label from agenda>"}},
-    "high": {{"min_score": "<from agenda>", "label": "<exact label from agenda>"}},
-    "low": {{"min_score": "<from agenda or 0>", "label": "<exact label from agenda>"}}
-  }},
-
-  "temporal_requirements": {{
-    "has_recency_weighting": "<true/false based on agenda>",
-    "decay_rules": "<if mentioned in agenda>"
-  }}
+  "extraction_fields": [
+    {{"name": "<field mentioned in agenda>", "values": ["<possible values>"]}}
+  ]
 }}
 ```
 
-IMPORTANT: Only include what the agenda EXPLICITLY states. Use null or empty values for anything not specified.
+CRITICAL:
+1. First determine if this is "scoring" (has point values) or "rule_based" (count thresholds only)
+2. Extract EXACT numbers - don't use template values
+3. For rule-based policies, verdict rules use counts (e.g., "severe_count >= 2"), NOT scores
 
 Output ONLY the JSON:
 
@@ -116,15 +148,21 @@ PLAN_PROMPT = '''Create a detailed plan for generating a Formula Seed based on t
 Think carefully about what keywords, fields, and rules will be needed.
 Base your reasoning ONLY on what was observed in the query - do NOT add external domain knowledge.
 
+IMPORTANT: Check observations.policy_type to know if this is "scoring" or "rule_based":
+- scoring: Need BASE_POINTS, MODIFIER_POINTS, SCORE computations
+- rule_based: Need severity counts (N_SEVERE, N_MODERATE, etc.) and count-based verdict rules
+
 For keywords, reason about:
 - What words would reviewers use when discussing the concepts from the observations?
-- What terms indicate each severity level according to the agenda's definitions?
+- What terms indicate each category level according to the agenda's definitions?
 - What phrases distinguish firsthand from secondhand accounts?
 
 Output your plan:
 
 ```json
 {{
+  "policy_type": "<copy from observations.policy_type: 'scoring' or 'rule_based'>",
+
   "keyword_strategy": {{
     "reasoning": "<explain how you derived keywords from the observed concepts>",
 
@@ -134,11 +172,12 @@ Output your plan:
       "derivation_notes": "<how these connect to the agenda>"
     }},
 
-    "from_severity_definitions": {{
-      "severe_indicators": ["<words that match 'severe' definition from agenda>"],
-      "moderate_indicators": ["<words that match 'moderate' definition>"],
-      "mild_indicators": ["<words that match 'mild' definition>"],
-      "derivation_notes": "<how these connect to severity descriptions>"
+    "from_category_definitions": {{
+      "category_indicators": {{
+        "<category1>": ["<words that match this category's definition>"],
+        "<category2>": ["<words that match this category's definition>"]
+      }},
+      "derivation_notes": "<how these connect to category descriptions>"
     }},
 
     "from_evaluation_criteria": {{
@@ -166,8 +205,9 @@ Output your plan:
         "based_on": "<which observation this addresses>"
       }},
       {{
-        "name": "INCIDENT_SEVERITY",
-        "purpose": "Classify severity level",
+        "name": "<from observations.categories.field_name>",
+        "purpose": "Classify category level",
+        "values": "<from observations.categories.values>",
         "based_on": "<which observation this addresses>"
       }},
       {{
@@ -187,22 +227,28 @@ Output your plan:
   }},
 
   "compute_strategy": {{
-    "reasoning": "<explain the scoring approach based on observations>",
+    "reasoning": "<explain the approach based on policy_type>",
 
-    "scoring_approach": {{
-      "base_scoring": "<how to compute base points per observation>",
-      "modifier_scoring": "<how to apply modifiers if any>",
-      "aggregation": "<how to combine scores>"
+    "for_scoring_type": {{
+      "base_scoring": "<how to compute base points using observations.scoring_system.base_point_categories>",
+      "modifier_scoring": "<how to apply modifiers using observations.scoring_system.modifiers>",
+      "aggregation": "SCORE = BASE_POINTS + MODIFIER_POINTS"
+    }},
+
+    "for_rule_based_type": {{
+      "counts_needed": ["<N_SEVERE>", "<N_MODERATE>", "<etc based on verdict rules>"],
+      "count_logic": "<how to count each category>"
     }},
 
     "verdict_rules": {{
-      "threshold_logic": "<exact threshold rules from observations>",
+      "type": "<scoring or rule_based>",
+      "rules_from_observations": "<copy observations.verdict_rules.rules>",
       "edge_cases": "<any special handling needed>"
     }}
   }},
 
   "search_strategy": {{
-    "early_stop_score": "<score at which verdict is definite>",
+    "early_stop_condition": "<for scoring: 'SCORE >= X', for rule_based: 'N_SEVERE >= Y'>",
     "priority_logic": "<how to prioritize reviews>"
   }}
 }}
@@ -220,7 +266,7 @@ Output ONLY the JSON:
 # Step 3: ACT - Generate Formula Seed (Following the Plan)
 # =============================================================================
 
-ACT_PROMPT = '''Generate the complete Formula Seed following this plan.
+ACT_PROMPT = '''Generate the complete Formula Seed based on observations.
 
 ## ORIGINAL OBSERVATIONS
 
@@ -230,100 +276,141 @@ ACT_PROMPT = '''Generate the complete Formula Seed following this plan.
 
 {plan}
 
-## REQUIREMENTS
+## CRITICAL: CHECK POLICY TYPE FIRST
 
-You MUST use these EXACT field names in extraction schema:
-- ACCOUNT_TYPE: "firsthand" | "secondhand" | "general"
-- INCIDENT_SEVERITY: "none" | "mild" | "moderate" | "severe"
-- SPECIFIC_INCIDENT: string describing what happened (or null if none)
+Look at observations.policy_type to determine the structure:
+- If "scoring": Use point-based BASE_POINTS, MODIFIER_POINTS, SCORE, and score thresholds for VERDICT
+- If "rule_based": Use severity counts and count thresholds for VERDICT (NO points)
 
-Additional fields may be added based on the plan's field_strategy.
+---
 
-Use this compute structure (adjust values based on plan):
-1. Count incidents: {{"name": "N_INCIDENTS", "op": "count", "where": {...}}}
-2. Sum base points: {{"name": "BASE_POINTS", "op": "sum", "expr": "CASE WHEN...", "where": {...}}}
-3. Sum modifier points (if needed): {{"name": "MODIFIER_POINTS", "op": "sum", "expr": "...", "where": {...}}}
-4. Total score: {{"name": "SCORE", "op": "expr", "expr": "BASE_POINTS + MODIFIER_POINTS"}}
-5. Verdict: {{"name": "VERDICT", "op": "case", "source": "SCORE", "rules": [...]}}
+## FOR SCORING-BASED POLICIES (observations.policy_type == "scoring")
 
-## YOUR JOB
+### EXTRACTION FIELDS
+- ACCOUNT_TYPE: enum ("firsthand", "secondhand", "general")
+- <CATEGORY_FIELD> (from observations.categories.field_name): enum with category values
+- SPECIFIC_INCIDENT: string
+- Modifier fields: one per modifier in observations.scoring_system.modifiers
 
-Generate the Formula Seed using:
-- Keywords from keyword_strategy (flatten all categories)
-- Fields from field_strategy
-- Scoring from compute_strategy
-- Thresholds from observations
+### COMPUTE OPERATIONS
+1. N_INCIDENTS: count where ACCOUNT_TYPE = "firsthand"
+2. BASE_POINTS: sum using EXACT point values from observations.scoring_system.base_point_categories
+   Example: "CASE WHEN OUTCOME = 'severe' THEN 15 WHEN OUTCOME = 'moderate' THEN 5 ... ELSE 0 END"
+3. MODIFIER_POINTS: sum using EXACT point values from observations.scoring_system.modifiers
+   Example: "(CASE WHEN MOD1 = 'yes' THEN 3 ELSE 0 END) + (CASE WHEN MOD2 = 'yes' THEN -5 ELSE 0 END)"
+4. SCORE: BASE_POINTS + MODIFIER_POINTS
+5. VERDICT: case on SCORE using observations.verdict_rules.rules conditions
 
-Output the complete Formula Seed:
+### VERDICT FORMAT (SCORING)
+Use observations.verdict_rules.rules to build:
+```json
+{{"name": "VERDICT", "op": "case", "source": "SCORE", "rules": [
+  {{"when": ">= 8", "then": "Critical"}},
+  {{"when": ">= 4", "then": "High"}},
+  {{"else": "Low"}}
+]}}
+```
+
+---
+
+## FOR RULE-BASED POLICIES (observations.policy_type == "rule_based")
+
+### EXTRACTION FIELDS
+- ACCOUNT_TYPE: enum ("firsthand", "secondhand", "general")
+- <CATEGORY_FIELD> (from observations.categories.field_name): enum with category values
+- SPECIFIC_INCIDENT: string
+- Any additional fields needed for compound conditions
+
+### COMPUTE OPERATIONS
+1. N_INCIDENTS: count where ACCOUNT_TYPE = "firsthand"
+2. N_SEVERE: count where ACCOUNT_TYPE = "firsthand" AND <CATEGORY_FIELD> = "severe"
+3. N_MODERATE: count where ACCOUNT_TYPE = "firsthand" AND <CATEGORY_FIELD> = "moderate"
+4. (Add more counts as needed for verdict rules)
+5. VERDICT: case using COUNT conditions (NOT score)
+
+### VERDICT FORMAT (RULE-BASED)
+Build verdict from observations.verdict_rules.rules using count conditions:
+```json
+{{"name": "VERDICT", "op": "case", "source": "N_SEVERE", "rules": [
+  {{"when": ">= 2", "then": "Critical"}},
+  {{"else": null}}
+], "fallback_source": "N_MODERATE", "fallback_rules": [
+  {{"when": ">= 2", "then": "High"}},
+  {{"else": "Low"}}
+]}}
+```
+
+OR use compound conditions in a single case:
+```json
+{{"name": "VERDICT", "op": "case", "rules": [
+  {{"when": "N_SEVERE >= 2", "then": "Critical"}},
+  {{"when": "N_MODERATE >= 2", "then": "High"}},
+  {{"else": "Low"}}
+]}}
+```
+
+---
+
+## OUTPUT FORMAT
 
 ```json
 {{
-  "task_name": "<policy identifier>",
+  "task_name": "<from observations.core_concepts.primary_topic>",
 
   "filter": {{
-    "keywords": ["<all keywords from plan, flattened>"]
+    "keywords": ["<from plan.keyword_strategy - combine all relevant terms>"]
   }},
 
   "extract": {{
     "fields": [
-      {{
-        "name": "ACCOUNT_TYPE",
-        "type": "enum",
-        "values": {{
-          "firsthand": "Reviewer personally experienced it",
-          "secondhand": "Reviewer heard from others",
-          "general": "General statement without specific incident"
-        }}
-      }},
-      {{
-        "name": "INCIDENT_SEVERITY",
-        "type": "enum",
-        "values": {{
-          "none": "No relevant incident",
-          "mild": "<from severity_framework>",
-          "moderate": "<from severity_framework>",
-          "severe": "<from severity_framework>"
-        }}
-      }},
-      {{
-        "name": "SPECIFIC_INCIDENT",
-        "type": "string",
-        "description": "Brief description of what happened"
-      }}
+      {{"name": "ACCOUNT_TYPE", "type": "enum", "values": {{"firsthand": "firsthand", "secondhand": "secondhand", "general": "general"}}}},
+      {{"name": "<CATEGORY_FIELD>", "type": "enum", "values": {{"<cat1>": "<cat1>", "<cat2>": "<cat2>"}}}},
+      {{"name": "SPECIFIC_INCIDENT", "type": "string", "description": "..."}}
     ]
   }},
 
   "compute": [
-    <compute operations per plan>
+    // For scoring: N_INCIDENTS, BASE_POINTS, MODIFIER_POINTS, SCORE, VERDICT
+    // For rule-based: N_INCIDENTS, N_SEVERE, N_MODERATE, ..., VERDICT
   ],
 
-  "output": ["VERDICT", "SCORE", "N_INCIDENTS"],
+  "output": ["VERDICT", "<SCORE or relevant counts>", "N_INCIDENTS"],
 
   "search_strategy": {{
-    "priority_keywords": ["<from plan.keyword_strategy.priority_terms>"],
-    "priority_expr": "<from plan.search_strategy>",
-    "stopping_condition": "<from plan.search_strategy>",
-    "early_verdict_expr": "<build from verdict_thresholds>",
+    "priority_keywords": ["<high-signal terms from plan>"],
+    "priority_expr": "len(keyword_hits) * 2 + (1.0 if is_recent else 0.5)",
+    "stopping_condition": "<condition based on policy type>",
+    "early_verdict_expr": "<Python ternary for early stopping>",
     "use_embeddings_when": "len(keyword_matched) < 5"
   }},
 
   "expansion_hints": {{
-    "domain": "<from observations.core_concepts.primary_topic>",
-    "expand_on": ["<categories to expand in Phase 2>"]
+    "domain": "<primary_topic>",
+    "expand_on": ["<category names>"]
   }}
 }}
 ```
 
-Follow the plan exactly. Output ONLY the JSON:
+## IMPORTANT RULES
+
+1. Use EXACT values from observations - no templates or placeholders
+2. For stopping_condition and early_verdict_expr, use ACTUAL variable names and thresholds
+   - Scoring: "SCORE >= 8 or SCORE <= -5 or remaining == 0"
+   - Rule-based: "N_SEVERE >= 2 or remaining == 0"
+3. early_verdict_expr must be valid Python: "'Critical' if SCORE >= 8 else ('High' if SCORE >= 4 else None)"
+4. All fields referenced in compute.expr MUST exist in extract.fields
+
+Output ONLY the JSON:
 
 ```json
 '''
 
 
 def _extract_json_from_response(response: str) -> Dict[str, Any]:
-    """Extract JSON from LLM response, handling markdown code blocks."""
+    """Extract JSON from LLM response, handling markdown code blocks and common errors."""
     import re
 
+    original = response
     response = response.strip()
 
     # Handle markdown code blocks
@@ -338,11 +425,35 @@ def _extract_json_from_response(response: str) -> Dict[str, Any]:
         if end > start:
             response = response[start:end].strip()
 
-    # Find JSON object boundaries
+    # Find JSON object boundaries - handle nested braces properly
     brace_start = response.find("{")
-    brace_end = response.rfind("}")
-    if brace_start >= 0 and brace_end > brace_start:
-        response = response[brace_start : brace_end + 1]
+    if brace_start >= 0:
+        # Find matching closing brace by counting
+        depth = 0
+        in_string = False
+        escape_next = False
+        brace_end = -1
+        for i, char in enumerate(response[brace_start:], start=brace_start):
+            if escape_next:
+                escape_next = False
+                continue
+            if char == '\\':
+                escape_next = True
+                continue
+            if char == '"' and not escape_next:
+                in_string = not in_string
+                continue
+            if in_string:
+                continue
+            if char == '{':
+                depth += 1
+            elif char == '}':
+                depth -= 1
+                if depth == 0:
+                    brace_end = i
+                    break
+        if brace_end > brace_start:
+            response = response[brace_start : brace_end + 1]
 
     # Try to parse as-is first
     try:
@@ -350,12 +461,41 @@ def _extract_json_from_response(response: str) -> Dict[str, Any]:
     except json.JSONDecodeError:
         pass
 
-    # Common fixes
-    fixed = re.sub(r',\s*([}\]])', r'\1', response)
-    fixed = re.sub(r',\s*,', ',', fixed)
+    # Apply common fixes iteratively
+    fixed = response
+
+    # Remove single-line comments
     fixed = re.sub(r'//.*$', '', fixed, flags=re.MULTILINE)
 
-    return json.loads(fixed)
+    # Remove trailing commas before } or ]
+    fixed = re.sub(r',(\s*[}\]])', r'\1', fixed)
+
+    # Remove double commas
+    fixed = re.sub(r',\s*,', ',', fixed)
+
+    # Fix missing commas between elements (e.g., "value1" "value2" -> "value1", "value2")
+    fixed = re.sub(r'"\s*\n\s*"', '",\n"', fixed)
+
+    # Fix missing commas after } or ] before next element
+    fixed = re.sub(r'([}\]])\s*\n\s*"', r'\1,\n"', fixed)
+    fixed = re.sub(r'([}\]])\s*\n\s*\{', r'\1,\n{', fixed)
+
+    try:
+        return json.loads(fixed)
+    except json.JSONDecodeError:
+        pass
+
+    # More aggressive: try to fix unescaped quotes in string values
+    # This is a heuristic - replace newlines inside strings
+    try:
+        # Try removing all control characters except standard whitespace
+        cleaned = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f]', '', fixed)
+        return json.loads(cleaned)
+    except json.JSONDecodeError as e:
+        # Log the problematic area for debugging
+        logger.warning(f"JSON parse failed at position {e.pos}: {e.msg}")
+        logger.debug(f"Context around error: ...{fixed[max(0,e.pos-50):e.pos+50]}...")
+        raise
 
 
 def _accumulate_usage(usages: List[Dict[str, Any]]) -> Dict[str, Any]:
