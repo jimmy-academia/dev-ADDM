@@ -109,14 +109,20 @@ What categories exist? (e.g., "Mild", "Moderate", "Severe" or "Poor", "Fair", "G
   }},
 
   "account_handling": {{
+    "field_name": "<what to call the account type field - e.g., ACCOUNT_TYPE, EVIDENCE_SOURCE, REPORTER_TYPE>",
     "types": [
-      {{"type": "firsthand", "description": "<from agenda>", "counts_for_verdict": true}},
-      {{"type": "secondhand", "description": "<from agenda>", "counts_for_verdict": <true/false>}},
-      {{"type": "general", "description": "<from agenda>", "counts_for_verdict": false}}
+      // Extract ALL account types defined in the agenda - do NOT assume firsthand/secondhand/general
+      // {{"type": "<name from agenda>", "description": "<from agenda>", "counts_for_verdict": <from agenda>}}
     ]
   }},
 
+  "description_field": {{
+    "name": "<what to call the incident description field - e.g., SPECIFIC_INCIDENT, DESCRIPTION, DETAILS>",
+    "purpose": "<purpose from agenda context>"
+  }},
+
   "extraction_fields": [
+    // List other domain-specific fields from agenda (severity categories, modifiers, etc.)
     {{"name": "<field mentioned in agenda>", "values": ["<possible values>"]}}
   ]
 }}
@@ -200,20 +206,21 @@ Output your plan:
 
     "required_fields": [
       {{
-        "name": "ACCOUNT_TYPE",
-        "purpose": "Distinguish firsthand/secondhand/general",
-        "based_on": "<which observation this addresses>"
+        "name": "<from observations.account_handling.field_name>",
+        "purpose": "Distinguish account types per observations.account_handling.types",
+        "values": "<from observations.account_handling.types>",
+        "based_on": "observations.account_handling"
       }},
       {{
         "name": "<from observations.categories.field_name>",
         "purpose": "Classify category level",
         "values": "<from observations.categories.values>",
-        "based_on": "<which observation this addresses>"
+        "based_on": "observations.categories"
       }},
       {{
-        "name": "SPECIFIC_INCIDENT",
-        "purpose": "Capture what happened",
-        "based_on": "<which observation this addresses>"
+        "name": "<from observations.description_field.name>",
+        "purpose": "<from observations.description_field.purpose>",
+        "based_on": "observations.description_field"
       }}
     ],
 
@@ -287,13 +294,13 @@ Look at observations.policy_type to determine the structure:
 ## FOR SCORING-BASED POLICIES (observations.policy_type == "scoring")
 
 ### EXTRACTION FIELDS
-- ACCOUNT_TYPE: enum ("firsthand", "secondhand", "general")
+- <observations.account_handling.field_name>: enum (values from observations.account_handling.types)
 - <CATEGORY_FIELD> (from observations.categories.field_name): enum with category values
-- SPECIFIC_INCIDENT: string
+- <observations.description_field.name>: string for <observations.description_field.purpose>
 - Modifier fields: one per modifier in observations.scoring_system.modifiers
 
 ### COMPUTE OPERATIONS
-1. N_INCIDENTS: count where ACCOUNT_TYPE = "firsthand"
+1. N_INCIDENTS: count where <account_field> = <counting_account_type>
 2. BASE_POINTS: sum using EXACT point values from observations.scoring_system.base_point_categories
    Example: "CASE WHEN OUTCOME = 'severe' THEN 15 WHEN OUTCOME = 'moderate' THEN 5 ... ELSE 0 END"
 3. MODIFIER_POINTS: sum using EXACT point values from observations.scoring_system.modifiers
@@ -316,15 +323,15 @@ Use observations.verdict_rules.rules to build:
 ## FOR RULE-BASED POLICIES (observations.policy_type == "rule_based")
 
 ### EXTRACTION FIELDS
-- ACCOUNT_TYPE: enum ("firsthand", "secondhand", "general")
+- <observations.account_handling.field_name>: enum (values from observations.account_handling.types)
 - <CATEGORY_FIELD> (from observations.categories.field_name): enum with category values
-- SPECIFIC_INCIDENT: string
+- <observations.description_field.name>: string for <observations.description_field.purpose>
 - Any additional fields needed for compound conditions
 
 ### COMPUTE OPERATIONS
-1. N_INCIDENTS: count where ACCOUNT_TYPE = "firsthand"
-2. N_SEVERE: count where ACCOUNT_TYPE = "firsthand" AND <CATEGORY_FIELD> = "severe"
-3. N_MODERATE: count where ACCOUNT_TYPE = "firsthand" AND <CATEGORY_FIELD> = "moderate"
+1. N_INCIDENTS: count where <account_field> = <counting_account_type>
+2. N_SEVERE: count where <account_field> = <counting_account_type> AND <CATEGORY_FIELD> = "severe"
+3. N_MODERATE: count where <account_field> = <counting_account_type> AND <CATEGORY_FIELD> = "moderate"
 4. (Add more counts as needed for verdict rules)
 5. VERDICT: case using COUNT conditions (NOT score)
 
@@ -351,7 +358,7 @@ OR use compound conditions in a single case:
 
 ---
 
-## OUTPUT FORMAT
+## OUTPUT FORMAT - FOLLOW EXACTLY
 
 ```json
 {{
@@ -363,15 +370,29 @@ OR use compound conditions in a single case:
 
   "extract": {{
     "fields": [
-      {{"name": "ACCOUNT_TYPE", "type": "enum", "values": {{"firsthand": "firsthand", "secondhand": "secondhand", "general": "general"}}}},
-      {{"name": "<CATEGORY_FIELD>", "type": "enum", "values": {{"<cat1>": "<cat1>", "<cat2>": "<cat2>"}}}},
-      {{"name": "SPECIFIC_INCIDENT", "type": "string", "description": "..."}}
+      // REQUIRED: Account type field with values as DICT (not array!)
+      {{"name": "<observations.account_handling.field_name>", "type": "enum", "values": {{
+        "<type1>": "<description1>",
+        "<type2>": "<description2>"
+      }}}},
+      // REQUIRED: Category field with values as DICT
+      {{"name": "<observations.categories.field_name>", "type": "enum", "values": {{
+        "<cat1>": "<cat1 description>",
+        "<cat2>": "<cat2 description>"
+      }}}},
+      // REQUIRED: Description field
+      {{"name": "<observations.description_field.name>", "type": "string", "description": "<observations.description_field.purpose>"}},
+      // REQUIRED: Include ALL modifier-related fields from observations.extraction_fields
+      // Each field referenced in MODIFIER_POINTS MUST be defined here!
     ]
   }},
 
   "compute": [
-    // For scoring: N_INCIDENTS, BASE_POINTS, MODIFIER_POINTS, SCORE, VERDICT
-    // For rule-based: N_INCIDENTS, N_SEVERE, N_MODERATE, ..., VERDICT
+    // EXACT FORMAT FOR EACH OPERATION:
+    // count: {{"name": "N_INCIDENTS", "op": "count", "where": {{"<account_field>": "<counting_type>"}}}}
+    // sum:   {{"name": "BASE_POINTS", "op": "sum", "expr": "CASE WHEN ... THEN ... ELSE 0 END", "where": {{"<account_field>": "<counting_type>"}}}}
+    // expr:  {{"name": "SCORE", "op": "expr", "expr": "BASE_POINTS + MODIFIER_POINTS"}}
+    // case:  {{"name": "VERDICT", "op": "case", "source": "SCORE", "rules": [{{"when": ">= 8", "then": "Critical"}}, {{"else": "Low"}}]}}
   ],
 
   "output": ["VERDICT", "<SCORE or relevant counts>", "N_INCIDENTS"],
@@ -391,14 +412,16 @@ OR use compound conditions in a single case:
 }}
 ```
 
-## IMPORTANT RULES
+## CRITICAL RULES - MUST FOLLOW
 
-1. Use EXACT values from observations - no templates or placeholders
-2. For stopping_condition and early_verdict_expr, use ACTUAL variable names and thresholds
-   - Scoring: "SCORE >= 8 or SCORE <= -5 or remaining == 0"
-   - Rule-based: "N_SEVERE >= 2 or remaining == 0"
-3. early_verdict_expr must be valid Python: "'Critical' if SCORE >= 8 else ('High' if SCORE >= 4 else None)"
-4. All fields referenced in compute.expr MUST exist in extract.fields
+1. **Values format**: extract.fields[].values MUST be a DICT (not array!): {{"value1": "desc1", "value2": "desc2"}}
+2. **Compute format**: Each compute operation MUST have "op" key (count/sum/expr/case), NOT "expression"
+3. **Field references**: ALL fields used in compute MUST exist in extract.fields
+   - If MODIFIER_POINTS uses ASSURANCE_OF_SAFETY, add it to extract.fields!
+   - If compute references STAFF_RESPONSE, add it to extract.fields!
+4. **sum operations**: Use {{"op": "sum", "expr": "CASE WHEN...", "where": {{...}}}} format
+5. **case operations**: Use {{"op": "case", "source": "...", "rules": [...]}} format
+6. **expr operations**: Use {{"op": "expr", "expr": "..."}} for combining computed values
 
 Output ONLY the JSON:
 
