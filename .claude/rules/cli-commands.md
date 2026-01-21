@@ -15,6 +15,16 @@
 # Specific method
 .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 1 --method rlm
 
+# AMOS Phase Control
+# Phase 1 only: generate Formula Seed
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 --phase 1 --method amos --dev
+
+# Phase 2 only: use pre-generated seed (file path)
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 --phase 2 --seed path/to/G1_allergy_V2.json -n 5 --method amos --dev
+
+# Phase 2 with seed directory (auto-finds {policy_id}.json)
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 --phase 2 --seed results/dev/seeds/ -n 5 --method amos --dev
+
 # Batch mode (24hr async)
 .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100 --mode 24hrbatch
 
@@ -52,6 +62,8 @@
 | `--dev` | run_experiment | Dev mode (saves to results/dev/, no quota) |
 | `--force` | run_experiment | Override benchmark quota |
 | `--method` | run_experiment | Method (direct/rlm/rag/amos) |
+| `--phase` | run_experiment | AMOS phase: '1' (seed only), '2' (use seed), '1,2' or omit (both) |
+| `--seed` | run_experiment | Path to Formula Seed file/dir for --phase 2 |
 | `--models` | extract | Custom model config (e.g., "gpt-5-nano:3,gpt-5-mini:1") |
 | `--k` | all | Context size (25/50/100/200) |
 | `-n` | run_experiment | Number of samples |

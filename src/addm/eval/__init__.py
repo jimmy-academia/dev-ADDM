@@ -3,6 +3,7 @@
 from addm.eval.metrics import (
     VERDICT_TO_ORDINAL,
     CLASS_NAMES,
+    normalize_verdict,
     compute_ordinal_auprc,
     compute_primitive_accuracy,
     compute_verdict_consistency,
@@ -20,6 +21,7 @@ from addm.eval.unified_metrics import (
     compute_unified_metrics,
     compute_process_score,
     compute_consistency_score,
+    compute_false_positive_rate,
     normalize_amos_output,
     PROCESS_WEIGHTS,
 )
@@ -27,6 +29,7 @@ from addm.eval.unified_metrics import (
 __all__ = [
     "VERDICT_TO_ORDINAL",
     "CLASS_NAMES",
+    "normalize_verdict",
     "compute_ordinal_auprc",
     "compute_primitive_accuracy",
     "compute_verdict_consistency",
@@ -42,6 +45,7 @@ __all__ = [
     "compute_unified_metrics",
     "compute_process_score",
     "compute_consistency_score",
+    "compute_false_positive_rate",
     "normalize_amos_output",
     "PROCESS_WEIGHTS",
 ]

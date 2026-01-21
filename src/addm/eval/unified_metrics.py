@@ -11,7 +11,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 
-from addm.eval.metrics import compute_ordinal_auprc, VERDICT_TO_ORDINAL
+from addm.eval.metrics import compute_ordinal_auprc, VERDICT_TO_ORDINAL, normalize_verdict
 
 
 # Process Score weights
@@ -296,6 +296,7 @@ def compute_process_score(
 def compute_consistency_score(
     results: List[Dict[str, Any]],
     method: str = "direct",
+    policy_id: Optional[str] = None,
 ) -> Tuple[float, Dict[str, Any]]:
     """Compute verdict consistency score (0-100).
 
@@ -304,15 +305,20 @@ def compute_consistency_score(
     2. Compute what verdict SHOULD be from those extractions
     3. Compare to method's claimed verdict
 
+    Samples with no evidence are excluded from the denominator (can't evaluate
+    reasoning if no reasoning happened).
+
     Args:
         results: List of method outputs
         method: Method name ("direct", "amos", etc.)
+        policy_id: Optional policy ID for verdict normalization
 
     Returns:
         Tuple of (consistency_score, details)
     """
     total = 0
     consistent = 0
+    skipped_no_evidence = 0  # Track samples with no evidence to evaluate
     per_sample = []
 
     for result in results:
@@ -332,14 +338,16 @@ def compute_consistency_score(
         evidences = _extract_evidences(result)
 
         if not evidences:
-            # No evidences to evaluate - skip
+            # No evidences to evaluate - skip from denominator
+            skipped_no_evidence += 1
             continue
 
         # Compute verdict from method's claimed evidences
         computed_verdict, computed_score = _compute_verdict_from_evidences(evidences)
 
         total += 1
-        is_consistent = method_verdict == computed_verdict
+        # Normalize for comparison (handles quotes, case, whitespace)
+        is_consistent = normalize_verdict(method_verdict, policy_id) == normalize_verdict(computed_verdict, policy_id)
 
         if is_consistent:
             consistent += 1
@@ -358,6 +366,83 @@ def compute_consistency_score(
     return consistency_score, {
         "consistent": consistent,
         "total": total,
+        "skipped_no_evidence": skipped_no_evidence,
+        "per_sample": per_sample,
+    }
+
+
+def compute_false_positive_rate(
+    results: List[Dict[str, Any]],
+    gt_verdicts: Dict[str, str],
+    method: str = "direct",
+    policy_id: Optional[str] = None,
+) -> Tuple[float, Dict[str, Any]]:
+    """Compute false positive rate on negative-GT samples.
+
+    For samples where GT = lowest verdict (e.g., "Low Risk"):
+    - Check if method claimed any evidences
+    - False positive = claimed evidence when GT says none exist
+
+    This measures how often the method hallucinates incidents that
+    don't exist according to ground truth.
+
+    Args:
+        results: List of method outputs
+        gt_verdicts: {business_id: verdict} ground truth
+        method: Method name ("direct", "amos", etc.)
+        policy_id: Optional policy ID for verdict normalization
+
+    Returns:
+        Tuple of (fp_rate, details)
+    """
+    from addm.eval.metrics import get_policy_verdicts, CLASS_NAMES
+
+    # Get lowest verdict for this policy (e.g., "Low Risk")
+    verdicts = get_policy_verdicts(policy_id) if policy_id else CLASS_NAMES
+    lowest_verdict = verdicts[0]  # First is lowest
+
+    negative_samples = 0
+    false_positives = 0
+    per_sample = []
+
+    for result in results:
+        if "error" in result:
+            continue
+
+        biz_id = result.get("business_id", "")
+        gt_verdict = gt_verdicts.get(biz_id)
+
+        if not gt_verdict:
+            continue
+
+        # Only evaluate negative GT samples (lowest verdict = no incidents)
+        if normalize_verdict(gt_verdict, policy_id) != lowest_verdict:
+            continue
+
+        negative_samples += 1
+
+        # Normalize AMOS output if needed
+        if method == "amos":
+            result = normalize_amos_output(result)
+
+        evidences = _extract_evidences(result)
+
+        # False positive = claimed evidence when GT is negative
+        is_fp = len(evidences) > 0
+        if is_fp:
+            false_positives += 1
+
+        per_sample.append({
+            "business_id": biz_id,
+            "is_false_positive": is_fp,
+            "n_evidences_claimed": len(evidences),
+        })
+
+    fp_rate = false_positives / negative_samples if negative_samples > 0 else 0.0
+
+    return fp_rate, {
+        "false_positives": false_positives,
+        "negative_samples": negative_samples,
         "per_sample": per_sample,
     }
 
@@ -368,6 +453,7 @@ def compute_unified_metrics(
     gt_verdicts: Dict[str, str],
     method: str = "direct",
     reviews_data: Optional[Dict[str, Dict[str, str]]] = None,
+    policy_id: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Main entry point - returns all 3 scores.
 
@@ -377,6 +463,7 @@ def compute_unified_metrics(
         gt_verdicts: {business_id: verdict}
         method: Method name ("direct", "amos", etc.)
         reviews_data: Optional {business_id: {review_id: text}} for snippet validation
+        policy_id: Optional policy ID for verdict normalization
 
     Returns:
         Dict with:
@@ -445,7 +532,10 @@ def compute_unified_metrics(
         process_components = {"error": "No structured output available"}
 
     # 3. Compute Consistency Score
-    consistency_score, consistency_details = compute_consistency_score(results, method)
+    consistency_score, consistency_details = compute_consistency_score(results, method, policy_id)
+
+    # 4. Compute False Positive Rate
+    fp_rate, fp_details = compute_false_positive_rate(results, gt_verdicts, method, policy_id)
 
     return {
         "auprc": auprc,
@@ -454,6 +544,8 @@ def compute_unified_metrics(
         "process_components": process_components,
         "consistency_score": consistency_score,
         "consistency_details": consistency_details,
+        "false_positive_rate": fp_rate,
+        "fp_details": fp_details,
         "intermediate_metrics": intermediate_metrics,
         "n_samples": len(results),
         "n_structured": len(structured_results),

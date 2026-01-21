@@ -32,7 +32,7 @@ from typing import Any, Dict, List, Optional
 
 import numpy as np
 
-from addm.eval import VERDICT_TO_ORDINAL, compute_ordinal_auprc, compute_unified_metrics
+from addm.eval import VERDICT_TO_ORDINAL, compute_ordinal_auprc, compute_unified_metrics, normalize_verdict
 from addm.llm import LLMService
 from addm.llm_batch import BatchClient, build_chat_batch_item
 from addm.methods.rlm import eval_restaurant_rlm
@@ -255,6 +255,39 @@ def extract_risk_score(response: str) -> Optional[float]:
     return None
 
 
+def load_formula_seed(seed_path: str, policy_id: str) -> Dict[str, Any]:
+    """Load Formula Seed from file or directory.
+
+    Args:
+        seed_path: Path to .json file or directory containing seeds
+        policy_id: Policy identifier (e.g., "G1_allergy_V2")
+
+    Returns:
+        Formula Seed dict
+
+    Raises:
+        FileNotFoundError: If seed file not found
+    """
+    path = Path(seed_path)
+
+    if path.is_file():
+        # Direct file path
+        with open(path) as f:
+            return json.load(f)
+    elif path.is_dir():
+        # Directory - look for {policy_id}.json
+        seed_file = path / f"{policy_id}.json"
+        if not seed_file.exists():
+            raise FileNotFoundError(
+                f"Formula Seed not found: {seed_file}\n"
+                f"Expected {policy_id}.json in {path}"
+            )
+        with open(seed_file) as f:
+            return json.load(f)
+    else:
+        raise FileNotFoundError(f"Seed path not found: {seed_path}")
+
+
 def _get_batch_field(batch: Any, key: str) -> Optional[Any]:
     if isinstance(batch, dict):
         return batch.get(key)
@@ -408,7 +441,8 @@ async def run_experiment(
     amos_adaptive: bool = False,
     amos_hybrid: bool = False,
     sample_ids: Optional[List[str]] = None,
-    observe: Optional[str] = None,
+    phase: Optional[str] = None,
+    seed_path: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Run experiment evaluation.
 
@@ -431,16 +465,23 @@ async def run_experiment(
         amos_adaptive: Enable AMOS adaptive mode (batch processing with early stopping)
         amos_hybrid: Enable AMOS hybrid embedding retrieval
         sample_ids: If provided, only run on these specific business IDs (filters dataset)
-        observe: Observation mode for testing pipeline stages (e.g., "phase1" for AMOS)
+        phase: AMOS phase control: '1' (generate seed only), '2' (use seed_path), '1,2' or None (both)
+        seed_path: Path to Formula Seed file or directory for --phase 2
 
     Either task_id or policy_id must be provided.
     """
     if not task_id and not policy_id:
         raise ValueError("Either task_id or policy_id must be provided")
 
-    # Validate observe mode compatibility
-    if observe == "phase1" and method != "amos":
-        raise ValueError("--observe phase1 is only supported for --method amos")
+    # Validate phase/seed compatibility
+    if phase == "2" and not seed_path:
+        raise ValueError("--phase 2 requires --seed to specify pre-generated Formula Seed")
+    if seed_path and phase != "2":
+        raise ValueError("--seed is only valid with --phase 2")
+    if phase and phase not in ("1", "2", "1,2"):
+        raise ValueError("--phase must be '1', '2', or '1,2'")
+    if phase and method != "amos":
+        raise ValueError("--phase is only supported for --method amos")
 
     # Determine run mode and load agenda
     system_prompt = None
@@ -777,12 +818,23 @@ async def run_experiment(
                 for r in restaurants
             ]
 
-            # Pre-load Formula Seed (Phase 1) to enable parallel Phase 2 execution
-            seed = await amos_method._get_formula_seed(agenda, llm)
+            # Handle phase control
+            if phase == "2":
+                # Phase 2 only: Load pre-generated seed
+                seed = load_formula_seed(seed_path, run_id)
+                amos_method.set_formula_seed(seed)
+                output.info(f"Loaded Formula Seed from: {seed_path}")
+            else:
+                # Phase 1 or both: Generate seed
+                seed = await amos_method._get_formula_seed(agenda, llm)
 
-            # Handle observe=phase1: exit after Phase 1 without running samples
-            if observe == "phase1":
-                # Save Formula Seed to run directory
+            # Handle phase=1: exit after Phase 1 without running samples
+            if phase == "1":
+                # Save Formula Seed to run directory with policy-level naming
+                seed_output_path = output_dir / f"{run_id}.json"
+                with open(seed_output_path, "w") as f:
+                    json.dump(seed, f, indent=2)
+                # Also save as formula_seed.json for backwards compatibility
                 amos_method.save_formula_seed_to_run_dir(output_dir)
 
                 # Print summary
@@ -794,10 +846,10 @@ async def run_experiment(
                 output.print(f"  Keywords: {len(filter_spec.get('keywords', []))}")
                 output.print(f"  Fields: {len(extract_spec.get('fields', []))}")
                 output.print(f"  Compute ops: {len(compute_spec)}")
-                output.print(f"  Saved to: {output_dir / 'formula_seed.json'}")
+                output.print(f"  Saved to: {seed_output_path}")
 
                 return {
-                    "observe": "phase1",
+                    "phase": "1",
                     "policy_id": run_id,
                     "output_dir": str(output_dir),
                     "seed": seed,
@@ -878,7 +930,10 @@ async def run_experiment(
         biz_id = result["business_id"]
         gt_verdict = gt_verdicts.get(biz_id)
         pred_verdict = result["verdict"]
-        is_correct = pred_verdict == gt_verdict
+        # Normalize verdicts for comparison (handles quotes, case, whitespace)
+        pred_normalized = normalize_verdict(pred_verdict, run_id)
+        gt_normalized = normalize_verdict(gt_verdict, run_id)
+        is_correct = pred_normalized == gt_normalized
 
         if gt_verdict:
             total += 1
@@ -1004,16 +1059,32 @@ async def run_experiment(
             gt_verdicts=gt_verdicts,
             method=method,
             reviews_data=reviews_data,
+            policy_id=run_id,
         )
 
-        # Display 3-score summary table
+        # Display 3-score summary table with coverage info
         output.rule()
+
+        # Extract coverage details
+        consistency_details = unified_metrics.get("consistency_details", {})
+        consistency_total = consistency_details.get("total", 0)
+        consistency_skipped = consistency_details.get("skipped_no_evidence", 0)
+        total_samples = len(results)
+
+        fp_details = unified_metrics.get("fp_details", {})
+        fp_count = fp_details.get("false_positives", 0)
+        negative_count = fp_details.get("negative_samples", 0)
+
         score_rows = [
-            ["AUPRC", f"{unified_metrics['auprc']:.1%}", "Higher = better ranking"],
-            ["Process", f"{unified_metrics['process_score']:.1f}%", ">75% = good"],
-            ["Consistency", f"{unified_metrics['consistency_score']:.1f}%", ">75% = good"],
+            ["AUPRC", f"{unified_metrics['auprc']:.1%}", "Ranking quality"],
+            ["Process", f"{unified_metrics['process_score']:.1f}%",
+             f"Based on {unified_metrics.get('n_structured', 0)}/{total_samples} samples"],
+            ["Consistency", f"{unified_metrics['consistency_score']:.1f}%",
+             f"Based on {consistency_total}/{total_samples} samples"],
+            ["False Pos. Rate", f"{unified_metrics.get('false_positive_rate', 0):.1%}",
+             f"{fp_count}/{negative_count} negative samples"],
         ]
-        output.print_table("UNIFIED EVALUATION SCORES", ["Metric", "Score", "Target"], score_rows)
+        output.print_table("UNIFIED EVALUATION SCORES", ["Metric", "Score", "Notes"], score_rows)
 
     # Log metrics to result logger if enabled
     if result_logger := get_result_logger():
@@ -1051,6 +1122,7 @@ async def run_experiment(
             "auprc": unified_metrics.get("auprc", 0.0),
             "process_score": unified_metrics.get("process_score", 0.0),
             "consistency_score": unified_metrics.get("consistency_score", 0.0),
+            "false_positive_rate": unified_metrics.get("false_positive_rate", 0.0),
         } if unified_metrics else None,
         "unified_metrics_full": unified_metrics if unified_metrics else None,
         "results": results,
@@ -1128,11 +1200,17 @@ def main() -> None:
         help="AMOS: Enable hybrid embedding retrieval (experimental)",
     )
     parser.add_argument(
-        "--observe",
+        "--phase",
         type=str,
         default=None,
-        choices=["phase1"],
-        help="Observation mode: 'phase1' runs only Formula Seed generation (AMOS), then exits",
+        help="AMOS phase control: '1' (generate seed only), '2' (use --seed), '1,2' or omit (both phases)",
+    )
+    parser.add_argument(
+        "--seed",
+        type=str,
+        default=None,
+        help="Path to Formula Seed file or directory. Required for --phase 2. "
+             "If directory, looks for {policy_id}.json",
     )
     parser.add_argument(
         "--mode",
@@ -1189,7 +1267,8 @@ def main() -> None:
                                         amos_adaptive=args.amos_adaptive,
                     amos_hybrid=args.amos_hybrid,
                     sample_ids=sample_ids,
-                    observe=args.observe,
+                    phase=args.phase,
+                    seed_path=args.seed,
                 )
             except Exception as e:
                 return {"error": str(e), "policy_id": policy}
@@ -1202,16 +1281,16 @@ def main() -> None:
         run_result = asyncio.run(run_multiple_policies())
 
         # Print summary for multiple policies
-        if args.observe == "phase1":
+        if args.phase == "1":
             output.rule()
-            success_count = sum(1 for r in run_result.values() if isinstance(r, dict) and r.get("observe") == "phase1")
+            success_count = sum(1 for r in run_result.values() if isinstance(r, dict) and r.get("phase") == "1")
             error_count = len(policies) - success_count
             output.success(f"Phase 1 Batch Complete: {success_count}/{len(policies)} succeeded")
             rows = []
             for policy_id, result in run_result.items():
                 if isinstance(result, dict) and result.get("error"):
                     rows.append([policy_id, "ERROR", result.get("error", "")[:60]])
-                elif isinstance(result, dict) and result.get("observe") == "phase1":
+                elif isinstance(result, dict) and result.get("phase") == "1":
                     summary = result.get("seed_summary", {})
                     rows.append([
                         policy_id,
@@ -1244,7 +1323,8 @@ def main() -> None:
                                 amos_adaptive=args.amos_adaptive,
                 amos_hybrid=args.amos_hybrid,
                 sample_ids=sample_ids,
-                observe=args.observe,
+                phase=args.phase,
+                seed_path=args.seed,
             )
         )
 

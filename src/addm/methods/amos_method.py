@@ -94,6 +94,15 @@ class AMOSMethod(Method):
         """Get the current Formula Seed (if loaded)."""
         return self._seed
 
+    def set_formula_seed(self, seed: Dict[str, Any]) -> None:
+        """Set Formula Seed directly (for Phase 2-only runs).
+
+        Args:
+            seed: Pre-generated Formula Seed
+        """
+        self._seed = seed
+        self._phase1_usage = {}  # No Phase 1 usage when seed is injected
+
     async def _get_formula_seed(self, agenda: str, llm: LLMService) -> Dict[str, Any]:
         """Get or generate Formula Seed.
 

@@ -13,6 +13,8 @@ so we evaluate whether claimed evidence actually justifies the verdict.
 import json
 from typing import Any, Dict, List, Optional, Tuple
 
+from addm.eval.metrics import normalize_verdict
+
 
 # Severity to base points mapping (from V2 policy)
 SEVERITY_BASE_POINTS = {
@@ -81,6 +83,9 @@ def compute_evidence_validity(
 
     Stage 1: Are the claimed evidence items actually valid?
 
+    Samples with no claims are excluded from precision calculation
+    (can't evaluate precision if nothing was claimed).
+
     Args:
         results: Method outputs with parsed.evidences
         gt_data: GT data by business_id with incidents array
@@ -91,12 +96,14 @@ def compute_evidence_validity(
         Dict with:
         - incident_precision: |claimed ∩ GT| / |claimed|
         - snippet_validity: |valid snippets| / |total snippets|
+        - samples_with_no_claims: count of samples that claimed no evidence
         - per_sample: detailed breakdown per sample
     """
     total_claimed = 0
     total_matched = 0
     total_snippets = 0
     valid_snippets = 0
+    samples_with_no_claims = 0  # Track samples with no claimed evidence
     per_sample = []
 
     for result in results:
@@ -111,9 +118,24 @@ def compute_evidence_validity(
         evidences = _extract_evidences(result)
         claimed_review_ids = {e.get("review_id") for e in evidences if e.get("review_id")}
 
+        # Track samples with no claims (excluded from precision calculation)
+        if not claimed_review_ids:
+            samples_with_no_claims += 1
+            per_sample.append({
+                "business_id": biz_id,
+                "claimed_incidents": 0,
+                "matched_incidents": 0,
+                "incident_precision": None,  # Can't compute precision with no claims
+                "snippet_valid": 0,
+                "snippet_total": 0,
+                "snippet_validity": None,
+                "has_claims": False,
+            })
+            continue
+
         # Incident matching
         matched = claimed_review_ids & gt_review_ids
-        sample_precision = len(matched) / len(claimed_review_ids) if claimed_review_ids else 1.0
+        sample_precision = len(matched) / len(claimed_review_ids)
 
         total_claimed += len(claimed_review_ids)
         total_matched += len(matched)
@@ -157,15 +179,17 @@ def compute_evidence_validity(
             "snippet_valid": sample_snippet_valid,
             "snippet_total": sample_snippet_total,
             "snippet_validity": sample_snippet_validity,
+            "has_claims": True,
         })
 
     return {
-        "incident_precision": total_matched / total_claimed if total_claimed > 0 else 1.0,
+        "incident_precision": total_matched / total_claimed if total_claimed > 0 else None,
         "total_claimed": total_claimed,
         "total_matched": total_matched,
         "snippet_validity": valid_snippets / total_snippets if total_snippets > 0 else None,
         "total_snippets": total_snippets,
         "valid_snippets": valid_snippets,
+        "samples_with_no_claims": samples_with_no_claims,
         "per_sample": per_sample,
     }
 
@@ -343,7 +367,8 @@ def compute_verdict_support(
 
         # Check if method's verdict is supported by its own evidence
         total += 1
-        verdict_matches = method_verdict == computed_verdict
+        # Normalize for comparison (handles quotes, case, whitespace)
+        verdict_matches = normalize_verdict(method_verdict) == normalize_verdict(computed_verdict)
         if verdict_matches:
             supported += 1
 

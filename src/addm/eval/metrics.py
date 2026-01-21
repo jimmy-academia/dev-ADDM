@@ -8,13 +8,85 @@ Separate metrics (not combined/adjusted):
 4. AUPRC (computed verdict) - ranking quality from primitives
 """
 
+from pathlib import Path
+
 import numpy as np
+import yaml
 from sklearn.metrics import average_precision_score
 from typing import Dict, List, Optional, Any
 
-# Ordinal class mapping
+# Ordinal class mapping (default for G1 risk policies)
 VERDICT_TO_ORDINAL = {"Low Risk": 0, "High Risk": 1, "Critical Risk": 2}
 CLASS_NAMES = ["Low Risk", "High Risk", "Critical Risk"]
+
+# Cache for loaded policy verdicts
+_policy_verdicts_cache: Dict[str, List[str]] = {}
+
+
+def get_policy_verdicts(policy_id: str) -> List[str]:
+    """Load valid verdicts for a policy from YAML.
+
+    Args:
+        policy_id: Policy identifier (e.g., "G1_allergy_V2" or "G1/allergy/V2")
+
+    Returns:
+        List of valid verdict strings in order (low to high)
+    """
+    if policy_id in _policy_verdicts_cache:
+        return _policy_verdicts_cache[policy_id]
+
+    # Normalize policy_id to path format
+    normalized = policy_id.replace("_", "/")
+    parts = normalized.split("/")
+    if len(parts) >= 3:
+        group, topic, version = parts[0], parts[1], parts[2]
+        yaml_path = Path(f"src/addm/query/policies/{group}/{topic}/{version}.yaml")
+
+        if yaml_path.exists():
+            with open(yaml_path) as f:
+                data = yaml.safe_load(f)
+            verdicts = data.get("normative", {}).get("decision", {}).get("verdicts", [])
+            if verdicts:
+                _policy_verdicts_cache[policy_id] = verdicts
+                return verdicts
+
+    # Fallback to default risk verdicts
+    return CLASS_NAMES
+
+
+def normalize_verdict(verdict: Optional[str], policy_id: Optional[str] = None) -> Optional[str]:
+    """Normalize verdict string for comparison.
+
+    Handles:
+    - Extra quotes: "'Low Risk'" -> "Low Risk"
+    - Whitespace: " Low Risk " -> "Low Risk"
+    - Case-insensitive matching to policy's valid verdicts
+
+    Args:
+        verdict: Raw verdict string
+        policy_id: Optional policy ID to load valid verdicts for matching
+
+    Returns:
+        Normalized verdict or None if invalid
+    """
+    if verdict is None:
+        return None
+
+    # Strip whitespace and quotes (single, double, backticks) from either end
+    normalized = verdict.strip().strip("'\"`").strip()
+
+    if not normalized:
+        return None
+
+    # If policy_id provided, match against valid verdicts (case-insensitive)
+    if policy_id:
+        valid_verdicts = get_policy_verdicts(policy_id)
+        normalized_lower = normalized.lower()
+        for valid in valid_verdicts:
+            if valid.lower() == normalized_lower:
+                return valid  # Return canonical form
+
+    return normalized
 
 
 def compute_ordinal_auprc(
