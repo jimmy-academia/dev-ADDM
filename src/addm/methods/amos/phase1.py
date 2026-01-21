@@ -1,14 +1,17 @@
-"""Phase 1: Formula Seed Generation with Multi-Step Decomposition.
+"""Phase 1: Formula Seed Generation with Multiple Approaches.
 
 LLM reads agenda/query and produces a Formula Seed (executable JSON specification).
 This is done once per policy and cached to disk.
 
-Multi-Step Decomposition (3 steps):
-1. Task Understanding: Extract structured concepts from policy text
-2. Seed Keyword Generation: Generate initial keyword list for the domain
-3. Seed Assembly: Generate formula seed with fixed schema and compute format
+Supports multiple generation approaches:
+1. PLAN_AND_ACT: Fixed 3-step pipeline (OBSERVE → PLAN → ACT)
+2. REACT: Iterative loop with actions (Thought → Action → Observation)*
+3. REFLEXION: Initial generation + quality analysis + revision
 
-Includes iterative validation and fix approach after generation.
+Default approach is PLAN_AND_ACT (same cost as legacy multi-step decomposition).
+Legacy approach still available via _generate_legacy_multi_step().
+
+All approaches include validation and fix loop after generation.
 """
 
 import hashlib
@@ -19,6 +22,11 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 from addm.llm import LLMService
+
+from .config import Phase1Approach
+from .phase1_plan_and_act import generate_plan_and_act
+from .phase1_react import generate_react
+from .phase1_reflexion import generate_reflexion
 
 logger = logging.getLogger(__name__)
 
@@ -873,18 +881,22 @@ async def generate_formula_seed(
     llm: LLMService,
     cache_dir: Optional[Path] = None,
     force_regenerate: bool = False,
+    approach: Phase1Approach = Phase1Approach.PLAN_AND_ACT,
+    react_max_iterations: int = 8,
+    reflexion_max_iterations: int = 2,
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    """Generate Formula Seed from agenda prompt using Multi-Step Decomposition.
+    """Generate Formula Seed from agenda prompt using configurable approach.
 
     Phase 1 of AMOS: LLM reads agenda and produces executable specification.
     Results are cached to disk (data/formula_seeds/{policy_id}.json).
 
-    Multi-Step Decomposition:
-    1. Task Understanding: Extract structured concepts from policy text
-    2. Keyword Generation: Generate initial keyword seed list
-    3. Seed Assembly: Generate formula seed with fixed schema and compute format
+    Approaches:
+    - PLAN_AND_ACT: Fixed 3-step pipeline (OBSERVE → PLAN → ACT). Same cost as legacy.
+    - REACT: Iterative loop (5-10 LLM calls). Self-correcting.
+    - REFLEXION: Initial + reflection iterations (7-15 LLM calls). Highest quality.
 
-    Includes iterative validation and fix approach after generation.
+    All approaches have NO domain-specific hints - keywords are discovered from
+    the agenda text, not pattern-matched to known domains.
 
     Args:
         agenda: The task agenda/query prompt
@@ -892,6 +904,9 @@ async def generate_formula_seed(
         llm: LLM service for API calls
         cache_dir: Override cache directory (default: data/formula_seeds/)
         force_regenerate: Force regeneration even if cached
+        approach: Which generation approach to use (default: PLAN_AND_ACT)
+        react_max_iterations: Max iterations for ReAct approach (default: 8)
+        reflexion_max_iterations: Max iterations for Reflexion approach (default: 2)
 
     Returns:
         Tuple of (formula_seed, usage_dict)
@@ -913,31 +928,38 @@ async def generate_formula_seed(
             return seed, {}
 
     # =========================================================================
-    # Multi-Step Decomposition
+    # Dispatch to Approach
     # =========================================================================
     all_usages = []
+    intermediates = {}
 
-    # Step 1: Task Understanding
-    logger.info(f"Phase 1 Step 1: Extracting task understanding for {policy_id}")
-    task_understanding, usage1 = await _step1_task_understanding(agenda, llm, policy_id)
-    all_usages.append(usage1)
-    logger.debug(f"Task understanding: {task_understanding.get('task_type', 'unknown')}")
+    if approach == Phase1Approach.PLAN_AND_ACT:
+        logger.info(f"Phase 1: Using PLAN_AND_ACT approach for {policy_id}")
+        seed, intermediates, approach_usage = await generate_plan_and_act(
+            agenda, policy_id, llm
+        )
+        all_usages.append(approach_usage)
 
-    # Step 2: Keyword Generation
-    logger.info(f"Phase 1 Step 2: Generating seed keywords for {policy_id}")
-    seed_keywords, usage2 = await _step2_keyword_generation(task_understanding, llm, policy_id)
-    all_usages.append(usage2)
-    flattened_keywords = _flatten_keywords(seed_keywords)
-    logger.debug(f"Generated {len(flattened_keywords)} keywords")
+    elif approach == Phase1Approach.REACT:
+        logger.info(f"Phase 1: Using REACT approach for {policy_id}")
+        seed, intermediates, approach_usage = await generate_react(
+            agenda, policy_id, llm, max_iterations=react_max_iterations
+        )
+        all_usages.append(approach_usage)
 
-    # Step 3: Seed Assembly
-    logger.info(f"Phase 1 Step 3: Assembling formula seed for {policy_id}")
-    seed, usage3 = await _step3_seed_assembly(task_understanding, seed_keywords, llm, policy_id)
-    all_usages.append(usage3)
+    elif approach == Phase1Approach.REFLEXION:
+        logger.info(f"Phase 1: Using REFLEXION approach for {policy_id}")
+        seed, intermediates, approach_usage = await generate_reflexion(
+            agenda, policy_id, llm, max_iterations=reflexion_max_iterations
+        )
+        all_usages.append(approach_usage)
+
+    else:
+        raise ValueError(f"Unknown Phase1Approach: {approach}")
 
     # Store intermediate results in seed for debugging
-    seed["_step1_task_understanding"] = task_understanding
-    seed["_step2_seed_keywords"] = seed_keywords
+    seed["_approach"] = approach.value
+    seed["_intermediates"] = intermediates
 
     # =========================================================================
     # Validation and Fix Loop
@@ -973,8 +995,8 @@ async def generate_formula_seed(
         try:
             fixed_seed = _extract_json_from_response(fix_response)
             # Preserve intermediate results
-            fixed_seed["_step1_task_understanding"] = task_understanding
-            fixed_seed["_step2_seed_keywords"] = seed_keywords
+            fixed_seed["_approach"] = approach.value
+            fixed_seed["_intermediates"] = intermediates
             seed = fixed_seed
             errors = _validate_formula_seed(seed)
         except json.JSONDecodeError as e:
@@ -1003,8 +1025,7 @@ async def generate_formula_seed(
             "policy_id": policy_id,
             "generated_by": llm._config.get("model", "unknown"),
             "fix_attempts": fix_attempt,
-            "generation_method": "multi_step_decomposition",
-            "steps_completed": 3,
+            "generation_approach": approach.value,
         },
     }
     cache_dir.mkdir(parents=True, exist_ok=True)
@@ -1015,3 +1036,38 @@ async def generate_formula_seed(
     seed_clean = {k: v for k, v in seed.items() if not k.startswith("_")}
 
     return seed_clean, total_usage
+
+
+async def generate_formula_seed_with_config(
+    agenda: str,
+    policy_id: str,
+    llm: LLMService,
+    config: "AMOSConfig",
+    cache_dir: Optional[Path] = None,
+) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    """Generate Formula Seed using settings from AMOSConfig.
+
+    Convenience wrapper that extracts Phase 1 settings from config.
+
+    Args:
+        agenda: The task agenda/query prompt
+        policy_id: Policy identifier (e.g., "G1_allergy_V2")
+        llm: LLM service for API calls
+        config: AMOSConfig with phase1_approach and iteration settings
+        cache_dir: Override cache directory (default: data/formula_seeds/)
+
+    Returns:
+        Tuple of (formula_seed, usage_dict)
+    """
+    from .config import AMOSConfig  # Import here to avoid circular import
+
+    return await generate_formula_seed(
+        agenda=agenda,
+        policy_id=policy_id,
+        llm=llm,
+        cache_dir=cache_dir,
+        force_regenerate=config.force_regenerate,
+        approach=config.phase1_approach,
+        react_max_iterations=config.react_max_iterations,
+        reflexion_max_iterations=config.reflexion_max_iterations,
+    )

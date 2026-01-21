@@ -4,7 +4,26 @@ Dataclass for configuring AMOS execution modes and parameters.
 """
 
 from dataclasses import dataclass, field
+from enum import Enum
 from typing import Optional
+
+
+class Phase1Approach(Enum):
+    """Approach for Phase 1 Formula Seed generation.
+
+    PLAN_AND_ACT: Fixed 3-step pipeline (OBSERVE → PLAN → ACT)
+                  Same cost as current approach, no self-correction.
+
+    REACT: Iterative loop with actions (Thought → Action → Observation)*
+           Self-correcting, handles complex agendas. 5-10 LLM calls.
+
+    REFLEXION: Initial generation + quality analysis + revision
+               Highest quality, most expensive (7-15 LLM calls).
+    """
+
+    PLAN_AND_ACT = "plan_and_act"
+    REACT = "react"
+    REFLEXION = "reflexion"
 
 
 @dataclass
@@ -33,6 +52,9 @@ class AMOSConfig:
 
     # Phase 1
     force_regenerate: bool = False
+    phase1_approach: Phase1Approach = Phase1Approach.PLAN_AND_ACT
+    react_max_iterations: int = 8
+    reflexion_max_iterations: int = 2
 
     # Embedding configuration (hybrid mode)
     embedding_model: str = "text-embedding-3-large"
