@@ -1,13 +1,14 @@
-"""Phase 1: Formula Seed Generation.
+"""Phase 1: Formula Seed Generation with Multi-Step Decomposition.
 
 LLM reads agenda/query and produces a Formula Seed (executable JSON specification).
 This is done once per policy and cached to disk.
 
-Includes iterative validation and fix approach:
-1. Generate Formula Seed from agenda
-2. Validate expressions (syntax check with compile())
-3. If errors, prompt LLM to fix with specific error feedback
-4. Retry up to MAX_FIX_ATTEMPTS times
+Multi-Step Decomposition (3 steps):
+1. Task Understanding: Extract structured concepts from policy text
+2. Seed Keyword Generation: Generate initial keyword list for the domain
+3. Seed Assembly: Generate formula seed with fixed schema and compute format
+
+Includes iterative validation and fix approach after generation.
 """
 
 import hashlib
@@ -25,7 +26,258 @@ logger = logging.getLogger(__name__)
 MAX_FIX_ATTEMPTS = 3
 
 
-PHASE1_PROMPT = '''You are translating a task agenda into an executable specification.
+# =============================================================================
+# Step 1: Task Understanding
+# =============================================================================
+
+STEP1_PROMPT = '''Analyze this task agenda and extract its structured requirements.
+
+## TASK AGENDA
+
+{agenda}
+
+## YOUR JOB
+
+Read the agenda carefully and extract the key components needed to evaluate restaurants.
+Output a JSON object with the following structure:
+
+```json
+{{
+  "task_type": "<brief description, e.g., 'allergy safety assessment'>",
+
+  "incident_definition": {{
+    "what_counts": "<what constitutes a relevant incident>",
+    "what_does_not_count": "<what should NOT be counted as incidents>"
+  }},
+
+  "severity_levels": [
+    {{"level": "none", "description": "<when to use>", "points": 0}},
+    {{"level": "mild", "description": "<when to use>", "points": <number>}},
+    {{"level": "moderate", "description": "<when to use>", "points": <number>}},
+    {{"level": "severe", "description": "<when to use>", "points": <number>}}
+  ],
+
+  "account_types": [
+    {{"type": "firsthand", "description": "Reviewer personally experienced it", "weight": 1.0}},
+    {{"type": "secondhand", "description": "Reviewer heard about it from others", "weight": <0-1>}},
+    {{"type": "general", "description": "General statement without specific incident", "weight": <0-1>}}
+  ],
+
+  "modifiers": [
+    {{"name": "<modifier_name>", "condition": "<when it applies>", "points": <number>}}
+  ],
+
+  "thresholds": {{
+    "critical": <score for critical verdict>,
+    "high": <score for high verdict>,
+    "low": <score for low verdict, or 0 if none>
+  }},
+
+  "verdict_labels": {{
+    "critical": "<exact verdict text for critical>",
+    "high": "<exact verdict text for high>",
+    "low": "<exact verdict text for low>"
+  }},
+
+  "approach_hints": {{
+    "early_stop_score": <score at which verdict is definitely critical>,
+    "priority_indicators": ["<words that indicate high-priority reviews>"]
+  }},
+
+  "temporal_requirements": {{
+    "has_recency_weighting": <true/false>,
+    "decay_description": "<how recency affects scoring, if applicable>"
+  }}
+}}
+```
+
+Extract EXACTLY what the agenda specifies - don't add assumptions.
+If the agenda doesn't specify something (like modifiers), use an empty list.
+
+Output ONLY the JSON:
+
+```json
+'''
+
+
+# =============================================================================
+# Step 2: Seed Keyword Generation
+# =============================================================================
+
+STEP2_PROMPT = '''Generate an initial keyword list for filtering reviews based on this task understanding.
+
+## TASK UNDERSTANDING
+
+{task_understanding}
+
+## YOUR JOB
+
+Generate a seed keyword list that will help identify potentially relevant reviews.
+This is an INITIAL list - Phase 2 will expand it based on actual review content.
+
+Guidelines:
+1. Include the core domain terms (e.g., "allergy", "allergic" for allergy tasks)
+2. Include key examples mentioned in the task (e.g., specific allergens if mentioned)
+3. Include severity indicators (e.g., "sick", "reaction", "hospital")
+4. Include account-type indicators (e.g., "my friend said", "I heard")
+5. Use word boundaries - prefer specific phrases over single common words
+6. For food/allergen tasks: include common allergen types (peanut, gluten, dairy, shellfish, etc.)
+7. For service tasks: include staff-related terms (waiter, server, manager, etc.)
+8. For experience tasks: include emotion words (romantic, intimate, loud, cramped, etc.)
+
+DO NOT try to be exhaustive - Phase 2 handles expansion.
+
+Output a JSON object:
+
+```json
+{{
+  "core_terms": ["<primary domain terms>"],
+  "examples_from_task": ["<specific examples mentioned in task>"],
+  "severity_indicators": ["<words indicating severity>"],
+  "account_indicators": ["<phrases for firsthand vs secondhand>"],
+  "domain_vocabulary": ["<common domain-specific terms>"],
+  "priority_terms": ["<terms that indicate high-priority reviews>"]
+}}
+```
+
+Output ONLY the JSON:
+
+```json
+'''
+
+
+# =============================================================================
+# Step 3: Seed Assembly
+# =============================================================================
+
+# Fixed extraction field names for consistency
+REQUIRED_EXTRACTION_FIELDS = """
+You MUST use these EXACT field names in extraction schema:
+- ACCOUNT_TYPE: "firsthand" | "secondhand" | "general"
+- INCIDENT_SEVERITY: "none" | "mild" | "moderate" | "severe"
+- SPECIFIC_INCIDENT: string describing what happened (or null if none)
+
+Additional fields may be added based on task requirements (e.g., STAFF_RESPONSE, RECURRENCE).
+"""
+
+COMPUTE_TEMPLATE = """
+Use this EXACT compute structure (adjust values based on task):
+
+1. Count incidents:
+   {{"name": "N_INCIDENTS", "op": "count", "where": {{"ACCOUNT_TYPE": "firsthand", "INCIDENT_SEVERITY": ["mild", "moderate", "severe"]}}}}
+
+2. Sum base points (use CASE WHEN for severity scoring):
+   {{"name": "BASE_POINTS", "op": "sum", "expr": "CASE WHEN INCIDENT_SEVERITY = 'severe' THEN <severe_pts> WHEN INCIDENT_SEVERITY = 'moderate' THEN <mod_pts> WHEN INCIDENT_SEVERITY = 'mild' THEN <mild_pts> ELSE 0 END", "where": {{"ACCOUNT_TYPE": "firsthand"}}}}
+
+3. Sum modifier points (if task has modifiers):
+   {{"name": "MODIFIER_POINTS", "op": "sum", "expr": "CASE WHEN MODIFIER_FIELD = 'trigger_value' THEN <mod_points> ELSE 0 END", "where": {{"ACCOUNT_TYPE": "firsthand"}}}}
+
+4. Total score:
+   {{"name": "SCORE", "op": "expr", "expr": "BASE_POINTS + MODIFIER_POINTS"}}
+
+5. Verdict (use threshold values from task):
+   {{"name": "VERDICT", "op": "case", "source": "SCORE", "rules": [
+     {{"when": ">= <critical_threshold>", "then": "<critical_label>"}},
+     {{"when": ">= <high_threshold>", "then": "<high_label>"}},
+     {{"else": "<low_label>"}}
+   ]}}
+"""
+
+STEP3_PROMPT = '''Generate the complete Formula Seed specification.
+
+## TASK UNDERSTANDING
+
+{task_understanding}
+
+## SEED KEYWORDS
+
+{seed_keywords}
+
+## REQUIREMENTS
+
+{field_requirements}
+
+{compute_requirements}
+
+## YOUR JOB
+
+Generate a complete Formula Seed JSON that:
+1. Uses ALL keywords from the seed (combine all categories into one list)
+2. Uses the EXACT extraction field names specified above
+3. Uses the scoring/threshold values from task understanding
+4. Includes a search strategy for adaptive processing
+
+Output the complete Formula Seed:
+
+```json
+{{
+  "task_name": "<policy identifier from task>",
+
+  "filter": {{
+    "keywords": ["<all keywords from seed, flattened into one list>"]
+  }},
+
+  "extract": {{
+    "fields": [
+      {{
+        "name": "ACCOUNT_TYPE",
+        "type": "enum",
+        "values": {{
+          "firsthand": "Reviewer personally experienced the incident",
+          "secondhand": "Reviewer heard about it from others",
+          "general": "General statement without specific incident"
+        }}
+      }},
+      {{
+        "name": "INCIDENT_SEVERITY",
+        "type": "enum",
+        "values": {{
+          "none": "No relevant incident",
+          "mild": "<description from task>",
+          "moderate": "<description from task>",
+          "severe": "<description from task>"
+        }}
+      }},
+      {{
+        "name": "SPECIFIC_INCIDENT",
+        "type": "string",
+        "description": "Brief description of what happened"
+      }}
+    ]
+  }},
+
+  "compute": [
+    <compute operations using exact structure from requirements>
+  ],
+
+  "output": ["VERDICT", "SCORE", "N_INCIDENTS"],
+
+  "search_strategy": {{
+    "priority_keywords": ["<high-priority terms from seed>"],
+    "priority_expr": "len(keyword_hits) * 2 + (1.0 if is_recent else 0.5)",
+    "stopping_condition": "SCORE >= <early_stop_score> or remaining == 0",
+    "early_verdict_expr": "'<critical_label>' if SCORE >= <critical_threshold> else ('<high_label>' if SCORE >= <high_threshold> else None)",
+    "use_embeddings_when": "len(keyword_matched) < 5"
+  }},
+
+  "expansion_hints": {{
+    "domain": "<task domain for Phase 2 vocabulary expansion>",
+    "expand_on": ["<categories to expand: allergens, symptoms, etc.>"]
+  }}
+}}
+```
+
+Output ONLY the JSON:
+
+```json
+'''
+
+
+# =============================================================================
+# Legacy single-shot prompt (kept for reference/fallback)
+# =============================================================================
+
+PHASE1_PROMPT_LEGACY = '''You are translating a task agenda into an executable specification.
 
 ## TASK AGENDA
 
@@ -40,6 +292,9 @@ Identify keywords that indicate a review is relevant to this task.
 - Include variations (singular/plural, verb forms)
 - Include related terms the task mentions
 - Include common misspellings if relevant
+- For allergy/safety tasks: include ALL common allergen types (peanut, tree nut, gluten/celiac, dairy, shellfish, soy, egg) plus reaction terms (hives, swelling, anaphylaxis, EpiPen, Benadryl, "got sick", "allergic reaction")
+- Include contextual phrases like "my allergy", "food allergy", "gluten-free", "nut-free", "dairy-free"
+- Avoid overly generic terms that match menu items (e.g., use "shellfish allergy" not just "shrimp")
 
 ### 2. EXTRACTION
 Define what semantic signals must be extracted from each relevant review.
@@ -56,10 +311,19 @@ TEMPORAL INFORMATION:
 ### 3. COMPUTATION
 Define how to aggregate extractions into final results:
 - "count": Count extractions matching conditions
-- "sum": Sum values from extractions (can include conditional weighting)
-- "expr": Mathematical expression using other computed values
+- "sum": Sum values from extractions using SQL-style CASE WHEN expressions
+  - Use for point-based scoring: {{"op": "sum", "expr": "CASE WHEN FIELD = 'value' THEN points ELSE 0 END", "where": {{...}}}}
+  - The expression is evaluated PER EXTRACTION, then summed
+- "expr": Mathematical expression using ONLY other computed values (N_INCIDENTS, BASE_POINTS, etc.)
+  - Use for combining already-computed aggregates: "BASE_POINTS + MODIFIER_POINTS"
+  - Do NOT use extraction fields directly in expr - use sum with where conditions instead
 - "lookup": Map restaurant attributes to values
-- "case": Threshold-based classification rules
+- "case": Threshold-based classification rules for final verdict
+
+IMPORTANT for scoring:
+- To compute point totals, use "sum" operations with CASE WHEN expressions for per-extraction scoring
+- Example: {{"name": "BASE_POINTS", "op": "sum", "expr": "CASE WHEN SEVERITY = 'mild' THEN 2 WHEN SEVERITY = 'moderate' THEN 5 ELSE 0 END", "where": {{"ACCOUNT_TYPE": "firsthand"}}}}
+- Then combine computed values with "expr": {{"name": "TOTAL_SCORE", "op": "expr", "expr": "BASE_POINTS + MODIFIER_POINTS"}}
 
 TEMPORAL WEIGHTING:
 - If the task requires recency weighting, use "sum" with conditional multipliers
@@ -115,11 +379,13 @@ OUTPUT FORMAT:
   }},
 
   "compute": [
-    {{"name": "N_INCIDENTS", "op": "count", "where": {{"field": "value"}}}},
-    {{"name": "TOTAL", "op": "expr", "expr": "N_A + N_B"}},
-    {{"name": "VERDICT", "op": "case", "source": "SCORE", "rules": [
-      {{"when": "< 4.0", "then": "Low Risk"}},
-      {{"when": "< 8.0", "then": "High Risk"}},
+    {{"name": "N_INCIDENTS", "op": "count", "where": {{"ACCOUNT_TYPE": "firsthand", "SEVERITY": ["mild", "moderate", "severe"]}}}},
+    {{"name": "BASE_POINTS", "op": "sum", "expr": "CASE WHEN SEVERITY = 'mild' THEN 2 WHEN SEVERITY = 'moderate' THEN 5 WHEN SEVERITY = 'severe' THEN 15 ELSE 0 END", "where": {{"ACCOUNT_TYPE": "firsthand"}}}},
+    {{"name": "MOD_POINTS", "op": "sum", "expr": "CASE WHEN STAFF_RESPONSE = 'dismissive' THEN 3 ELSE 0 END", "where": {{"ACCOUNT_TYPE": "firsthand"}}}},
+    {{"name": "TOTAL_SCORE", "op": "expr", "expr": "BASE_POINTS + MOD_POINTS"}},
+    {{"name": "VERDICT", "op": "case", "source": "TOTAL_SCORE", "rules": [
+      {{"when": "< 4", "then": "Low Risk"}},
+      {{"when": "< 8", "then": "High Risk"}},
       {{"else": "Critical Risk"}}
     ]}}
   ],
@@ -255,7 +521,7 @@ def _validate_expression(expr: str, field_name: str) -> Optional[str]:
 
 
 def _validate_formula_seed(seed: Dict[str, Any]) -> List[str]:
-    """Validate Formula Seed structure and expressions.
+    """Validate Formula Seed structure, expressions, and field references.
 
     Args:
         seed: Formula Seed dict
@@ -315,7 +581,267 @@ def _validate_formula_seed(seed: Dict[str, Any]) -> List[str]:
                         if expr_error:
                             errors.append(expr_error)
 
+    # Validate field references in compute operations
+    field_errors = _validate_field_references(seed)
+    errors.extend(field_errors)
+
     return errors
+
+
+def _validate_field_references(seed: Dict[str, Any]) -> List[str]:
+    """Validate that compute operations reference valid extraction fields.
+
+    Args:
+        seed: Formula Seed dict
+
+    Returns:
+        List of field reference errors
+    """
+    errors = []
+
+    # Get extraction field names
+    extraction_fields = set()
+    for field in seed.get("extract", {}).get("fields", []):
+        field_name = field.get("name", "")
+        if field_name:
+            extraction_fields.add(field_name.upper())
+            extraction_fields.add(field_name)  # Keep original case too
+
+    # Get computed value names (for expr operations that reference other computes)
+    computed_names = set()
+    for op in seed.get("compute", []):
+        name = op.get("name", "")
+        if name:
+            computed_names.add(name.upper())
+            computed_names.add(name)
+
+    # Pattern to find field references in CASE WHEN expressions
+    case_when_pattern = re.compile(r"WHEN\s+(\w+)\s*=", re.IGNORECASE)
+
+    # Pattern to find field references in where conditions
+    for op in seed.get("compute", []):
+        op_name = op.get("name", "unknown")
+        op_type = op.get("op", "")
+
+        # Check CASE WHEN expressions in sum operations
+        if op_type == "sum":
+            expr = op.get("expr", "")
+            if expr.upper().startswith("CASE"):
+                matches = case_when_pattern.findall(expr)
+                for field_ref in matches:
+                    if field_ref.upper() not in extraction_fields:
+                        errors.append(
+                            f"compute.{op_name}: CASE expression references unknown field '{field_ref}'. "
+                            f"Available extraction fields: {sorted(extraction_fields)}"
+                        )
+
+        # Check where conditions
+        where = op.get("where", {})
+        if isinstance(where, dict):
+            for field_ref in where.keys():
+                # Skip special keys
+                if field_ref in ("and", "or", "field", "equals", "not_equals"):
+                    continue
+                if field_ref.upper() not in extraction_fields:
+                    errors.append(
+                        f"compute.{op_name}: where condition references unknown field '{field_ref}'. "
+                        f"Available extraction fields: {sorted(extraction_fields)}"
+                    )
+
+        # Check case operations that reference extraction fields
+        if op_type == "case":
+            source = op.get("source", "")
+            # Source can be either an extraction field or a computed value
+            if source and source.upper() not in extraction_fields and source.upper() not in computed_names:
+                # Check if it's a computed value that comes later
+                later_computed = set()
+                found = False
+                for later_op in seed.get("compute", []):
+                    if later_op.get("name") == op_name:
+                        found = True
+                    if found:
+                        later_name = later_op.get("name", "")
+                        if later_name:
+                            later_computed.add(later_name.upper())
+
+                if source.upper() not in later_computed:
+                    errors.append(
+                        f"compute.{op_name}: case source '{source}' not found in extraction fields or computed values"
+                    )
+
+    return errors
+
+
+def _accumulate_usage(usages: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Accumulate usage metrics from multiple LLM calls.
+
+    Args:
+        usages: List of usage dicts from LLM calls
+
+    Returns:
+        Combined usage dict
+    """
+    total = {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "cost_usd": 0.0,
+    }
+    for u in usages:
+        total["prompt_tokens"] += u.get("prompt_tokens", 0)
+        total["completion_tokens"] += u.get("completion_tokens", 0)
+        total["cost_usd"] += u.get("cost_usd", 0.0)
+    return total
+
+
+# =============================================================================
+# Multi-Step Decomposition Functions
+# =============================================================================
+
+
+async def _step1_task_understanding(
+    agenda: str,
+    llm: LLMService,
+    policy_id: str,
+) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    """Step 1: Extract structured concepts from policy text.
+
+    Args:
+        agenda: The task agenda/query prompt
+        llm: LLM service for API calls
+        policy_id: Policy identifier for context
+
+    Returns:
+        Tuple of (task_understanding, usage)
+    """
+    prompt = STEP1_PROMPT.format(agenda=agenda)
+    messages = [{"role": "user", "content": prompt}]
+
+    response, usage = await llm.call_async_with_usage(
+        messages,
+        context={"phase": "phase1_step1", "policy_id": policy_id},
+    )
+
+    try:
+        task_understanding = _extract_json_from_response(response)
+    except json.JSONDecodeError as e:
+        logger.warning(f"Step 1 JSON parse failed: {e}, using fallback")
+        # Fallback to minimal structure
+        task_understanding = {
+            "task_type": "unknown",
+            "incident_definition": {"what_counts": "unknown", "what_does_not_count": "unknown"},
+            "severity_levels": [
+                {"level": "none", "points": 0},
+                {"level": "mild", "points": 3},
+                {"level": "moderate", "points": 8},
+                {"level": "severe", "points": 15},
+            ],
+            "thresholds": {"critical": 8, "high": 4, "low": 0},
+            "verdict_labels": {"critical": "Critical Risk", "high": "High Risk", "low": "Low Risk"},
+        }
+
+    return task_understanding, usage
+
+
+async def _step2_keyword_generation(
+    task_understanding: Dict[str, Any],
+    llm: LLMService,
+    policy_id: str,
+) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    """Step 2: Generate initial keyword list for the domain.
+
+    Args:
+        task_understanding: Output from Step 1
+        llm: LLM service for API calls
+        policy_id: Policy identifier for context
+
+    Returns:
+        Tuple of (seed_keywords, usage)
+    """
+    prompt = STEP2_PROMPT.format(task_understanding=json.dumps(task_understanding, indent=2))
+    messages = [{"role": "user", "content": prompt}]
+
+    response, usage = await llm.call_async_with_usage(
+        messages,
+        context={"phase": "phase1_step2", "policy_id": policy_id},
+    )
+
+    try:
+        seed_keywords = _extract_json_from_response(response)
+    except json.JSONDecodeError as e:
+        logger.warning(f"Step 2 JSON parse failed: {e}, using fallback")
+        # Fallback to task_type-based keywords
+        task_type = task_understanding.get("task_type", "")
+        seed_keywords = {
+            "core_terms": [task_type] if task_type else [],
+            "examples_from_task": [],
+            "severity_indicators": ["severe", "serious", "bad"],
+            "account_indicators": ["I", "my", "we"],
+            "domain_vocabulary": [],
+            "priority_terms": ["worst", "terrible", "awful"],
+        }
+
+    return seed_keywords, usage
+
+
+async def _step3_seed_assembly(
+    task_understanding: Dict[str, Any],
+    seed_keywords: Dict[str, Any],
+    llm: LLMService,
+    policy_id: str,
+) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    """Step 3: Generate complete formula seed with fixed schema.
+
+    Args:
+        task_understanding: Output from Step 1
+        seed_keywords: Output from Step 2
+        llm: LLM service for API calls
+        policy_id: Policy identifier for context
+
+    Returns:
+        Tuple of (formula_seed, usage)
+    """
+    prompt = STEP3_PROMPT.format(
+        task_understanding=json.dumps(task_understanding, indent=2),
+        seed_keywords=json.dumps(seed_keywords, indent=2),
+        field_requirements=REQUIRED_EXTRACTION_FIELDS,
+        compute_requirements=COMPUTE_TEMPLATE,
+    )
+    messages = [{"role": "user", "content": prompt}]
+
+    response, usage = await llm.call_async_with_usage(
+        messages,
+        context={"phase": "phase1_step3", "policy_id": policy_id},
+    )
+
+    seed = _extract_json_from_response(response)
+    return seed, usage
+
+
+def _flatten_keywords(seed_keywords: Dict[str, Any]) -> List[str]:
+    """Flatten keyword categories into a single deduplicated list.
+
+    Args:
+        seed_keywords: Keyword dict with categories
+
+    Returns:
+        Flattened list of unique keywords
+    """
+    all_keywords = []
+    for category in ["core_terms", "examples_from_task", "severity_indicators",
+                     "account_indicators", "domain_vocabulary", "priority_terms"]:
+        keywords = seed_keywords.get(category, [])
+        if isinstance(keywords, list):
+            all_keywords.extend(keywords)
+
+    # Deduplicate while preserving order
+    seen = set()
+    unique = []
+    for kw in all_keywords:
+        if kw.lower() not in seen:
+            seen.add(kw.lower())
+            unique.append(kw)
+
+    return unique
 
 
 FIX_PROMPT = '''The Formula Seed you generated has validation errors:
@@ -348,16 +874,17 @@ async def generate_formula_seed(
     cache_dir: Optional[Path] = None,
     force_regenerate: bool = False,
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    """Generate Formula Seed from agenda prompt.
+    """Generate Formula Seed from agenda prompt using Multi-Step Decomposition.
 
     Phase 1 of AMOS: LLM reads agenda and produces executable specification.
     Results are cached to disk (data/formula_seeds/{policy_id}.json).
 
-    Includes iterative validation and fix approach:
-    1. Generate Formula Seed from agenda
-    2. Validate expressions (syntax check)
-    3. If errors, prompt LLM to fix with specific error feedback
-    4. Retry up to MAX_FIX_ATTEMPTS times
+    Multi-Step Decomposition:
+    1. Task Understanding: Extract structured concepts from policy text
+    2. Keyword Generation: Generate initial keyword seed list
+    3. Seed Assembly: Generate formula seed with fixed schema and compute format
+
+    Includes iterative validation and fix approach after generation.
 
     Args:
         agenda: The task agenda/query prompt
@@ -369,7 +896,7 @@ async def generate_formula_seed(
     Returns:
         Tuple of (formula_seed, usage_dict)
         - formula_seed: The generated Formula Seed specification
-        - usage_dict: Token/cost usage from the LLM call (empty if cached)
+        - usage_dict: Token/cost usage from all LLM calls (empty if cached)
     """
     cache_dir = cache_dir or Path("data/formula_seeds")
     cache_path = cache_dir / f"{policy_id}.json"
@@ -385,59 +912,69 @@ async def generate_formula_seed(
             seed = {k: v for k, v in cached.items() if not k.startswith("_")}
             return seed, {}
 
-    # Generate via LLM
-    prompt = PHASE1_PROMPT.format(agenda=agenda)
-    messages = [{"role": "user", "content": prompt}]
+    # =========================================================================
+    # Multi-Step Decomposition
+    # =========================================================================
+    all_usages = []
 
-    response, usage = await llm.call_async_with_usage(
-        messages,
-        context={"phase": "phase1", "policy_id": policy_id},
-    )
+    # Step 1: Task Understanding
+    logger.info(f"Phase 1 Step 1: Extracting task understanding for {policy_id}")
+    task_understanding, usage1 = await _step1_task_understanding(agenda, llm, policy_id)
+    all_usages.append(usage1)
+    logger.debug(f"Task understanding: {task_understanding.get('task_type', 'unknown')}")
 
-    # Parse JSON from response
-    try:
-        seed = _extract_json_from_response(response)
-    except json.JSONDecodeError as e:
-        raise ValueError(f"Failed to parse Formula Seed JSON: {e}\nResponse: {response}")
+    # Step 2: Keyword Generation
+    logger.info(f"Phase 1 Step 2: Generating seed keywords for {policy_id}")
+    seed_keywords, usage2 = await _step2_keyword_generation(task_understanding, llm, policy_id)
+    all_usages.append(usage2)
+    flattened_keywords = _flatten_keywords(seed_keywords)
+    logger.debug(f"Generated {len(flattened_keywords)} keywords")
 
-    # Validate structure and expressions
+    # Step 3: Seed Assembly
+    logger.info(f"Phase 1 Step 3: Assembling formula seed for {policy_id}")
+    seed, usage3 = await _step3_seed_assembly(task_understanding, seed_keywords, llm, policy_id)
+    all_usages.append(usage3)
+
+    # Store intermediate results in seed for debugging
+    seed["_step1_task_understanding"] = task_understanding
+    seed["_step2_seed_keywords"] = seed_keywords
+
+    # =========================================================================
+    # Validation and Fix Loop
+    # =========================================================================
     errors = _validate_formula_seed(seed)
 
-    # Iterative fix approach: if there are errors, ask LLM to fix them
-    total_usage = dict(usage)
     fix_attempt = 0
-
     while errors and fix_attempt < MAX_FIX_ATTEMPTS:
         fix_attempt += 1
         logger.info(f"Formula Seed has {len(errors)} errors, attempting fix {fix_attempt}/{MAX_FIX_ATTEMPTS}")
         logger.debug(f"Errors: {errors}")
 
         # Build fix prompt with the errors and current seed
+        # Remove intermediate results before showing to LLM
+        seed_for_fix = {k: v for k, v in seed.items() if not k.startswith("_")}
         fix_prompt = FIX_PROMPT.format(
             errors="\n".join(f"- {e}" for e in errors),
-            seed_json=json.dumps(seed, indent=2),
+            seed_json=json.dumps(seed_for_fix, indent=2),
         )
 
         # Ask LLM to fix
         fix_messages = [
-            {"role": "user", "content": prompt},
-            {"role": "assistant", "content": f"```json\n{json.dumps(seed, indent=2)}\n```"},
-            {"role": "user", "content": fix_prompt},
+            {"role": "user", "content": f"Fix this Formula Seed:\n\n{fix_prompt}"},
         ]
 
         fix_response, fix_usage = await llm.call_async_with_usage(
             fix_messages,
             context={"phase": "phase1_fix", "policy_id": policy_id, "attempt": fix_attempt},
         )
-
-        # Accumulate usage
-        for key in ["prompt_tokens", "completion_tokens"]:
-            total_usage[key] = total_usage.get(key, 0) + fix_usage.get(key, 0)
-        total_usage["cost_usd"] = total_usage.get("cost_usd", 0) + fix_usage.get("cost_usd", 0)
+        all_usages.append(fix_usage)
 
         # Try to parse fixed seed
         try:
             fixed_seed = _extract_json_from_response(fix_response)
+            # Preserve intermediate results
+            fixed_seed["_step1_task_understanding"] = task_understanding
+            fixed_seed["_step2_seed_keywords"] = seed_keywords
             seed = fixed_seed
             errors = _validate_formula_seed(seed)
         except json.JSONDecodeError as e:
@@ -454,7 +991,11 @@ async def generate_formula_seed(
     if fix_attempt > 0:
         logger.info(f"Formula Seed fixed after {fix_attempt} attempt(s)")
 
-    # Add metadata and save to cache
+    # =========================================================================
+    # Save to Cache
+    # =========================================================================
+    total_usage = _accumulate_usage(all_usages)
+
     seed_with_meta = {
         **seed,
         "_metadata": {
@@ -462,10 +1003,15 @@ async def generate_formula_seed(
             "policy_id": policy_id,
             "generated_by": llm._config.get("model", "unknown"),
             "fix_attempts": fix_attempt,
+            "generation_method": "multi_step_decomposition",
+            "steps_completed": 3,
         },
     }
     cache_dir.mkdir(parents=True, exist_ok=True)
     with open(cache_path, "w") as f:
         json.dump(seed_with_meta, f, indent=2)
 
-    return seed, total_usage
+    # Remove intermediate results before returning
+    seed_clean = {k: v for k, v in seed.items() if not k.startswith("_")}
+
+    return seed_clean, total_usage

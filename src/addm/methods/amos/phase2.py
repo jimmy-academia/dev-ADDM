@@ -60,7 +60,14 @@ def _build_extraction_prompt(fields: List[Dict[str, Any]], review_text: str, rev
     # Build output format
     output_fields = ", ".join(f'"{f["name"]}": "<value>"' for f in fields)
 
-    prompt = f"""Extract the following fields from this review.
+    prompt = f"""Extract the following fields from this review about ALLERGY SAFETY INCIDENTS.
+
+CRITICAL GUIDELINES FOR INCIDENT_SEVERITY:
+- Set to "none" UNLESS the review describes an ACTUAL adverse reaction or near-miss due to allergen exposure
+- Menu items mentioned (e.g., "crab cake", "shrimp pasta", "peanut sauce") are NOT incidents
+- Positive allergy experiences (e.g., "they accommodated my allergy well") are NOT incidents
+- General service complaints unrelated to allergies are NOT incidents
+- Only mark as mild/moderate/severe if the reviewer describes actual symptoms or a scary situation
 
 FIELD DEFINITIONS:
 {field_definitions}
@@ -68,8 +75,10 @@ FIELD DEFINITIONS:
 REVIEW TEXT:
 {review_text}
 
-Output JSON only. If the review is not relevant (no useful content for any field), output:
+Output JSON only. If the review does not discuss allergies, dietary restrictions, or food sensitivities AT ALL, output:
 {{"is_relevant": false}}
+
+If the review mentions allergies but there was NO actual incident (just positive accommodation or menu mentions), set INCIDENT_SEVERITY to "none".
 
 Otherwise output:
 {{
@@ -499,6 +508,8 @@ class FormulaSeedInterpreter:
         - List matching: {"field": ["value1", "value2"]}
         - AND conditions: {"and": [{"field": "FIELD", "equals": "value"}, ...]}
         - OR conditions: {"or": [{"field": "FIELD", "equals": "value"}, ...]}
+        - Field/equals with nested: {"field": "X", "equals": "Y", "and": [...]}
+        - not_equals: {"field": "X", "not_equals": "Y"}
 
         Args:
             extraction: Single extraction result
@@ -507,24 +518,50 @@ class FormulaSeedInterpreter:
         Returns:
             True if all conditions match
         """
-        # Handle "and" conditions
+        # Check field/equals at top level first (if present)
+        if "field" in condition and ("equals" in condition or "not_equals" in condition):
+            field = condition["field"]
+            actual = extraction.get(field)
+
+            if "equals" in condition:
+                expected = condition["equals"]
+                if isinstance(expected, list):
+                    if actual not in expected:
+                        return False
+                elif actual != expected:
+                    return False
+
+            if "not_equals" in condition:
+                not_expected = condition["not_equals"]
+                if isinstance(not_expected, list):
+                    if actual in not_expected:
+                        return False
+                elif actual == not_expected:
+                    return False
+
+        # Handle "and" conditions (check all must match)
         if "and" in condition:
             and_conditions = condition["and"]
             for sub_cond in and_conditions:
                 if not self._matches_single_condition(extraction, sub_cond):
                     return False
-            return True
 
-        # Handle "or" conditions
+        # Handle "or" conditions (check at least one must match)
         if "or" in condition:
             or_conditions = condition["or"]
+            found_match = False
             for sub_cond in or_conditions:
                 if self._matches_single_condition(extraction, sub_cond):
-                    return True
-            return False
+                    found_match = True
+                    break
+            if not found_match:
+                return False
 
-        # Simple key-value conditions
-        for field, expected in condition.items():
+        # If no special keys, use simple key-value matching
+        special_keys = {"field", "equals", "not_equals", "and", "or"}
+        simple_conditions = {k: v for k, v in condition.items() if k not in special_keys}
+
+        for field, expected in simple_conditions.items():
             actual = extraction.get(field)
             if isinstance(expected, list):
                 # Match any in list
@@ -533,6 +570,7 @@ class FormulaSeedInterpreter:
             else:
                 if actual != expected:
                     return False
+
         return True
 
     def _matches_single_condition(self, extraction: Dict[str, Any], condition: Dict[str, Any]) -> bool:
@@ -573,6 +611,47 @@ class FormulaSeedInterpreter:
 
         return sum(1 for e in self._extractions if self._matches_condition(e, where))
 
+    def _eval_sql_case_expr(self, expr: str, extraction: Dict[str, Any]) -> float:
+        """Evaluate SQL-style CASE expression against an extraction.
+
+        Handles expressions like:
+            "CASE WHEN SEVERITY = 'mild' THEN 2 WHEN SEVERITY = 'moderate' THEN 5 ELSE 0 END"
+
+        Args:
+            expr: SQL CASE expression
+            extraction: Extraction dict with field values
+
+        Returns:
+            Numeric result from CASE evaluation
+        """
+        # Parse CASE WHEN ... THEN ... [WHEN ... THEN ...] [ELSE ...] END
+        expr_upper = expr.upper()
+        if not expr_upper.startswith("CASE"):
+            return 0.0
+
+        # Extract WHEN/THEN pairs
+        # Pattern: WHEN field = 'value' THEN number
+        when_pattern = r"WHEN\s+(\w+)\s*=\s*['\"]?(\w+)['\"]?\s+THEN\s+(\d+(?:\.\d+)?)"
+        matches = re.findall(when_pattern, expr, re.IGNORECASE)
+
+        for field, value, then_value in matches:
+            actual_value = extraction.get(field, extraction.get(field.upper(), None))
+            if actual_value is None:
+                # Try lowercase field name
+                actual_value = extraction.get(field.lower(), "")
+
+            # Compare (case-insensitive for strings)
+            if str(actual_value).lower() == value.lower():
+                return float(then_value)
+
+        # Check for ELSE clause
+        else_pattern = r"ELSE\s+(\d+(?:\.\d+)?)"
+        else_match = re.search(else_pattern, expr, re.IGNORECASE)
+        if else_match:
+            return float(else_match.group(1))
+
+        return 0.0
+
     def _compute_sum(self, op_def: Dict[str, Any]) -> float:
         """Compute sum aggregation.
 
@@ -585,22 +664,30 @@ class FormulaSeedInterpreter:
         expr = op_def.get("expr", "1")
         where = op_def.get("where", {})
 
+        # Check if this is a SQL-style CASE expression
+        is_sql_case = expr.strip().upper().startswith("CASE")
+
         total = 0.0
         for extraction in self._extractions:
             if where and not self._matches_condition(extraction, where):
                 continue
 
-            # Evaluate expression in extraction context
-            try:
-                # Create safe namespace with extraction values
-                safe_namespace = {
-                    **{k: v for k, v in extraction.items() if not k.startswith("_")},
-                    **self._namespace,
-                }
-                value = eval(expr, {"__builtins__": {}}, safe_namespace)
-                total += float(value)
-            except Exception:
-                pass  # Skip invalid expressions
+            if is_sql_case:
+                # Handle SQL-style CASE WHEN ... THEN ... END
+                value = self._eval_sql_case_expr(expr, extraction)
+                total += value
+            else:
+                # Evaluate as Python expression in extraction context
+                try:
+                    # Create safe namespace with extraction values
+                    safe_namespace = {
+                        **{k: v for k, v in extraction.items() if not k.startswith("_")},
+                        **self._namespace,
+                    }
+                    value = eval(expr, {"__builtins__": {}}, safe_namespace)
+                    total += float(value)
+                except Exception:
+                    pass  # Skip invalid expressions
 
         return total
 

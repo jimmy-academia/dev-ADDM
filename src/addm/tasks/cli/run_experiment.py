@@ -408,6 +408,7 @@ async def run_experiment(
     regenerate_seed: bool = False,
     amos_adaptive: bool = False,
     amos_hybrid: bool = False,
+    sample_ids: Optional[List[str]] = None,
 ) -> Dict[str, Any]:
     """Run experiment evaluation.
 
@@ -430,6 +431,7 @@ async def run_experiment(
         regenerate_seed: Force regenerate Formula Seed for AMOS method
         amos_adaptive: Enable AMOS adaptive mode (batch processing with early stopping)
         amos_hybrid: Enable AMOS hybrid embedding retrieval
+        sample_ids: If provided, only run on these specific business IDs (filters dataset)
 
     Either task_id or policy_id must be provided.
     """
@@ -454,7 +456,20 @@ async def run_experiment(
 
     # Load dataset
     restaurants = load_dataset(domain, k)
-    if n > 0:
+
+    # Filter by sample_ids if provided (overrides skip/n)
+    if sample_ids:
+        sample_id_set = set(sample_ids)
+        restaurants = [
+            r for r in restaurants
+            if r.get("business", {}).get("business_id") in sample_id_set
+        ]
+        # Warn if some sample_ids not found
+        found_ids = {r["business"]["business_id"] for r in restaurants}
+        missing_ids = sample_id_set - found_ids
+        if missing_ids:
+            output.warn(f"Sample IDs not found in dataset: {missing_ids}")
+    elif n > 0:
         restaurants = restaurants[skip : skip + n]
     else:
         restaurants = restaurants[skip:]
@@ -1093,11 +1108,22 @@ def main() -> None:
         help="LLM execution mode (auto-selected in benchmark mode if not specified)",
     )
     parser.add_argument("--batch-id", type=str, default=None, help="Batch ID for fetch-only runs")
+    parser.add_argument(
+        "--sample-ids",
+        type=str,
+        default=None,
+        help="Comma-separated business IDs to filter dataset (e.g., 'id1,id2,id3')",
+    )
 
     args = parser.parse_args()
 
     # Benchmark mode is default (unless --dev is specified)
     benchmark = not args.dev
+
+    # Parse sample_ids from comma-separated string
+    sample_ids = None
+    if args.sample_ids:
+        sample_ids = [s.strip() for s in args.sample_ids.split(",") if s.strip()]
 
     run_result = asyncio.run(
         run_experiment(
@@ -1120,6 +1146,7 @@ def main() -> None:
             regenerate_seed=args.regenerate_seed,
             amos_adaptive=args.amos_adaptive,
             amos_hybrid=args.amos_hybrid,
+            sample_ids=sample_ids,
         )
     )
 

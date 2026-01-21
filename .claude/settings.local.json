@@ -60,7 +60,8 @@
       "Bash(tee:*)",
       "Bash(echo:*)",
       "Bash(__NEW_LINE_f9745691a99f9128__ echo \"\")",
-      "Bash(git -C /Users/jimmyyeh/Documents/Station/dev-ADDM ls-files:*)"
+      "Bash(git -C /Users/jimmyyeh/Documents/Station/dev-ADDM ls-files:*)",
+      "Bash(SAMPLE_IDS=\"lVAjWGOqyZOFHMEw5NLt9g,sf-KdXHB5nxfNjl2uUpI6Q,JrG4NINLspXPNhSXg7Q07Q,gebiRewfieSdtt17PTW6Zg,TCAaeZi4m_RwUTTbZseRmg,eZ-t73r7ETHjyclRB7SnwQ,-Tskf8WK17rb3ZfeFuRSWA,ny1N_Py01kVoGOvL9oKjMQ,zljfjg_zTL3ceGi_Vr4OFw,SZU9c8V2GuREDN5KgyHFJw\")"
     ]
   }
 }
