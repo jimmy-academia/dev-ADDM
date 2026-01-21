@@ -35,5 +35,6 @@ Research benchmark: 72 policy evaluation tasks across restaurant reviews (Yelp).
 | CLI Commands | [.claude/rules/cli-commands.md](rules/cli-commands.md) |
 | Ground Truth Pipeline | [.claude/rules/ground-truth.md](rules/ground-truth.md) |
 | Methods (direct/rlm/rag/amos) | [.claude/rules/methods.md](rules/methods.md) |
+| AMOS Phase 1 | [docs/specs/phase1_formula_seed_generation.md](../docs/specs/phase1_formula_seed_generation.md) |
 | Data Pipeline | [.claude/rules/data-pipeline.md](rules/data-pipeline.md) |
 | Logging Conventions | [.claude/rules/logging.md](rules/logging.md) |
