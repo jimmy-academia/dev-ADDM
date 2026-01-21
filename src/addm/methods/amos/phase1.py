@@ -617,7 +617,12 @@ def _validate_field_references(seed: Dict[str, Any]) -> List[str]:
 
     # Get computed value names (for expr operations that reference other computes)
     computed_names = set()
-    for op in seed.get("compute", []):
+    for i, op in enumerate(seed.get("compute", [])):
+        if not isinstance(op, dict):
+            errors.append(
+                f"compute[{i}]: Expected dict but got {type(op).__name__}: {str(op)[:100]}"
+            )
+            continue
         name = op.get("name", "")
         if name:
             computed_names.add(name.upper())
@@ -627,7 +632,10 @@ def _validate_field_references(seed: Dict[str, Any]) -> List[str]:
     case_when_pattern = re.compile(r"WHEN\s+(\w+)\s*=", re.IGNORECASE)
 
     # Pattern to find field references in where conditions
-    for op in seed.get("compute", []):
+    for i, op in enumerate(seed.get("compute", [])):
+        if not isinstance(op, dict):
+            # Already reported above
+            continue
         op_name = op.get("name", "unknown")
         op_type = op.get("op", "")
 
@@ -665,6 +673,8 @@ def _validate_field_references(seed: Dict[str, Any]) -> List[str]:
                 later_computed = set()
                 found = False
                 for later_op in seed.get("compute", []):
+                    if not isinstance(later_op, dict):
+                        continue
                     if later_op.get("name") == op_name:
                         found = True
                     if found:
@@ -879,8 +889,6 @@ async def generate_formula_seed(
     agenda: str,
     policy_id: str,
     llm: LLMService,
-    cache_dir: Optional[Path] = None,
-    force_regenerate: bool = False,
     approach: Phase1Approach = Phase1Approach.PLAN_AND_ACT,
     react_max_iterations: int = 8,
     reflexion_max_iterations: int = 2,
@@ -888,7 +896,7 @@ async def generate_formula_seed(
     """Generate Formula Seed from agenda prompt using configurable approach.
 
     Phase 1 of AMOS: LLM reads agenda and produces executable specification.
-    Results are cached to disk (data/formula_seeds/{policy_id}.json).
+    Seeds are generated fresh each run and saved to run directory (not globally cached).
 
     Approaches:
     - PLAN_AND_ACT: Fixed 3-step pipeline (OBSERVE → PLAN → ACT). Same cost as legacy.
@@ -902,8 +910,6 @@ async def generate_formula_seed(
         agenda: The task agenda/query prompt
         policy_id: Policy identifier (e.g., "G1_allergy_V2")
         llm: LLM service for API calls
-        cache_dir: Override cache directory (default: data/formula_seeds/)
-        force_regenerate: Force regeneration even if cached
         approach: Which generation approach to use (default: PLAN_AND_ACT)
         react_max_iterations: Max iterations for ReAct approach (default: 8)
         reflexion_max_iterations: Max iterations for Reflexion approach (default: 2)
@@ -911,22 +917,8 @@ async def generate_formula_seed(
     Returns:
         Tuple of (formula_seed, usage_dict)
         - formula_seed: The generated Formula Seed specification
-        - usage_dict: Token/cost usage from all LLM calls (empty if cached)
+        - usage_dict: Token/cost usage from all LLM calls
     """
-    cache_dir = cache_dir or Path("data/formula_seeds")
-    cache_path = cache_dir / f"{policy_id}.json"
-    agenda_hash = _compute_agenda_hash(agenda)
-
-    # Check cache (unless force regenerate)
-    if not force_regenerate and cache_path.exists():
-        with open(cache_path) as f:
-            cached = json.load(f)
-        # Verify agenda hash matches
-        if cached.get("_metadata", {}).get("agenda_hash") == agenda_hash:
-            # Remove metadata before returning
-            seed = {k: v for k, v in cached.items() if not k.startswith("_")}
-            return seed, {}
-
     # =========================================================================
     # Dispatch to Approach
     # =========================================================================
@@ -1014,23 +1006,9 @@ async def generate_formula_seed(
         logger.info(f"Formula Seed fixed after {fix_attempt} attempt(s)")
 
     # =========================================================================
-    # Save to Cache
+    # Return seed (no global caching - saved to run directory by caller)
     # =========================================================================
     total_usage = _accumulate_usage(all_usages)
-
-    seed_with_meta = {
-        **seed,
-        "_metadata": {
-            "agenda_hash": agenda_hash,
-            "policy_id": policy_id,
-            "generated_by": llm._config.get("model", "unknown"),
-            "fix_attempts": fix_attempt,
-            "generation_approach": approach.value,
-        },
-    }
-    cache_dir.mkdir(parents=True, exist_ok=True)
-    with open(cache_path, "w") as f:
-        json.dump(seed_with_meta, f, indent=2)
 
     # Remove intermediate results before returning
     seed_clean = {k: v for k, v in seed.items() if not k.startswith("_")}
@@ -1043,7 +1021,6 @@ async def generate_formula_seed_with_config(
     policy_id: str,
     llm: LLMService,
     config: "AMOSConfig",
-    cache_dir: Optional[Path] = None,
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """Generate Formula Seed using settings from AMOSConfig.
 
@@ -1054,7 +1031,6 @@ async def generate_formula_seed_with_config(
         policy_id: Policy identifier (e.g., "G1_allergy_V2")
         llm: LLM service for API calls
         config: AMOSConfig with phase1_approach and iteration settings
-        cache_dir: Override cache directory (default: data/formula_seeds/)
 
     Returns:
         Tuple of (formula_seed, usage_dict)
@@ -1065,8 +1041,6 @@ async def generate_formula_seed_with_config(
         agenda=agenda,
         policy_id=policy_id,
         llm=llm,
-        cache_dir=cache_dir,
-        force_regenerate=config.force_regenerate,
         approach=config.phase1_approach,
         react_max_iterations=config.react_max_iterations,
         reflexion_max_iterations=config.reflexion_max_iterations,

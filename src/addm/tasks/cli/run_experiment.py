@@ -405,7 +405,6 @@ async def run_experiment(
     mode: Optional[str] = None,
     batch_id: Optional[str] = None,
     top_k: int = 20,
-    regenerate_seed: bool = False,
     amos_adaptive: bool = False,
     amos_hybrid: bool = False,
     sample_ids: Optional[List[str]] = None,
@@ -429,7 +428,6 @@ async def run_experiment(
         token_limit: Token budget for RLM (converts to iterations via ~3000 tokens/iter)
         mode: Explicit mode override ("ondemand" or "24hrbatch").
               In benchmark mode, auto-selected based on quota state if not specified.
-        regenerate_seed: Force regenerate Formula Seed for AMOS method
         amos_adaptive: Enable AMOS adaptive mode (batch processing with early stopping)
         amos_hybrid: Enable AMOS hybrid embedding retrieval
         sample_ids: If provided, only run on these specific business IDs (filters dataset)
@@ -763,7 +761,6 @@ async def run_experiment(
             amos_method = amos_class(
                 policy_id=run_id,
                 max_concurrent=32,
-                force_regenerate=regenerate_seed,
                 adaptive=amos_adaptive,
                 hybrid=amos_hybrid,
                 system_prompt=system_prompt,  # Pass system_prompt for consistency
@@ -1121,11 +1118,6 @@ def main() -> None:
         help="RAG: Number of reviews to retrieve (default: 20, ~10%% of K=200)",
     )
     parser.add_argument(
-        "--regenerate-seed",
-        action="store_true",
-        help="AMOS: Force regenerate Formula Seed even if cached",
-    )
-    parser.add_argument(
         "--amos-adaptive",
         action="store_true",
         help="AMOS: Enable adaptive mode (batch processing with early stopping)",
@@ -1194,8 +1186,7 @@ def main() -> None:
                     mode=args.mode,
                     batch_id=args.batch_id,
                     top_k=args.top_k,
-                    regenerate_seed=args.regenerate_seed,
-                    amos_adaptive=args.amos_adaptive,
+                                        amos_adaptive=args.amos_adaptive,
                     amos_hybrid=args.amos_hybrid,
                     sample_ids=sample_ids,
                     observe=args.observe,
@@ -1250,8 +1241,7 @@ def main() -> None:
                 mode=args.mode,
                 batch_id=args.batch_id,
                 top_k=args.top_k,
-                regenerate_seed=args.regenerate_seed,
-                amos_adaptive=args.amos_adaptive,
+                                amos_adaptive=args.amos_adaptive,
                 amos_hybrid=args.amos_hybrid,
                 sample_ids=sample_ids,
                 observe=args.observe,

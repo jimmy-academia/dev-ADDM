@@ -108,40 +108,45 @@ class LLMService:
         self,
         messages: List[Dict[str, str]],
         context: Optional[Dict[str, Any]] = None,
+        response_format: Optional[Dict[str, Any]] = None,
     ) -> str:
         """Call LLM asynchronously, returning just the response text.
 
         Args:
             messages: List of message dicts with 'role' and 'content'
             context: Optional context for usage tracking (sample_id, run_id, etc.)
+            response_format: Optional response format (e.g., {"type": "json_object"})
 
         Returns:
             Response text from the LLM
         """
-        response, _ = await self._call_async_with_usage(messages, context)
+        response, _ = await self._call_async_with_usage(messages, context, response_format)
         return response
 
     async def call_async_with_usage(
         self,
         messages: List[Dict[str, str]],
         context: Optional[Dict[str, Any]] = None,
+        response_format: Optional[Dict[str, Any]] = None,
     ) -> Tuple[str, Dict[str, Any]]:
         """Call LLM asynchronously, returning response and usage info.
 
         Args:
             messages: List of message dicts with 'role' and 'content'
             context: Optional context for usage tracking (sample_id, run_id, etc.)
+            response_format: Optional response format (e.g., {"type": "json_object"})
 
         Returns:
             Tuple of (response_text, usage_dict)
             usage_dict contains: prompt_tokens, completion_tokens, latency_ms, cost_usd
         """
-        return await self._call_async_with_usage(messages, context)
+        return await self._call_async_with_usage(messages, context, response_format)
 
     async def _call_async_with_usage(
         self,
         messages: List[Dict[str, str]],
         context: Optional[Dict[str, Any]] = None,
+        response_format: Optional[Dict[str, Any]] = None,
     ) -> Tuple[str, Dict[str, Any]]:
         """Internal method that performs the LLM call and tracks usage."""
         provider = self._config["provider"]
@@ -181,6 +186,8 @@ class LLMService:
                     # Many models only support default temperature
                     if max_tokens:
                         kwargs["max_tokens"] = max_tokens
+                    if response_format:
+                        kwargs["response_format"] = response_format
                     resp = await client.chat.completions.create(**kwargs)
                     latency_ms = (time.perf_counter() - start_time) * 1000
                     response = resp.choices[0].message.content

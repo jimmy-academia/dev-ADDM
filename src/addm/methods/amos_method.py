@@ -41,8 +41,6 @@ class AMOSMethod(Method):
         self,
         policy_id: str = "G1_allergy_V2",
         max_concurrent: int = 32,
-        force_regenerate: bool = False,
-        cache_dir: Optional[Path] = None,
         config: Optional[AMOSConfig] = None,
         adaptive: bool = False,
         hybrid: bool = False,
@@ -51,10 +49,8 @@ class AMOSMethod(Method):
         """Initialize AMOS method.
 
         Args:
-            policy_id: Policy identifier for Formula Seed caching
+            policy_id: Policy identifier for this run
             max_concurrent: Max concurrent LLM calls for extraction
-            force_regenerate: Force regenerate Formula Seed even if cached
-            cache_dir: Override cache directory (default: data/formula_seeds/)
             config: Full AMOS configuration (overrides individual params)
             adaptive: Enable adaptive mode (batch processing with early stopping)
             hybrid: Enable hybrid embedding retrieval
@@ -63,8 +59,6 @@ class AMOSMethod(Method):
         """
         self.policy_id = policy_id
         self.max_concurrent = max_concurrent
-        self.force_regenerate = force_regenerate
-        self.cache_dir = cache_dir or Path("results/cache/formula_seeds")
         self.system_prompt = system_prompt  # Stored for consistency with other methods
 
         # Build config from parameters or use provided config
@@ -75,10 +69,9 @@ class AMOSMethod(Method):
                 adaptive=adaptive,
                 hybrid=hybrid,
                 max_concurrent=max_concurrent,
-                force_regenerate=force_regenerate,
             )
 
-        # Cached Formula Seed (loaded on first sample)
+        # Formula Seed (generated once per run, reused for all samples)
         self._seed: Optional[Dict[str, Any]] = None
         self._phase1_usage: Dict[str, Any] = {}
 
@@ -104,6 +97,8 @@ class AMOSMethod(Method):
     async def _get_formula_seed(self, agenda: str, llm: LLMService) -> Dict[str, Any]:
         """Get or generate Formula Seed.
 
+        Seeds are generated fresh each run and reused for all samples within the run.
+
         Args:
             agenda: Task agenda/query prompt
             llm: LLM service for Phase 1 generation
@@ -111,15 +106,13 @@ class AMOSMethod(Method):
         Returns:
             Formula Seed specification
         """
-        if self._seed is not None and not self.force_regenerate:
+        if self._seed is not None:
             return self._seed
 
         seed, usage = await generate_formula_seed(
             agenda=agenda,
             policy_id=self.policy_id,
             llm=llm,
-            cache_dir=self.cache_dir,
-            force_regenerate=self.force_regenerate,
         )
 
         self._seed = seed

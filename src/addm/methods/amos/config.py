@@ -37,7 +37,6 @@ class AMOSConfig:
                 filtering yields few results.
         batch_size: Number of reviews per batch in adaptive mode.
         max_concurrent: Max concurrent LLM calls for extraction.
-        force_regenerate: Force regenerate Formula Seed even if cached.
     """
 
     # Execution mode
@@ -51,7 +50,6 @@ class AMOSConfig:
     max_concurrent: int = 32
 
     # Phase 1
-    force_regenerate: bool = False
     phase1_approach: Phase1Approach = Phase1Approach.PLAN_AND_ACT
     react_max_iterations: int = 8
     reflexion_max_iterations: int = 2

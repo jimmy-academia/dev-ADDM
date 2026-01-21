@@ -533,6 +533,7 @@ async def _observe(
     response, usage = await llm.call_async_with_usage(
         messages,
         context={"phase": "phase1_plan_act", "step": "observe", "policy_id": policy_id},
+        response_format={"type": "json_object"},
     )
 
     try:
@@ -565,6 +566,7 @@ async def _plan(
     response, usage = await llm.call_async_with_usage(
         messages,
         context={"phase": "phase1_plan_act", "step": "plan", "policy_id": policy_id},
+        response_format={"type": "json_object"},
     )
 
     try:
@@ -602,6 +604,7 @@ async def _act(
     response, usage = await llm.call_async_with_usage(
         messages,
         context={"phase": "phase1_plan_act", "step": "act", "policy_id": policy_id},
+        response_format={"type": "json_object"},
     )
 
     seed = _extract_json_from_response(response)
