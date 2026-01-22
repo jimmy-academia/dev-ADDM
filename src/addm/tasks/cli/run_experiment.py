@@ -819,7 +819,7 @@ async def run_experiment(
             amos_class = registry.get("amos")
             amos_method = amos_class(
                 policy_id=run_id,
-                max_concurrent=32,
+                max_concurrent=256,
                 filter_mode=filter_mode,
                 system_prompt=system_prompt,
             )
@@ -924,7 +924,7 @@ async def run_experiment(
                 }
 
             tasks = [process_amos_sample(s) for s in samples]
-            raw_results = await gather_with_concurrency(8, tasks)  # 8 concurrent restaurants
+            raw_results = await gather_with_concurrency(100, tasks)  # 100 concurrent restaurants
             results = [r for r in raw_results if r is not None]
 
             # Save Formula Seed to run directory for artifact tracking

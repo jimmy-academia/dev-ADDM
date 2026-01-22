@@ -40,7 +40,7 @@ class AMOSMethod(Method):
     def __init__(
         self,
         policy_id: str = "G1_allergy_V2",
-        max_concurrent: int = 32,
+        max_concurrent: int = 256,
         config: Optional[AMOSConfig] = None,
         filter_mode: Union[str, FilterMode] = FilterMode.KEYWORD,
         system_prompt: Optional[str] = None,

@@ -316,7 +316,9 @@ Look at observations.policy_type to determine the structure:
 - Modifier fields: one per modifier in observations.scoring_system.modifiers
 
 ### COMPUTE OPERATIONS
-1. N_INCIDENTS: count where <account_field> = <counting_account_type>
+1. N_INCIDENTS: count where <account_field> = <counting_account_type> AND <severity_field> IN ['mild','moderate','severe']
+   - CRITICAL: Only count extractions with actual incidents (severity != 'none')
+   - Example: {{"name": "N_INCIDENTS", "op": "count", "where": {{"ACCOUNT_TYPE": "firsthand", "INCIDENT_SEVERITY": ["mild", "moderate", "severe"]}}}}
 2. BASE_POINTS: sum using EXACT point values from observations.scoring_system.base_point_categories
    Example: "CASE WHEN OUTCOME = 'severe' THEN 15 WHEN OUTCOME = 'moderate' THEN 5 ... ELSE 0 END"
 3. MODIFIER_POINTS: sum using EXACT point values from observations.scoring_system.modifiers
@@ -350,7 +352,9 @@ Use observations.verdict_rules.rules to build:
 - Any additional fields needed for compound conditions
 
 ### COMPUTE OPERATIONS
-1. N_INCIDENTS: count where <account_field> = <counting_account_type>
+1. N_INCIDENTS: count where <account_field> = <counting_account_type> AND <severity_field> IN ['mild','moderate','severe']
+   - CRITICAL: Only count extractions with actual incidents (severity != 'none')
+   - Example: {{"name": "N_INCIDENTS", "op": "count", "where": {{"ACCOUNT_TYPE": "firsthand", "INCIDENT_SEVERITY": ["mild", "moderate", "severe"]}}}}
 2. N_SEVERE: count where <account_field> = <counting_account_type> AND <CATEGORY_FIELD> = "severe"
 3. N_MODERATE: count where <account_field> = <counting_account_type> AND <CATEGORY_FIELD> = "moderate"
 4. (Add more counts as needed for verdict rules)
@@ -417,7 +421,8 @@ OR use compound conditions in a single case:
 
   "compute": [
     // EXACT FORMAT FOR EACH OPERATION:
-    // count: {{"name": "N_INCIDENTS", "op": "count", "where": {{"<account_field>": "<counting_type>"}}}}
+    // count: {{"name": "N_INCIDENTS", "op": "count", "where": {{"ACCOUNT_TYPE": "firsthand", "INCIDENT_SEVERITY": ["mild", "moderate", "severe"]}}}}
+    //        CRITICAL: N_INCIDENTS must filter by BOTH account_type AND severity (exclude "none")
     // sum:   {{"name": "BASE_POINTS", "op": "sum", "expr": "CASE WHEN ... THEN ... ELSE 0 END", "where": {{"<account_field>": "<counting_type>"}}}}
     // expr:  {{"name": "SCORE", "op": "expr", "expr": "BASE_POINTS + MODIFIER_POINTS"}}
     // case:  {{"name": "VERDICT", "op": "case", "source": "SCORE", "rules": [{{"when": ">= 8", "then": "Critical"}}, {{"else": "Low"}}]}}

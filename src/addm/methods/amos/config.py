@@ -64,12 +64,12 @@ class AMOSConfig:
     filter_mode: FilterMode = FilterMode.KEYWORD
 
     # Concurrency
-    max_concurrent: int = 32
+    max_concurrent: int = 256
 
     # Stage 2: Thorough sweep configuration (always on)
-    sweep_batch_size: int = 16
-    max_sweep_reviews: int = 50
-    sweep_early_exit: bool = True
+    sweep_batch_size: int = 256  # Legacy - sweep is now fully parallel
+    max_sweep_reviews: int = 200  # Process all reviews (K=200 max)
+    sweep_early_exit: bool = False  # Disabled - sweep is fully parallel now
 
     # Phase 1 (Formula Seed generation)
     phase1_approach: Phase1Approach = Phase1Approach.PLAN_AND_ACT

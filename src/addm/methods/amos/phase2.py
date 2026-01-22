@@ -23,9 +23,104 @@ from addm.llm import LLMService
 from addm.methods.amos.config import AMOSConfig, FilterMode
 from addm.methods.amos.search.executor import SafeExpressionExecutor
 from addm.methods.amos.search.embeddings import HybridRetriever
+from addm.methods.amos.seed_transform import transform_formula_seed
 from addm.utils.async_utils import gather_with_concurrency
 
 logger = logging.getLogger(__name__)
+
+
+# =============================================================================
+# Enum Value Normalization
+# =============================================================================
+
+# Common variations that map to canonical enum values
+_SEVERITY_NORMALIZATION_MAP = {
+    "none": "none", "no": "none", "n/a": "none", "na": "none",
+    "not applicable": "none", "no incident": "none", "no reaction": "none",
+    "no allergy": "none", "no allergy incident": "none", "no allergic reaction": "none",
+    "no relevant incident": "none", "not relevant": "none", "irrelevant": "none",
+    "no issue": "none", "no issues": "none", "no problem": "none", "no problems": "none",
+    "nothing": "none", "absent": "none", "no symptoms": "none",
+    "mild": "mild", "minor": "mild", "slight": "mild", "minimal": "mild", "low": "mild",
+    "mild incident": "mild", "mild reaction": "mild", "minor incident": "mild",
+    "minor reaction": "mild", "discomfort": "mild",
+    "moderate": "moderate", "medium": "moderate", "moderate incident": "moderate",
+    "moderate reaction": "moderate", "some symptoms": "moderate", "noticeable": "moderate",
+    "severe": "severe", "serious": "severe", "critical": "severe", "high": "severe",
+    "extreme": "severe", "severe incident": "severe", "severe reaction": "severe",
+    "life-threatening": "severe", "life threatening": "severe", "emergency": "severe",
+    "anaphylaxis": "severe", "anaphylactic": "severe", "hospitalization": "severe",
+    "hospital": "severe",
+}
+
+
+def _normalize_enum_value(value: Any, expected_values: List[str]) -> Any:
+    """Normalize an enum value to match expected canonical values.
+
+    Handles common variations in LLM outputs:
+    - "no reaction" -> "none"
+    - "no allergy incident described" -> "none"
+    - Keyword-based fuzzy matching for severity fields
+
+    Args:
+        value: The value to normalize (from LLM extraction)
+        expected_values: List of valid enum values (e.g., ["none", "mild", "moderate", "severe"])
+
+    Returns:
+        Normalized value if a match is found, otherwise original value
+    """
+    if value is None:
+        return value
+
+    value_str = str(value).strip().lower()
+
+    # 1. Exact match
+    for expected in expected_values:
+        if value_str == expected.lower():
+            return expected
+
+    # 2. Check normalization map
+    if value_str in _SEVERITY_NORMALIZATION_MAP:
+        normalized = _SEVERITY_NORMALIZATION_MAP[value_str]
+        for expected in expected_values:
+            if normalized == expected.lower():
+                return expected
+
+    # 3. Keyword-based matching for severity enums
+    expected_lower = {e.lower() for e in expected_values}
+    is_severity_enum = expected_lower & {"none", "mild", "moderate", "severe"}
+
+    if is_severity_enum:
+        none_indicators = ["no ", "none", "n/a", "not ", "absent", "nothing", "irrelevant"]
+        severity_keywords = ["mild", "moderate", "severe", "serious", "critical", "emergency", "life"]
+
+        has_none_indicator = any(ind in value_str for ind in none_indicators)
+        has_severity_keyword = any(kw in value_str for kw in severity_keywords)
+
+        if has_none_indicator and not has_severity_keyword:
+            if "none" in expected_lower:
+                return "none"
+
+        if "life-threatening" in value_str or "life threatening" in value_str:
+            if "severe" in expected_lower:
+                return "severe"
+        if "anaphyla" in value_str:
+            if "severe" in expected_lower:
+                return "severe"
+        if "emergency" in value_str or "hospital" in value_str:
+            if "severe" in expected_lower:
+                return "severe"
+        if "severe" in value_str or "serious" in value_str or "critical" in value_str:
+            if "severe" in expected_lower:
+                return "severe"
+        if "moderate" in value_str or "medium" in value_str:
+            if "moderate" in expected_lower:
+                return "moderate"
+        if "mild" in value_str or "minor" in value_str or "slight" in value_str:
+            if "mild" in expected_lower:
+                return "mild"
+
+    return value
 
 
 def _build_extraction_prompt(
@@ -48,16 +143,19 @@ def _build_extraction_prompt(
         Extraction prompt string
     """
     field_defs = []
+    field_names = []
     for field in fields:
         name = field["name"]
+        field_names.append(name)
         ftype = field.get("type", "enum")
         values = field.get("values", {})
 
         if ftype == "enum" and values:
             value_list = ", ".join(values.keys())
-            field_defs.append(f"{name.upper()} // one of {{{value_list}}}")
+            field_defs.append(f"{name.upper()} // MUST be exactly one of: {{{value_list}}}")
+            field_defs.append("  IMPORTANT: Use ONLY these exact values. Do NOT paraphrase or use synonyms.")
             for value, description in values.items():
-                field_defs.append(f"  - {value}: {description}")
+                field_defs.append(f'  - "{value}": {description}')
             field_defs.append("")
         elif ftype == "int":
             field_defs.append(f"{name.upper()} // integer value")
@@ -74,8 +172,22 @@ def _build_extraction_prompt(
 
     field_definitions = "\n".join(field_defs)
 
-    # Build output format
-    output_fields = ", ".join(f'"{f["name"]}": "<value>"' for f in fields)
+    # Build explicit field list for output constraint
+    allowed_fields_list = ", ".join(f'"{name}"' for name in field_names)
+
+    # Build output format with example values from enum definitions
+    output_field_examples = []
+    for field in fields:
+        name = field["name"]
+        ftype = field.get("type", "enum")
+        values = field.get("values", {})
+        if ftype == "enum" and values:
+            # Use first enum value as example
+            example_value = list(values.keys())[0]
+            output_field_examples.append(f'"{name}": "{example_value}"')
+        else:
+            output_field_examples.append(f'"{name}": <value>')
+    output_fields = ", ".join(output_field_examples)
 
     # Use task-specific guidelines if provided, otherwise generate generic ones
     if extraction_guidelines:
@@ -90,11 +202,26 @@ def _build_extraction_prompt(
 
 {guidelines_section}
 
+STRICT OUTPUT RULES:
+1. ONLY output the fields listed below. Do NOT add any additional fields (no "staff_response", "cuisine_risk", "additional_context", etc.).
+2. For enum fields, you MUST use EXACTLY one of the listed values. Do NOT paraphrase or use synonyms (e.g., use "none" not "no reaction" or "no incident").
+3. The ONLY allowed fields in your output are: "review_id", "is_relevant", "supporting_quote", {allowed_fields_list}
+
 FIELD DEFINITIONS:
 {field_definitions}
 
 REVIEW TEXT:
 {review_text}
+
+WHEN TO SET is_relevant: false
+- If the review does NOT contain any ACTUAL evidence related to {task_name}
+- If the review only mentions ingredients, menu items, or general topics without describing an actual incident or relevant experience
+- If you cannot find a direct quote that demonstrates evidence for the task
+- When in doubt, set is_relevant: false
+
+WHEN TO SET is_relevant: true
+- ONLY if the review contains ACTUAL evidence (a real incident, experience, or observation directly related to {task_name})
+- You must be able to quote specific text that demonstrates the evidence
 
 CRITICAL - EVIDENCE REQUIREMENT:
 You MUST include a "supporting_quote" field with the EXACT text from the review that supports your extraction.
@@ -102,14 +229,14 @@ You MUST include a "supporting_quote" field with the EXACT text from the review 
 - The quote must exist in the review text exactly as written
 - If you cannot quote specific evidence, set is_relevant: false
 
-Output JSON only. If the review does not contain relevant information for this task, output:
+Output JSON only. If the review does not contain relevant evidence for this task, output:
 {{"is_relevant": false}}
 
-Otherwise output:
+Otherwise output ONLY these fields (no extra fields):
 {{
   "review_id": "{review_id}",
   "is_relevant": true,
-  "supporting_quote": "<EXACT text from review that supports your extraction>",
+  "supporting_quote": "<EXACT text from review>",
   {output_fields}
 }}"""
 
@@ -162,7 +289,7 @@ class FormulaSeedInterpreter:
         self,
         seed: Dict[str, Any],
         llm: LLMService,
-        max_concurrent: int = 32,
+        max_concurrent: int = 256,
         config: Optional[AMOSConfig] = None,
     ):
         """Initialize interpreter.
@@ -173,7 +300,9 @@ class FormulaSeedInterpreter:
             max_concurrent: Max concurrent LLM calls for extraction
             config: AMOS configuration (controls adaptive mode, hybrid retrieval, etc.)
         """
-        self.seed = seed
+        # Transform seed to ensure phase2-compatible format
+        # (handles LLM-generated SQL expressions → op/expr/where format)
+        self.seed = transform_formula_seed(seed)
         self.llm = llm
         self.max_concurrent = max_concurrent
         self.config = config or AMOSConfig()
@@ -647,8 +776,8 @@ class FormulaSeedInterpreter:
     ) -> None:
         """Thorough sweep of remaining reviews not matched by keywords.
 
-        Processes unprocessed reviews in batches, adding any relevant extractions
-        to self._extractions. Can early exit during sweep if severe evidence found.
+        Processes ALL unprocessed reviews in parallel, adding any relevant extractions
+        to self._extractions.
 
         Args:
             unprocessed: List of reviews that weren't matched by keyword filter
@@ -670,30 +799,77 @@ class FormulaSeedInterpreter:
                 reverse=True
             )[:max_reviews]
 
-        batch_size = self.config.sweep_batch_size
+        # Run ALL reviews in parallel (no batching for maximum speed)
+        tasks = [self._extract_single_review(r, fields) for r in unprocessed]
+        results = await gather_with_concurrency(self.max_concurrent, tasks)
 
-        for i in range(0, len(unprocessed), batch_size):
-            batch = unprocessed[i : i + batch_size]
+        # Add relevant extractions
+        for r in results:
+            if r.get("is_relevant", False):
+                self._extractions.append(r)
 
-            # Extract batch (reuse existing extraction logic)
-            tasks = [self._extract_single_review(r, fields) for r in batch]
-            results = await gather_with_concurrency(self.max_concurrent, tasks)
+    def _get_enum_values_for_field(self, field_name: str) -> Optional[List[str]]:
+        """Get expected enum values for a field from the Formula Seed.
 
-            # Add relevant extractions
-            for r in results:
-                if r.get("is_relevant", False):
-                    self._extractions.append(r)
+        Args:
+            field_name: Name of the field (e.g., "INCIDENT_SEVERITY")
 
-            # Early exit during sweep if severe found
-            if self.config.sweep_early_exit and len(self._extractions) > 0:
-                self._execute_compute_partial()
-                if self._should_early_exit():
-                    self._sweep_early_stopped = True
-                    logger.debug(
-                        f"Sweep early stopped at batch {i // batch_size + 1}, "
-                        f"total extractions: {len(self._extractions)}"
-                    )
-                    break
+        Returns:
+            List of valid enum values if field is an enum, None otherwise
+        """
+        fields = self.seed.get("extract", {}).get("fields", [])
+        for field in fields:
+            if field.get("name") == field_name and field.get("type") == "enum":
+                values = field.get("values", {})
+                if values:
+                    return list(values.keys())
+        return None
+
+    def _normalize_actual_value(self, field_name: str, actual: Any) -> Any:
+        """Normalize an actual value from extraction for comparison.
+
+        Args:
+            field_name: Name of the field
+            actual: The actual value from extraction
+
+        Returns:
+            Normalized value if field is an enum, otherwise original value
+        """
+        expected_values = self._get_enum_values_for_field(field_name)
+        if expected_values:
+            return _normalize_enum_value(actual, expected_values)
+        return actual
+
+    def _get_field_value(self, extraction: Dict[str, Any], field_name: str) -> Any:
+        """Get field value from extraction, handling case-insensitive lookup.
+
+        Formula Seeds use uppercase field names (e.g., INCIDENT_SEVERITY) while
+        LLM extractions often return lowercase (e.g., incident_severity). This
+        helper tries multiple case variants.
+
+        Args:
+            extraction: Extraction dict with field values
+            field_name: Field name to look up
+
+        Returns:
+            Field value if found, None otherwise
+        """
+        # Try exact match first
+        if field_name in extraction:
+            return extraction[field_name]
+        # Try lowercase
+        lower_name = field_name.lower()
+        if lower_name in extraction:
+            return extraction[lower_name]
+        # Try uppercase
+        upper_name = field_name.upper()
+        if upper_name in extraction:
+            return extraction[upper_name]
+        # Try case-insensitive search through all keys (handles mixed case like Account_Type)
+        for key in extraction:
+            if key.lower() == lower_name:
+                return extraction[key]
+        return None
 
     def _matches_condition(self, extraction: Dict[str, Any], condition: Dict[str, Any]) -> bool:
         """Check if an extraction matches a where condition.
@@ -706,6 +882,8 @@ class FormulaSeedInterpreter:
         - Field/equals with nested: {"field": "X", "equals": "Y", "and": [...]}
         - not_equals: {"field": "X", "not_equals": "Y"}
 
+        Applies enum value normalization for enum fields (e.g., "no reaction" -> "none").
+
         Args:
             extraction: Single extraction result
             condition: Dict of {field: value} to match, or complex condition
@@ -716,23 +894,49 @@ class FormulaSeedInterpreter:
         # Check field/equals at top level first (if present)
         if "field" in condition and ("equals" in condition or "not_equals" in condition):
             field = condition["field"]
-            actual = extraction.get(field)
+            actual = self._get_field_value(extraction, field)
+            # Normalize actual value for enum fields
+            actual = self._normalize_actual_value(field, actual)
 
             if "equals" in condition:
                 expected = condition["equals"]
                 if isinstance(expected, list):
-                    if actual not in expected:
+                    # Case-insensitive list matching for strings
+                    if isinstance(actual, str):
+                        if not any(
+                            actual.lower() == e.lower() if isinstance(e, str) else actual == e
+                            for e in expected
+                        ):
+                            return False
+                    elif actual not in expected:
                         return False
-                elif actual != expected:
-                    return False
+                else:
+                    # Case-insensitive comparison for strings
+                    if isinstance(actual, str) and isinstance(expected, str):
+                        if actual.lower() != expected.lower():
+                            return False
+                    elif actual != expected:
+                        return False
 
             if "not_equals" in condition:
                 not_expected = condition["not_equals"]
                 if isinstance(not_expected, list):
-                    if actual in not_expected:
+                    # Case-insensitive list matching for strings
+                    if isinstance(actual, str):
+                        if any(
+                            actual.lower() == e.lower() if isinstance(e, str) else actual == e
+                            for e in not_expected
+                        ):
+                            return False
+                    elif actual in not_expected:
                         return False
-                elif actual == not_expected:
-                    return False
+                else:
+                    # Case-insensitive comparison for strings
+                    if isinstance(actual, str) and isinstance(not_expected, str):
+                        if actual.lower() == not_expected.lower():
+                            return False
+                    elif actual == not_expected:
+                        return False
 
         # Handle "and" conditions (check all must match)
         if "and" in condition:
@@ -757,14 +961,32 @@ class FormulaSeedInterpreter:
         simple_conditions = {k: v for k, v in condition.items() if k not in special_keys}
 
         for field, expected in simple_conditions.items():
-            actual = extraction.get(field)
-            if isinstance(expected, list):
-                # Match any in list
-                if actual not in expected:
-                    return False
+            actual = self._get_field_value(extraction, field)
+            # Normalize actual value for enum fields
+            actual = self._normalize_actual_value(field, actual)
+
+            # Case-insensitive comparison for string values
+            if isinstance(actual, str) and isinstance(expected, str):
+                matches = actual.lower() == expected.lower()
+            elif isinstance(expected, list):
+                # Match any in list (case-insensitive for strings)
+                if isinstance(actual, str):
+                    matches = any(
+                        actual.lower() == e.lower() if isinstance(e, str) else actual == e
+                        for e in expected
+                    )
+                else:
+                    matches = actual in expected
             else:
-                if actual != expected:
-                    return False
+                matches = actual == expected
+
+            logger.debug(
+                f"[WHERE DEBUG] field={field}, expected={expected!r}, actual={actual!r}, "
+                f"match={matches}"
+            )
+
+            if not matches:
+                return False
 
         return True
 
@@ -772,6 +994,8 @@ class FormulaSeedInterpreter:
         """Check if extraction matches a single condition object.
 
         Handles conditions like: {"field": "SEVERITY", "equals": "severe"}
+        Applies enum value normalization for enum fields.
+        Uses case-insensitive comparison for string values.
 
         Args:
             extraction: Single extraction result
@@ -783,9 +1007,21 @@ class FormulaSeedInterpreter:
         if "field" in condition and "equals" in condition:
             field = condition["field"]
             expected = condition["equals"]
-            actual = extraction.get(field)
+            actual = self._get_field_value(extraction, field)
+            # Normalize actual value for enum fields
+            actual = self._normalize_actual_value(field, actual)
+
+            # Case-insensitive comparison for strings
             if isinstance(expected, list):
+                if isinstance(actual, str):
+                    return any(
+                        actual.lower() == e.lower() if isinstance(e, str) else actual == e
+                        for e in expected
+                    )
                 return actual in expected
+
+            if isinstance(actual, str) and isinstance(expected, str):
+                return actual.lower() == expected.lower()
             return actual == expected
 
         # Fall back to simple matching if not in field/equals format
@@ -860,34 +1096,49 @@ class FormulaSeedInterpreter:
         in_pattern = r"WHEN\s+(\w+)\s+IN\s*\(([^)]+)\)\s+THEN\s+(\d+(?:\.\d+)?)"
         in_matches = re.findall(in_pattern, case_body, re.IGNORECASE)
 
-        for field, value, then_value in matches:
-            actual_value = extraction.get(field, extraction.get(field.upper(), None))
-            if actual_value is None:
-                # Try lowercase field name
-                actual_value = extraction.get(field.lower(), "")
+        # DEBUG: Log CASE evaluation details
+        logger.debug(f"[CASE DEBUG] case_body: {case_body[:100]}...")
+        logger.debug(f"[CASE DEBUG] matches found: {matches}")
 
-            # Compare (case-insensitive for strings)
-            if str(actual_value).lower() == value.lower():
+        for field, value, then_value in matches:
+            actual_value = self._get_field_value(extraction, field)
+            # Normalize enum values before comparison (handles "no reaction" -> "none", etc.)
+            actual_value = self._normalize_actual_value(field, actual_value)
+            logger.debug(
+                f"[CASE DEBUG] checking: field={field}, expected='{value}', "
+                f"actual='{actual_value}', actual_type={type(actual_value).__name__}"
+            )
+            if actual_value is None:
+                actual_value = ""
+
+            # Compare (case-insensitive, exact match for strings)
+            # Use exact matching to avoid "Mild incident" matching when looking for "mild"
+            if str(actual_value).lower().strip() == value.lower().strip():
+                logger.debug(f"[CASE DEBUG] MATCH! returning {then_value}")
                 return float(then_value)
 
         # Check IN clauses
         for field, values_str, then_value in in_matches:
-            actual_value = extraction.get(field, extraction.get(field.upper(), None))
+            actual_value = self._get_field_value(extraction, field)
+            # Normalize enum values before comparison
+            actual_value = self._normalize_actual_value(field, actual_value)
             if actual_value is None:
-                actual_value = extraction.get(field.lower(), "")
+                actual_value = ""
 
             # Parse the values list (e.g., "'Thai','Vietnamese','Chinese'")
             # Remove quotes and split by comma
             values = [v.strip().strip("'\"") for v in values_str.split(",")]
-            if str(actual_value).lower() in [v.lower() for v in values]:
+            if str(actual_value).lower().strip() in [v.lower().strip() for v in values]:
                 return float(then_value)
 
         # Check for ELSE clause
         else_pattern = r"ELSE\s+(\d+(?:\.\d+)?)"
         else_match = re.search(else_pattern, case_body, re.IGNORECASE)
         if else_match:
+            logger.debug(f"[CASE DEBUG] no match, returning ELSE value: {else_match.group(1)}")
             return float(else_match.group(1))
 
+        logger.debug("[CASE DEBUG] no match and no ELSE, returning 0.0")
         return 0.0
 
     def _compute_sum(self, op_def: Dict[str, Any]) -> float:
@@ -900,6 +1151,7 @@ class FormulaSeedInterpreter:
             Sum of expression values across matching extractions
         """
         expr = op_def.get("expr", "1")
+        name = op_def.get("name", "UNNAMED_SUM")
         # Support both canonical 'where' and legacy 'condition' keys
         where = op_def.get("where") or op_def.get("condition", {})
 
@@ -909,11 +1161,19 @@ class FormulaSeedInterpreter:
         total = 0.0
         for extraction in self._extractions:
             if where and not self._matches_condition(extraction, where):
+                logger.debug(
+                    f"[SUM DEBUG] {name}: extraction {extraction.get('review_id')} "
+                    f"skipped - where condition not met"
+                )
                 continue
 
             if is_sql_case:
                 # Handle SQL-style CASE WHEN ... THEN ... END
                 value = self._eval_sql_case_expr(expr, extraction)
+                logger.debug(
+                    f"[SUM DEBUG] {name}: extraction {extraction.get('review_id')} "
+                    f"CASE eval = {value}, fields = {list(extraction.keys())}"
+                )
                 total += value
             else:
                 # Evaluate as Python expression in extraction context
@@ -924,6 +1184,10 @@ class FormulaSeedInterpreter:
                         **self._namespace,
                     }
                     value = eval(expr, {"__builtins__": {}}, safe_namespace)
+                    logger.debug(
+                        f"[SUM DEBUG] {name}: extraction {extraction.get('review_id')} "
+                        f"expr eval = {value}"
+                    )
                     total += float(value)
                 except Exception:
                     pass  # Skip invalid expressions
@@ -943,7 +1207,9 @@ class FormulaSeedInterpreter:
         Returns:
             Result from first matching rule, or None
         """
-        source_value = extraction.get(source, "none")
+        source_value = self._get_field_value(extraction, source)
+        if source_value is None:
+            source_value = "none"
 
         for rule in rules:
             if "else" in rule:
@@ -974,8 +1240,8 @@ class FormulaSeedInterpreter:
                 except (ValueError, TypeError):
                     pass
             else:
-                # Direct value matching
-                if str(source_value) == str(when):
+                # Direct value matching (case-insensitive for strings)
+                if str(source_value).lower() == str(when).lower():
                     return then
 
         return 0  # Default to 0 for scoring purposes
@@ -1200,6 +1466,21 @@ class FormulaSeedInterpreter:
                 snippet = ext.get("supporting_quote", "")
             if not snippet and "_source_text" in ext:
                 snippet = ext["_source_text"][:200]  # Limit snippet length
+
+            # Check if this extraction represents an actual incident
+            # Only create evidence for reviews with incident_severity != "none"
+            severity = ext.get("incident_severity", ext.get("severity", "none"))
+            severity_normalized = str(severity).strip().lower() if severity else "none"
+
+            # Normalize common "no incident" variations to "none"
+            if severity_normalized in _SEVERITY_NORMALIZATION_MAP:
+                severity_normalized = _SEVERITY_NORMALIZATION_MAP[severity_normalized]
+            elif any(ind in severity_normalized for ind in ["no ", "none", "n/a", "not ", "absent", "nothing"]):
+                severity_normalized = "none"
+
+            # Skip extractions that don't represent actual incidents
+            if severity_normalized == "none":
+                continue
 
             for field, value in ext.items():
                 # Skip internal fields, metadata, and supporting_quote (stored as _snippet)

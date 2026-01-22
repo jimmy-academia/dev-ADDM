@@ -72,8 +72,11 @@ def normalize_verdict(verdict: Optional[str], policy_id: Optional[str] = None) -
     if verdict is None:
         return None
 
+    # Convert to string if needed (AMOS may return int verdicts)
+    verdict_str = str(verdict) if not isinstance(verdict, str) else verdict
+
     # Strip whitespace and quotes (single, double, backticks) from either end
-    normalized = verdict.strip().strip("'\"`").strip()
+    normalized = verdict_str.strip().strip("'\"`").strip()
 
     if not normalized:
         return None

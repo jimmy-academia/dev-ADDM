@@ -2,6 +2,30 @@
 
 Research benchmark: 72 policy evaluation tasks across restaurant reviews (Yelp).
 
+---
+
+## ⚠️ MULTI-AGENT COORDINATION (2026-01-22)
+
+**5 Claude agents are currently active.** Multiple agents are working on AMOS fixes.
+
+**Before editing AMOS files**, check this coordination log:
+
+| Agent | Terminal | Working On | Status |
+|-------|----------|------------|--------|
+| Agent 1 | s005 | Coordinator (this note) | Active |
+| Agent 2 | s001 | eval/metrics.py type bug fix | Active |
+| Agent 3 | s007 | ? | Active |
+| Agent 4 | s000 | ? | Sleeping |
+| Agent 5 | s006 | ? | Sleeping |
+
+**Files at risk of conflict:**
+- `src/addm/methods/amos/phase2.py` - 230+ uncommitted changes
+- `src/addm/methods/amos/seed_transform.py` - new untracked file
+
+**BEFORE editing AMOS**: Update this table with what you're working on. ASK the user if unsure.
+
+---
+
 ## Critical Rules
 
 - **Python**: Always use `.venv/bin/python`
