@@ -47,7 +47,7 @@ All components complete and working:
 
 This session also touched on ground truth generation:
 - **Decision**: Use Option A (single OpenAI batch) for batch mode
-- **Finding**: `extract.py` already implements `--mode 24hrbatch`
+- **Finding**: `extract.py` already implements `--mode batch`
 - **Next**: If GT work continues, may need batch mode in `compute_gt.py`
 
 ## Key Files

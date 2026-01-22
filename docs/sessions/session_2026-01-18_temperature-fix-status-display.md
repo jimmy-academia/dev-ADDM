@@ -5,7 +5,7 @@
 
 ## Summary
 
-Fixed the temperature=0 issue that caused all gpt-5-mini batch requests to fail. Removed temperature parameter from all LLM calls (models use default 1.0). Added per-model cache status display and fixed `--dry-run` to work in 24hrbatch mode.
+Fixed the temperature=0 issue that caused all gpt-5-mini batch requests to fail. Removed temperature parameter from all LLM calls (models use default 1.0). Added per-model cache status display and fixed `--dry-run` to work in batch mode.
 
 ## Decisions Made
 
@@ -34,7 +34,7 @@ Fixed the temperature=0 issue that caused all gpt-5-mini batch requests to fail.
   ```
 
 ### Dry-Run Fix
-- `--dry-run` now works in 24hrbatch mode (skips batch submission)
+- `--dry-run` now works in batch mode (skips batch submission)
 
 ### Output Cleanup
 - Converted all `print()` calls to `output.()` in extract.py
@@ -49,7 +49,7 @@ Fixed the temperature=0 issue that caused all gpt-5-mini batch requests to fail.
 
 1. Submit the missing extractions:
    ```bash
-   .venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --mode 24hrbatch
+   .venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --mode batch
    ```
 2. After batch completes (~24hrs), aggregation will auto-run
 3. Then compute ground truth:

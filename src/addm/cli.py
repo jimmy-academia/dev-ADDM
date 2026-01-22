@@ -21,7 +21,7 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     parser.add_argument(
         "--mode",
         default="ondemand",
-        choices=["ondemand", "24hrbatch"],
+        choices=["ondemand", "batch"],
         help="LLM execution mode",
     )
     parser.add_argument("--batch-id", default=None, help="Batch ID for fetch-only runs")

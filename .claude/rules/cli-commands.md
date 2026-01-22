@@ -26,7 +26,7 @@
 .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 --phase 2 --seed results/dev/seeds/ -n 5 --method amos --dev
 
 # Batch mode (24hr async)
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100 --mode batch
 
 # Legacy task ID (still works)
 .venv/bin/python -m addm.tasks.cli.run_experiment --task G1a -n 5
@@ -36,7 +36,7 @@
 
 ```bash
 # Step 1: Extract L0 judgments
-.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode batch
 
 # Step 2: Compute GT from extractions
 .venv/bin/python -m addm.tasks.cli.compute_gt --policy G1_allergy_V2 --k 200

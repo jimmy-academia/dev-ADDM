@@ -460,7 +460,7 @@ async def run_experiment(
         force: If True, create new run even if quota met
         method: Method to use - "direct" (default), "rlm", "rag", or "amos"
         token_limit: Token budget for RLM (converts to iterations via ~3000 tokens/iter)
-        mode: Explicit mode override ("ondemand" or "24hrbatch").
+        mode: Explicit mode override ("ondemand" or "batch").
               In benchmark mode, auto-selected based on quota state if not specified.
         amos_adaptive: Enable AMOS adaptive mode (batch processing with early stopping)
         amos_hybrid: Enable AMOS hybrid embedding retrieval
@@ -523,7 +523,7 @@ async def run_experiment(
     results_manager = get_results_manager()
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-    # Determine run mode (ondemand vs 24hrbatch)
+    # Determine run mode (ondemand vs batch)
     effective_mode = mode  # Explicit override takes precedence
 
     # Determine output directory based on run type
@@ -617,9 +617,9 @@ async def run_experiment(
             system_prompt=system_prompt,
         )
 
-    if effective_mode == "24hrbatch":
+    if effective_mode == "batch":
         if method in ["rlm", "rag"]:
-            raise ValueError("24hrbatch mode is only supported for method=direct")
+            raise ValueError("batch mode is only supported for method=direct")
 
         batch_client = BatchClient()
 
@@ -1216,7 +1216,7 @@ def main() -> None:
         "--mode",
         type=str,
         default=None,
-        choices=["ondemand", "24hrbatch"],
+        choices=["ondemand", "batch"],
         help="LLM execution mode (auto-selected in benchmark mode if not specified)",
     )
     parser.add_argument("--batch-id", type=str, default=None, help="Batch ID for fetch-only runs")

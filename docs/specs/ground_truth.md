@@ -99,11 +99,11 @@ On subsequent runs:
 ```bash
 # Extract for a topic (shared by V0-V3 policies)
 .venv/bin/python -m addm.tasks.cli.extract \
-    --topic G1_allergy --k 50 --mode 24hrbatch
+    --topic G1_allergy --k 50 --mode batch
 
 # Or derive topic from policy
 .venv/bin/python -m addm.tasks.cli.extract \
-    --policy G1_allergy_V2 --k 50 --mode 24hrbatch
+    --policy G1_allergy_V2 --k 50 --mode batch
 ```
 
 This submits a batch with 9 requests per review (multi-model) and installs a cron job to poll for completion.
@@ -201,12 +201,12 @@ The system supports incremental extraction:
 Example:
 ```bash
 # First run: extracts all 9 runs per review
-.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 50 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 50 --mode batch
 
 # Batch fails partway through...
 
 # Second run: only extracts missing runs
-.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 50 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 50 --mode batch
 ```
 
 ## Human Override System

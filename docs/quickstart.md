@@ -28,7 +28,7 @@ Extract L0 judgments using multi-model ensemble:
 .venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 50 --mode ondemand
 
 # Or 24hr batch mode (cheaper, for production)
-.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 50 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 50 --mode batch
 ```
 
 Extractions are cached in `data/answers/yelp/judgement_cache.json`.
@@ -88,7 +88,7 @@ The `results.json` contains:
 
 ```bash
 # More samples with batch mode
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100 --mode batch
 
 # Larger context size
 .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --k 200

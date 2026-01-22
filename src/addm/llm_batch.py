@@ -1,4 +1,4 @@
-"""OpenAI Batch API helpers for 24hrbatch mode."""
+"""OpenAI Batch API helpers for batch mode."""
 
 from __future__ import annotations
 

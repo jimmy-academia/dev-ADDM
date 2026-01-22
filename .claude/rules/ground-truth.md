@@ -8,10 +8,10 @@ Multi-model ensemble extraction (default: gpt-5-mini:1, gpt-5-nano:3)
 
 ```bash
 # Single topic
-.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode batch
 
 # All topics
-.venv/bin/python -m addm.tasks.cli.extract --k 200 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.extract --k 200 --mode batch
 
 # Custom model config
 .venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 \

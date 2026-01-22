@@ -23,7 +23,7 @@ These are **separate and complementary**:
 
 - **Rich formatting**: Colors, tables, progress bars, rules
 - **Severity levels**: info, success, warn, error, status
-- **Mode-aware**: Adjusts verbosity for ondemand vs 24hrbatch
+- **Mode-aware**: Adjusts verbosity for ondemand vs batch
 - **Quiet mode**: Suppress verbose output with `--quiet`
 
 ### Usage

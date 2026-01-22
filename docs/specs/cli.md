@@ -72,12 +72,12 @@ Run baseline methods (direct, RLM, RAG, AMOS) on benchmark tasks.
 
 | Flag | Description | Default |
 |------|-------------|---------|
-| `--mode` | Execution mode: `ondemand` or `24hrbatch` | `ondemand` |
+| `--mode` | Execution mode: `ondemand` or `batch` | `ondemand` |
 | `--batch-id` | Batch ID for fetch-only runs | `None` |
 
 **Modes:**
 - `ondemand`: Synchronous API calls, immediate results
-- `24hrbatch`: Async batch API, 24-hour processing window (~50% cheaper)
+- `batch`: Async batch API, 24-hour processing window (~50% cheaper)
 
 ### Examples
 
@@ -98,7 +98,7 @@ Run baseline methods (direct, RLM, RAG, AMOS) on benchmark tasks.
 .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 10 --method amos --regenerate-seed
 
 # Batch mode (async, 24hr)
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100 --mode batch
 
 # Different K value
 .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --k 50
@@ -123,13 +123,13 @@ Extract L0 (review-level) judgments using multi-model ensemble. First step of gr
 
 ```bash
 # Single topic (recommended for Phase I)
-.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode batch
 
 # All topics (for full benchmark)
-.venv/bin/python -m addm.tasks.cli.extract --all --k 200 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.extract --all --k 200 --mode batch
 
 # Derive topic from policy
-.venv/bin/python -m addm.tasks.cli.extract --policy G1_allergy_V2 --k 200 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.extract --policy G1_allergy_V2 --k 200 --mode batch
 ```
 
 ### Target Selection
@@ -178,7 +178,7 @@ Extract L0 (review-level) judgments using multi-model ensemble. First step of gr
 | `--provider` | LLM provider | `openai` |
 | `--model` | LLM model (task mode only) | `gpt-5-nano` |
 | `--concurrency` | Max concurrent requests | `10` |
-| `--mode` | Execution mode: `ondemand` or `24hrbatch` | `24hrbatch` |
+| `--mode` | Execution mode: `ondemand` or `batch` | `batch` |
 
 ### Status & Control
 
@@ -215,24 +215,24 @@ Use `--invalidate` if term definitions changed and you need to re-extract.
 
 ```bash
 # Single topic, default config (4 runs)
-.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode batch
 
 # High-quality extraction (9 runs)
-.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode 24hrbatch \
+.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode batch \
     --models "gpt-5.1:1,gpt-5-mini:3,gpt-5-nano:5"
 
 # Single model (fastest, no ensemble)
-.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode 24hrbatch \
+.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode batch \
     --models "gpt-5-nano:1"
 
 # All topics
-.venv/bin/python -m addm.tasks.cli.extract --all --k 200 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.extract --all --k 200 --mode batch
 
 # Dry run (test without API calls)
 .venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --dry-run
 
 # With progress status
-.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode 24hrbatch --show-status
+.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode batch --show-status
 
 # Check specific manifest status
 .venv/bin/python -m addm.tasks.cli.extract --manifest-id manifest_G1_allergy_K200_20240118
@@ -401,7 +401,7 @@ Quick reference for default values across all CLIs:
 |------|--------------|---------|------------|----------|
 | `--domain` | `yelp` | `yelp` | `yelp` | N/A |
 | `--k` | `200` | `200` | `200` | N/A |
-| `--mode` | `ondemand` | `24hrbatch` | N/A | N/A |
+| `--mode` | `ondemand` | `batch` | N/A | N/A |
 | `--model` | `gpt-5-nano` | `gpt-5-nano` | N/A | N/A |
 | `--method` | `direct` | N/A | N/A | N/A |
 | `--models` | N/A | `gpt-5-mini:1,gpt-5-nano:3` | N/A | N/A |
@@ -415,7 +415,7 @@ Quick reference for default values across all CLIs:
 
 ```bash
 # Step 1: Extract L0 judgments (multi-model, 24hr batch)
-.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode batch
 
 # Wait for batches to complete (cron job polls automatically)
 # Or monitor: tail -f results/logs/extraction/g1_allergy.log
@@ -434,7 +434,7 @@ Quick reference for default values across all CLIs:
 
 ```bash
 # Step 1: Extract all topics
-.venv/bin/python -m addm.tasks.cli.extract --all --k 200 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.extract --all --k 200 --mode batch
 
 # Step 2: Compute all ground truths
 .venv/bin/python -m addm.tasks.cli.compute_gt --all

@@ -35,7 +35,7 @@ Or naturally: "hello", "what was I working on?", "catch me up"
 
 🎯 SUGGESTED TODOS
 
-- [ ] Continue GT generation: add --mode 24hrbatch to compute_gt.py
+- [ ] Continue GT generation: add --mode batch to compute_gt.py
 - [ ] Open question: PolicyIR scoring implementation?
 
 ─────────────────────────────────────────

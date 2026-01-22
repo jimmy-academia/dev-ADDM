@@ -406,8 +406,12 @@ def compute_ground_truth(
     for name, table in parsed_prompt.lookup_tables.items():
         ctx[name] = evaluate_lookup(table, categories)
 
-    # 3. Filter to allergy-related judgments and compute L1
-    allergy_judgments = [j for j in judgments if j.get("is_allergy_related", False)]
+    # 3. Filter to relevant judgments and compute L1
+    # Support both is_relevant (new) and is_allergy_related (legacy)
+    allergy_judgments = [
+        j for j in judgments
+        if j.get("is_relevant", j.get("is_allergy_related", False))
+    ]
 
     for j in allergy_judgments:
         l1 = compute_l1_for_record(j, parsed_prompt.l1_composites)

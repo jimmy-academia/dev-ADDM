@@ -1,10 +1,10 @@
-# LLM Modes: ondemand vs 24hrbatch
+# LLM Modes: ondemand vs batch
 
 This document records the design and implementation plan for supporting two
 LLM execution modes:
 
 - `ondemand`: current online calls (default).
-- `24hrbatch`: offline batch submission with periodic fetch via cron.
+- `batch`: offline batch submission with periodic fetch via cron.
 
 ## Design goals
 
@@ -17,7 +17,7 @@ LLM execution modes:
 ## CLI behavior
 
 New/updated flags:
-- `--mode {ondemand,24hrbatch}` (default: `ondemand`)
+- `--mode {ondemand,batch}` (default: `ondemand`)
 - `--batch-id <id>` optional; if present, fetch-only mode for cron runs.
 
 No explicit `--batch-submit`/`--batch-fetch` flags. The presence of
@@ -52,7 +52,7 @@ Batch flow adds a small OpenAI batch client module (new file), used by:
 - `src/addm/tasks/cli/extract.py` (per-review judgments)
 - `src/addm/tasks/cli/run_experiment.py` (per-restaurant judgments)
 
-## 24hrbatch flow
+## batch flow
 
 Submit:
 1) Build batch request items with `custom_id`.
@@ -81,21 +81,21 @@ If not complete, exit quietly; cron will retry.
 
 ### Installing a cron job
 
-When running with `--mode 24hrbatch`, a cron job is automatically installed:
+When running with `--mode batch`, a cron job is automatically installed:
 
 ```python
 from addm.utils.cron import install_batch_cron
 
 install_batch_cron(
     batch_id="batch_abc123",
-    command="path/to/python -m addm.tasks.cli.run_experiment --batch-id batch_abc123 --mode 24hrbatch",
+    command="path/to/python -m addm.tasks.cli.run_experiment --batch-id batch_abc123 --mode batch",
     marker="addm_G1a_20260116_143022"
 )
 ```
 
 **Cron line format:**
 ```bash
-*/5 * * * * cd /path/to/repo && .venv/bin/python -m addm.tasks.cli.run_experiment --batch-id batch_abc123 --mode 24hrbatch >> /path/to/logs/cron.log 2>&1  # ADDM_BATCH_batch_abc123
+*/5 * * * * cd /path/to/repo && .venv/bin/python -m addm.tasks.cli.run_experiment --batch-id batch_abc123 --mode batch >> /path/to/logs/cron.log 2>&1  # ADDM_BATCH_batch_abc123
 ```
 
 **Key features:**

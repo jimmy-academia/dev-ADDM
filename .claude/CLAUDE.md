@@ -19,7 +19,7 @@ Research benchmark: 72 policy evaluation tasks across restaurant reviews (Yelp).
 .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --dev
 
 # Extract ground truth
-.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode batch
 
 # Compute GT from extractions
 .venv/bin/python -m addm.tasks.cli.compute_gt --policy G1_allergy_V2 --k 200

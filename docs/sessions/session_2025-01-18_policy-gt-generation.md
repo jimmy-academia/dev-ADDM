@@ -5,7 +5,7 @@
 
 ## Summary
 
-Implemented the full policy-based ground truth generation system with multi-model extraction, weighted majority voting, and two-step flow (extract → compute_gt). Tested both ondemand and 24hrbatch modes successfully with small samples.
+Implemented the full policy-based ground truth generation system with multi-model extraction, weighted majority voting, and two-step flow (extract → compute_gt). Tested both ondemand and batch modes successfully with small samples.
 
 ## Decisions Made
 
@@ -14,7 +14,7 @@ Implemented the full policy-based ground truth generation system with multi-mode
 - **Weighted majority voting**: Aggregate 9 extractions per field using model weights
 - **Term version tracking**: SHA-256 hash of L0 schema stored in cache metadata; warns on mismatch
 - **Dual cache**: Raw (per model/run) + Aggregated (final voted result) in `policy_cache.json`
-- **Default K=200, mode=24hrbatch**: Changed from K=50, ondemand
+- **Default K=200, mode=batch**: Changed from K=50, ondemand
 - **`--all` flag**: Defaults to extracting all 18 topics (G1-G6 × 3 topics each)
 - **`--models` flag**: Allows custom config like `gpt-5-nano:1` for testing
 
@@ -23,7 +23,7 @@ Implemented the full policy-based ground truth generation system with multi-mode
 - All code implemented and tested
 - Small test passed:
   - ondemand: G1_allergy, 2 restaurants, gpt-5-nano:1 → 50 reviews extracted
-  - 24hrbatch: G1_dietary, 1 restaurant, gpt-5-nano:1 → batch submitted, completed, processed, cron cleaned
+  - batch: G1_dietary, 1 restaurant, gpt-5-nano:1 → batch submitted, completed, processed, cron cleaned
 - compute_gt tested: Generated GT files for V0-V3 policies
 
 **Ready for full extraction** but user ended session before running.

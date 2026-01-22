@@ -175,7 +175,7 @@ If work is completed (not just paused):
 **What**: Designed batch mode approach for GT generation. Chose Option A (single OpenAI batch) over concurrent batches for simplicity.
 
 **Files**:
-- `src/addm/tasks/cli/extract.py` - Has `--mode 24hrbatch` support
+- `src/addm/tasks/cli/extract.py` - Has `--mode batch` support
 - `src/addm/tasks/cli/compute_gt.py` - Needs PolicyIR support (currently uses old formulas)
 - `src/addm/llm_batch.py` - BatchClient infrastructure
 

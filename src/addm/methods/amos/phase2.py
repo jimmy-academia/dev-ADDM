@@ -17,7 +17,7 @@ import json
 import logging
 import re
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple, TYPE_CHECKING
 
 from addm.llm import LLMService
 from addm.methods.amos.config import AMOSConfig
@@ -28,8 +28,25 @@ from addm.utils.async_utils import gather_with_concurrency
 logger = logging.getLogger(__name__)
 
 
-def _build_extraction_prompt(fields: List[Dict[str, Any]], review_text: str, review_id: str) -> str:
-    """Build extraction prompt from Formula Seed field definitions."""
+def _build_extraction_prompt(
+    fields: List[Dict[str, Any]],
+    review_text: str,
+    review_id: str,
+    task_name: str = "relevant information",
+    extraction_guidelines: Optional[str] = None,
+) -> str:
+    """Build extraction prompt from Formula Seed field definitions.
+
+    Args:
+        fields: List of field definitions from Formula Seed
+        review_text: The review text to analyze
+        review_id: Review identifier
+        task_name: Human-readable task description (e.g., "allergy safety", "romantic dining")
+        extraction_guidelines: Optional task-specific extraction guidelines
+
+    Returns:
+        Extraction prompt string
+    """
     field_defs = []
     for field in fields:
         name = field["name"]
@@ -60,14 +77,18 @@ def _build_extraction_prompt(fields: List[Dict[str, Any]], review_text: str, rev
     # Build output format
     output_fields = ", ".join(f'"{f["name"]}": "<value>"' for f in fields)
 
-    prompt = f"""Extract the following fields from this review about ALLERGY SAFETY INCIDENTS.
+    # Use task-specific guidelines if provided, otherwise generate generic ones
+    if extraction_guidelines:
+        guidelines_section = f"EXTRACTION GUIDELINES:\n{extraction_guidelines}"
+    else:
+        guidelines_section = """EXTRACTION GUIDELINES:
+- Only extract fields that are explicitly mentioned or strongly implied in the review
+- If a field is not discussed or cannot be determined, use the default/none value
+- Focus on factual content, not inferences"""
 
-CRITICAL GUIDELINES FOR INCIDENT_SEVERITY:
-- Set to "none" UNLESS the review describes an ACTUAL adverse reaction or near-miss due to allergen exposure
-- Menu items mentioned (e.g., "crab cake", "shrimp pasta", "peanut sauce") are NOT incidents
-- Positive allergy experiences (e.g., "they accommodated my allergy well") are NOT incidents
-- General service complaints unrelated to allergies are NOT incidents
-- Only mark as mild/moderate/severe if the reviewer describes actual symptoms or a scary situation
+    prompt = f"""Extract the following fields from this review for {task_name}.
+
+{guidelines_section}
 
 FIELD DEFINITIONS:
 {field_definitions}
@@ -75,10 +96,8 @@ FIELD DEFINITIONS:
 REVIEW TEXT:
 {review_text}
 
-Output JSON only. If the review does not discuss allergies, dietary restrictions, or food sensitivities AT ALL, output:
+Output JSON only. If the review does not contain relevant information for this task, output:
 {{"is_relevant": false}}
-
-If the review mentions allergies but there was NO actual incident (just positive accommodation or menu mentions), set INCIDENT_SEVERITY to "none".
 
 Otherwise output:
 {{
@@ -240,7 +259,15 @@ class FormulaSeedInterpreter:
         temporal_field_names = {"REVIEW_DATE", "AGE_YEARS"}
         llm_fields = [f for f in fields if f.get("name") not in temporal_field_names]
 
-        prompt = _build_extraction_prompt(llm_fields, review_text, review_id)
+        # Get task context from seed for dynamic prompt generation
+        task_name = self.seed.get("task_name", "relevant information")
+        extraction_guidelines = self.seed.get("extraction_guidelines")
+
+        prompt = _build_extraction_prompt(
+            llm_fields, review_text, review_id,
+            task_name=task_name,
+            extraction_guidelines=extraction_guidelines,
+        )
         messages = [{"role": "user", "content": prompt}]
 
         response, usage = await self.llm.call_async_with_usage(

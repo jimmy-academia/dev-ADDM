@@ -56,7 +56,7 @@ Common issues and solutions for the ADDM framework.
 
 **Fix:** Use batch mode for large runs:
 ```bash
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100 --mode 24hrbatch
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100 --mode batch
 ```
 
 ### "Token limit exceeded"
@@ -95,7 +95,7 @@ Common issues and solutions for the ADDM framework.
 2. If stuck >24h, cancel and resubmit:
    ```bash
    # Cancel via OpenAI dashboard, then resubmit
-   .venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 50 --mode 24hrbatch
+   .venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 50 --mode batch
    ```
 
 ### "Cron job not running"

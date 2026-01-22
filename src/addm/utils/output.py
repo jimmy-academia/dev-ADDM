@@ -1,7 +1,7 @@
 """Centralized output for ADDM CLI.
 
 Provides Rich-formatted console output with convenience methods.
-Mode-aware: adjusts output for ondemand vs 24hrbatch execution.
+Mode-aware: adjusts output for ondemand vs batch execution.
 """
 
 from typing import Any, List, Optional
@@ -41,7 +41,7 @@ class OutputManager:
 
         Args:
             quiet: Suppress verbose output
-            mode: Execution mode (ondemand or 24hrbatch)
+            mode: Execution mode (ondemand or batch)
         """
         self._quiet = quiet
         self._mode = mode

@@ -57,7 +57,7 @@ Task prompts: `data/query/yelp/G{1-6}{a-l}_prompt.txt` or `G{n}_{topic}_V{0-3}_p
 ## Baselines & Methods
 
 - [Baselines (BASELINES.md)](BASELINES.md) - Implemented baseline methods with citations
-- [LLM Modes (specs/llm_modes.md)](specs/llm_modes.md) - Ondemand vs 24hrbatch execution
+- [LLM Modes (specs/llm_modes.md)](specs/llm_modes.md) - Ondemand vs batch execution
 
 ## Developer Guides
 

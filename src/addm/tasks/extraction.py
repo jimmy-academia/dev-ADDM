@@ -378,12 +378,12 @@ REVIEW TEXT:
 {review_text}
 
 If this review contains relevant content, extract the L0 primitives.
-If no relevant content, output: {{"is_allergy_related": false}}
+If no relevant content, output: {{"is_relevant": false}}
 
 Output JSON only:
 {{
   "review_id": "{review_id}",
-  "is_allergy_related": true,
+  "is_relevant": true,
   {output_fields}
 }}"""
 
@@ -407,7 +407,8 @@ def validate_judgment(
     Returns:
         Validated judgment with normalized field values
     """
-    if not judgment.get("is_allergy_related", False):
+    # Support both field names for backward compatibility
+    if not judgment.get("is_relevant", judgment.get("is_allergy_related", False)):
         return judgment
 
     validated = dict(judgment)

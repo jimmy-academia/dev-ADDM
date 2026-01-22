@@ -6,10 +6,10 @@ Usage:
     python -m addm.tasks.cli.extract --task G1a --domain yelp --k 50 --limit 5
 
     # Policy-based extraction (multi-model for GT)
-    python -m addm.tasks.cli.extract --topic G1_allergy --k 50 --mode 24hrbatch
+    python -m addm.tasks.cli.extract --topic G1_allergy --k 50 --mode batch
 
     # Or derive topic from policy
-    python -m addm.tasks.cli.extract --policy G1_allergy_V2 --k 50 --mode 24hrbatch
+    python -m addm.tasks.cli.extract --policy G1_allergy_V2 --k 50 --mode batch
 """
 
 import argparse
@@ -441,8 +441,8 @@ async def extract_reviews_for_restaurant(
             new_extractions += 1
 
             if verbose:
-                is_allergy = judgment.get("is_allergy_related", False)
-                output.print(f"  {review_id[:8]}... allergy={is_allergy}")
+                is_rel = judgment.get("is_relevant", judgment.get("is_allergy_related", False))
+                output.print(f"  {review_id[:8]}... relevant={is_rel}")
 
         except Exception as e:
             output.error(f"  Error parsing {review_id}: {e}")
@@ -483,7 +483,7 @@ async def main_task_async(args: argparse.Namespace) -> None:
         if args.dry_run:
             # Mock responses for dry run
             def mock_responder(messages):
-                return '{"is_allergy_related": false}'
+                return '{"is_relevant": false}'
             llm.configure(provider="mock")
             llm.set_mock_responder(mock_responder)
         else:
@@ -524,7 +524,7 @@ async def main_task_async(args: argparse.Namespace) -> None:
         return
 
     if args.provider != "openai":
-        output.error("24hrbatch mode only supports provider=openai")
+        output.error("batch mode only supports provider=openai")
         return
 
     if args.batch_id:
@@ -643,7 +643,7 @@ def _get_judgement_cache_path(domain: str) -> Path:
 async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
     """Main async entry point for policy-based multi-model extraction."""
     # Check for existing batch jobs (only if not already processing a manifest/batch)
-    if not args.manifest_id and not args.batch_id and args.mode == "24hrbatch":
+    if not args.manifest_id and not args.batch_id and args.mode == "batch":
         if _check_and_report_status(args, topic):
             return  # Existing job found, status reported, exit
 
@@ -672,7 +672,9 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
 
     # Initialize policy cache
     cache_path = _get_judgement_cache_path(args.domain)
+    output.status(f"Loading cache from {cache_path.name}...")
     cache = PolicyJudgmentCache(cache_path)
+    output.status(f"Cache loaded: {len(cache._data.get('raw', {}))} raw entries")
 
     # Check term hash for version mismatch
     if not cache.check_term_hash(topic, term_hash):
@@ -732,7 +734,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         llm = LLMService()
         if args.dry_run:
             def mock_responder(messages):
-                return '{"is_allergy_related": false}'
+                return '{"is_relevant": false}'
             llm.configure(provider="mock")
             llm.set_mock_responder(mock_responder)
         else:
@@ -793,7 +795,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
                         output.print(f"  + Extracted: {review_id[:12]}... {model} run{run}")
 
                         if args.verbose:
-                            is_rel = judgment.get("is_allergy_related", False)
+                            is_rel = judgment.get("is_relevant", judgment.get("is_allergy_related", False))
                             output.print(f"    {review_id[:8]}... {model} run{run} rel={is_rel}")
 
                     except Exception as e:
@@ -840,7 +842,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         return
 
     if args.provider != "openai":
-        output.error("24hrbatch mode only supports provider=openai")
+        output.error("batch mode only supports provider=openai")
         return
 
     if args.batch_id:
@@ -1236,7 +1238,9 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
 
     # Initialize cache
     cache_path = _get_judgement_cache_path(args.domain)
+    output.status(f"Loading cache from {cache_path.name}...")
     cache = PolicyJudgmentCache(cache_path)
+    output.status(f"Cache loaded: {len(cache._data.get('raw', {}))} raw entries")
 
     # Check term hashes and set metadata
     for topic, term_hash in topic_hashes.items():
@@ -1258,12 +1262,14 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
         cache.set_topic_metadata(topic, term_hash, models_config)
 
     if args.mode == "ondemand":
-        output.error("--all requires 24hrbatch mode (too many requests for ondemand)")
-        output.print("        Use: --mode 24hrbatch")
+        total_requests = len(restaurants) * 200 * len(topic_schemas) * total_runs
+        output.error(f"--all mode requires batch (ondemand not implemented for {total_requests:,} requests)")
+        output.print("        Use: --mode batch (50% cheaper, 24hr processing)")
+        output.print("        Or use --topic <single_topic> for ondemand")
         return
 
     if args.provider != "openai":
-        output.error("24hrbatch mode only supports provider=openai")
+        output.error("batch mode only supports provider=openai")
         return
 
     # Handle manifest-based multi-batch processing for --all mode
@@ -1399,8 +1405,12 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
         _delete_manifest(args.domain, args.manifest_id)
 
         # Check if extraction is complete for all topics
+        output.info("Checking extraction completeness for all topics...")
         missing_total = 0
-        for topic, l0_schema in topic_schemas.items():
+        topic_list = list(topic_schemas.keys())
+        for ti, topic in enumerate(topic_list):
+            l0_schema = topic_schemas[topic]
+            output.status(f"  Checking topic {ti+1}/{len(topic_list)}: {topic}...")
             missing = 0
             for restaurant in restaurants:
                 for review in restaurant.get("reviews", []):
@@ -1510,10 +1520,14 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
         return
 
     # Submit batch(es) for all topics
+    output.info("Scanning reviews to find what needs extraction...")
     request_items = []
     reviews_to_extract = 0
+    total_restaurants = len(restaurants)
 
-    for restaurant in restaurants:
+    for i, restaurant in enumerate(restaurants):
+        if (i + 1) % 10 == 0 or i == 0:
+            output.status(f"  Scanning restaurant {i+1}/{total_restaurants}...")
         business = restaurant.get("business", {})
         biz_id = business.get("business_id", "")
 
@@ -1659,9 +1673,9 @@ def main() -> None:
     parser.add_argument(
         "--mode",
         type=str,
-        default="24hrbatch",
-        choices=["ondemand", "24hrbatch"],
-        help="LLM execution mode (default: 24hrbatch)",
+        default="batch",
+        choices=["ondemand", "batch"],
+        help="LLM execution mode (default: batch)",
     )
     parser.add_argument(
         "--batch-id", type=str, default=None, help="Batch ID for fetch-only runs (legacy single batch)"

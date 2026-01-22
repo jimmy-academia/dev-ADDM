@@ -152,7 +152,7 @@ class ResultsManager:
 
         Logic:
         - run_1: always ondemand (captures latency)
-        - run_2-5: always 24hrbatch (cost efficient)
+        - run_2-5: always batch (cost efficient)
         - run_6+: None (quota met)
 
         Args:
@@ -160,7 +160,7 @@ class ResultsManager:
             policy_id: Policy identifier
 
         Returns:
-            "ondemand", "24hrbatch", or None if quota met
+            "ondemand", "batch", or None if quota met
         """
         completed = self.get_completed_runs(method, policy_id)
 
@@ -170,7 +170,7 @@ class ResultsManager:
         if completed["ondemand"] == 0:
             return "ondemand"  # First run must be ondemand
 
-        return "24hrbatch"  # Remaining runs are batch
+        return "batch"  # Remaining runs are batch
 
     def needs_more_runs(self, method: str, policy_id: str) -> bool:
         """Check if more runs are needed.

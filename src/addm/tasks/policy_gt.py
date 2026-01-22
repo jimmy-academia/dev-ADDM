@@ -278,17 +278,18 @@ def aggregate_judgments(
             aggregated[field] = list(l0_schema[field].keys())[0]
             aggregated["_confidence"][field] = 0.0
 
-    # Handle is_allergy_related / is_relevant specially (not in l0_schema)
+    # Handle is_relevant specially (not in l0_schema)
+    # Support both is_relevant (new) and is_allergy_related (legacy cache)
     relevance_votes: Dict[str, int] = defaultdict(int)
     for j in raw_judgments:
         model = j.get("_model", "gpt-5-nano")
-        # Support both field names
-        is_relevant = j.get("is_allergy_related", j.get("is_relevant", False))
-        relevance_votes[str(is_relevant).lower()] += MODEL_WEIGHTS.get(model, 1)
+        # Check is_relevant first (new), fallback to is_allergy_related (legacy)
+        is_rel = j.get("is_relevant", j.get("is_allergy_related", False))
+        relevance_votes[str(is_rel).lower()] += MODEL_WEIGHTS.get(model, 1)
 
     if relevance_votes:
         winner, _ = max(relevance_votes.items(), key=lambda x: x[1])
-        aggregated["is_allergy_related"] = winner == "true"
+        aggregated["is_relevant"] = winner == "true"
 
     return aggregated
 
@@ -368,8 +369,8 @@ def compute_gt_from_policy_scoring(
     incidents: List[Dict[str, Any]] = []
 
     for j in judgments:
-        # Filter non-relevant
-        is_relevant = j.get("is_allergy_related", j.get("is_relevant", False))
+        # Filter non-relevant (support both new and legacy field names)
+        is_relevant = j.get("is_relevant", j.get("is_allergy_related", False))
         if not is_relevant:
             continue
 
@@ -457,8 +458,8 @@ def evaluate_structured_condition(
     # Count matching judgments
     count = 0
     for j in judgments:
-        # Filter non-relevant
-        is_relevant = j.get("is_allergy_related", j.get("is_relevant", False))
+        # Filter non-relevant (support both new and legacy field names)
+        is_relevant = j.get("is_relevant", j.get("is_allergy_related", False))
         if not is_relevant:
             continue
 
