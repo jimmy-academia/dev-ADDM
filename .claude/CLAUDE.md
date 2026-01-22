@@ -14,13 +14,25 @@ Research benchmark: 72 policy evaluation tasks across restaurant reviews (Yelp).
 |-------|----------|------------|--------|
 | Agent 1 | s005 | Coordinator (this note) | Active |
 | Agent 2 | s001 | eval/metrics.py type bug fix | Active |
-| Agent 3 | s007 | ? | Active |
-| Agent 4 | s000 | ? | Sleeping |
+| Agent 3 | s007 | AMOS generalization (G1/G2/G4) | Active |
+| Agent 4 | s000 | G3/G5 testing + seed_transform fixes | **DONE - HANDOFF** |
 | Agent 5 | s006 | ? | Sleeping |
 
 **Files at risk of conflict:**
 - `src/addm/methods/amos/phase2.py` - 230+ uncommitted changes
-- `src/addm/methods/amos/seed_transform.py` - new untracked file
+- `src/addm/methods/amos/seed_transform.py` - **MODIFIED by Agent 4 (s000)** - ready for merge
+
+### Agent 4 (s000) Handoff Notes:
+
+**Fixes applied to `seed_transform.py`:**
+1. `normalize_verdict_label()` now handles non-strings (fixes G5 crash)
+2. `VERDICT_LABEL_MAP` expanded with G2/G5 verdicts
+
+**Test results:**
+- G5_capacity_V0: ✓ 100% (was crashing)
+- G2_group_V1: Returns string labels now (was numeric `0`)
+
+**To merge:** See `scripts/debug/fix_seed_transform_generalization.py` for details.
 
 **BEFORE editing AMOS**: Update this table with what you're working on. ASK the user if unsure.
 

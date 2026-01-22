@@ -13,6 +13,8 @@ ADDM evaluates methods on 72 benchmark tasks requiring analysis of restaurant re
 
 **Baseline Methods:**
 - **Direct** - Full-context prompting (all K reviews)
+- **CoT** - Chain-of-Thought step-by-step reasoning
+- **ReACT** - Reasoning + Acting with tool use
 - **RAG** - Retrieval-augmented generation (semantic search)
 - **RLM** - Recursive LLM with code execution
 
@@ -26,6 +28,8 @@ Methods are categorized by how they handle restaurant review context:
 |------|--------|-------------|------------|
 | **Proposed** | **`amos`** | **Two-phase: Formula Seed generation + two-stage extraction** | **~5-55k tokens** |
 | Full-context | `direct` | All K reviews in prompt | ~K×200 tokens |
+| Reasoning | `cot` | Step-by-step reasoning before answer | ~K×250 tokens |
+| Tool-use | `react` | Interleaved reasoning and tool actions | ~K×300+ tokens |
 | Retrieval | `rag` | Embed query + reviews, retrieve top-k, LLM analyzes subset | ~4k tokens + embedding |
 | Code-execution | `rlm` | Reviews as Python variable, LLM writes search code | ~50k tokens |
 
@@ -293,12 +297,50 @@ The guide covers:
 
 ---
 
+### Chain-of-Thought (CoT)
+
+| Attribute | Value |
+|-----------|-------|
+| Method | `cot` |
+| File | `src/addm/methods/cot.py` |
+| Reference | Wei et al., NeurIPS 2022 |
+| Description | Prompts LLM to think step-by-step before providing final answer |
+| Context handling | Full context in prompt with reasoning chain |
+| Token cost | ~K × 250 tokens per restaurant |
+| Strengths | Improved reasoning through explicit steps |
+| Weaknesses | Higher token cost than direct, still subject to context rot |
+
+**Usage:**
+```bash
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --method cot
+```
+
+---
+
+### ReACT (Reasoning + Acting)
+
+| Attribute | Value |
+|-----------|-------|
+| Method | `react` |
+| File | `src/addm/methods/react.py` |
+| Reference | Yao et al., ICLR 2023 |
+| Description | Interleaves reasoning and tool-based actions |
+| Context handling | Tool-mediated access to reviews |
+| Token cost | ~K × 300+ tokens per restaurant (multi-turn) |
+| Strengths | Can focus on relevant reviews via tools |
+| Weaknesses | Higher latency due to multi-turn execution |
+
+**Usage:**
+```bash
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --method react
+```
+
+---
+
 ## To Be Considered
 
 | Method | Paper | Venue | Year | Notes |
 |--------|-------|-------|------|-------|
-| Chain-of-Thought | Wei et al. | NeurIPS | 2022 | Add reasoning steps to direct baseline |
-| ReAct | Yao et al. | ICLR | 2023 | Reason + Act paradigm |
 | Program-of-Thoughts | Chen et al. | TMLR | 2023 | Similar to RLM but structured |
 
 ---

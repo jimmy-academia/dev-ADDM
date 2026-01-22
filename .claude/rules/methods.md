@@ -5,6 +5,8 @@ Available methods for `--method` flag in `run_experiment.py`:
 | Method | Description | Token Cost |
 |--------|-------------|------------|
 | `direct` | All K reviews in prompt (default) | ~K×200 tokens |
+| `cot` | Chain-of-Thought step-by-step reasoning | ~K×250 tokens |
+| `react` | Reasoning + Acting with tool use | ~K×300+ tokens |
 | `rlm` | Recursive LLM - code execution to search | ~50k tokens |
 | `rag` | Retrieval-Augmented Generation | ~5k tokens |
 | `amos` | Agenda-Driven Mining with Observable Steps | ~5-55k tokens |

@@ -37,6 +37,36 @@ VERDICT_THRESHOLDS = {
 }
 
 
+def normalize_judgement(judgement: str, valid_values: List[str]) -> Optional[str]:
+    """Extract a known value from a judgement string.
+
+    Handles flexible formatting like "moderate incident" → "moderate",
+    "Dismissive" → "dismissive", etc.
+
+    Args:
+        judgement: Raw judgement string from method output
+        valid_values: List of valid values to look for (lowercase)
+
+    Returns:
+        Matched value (lowercase) or None if no match
+    """
+    if not judgement:
+        return None
+
+    judgement_lower = judgement.lower()
+
+    # First try exact match
+    if judgement_lower in valid_values:
+        return judgement_lower
+
+    # Then try substring match (e.g., "moderate incident" contains "moderate")
+    for value in valid_values:
+        if value in judgement_lower:
+            return value
+
+    return None
+
+
 def _extract_evidences(result: Dict[str, Any]) -> List[Dict[str, Any]]:
     """Extract evidences array from result's parsed field."""
     parsed = result.get("parsed", {})
@@ -242,7 +272,7 @@ def compute_classification_accuracy(
 
             gt_incident = gt_by_review[review_id]
             field = evidence.get("field", "").upper()
-            judgement = evidence.get("judgement", "").lower()
+            judgement = evidence.get("judgement", "")
 
             # Track per-field stats
             if field not in per_field:
@@ -251,17 +281,21 @@ def compute_classification_accuracy(
             # Severity classification
             if field == "INCIDENT_SEVERITY":
                 gt_severity = gt_incident.get("severity", "").lower()
+                severity_values = list(SEVERITY_BASE_POINTS.keys())
+                normalized_judgement = normalize_judgement(judgement, severity_values)
                 severity_total += 1
                 per_field[field]["total"] += 1
-                if judgement == gt_severity:
+                if normalized_judgement == gt_severity:
                     severity_correct += 1
                     per_field[field]["correct"] += 1
 
             # Assurance claim (modifier)
-            elif field == "ASSURANCE_CLAIM":
+            elif field in ("ASSURANCE_CLAIM", "ASSURANCE_OF_SAFETY"):
                 gt_modifiers = gt_incident.get("modifiers", [])
                 has_false_assurance = "False assurance" in gt_modifiers
-                method_detected = judgement in ["true", "yes", "detected"]
+                # Normalize: detect various ways of indicating false/no assurance
+                assurance_positive = ["true", "yes", "detected", "false assurance", "no assurance"]
+                method_detected = normalize_judgement(judgement, assurance_positive) is not None
                 modifier_total += 1
                 per_field[field]["total"] += 1
                 if method_detected == has_false_assurance:
@@ -272,7 +306,9 @@ def compute_classification_accuracy(
             elif field == "STAFF_RESPONSE":
                 gt_modifiers = gt_incident.get("modifiers", [])
                 has_dismissive = "Dismissive staff" in gt_modifiers
-                method_detected = judgement in ["dismissive", "negative", "bad"]
+                # Normalize: detect various ways of indicating negative staff response
+                staff_negative = ["dismissive", "negative", "bad", "rude", "unhelpful"]
+                method_detected = normalize_judgement(judgement, staff_negative) is not None
                 modifier_total += 1
                 per_field[field]["total"] += 1
                 if method_detected == has_dismissive:
@@ -337,25 +373,37 @@ def compute_verdict_support(
         triggered_rule = justification.get("triggered_rule", "")
         scoring_trace = justification.get("scoring_trace", {})
 
-        # Filter to only direct evidence items
-        direct_evidence_items = [
-            e for e in evidences
-            if e.get("evidence_id") in direct_evidence
-        ]
+        # Filter to only direct evidence items, or use all if direct_evidence is empty
+        if direct_evidence:
+            direct_evidence_items = [
+                e for e in evidences
+                if e.get("evidence_id") in direct_evidence
+            ]
+        else:
+            # Fallback: use all evidences if direct_evidence not specified
+            direct_evidence_items = evidences
+
+        # Valid values for normalization
+        severity_values = list(SEVERITY_BASE_POINTS.keys())
+        assurance_positive = ["true", "yes", "detected", "false assurance", "no assurance"]
+        staff_negative = ["dismissive", "negative", "bad", "rude", "unhelpful"]
 
         # Recompute score from method's claimed classifications
         computed_score = 0
         for evidence in direct_evidence_items:
             field = evidence.get("field", "").upper()
-            judgement = evidence.get("judgement", "").lower()
+            judgement = evidence.get("judgement", "")
 
             if field == "INCIDENT_SEVERITY":
-                base_points = SEVERITY_BASE_POINTS.get(judgement, 0)
-                computed_score += base_points
-            elif field == "ASSURANCE_CLAIM" and judgement in ["true", "yes", "detected"]:
-                computed_score += MODIFIER_POINTS.get("False assurance", 0)
-            elif field == "STAFF_RESPONSE" and judgement in ["dismissive", "negative", "bad"]:
-                computed_score += MODIFIER_POINTS.get("Dismissive staff", 0)
+                normalized = normalize_judgement(judgement, severity_values)
+                if normalized:
+                    computed_score += SEVERITY_BASE_POINTS.get(normalized, 0)
+            elif field in ("ASSURANCE_CLAIM", "ASSURANCE_OF_SAFETY"):
+                if normalize_judgement(judgement, assurance_positive):
+                    computed_score += MODIFIER_POINTS.get("False assurance", 0)
+            elif field == "STAFF_RESPONSE":
+                if normalize_judgement(judgement, staff_negative):
+                    computed_score += MODIFIER_POINTS.get("Dismissive staff", 0)
 
         # Determine computed verdict from score
         if computed_score >= VERDICT_THRESHOLDS["Critical Risk"]:

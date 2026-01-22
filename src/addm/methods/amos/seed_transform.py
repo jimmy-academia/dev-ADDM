@@ -20,7 +20,7 @@ import logging
 import re
 from copy import deepcopy
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, TYPE_CHECKING
+from typing import Any, Dict, List, Optional, Tuple, Union, TYPE_CHECKING
 
 logger = logging.getLogger(__name__)
 
@@ -31,6 +31,7 @@ logger = logging.getLogger(__name__)
 
 # Standard verdict labels (GT format) vs common LLM abbreviations
 VERDICT_LABEL_MAP = {
+    # === Risk-based verdicts (G1, G3, G4) ===
     # Abbreviated → Full (GT format)
     "critical": "Critical Risk",
     "high": "High Risk",
@@ -43,18 +44,39 @@ VERDICT_LABEL_MAP = {
     "Critical Risk": "Critical Risk",
     "High Risk": "High Risk",
     "Low Risk": "Low Risk",
+
+    # === Recommendation-based verdicts (G2) ===
+    "recommended": "Recommended",
+    "not recommended": "Not Recommended",
+    "not_recommended": "Not Recommended",
+    "Recommended": "Recommended",
+    "Not Recommended": "Not Recommended",
+
+    # === Performance-based verdicts (G5) ===
+    "excellent": "Excellent",
+    "satisfactory": "Satisfactory",
+    "needs improvement": "Needs Improvement",
+    "needs_improvement": "Needs Improvement",
+    "Excellent": "Excellent",
+    "Satisfactory": "Satisfactory",
+    "Needs Improvement": "Needs Improvement",
 }
 
 
-def normalize_verdict_label(label: str) -> str:
+def normalize_verdict_label(label: Union[str, Any]) -> Union[str, Any]:
     """Normalize a verdict label to GT format.
 
     Args:
-        label: Raw verdict label from LLM
+        label: Raw verdict label from LLM (string, bool, int, or None)
 
     Returns:
-        Normalized verdict label (e.g., "Critical Risk")
+        Normalized verdict label (e.g., "Critical Risk") or original value if not a string
     """
+    # Handle non-string types (booleans, numbers, None)
+    # This fixes G5 crash where case rules have boolean "then" values
+    if not isinstance(label, str):
+        return label
+
     if not label:
         return label
 
@@ -187,11 +209,20 @@ def transform_compute_operation(op_def: Dict[str, Any], extraction_fields: List[
     result = deepcopy(op_def)
     name = op_def.get("name", "")
 
-    # If already has "op" key, just validate and return
+    # If already has "op" key, validate and fix common issues
     if "op" in op_def:
         # Normalize verdict labels in case rules
         if op_def["op"] == "case" and "rules" in op_def:
             result["rules"] = _normalize_case_rules(op_def["rules"])
+
+        # Fix expr operations that use "source" instead of "expr"
+        # LLM sometimes generates: {"op": "expr", "source": "BASE_POINTS + MODIFIER_POINTS"}
+        # But phase2._compute_expr expects: {"op": "expr", "expr": "BASE_POINTS + MODIFIER_POINTS"}
+        if op_def["op"] == "expr" and "source" in op_def and "expr" not in op_def:
+            result["expr"] = op_def["source"]
+            del result["source"]
+            logger.debug(f"Fixed {name}: renamed 'source' → 'expr' for expr operation")
+
         return result
 
     # Handle "expression" key (LLM format) → transform to "op" format

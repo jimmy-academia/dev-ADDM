@@ -23,6 +23,7 @@ class DebugLogger:
         self,
         output_dir: Path | None = None,
         consolidated: bool = True,
+        immediate_write: bool = True,
     ):
         """Initialize the debug logger.
 
@@ -31,9 +32,12 @@ class DebugLogger:
                        If None, logging is disabled.
             consolidated: If True, write all entries to single debug.jsonl.
                          If False, write per-sample files (legacy mode).
+            immediate_write: If True, write entries immediately (useful for debugging hangs).
+                            If False, buffer entries until flush() is called.
         """
         self.output_dir = output_dir
         self.consolidated = consolidated
+        self.immediate_write = immediate_write
         self._entries: list[dict] = []
         self._lock = RLock()
         self._enabled = output_dir is not None
@@ -108,7 +112,13 @@ class DebugLogger:
             entry["metadata"] = metadata
 
         with self._lock:
-            self._entries.append(entry)
+            if self.immediate_write and self.consolidated and self._debug_file_path:
+                # Write immediately to disk
+                with open(self._debug_file_path, "a") as f:
+                    f.write(json.dumps(entry) + "\n")
+            else:
+                # Buffer for later flush
+                self._entries.append(entry)
 
     def log_event(
         self,
@@ -134,7 +144,13 @@ class DebugLogger:
         }
 
         with self._lock:
-            self._entries.append(entry)
+            if self.immediate_write and self.consolidated and self._debug_file_path:
+                # Write immediately to disk
+                with open(self._debug_file_path, "a") as f:
+                    f.write(json.dumps(entry) + "\n")
+            else:
+                # Buffer for later flush
+                self._entries.append(entry)
 
     def flush(self):
         """Write accumulated entries to disk.

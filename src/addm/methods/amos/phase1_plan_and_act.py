@@ -11,9 +11,11 @@ This is a fixed 3-step pipeline (same cost as original approach):
 
 import json
 import logging
+import time
 from typing import Any, Dict, List, Tuple
 
 from addm.llm import LLMService
+from addm.utils.debug_logger import get_debug_logger
 
 logger = logging.getLogger(__name__)
 
@@ -30,35 +32,70 @@ OBSERVE_PROMPT = '''Analyze this task agenda and extract EXACTLY what it specifi
 
 ## YOUR JOB
 
-Read the agenda carefully. There are TWO types of verdict logic - identify which one this agenda uses:
+Read the agenda carefully. There are THREE types of verdict logic - identify which one this agenda uses:
 
 ### TYPE A: SCORING-BASED (uses point values)
 The agenda specifies point values for categories (e.g., "Severe: 15 points, Moderate: 5 points").
 Verdict is determined by total score vs thresholds (e.g., "Critical if score >= 8").
 
-### TYPE B: RULE-BASED (uses count thresholds)
-The agenda specifies count thresholds for verdict rules (e.g., "Critical if 2+ severe incidents").
-NO point values are assigned to categories. Verdict is determined by counting occurrences.
+### TYPE B: SEVERITY-RULE-BASED (uses severity count thresholds)
+The agenda specifies count thresholds by SEVERITY LEVEL (e.g., "Critical if 2+ severe incidents").
+NO point values. Categories are severity levels (mild/moderate/severe or similar).
+
+### TYPE C: SIGNAL-RULE-BASED (uses signal detection or quality assessment)
+The agenda specifies verdict rules based on detecting SPECIFIC SIGNALS or QUALITY LEVELS in reviews.
+
+**Pattern 1 - Signal phrases:**
+- "Recommended if impressing a client mentioned"
+- "Not Recommended if embarrassment with client described"
+
+**Pattern 2 - Quality assessment (IMPORTANT - this is NOT severity-rule-based!):**
+When the outcome field represents SERVICE QUALITY on a scale from negative to positive:
+- Values like: Absent, Poor, Adequate, Good, Excellent
+- OR: Rude, Cold, Neutral, Friendly, Warm
+- Verdict rules say things like "Excellent if multiple reviews PRAISE service" or "Needs Improvement if servers were INATTENTIVE"
+
+**KEY DISTINCTION:**
+- SEVERITY-rule-based: "2+ severe incidents → Critical" (counting bad things, more = worse)
+- SIGNAL/QUALITY-based: "Multiple positive observations → Excellent" (good observations lead to good verdict)
+
+If the agenda says "Excellent verdict when reviews praise X" → this is SIGNAL-RULE-BASED!
+The quality values (Excellent, Good, Poor, Absent) ARE the signals to detect.
 
 ## WHAT TO EXTRACT
 
 ### 1. Policy Type
-Determine if this is "scoring" (point values given) or "rule_based" (count thresholds only).
+Determine:
+- "scoring" if point values are given
+- "severity_rule_based" if counting by severity levels (mild/moderate/severe)
+- "signal_rule_based" if detecting specific signals/phrases (impress_client, embarrassment, etc.)
 
-### 2. Severity/Outcome Categories
-What categories exist? (e.g., "Mild", "Moderate", "Severe" or "Poor", "Fair", "Good", "Excellent")
+### 2. Categories OR Signals
+- For SCORING/SEVERITY: What severity categories exist? (mild/moderate/severe or similar)
+- For SIGNAL-BASED: What signals to detect? (impress_client, embarrassment, loud_noise, private_rooms, etc.)
 
 ### 3. For SCORING-BASED policies:
 - Extract EXACT point values for each category (can be positive or negative)
 - Extract modifier point adjustments
 
-### 4. For RULE-BASED policies:
-- Extract count threshold rules (e.g., "2+ severe incidents" → "Critical")
-- No point values - these use counts directly
+### 4. For SEVERITY-RULE-BASED policies:
+- Extract count threshold rules by severity (e.g., "2+ severe incidents" → "Critical")
 
-### 5. Verdict Rules
-- For SCORING: thresholds on total score (e.g., ">= 8" → "Critical")
-- For RULE-BASED: count conditions (e.g., "severe_count >= 2" → "Critical")
+### 5. For SIGNAL-RULE-BASED policies (includes quality assessment!):
+- List ALL positive signals that lead to favorable verdict (impress_client, private_rooms, power_lunch)
+- List ALL negative signals that lead to unfavorable verdict (embarrassment, loud_noise, slow_service)
+- Signals become enum values for extraction
+
+**FOR QUALITY ASSESSMENT patterns:**
+If the outcome field has quality values (Absent/Poor/Adequate/Good/Excellent), map them to signals:
+- Positive signals: values indicating good quality (Excellent, Good, Warm, Friendly)
+- Negative signals: values indicating poor quality (Absent, Poor, Rude, Cold)
+- Neutral signals: middle values (Adequate, Neutral)
+
+### 6. Verdict Rules
+- For SCORING: thresholds on total score
+- For SEVERITY-RULE: count conditions by severity
+- For SIGNAL-RULE: presence of positive/negative signals
 
 ## OUTPUT FORMAT
 
@@ -69,7 +106,7 @@ What categories exist? (e.g., "Mild", "Moderate", "Severe" or "Poor", "Fair", "G
     "explicit_terms": ["<terms from agenda>"]
   }},
 
-  "policy_type": "<scoring OR rule_based>",
+  "policy_type": "<scoring OR severity_rule_based OR signal_rule_based>",
 
   "evaluation_criteria": {{
     "what_counts": "<from agenda>",
@@ -77,10 +114,21 @@ What categories exist? (e.g., "Mild", "Moderate", "Severe" or "Poor", "Fair", "G
   }},
 
   "categories": {{
-    "field_name": "<what to call this: INCIDENT_SEVERITY, OUTCOME, QUALITY_LEVEL, etc.>",
+    "field_name": "<what to call this: INCIDENT_SEVERITY, OUTCOME, QUALITY_LEVEL, SIGNAL_TYPE, etc.>",
     "values": [
       {{"name": "<category name>", "description": "<from agenda>"}}
     ]
+  }},
+
+  "signals": {{
+    "// ONLY FOR signal_rule_based policies - list signals to detect": "",
+    "positive_signals": [
+      {{"signal": "<signal name, e.g., impress_client>", "description": "<what it means>", "detection_phrases": ["<phrases that indicate this signal>"]}}
+    ],
+    "negative_signals": [
+      {{"signal": "<signal name, e.g., embarrassment>", "description": "<what it means>", "detection_phrases": ["<phrases that indicate this signal>"]}}
+    ],
+    "neutral_signal": "<signal name for no strong signal, e.g., neutral>"
   }},
 
   "scoring_system": {{
@@ -95,13 +143,16 @@ What categories exist? (e.g., "Mild", "Moderate", "Severe" or "Poor", "Fair", "G
   }},
 
   "verdict_rules": {{
-    "type": "<scoring OR rule_based>",
+    "type": "<scoring OR severity_rule_based OR signal_rule_based>",
     "verdicts": ["<verdict1>", "<verdict2>", "<verdict3>"],
+    "evaluation_order": "<CRITICAL: Which verdict is checked FIRST? Extract from agenda - e.g., 'Excellent first, then Needs Improvement if Excellent does not apply'>",
     "rules": [
       {{
         "verdict": "<verdict label>",
-        "condition_type": "<score_threshold OR count_threshold>",
-        "condition": "<exact condition: '>= 8' for scoring, or 'severe_count >= 2' for rule-based>",
+        "check_order": <1, 2, 3 - the order this rule is evaluated>,
+        "precondition": "<any precondition from agenda, e.g., 'Excellent does not apply', or null if none>",
+        "condition_type": "<score_threshold OR count_threshold OR signal_presence>",
+        "condition": "<EXACT from agenda: e.g., 'min_count: 2' becomes '>= 2'>",
         "description": "<human readable rule from agenda>"
       }}
     ],
@@ -129,9 +180,14 @@ What categories exist? (e.g., "Mild", "Moderate", "Severe" or "Poor", "Fair", "G
 ```
 
 CRITICAL:
-1. First determine if this is "scoring" (has point values) or "rule_based" (count thresholds only)
+1. First determine the policy_type:
+   - "scoring" if point values are given
+   - "severity_rule_based" if counting by severity levels (mild/moderate/severe)
+   - "signal_rule_based" if detecting specific signals (impress_client, embarrassment, etc.)
 2. Extract EXACT numbers - don't use template values
-3. For rule-based policies, verdict rules use counts (e.g., "severe_count >= 2"), NOT scores
+3. For severity_rule_based: verdict rules use severity counts (e.g., "severe_count >= 2")
+4. For signal_rule_based: verdict rules use signal counts (e.g., "N_NEGATIVE >= 1")
+5. For signal_rule_based: MUST fill in the "signals" section with all positive and negative signals
 
 Output ONLY the JSON:
 
@@ -352,20 +408,83 @@ Use observations.verdict_rules.rules to build:
 - <observations.description_field.name>: string for <observations.description_field.purpose>
 - Any additional fields needed for compound conditions
 
+**CRITICAL - Signal-Based Policies (READ CAREFULLY):**
+
+If the policy verdict depends on detecting specific SIGNAL TYPES (e.g., "impress_client", "embarrassment", "loud_noise")
+rather than severity levels (e.g., "mild", "moderate", "severe"), you MUST follow this EXACT pattern:
+
+**STEP 1 - Add SIGNAL_TYPE to extract.fields (NOT in compute!):**
+```json
+"extract": {{
+  "fields": [
+    {{"name": "ACCOUNT_TYPE", "type": "enum", "values": {{...}}}},
+    {{"name": "SIGNAL_TYPE", "type": "enum", "values": {{
+      "impress_client": "Reviewer impressed a client during business meal",
+      "embarrassment": "Reviewer was embarrassed with client due to restaurant",
+      "loud_noise": "Too loud for business conversation",
+      "private_available": "Private rooms or secluded seating mentioned",
+      "slow_service": "Slow service negatively impacted business meeting",
+      "neutral": "Business context mentioned but no strong positive/negative signal"
+    }}}},
+    {{"name": "DESCRIPTION", "type": "string", "description": "Details of incident"}}
+  ],
+  "outcome_field": "SIGNAL_TYPE",
+  "none_values": ["neutral"]
+}}
+```
+
+**STEP 2 - Count by the ENUM field in compute:**
+```json
+"compute": [
+  {{"name": "N_POSITIVE", "op": "count", "where": {{"SIGNAL_TYPE": ["impress_client", "private_available"]}}}},
+  {{"name": "N_NEGATIVE", "op": "count", "where": {{"SIGNAL_TYPE": ["embarrassment", "loud_noise", "slow_service"]}}}},
+  {{"name": "VERDICT", "op": "case", "rules": [
+    {{"when": "N_NEGATIVE >= 1", "then": "Not Recommended"}},
+    {{"when": "N_POSITIVE >= 1", "then": "Recommended"}},
+    {{"else": "Acceptable"}}
+  ]}}
+]
+```
+
+**KEY INSIGHT:** The LLM doing extraction will choose the appropriate SIGNAL_TYPE enum value for each review.
+Then count operations aggregate by that enum value. This is how signal detection works!
+
+**WRONG PATTERNS - NEVER DO THIS:**
+```json
+// WRONG: SIGNAL_TYPE in compute section (must be in extract.fields!)
+"compute": [{{"name": "SIGNAL_TYPE", "type": "enum", ...}}]
+
+// WRONG: Counting by string field (string fields contain free text, not matchable values)
+{{"op": "count", "where": {{"DESCRIPTION": "impress_client"}}}}  // WILL ALWAYS BE 0!
+
+// WRONG: Counting by string field with array of phrases
+{{"op": "count", "where": {{"DESCRIPTION": ["private rooms", "secluded"]}}}}  // WILL ALWAYS BE 0!
+```
+
 ### COMPUTE OPERATIONS
 1. N_INCIDENTS: count where <account_field> = <counting_account_type> AND <outcome_field> NOT IN <none_values>
    - CRITICAL: Only count extractions with actual incidents (outcome != none_value)
    - The outcome_field and none_values come from your extract section (defined below)
-2. N_SEVERE: count where <account_field> = <counting_account_type> AND <CATEGORY_FIELD> = "severe" (or highest category)
-3. N_MODERATE: count where <account_field> = <counting_account_type> AND <CATEGORY_FIELD> = "moderate" (or middle category)
+2. For SEVERITY-based policies: N_SEVERE, N_MODERATE counts by severity enum
+3. For SIGNAL-based policies: N_POSITIVE, N_NEGATIVE counts by signal_type enum
 4. (Add more counts as needed for verdict rules)
 5. VERDICT: case using COUNT conditions (NOT score)
 
+**CRITICAL: Count operations can ONLY filter by ENUM fields, never by string fields!**
+
 ### VERDICT FORMAT (RULE-BASED)
+
+**CRITICAL - RULE ORDER**: The order of rules in the CASE statement matters!
+- Check observations.verdict_rules.evaluation_order to determine which verdict is checked FIRST
+- If agenda says "Excellent first, then Needs Improvement if Excellent does not apply", put Excellent rule BEFORE Needs Improvement
+- Rules with preconditions (e.g., "Excellent does not apply") come AFTER the rules they depend on
+
+**CRITICAL - EXACT CONDITIONS**: Extract thresholds EXACTLY from agenda.
+- If agenda says "min_count: 2", use ">= 2" - do NOT invent your own thresholds
+- If agenda says "Multiple reviews" without a number, use ">= 2" as the standard interpretation
 
 **CRITICAL - EXACT VERDICT LABELS**: Copy verdict labels EXACTLY from observations.verdict_rules.verdicts.
 Do NOT simplify or modify labels. If observations say "Critical Risk", use "Critical Risk" - NOT "Critical".
-The verdicts array contains the EXACT strings to use in your rules.
 
 Build verdict from observations.verdict_rules.rules using count conditions:
 ```json
@@ -386,6 +505,66 @@ OR use compound conditions in a single case:
   {{"else": "<EXACT from observations.verdict_rules.verdicts[2]>"}}
 ]}}
 ```
+
+---
+
+## FOR SIGNAL-RULE-BASED POLICIES (observations.policy_type == "signal_rule_based")
+
+This is for policies where verdict depends on detecting specific SIGNALS or QUALITY levels (not incident severity).
+
+**Pattern 1 - Signal phrases:**
+E.g., "Recommended if impressed client", "Not Recommended if embarrassment occurred"
+
+**Pattern 2 - Quality assessment (G4, etc.):**
+E.g., "Excellent if reviews praise attentiveness", "Needs Improvement if service was inattentive"
+Here the SERVICE_QUALITY values (Excellent/Good/Adequate/Poor/Absent) ARE the signals!
+
+### EXTRACTION FIELDS
+1. ACCOUNT_TYPE: enum (Firsthand, Secondhand, Hypothetical)
+2. **SIGNAL_TYPE or SERVICE_QUALITY: enum with ALL signals/quality levels from observations.signals**
+   - Include all positive signals (e.g., Excellent, Good, impress_client, private_available)
+   - Include all negative signals (e.g., Absent, Poor, embarrassment, slow_service)
+   - Include a neutral value (e.g., Adequate, Neutral)
+3. DESCRIPTION: string for incident details
+
+### COMPUTE OPERATIONS (REQUIRED!)
+
+**Example 1 - Signal phrases (business recommendation):**
+```json
+"compute": [
+  {{"name": "N_POSITIVE", "op": "count", "where": {{"SIGNAL_TYPE": ["impress_client", "private_available"]}}}},
+  {{"name": "N_NEGATIVE", "op": "count", "where": {{"SIGNAL_TYPE": ["embarrassment", "loud_noise", "slow_service"]}}}},
+  {{"name": "VERDICT", "op": "case", "rules": [
+    {{"when": "N_NEGATIVE >= 1", "then": "Not Recommended"}},
+    {{"when": "N_POSITIVE >= 1", "then": "Recommended"}},
+    {{"else": "Acceptable"}}
+  ]}}
+]
+```
+
+**Example 2 - Quality assessment (server performance):**
+```json
+"compute": [
+  {{"name": "N_POSITIVE", "op": "count", "where": {{"SIGNAL_TYPE": ["<positive signal values from observations>"]}}}},
+  {{"name": "N_NEGATIVE", "op": "count", "where": {{"SIGNAL_TYPE": ["<negative signal values from observations>"]}}}},
+  {{"name": "VERDICT", "op": "case", "rules": [
+    // DERIVE THESE RULES FROM observations.verdict_rules - do NOT invent thresholds!
+  ]}}
+]
+```
+
+**CRITICAL:** Verdict rules MUST come from the agenda (observations.verdict_rules), not invented.
+Extract the EXACT conditions specified in the agenda.
+
+---
+
+## COMPUTE SECTION IS MANDATORY
+
+**CRITICAL**: The compute section MUST NOT be empty! At minimum, it must contain:
+1. At least one count operation (N_INCIDENTS, N_POSITIVE, N_NEGATIVE, etc.)
+2. A VERDICT operation
+
+If compute is empty, the seed is INVALID and will fail to produce any verdicts.
 
 ---
 
@@ -466,6 +645,10 @@ OR use compound conditions in a single case:
 4. **sum operations**: Use {{"op": "sum", "expr": "CASE WHEN...", "where": {{...}}}} format
 5. **case operations**: Use {{"op": "case", "source": "...", "rules": [...]}} format
 6. **expr operations**: Use {{"op": "expr", "expr": "..."}} for combining computed values
+7. **COUNT OPERATIONS - ENUM ONLY**: Count "where" clauses can ONLY reference ENUM fields!
+   - CORRECT: {{"where": {{"SIGNAL_TYPE": "positive"}}}} where SIGNAL_TYPE is type: "enum"
+   - WRONG: {{"where": {{"DESCRIPTION": "some text"}}}} where DESCRIPTION is type: "string"
+   - If you need to count by signal types, define those signals as an ENUM field first!
 7. **VERDICT LABELS**: Use EXACT verdict strings from observations.verdict_rules.verdicts - copy character-for-character!
    - If observations say "Critical Risk", use "Critical Risk" NOT "Critical"
    - If observations say "Low Risk", use "Low Risk" NOT "Low"
@@ -632,11 +815,24 @@ async def _observe(
     prompt = OBSERVE_PROMPT.format(agenda=agenda)
     messages = [{"role": "user", "content": prompt}]
 
+    start_time = time.time()
     response, usage = await llm.call_async_with_usage(
         messages,
         context={"phase": "phase1_plan_act", "step": "observe", "policy_id": policy_id},
         response_format={"type": "json_object"},
     )
+    latency_ms = (time.time() - start_time) * 1000
+
+    # Log to debug file immediately
+    if debug_logger := get_debug_logger():
+        debug_logger.log_llm_call(
+            sample_id=policy_id,
+            phase="phase1_observe",
+            prompt=prompt,
+            response=response,
+            model=llm.model,
+            latency_ms=latency_ms,
+        )
 
     try:
         observations = _extract_json_from_response(response)
@@ -665,11 +861,24 @@ async def _plan(
     prompt = PLAN_PROMPT.format(observations=json.dumps(observations, indent=2))
     messages = [{"role": "user", "content": prompt}]
 
+    start_time = time.time()
     response, usage = await llm.call_async_with_usage(
         messages,
         context={"phase": "phase1_plan_act", "step": "plan", "policy_id": policy_id},
         response_format={"type": "json_object"},
     )
+    latency_ms = (time.time() - start_time) * 1000
+
+    # Log to debug file immediately
+    if debug_logger := get_debug_logger():
+        debug_logger.log_llm_call(
+            sample_id=policy_id,
+            phase="phase1_plan",
+            prompt=prompt,
+            response=response,
+            model=llm.model,
+            latency_ms=latency_ms,
+        )
 
     try:
         plan = _extract_json_from_response(response)
@@ -703,11 +912,24 @@ async def _act(
     )
     messages = [{"role": "user", "content": prompt}]
 
+    start_time = time.time()
     response, usage = await llm.call_async_with_usage(
         messages,
         context={"phase": "phase1_plan_act", "step": "act", "policy_id": policy_id},
         response_format={"type": "json_object"},
     )
+    latency_ms = (time.time() - start_time) * 1000
+
+    # Log to debug file immediately
+    if debug_logger := get_debug_logger():
+        debug_logger.log_llm_call(
+            sample_id=policy_id,
+            phase="phase1_act",
+            prompt=prompt,
+            response=response,
+            model=llm.model,
+            latency_ms=latency_ms,
+        )
 
     seed = _extract_json_from_response(response)
     return seed, usage

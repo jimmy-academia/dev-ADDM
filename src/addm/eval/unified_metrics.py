@@ -42,6 +42,36 @@ VERDICT_THRESHOLDS = {
 }
 
 
+def normalize_judgement(judgement: str, valid_values: List[str]) -> Optional[str]:
+    """Extract a known value from a judgement string.
+
+    Handles flexible formatting like "moderate incident" → "moderate",
+    "Dismissive" → "dismissive", etc.
+
+    Args:
+        judgement: Raw judgement string from method output
+        valid_values: List of valid values to look for (lowercase)
+
+    Returns:
+        Matched value (lowercase) or None if no match
+    """
+    if not judgement:
+        return None
+
+    judgement_lower = judgement.lower()
+
+    # First try exact match
+    if judgement_lower in valid_values:
+        return judgement_lower
+
+    # Then try substring match (e.g., "moderate incident" contains "moderate")
+    for value in valid_values:
+        if value in judgement_lower:
+            return value
+
+    return None
+
+
 def normalize_amos_output(result: Dict[str, Any]) -> Dict[str, Any]:
     """Convert AMOS output to standard evidence schema.
 
@@ -178,19 +208,27 @@ def _compute_verdict_from_evidences(evidences: List[Dict[str, Any]]) -> Tuple[st
     """
     score = 0.0
 
+    # Valid values for normalization
+    severity_values = list(SEVERITY_BASE_POINTS.keys())
+    assurance_positive = ["true", "yes", "detected", "false assurance", "no assurance"]
+    staff_negative = ["dismissive", "negative", "bad", "rude", "unhelpful"]
+
     # Group by review_id to handle modifiers correctly
     for evidence in evidences:
         field = evidence.get("field", "").upper()
-        judgement = evidence.get("judgement", "").lower()
+        judgement = evidence.get("judgement", "")
 
         if field == "INCIDENT_SEVERITY":
-            base_points = SEVERITY_BASE_POINTS.get(judgement, 0)
-            score += base_points
-        elif field == "ASSURANCE_CLAIM":
-            if judgement in ["true", "yes", "detected"]:
+            normalized = normalize_judgement(judgement, severity_values)
+            if normalized:
+                score += SEVERITY_BASE_POINTS.get(normalized, 0)
+        elif field in ("ASSURANCE_CLAIM", "ASSURANCE_OF_SAFETY"):
+            normalized = normalize_judgement(judgement, assurance_positive)
+            if normalized:
                 score += MODIFIER_POINTS.get("False assurance", 0)
         elif field == "STAFF_RESPONSE":
-            if judgement in ["dismissive", "negative", "bad"]:
+            normalized = normalize_judgement(judgement, staff_negative)
+            if normalized:
                 score += MODIFIER_POINTS.get("Dismissive staff", 0)
 
     # Determine verdict from score

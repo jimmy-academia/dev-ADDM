@@ -61,7 +61,7 @@
 |------|----------|-------------|
 | `--dev` | run_experiment | Dev mode (saves to results/dev/, no quota) |
 | `--force` | run_experiment | Override benchmark quota |
-| `--method` | run_experiment | Method (direct/rlm/rag/amos) |
+| `--method` | run_experiment | Method (direct/cot/react/rlm/rag/amos) |
 | `--filter-mode` | run_experiment | AMOS: Stage 1 filter (keyword/embedding/hybrid) |
 | `--phase` | run_experiment | AMOS phase: '1' (seed only), '2' (use seed), '1,2' or omit (both) |
 | `--seed` | run_experiment | Path to Formula Seed file/dir for --phase 2 |
@@ -70,6 +70,7 @@
 | `-n` | run_experiment | Number of samples |
 | `--token-limit` | run_experiment | RLM token budget |
 | `--dry-run` | extract | Test without API calls |
+| `--aggregate` | extract | Run aggregation only (skip extraction) |
 | `--verbose` | extract, compute_gt | Detailed output |
 
 ## Benchmark Quota
