@@ -154,19 +154,17 @@ class PolicyJudgmentCache:
         return results
 
     def get_cached_runs(self, topic: str, review_id: str, model: str) -> set:
-        """Get which run numbers are cached for a model."""
-        prefix = f"{topic}::{review_id}::{model}::run"
+        """Get which run numbers are cached for a model.
+
+        Uses direct dict lookups (O(1) each) instead of scanning all keys.
+        Checks runs 1-10 which covers all practical use cases.
+        """
         runs = set()
-        for key in self._data["raw"].keys():
-            if key.startswith(prefix):
-                # Extract run number from key like "topic::rid::model::run2"
-                run_part = key.split("::")[-1]  # "run2"
-                if run_part.startswith("run"):
-                    try:
-                        run_num = int(run_part[3:])
-                        runs.add(run_num)
-                    except ValueError:
-                        pass
+        raw = self._data["raw"]
+        for run in range(1, 11):  # Check runs 1-10 directly
+            key = f"{topic}::{review_id}::{model}::run{run}"
+            if key in raw:
+                runs.add(run)
         return runs
 
     def count_cached_runs(self, topic: str, review_id: str, model: str) -> int:

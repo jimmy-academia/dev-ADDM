@@ -583,6 +583,7 @@ def load_policy(policy_id: str) -> PolicyIR:
     Load a policy by ID.
 
     Policy ID format: "G1_allergy_V2" -> policies/G1/allergy/V2.yaml
+                      "G3_price_worth_V0" -> policies/G3/price_worth/V0.yaml
 
     Args:
         policy_id: Policy identifier
@@ -591,10 +592,15 @@ def load_policy(policy_id: str) -> PolicyIR:
         Loaded PolicyIR
     """
     parts = policy_id.split("_")
-    if len(parts) != 3:
+    if len(parts) < 3:
         raise ValueError(f"Invalid policy_id format: {policy_id} (expected G1_allergy_V2)")
 
-    group, topic, version = parts
+    # First part is group (G1, G2, ...), last part is version (V0, V1, ...)
+    # Everything in between is the topic (may contain underscores)
+    group = parts[0]
+    version = parts[-1]
+    topic = "_".join(parts[1:-1])
+
     policies_dir = Path("src/addm/query/policies")
     policy_path = policies_dir / group / topic / f"{version}.yaml"
 
@@ -609,8 +615,12 @@ def get_topic_from_policy_id(policy_id: str) -> str:
     Extract topic from policy ID.
 
     "G1_allergy_V2" -> "G1_allergy"
+    "G3_price_worth_V2" -> "G3_price_worth"
     """
     parts = policy_id.split("_")
     if len(parts) < 2:
         raise ValueError(f"Invalid policy_id: {policy_id}")
-    return f"{parts[0]}_{parts[1]}"
+    # Variant is always last part matching V{digit}
+    if parts[-1].startswith("V") and parts[-1][1:].isdigit():
+        return "_".join(parts[:-1])
+    return policy_id  # No variant suffix found

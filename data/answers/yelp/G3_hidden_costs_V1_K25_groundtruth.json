@@ -1,0 +1,1119 @@
+{
+  "policy_id": "G3_hidden_costs_V1",
+  "topic": "G3_hidden_costs",
+  "domain": "yelp",
+  "k": 25,
+  "computed_at": "2026-01-22T01:54:55.072882",
+  "has_scoring": false,
+  "restaurants": {
+    "eZ-t73r7ETHjyclRB7SnwQ": {
+      "name": "Bliss",
+      "categories": "American (New), Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "-Tskf8WK17rb3ZfeFuRSWA": {
+      "name": "Palace Caf\u00e9",
+      "categories": "Seafood, Restaurants, Cafes, Cajun/Creole, American (New)",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "ny1N_Py01kVoGOvL9oKjMQ": {
+      "name": "Cask Social Kitchen",
+      "categories": "Breakfast & Brunch, Restaurants, Southern, American (New)",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "zljfjg_zTL3ceGi_Vr4OFw": {
+      "name": "Sheraton New Orleans Hotel",
+      "categories": "Cajun/Creole, Hotels, Venues & Event Spaces, Hotels & Travel, Event Planning & Services, Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "SZU9c8V2GuREDN5KgyHFJw": {
+      "name": "Santa Barbara Shellfish Company",
+      "categories": "Live/Raw Food, Restaurants, Seafood, Beer Bar, Beer, Wine & Spirits, Bars, Food, Nightlife",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "L5LLN0RafiV1Z9cddzvuCw": {
+      "name": "Ulele",
+      "categories": "Breweries, Food, American (New), Beer, Wine & Spirits, Restaurants, Seafood",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "Ipt9ga67vVC_2ob3YmVwNA": {
+      "name": "Lincoln Square Pancake House",
+      "categories": "Breakfast & Brunch, Greek, American (Traditional), Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "iSRTaT9WngzB8JJ2YKJUig": {
+      "name": "Mother's Restaurant",
+      "categories": "Cajun/Creole, Restaurants, Event Planning & Services, Southern, Specialty Food, Soul Food, Food, Ethnic Food, American (New), Caterers, Breakfast & Brunch, Sandwiches",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "oQdGhdjzz_HhTaC4VrtBLQ": {
+      "name": "The STIL",
+      "categories": "Specialty Food, Food, Ice Cream & Frozen Yogurt, Beer, Wine & Spirits",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "8XjxHeV66F4eoIy06rW0pA": {
+      "name": "Porta",
+      "categories": "Italian, Wine Bars, Bars, Restaurants, Pizza, Breakfast & Brunch, Nightlife",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "zwBvdDWFQpYJE1UMDTlSyw": {
+      "name": "Farmacy Vegan Kitchen & Bakery",
+      "categories": "Vegan, Juice Bars & Smoothies, Food, Cafes, Bakeries, Restaurants, Breakfast & Brunch, Acai Bowls",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "cgd4udcCVzMfhJL_3W03Yw": {
+      "name": "Milk & Cookies Bakeshop",
+      "categories": "Food, Bakeries, Desserts",
+      "n_reviews": 16,
+      "n_judgments": 16,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "crjRqGzxe6-MM4ylqlSfmw": {
+      "name": "Mayfield Dinner Theatre",
+      "categories": "Restaurants, Canadian (New), Cabaret, Performing Arts, Arts & Entertainment, Dinner Theater, Buffets",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "EP9K6qXOyHFq_0tp93wh9Q": {
+      "name": "Big Fish Grill - Riverfront",
+      "categories": "Bars, Nightlife, American (Traditional), Restaurants, Seafood",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "nIAbuktMEzVjT4P9pG89rQ": {
+      "name": "Buddakan",
+      "categories": "Restaurants, Asian Fusion, Chinese",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "S8ZFYEgMejpChID8tzKo9A": {
+      "name": "Amada",
+      "categories": "Spanish, Restaurants, Breakfast & Brunch, Tapas Bars, Iberian",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "99dN-202N0EzRqdaOA_eRQ": {
+      "name": "Barcadia",
+      "categories": "Nightlife, Arts & Entertainment, Restaurants, Arcades, Music Venues, Sports Bars, American (Traditional), Gastropubs, Bars",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "r2bYRNrtMhv-ED2-cFZp6Q": {
+      "name": "Nora's",
+      "categories": "Restaurants, Delis",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "8Vk_2t7hQI02IhpcRnfAIw": {
+      "name": "OBON Sushi Bar Ramen",
+      "categories": "Sushi Bars, Restaurants, Bars, Japanese, Ramen, Nightlife, Cocktail Bars",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "ChlcxTEoWBQJXJ2Xb2vm5g": {
+      "name": "NOLA Restaurant",
+      "categories": "Cajun/Creole, American (New), Southern, Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "iNiAJAtsbV5xOQGRtce-NQ": {
+      "name": "Cooper's Hawk Winery & Restaurant - Indianapolis",
+      "categories": "American (New), Venues & Event Spaces, Seafood, Restaurants, Beer, Wine & Spirits, Nightlife, Wine Bars, Event Planning & Services, Bars, Wine Tasting Room, Food, Gluten-Free, Arts & Entertainment, Wineries, American (Traditional)",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "ww3YJXu5c18aGZXWmm00qg": {
+      "name": "Caf\u00e9 Amelie",
+      "categories": "Southern, American (New), Breakfast & Brunch, Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "xtWIORPp-HG2LWtz5jQtiA": {
+      "name": "Tortilla Press",
+      "categories": "Mexican, Restaurants, Sandwiches, American (Traditional)",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "F7etLf6od7CUnCPknsQ-6Q": {
+      "name": "Rue 127",
+      "categories": "Bars, American (New), Nightlife, Desserts, Restaurants, Food",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "8gY3LGFUMIQubovGbSd7Nw": {
+      "name": "S\u00fcp",
+      "categories": "Soup, American (New), Salad, Restaurants, Sandwiches",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "ROcx9FXq206zfI77MGo1Yw": {
+      "name": "Nook A Paleo Influenced Diner",
+      "categories": "Restaurants, Pizza, Specialty Food, Food, Bars, Tapas/Small Plates, Nightlife, American (New), Cocktail Bars",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "-T1sYi2cqB2oW4GeUXmIBQ": {
+      "name": "Don Pablo's",
+      "categories": "American (Traditional), Bars, Restaurants, Tex-Mex, Mexican, Nightlife",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "xwk_8nCLpolbdZpKcWicRA": {
+      "name": "Black Crow Coffee Old NE",
+      "categories": "Food, Coffee & Tea",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "Mm9zXIgMQMzgDt4GShSWrw": {
+      "name": "Capitol Grille",
+      "categories": "Hotels & Travel, Hotels, Nightlife, Lounges, Mexican, Restaurants, Event Planning & Services, American (New), Bars",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "IhN-DlnytNvnzCoTIwwfgQ": {
+      "name": "Chop Steakhouse & Bar",
+      "categories": "Food, Steakhouses, Lounges, Seafood, Bars, Restaurants, Nightlife",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "gjCxTVItFxk46rCZ-YaiFA": {
+      "name": "South Coast Deli- Chapala",
+      "categories": "Sandwiches, Restaurants, Delis, Breakfast & Brunch",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "5xRmemqmR89BpGoOA25hqA": {
+      "name": "Dian Xin",
+      "categories": "Dim Sum, Chinese, Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "R8t9g5nvi7VFyS8zsgmj8Q": {
+      "name": "Salt + Smoke",
+      "categories": "Restaurants, American (Traditional), Barbeque, Cocktail Bars, Bars, Nightlife",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "6a4gLLFSgr-Q6CZXDLzBGQ": {
+      "name": "Cochon",
+      "categories": "Cajun/Creole, Seafood, Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "6_T2xzR74JqGCTPefAD8Tw": {
+      "name": "Morimoto",
+      "categories": "Japanese, American (Traditional), American (New), Restaurants, Sushi Bars, Asian Fusion",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "Mzmt8AvZOExG_4h3MMlihg": {
+      "name": "The Refinery",
+      "categories": "American (New), Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "1bJxvwuMTyXmQGu90WLPhA": {
+      "name": "Firebirds Wood Fired Grill",
+      "categories": "Seafood, Restaurants, Bars, Desserts, Steakhouses, Cocktail Bars, American (New), Food, Wine Bars, Nightlife",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "GBTPC53ZrG1ZBY3DT8Mbcw": {
+      "name": "Luke",
+      "categories": "German, Restaurants, Seafood, Cocktail Bars, French, Brasseries, American (New), Nightlife, Bars, Cajun/Creole, Breakfast & Brunch",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "S0dQ8Vks0IR-PZPLoBHKRA": {
+      "name": "McCormick & Schmick's Seafood & Steaks",
+      "categories": "Seafood, Restaurants, Southern, Steakhouses, American (Traditional)",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "eCikDKFbaeYVNdCD2beX0Q": {
+      "name": "Dat Dog",
+      "categories": "Cajun/Creole, American (New), Hot Dogs, Restaurants, Comfort Food",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "TbjqvdrSBm27arbKbReRfg": {
+      "name": "Thanal Indian Tavern",
+      "categories": "Asian Fusion, Restaurants, Indian",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "yT3Qs8rz82wqhKFlfWr1Lg": {
+      "name": "Oregano's",
+      "categories": "Sandwiches, Pizza, Restaurants, Italian",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "ewaaXBGXMGluuTGXOnTkRg": {
+      "name": "Tuk Tuk Thai Street Food",
+      "categories": "Restaurants, Thai",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "yksAB6aQXfNRrZM0jTxyOA": {
+      "name": "Yardley Inn Restaurant & Bar",
+      "categories": "Nightlife, Seafood, Restaurants, Bars, American (New)",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "_1JmbxhyiTXO_CDytQTkgA": {
+      "name": "Ike's Sandwiches",
+      "categories": "Restaurants, Vegetarian, Sandwiches, Gluten-Free, Vegan",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "MJ9FaB4y2jCyn1CU7Fnj2Q": {
+      "name": "Hirosaki",
+      "categories": "Restaurants, Sushi Bars, Japanese",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "lVAjWGOqyZOFHMEw5NLt9g": {
+      "name": "KitzMo Sushi",
+      "categories": "Restaurants, Asian Fusion, Japanese, Sushi Bars",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "XrikSy0DQ_fhVCaRRBJI-g": {
+      "name": "Kayne Prime",
+      "categories": "Restaurants, Steakhouses",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "jbJTF1zVmZsk4hea8hoeVA": {
+      "name": "Fork",
+      "categories": "American (New), Burgers, Restaurants, Breakfast & Brunch",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "RQTRnBmDXXNWiM1-1LEqWg": {
+      "name": "Charcoal",
+      "categories": "American (New), Steakhouses, Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "gVuzYJvei8rVDCLmhWBZ2Q": {
+      "name": "The Grand Buffet",
+      "categories": "Specialty Food, Buffets, Restaurants, Food",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "kK-pcrXr3CEnWP-ci7XXgw": {
+      "name": "Luciano's",
+      "categories": "Restaurants, Italian",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "tV46IhCfHbsx_af-pMupiw": {
+      "name": "Cafe Poca Cosa",
+      "categories": "American (Traditional), Restaurants, Mexican, Latin American",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "caSFK6m6kbifsD9ZF7bCNw": {
+      "name": "Bourbon Street Distillery",
+      "categories": "Nightlife, American (Traditional), Food, Bars, Restaurants, Beer, Wine & Spirits",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "DcBLYSvOuWcNReolRVr12A": {
+      "name": "Drago's Seafood Restaurant",
+      "categories": "Restaurants, Seafood",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "6OC8ErU_m06KABnfSXTJEA": {
+      "name": "Street Side",
+      "categories": "Restaurants, Vietnamese",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "gebiRewfieSdtt17PTW6Zg": {
+      "name": "Hibachi Steak House & Sushi Bar",
+      "categories": "Steakhouses, Sushi Bars, Restaurants, Japanese",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "GeLwhGlX8XsIsH-o3Wdc5w": {
+      "name": "360 St. Louis",
+      "categories": "American (New), Bars, Tapas Bars, Restaurants, Lounges, Nightlife",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "GmXC3CBu172Bkb0c6RnO7w": {
+      "name": "Restaurant R'evolution",
+      "categories": "Event Planning & Services, Hotels, Cajun/Creole, Restaurants, Seafood, Southern, Hotels & Travel",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "QAlWB_JXJNQyg-kqAK_Ciw": {
+      "name": "Dough Nation",
+      "categories": "Cafes, Bakeries, Ice Cream & Frozen Yogurt, Restaurants, Food, Desserts",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "Ps7Q7BOKzJO4nDTUhbk43Q": {
+      "name": "Clear Sky Cafe",
+      "categories": "Restaurants, American (Traditional), Tapas/Small Plates, Seafood, Breakfast & Brunch, American (New)",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "IxlIgLbIbynzJdzeqO860Q": {
+      "name": "Arario Midtown",
+      "categories": "Nightlife, Bars, Korean, Restaurants, Gluten-Free, Tapas/Small Plates, Tapas Bars, Asian Fusion, Cocktail Bars",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "qqtGFnjyZWV--_YqabSb8A": {
+      "name": "Los Aztecas",
+      "categories": "Mexican, Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "eZCt3doDaA-l4sg_OM67YQ": {
+      "name": "PROVIDER",
+      "categories": "Bakeries, Bars, Nightlife, Coffee & Tea, Food",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "sf-KdXHB5nxfNjl2uUpI6Q": {
+      "name": "Cafe Blue Moose",
+      "categories": "American (New), French, Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "6ajnOk0GcY9xbb5Ocaw8Gw": {
+      "name": "Barbuzzo",
+      "categories": "Mediterranean, Restaurants, Pizza, Italian",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "ac1AeYqs8Z4_e2X5M3if2A": {
+      "name": "Oceana Grill",
+      "categories": "Restaurants, Seafood, Cajun/Creole, Breakfast & Brunch",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "gKS0fS91JQOOTICdc2ZvFw": {
+      "name": "Benny the Bum's",
+      "categories": "American (Traditional), Restaurants, Seafood",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "73ZXjIfdHJs59XOzKHQ45g": {
+      "name": "The Crossing",
+      "categories": "French, Restaurants, American (New), Italian",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "ZfOS7Mz-iGseNxBhlhXm_w": {
+      "name": "Lucky Dill Deli",
+      "categories": "Coffee & Tea, Restaurants, Desserts, Food, American (New), Sandwiches, Breakfast & Brunch, Delis",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "unjm4rIGc-ZzRxdzEPnc1g": {
+      "name": "Ruth's Chris Steak House",
+      "categories": "American (Traditional), Restaurants, Bars, Steakhouses, Wine Bars, Seafood, Nightlife",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "05ev984NYfimRN0UiFrxaA": {
+      "name": "Osteria",
+      "categories": "Nightlife, Restaurants, Italian, Bars, Wine Bars",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "CCnuyfb1nd-doEpkj0OoHg": {
+      "name": "Noble Pie Parlor - Downtown",
+      "categories": "Sandwiches, Vegan, Restaurants, Pizza, Breakfast & Brunch",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "ctHjyadbDQAtUFfkcAFEHw": {
+      "name": "Zahav",
+      "categories": "Nightlife, Bars, Food, Ethnic Food, Middle Eastern, Vegetarian, Specialty Food, Israeli, Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "B_q2xoAgTyn6U4YNEc3kSw": {
+      "name": "China Pavilion",
+      "categories": "Chinese, Food, Dim Sum, Desserts, Coffee & Tea, Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "6LyhttbsQn6a6PDxQDojCw": {
+      "name": "Tokyo Japanese Steak House",
+      "categories": "Sushi Bars, Steakhouses, Restaurants, Japanese",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "LIHDIAocngz5Loe04eQ_oA": {
+      "name": "White Dog Cafe - Haverford",
+      "categories": "Nightlife, Bars, Event Planning & Services, American (Traditional), Restaurants, Vegetarian, American (New), Venues & Event Spaces, Gluten-Free, Breakfast & Brunch",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "DvBdqAA3XleMaOMwBl7g4g": {
+      "name": "Kona Grill - Tampa",
+      "categories": "Sushi Bars, American (New), Asian Fusion, Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "1vPSY4EA-fTRIZYz1Ruzow": {
+      "name": "K'Far Cafe",
+      "categories": "Bakeries, American (Traditional), Mediterranean, Food, Restaurants, Cafes",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "QvB0NRTGDplwnfPZGq8chw": {
+      "name": "The VIP Mexican Restaurant & Lounge",
+      "categories": "American (New), Restaurants, Mexican, New Mexican Cuisine, Bars, Nightlife, Lounges",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "18eWJFJbXyR9j_5xfcRLYA": {
+      "name": "Siam Elephant",
+      "categories": "Restaurants, Thai",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "Fc_8eLlcq5yy4DzrEeqEaQ": {
+      "name": "Ken's Seafood Restaurant",
+      "categories": "Seafood, Chinese, Nightlife, Restaurants, Karaoke",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "HDnaNdHEZpQMYXo-ZHHG9g": {
+      "name": "Deanie\u2019s Seafood",
+      "categories": "Restaurants, Specialty Food, Seafood, Food, Seafood Markets, Cajun/Creole, American (Traditional), Caterers, Event Planning & Services",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "ws7z5fLdaVgwxZ9ex3cKxw": {
+      "name": "Sycamore",
+      "categories": "French, Southern, Comfort Food, International, Restaurants, American (New)",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "9PZxjhTIU7OgPIzuGi89Ew": {
+      "name": "El Vez",
+      "categories": "Lounges, Bars, Nightlife, Breakfast & Brunch, Mexican, Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "dsfRniRgfbDjC8os848B6A": {
+      "name": "Bern's Steak House",
+      "categories": "Arts & Entertainment, Steakhouses, Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "JrG4NINLspXPNhSXg7Q07Q": {
+      "name": "Front Street Cafe",
+      "categories": "Coffee & Tea, Restaurants, Cafes, American (New), Cocktail Bars, Breakfast & Brunch, Vegan, Bars, Nightlife, Food, Juice Bars & Smoothies, Beer Gardens",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "mbzBcAAR1Hx4G2jWRxJRew": {
+      "name": "Cross Culture Restaurant",
+      "categories": "Indian, Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "cM3C8AT3IhOIM4ccBofuSg": {
+      "name": "Blind Owl Brewery",
+      "categories": "Beer Gardens, Restaurants, Food, Breweries, Beer, Wine & Spirits, Gastropubs, Nightlife",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "i_FWONQD1ZBqrNE2b-M5Ug": {
+      "name": "Talula's Garden",
+      "categories": "American (New), Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "MfkMUNwur9huBERrx0k5lg": {
+      "name": "Zemam's",
+      "categories": "Restaurants, Ethiopian",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "TCAaeZi4m_RwUTTbZseRmg": {
+      "name": "Hearthside",
+      "categories": "Restaurants, American (New)",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "CFjQ7Rld0ddZFTi8Ryc5Kw": {
+      "name": "Guppy's Good Times",
+      "categories": "Bars, Nightlife, American (New), Local Flavor, Tacos, Sushi Bars, Restaurants, Mexican",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "D16LyrKmQ0Cs8NQQkFZD6A": {
+      "name": "Fountain Grill - Safety Harbor Resort and Spa",
+      "categories": "Mediterranean, Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "9z2z_y0JK1F2CC5MAPuzrg": {
+      "name": "Aneu Bistro and Wine Bar",
+      "categories": "Restaurants, Food, Farmers Market, Event Planning & Services, Nightlife, Wine Bars, Bars, American (New), Caterers",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "2CDI713ATuxHfnB5b-sBdw": {
+      "name": "Vedge",
+      "categories": "Restaurants, Vegetarian, Beer, Wine & Spirits, Vegan, Food",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "VpeqnfECjFNcYLyDxuc-_w": {
+      "name": "Catelli Duo - Voorhees",
+      "categories": "Bars, Restaurants, Italian, Wine Bars, Cocktail Bars, Nightlife",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "2MAQeAqmD8enCT2ZYqUgIQ": {
+      "name": "The Melting Pot - Nashville",
+      "categories": "Fondue, Beer, Wine & Spirits, Food, Restaurants",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "fdez0D4ovth2k1IvR0ZbpQ": {
+      "name": "Sabor",
+      "categories": "Seafood, Restaurants, Mediterranean, Italian, Iberian, Spanish, Portuguese",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    },
+    "kZ1q0K13tFYG_ZJrVvsJHA": {
+      "name": "Sampan",
+      "categories": "Thai, American (New), Restaurants, Chinese, Asian Fusion, Tapas/Small Plates, Pan Asian",
+      "n_reviews": 25,
+      "n_judgments": 25,
+      "ground_truth": {
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
+        "policy_id": "G3_hidden_costs_V1"
+      }
+    }
+  },
+  "summary": {
+    "total_restaurants": 100,
+    "verdict_distribution": {
+      "Low Risk": 0,
+      "High Risk": 0,
+      "Critical Risk": 100
+    },
+    "missing_judgments": 0
+  }
+}

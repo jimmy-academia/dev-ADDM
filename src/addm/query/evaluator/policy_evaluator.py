@@ -61,15 +61,17 @@ class PolicyEvaluator:
         """Infer the topic filter field from policy ID.
 
         Args:
-            policy_id: e.g., "G1_allergy_V2"
+            policy_id: e.g., "G1_allergy_V2" or "G3_price_worth_V0"
 
         Returns:
             Filter field name, e.g., "is_allergy_related"
         """
-        # Extract topic from policy_id (e.g., G1_allergy_V2 -> allergy)
+        # Extract topic from policy_id
+        # G1_allergy_V2 -> allergy, G3_price_worth_V0 -> price_worth
         parts = policy_id.split("_")
-        if len(parts) >= 2:
-            topic = parts[1].lower()
+        if len(parts) >= 3:
+            # Topic is everything between group and version
+            topic = "_".join(parts[1:-1]).lower()
             # Map to filter field
             topic_filters = {
                 "allergy": "is_allergy_related",
