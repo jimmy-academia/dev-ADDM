@@ -1,15 +1,15 @@
 """Phase 2: Formula Seed Interpreter.
 
-Executes the Formula Seed against restaurant data:
-1. Filter reviews by keywords (Python)
-2. Extract signals via LLM (parallel or adaptive)
-3. Compute aggregations (Python)
-4. Execute computation DAG (Python)
-5. Return output values
+Executes the Formula Seed against restaurant data with two-stage retrieval:
 
-Supports two execution modes:
-- Parallel (default): Process all filtered reviews in parallel
-- Adaptive: Batch processing with early stopping based on search strategy
+Stage 1 (Quick Scan):
+- Filter reviews using filter_mode (keyword, embedding, or hybrid)
+- Extract signals via LLM
+- Compute verdict and check for early exit (severe evidence found)
+
+Stage 2 (Thorough Sweep):
+- Process ALL remaining reviews not matched in Stage 1
+- Recompute final verdict with complete evidence
 """
 
 import asyncio
@@ -20,7 +20,7 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple, TYPE_CHECKING
 
 from addm.llm import LLMService
-from addm.methods.amos.config import AMOSConfig
+from addm.methods.amos.config import AMOSConfig, FilterMode
 from addm.methods.amos.search.executor import SafeExpressionExecutor
 from addm.methods.amos.search.embeddings import HybridRetriever
 from addm.utils.async_utils import gather_with_concurrency
@@ -197,6 +197,9 @@ class FormulaSeedInterpreter:
 
         # Keyword match tracking per review
         self._keyword_hits_map: Dict[str, List[str]] = {}
+
+        # Thorough sweep state
+        self._sweep_early_stopped: bool = False
 
     def _filter_reviews(self, reviews: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """Filter reviews by keywords (Python, no LLM).
@@ -517,7 +520,8 @@ class FormulaSeedInterpreter:
         """
         for op_def in self.seed.get("compute", []):
             name = op_def.get("name", "")
-            op = op_def.get("op", "")
+            # Support both canonical 'op' and legacy 'operation' keys
+            op = op_def.get("op") or op_def.get("operation", "")
 
             # Only run simple aggregations, not verdict computation
             if op == "count":
@@ -526,6 +530,87 @@ class FormulaSeedInterpreter:
                 self._namespace[name] = self._compute_sum(op_def)
             elif op == "expr":
                 self._namespace[name] = self._compute_expr(op_def)
+
+    def _should_early_exit(self) -> bool:
+        """Check if Quick Scan found sufficient severe evidence for early exit.
+
+        Uses Formula Seed's verdict_metadata to determine severity if available.
+        Falls back to stopping_condition from search_strategy.
+        Policy-agnostic: works for G1-G6 with different verdict labels.
+
+        Returns:
+            True if early exit is warranted (severe evidence found)
+        """
+        # Get verdict metadata from Formula Seed (generated in Phase 1)
+        metadata = self.seed.get("verdict_metadata", {})
+        severe_verdicts = metadata.get("severe_verdicts", [])
+
+        # If severe_verdicts defined, check if current verdict is severe
+        if severe_verdicts:
+            verdict = self._namespace.get("VERDICT")
+            return verdict in severe_verdicts
+
+        # Fall back to existing stopping_condition logic from search_strategy
+        stopping_expr = self.strategy.get("stopping_condition", "False")
+        context = {
+            "namespace": self._namespace,
+            **self._namespace,
+        }
+        return self._executor.execute_bool(stopping_expr, context, default=False)
+
+    async def _sweep_remaining_reviews(
+        self,
+        unprocessed: List[Dict[str, Any]],
+    ) -> None:
+        """Thorough sweep of remaining reviews not matched by keywords.
+
+        Processes unprocessed reviews in batches, adding any relevant extractions
+        to self._extractions. Can early exit during sweep if severe evidence found.
+
+        Args:
+            unprocessed: List of reviews that weren't matched by keyword filter
+        """
+        if not unprocessed:
+            return
+
+        fields = self.seed.get("extract", {}).get("fields", [])
+        if not fields:
+            return
+
+        # Limit sweep size
+        max_reviews = self.config.max_sweep_reviews
+        if len(unprocessed) > max_reviews:
+            # Prioritize by recency (sort by date descending)
+            unprocessed = sorted(
+                unprocessed,
+                key=lambda r: r.get("date", ""),
+                reverse=True
+            )[:max_reviews]
+
+        batch_size = self.config.sweep_batch_size
+
+        for i in range(0, len(unprocessed), batch_size):
+            batch = unprocessed[i : i + batch_size]
+
+            # Extract batch (reuse existing extraction logic)
+            tasks = [self._extract_single_review(r, fields) for r in batch]
+            results = await gather_with_concurrency(self.max_concurrent, tasks)
+
+            # Add relevant extractions
+            for r in results:
+                if r.get("is_relevant", False):
+                    self._extractions.append(r)
+
+            # Early exit during sweep if severe found
+            if self.config.sweep_early_exit and len(self._extractions) > 0:
+                self._execute_compute_partial()
+                if self._should_early_exit():
+                    self._sweep_early_stopped = True
+                    logger.debug(
+                        f"Sweep early stopped at batch {i // batch_size + 1}, "
+                        f"total extractions: {len(self._extractions)}"
+                    )
+                    break
 
     def _matches_condition(self, extraction: Dict[str, Any], condition: Dict[str, Any]) -> bool:
         """Check if an extraction matches a where condition.
@@ -632,7 +717,8 @@ class FormulaSeedInterpreter:
         Returns:
             Count of matching extractions
         """
-        where = op_def.get("where", {})
+        # Support both canonical 'where' and legacy 'condition' keys
+        where = op_def.get("where") or op_def.get("condition", {})
         if not where:
             return len(self._extractions)
 
@@ -641,25 +727,55 @@ class FormulaSeedInterpreter:
     def _eval_sql_case_expr(self, expr: str, extraction: Dict[str, Any]) -> float:
         """Evaluate SQL-style CASE expression against an extraction.
 
-        Handles expressions like:
-            "CASE WHEN SEVERITY = 'mild' THEN 2 WHEN SEVERITY = 'moderate' THEN 5 ELSE 0 END"
+        Handles single CASE expressions and multiple CASE blocks connected with +.
+        Examples:
+            "CASE WHEN SEVERITY = 'Mild incident' THEN 2 WHEN SEVERITY = 'moderate' THEN 5 ELSE 0 END"
+            "CASE WHEN X = 'a' THEN 5 ELSE 0 END + CASE WHEN Y = 'b' THEN 3 ELSE 0 END"
 
         Args:
-            expr: SQL CASE expression
+            expr: SQL CASE expression (single or multiple with +)
             extraction: Extraction dict with field values
 
         Returns:
-            Numeric result from CASE evaluation
+            Numeric result from CASE evaluation (summed if multiple CASE blocks)
         """
-        # Parse CASE WHEN ... THEN ... [WHEN ... THEN ...] [ELSE ...] END
-        expr_upper = expr.upper()
-        if not expr_upper.startswith("CASE"):
+        # Split by + to handle multiple CASE blocks
+        # Pattern: CASE ... END
+        case_pattern = r"CASE\s+(.+?)\s+END"
+        case_blocks = re.findall(case_pattern, expr, re.IGNORECASE | re.DOTALL)
+
+        if not case_blocks:
             return 0.0
 
+        total = 0.0
+        for case_body in case_blocks:
+            total += self._eval_single_case(case_body, extraction)
+
+        return total
+
+    def _eval_single_case(self, case_body: str, extraction: Dict[str, Any]) -> float:
+        """Evaluate a single CASE body (content between CASE and END).
+
+        Args:
+            case_body: The content between CASE and END
+            extraction: Extraction dict with field values
+
+        Returns:
+            Numeric result from the first matching WHEN, or ELSE value
+        """
         # Extract WHEN/THEN pairs
-        # Pattern: WHEN field = 'value' THEN number
-        when_pattern = r"WHEN\s+(\w+)\s*=\s*['\"]?(\w+)['\"]?\s+THEN\s+(\d+(?:\.\d+)?)"
-        matches = re.findall(when_pattern, expr, re.IGNORECASE)
+        # Pattern: WHEN field = 'value with spaces' THEN number
+        # Handle both single and double quotes, capturing multi-word values
+        when_pattern = r"WHEN\s+(\w+)\s*=\s*['\"]([^'\"]+)['\"]\s+THEN\s+(\d+(?:\.\d+)?)"
+        matches = re.findall(when_pattern, case_body, re.IGNORECASE)
+
+        # Also try unquoted single-word values
+        when_pattern_unquoted = r"WHEN\s+(\w+)\s*=\s*(\w+)\s+THEN\s+(\d+(?:\.\d+)?)"
+        matches.extend(re.findall(when_pattern_unquoted, case_body, re.IGNORECASE))
+
+        # Also handle IN (...) clauses: WHEN field IN ('val1','val2') THEN number
+        in_pattern = r"WHEN\s+(\w+)\s+IN\s*\(([^)]+)\)\s+THEN\s+(\d+(?:\.\d+)?)"
+        in_matches = re.findall(in_pattern, case_body, re.IGNORECASE)
 
         for field, value, then_value in matches:
             actual_value = extraction.get(field, extraction.get(field.upper(), None))
@@ -671,9 +787,21 @@ class FormulaSeedInterpreter:
             if str(actual_value).lower() == value.lower():
                 return float(then_value)
 
+        # Check IN clauses
+        for field, values_str, then_value in in_matches:
+            actual_value = extraction.get(field, extraction.get(field.upper(), None))
+            if actual_value is None:
+                actual_value = extraction.get(field.lower(), "")
+
+            # Parse the values list (e.g., "'Thai','Vietnamese','Chinese'")
+            # Remove quotes and split by comma
+            values = [v.strip().strip("'\"") for v in values_str.split(",")]
+            if str(actual_value).lower() in [v.lower() for v in values]:
+                return float(then_value)
+
         # Check for ELSE clause
         else_pattern = r"ELSE\s+(\d+(?:\.\d+)?)"
-        else_match = re.search(else_pattern, expr, re.IGNORECASE)
+        else_match = re.search(else_pattern, case_body, re.IGNORECASE)
         if else_match:
             return float(else_match.group(1))
 
@@ -689,7 +817,8 @@ class FormulaSeedInterpreter:
             Sum of expression values across matching extractions
         """
         expr = op_def.get("expr", "1")
-        where = op_def.get("where", {})
+        # Support both canonical 'where' and legacy 'condition' keys
+        where = op_def.get("where") or op_def.get("condition", {})
 
         # Check if this is a SQL-style CASE expression
         is_sql_case = expr.strip().upper().startswith("CASE")
@@ -917,7 +1046,8 @@ class FormulaSeedInterpreter:
         """
         for op_def in self.seed.get("compute", []):
             name = op_def.get("name", "")
-            op = op_def.get("op", "")
+            # Support both canonical 'op' and legacy 'operation' keys
+            op = op_def.get("op") or op_def.get("operation", "")
 
             if op == "count":
                 self._namespace[name] = self._compute_count(op_def)
@@ -1242,53 +1372,64 @@ class FormulaSeedInterpreter:
 
         # Add strategy metrics
         metrics["strategy_metrics"] = {
-            "adaptive_mode": self.config.adaptive,
-            "stopped_early": self._stopped_early,
-            "early_verdict": self._early_verdict,
-            "reviews_skipped": self._reviews_skipped,
-            "has_search_strategy": bool(self.strategy),
+            "filter_mode": self.config.filter_mode.value,
+            "early_exit": self._stopped_early,
+            "sweep_early_stopped": self._sweep_early_stopped,
         }
 
-        # Add hybrid retrieval metrics if available
+        # Add embedding metrics if retriever was used
         if self._retriever:
             retriever_metrics = self._retriever.get_metrics()
             metrics["embedding_tokens"] = retriever_metrics.get("embedding_tokens", 0)
             metrics["embedding_cost_usd"] = retriever_metrics.get("embedding_cost_usd", 0.0)
             metrics["cost_usd"] += retriever_metrics.get("embedding_cost_usd", 0.0)
-            metrics["strategy_metrics"]["hybrid_cache_hit"] = retriever_metrics.get("cache_hit", False)
 
         return metrics
 
-    async def execute(
+    async def _filter_by_mode(
         self,
         reviews: List[Dict[str, Any]],
-        business: Dict[str, Any],
-        query: str = "",
-        sample_id: str = "",
-    ) -> Dict[str, Any]:
-        """Execute Formula Seed against restaurant data.
-
-        Supports two execution modes:
-        - Parallel (default): Process all filtered reviews in parallel
-        - Adaptive: Batch processing with early stopping to save tokens
+        query: str,
+        sample_id: str,
+    ) -> List[Dict[str, Any]]:
+        """Filter reviews for Stage 1 based on filter_mode.
 
         Args:
-            reviews: List of review dicts with 'text' and 'review_id' fields
-            business: Restaurant business info dict
-            query: The agenda/query text (for hybrid embedding retrieval)
-            sample_id: Sample ID for caching (for hybrid embedding retrieval)
+            reviews: All reviews to filter
+            query: The agenda/query text (for embedding-based filtering)
+            sample_id: Sample ID for embedding cache
 
         Returns:
-            Dict with output values and observability data
+            List of filtered reviews for Stage 1 extraction
         """
-        self._total_reviews = len(reviews)
+        from pathlib import Path
 
-        # Step 1: Filter reviews by keywords (Python, no LLM)
-        filtered = self._filter_reviews(reviews)
+        if self.config.filter_mode == FilterMode.KEYWORD:
+            # Keyword-only filtering
+            return self._filter_reviews(reviews)
 
-        # Step 1.5: Hybrid embedding retrieval (if enabled and strategy says so)
-        if self.config.hybrid and self.strategy.get("use_embeddings_when"):
-            from pathlib import Path
+        elif self.config.filter_mode == FilterMode.EMBEDDING:
+            # Embedding-only filtering (no keyword pre-filter)
+            cache_path = None
+            if self.config.embedding_cache_path:
+                cache_path = Path(self.config.embedding_cache_path)
+
+            self._retriever = HybridRetriever(
+                cache_path=cache_path,
+                embedding_model=self.config.embedding_model,
+            )
+
+            # Get top-k by embedding similarity (no keyword filter)
+            return await self._retriever.retrieve_by_embedding(
+                all_reviews=reviews,
+                query=query,
+                sample_id=sample_id,
+                top_k=min(20, len(reviews)),  # Top 20 or all if fewer
+            )
+
+        elif self.config.filter_mode == FilterMode.HYBRID:
+            # Keyword + embedding: union of both
+            keyword_filtered = self._filter_reviews(reviews)
 
             cache_path = None
             if self.config.embedding_cache_path:
@@ -1299,54 +1440,113 @@ class FormulaSeedInterpreter:
                 embedding_model=self.config.embedding_model,
             )
 
-            filtered = await self._retriever.retrieve_if_needed(
-                strategy=self.strategy,
-                keyword_matched=filtered,
-                all_reviews=reviews,
-                query=query,
-                executor=self._executor,
-                sample_id=sample_id,
-            )
+            # Get embedding matches not already in keyword set
+            keyword_ids = {r.get("review_id") for r in keyword_filtered}
+            remaining = [r for r in reviews if r.get("review_id") not in keyword_ids]
 
-        # Step 2: Extract signals via LLM
-        if self.config.adaptive:
-            # Adaptive mode: batch processing with early stopping
-            await self._extract_adaptive(filtered)
+            if remaining:
+                embedding_filtered = await self._retriever.retrieve_by_embedding(
+                    all_reviews=remaining,
+                    query=query,
+                    sample_id=sample_id,
+                    top_k=min(10, len(remaining)),  # Add top 10 from embedding
+                )
+                return keyword_filtered + embedding_filtered
+
+            return keyword_filtered
+
         else:
-            # Parallel mode: process all at once
-            await self._extract_signals(filtered)
+            # Fallback to keyword
+            return self._filter_reviews(reviews)
 
-        # Step 3 & 4: Compute aggregations and execute calculation DAG
+    async def execute(
+        self,
+        reviews: List[Dict[str, Any]],
+        business: Dict[str, Any],
+        query: str = "",
+        sample_id: str = "",
+    ) -> Dict[str, Any]:
+        """Execute Formula Seed against restaurant data with two-stage retrieval.
+
+        Stage 1 (Quick Scan): Filter using filter_mode, extract, check early exit
+        Stage 2 (Thorough Sweep): Process ALL remaining reviews (always on)
+
+        Args:
+            reviews: List of review dicts with 'text' and 'review_id' fields
+            business: Restaurant business info dict
+            query: The agenda/query text (for embedding-based filtering)
+            sample_id: Sample ID for caching (for embedding cache)
+
+        Returns:
+            Dict with output values and observability data
+        """
+        self._total_reviews = len(reviews)
+
+        # ===== STAGE 1: QUICK SCAN =====
+        # Filter reviews based on filter_mode
+        filtered = await self._filter_by_mode(reviews, query, sample_id)
+
+        # Extract signals from filtered reviews
+        await self._extract_signals(filtered)
+
+        # Compute verdict from Stage 1 extractions
         self._execute_compute(business)
 
-        # Step 4.5: Override verdict with early verdict if stopped early
-        if self._stopped_early and self._early_verdict:
-            # Only override if verdict not already computed or differs
-            current_verdict = self._namespace.get("VERDICT")
-            if current_verdict is None or current_verdict != self._early_verdict:
-                logger.debug(
-                    f"Using early verdict: {self._early_verdict} "
-                    f"(computed would be: {current_verdict})"
-                )
-                self._namespace["VERDICT"] = self._early_verdict
+        # Capture Stage 1 results for stats
+        stage1_verdict = self._namespace.get("VERDICT")
+        stage1_extractions = len(self._extractions)
 
-        # Step 5: Return output values
+        # Check early exit (severe evidence found in Stage 1)
+        if self._should_early_exit():
+            logger.debug(f"Early exit: Stage 1 verdict '{stage1_verdict}' is severe")
+            result = self._get_output()
+            result["_filter_stats"] = {
+                "filter_mode": self.config.filter_mode.value,
+                "total_reviews": len(reviews),
+                "stage1_filtered": len(filtered),
+                "stage1_extractions": stage1_extractions,
+                "stage1_verdict": stage1_verdict,
+                "early_exit": True,
+                "sweep_performed": False,
+                "final_extractions": len(self._extractions),
+            }
+            return result
+
+        # ===== STAGE 2: THOROUGH SWEEP (always on) =====
+        filtered_ids = {r.get("review_id") for r in filtered}
+        unprocessed = [r for r in reviews if r.get("review_id") not in filtered_ids]
+
+        sweep_performed = False
+        sweep_reviews_processed = 0
+
+        if unprocessed:
+            sweep_performed = True
+            sweep_reviews_processed = min(len(unprocessed), self.config.max_sweep_reviews)
+
+            logger.debug(
+                f"Stage 2 sweep: {len(unprocessed)} unprocessed reviews, "
+                f"processing up to {self.config.max_sweep_reviews}"
+            )
+
+            await self._sweep_remaining_reviews(unprocessed)
+
+            # Recompute verdict with all extractions
+            self._execute_compute(business)
+
+        # Return final output
         result = self._get_output()
 
-        # Add filtering stats
         result["_filter_stats"] = {
+            "filter_mode": self.config.filter_mode.value,
             "total_reviews": len(reviews),
-            "filtered_reviews": len(filtered),
-            "relevant_extractions": len(self._extractions),
-        }
-
-        # Add strategy execution stats
-        result["_strategy_stats"] = {
-            "adaptive_mode": self.config.adaptive,
-            "stopped_early": self._stopped_early,
-            "early_verdict": self._early_verdict,
-            "reviews_skipped": self._reviews_skipped,
-            "has_search_strategy": bool(self.strategy),
+            "stage1_filtered": len(filtered),
+            "stage1_extractions": stage1_extractions,
+            "stage1_verdict": stage1_verdict,
+            "early_exit": False,
+            "sweep_performed": sweep_performed,
+            "sweep_reviews_processed": sweep_reviews_processed,
+            "sweep_early_stopped": self._sweep_early_stopped,
+            "final_extractions": len(self._extractions),
         }
 
         return result

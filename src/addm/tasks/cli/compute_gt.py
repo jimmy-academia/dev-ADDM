@@ -133,16 +133,16 @@ def main_policy(args: argparse.Namespace) -> None:
     """Policy-based GT computation."""
     # Parse policy list (comma-separated)
     policy_ids = [p.strip() for p in args.policy.split(",")]
-    print(f"Computing GT for {len(policy_ids)} policies: {policy_ids}")
+    print(f"Computing GT for {len(policy_ids)} policies")
 
-    # All policies should share the same topic
-    topics = set(get_topic_from_policy_id(pid) for pid in policy_ids)
-    if len(topics) > 1:
-        print(f"[WARN] Multiple topics detected: {topics}")
-        print("       Policies should share the same topic for efficiency")
+    # Group policies by topic for efficient cache loading
+    from collections import defaultdict
+    policies_by_topic: Dict[str, List[str]] = defaultdict(list)
+    for pid in policy_ids:
+        topic = get_topic_from_policy_id(pid)
+        policies_by_topic[topic].append(pid)
 
-    topic = get_topic_from_policy_id(policy_ids[0])
-    print(f"Topic: {topic}")
+    print(f"Topics: {list(policies_by_topic.keys())}")
 
     # Load dataset
     dataset_path = Path(f"data/context/{args.domain}/dataset_K{args.k}.jsonl")
@@ -153,110 +153,127 @@ def main_policy(args: argparse.Namespace) -> None:
     with open(dataset_path) as f:
         restaurants = [json.loads(line) for line in f]
 
-    # Load policy cache (aggregated judgments)
+    # Load cache once
     cache_path = _get_judgement_cache_path(args.domain)
     cache = PolicyJudgmentCache(cache_path)
-    all_judgments = cache.get_all_aggregated(topic)
-    print(f"Loaded {len(all_judgments)} aggregated judgments for {topic}")
 
-    if not all_judgments:
-        print("[ERROR] No aggregated judgments found!")
-        print("        Run extraction first: python -m addm.tasks.cli.extract --topic", topic)
-        return
+    # Track skipped topics
+    skipped_topics = []
 
-    # Load human judgment overrides for this topic
-    overrides = load_overrides(topic)
-    if overrides:
-        print(f"Loaded {len(overrides)} judgment overrides for {topic}")
-
-    # Process each policy
-    for policy_id in policy_ids:
+    # Process each topic
+    for topic, topic_policies in policies_by_topic.items():
         print(f"\n{'='*60}")
-        print(f"Computing GT for policy: {policy_id}")
+        print(f"Topic: {topic} ({len(topic_policies)} policies)")
         print(f"{'='*60}")
 
-        # Load policy
-        try:
-            policy = load_policy(policy_id)
-        except FileNotFoundError as e:
-            print(f"[ERROR] {e}")
+        # Load aggregated judgments for this topic
+        all_judgments = cache.get_all_aggregated(topic)
+        print(f"Loaded {len(all_judgments)} aggregated judgments")
+
+        if not all_judgments:
+            print(f"[SKIP] No judgments for {topic} - extraction not complete")
+            skipped_topics.append(topic)
             continue
 
-        # Prepare output
-        output: Dict[str, Any] = {
-            "policy_id": policy_id,
-            "topic": topic,
-            "domain": args.domain,
-            "k": args.k,
-            "computed_at": datetime.now().isoformat(),
-            "has_scoring": policy.normative.scoring is not None,
-            "restaurants": {},
-        }
+        # Load human judgment overrides for this topic
+        overrides = load_overrides(topic)
+        if overrides:
+            print(f"Loaded {len(overrides)} judgment overrides for {topic}")
 
-        verdicts: Dict[str, int] = {}
-        for v in policy.get_verdicts():
-            verdicts[v] = 0
+        # Process each policy in this topic
+        for policy_id in topic_policies:
+            print(f"\n--- Policy: {policy_id} ---")
 
-        missing_judgments = 0
+            # Load policy
+            try:
+                policy = load_policy(policy_id)
+            except FileNotFoundError as e:
+                print(f"[ERROR] {e}")
+                continue
 
-        for restaurant in restaurants:
-            business = restaurant.get("business", {})
-            business_id = business.get("business_id", "")
-            name = business.get("name", "Unknown")
-            categories = business.get("categories", "")
-
-            # Gather judgments for this restaurant's reviews
-            reviews = restaurant.get("reviews", [])
-            restaurant_judgments: List[Dict[str, Any]] = []
-
-            for review in reviews:
-                review_id = review.get("review_id", "")
-                if review_id in all_judgments:
-                    restaurant_judgments.append(all_judgments[review_id])
-                else:
-                    missing_judgments += 1
-
-            # Compute GT using policy scoring (with human overrides)
-            restaurant_meta = {"categories": categories, "name": name}
-            gt = compute_gt_from_policy(restaurant_judgments, policy, restaurant_meta, overrides)
-
-            # Store result
-            verdict = gt.get("verdict", "Unknown")
-            score = gt.get("score", 0)
-
-            output["restaurants"][business_id] = {
-                "name": name,
-                "categories": categories,
-                "n_reviews": len(reviews),
-                "n_judgments": len(restaurant_judgments),
-                "ground_truth": gt,
+            # Prepare output
+            output: Dict[str, Any] = {
+                "policy_id": policy_id,
+                "topic": topic,
+                "domain": args.domain,
+                "k": args.k,
+                "computed_at": datetime.now().isoformat(),
+                "has_scoring": policy.normative.scoring is not None,
+                "restaurants": {},
             }
 
-            if verdict in verdicts:
-                verdicts[verdict] += 1
-            else:
-                verdicts[verdict] = 1
+            verdicts: Dict[str, int] = {}
+            for v in policy.get_verdicts():
+                verdicts[v] = 0
 
-            if args.verbose:
-                print(f"{name}: {verdict} (score={score})")
+            missing_judgments = 0
 
-        # Summary
-        output["summary"] = {
-            "total_restaurants": len(restaurants),
-            "verdict_distribution": verdicts,
-            "missing_judgments": missing_judgments,
-        }
+            for restaurant in restaurants:
+                business = restaurant.get("business", {})
+                business_id = business.get("business_id", "")
+                name = business.get("name", "Unknown")
+                categories = business.get("categories", "")
 
-        # Save ground truth
-        gt_path = _get_policy_gt_path(policy_id, args.domain, args.k)
-        gt_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(gt_path, "w") as f:
-            json.dump(output, f, indent=2)
+                # Gather judgments for this restaurant's reviews
+                reviews = restaurant.get("reviews", [])
+                restaurant_judgments: List[Dict[str, Any]] = []
 
-        print(f"\nSaved GT to {gt_path}")
-        print(f"Distribution: {verdicts}")
-        if missing_judgments > 0:
-            print(f"[WARN] {missing_judgments} reviews missing judgments")
+                for review in reviews:
+                    review_id = review.get("review_id", "")
+                    if review_id in all_judgments:
+                        restaurant_judgments.append(all_judgments[review_id])
+                    else:
+                        missing_judgments += 1
+
+                # Compute GT using policy scoring (with human overrides)
+                restaurant_meta = {"categories": categories, "name": name}
+                gt = compute_gt_from_policy(restaurant_judgments, policy, restaurant_meta, overrides)
+
+                # Store result
+                verdict = gt.get("verdict", "Unknown")
+                score = gt.get("score", 0)
+
+                output["restaurants"][business_id] = {
+                    "name": name,
+                    "categories": categories,
+                    "n_reviews": len(reviews),
+                    "n_judgments": len(restaurant_judgments),
+                    "ground_truth": gt,
+                }
+
+                if verdict in verdicts:
+                    verdicts[verdict] += 1
+                else:
+                    verdicts[verdict] = 1
+
+                if args.verbose:
+                    print(f"{name}: {verdict} (score={score})")
+
+            # Summary
+            output["summary"] = {
+                "total_restaurants": len(restaurants),
+                "verdict_distribution": verdicts,
+                "missing_judgments": missing_judgments,
+            }
+
+            # Save ground truth
+            gt_path = _get_policy_gt_path(policy_id, args.domain, args.k)
+            gt_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(gt_path, "w") as f:
+                json.dump(output, f, indent=2)
+
+            print(f"Saved: {gt_path}")
+            print(f"Distribution: {verdicts}")
+            if missing_judgments > 0:
+                print(f"[WARN] {missing_judgments} reviews missing judgments")
+
+    # Final summary
+    if skipped_topics:
+        print(f"\n{'='*60}")
+        print(f"[SUMMARY] Skipped {len(skipped_topics)} topics (no judgments):")
+        for t in skipped_topics:
+            print(f"  - {t}")
+        print("Run extraction first: python -m addm.tasks.cli.extract --k 200 --all")
 
 
 def main() -> None:

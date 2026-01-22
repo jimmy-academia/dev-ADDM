@@ -309,12 +309,17 @@ Look at observations.policy_type to determine the structure:
 5. VERDICT: case on SCORE using observations.verdict_rules.rules conditions
 
 ### VERDICT FORMAT (SCORING)
+
+**CRITICAL - EXACT VERDICT LABELS**: Copy verdict labels EXACTLY from observations.verdict_rules.verdicts.
+Do NOT simplify or modify labels. If observations say "Critical Risk", use "Critical Risk" - NOT "Critical".
+The verdicts array contains the EXACT strings to use in your rules.
+
 Use observations.verdict_rules.rules to build:
 ```json
 {{"name": "VERDICT", "op": "case", "source": "SCORE", "rules": [
-  {{"when": ">= 8", "then": "Critical"}},
-  {{"when": ">= 4", "then": "High"}},
-  {{"else": "Low"}}
+  {{"when": ">= 8", "then": "<EXACT label from observations.verdict_rules.verdicts[0]>"}},
+  {{"when": ">= 4", "then": "<EXACT label from observations.verdict_rules.verdicts[1]>"}},
+  {{"else": "<EXACT label from observations.verdict_rules.verdicts[2]>"}}
 ]}}
 ```
 
@@ -336,23 +341,28 @@ Use observations.verdict_rules.rules to build:
 5. VERDICT: case using COUNT conditions (NOT score)
 
 ### VERDICT FORMAT (RULE-BASED)
+
+**CRITICAL - EXACT VERDICT LABELS**: Copy verdict labels EXACTLY from observations.verdict_rules.verdicts.
+Do NOT simplify or modify labels. If observations say "Critical Risk", use "Critical Risk" - NOT "Critical".
+The verdicts array contains the EXACT strings to use in your rules.
+
 Build verdict from observations.verdict_rules.rules using count conditions:
 ```json
 {{"name": "VERDICT", "op": "case", "source": "N_SEVERE", "rules": [
-  {{"when": ">= 2", "then": "Critical"}},
+  {{"when": ">= 2", "then": "<EXACT from observations.verdict_rules.verdicts>"}},
   {{"else": null}}
 ], "fallback_source": "N_MODERATE", "fallback_rules": [
-  {{"when": ">= 2", "then": "High"}},
-  {{"else": "Low"}}
+  {{"when": ">= 2", "then": "<EXACT from observations.verdict_rules.verdicts>"}},
+  {{"else": "<EXACT from observations.verdict_rules.verdicts>"}}
 ]}}
 ```
 
 OR use compound conditions in a single case:
 ```json
 {{"name": "VERDICT", "op": "case", "rules": [
-  {{"when": "N_SEVERE >= 2", "then": "Critical"}},
-  {{"when": "N_MODERATE >= 2", "then": "High"}},
-  {{"else": "Low"}}
+  {{"when": "N_SEVERE >= 2", "then": "<EXACT from observations.verdict_rules.verdicts[0]>"}},
+  {{"when": "N_MODERATE >= 2", "then": "<EXACT from observations.verdict_rules.verdicts[1]>"}},
+  {{"else": "<EXACT from observations.verdict_rules.verdicts[2]>"}}
 ]}}
 ```
 
@@ -408,6 +418,13 @@ OR use compound conditions in a single case:
   "expansion_hints": {{
     "domain": "<primary_topic>",
     "expand_on": ["<category names>"]
+  }},
+
+  "verdict_metadata": {{
+    "verdicts": ["<list all possible verdict labels in order from lowest to highest severity>"],
+    "ordered": true,
+    "severe_verdicts": ["<highest severity verdict(s) that should trigger early exit>"],
+    "score_variable": "<SCORE or primary aggregation variable name>"
   }}
 }}
 ```
@@ -422,6 +439,9 @@ OR use compound conditions in a single case:
 4. **sum operations**: Use {{"op": "sum", "expr": "CASE WHEN...", "where": {{...}}}} format
 5. **case operations**: Use {{"op": "case", "source": "...", "rules": [...]}} format
 6. **expr operations**: Use {{"op": "expr", "expr": "..."}} for combining computed values
+7. **VERDICT LABELS**: Use EXACT verdict strings from observations.verdict_rules.verdicts - copy character-for-character!
+   - If observations say "Critical Risk", use "Critical Risk" NOT "Critical"
+   - If observations say "Low Risk", use "Low Risk" NOT "Low"
 
 Output ONLY the JSON:
 

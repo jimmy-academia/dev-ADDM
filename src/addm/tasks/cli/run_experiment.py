@@ -438,11 +438,11 @@ async def run_experiment(
     mode: Optional[str] = None,
     batch_id: Optional[str] = None,
     top_k: int = 20,
-    amos_adaptive: bool = False,
-    amos_hybrid: bool = False,
+    filter_mode: str = "keyword",
     sample_ids: Optional[List[str]] = None,
     phase: Optional[str] = None,
     seed_path: Optional[str] = None,
+    run_number: Optional[int] = None,
 ) -> Dict[str, Any]:
     """Run experiment evaluation.
 
@@ -462,11 +462,14 @@ async def run_experiment(
         token_limit: Token budget for RLM (converts to iterations via ~3000 tokens/iter)
         mode: Explicit mode override ("ondemand" or "batch").
               In benchmark mode, auto-selected based on quota state if not specified.
-        amos_adaptive: Enable AMOS adaptive mode (batch processing with early stopping)
-        amos_hybrid: Enable AMOS hybrid embedding retrieval
+        filter_mode: AMOS Stage 1 filter strategy: 'keyword', 'embedding', or 'hybrid'
         sample_ids: If provided, only run on these specific business IDs (filters dataset)
         phase: AMOS phase control: '1' (generate seed only), '2' (use seed_path), '1,2' or None (both)
         seed_path: Path to Formula Seed file or directory for --phase 2
+        run_number: Explicit run number (1-5) for benchmark mode. If specified:
+            - run 1 = ondemand mode (captures latency)
+            - run 2-5 = batch mode (cost efficient)
+            If not specified, auto-detects next available run number.
 
     Either task_id or policy_id must be provided.
     """
@@ -540,23 +543,38 @@ async def run_experiment(
         # Include K in the benchmark identifier for separate tracking
         benchmark_id = f"{run_id}_K{k}"
 
-        # Auto-select mode based on quota state
-        if effective_mode is None:
-            effective_mode = results_manager.get_next_mode(method, benchmark_id)
+        if run_number is not None:
+            # Explicit run number specified via --run
+            # Validate run number range
+            if run_number < 1 or run_number > results_manager.DEFAULT_QUOTA:
+                raise ValueError(f"--run must be between 1 and {results_manager.DEFAULT_QUOTA}")
 
-            if effective_mode is None and not force:
-                # Quota met - print aggregate and exit
+            # Determine mode based on run number: 1 = ondemand, 2+ = batch
+            if effective_mode is None:
+                effective_mode = "ondemand" if run_number == 1 else "batch"
+
+            # Create run directory with explicit number
+            output_dir = results_manager.get_benchmark_dir(method, benchmark_id) / f"run_{run_number}"
+            output_dir.mkdir(parents=True, exist_ok=True)
+            (output_dir / "item_logs").mkdir(exist_ok=True)
+        else:
+            # Auto-select mode based on quota state
+            if effective_mode is None:
+                effective_mode = results_manager.get_next_mode(method, benchmark_id)
+
+                if effective_mode is None and not force:
+                    # Quota met - print aggregate and exit
+                    output.info(f"Benchmark quota met for {method}/{benchmark_id}")
+                    results_manager.print_aggregate_summary(method, benchmark_id, output.print)
+                    return {"quota_met": True, "method": method, "policy_id": run_id, "k": k}
+
+            # Create run directory
+            output_dir = results_manager.get_or_create_run_dir(method, benchmark_id, force=force)
+            if output_dir is None and not force:
+                # Quota met
                 output.info(f"Benchmark quota met for {method}/{benchmark_id}")
                 results_manager.print_aggregate_summary(method, benchmark_id, output.print)
                 return {"quota_met": True, "method": method, "policy_id": run_id, "k": k}
-
-        # Create run directory
-        output_dir = results_manager.get_or_create_run_dir(method, benchmark_id, force=force)
-        if output_dir is None and not force:
-            # Quota met
-            output.info(f"Benchmark quota met for {method}/{benchmark_id}")
-            results_manager.print_aggregate_summary(method, benchmark_id, output.print)
-            return {"quota_met": True, "method": method, "policy_id": run_id, "k": k}
 
     else:
         # Legacy mode: results/legacy/{run_id}/
@@ -802,9 +820,8 @@ async def run_experiment(
             amos_method = amos_class(
                 policy_id=run_id,
                 max_concurrent=32,
-                adaptive=amos_adaptive,
-                hybrid=amos_hybrid,
-                system_prompt=system_prompt,  # Pass system_prompt for consistency
+                filter_mode=filter_mode,
+                system_prompt=system_prompt,
             )
 
             # Convert restaurants to Sample objects
@@ -885,6 +902,12 @@ async def run_experiment(
                     "verdict": verdict,
                     "risk_score": raw_result.get("risk_score"),
                     "prompt_chars": raw_result.get("prompt_tokens", 0) * 4,
+                    # Token and latency metrics
+                    "prompt_tokens": raw_result.get("prompt_tokens", 0),
+                    "completion_tokens": raw_result.get("completion_tokens", 0),
+                    "total_tokens": raw_result.get("total_tokens", 0),
+                    "cost_usd": raw_result.get("cost_usd", 0.0),
+                    "latency_ms": raw_result.get("latency_ms", 0.0),
                     # AMOS-specific metrics
                     "filter_stats": raw_result.get("filter_stats", {}),
                     "extractions_count": raw_result.get("extractions_count", 0),
@@ -1190,14 +1213,12 @@ def main() -> None:
         help="RAG: Number of reviews to retrieve (default: 20, ~10%% of K=200)",
     )
     parser.add_argument(
-        "--amos-adaptive",
-        action="store_true",
-        help="AMOS: Enable adaptive mode (batch processing with early stopping)",
-    )
-    parser.add_argument(
-        "--amos-hybrid",
-        action="store_true",
-        help="AMOS: Enable hybrid embedding retrieval (experimental)",
+        "--filter-mode",
+        type=str,
+        default="keyword",
+        choices=["keyword", "embedding", "hybrid"],
+        help="AMOS: Stage 1 filter strategy (default: keyword). "
+             "keyword=fast, embedding=better recall, hybrid=both",
     )
     parser.add_argument(
         "--phase",
@@ -1225,6 +1246,12 @@ def main() -> None:
         type=str,
         default=None,
         help="Comma-separated business IDs to filter dataset (e.g., 'id1,id2,id3')",
+    )
+    parser.add_argument(
+        "--run",
+        type=int,
+        default=None,
+        help="Run specific run number only (1-5). Without this, runs up to quota.",
     )
 
     args = parser.parse_args()
@@ -1264,11 +1291,11 @@ def main() -> None:
                     mode=args.mode,
                     batch_id=args.batch_id,
                     top_k=args.top_k,
-                                        amos_adaptive=args.amos_adaptive,
-                    amos_hybrid=args.amos_hybrid,
+                    filter_mode=args.filter_mode,
                     sample_ids=sample_ids,
                     phase=args.phase,
                     seed_path=args.seed,
+                    run_number=args.run,
                 )
             except Exception as e:
                 return {"error": str(e), "policy_id": policy}
@@ -1320,11 +1347,11 @@ def main() -> None:
                 mode=args.mode,
                 batch_id=args.batch_id,
                 top_k=args.top_k,
-                                amos_adaptive=args.amos_adaptive,
-                amos_hybrid=args.amos_hybrid,
+                filter_mode=args.filter_mode,
                 sample_ids=sample_ids,
                 phase=args.phase,
                 seed_path=args.seed,
+                run_number=args.run,
             )
         )
 

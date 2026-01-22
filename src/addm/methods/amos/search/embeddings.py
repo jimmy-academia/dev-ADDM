@@ -251,3 +251,91 @@ class HybridRetriever:
         )
 
         return keyword_matched + top_retrieved
+
+    async def retrieve_by_embedding(
+        self,
+        all_reviews: List[Dict[str, Any]],
+        query: str,
+        sample_id: str = "",
+        top_k: int = 20,
+    ) -> List[Dict[str, Any]]:
+        """Retrieve top-k reviews by embedding similarity to query.
+
+        Unlike retrieve_if_needed, this always retrieves by embedding,
+        without checking a strategy condition. Used for EMBEDDING filter mode.
+
+        Args:
+            all_reviews: All reviews to search
+            query: The agenda/query text for similarity comparison
+            sample_id: Sample ID for caching
+            top_k: Number of reviews to retrieve
+
+        Returns:
+            List of top-k reviews sorted by similarity to query
+        """
+        self.reset_metrics()
+
+        if not all_reviews:
+            return []
+
+        # Try cache first
+        num_reviews = len(all_reviews)
+        cache_key = self._get_cache_key(sample_id, num_reviews)
+        cached = self._cache.get(cache_key)
+
+        if cached:
+            self._cache_hit = True
+            query_embedding = cached["query_embedding"]
+            review_embeddings_map = cached.get("review_embeddings_map", {})
+        else:
+            self._cache_hit = False
+
+            # Embed query + all reviews
+            texts_to_embed = [query] + [r.get("text", "") for r in all_reviews]
+            embeddings = await self._embed_batch(texts_to_embed)
+
+            query_embedding = embeddings[0]
+            review_embeddings_map = {
+                all_reviews[i].get("review_id"): embeddings[i + 1]
+                for i in range(len(all_reviews))
+            }
+
+            # Track cost
+            self._embedding_tokens = sum(estimate_tokens(t) for t in texts_to_embed)
+            self._embedding_cost = (
+                self._embedding_tokens / 1_000_000
+            ) * EMBEDDING_COST_PER_1M_TOKENS
+
+            # Save to cache
+            self._cache[cache_key] = {
+                "query_embedding": query_embedding,
+                "review_embeddings_map": review_embeddings_map,
+                "num_reviews": num_reviews,
+            }
+            self._save_cache()
+
+        # Compute similarities for all reviews
+        similarities = []
+        for review in all_reviews:
+            review_id = review.get("review_id")
+            review_embedding = review_embeddings_map.get(review_id)
+            if review_embedding:
+                sim = cosine_similarity(query_embedding, review_embedding)
+                similarities.append((sim, review))
+            else:
+                similarities.append((0.0, review))
+
+        # Sort by similarity (descending) and take top-k
+        similarities.sort(key=lambda x: x[0], reverse=True)
+        top_retrieved = [review for _, review in similarities[:top_k]]
+
+        # Add embedding similarity to reviews for tracking
+        for sim, review in similarities[:top_k]:
+            review["_embedding_sim"] = sim
+
+        logger.debug(
+            f"Retrieved {len(top_retrieved)} reviews by embedding "
+            f"(cache_hit={self._cache_hit})"
+        )
+
+        return top_retrieved

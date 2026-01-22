@@ -4,7 +4,7 @@ from addm.methods.registry import MethodRegistry
 from addm.methods.direct import DirectMethod
 from addm.methods.rlm import RLMMethod
 from addm.methods.rag import RAGMethod
-from addm.methods.amos_method import AMOSMethod
+from addm.methods.amos import AMOSMethod
 
 
 def build_method_registry() -> MethodRegistry:

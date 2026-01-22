@@ -38,7 +38,7 @@ Methods are categorized by how they handle restaurant review context:
 | Attribute | Value |
 |-----------|-------|
 | Method | `amos` |
-| File | `src/addm/methods/amos_method.py` |
+| File | `src/addm/methods/amos/__init__.py` |
 | Description | Two-phase method: (1) LLM generates executable Formula Seed from policy, (2) Interpreter executes seed with parallel extraction |
 | Context handling | Keyword filtering + parallel LLM extraction of structured fields |
 | Token cost | ~5k tokens per restaurant (Phase 1 amortized across all samples) |

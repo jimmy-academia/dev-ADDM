@@ -1,0 +1,302 @@
+{
+  "manifest_id": "all_topics_6b564449",
+  "mode": "all_topics",
+  "domain": "yelp",
+  "k": 200,
+  "models_config": {
+    "gpt-5-mini": 1,
+    "gpt-5-nano": 3
+  },
+  "total_requests": 1253920,
+  "created_at": "2026-01-21T18:47:49.512473",
+  "batches": [
+    {
+      "batch_id": "batch_697173f3107c8190a46f7336025cfcb0",
+      "model": "gpt-5-mini",
+      "chunk_index": 0,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 40000
+    },
+    {
+      "batch_id": "batch_6971742b613c81909a5732c39afe7d0a",
+      "model": "gpt-5-mini",
+      "chunk_index": 1,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 40000
+    },
+    {
+      "batch_id": "batch_6971746221d08190b100cb56b44d667b",
+      "model": "gpt-5-mini",
+      "chunk_index": 2,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 40000
+    },
+    {
+      "batch_id": "batch_6971749bcb4081908b90c21ff75f2ccd",
+      "model": "gpt-5-mini",
+      "chunk_index": 3,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 40000
+    },
+    {
+      "batch_id": "batch_697174d46c3481908c516d530dc1801e",
+      "model": "gpt-5-mini",
+      "chunk_index": 4,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39999
+    },
+    {
+      "batch_id": "batch_6971750ab4b88190af7c3a31154bf281",
+      "model": "gpt-5-mini",
+      "chunk_index": 5,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 40000
+    },
+    {
+      "batch_id": "batch_69717540ee6c819092021a6ae4b12b5a",
+      "model": "gpt-5-mini",
+      "chunk_index": 6,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 40000
+    },
+    {
+      "batch_id": "batch_6971756d543c819080efbdf2a00045aa",
+      "model": "gpt-5-mini",
+      "chunk_index": 7,
+      "request_count": 33480,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 33480
+    },
+    {
+      "batch_id": "batch_697175a55adc8190906423755adc92ee",
+      "model": "gpt-5-nano",
+      "chunk_index": 8,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39995
+    },
+    {
+      "batch_id": "batch_697175d95ff481909a3531bba6bb4594",
+      "model": "gpt-5-nano",
+      "chunk_index": 9,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39996
+    },
+    {
+      "batch_id": "batch_6971760f32e881908c7c36447792ecf9",
+      "model": "gpt-5-nano",
+      "chunk_index": 10,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39995
+    },
+    {
+      "batch_id": "batch_6971764546508190a2cdcb32e5959201",
+      "model": "gpt-5-nano",
+      "chunk_index": 11,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39995
+    },
+    {
+      "batch_id": "batch_697176772714819085cf28603e9b0cec",
+      "model": "gpt-5-nano",
+      "chunk_index": 12,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39990
+    },
+    {
+      "batch_id": "batch_697176b42f8481908fd8349152e8ca3f",
+      "model": "gpt-5-nano",
+      "chunk_index": 13,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39997
+    },
+    {
+      "batch_id": "batch_697176eb7310819089be5f74421568d8",
+      "model": "gpt-5-nano",
+      "chunk_index": 14,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39992
+    },
+    {
+      "batch_id": "batch_6971771fff808190ae07aa95251709e3",
+      "model": "gpt-5-nano",
+      "chunk_index": 15,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39996
+    },
+    {
+      "batch_id": "batch_697177584fb08190abe9fd5034758aad",
+      "model": "gpt-5-nano",
+      "chunk_index": 16,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39998
+    },
+    {
+      "batch_id": "batch_6971778c44608190b6aaf9582a9cf860",
+      "model": "gpt-5-nano",
+      "chunk_index": 17,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39999
+    },
+    {
+      "batch_id": "batch_697177c4e8cc8190b2f3598967e5a015",
+      "model": "gpt-5-nano",
+      "chunk_index": 18,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39997
+    },
+    {
+      "batch_id": "batch_697177fbbc6c819084f40c2efc49cda0",
+      "model": "gpt-5-nano",
+      "chunk_index": 19,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39998
+    },
+    {
+      "batch_id": "batch_6971782fdec08190a67c92a7f34def9a",
+      "model": "gpt-5-nano",
+      "chunk_index": 20,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39996
+    },
+    {
+      "batch_id": "batch_6971786425fc8190b437771a88d6aad0",
+      "model": "gpt-5-nano",
+      "chunk_index": 21,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39999
+    },
+    {
+      "batch_id": "batch_69717895ddb081908364eead0c78c574",
+      "model": "gpt-5-nano",
+      "chunk_index": 22,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39999
+    },
+    {
+      "batch_id": "batch_697178c947108190bdf3fb8252235782",
+      "model": "gpt-5-nano",
+      "chunk_index": 23,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39997
+    },
+    {
+      "batch_id": "batch_69717908f76c8190b7331ca6d840ad62",
+      "model": "gpt-5-nano",
+      "chunk_index": 24,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39996
+    },
+    {
+      "batch_id": "batch_69717939b8e48190b86a5629c15f4da1",
+      "model": "gpt-5-nano",
+      "chunk_index": 25,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39994
+    },
+    {
+      "batch_id": "batch_6971796d55b88190bd505f9b56a9c28f",
+      "model": "gpt-5-nano",
+      "chunk_index": 26,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39990
+    },
+    {
+      "batch_id": "batch_6971799f5f6c8190969795386f5198d8",
+      "model": "gpt-5-nano",
+      "chunk_index": 27,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 40000
+    },
+    {
+      "batch_id": "batch_697179d0a7c48190b462f554e021a19d",
+      "model": "gpt-5-nano",
+      "chunk_index": 28,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39998
+    },
+    {
+      "batch_id": "batch_69717a0ad51c81909215c5bfb571292e",
+      "model": "gpt-5-nano",
+      "chunk_index": 29,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39997
+    },
+    {
+      "batch_id": "batch_69717a3ccd188190a07211125e1fae0e",
+      "model": "gpt-5-nano",
+      "chunk_index": 30,
+      "request_count": 40000,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 39996
+    },
+    {
+      "batch_id": "batch_69717a58232881908eb2f65e86aa9e35",
+      "model": "gpt-5-nano",
+      "chunk_index": 31,
+      "request_count": 20440,
+      "processed": true,
+      "status": "completed",
+      "raw_count": 20439
+    }
+  ]
+}

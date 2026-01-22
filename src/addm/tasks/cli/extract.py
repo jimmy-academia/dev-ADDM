@@ -138,11 +138,13 @@ def _find_existing_manifests(domain: str, topic: str) -> List[Tuple[str, Dict[st
     return results
 
 
-def _check_and_report_status(args, topic: str) -> bool:
+def _check_and_report_status(args, topic: str) -> Optional[str]:
     """Check for existing batches and report status.
 
-    Returns True if there's an existing job (caller should exit),
-    False if no existing job (caller should proceed with new extraction).
+    Returns:
+        None: No existing job (caller should proceed with new extraction)
+        "processing": Batches still in progress (caller should exit and wait)
+        manifest_id: All batches complete (caller should process this manifest)
     """
     from addm.llm_batch import BatchClient
 
@@ -150,7 +152,7 @@ def _check_and_report_status(args, topic: str) -> bool:
     manifests = _find_existing_manifests(args.domain, topic)
 
     if not manifests:
-        return False  # No existing job, proceed
+        return None  # No existing job, proceed
 
     output.print(f"\n{'='*60}")
     output.print(f"EXISTING BATCH JOB DETECTED FOR: {topic}")
@@ -205,17 +207,22 @@ def _check_and_report_status(args, topic: str) -> bool:
 
         output.print(f"\n  Summary: {completed} completed, {in_progress} in-progress, {failed} failed")
         if total_requests > 0:
-            output.print(f"  Requests: {completed_requests}/{total_requests} completed, {failed_requests} failed")
+            pct = 100.0 * completed_requests / total_requests
+            output.print(f"  Requests: {completed_requests:,}/{total_requests:,} ({pct:.1f}%) completed, {failed_requests:,} failed")
 
         if in_progress > 0:
             output.info("\n  Status: STILL PROCESSING - re-run to check again")
+            all_complete = False
         elif failed > 0 and completed > 0:
             output.warn("\n  Status: PARTIALLY FAILED - some batches failed")
             output.print("  Action: Check failed batches, then re-run to submit missing requests")
+            all_complete = False
         elif failed > 0:
             output.error("\n  Status: ALL FAILED - check errors above")
+            all_complete = False
         else:
-            output.success("\n  Status: ALL COMPLETE - run again to process results")
+            output.success("\n  Status: ALL COMPLETE - processing results...")
+            all_complete = True
 
     output.print(f"\n{'='*60}")
     output.print("To check batch status:")
@@ -224,7 +231,10 @@ def _check_and_report_status(args, topic: str) -> bool:
     output.print(f"  rm data/answers/{args.domain}/batch_manifest_{topic}_*.json")
     output.print(f"{'='*60}\n")
 
-    return True  # Existing job found, caller should exit
+    # Return manifest_id if all complete so caller can process results
+    if all_complete and manifests:
+        return manifests[0][0]  # Return first manifest_id
+    return "processing"  # Still in progress or failed
 
 
 def _split_into_batches(items: List[Any], max_size: int) -> List[List[Any]]:
@@ -644,8 +654,12 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
     """Main async entry point for policy-based multi-model extraction."""
     # Check for existing batch jobs (only if not already processing a manifest/batch)
     if not args.manifest_id and not args.batch_id and args.mode == "batch":
-        if _check_and_report_status(args, topic):
-            return  # Existing job found, status reported, exit
+        status = _check_and_report_status(args, topic)
+        if status == "processing":
+            return  # Still processing, exit and wait
+        elif status is not None:
+            # All complete - set manifest_id to process results
+            args.manifest_id = status
 
     output.info(f"Policy-based extraction for topic: {topic}")
 
@@ -1242,6 +1256,29 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
     cache = PolicyJudgmentCache(cache_path)
     output.status(f"Cache loaded: {len(cache._data.get('raw', {}))} raw entries")
 
+    # Show per-topic cache status (quick check from cache keys)
+    total_reviews = sum(len(r.get("reviews", [])) for r in restaurants)
+    models_config = get_models_config(args)
+    total_runs = sum(models_config.values())
+    expected_per_topic = total_reviews * total_runs
+
+    output.info("Cache status by topic:")
+    topics_complete = 0
+    for topic in sorted(topic_schemas.keys()):
+        # Count raw entries for this topic
+        cached = sum(1 for k in cache._data.get("raw", {}) if k.startswith(f"{topic}::"))
+        pct = 100.0 * cached / expected_per_topic if expected_per_topic > 0 else 0
+        if cached >= expected_per_topic:
+            output.print(f"  {topic}: {cached:,}/{expected_per_topic:,} (100%) ✓")
+            topics_complete += 1
+        elif cached > 0:
+            output.print(f"  {topic}: {cached:,}/{expected_per_topic:,} ({pct:.1f}%)")
+        else:
+            output.print(f"  {topic}: 0/{expected_per_topic:,} (0%)")
+
+    if topics_complete > 0:
+        output.info(f"{topics_complete} topic(s) already complete in cache")
+
     # Check term hashes and set metadata
     for topic, term_hash in topic_hashes.items():
         if not cache.check_term_hash(topic, term_hash):
@@ -1271,6 +1308,15 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
     if args.provider != "openai":
         output.error("batch mode only supports provider=openai")
         return
+
+    # Check for existing batch jobs (auto-detect manifests)
+    if not args.manifest_id and not args.batch_id:
+        status = _check_and_report_status(args, "all_topics")
+        if status == "processing":
+            return  # Still processing, exit and wait
+        elif status is not None:
+            # All complete - set manifest_id to process results
+            args.manifest_id = status
 
     # Handle manifest-based multi-batch processing for --all mode
     if args.manifest_id:
@@ -1522,8 +1568,12 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
     # Submit batch(es) for all topics
     output.info("Scanning reviews to find what needs extraction...")
     request_items = []
-    reviews_to_extract = 0
     total_restaurants = len(restaurants)
+    total_reviews = sum(len(r.get("reviews", [])) for r in restaurants)
+    expected_per_topic = total_reviews * total_runs  # reviews × runs per topic
+
+    # Track per-topic stats
+    topic_needs: Dict[str, int] = {t: 0 for t in topic_schemas}
 
     for i, restaurant in enumerate(restaurants):
         if (i + 1) % 10 == 0 or i == 0:
@@ -1544,7 +1594,7 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
                 if not needed:
                     continue
 
-                reviews_to_extract += 1
+                topic_needs[topic] += len(needed)
                 prompt = build_extraction_prompt(
                     l0_schema, review_text, review_id, task_description="relevant information"
                 )
@@ -1560,12 +1610,33 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
                         )
                     )
 
+    # Show per-topic extraction status
+    output.info("Per-topic extraction status:")
+    topics_skipped = 0
+    topics_partial = 0
+    topics_needed = 0
+    for topic in sorted(topic_schemas.keys()):
+        needed = topic_needs[topic]
+        cached = expected_per_topic - needed
+        pct = 100.0 * cached / expected_per_topic if expected_per_topic > 0 else 0
+        if needed == 0:
+            output.print(f"  {topic}: {cached:,}/{expected_per_topic:,} (100%) ✓ complete")
+            topics_skipped += 1
+        elif cached == 0:
+            output.print(f"  {topic}: 0/{expected_per_topic:,} (0%) → need {needed:,}")
+            topics_needed += 1
+        else:
+            output.print(f"  {topic}: {cached:,}/{expected_per_topic:,} ({pct:.1f}%) → need {needed:,}")
+            topics_partial += 1
+
+    if topics_skipped > 0:
+        output.info(f"Skipping {topics_skipped} complete topic(s), extracting {topics_needed + topics_partial}")
+
     if not request_items:
-        output.info("No reviews need extraction. All quotas satisfied.")
+        output.success("No reviews need extraction. All topics complete!")
         return
 
-    output.info(f"Total requests: {len(request_items)}")
-    output.print(f"  ({len(topic_schemas)} topics × {reviews_to_extract} review-topics × {total_runs} runs)")
+    output.info(f"Total requests: {len(request_items):,}")
 
     # Split by model first (OpenAI requires single model per batch), then by size
     model_batches = _split_by_model_then_size(request_items, MAX_BATCH_SIZE)

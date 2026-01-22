@@ -243,3 +243,7 @@ results/test_queries/
 # Method caches (legacy, moving to results/shared/)
 results/cache/
 
+
+# Large data files
+results/
+data/answers/yelp/judgement_cache.json

@@ -3,7 +3,7 @@
   "topic": "G1_allergy",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-18T21:36:29.424401",
+  "computed_at": "2026-01-21T23:44:03.990152",
   "has_scoring": true,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -209,10 +209,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 2,
+        "score": 0,
         "n_incidents": 0,
         "incidents": [],
-        "cuisine_modifier": true,
+        "cuisine_modifier": false,
         "policy_id": "G1_allergy_V2"
       }
     },
@@ -418,18 +418,10 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "score": 15,
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "a-ptEPsf-ea_7tpK2yoimw",
-            "severity": "severe",
-            "base_points": 15,
-            "modifiers": [],
-            "total_points": 15
-          }
-        ],
+        "verdict": "Low Risk",
+        "score": 0,
+        "n_incidents": 0,
+        "incidents": [],
         "cuisine_modifier": false,
         "policy_id": "G1_allergy_V2"
       }
@@ -455,10 +447,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 2,
+        "score": 0,
         "n_incidents": 0,
         "incidents": [],
-        "cuisine_modifier": true,
+        "cuisine_modifier": false,
         "policy_id": "G1_allergy_V2"
       }
     },
@@ -497,10 +489,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 2,
+        "score": 0,
         "n_incidents": 0,
         "incidents": [],
-        "cuisine_modifier": true,
+        "cuisine_modifier": false,
         "policy_id": "G1_allergy_V2"
       }
     },
@@ -581,10 +573,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 2,
+        "score": 0,
         "n_incidents": 0,
         "incidents": [],
-        "cuisine_modifier": true,
+        "cuisine_modifier": false,
         "policy_id": "G1_allergy_V2"
       }
     },
@@ -609,10 +601,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 2,
+        "score": 0,
         "n_incidents": 0,
         "incidents": [],
-        "cuisine_modifier": true,
+        "cuisine_modifier": false,
         "policy_id": "G1_allergy_V2"
       }
     },
@@ -665,10 +657,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 2,
+        "score": 0,
         "n_incidents": 0,
         "incidents": [],
-        "cuisine_modifier": true,
+        "cuisine_modifier": false,
         "policy_id": "G1_allergy_V2"
       }
     },
@@ -791,10 +783,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 2,
+        "score": 0,
         "n_incidents": 0,
         "incidents": [],
-        "cuisine_modifier": true,
+        "cuisine_modifier": false,
         "policy_id": "G1_allergy_V2"
       }
     },
@@ -875,10 +867,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 2,
+        "score": 0,
         "n_incidents": 0,
         "incidents": [],
-        "cuisine_modifier": true,
+        "cuisine_modifier": false,
         "policy_id": "G1_allergy_V2"
       }
     },
@@ -1085,10 +1077,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 2,
+        "score": 0,
         "n_incidents": 0,
         "incidents": [],
-        "cuisine_modifier": true,
+        "cuisine_modifier": false,
         "policy_id": "G1_allergy_V2"
       }
     },
@@ -1127,10 +1119,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 2,
+        "score": 0,
         "n_incidents": 0,
         "incidents": [],
-        "cuisine_modifier": true,
+        "cuisine_modifier": false,
         "policy_id": "G1_allergy_V2"
       }
     },
@@ -1169,10 +1161,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 2,
+        "score": 0,
         "n_incidents": 0,
         "incidents": [],
-        "cuisine_modifier": true,
+        "cuisine_modifier": false,
         "policy_id": "G1_allergy_V2"
       }
     },
@@ -1183,10 +1175,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 2,
+        "score": 0,
         "n_incidents": 0,
         "incidents": [],
-        "cuisine_modifier": true,
+        "cuisine_modifier": false,
         "policy_id": "G1_allergy_V2"
       }
     },
@@ -1445,10 +1437,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 2,
+        "score": 0,
         "n_incidents": 0,
         "incidents": [],
-        "cuisine_modifier": true,
+        "cuisine_modifier": false,
         "policy_id": "G1_allergy_V2"
       }
     }
@@ -1456,9 +1448,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Risk": 97,
+      "Low Risk": 98,
       "High Risk": 0,
-      "Critical Risk": 3
+      "Critical Risk": 2
     },
     "missing_judgments": 0
   }

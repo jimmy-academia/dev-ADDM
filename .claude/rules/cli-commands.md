@@ -62,6 +62,7 @@
 | `--dev` | run_experiment | Dev mode (saves to results/dev/, no quota) |
 | `--force` | run_experiment | Override benchmark quota |
 | `--method` | run_experiment | Method (direct/rlm/rag/amos) |
+| `--filter-mode` | run_experiment | AMOS: Stage 1 filter (keyword/embedding/hybrid) |
 | `--phase` | run_experiment | AMOS phase: '1' (seed only), '2' (use seed), '1,2' or omit (both) |
 | `--seed` | run_experiment | Path to Formula Seed file/dir for --phase 2 |
 | `--models` | extract | Custom model config (e.g., "gpt-5-nano:3,gpt-5-mini:1") |
@@ -80,12 +81,16 @@ Default quota: 5 runs per policy/K combination (1 ondemand + 4 batch).
 DEFAULT_QUOTA = 5  # Adjust this constant to change quota
 ```
 
-## Pipeline Script
+## Scripts Directory
 
-```bash
-# Full G1_allergy extraction (waits for batches)
-./scripts/run_g1_allergy.sh
-# Logs: results/logs/extraction/g1_allergy.log
+```
+scripts/
+├── data/                      # Data pipeline (production)
+│   ├── build_topic_selection.py
+│   ├── select_topic_restaurants.py
+│   └── build_dataset.py
+├── select_diverse_samples.py  # Sample selection utility
+└── debug/                     # One-off debugging scripts
 ```
 
 ---
