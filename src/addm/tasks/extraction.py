@@ -191,6 +191,22 @@ class PolicyJudgmentCache:
                     counts[model] += 1
         return dict(counts)
 
+    def get_raw_review_ids(self, topic: str) -> set:
+        """Get all unique review_ids that have raw extractions for a topic.
+
+        Returns:
+            Set of review_ids
+        """
+        prefix = f"{topic}::"
+        review_ids = set()
+        for key in self._data["raw"].keys():
+            if key.startswith(prefix):
+                # Key format: topic::review_id::model::runN
+                parts = key.split("::")
+                if len(parts) >= 2:
+                    review_ids.add(parts[1])
+        return review_ids
+
     # -------------------------------------------------------------------------
     # Aggregated cache operations
     # -------------------------------------------------------------------------

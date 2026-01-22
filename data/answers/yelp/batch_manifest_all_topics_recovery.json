@@ -1,0 +1,232 @@
+{
+  "manifest_id": "recovery_20260122_010812",
+  "created_at": "2026-01-22T01:08:12.965006",
+  "domain": "yelp",
+  "k": 200,
+  "batches": [
+    {
+      "batch_id": "batch_69717a58232881908eb2f65e86aa9e35",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 20439
+    },
+    {
+      "batch_id": "batch_69717a3ccd188190a07211125e1fae0e",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39996
+    },
+    {
+      "batch_id": "batch_69717a0ad51c81909215c5bfb571292e",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39997
+    },
+    {
+      "batch_id": "batch_697179d0a7c48190b462f554e021a19d",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39998
+    },
+    {
+      "batch_id": "batch_6971799f5f6c8190969795386f5198d8",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 40000
+    },
+    {
+      "batch_id": "batch_6971796d55b88190bd505f9b56a9c28f",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39990
+    },
+    {
+      "batch_id": "batch_69717939b8e48190b86a5629c15f4da1",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39994
+    },
+    {
+      "batch_id": "batch_69717908f76c8190b7331ca6d840ad62",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39996
+    },
+    {
+      "batch_id": "batch_697178c947108190bdf3fb8252235782",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39997
+    },
+    {
+      "batch_id": "batch_69717895ddb081908364eead0c78c574",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39999
+    },
+    {
+      "batch_id": "batch_6971786425fc8190b437771a88d6aad0",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39999
+    },
+    {
+      "batch_id": "batch_6971782fdec08190a67c92a7f34def9a",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39996
+    },
+    {
+      "batch_id": "batch_697177fbbc6c819084f40c2efc49cda0",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39998
+    },
+    {
+      "batch_id": "batch_697177c4e8cc8190b2f3598967e5a015",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39997
+    },
+    {
+      "batch_id": "batch_6971778c44608190b6aaf9582a9cf860",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39999
+    },
+    {
+      "batch_id": "batch_697177584fb08190abe9fd5034758aad",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39998
+    },
+    {
+      "batch_id": "batch_6971771fff808190ae07aa95251709e3",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39996
+    },
+    {
+      "batch_id": "batch_697176eb7310819089be5f74421568d8",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39992
+    },
+    {
+      "batch_id": "batch_697176b42f8481908fd8349152e8ca3f",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39997
+    },
+    {
+      "batch_id": "batch_697176772714819085cf28603e9b0cec",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39990
+    },
+    {
+      "batch_id": "batch_6971764546508190a2cdcb32e5959201",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39995
+    },
+    {
+      "batch_id": "batch_6971760f32e881908c7c36447792ecf9",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39995
+    },
+    {
+      "batch_id": "batch_697175d95ff481909a3531bba6bb4594",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39996
+    },
+    {
+      "batch_id": "batch_697175a55adc8190906423755adc92ee",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39995
+    },
+    {
+      "batch_id": "batch_6971756d543c819080efbdf2a00045aa",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 33480
+    },
+    {
+      "batch_id": "batch_69717540ee6c819092021a6ae4b12b5a",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 40000
+    },
+    {
+      "batch_id": "batch_6971750ab4b88190af7c3a31154bf281",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 40000
+    },
+    {
+      "batch_id": "batch_697174d46c3481908c516d530dc1801e",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 39999
+    },
+    {
+      "batch_id": "batch_6971749bcb4081908b90c21ff75f2ccd",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 40000
+    },
+    {
+      "batch_id": "batch_6971746221d08190b100cb56b44d667b",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 40000
+    },
+    {
+      "batch_id": "batch_6971742b613c81909a5732c39afe7d0a",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 40000
+    },
+    {
+      "batch_id": "batch_697173f3107c8190a46f7336025cfcb0",
+      "topic": "all_topics",
+      "status": "completed",
+      "processed": true,
+      "raw_count": 40000
+    }
+  ]
+}

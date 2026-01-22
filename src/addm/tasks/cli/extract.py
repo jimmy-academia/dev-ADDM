@@ -955,9 +955,7 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
     if args.manifest_id:
         manifest = _load_manifest(args.domain, args.manifest_id)
         if not manifest:
-            # Manifest file deleted
-            output.warn(f"Manifest not found: {args.manifest_id} (likely already processed or deleted)")
-            _delete_manifest(args.domain, args.manifest_id)  # Clean up any leftover files
+            output.warn(f"Manifest not found: {args.manifest_id}")
             return
 
         batch_client = BatchClient()
@@ -1086,8 +1084,8 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
         output.success(f"\nDone. Added {total_aggregated} aggregated judgments.")
         output.info(f"Cache now has {final_agg} aggregated judgments for {topic}")
 
-        # Cleanup - always delete manifest (cache is source of truth)
-        _delete_manifest(args.domain, args.manifest_id)
+        # Keep manifest until GT verified
+        output.info(f"Manifest kept: batch_manifest_{args.manifest_id}.json")
 
         # Check if extraction is complete
         missing = 0
@@ -1298,6 +1296,87 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
     for topic, term_hash in topic_hashes.items():
         cache.set_topic_metadata(topic, term_hash, models_config)
 
+    # Handle --aggregate flag: skip extraction, run aggregation on cached data
+    if getattr(args, "aggregate", False):
+        output.info("Running aggregation on cached raw data (--aggregate mode)")
+
+        # Build index in single pass: O(n) where n = number of raw entries
+        # Index maps (topic, review_id) -> list of raw judgments
+        output.status("Building index from raw cache (single pass)...")
+        from collections import defaultdict
+
+        aggregated_keys: set = set()
+        raw_by_review: Dict[Tuple[str, str], List[Dict]] = defaultdict(list)
+
+        # First, get all aggregated keys
+        for key in cache._data.get("aggregated", {}):
+            aggregated_keys.add(key)
+
+        # Then, build index from raw entries (only for unaggregated reviews)
+        raw_count = 0
+        for key, value in cache._data.get("raw", {}).items():
+            parts = key.split("::")
+            if len(parts) >= 2:
+                topic, review_id = parts[0], parts[1]
+                if topic in topic_schemas:
+                    agg_key = f"{topic}::{review_id}"
+                    if agg_key not in aggregated_keys:
+                        raw_by_review[(topic, review_id)].append(value)
+                        raw_count += 1
+
+        output.status(f"  Indexed {raw_count} raw entries across {len(raw_by_review)} reviews")
+
+        if not raw_by_review:
+            output.success("All reviews already aggregated. Nothing to do.")
+            return
+
+        # Group by topic for reporting
+        reviews_by_topic: Dict[str, List[str]] = {t: [] for t in topic_schemas}
+        for (topic, review_id) in raw_by_review.keys():
+            reviews_by_topic[topic].append(review_id)
+
+        for topic in sorted(topic_schemas.keys()):
+            if reviews_by_topic[topic]:
+                output.status(f"  {topic}: {len(reviews_by_topic[topic])} reviews need aggregation")
+
+        total_to_aggregate = len(raw_by_review)
+        output.success(f"Found {total_to_aggregate} reviews needing aggregation")
+        output.status("Running aggregation...")
+
+        import time
+        agg_start_time = time.time()
+        total_aggregated = 0
+        save_interval = 5000
+        for topic in sorted(topic_schemas.keys()):
+            l0_schema = topic_schemas[topic]
+            topic_count = 0
+            for review_id in reviews_by_topic[topic]:
+                raw_judgments = raw_by_review[(topic, review_id)]
+                if raw_judgments:
+                    aggregated = aggregate_judgments(raw_judgments, l0_schema)
+                    cache.set_aggregated(topic, review_id, aggregated)
+                    total_aggregated += 1
+                    topic_count += 1
+                    if total_aggregated % save_interval == 0:
+                        cache.save()
+                        elapsed = time.time() - agg_start_time
+                        rate = total_aggregated / elapsed if elapsed > 0 else 0
+                        remaining = total_to_aggregate - total_aggregated
+                        eta_seconds = remaining / rate if rate > 0 else 0
+                        eta_min = int(eta_seconds // 60)
+                        eta_sec = int(eta_seconds % 60)
+                        output.status(f"  Aggregated {total_aggregated}/{total_to_aggregate} (ETA: {eta_min}m {eta_sec}s)")
+            if topic_count > 0:
+                output.status(f"  {topic}: aggregated {topic_count} reviews")
+
+        cache.save()
+        output.success(f"\nDone. Added {total_aggregated} aggregated judgments.")
+
+        for topic in sorted(topic_schemas.keys()):
+            count = cache.count_aggregated(topic)
+            output.print(f"  {topic}: {count} aggregated")
+        return
+
     if args.mode == "ondemand":
         total_requests = len(restaurants) * 200 * len(topic_schemas) * total_runs
         output.error(f"--all mode requires batch (ondemand not implemented for {total_requests:,} requests)")
@@ -1335,7 +1414,12 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
         total_raw = 0
         reviews_by_topic: Dict[str, set] = {t: set() for t in topic_schemas}
 
-        for batch_info in manifest["batches"]:
+        import time
+        batch_start_time = time.time()
+        batches_to_process = [b for b in manifest["batches"] if not b.get("processed")]
+        total_batches = len(batches_to_process)
+
+        for batch_idx, batch_info in enumerate(manifest["batches"]):
             batch_id = batch_info["batch_id"]
             if batch_info.get("processed"):
                 continue
@@ -1410,7 +1494,18 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
                 except Exception:
                     continue
 
-            output.status(f"    Processed {batch_raw} raw extractions")
+            # Progress and time estimate
+            processed_count = sum(1 for b in manifest["batches"] if b.get("processed"))
+            elapsed = time.time() - batch_start_time
+            if processed_count > 0 and elapsed > 0:
+                rate = processed_count / elapsed
+                remaining = total_batches - processed_count
+                eta_seconds = remaining / rate if rate > 0 else 0
+                eta_min = int(eta_seconds // 60)
+                eta_sec = int(eta_seconds % 60)
+                output.status(f"  [{processed_count}/{total_batches}] +{batch_raw} extractions (ETA: {eta_min}m {eta_sec}s)")
+            else:
+                output.status(f"  [1/{total_batches}] +{batch_raw} extractions")
             batch_info["processed"] = True
             batch_info["status"] = "completed"
             batch_info["raw_count"] = batch_raw
@@ -1426,18 +1521,66 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
 
         # All batches complete - run aggregation
         output.success(f"\nAll batches complete. Processed {total_raw} total raw extractions.")
-        output.status("Running aggregation...")
+
+        # Check if reviews_by_topic is empty but cache has data
+        # (batches marked processed but aggregation incomplete)
+        total_in_set = sum(len(ids) for ids in reviews_by_topic.values())
+        if total_in_set == 0:
+            output.status("All batches were already processed. Rebuilding review list from cache...")
+            for topic in topic_schemas:
+                # Get all review_ids that have raw data in cache
+                raw_review_ids = cache.get_raw_review_ids(topic)
+                for review_id in raw_review_ids:
+                    # Only include if quota satisfied but not yet aggregated
+                    if cache.is_quota_satisfied(topic, review_id, models_config):
+                        if not cache.has_aggregated(topic, review_id):
+                            reviews_by_topic[topic].add(review_id)
+                if reviews_by_topic[topic]:
+                    output.status(f"  {topic}: {len(reviews_by_topic[topic])} reviews need aggregation")
+            total_in_set = sum(len(ids) for ids in reviews_by_topic.values())
+            if total_in_set > 0:
+                output.success(f"Found {total_in_set} reviews from cache needing aggregation")
+            else:
+                output.success("All reviews already aggregated. Nothing to do.")
+                output.info(f"Manifest kept for recovery: batch_manifest_{args.manifest_id}.json")
+                return
+
+        total_to_aggregate = total_in_set
+        output.status(f"Running aggregation on {total_to_aggregate} reviews...")
+
+        # Build index for fast lookups (O(n) once instead of O(n) per review)
+        output.status("  Building raw data index...")
+        from collections import defaultdict
+        raw_by_review: Dict[Tuple[str, str], List[Dict]] = defaultdict(list)
+        for key, value in cache._data.get("raw", {}).items():
+            parts = key.split("::")
+            if len(parts) >= 2:
+                topic, review_id = parts[0], parts[1]
+                if topic in reviews_by_topic and review_id in reviews_by_topic[topic]:
+                    raw_by_review[(topic, review_id)].append(value)
+        output.status(f"  Indexed {len(raw_by_review)} reviews")
 
         total_aggregated = 0
+        save_interval = 5000  # Save every N aggregations to avoid losing work
+        agg_start_time = time.time()
         for topic, review_ids in reviews_by_topic.items():
             l0_schema = topic_schemas[topic]
             for review_id in review_ids:
-                if cache.is_quota_satisfied(topic, review_id, models_config):
-                    if not cache.has_aggregated(topic, review_id):
-                        raw_judgments = cache.get_raw_by_review(topic, review_id)
-                        aggregated = aggregate_judgments(raw_judgments, l0_schema)
-                        cache.set_aggregated(topic, review_id, aggregated)
-                        total_aggregated += 1
+                raw_judgments = raw_by_review.get((topic, review_id), [])
+                if raw_judgments and not cache.has_aggregated(topic, review_id):
+                    aggregated = aggregate_judgments(raw_judgments, l0_schema)
+                    cache.set_aggregated(topic, review_id, aggregated)
+                    total_aggregated += 1
+                    # Periodic save with progress and time estimate
+                    if total_aggregated % save_interval == 0:
+                        cache.save()
+                        elapsed = time.time() - agg_start_time
+                        rate = total_aggregated / elapsed if elapsed > 0 else 0
+                        remaining = total_to_aggregate - total_aggregated
+                        eta_seconds = remaining / rate if rate > 0 else 0
+                        eta_min = int(eta_seconds // 60)
+                        eta_sec = int(eta_seconds % 60)
+                        output.status(f"  Aggregated {total_aggregated}/{total_to_aggregate} (ETA: {eta_min}m {eta_sec}s)")
 
         cache.save()
         output.success(f"\nDone. Added {total_aggregated} aggregated judgments across all topics.")
@@ -1446,9 +1589,9 @@ async def main_all_topics_async(args: argparse.Namespace) -> None:
             count = cache.count_aggregated(topic)
             output.print(f"  {topic}: {count} aggregated")
 
-        # Cleanup - always delete manifest (cache is source of truth)
-
-        _delete_manifest(args.domain, args.manifest_id)
+        # Keep manifest until GT is verified - user can delete manually
+        output.info(f"Manifest kept: data/answers/{args.domain}/batch_manifest_{args.manifest_id}.json")
+        output.print("  Delete manually after verifying GT is correct.")
 
         # Check if extraction is complete for all topics
         output.info("Checking extraction completeness for all topics...")
@@ -1764,6 +1907,11 @@ def main() -> None:
         type=str,
         default=None,
         help="Model config as model:runs,... (e.g., 'gpt-5-nano:1' or 'gpt-5-nano:5,gpt-5-mini:3,gpt-5.1:1')",
+    )
+    parser.add_argument(
+        "--aggregate",
+        action="store_true",
+        help="Run aggregation on cached raw data (recovery mode for interrupted aggregation)",
     )
 
     args = parser.parse_args()

@@ -163,6 +163,22 @@ For keywords, reason about:
 - What terms indicate each category level according to the agenda's definitions?
 - What phrases distinguish firsthand from secondhand accounts?
 
+KEYWORD QUALITY CRITERIA (CRITICAL):
+- High-signal keywords should appear in <30% of reviews
+- AVOID generic words that appear in most reviews regardless of topic:
+  * Generic review language: review, customer, experience, mentioned, overall, definitely
+  * Generic restaurant language: restaurant, food, service, staff, waiter, server, menu, order
+  * Abstract terms: quality, incident, evidence, assessment, issue, problem, concern
+  * Sentiment words: good, bad, great, terrible, amazing, awful (too broad)
+- FOCUS on DOMAIN-SPECIFIC terms that distinguish relevant from irrelevant reviews
+- Test mentally: "Would this keyword mostly match reviews about MY specific topic, or would it match almost any restaurant review?"
+
+For each keyword, briefly note WHY it's specific to this task in derivation_notes.
+
+Examples of BAD keywords (too generic): "mentioned", "experience", "restaurant", "food", "service"
+Examples of GOOD keywords for allergy: "allergic", "nut-free", "gluten", "epipen", "anaphylaxis"
+Examples of GOOD keywords for romance: "anniversary", "proposal", "candlelit", "intimate", "date night"
+
 Output your plan:
 
 ```json
@@ -374,6 +390,8 @@ OR use compound conditions in a single case:
 {{
   "task_name": "<from observations.core_concepts.primary_topic>",
 
+  "extraction_guidelines": "<GENERATE THIS dynamically from observations - see instructions below>",
+
   "filter": {{
     "keywords": ["<from plan.keyword_strategy - combine all relevant terms>"]
   }},
@@ -442,6 +460,32 @@ OR use compound conditions in a single case:
 7. **VERDICT LABELS**: Use EXACT verdict strings from observations.verdict_rules.verdicts - copy character-for-character!
    - If observations say "Critical Risk", use "Critical Risk" NOT "Critical"
    - If observations say "Low Risk", use "Low Risk" NOT "Low"
+
+8. **extraction_guidelines**: MUST be generated from observations to guide precise extraction. Format as a multi-line string:
+
+   Generate guidelines covering these aspects (derive ALL from observations, never hard-code):
+
+   a) WHAT COUNTS AS AN INCIDENT:
+      - Derive from observations.evaluation_criteria.what_counts
+      - Example: "Reports of actual allergic reactions, near-misses, or explicit ingredient mislabeling"
+
+   b) WHAT DOES NOT COUNT:
+      - Derive from observations.evaluation_criteria.what_does_not_count
+      - Example: "General mentions of food without allergy context, hypothetical concerns, positive safety mentions"
+
+   c) ACCOUNT TYPES THAT CONTRIBUTE TO VERDICT:
+      - Derive from observations.account_handling.types (only those with counts_for_verdict=true)
+      - Example: "Only firsthand accounts (personal experience) count. Secondhand (heard from others) and general statements do NOT count."
+
+   d) SEVERITY CLASSIFICATION:
+      - Derive from observations.categories.values
+      - Example: "Severe: life-threatening reactions, ER visits. Moderate: significant symptoms, medication needed. Mild: minor discomfort."
+
+   e) CRITICAL VALIDATION:
+      - "You MUST include a supporting_quote - the exact text from the review that supports your extraction."
+      - "If you cannot quote specific evidence from the review, set is_relevant: false."
+
+   The extraction_guidelines field should be a SINGLE STRING with these sections separated by newlines.
 
 Output ONLY the JSON:
 

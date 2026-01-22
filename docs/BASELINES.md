@@ -24,7 +24,7 @@ Methods are categorized by how they handle restaurant review context:
 
 | Mode | Method | Description | Token Cost |
 |------|--------|-------------|------------|
-| **Proposed** | **`amos`** | **Two-phase: Formula Seed generation + parallel extraction** | **~5k tokens** |
+| **Proposed** | **`amos`** | **Two-phase: Formula Seed generation + two-stage extraction** | **~5-55k tokens** |
 | Full-context | `direct` | All K reviews in prompt | ~K×200 tokens |
 | Retrieval | `rag` | Embed query + reviews, retrieve top-k, LLM analyzes subset | ~4k tokens + embedding |
 | Code-execution | `rlm` | Reviews as Python variable, LLM writes search code | ~50k tokens |
@@ -40,8 +40,8 @@ Methods are categorized by how they handle restaurant review context:
 | Method | `amos` |
 | File | `src/addm/methods/amos/__init__.py` |
 | Description | Two-phase method: (1) LLM generates executable Formula Seed from policy, (2) Interpreter executes seed with parallel extraction |
-| Context handling | Keyword filtering + parallel LLM extraction of structured fields |
-| Token cost | ~5k tokens per restaurant (Phase 1 amortized across all samples) |
+| Context handling | Two-stage retrieval: Quick Scan (filtered) + Thorough Sweep (all remaining) |
+| Token cost | ~5-55k tokens per restaurant (depends on review count and early exit) |
 | Strengths | Explicit search strategy, parallel extraction, deterministic aggregation, cached compilation |
 | Weaknesses | Depends on keyword filtering quality, may miss subtle incidents |
 
@@ -49,11 +49,14 @@ Methods are categorized by how they handle restaurant review context:
 
 **Usage:**
 ```bash
-# Basic run
+# Basic run (keyword filter + thorough sweep)
 .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 10 --method amos
 
-# Force regenerate Formula Seed (if policy changed)
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 10 --method amos --regenerate-seed
+# Embedding filter mode
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 10 --method amos --filter-mode embedding
+
+# Hybrid filter mode
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 10 --method amos --filter-mode hybrid
 
 # Dev mode
 .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 10 --method amos --dev
@@ -100,13 +103,15 @@ Example Formula Seed snippet:
 ```
 
 **Phase 2: Execution (per restaurant)**
-1. **Filter**: Scan all K reviews for keyword matches → relevant subset
-2. **Extract**: For each relevant review, LLM extracts structured fields in parallel (max 32 concurrent)
-3. **Compute**: Deterministic aggregation of extracted fields → final verdict
+1. **Stage 1 - Quick Scan**: Filter reviews by mode (keyword/embedding/hybrid)
+2. **Extract**: LLM extracts structured fields from filtered reviews in parallel
+3. **Early Exit Check**: If severe evidence found → done
+4. **Stage 2 - Thorough Sweep**: Process ALL remaining reviews (always on)
+5. **Compute**: Deterministic aggregation of all extractions → final verdict
 
 **Caching:**
 - Formula Seeds cached in `data/formula_seeds/{policy_id}.json`
-- Use `--regenerate-seed` to force regeneration (e.g., after policy changes)
+- Seeds auto-regenerate when policy changes (hash-based invalidation)
 
 **Design Rationale:**
 
@@ -123,7 +128,7 @@ Example Formula Seed snippet:
 | **Policy encoding** | Explicit Formula Seed | Implicit in prompt | Implicit in embedding | Implicit in code |
 | **Aggregation** | Deterministic rules | LLM reasoning | LLM reasoning | LLM reasoning |
 | **Scalability** | Parallel (32 concurrent) | Single call | Single call | Sequential iterations |
-| **Token cost** | ~5k | ~K×200 | ~4k + embed | ~50k |
+| **Token cost** | ~5-55k | ~K×200 | ~4k + embed | ~50k |
 | **Phase 1 cost** | ~2k (amortized) | N/A | N/A | N/A |
 
 **Expected Performance:**

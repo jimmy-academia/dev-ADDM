@@ -2,22 +2,29 @@
 # Ground Truth Pipeline: Extract + Compute GT for all topics.
 #
 # Usage:
-#     ./scripts/run_gt_pipeline.sh
+#     ./scripts/run_gt_pipeline.sh              # Normal: extract + aggregate + compute
+#     ./scripts/run_gt_pipeline.sh --aggregate  # Skip extract, just aggregate + compute
 #
 # Pipeline:
 # 1. Extract L0 judgments for all 18 topics (K=200, batch mode)
-# 2. Compute GT for all 72 policies across K=25/50/100/200
-#    (compute_gt will skip if cache incomplete)
+# 2. Aggregate raw extractions (runs automatically, or use --aggregate to force)
+# 3. Compute GT for all 72 policies across K=25/50/100/200
 
 set -e
 
-echo "============================================================"
-echo "STEP 1: Extract L0 judgments (all 18 topics, K=200)"
-echo "============================================================"
+source .venv/bin/activate
 
-source .venv/bin/activate 
-
-python -m addm.tasks.cli.extract --k 200 --mode batch --all
+if [ "$1" = "--aggregate" ]; then
+    echo "============================================================"
+    echo "STEP 1: Aggregate cached raw data (--aggregate mode)"
+    echo "============================================================"
+    python -m addm.tasks.cli.extract --k 200 --all --aggregate
+else
+    echo "============================================================"
+    echo "STEP 1: Extract L0 judgments (all 18 topics, K=200)"
+    echo "============================================================"
+    python -m addm.tasks.cli.extract --k 200 --mode batch --all
+fi
 
 echo ""
 echo "============================================================"

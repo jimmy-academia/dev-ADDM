@@ -96,6 +96,12 @@ FIELD DEFINITIONS:
 REVIEW TEXT:
 {review_text}
 
+CRITICAL - EVIDENCE REQUIREMENT:
+You MUST include a "supporting_quote" field with the EXACT text from the review that supports your extraction.
+- Copy the relevant sentence(s) verbatim from the review
+- The quote must exist in the review text exactly as written
+- If you cannot quote specific evidence, set is_relevant: false
+
 Output JSON only. If the review does not contain relevant information for this task, output:
 {{"is_relevant": false}}
 
@@ -103,6 +109,7 @@ Otherwise output:
 {{
   "review_id": "{review_id}",
   "is_relevant": true,
+  "supporting_quote": "<EXACT text from review that supports your extraction>",
   {output_fields}
 }}"""
 
@@ -201,6 +208,77 @@ class FormulaSeedInterpreter:
         # Thorough sweep state
         self._sweep_early_stopped: bool = False
 
+        # Snippet validation stats
+        self._snippet_validation_stats: Dict[str, int] = {
+            "total_relevant": 0,
+            "valid_quotes": 0,
+            "rejected_no_quote": 0,
+            "rejected_quote_not_found": 0,
+        }
+
+    def _validate_and_store_snippet(
+        self,
+        extraction: Dict[str, Any],
+        quote: str,
+        review_text: str,
+    ) -> Dict[str, Any]:
+        """Validate that the supporting quote exists in the review text.
+
+        Args:
+            extraction: Extraction result dict
+            quote: The supporting_quote from extraction
+            review_text: The original review text
+
+        Returns:
+            Updated extraction dict (may have is_relevant set to False if validation fails)
+        """
+        self._snippet_validation_stats["total_relevant"] += 1
+
+        # Check if quote is empty or missing
+        if not quote or not quote.strip():
+            extraction["is_relevant"] = False
+            extraction["_rejected_reason"] = "no_quote_provided"
+            self._snippet_validation_stats["rejected_no_quote"] += 1
+            logger.debug(f"Rejection: no quote provided for {extraction.get('review_id')}")
+            return extraction
+
+        # Normalize both texts for comparison (lowercase, collapse whitespace)
+        quote_normalized = " ".join(quote.lower().split())
+        review_normalized = " ".join(review_text.lower().split())
+
+        # Check if normalized quote exists in normalized review
+        # Use fuzzy matching: allow for minor differences (punctuation, etc.)
+        if quote_normalized in review_normalized:
+            # Quote found - valid extraction
+            extraction["_snippet"] = quote
+            extraction["_snippet_validated"] = True
+            self._snippet_validation_stats["valid_quotes"] += 1
+            return extraction
+
+        # Try partial matching (at least 80% of quote words must be in review)
+        quote_words = set(quote_normalized.split())
+        if len(quote_words) >= 3:
+            review_words = set(review_normalized.split())
+            overlap = len(quote_words & review_words) / len(quote_words)
+            if overlap >= 0.8:
+                # Close enough match
+                extraction["_snippet"] = quote
+                extraction["_snippet_validated"] = True
+                extraction["_snippet_match_quality"] = f"{overlap:.0%}"
+                self._snippet_validation_stats["valid_quotes"] += 1
+                return extraction
+
+        # Quote not found - reject extraction
+        extraction["is_relevant"] = False
+        extraction["_rejected_reason"] = "quote_not_found"
+        extraction["_attempted_quote"] = quote[:100]  # Store for debugging
+        self._snippet_validation_stats["rejected_quote_not_found"] += 1
+        logger.debug(
+            f"Rejection: quote not found in review {extraction.get('review_id')}: "
+            f"'{quote[:50]}...'"
+        )
+        return extraction
+
     def _filter_reviews(self, reviews: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """Filter reviews by keywords (Python, no LLM).
 
@@ -282,6 +360,11 @@ class FormulaSeedInterpreter:
 
         extraction = _parse_extraction_response(response)
         extraction["review_id"] = review_id
+
+        # Validate supporting_quote exists in source text
+        if extraction.get("is_relevant", False):
+            quote = extraction.get("supporting_quote", "")
+            extraction = self._validate_and_store_snippet(extraction, quote, review_text)
 
         # Populate temporal fields from review metadata
         if any(f.get("name") in temporal_field_names for f in fields):
@@ -1112,13 +1195,15 @@ class FormulaSeedInterpreter:
             review_id = ext.get("review_id", ext.get("_review_id", "unknown"))
             snippet = ext.get("_snippet", "")
 
-            # If no snippet stored, try to get from extraction metadata
+            # If no snippet stored, try supporting_quote field or extraction metadata
+            if not snippet:
+                snippet = ext.get("supporting_quote", "")
             if not snippet and "_source_text" in ext:
                 snippet = ext["_source_text"][:200]  # Limit snippet length
 
             for field, value in ext.items():
-                # Skip internal fields and metadata
-                if field.startswith("_") or field in ("review_id", "is_relevant"):
+                # Skip internal fields, metadata, and supporting_quote (stored as _snippet)
+                if field.startswith("_") or field in ("review_id", "is_relevant", "supporting_quote"):
                     continue
 
                 evidences.append({
@@ -1509,6 +1594,9 @@ class FormulaSeedInterpreter:
                 "early_exit": True,
                 "sweep_performed": False,
                 "final_extractions": len(self._extractions),
+                "final_verdict": stage1_verdict,
+                "verdict_flipped": False,
+                "snippet_validation": self._snippet_validation_stats,
             }
             return result
 
@@ -1518,6 +1606,7 @@ class FormulaSeedInterpreter:
 
         sweep_performed = False
         sweep_reviews_processed = 0
+        stage2_extractions_added = 0
 
         if unprocessed:
             sweep_performed = True
@@ -1528,10 +1617,35 @@ class FormulaSeedInterpreter:
                 f"processing up to {self.config.max_sweep_reviews}"
             )
 
+            # Track Stage 2 extractions separately for verdict stabilization
+            stage1_extraction_count = len(self._extractions)
             await self._sweep_remaining_reviews(unprocessed)
+            stage2_extractions_added = len(self._extractions) - stage1_extraction_count
 
             # Recompute verdict with all extractions
             self._execute_compute(business)
+
+            # Verdict stabilization: if Stage 2 would flip verdict, require strong evidence
+            new_verdict = self._namespace.get("VERDICT")
+            if new_verdict != stage1_verdict and stage2_extractions_added > 0:
+                # Count Stage 2 validated extractions (those with _snippet_validated=True)
+                stage2_validated = sum(
+                    1 for e in self._extractions[stage1_extraction_count:]
+                    if e.get("_snippet_validated", False)
+                )
+
+                # Require at least 2 validated Stage 2 extractions to flip verdict
+                min_required = 2
+                if stage2_validated < min_required:
+                    logger.debug(
+                        f"Verdict stabilization: Stage 2 would flip {stage1_verdict} → {new_verdict} "
+                        f"but only {stage2_validated} validated extractions (need {min_required}). "
+                        f"Reverting to Stage 1 extractions only."
+                    )
+                    # Revert to Stage 1 extractions only
+                    self._extractions = self._extractions[:stage1_extraction_count]
+                    self._execute_compute(business)
+                    stage2_extractions_added = 0
 
         # Return final output
         result = self._get_output()
@@ -1546,7 +1660,11 @@ class FormulaSeedInterpreter:
             "sweep_performed": sweep_performed,
             "sweep_reviews_processed": sweep_reviews_processed,
             "sweep_early_stopped": self._sweep_early_stopped,
+            "stage2_extractions_added": stage2_extractions_added,
             "final_extractions": len(self._extractions),
+            "final_verdict": self._namespace.get("VERDICT"),
+            "verdict_flipped": stage1_verdict != self._namespace.get("VERDICT"),
+            "snippet_validation": self._snippet_validation_stats,
         }
 
         return result

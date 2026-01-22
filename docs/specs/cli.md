@@ -65,8 +65,9 @@ Run baseline methods (direct, RLM, RAG, AMOS) on benchmark tasks.
   - Typical: 10% of K (e.g., 20 for K=200)
 
 **AMOS (Adaptive Multi-Output Sampling):**
-- `--regenerate-seed` - Force regenerate Formula Seed even if cached
-  - Example: `--method amos --regenerate-seed`
+- `--filter-mode` - Stage 1 filter mode: `keyword` (default), `embedding`, `hybrid`
+  - Example: `--method amos --filter-mode embedding`
+  - Thorough sweep of remaining reviews is always performed
 
 ### Execution Mode
 
@@ -94,8 +95,8 @@ Run baseline methods (direct, RLM, RAG, AMOS) on benchmark tasks.
 # RAG method with custom retrieval count
 .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 10 --method rag --top-k 30
 
-# AMOS method with seed regeneration
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 10 --method amos --regenerate-seed
+# AMOS method with embedding filter
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 10 --method amos --filter-mode embedding
 
 # Batch mode (async, 24hr)
 .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100 --mode batch
