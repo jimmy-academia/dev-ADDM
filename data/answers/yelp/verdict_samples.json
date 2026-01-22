@@ -1,0 +1,5042 @@
+{
+  "G1_allergy_V0": {
+    "K25": {
+      "sample_ids": [
+        "sf-KdXHB5nxfNjl2uUpI6Q",
+        "JrG4NINLspXPNhSXg7Q07Q",
+        "B_q2xoAgTyn6U4YNEc3kSw"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "sf-KdXHB5nxfNjl2uUpI6Q": "Cafe Blue Moose",
+        "JrG4NINLspXPNhSXg7Q07Q": "Front Street Cafe",
+        "B_q2xoAgTyn6U4YNEc3kSw": "China Pavilion"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "lVAjWGOqyZOFHMEw5NLt9g",
+        "TCAaeZi4m_RwUTTbZseRmg",
+        "LIHDIAocngz5Loe04eQ_oA"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "lVAjWGOqyZOFHMEw5NLt9g": "KitzMo Sushi",
+        "TCAaeZi4m_RwUTTbZseRmg": "Hearthside",
+        "LIHDIAocngz5Loe04eQ_oA": "White Dog Cafe - Haverford"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "lVAjWGOqyZOFHMEw5NLt9g",
+        "QAlWB_JXJNQyg-kqAK_Ciw",
+        "2CDI713ATuxHfnB5b-sBdw"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "lVAjWGOqyZOFHMEw5NLt9g": "KitzMo Sushi",
+        "QAlWB_JXJNQyg-kqAK_Ciw": "Dough Nation",
+        "2CDI713ATuxHfnB5b-sBdw": "Vedge"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "sf-KdXHB5nxfNjl2uUpI6Q",
+        "6LyhttbsQn6a6PDxQDojCw",
+        "cM3C8AT3IhOIM4ccBofuSg"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "sf-KdXHB5nxfNjl2uUpI6Q": "Cafe Blue Moose",
+        "6LyhttbsQn6a6PDxQDojCw": "Tokyo Japanese Steak House",
+        "cM3C8AT3IhOIM4ccBofuSg": "Blind Owl Brewery"
+      }
+    }
+  },
+  "G1_allergy_V1": {
+    "K25": {
+      "sample_ids": [
+        "sf-KdXHB5nxfNjl2uUpI6Q",
+        "ZfOS7Mz-iGseNxBhlhXm_w",
+        "1vPSY4EA-fTRIZYz1Ruzow"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "sf-KdXHB5nxfNjl2uUpI6Q": "Cafe Blue Moose",
+        "ZfOS7Mz-iGseNxBhlhXm_w": "Lucky Dill Deli",
+        "1vPSY4EA-fTRIZYz1Ruzow": "K'Far Cafe"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "JrG4NINLspXPNhSXg7Q07Q",
+        "gebiRewfieSdtt17PTW6Zg",
+        "kK-pcrXr3CEnWP-ci7XXgw"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "JrG4NINLspXPNhSXg7Q07Q": "Front Street Cafe",
+        "gebiRewfieSdtt17PTW6Zg": "Hibachi Steak House & Sushi Bar",
+        "kK-pcrXr3CEnWP-ci7XXgw": "Luciano's"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "_1JmbxhyiTXO_CDytQTkgA",
+        "CFjQ7Rld0ddZFTi8Ryc5Kw",
+        "GmXC3CBu172Bkb0c6RnO7w"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "_1JmbxhyiTXO_CDytQTkgA": "Ike's Sandwiches",
+        "CFjQ7Rld0ddZFTi8Ryc5Kw": "Guppy's Good Times",
+        "GmXC3CBu172Bkb0c6RnO7w": "Restaurant R'evolution"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "B_q2xoAgTyn6U4YNEc3kSw",
+        "iNiAJAtsbV5xOQGRtce-NQ",
+        "1bJxvwuMTyXmQGu90WLPhA"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "B_q2xoAgTyn6U4YNEc3kSw": "China Pavilion",
+        "iNiAJAtsbV5xOQGRtce-NQ": "Cooper's Hawk Winery & Restaurant - Indianapolis",
+        "1bJxvwuMTyXmQGu90WLPhA": "Firebirds Wood Fired Grill"
+      }
+    }
+  },
+  "G1_allergy_V2": {
+    "K25": {
+      "sample_ids": [
+        "sf-KdXHB5nxfNjl2uUpI6Q",
+        "JrG4NINLspXPNhSXg7Q07Q",
+        "mbzBcAAR1Hx4G2jWRxJRew"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "sf-KdXHB5nxfNjl2uUpI6Q": "Cafe Blue Moose",
+        "JrG4NINLspXPNhSXg7Q07Q": "Front Street Cafe",
+        "mbzBcAAR1Hx4G2jWRxJRew": "Cross Culture Restaurant"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "sf-KdXHB5nxfNjl2uUpI6Q",
+        "TCAaeZi4m_RwUTTbZseRmg",
+        "i_FWONQD1ZBqrNE2b-M5Ug"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "sf-KdXHB5nxfNjl2uUpI6Q": "Cafe Blue Moose",
+        "TCAaeZi4m_RwUTTbZseRmg": "Hearthside",
+        "i_FWONQD1ZBqrNE2b-M5Ug": "Talula's Garden"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "JrG4NINLspXPNhSXg7Q07Q",
+        "gebiRewfieSdtt17PTW6Zg",
+        "ewaaXBGXMGluuTGXOnTkRg"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "JrG4NINLspXPNhSXg7Q07Q": "Front Street Cafe",
+        "gebiRewfieSdtt17PTW6Zg": "Hibachi Steak House & Sushi Bar",
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "lVAjWGOqyZOFHMEw5NLt9g",
+        "gebiRewfieSdtt17PTW6Zg",
+        "XrikSy0DQ_fhVCaRRBJI-g"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "lVAjWGOqyZOFHMEw5NLt9g": "KitzMo Sushi",
+        "gebiRewfieSdtt17PTW6Zg": "Hibachi Steak House & Sushi Bar",
+        "XrikSy0DQ_fhVCaRRBJI-g": "Kayne Prime"
+      }
+    }
+  },
+  "G1_allergy_V3": {
+    "K25": {
+      "sample_ids": [
+        "sf-KdXHB5nxfNjl2uUpI6Q",
+        "JrG4NINLspXPNhSXg7Q07Q",
+        "mbzBcAAR1Hx4G2jWRxJRew"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "sf-KdXHB5nxfNjl2uUpI6Q": "Cafe Blue Moose",
+        "JrG4NINLspXPNhSXg7Q07Q": "Front Street Cafe",
+        "mbzBcAAR1Hx4G2jWRxJRew": "Cross Culture Restaurant"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "sf-KdXHB5nxfNjl2uUpI6Q",
+        "TCAaeZi4m_RwUTTbZseRmg",
+        "i_FWONQD1ZBqrNE2b-M5Ug"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "sf-KdXHB5nxfNjl2uUpI6Q": "Cafe Blue Moose",
+        "TCAaeZi4m_RwUTTbZseRmg": "Hearthside",
+        "i_FWONQD1ZBqrNE2b-M5Ug": "Talula's Garden"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "JrG4NINLspXPNhSXg7Q07Q",
+        "gebiRewfieSdtt17PTW6Zg",
+        "ewaaXBGXMGluuTGXOnTkRg"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "JrG4NINLspXPNhSXg7Q07Q": "Front Street Cafe",
+        "gebiRewfieSdtt17PTW6Zg": "Hibachi Steak House & Sushi Bar",
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "lVAjWGOqyZOFHMEw5NLt9g",
+        "gebiRewfieSdtt17PTW6Zg",
+        "XrikSy0DQ_fhVCaRRBJI-g"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "lVAjWGOqyZOFHMEw5NLt9g": "KitzMo Sushi",
+        "gebiRewfieSdtt17PTW6Zg": "Hibachi Steak House & Sushi Bar",
+        "XrikSy0DQ_fhVCaRRBJI-g": "Kayne Prime"
+      }
+    }
+  },
+  "G1_dietary_V0": {
+    "K25": {
+      "sample_ids": [
+        "sf-KdXHB5nxfNjl2uUpI6Q",
+        "gjCxTVItFxk46rCZ-YaiFA",
+        "6ajnOk0GcY9xbb5Ocaw8Gw"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "sf-KdXHB5nxfNjl2uUpI6Q": "Cafe Blue Moose",
+        "gjCxTVItFxk46rCZ-YaiFA": "South Coast Deli- Chapala",
+        "6ajnOk0GcY9xbb5Ocaw8Gw": "Barbuzzo"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "lVAjWGOqyZOFHMEw5NLt9g",
+        "DvBdqAA3XleMaOMwBl7g4g",
+        "6OC8ErU_m06KABnfSXTJEA"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "lVAjWGOqyZOFHMEw5NLt9g": "KitzMo Sushi",
+        "DvBdqAA3XleMaOMwBl7g4g": "Kona Grill - Tampa",
+        "6OC8ErU_m06KABnfSXTJEA": "Street Side"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "jbJTF1zVmZsk4hea8hoeVA",
+        "ww3YJXu5c18aGZXWmm00qg",
+        "IxlIgLbIbynzJdzeqO860Q"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "jbJTF1zVmZsk4hea8hoeVA": "Fork",
+        "ww3YJXu5c18aGZXWmm00qg": "Caf\u00e9 Amelie",
+        "IxlIgLbIbynzJdzeqO860Q": "Arario Midtown"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "lVAjWGOqyZOFHMEw5NLt9g",
+        "ChlcxTEoWBQJXJ2Xb2vm5g",
+        "GBTPC53ZrG1ZBY3DT8Mbcw"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "lVAjWGOqyZOFHMEw5NLt9g": "KitzMo Sushi",
+        "ChlcxTEoWBQJXJ2Xb2vm5g": "NOLA Restaurant",
+        "GBTPC53ZrG1ZBY3DT8Mbcw": "Luke"
+      }
+    }
+  },
+  "G1_dietary_V1": {
+    "K25": {
+      "sample_ids": [
+        "sf-KdXHB5nxfNjl2uUpI6Q",
+        "GeLwhGlX8XsIsH-o3Wdc5w",
+        "2CDI713ATuxHfnB5b-sBdw"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "sf-KdXHB5nxfNjl2uUpI6Q": "Cafe Blue Moose",
+        "GeLwhGlX8XsIsH-o3Wdc5w": "360 St. Louis",
+        "2CDI713ATuxHfnB5b-sBdw": "Vedge"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "lVAjWGOqyZOFHMEw5NLt9g",
+        "xtWIORPp-HG2LWtz5jQtiA",
+        "6a4gLLFSgr-Q6CZXDLzBGQ"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "lVAjWGOqyZOFHMEw5NLt9g": "KitzMo Sushi",
+        "xtWIORPp-HG2LWtz5jQtiA": "Tortilla Press",
+        "6a4gLLFSgr-Q6CZXDLzBGQ": "Cochon"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "jbJTF1zVmZsk4hea8hoeVA",
+        "05ev984NYfimRN0UiFrxaA",
+        "r2bYRNrtMhv-ED2-cFZp6Q"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "jbJTF1zVmZsk4hea8hoeVA": "Fork",
+        "05ev984NYfimRN0UiFrxaA": "Osteria",
+        "r2bYRNrtMhv-ED2-cFZp6Q": "Nora's"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "B_q2xoAgTyn6U4YNEc3kSw",
+        "ChlcxTEoWBQJXJ2Xb2vm5g",
+        "IhN-DlnytNvnzCoTIwwfgQ"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "B_q2xoAgTyn6U4YNEc3kSw": "China Pavilion",
+        "ChlcxTEoWBQJXJ2Xb2vm5g": "NOLA Restaurant",
+        "IhN-DlnytNvnzCoTIwwfgQ": "Chop Steakhouse & Bar"
+      }
+    }
+  },
+  "G1_dietary_V2": {
+    "K25": {
+      "sample_ids": [
+        "JrG4NINLspXPNhSXg7Q07Q",
+        "gjCxTVItFxk46rCZ-YaiFA",
+        "1vPSY4EA-fTRIZYz1Ruzow"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "JrG4NINLspXPNhSXg7Q07Q": "Front Street Cafe",
+        "gjCxTVItFxk46rCZ-YaiFA": "South Coast Deli- Chapala",
+        "1vPSY4EA-fTRIZYz1Ruzow": "K'Far Cafe"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "lVAjWGOqyZOFHMEw5NLt9g",
+        "JrG4NINLspXPNhSXg7Q07Q",
+        "jbJTF1zVmZsk4hea8hoeVA"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "lVAjWGOqyZOFHMEw5NLt9g": "KitzMo Sushi",
+        "JrG4NINLspXPNhSXg7Q07Q": "Front Street Cafe",
+        "jbJTF1zVmZsk4hea8hoeVA": "Fork"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "gebiRewfieSdtt17PTW6Zg",
+        "GmXC3CBu172Bkb0c6RnO7w",
+        "6OC8ErU_m06KABnfSXTJEA"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "gebiRewfieSdtt17PTW6Zg": "Hibachi Steak House & Sushi Bar",
+        "GmXC3CBu172Bkb0c6RnO7w": "Restaurant R'evolution",
+        "6OC8ErU_m06KABnfSXTJEA": "Street Side"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "6LyhttbsQn6a6PDxQDojCw",
+        "-T1sYi2cqB2oW4GeUXmIBQ",
+        "TbjqvdrSBm27arbKbReRfg"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "6LyhttbsQn6a6PDxQDojCw": "Tokyo Japanese Steak House",
+        "-T1sYi2cqB2oW4GeUXmIBQ": "Don Pablo's",
+        "TbjqvdrSBm27arbKbReRfg": "Thanal Indian Tavern"
+      }
+    }
+  },
+  "G1_dietary_V3": {
+    "K25": {
+      "sample_ids": [
+        "JrG4NINLspXPNhSXg7Q07Q",
+        "gjCxTVItFxk46rCZ-YaiFA",
+        "1vPSY4EA-fTRIZYz1Ruzow"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "JrG4NINLspXPNhSXg7Q07Q": "Front Street Cafe",
+        "gjCxTVItFxk46rCZ-YaiFA": "South Coast Deli- Chapala",
+        "1vPSY4EA-fTRIZYz1Ruzow": "K'Far Cafe"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "lVAjWGOqyZOFHMEw5NLt9g",
+        "JrG4NINLspXPNhSXg7Q07Q",
+        "jbJTF1zVmZsk4hea8hoeVA"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "lVAjWGOqyZOFHMEw5NLt9g": "KitzMo Sushi",
+        "JrG4NINLspXPNhSXg7Q07Q": "Front Street Cafe",
+        "jbJTF1zVmZsk4hea8hoeVA": "Fork"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "gebiRewfieSdtt17PTW6Zg",
+        "GmXC3CBu172Bkb0c6RnO7w",
+        "6OC8ErU_m06KABnfSXTJEA"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "gebiRewfieSdtt17PTW6Zg": "Hibachi Steak House & Sushi Bar",
+        "GmXC3CBu172Bkb0c6RnO7w": "Restaurant R'evolution",
+        "6OC8ErU_m06KABnfSXTJEA": "Street Side"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "6LyhttbsQn6a6PDxQDojCw",
+        "-T1sYi2cqB2oW4GeUXmIBQ",
+        "TbjqvdrSBm27arbKbReRfg"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "6LyhttbsQn6a6PDxQDojCw": "Tokyo Japanese Steak House",
+        "-T1sYi2cqB2oW4GeUXmIBQ": "Don Pablo's",
+        "TbjqvdrSBm27arbKbReRfg": "Thanal Indian Tavern"
+      }
+    }
+  },
+  "G1_hygiene_V0": {
+    "K25": {
+      "sample_ids": [
+        "gKS0fS91JQOOTICdc2ZvFw",
+        "JrG4NINLspXPNhSXg7Q07Q",
+        "Mzmt8AvZOExG_4h3MMlihg"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "gKS0fS91JQOOTICdc2ZvFw": "Benny the Bum's",
+        "JrG4NINLspXPNhSXg7Q07Q": "Front Street Cafe",
+        "Mzmt8AvZOExG_4h3MMlihg": "The Refinery"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "gKS0fS91JQOOTICdc2ZvFw",
+        "unjm4rIGc-ZzRxdzEPnc1g",
+        "S8ZFYEgMejpChID8tzKo9A"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "gKS0fS91JQOOTICdc2ZvFw": "Benny the Bum's",
+        "unjm4rIGc-ZzRxdzEPnc1g": "Ruth's Chris Steak House",
+        "S8ZFYEgMejpChID8tzKo9A": "Amada"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "gKS0fS91JQOOTICdc2ZvFw",
+        "unjm4rIGc-ZzRxdzEPnc1g",
+        "eZCt3doDaA-l4sg_OM67YQ"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "gKS0fS91JQOOTICdc2ZvFw": "Benny the Bum's",
+        "unjm4rIGc-ZzRxdzEPnc1g": "Ruth's Chris Steak House",
+        "eZCt3doDaA-l4sg_OM67YQ": "PROVIDER"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "kZ1q0K13tFYG_ZJrVvsJHA",
+        "CFjQ7Rld0ddZFTi8Ryc5Kw",
+        "cgd4udcCVzMfhJL_3W03Yw"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "kZ1q0K13tFYG_ZJrVvsJHA": "Sampan",
+        "CFjQ7Rld0ddZFTi8Ryc5Kw": "Guppy's Good Times",
+        "cgd4udcCVzMfhJL_3W03Yw": "Milk & Cookies Bakeshop"
+      }
+    }
+  },
+  "G1_hygiene_V1": {
+    "K25": {
+      "sample_ids": [
+        "gKS0fS91JQOOTICdc2ZvFw",
+        "caSFK6m6kbifsD9ZF7bCNw",
+        "qqtGFnjyZWV--_YqabSb8A"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "gKS0fS91JQOOTICdc2ZvFw": "Benny the Bum's",
+        "caSFK6m6kbifsD9ZF7bCNw": "Bourbon Street Distillery",
+        "qqtGFnjyZWV--_YqabSb8A": "Los Aztecas"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "2MAQeAqmD8enCT2ZYqUgIQ",
+        "IhN-DlnytNvnzCoTIwwfgQ"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "2MAQeAqmD8enCT2ZYqUgIQ": "The Melting Pot - Nashville",
+        "IhN-DlnytNvnzCoTIwwfgQ": "Chop Steakhouse & Bar"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "qqtGFnjyZWV--_YqabSb8A",
+        "gjCxTVItFxk46rCZ-YaiFA",
+        "oQdGhdjzz_HhTaC4VrtBLQ"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "qqtGFnjyZWV--_YqabSb8A": "Los Aztecas",
+        "gjCxTVItFxk46rCZ-YaiFA": "South Coast Deli- Chapala",
+        "oQdGhdjzz_HhTaC4VrtBLQ": "The STIL"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "MJ9FaB4y2jCyn1CU7Fnj2Q",
+        "RQTRnBmDXXNWiM1-1LEqWg",
+        "IhN-DlnytNvnzCoTIwwfgQ"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "MJ9FaB4y2jCyn1CU7Fnj2Q": "Hirosaki",
+        "RQTRnBmDXXNWiM1-1LEqWg": "Charcoal",
+        "IhN-DlnytNvnzCoTIwwfgQ": "Chop Steakhouse & Bar"
+      }
+    }
+  },
+  "G1_hygiene_V2": {
+    "K25": {
+      "sample_ids": [
+        "unjm4rIGc-ZzRxdzEPnc1g",
+        "caSFK6m6kbifsD9ZF7bCNw",
+        "eCikDKFbaeYVNdCD2beX0Q"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "unjm4rIGc-ZzRxdzEPnc1g": "Ruth's Chris Steak House",
+        "caSFK6m6kbifsD9ZF7bCNw": "Bourbon Street Distillery",
+        "eCikDKFbaeYVNdCD2beX0Q": "Dat Dog"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ZfOS7Mz-iGseNxBhlhXm_w",
+        "D16LyrKmQ0Cs8NQQkFZD6A",
+        "i_FWONQD1ZBqrNE2b-M5Ug"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "ZfOS7Mz-iGseNxBhlhXm_w": "Lucky Dill Deli",
+        "D16LyrKmQ0Cs8NQQkFZD6A": "Fountain Grill - Safety Harbor Resort and Spa",
+        "i_FWONQD1ZBqrNE2b-M5Ug": "Talula's Garden"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "gKS0fS91JQOOTICdc2ZvFw",
+        "gjCxTVItFxk46rCZ-YaiFA",
+        "eZCt3doDaA-l4sg_OM67YQ"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "gKS0fS91JQOOTICdc2ZvFw": "Benny the Bum's",
+        "gjCxTVItFxk46rCZ-YaiFA": "South Coast Deli- Chapala",
+        "eZCt3doDaA-l4sg_OM67YQ": "PROVIDER"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "qqtGFnjyZWV--_YqabSb8A",
+        "xwk_8nCLpolbdZpKcWicRA",
+        "D16LyrKmQ0Cs8NQQkFZD6A"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "qqtGFnjyZWV--_YqabSb8A": "Los Aztecas",
+        "xwk_8nCLpolbdZpKcWicRA": "Black Crow Coffee Old NE",
+        "D16LyrKmQ0Cs8NQQkFZD6A": "Fountain Grill - Safety Harbor Resort and Spa"
+      }
+    }
+  },
+  "G1_hygiene_V3": {
+    "K25": {
+      "sample_ids": [
+        "unjm4rIGc-ZzRxdzEPnc1g",
+        "caSFK6m6kbifsD9ZF7bCNw",
+        "eCikDKFbaeYVNdCD2beX0Q"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "unjm4rIGc-ZzRxdzEPnc1g": "Ruth's Chris Steak House",
+        "caSFK6m6kbifsD9ZF7bCNw": "Bourbon Street Distillery",
+        "eCikDKFbaeYVNdCD2beX0Q": "Dat Dog"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ZfOS7Mz-iGseNxBhlhXm_w",
+        "D16LyrKmQ0Cs8NQQkFZD6A",
+        "i_FWONQD1ZBqrNE2b-M5Ug"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "ZfOS7Mz-iGseNxBhlhXm_w": "Lucky Dill Deli",
+        "D16LyrKmQ0Cs8NQQkFZD6A": "Fountain Grill - Safety Harbor Resort and Spa",
+        "i_FWONQD1ZBqrNE2b-M5Ug": "Talula's Garden"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "gKS0fS91JQOOTICdc2ZvFw",
+        "gjCxTVItFxk46rCZ-YaiFA",
+        "eZCt3doDaA-l4sg_OM67YQ"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "gKS0fS91JQOOTICdc2ZvFw": "Benny the Bum's",
+        "gjCxTVItFxk46rCZ-YaiFA": "South Coast Deli- Chapala",
+        "eZCt3doDaA-l4sg_OM67YQ": "PROVIDER"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "qqtGFnjyZWV--_YqabSb8A",
+        "xwk_8nCLpolbdZpKcWicRA",
+        "D16LyrKmQ0Cs8NQQkFZD6A"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "qqtGFnjyZWV--_YqabSb8A": "Los Aztecas",
+        "xwk_8nCLpolbdZpKcWicRA": "Black Crow Coffee Old NE",
+        "D16LyrKmQ0Cs8NQQkFZD6A": "Fountain Grill - Safety Harbor Resort and Spa"
+      }
+    }
+  },
+  "G2_romance_V0": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G2_romance_V1": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G2_romance_V2": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G2_romance_V3": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G2_business_V0": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G2_business_V1": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G2_business_V2": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G2_business_V3": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G2_group_V0": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G2_group_V1": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G2_group_V2": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G2_group_V3": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G3_price_worth_V0": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G3_price_worth_V1": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G3_price_worth_V2": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G3_price_worth_V3": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G3_hidden_costs_V0": {
+    "K25": {
+      "sample_ids": [
+        "ws7z5fLdaVgwxZ9ex3cKxw",
+        "Mzmt8AvZOExG_4h3MMlihg",
+        "VpeqnfECjFNcYLyDxuc-_w"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "ws7z5fLdaVgwxZ9ex3cKxw": "Sycamore",
+        "Mzmt8AvZOExG_4h3MMlihg": "The Refinery",
+        "VpeqnfECjFNcYLyDxuc-_w": "Catelli Duo - Voorhees"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "lVAjWGOqyZOFHMEw5NLt9g",
+        "tV46IhCfHbsx_af-pMupiw",
+        "Ps7Q7BOKzJO4nDTUhbk43Q"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "lVAjWGOqyZOFHMEw5NLt9g": "KitzMo Sushi",
+        "tV46IhCfHbsx_af-pMupiw": "Cafe Poca Cosa",
+        "Ps7Q7BOKzJO4nDTUhbk43Q": "Clear Sky Cafe"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "2MAQeAqmD8enCT2ZYqUgIQ",
+        "9z2z_y0JK1F2CC5MAPuzrg",
+        "cgd4udcCVzMfhJL_3W03Yw"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "2MAQeAqmD8enCT2ZYqUgIQ": "The Melting Pot - Nashville",
+        "9z2z_y0JK1F2CC5MAPuzrg": "Aneu Bistro and Wine Bar",
+        "cgd4udcCVzMfhJL_3W03Yw": "Milk & Cookies Bakeshop"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ZfOS7Mz-iGseNxBhlhXm_w",
+        "cM3C8AT3IhOIM4ccBofuSg",
+        "cgd4udcCVzMfhJL_3W03Yw"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "ZfOS7Mz-iGseNxBhlhXm_w": "Lucky Dill Deli",
+        "cM3C8AT3IhOIM4ccBofuSg": "Blind Owl Brewery",
+        "cgd4udcCVzMfhJL_3W03Yw": "Milk & Cookies Bakeshop"
+      }
+    }
+  },
+  "G3_hidden_costs_V1": {
+    "K25": {
+      "sample_ids": [
+        "ws7z5fLdaVgwxZ9ex3cKxw",
+        "Mzmt8AvZOExG_4h3MMlihg",
+        "VpeqnfECjFNcYLyDxuc-_w"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "ws7z5fLdaVgwxZ9ex3cKxw": "Sycamore",
+        "Mzmt8AvZOExG_4h3MMlihg": "The Refinery",
+        "VpeqnfECjFNcYLyDxuc-_w": "Catelli Duo - Voorhees"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "lVAjWGOqyZOFHMEw5NLt9g",
+        "tV46IhCfHbsx_af-pMupiw",
+        "Ps7Q7BOKzJO4nDTUhbk43Q"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "lVAjWGOqyZOFHMEw5NLt9g": "KitzMo Sushi",
+        "tV46IhCfHbsx_af-pMupiw": "Cafe Poca Cosa",
+        "Ps7Q7BOKzJO4nDTUhbk43Q": "Clear Sky Cafe"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "2MAQeAqmD8enCT2ZYqUgIQ",
+        "9z2z_y0JK1F2CC5MAPuzrg",
+        "cgd4udcCVzMfhJL_3W03Yw"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "2MAQeAqmD8enCT2ZYqUgIQ": "The Melting Pot - Nashville",
+        "9z2z_y0JK1F2CC5MAPuzrg": "Aneu Bistro and Wine Bar",
+        "cgd4udcCVzMfhJL_3W03Yw": "Milk & Cookies Bakeshop"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ZfOS7Mz-iGseNxBhlhXm_w",
+        "cM3C8AT3IhOIM4ccBofuSg",
+        "cgd4udcCVzMfhJL_3W03Yw"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "ZfOS7Mz-iGseNxBhlhXm_w": "Lucky Dill Deli",
+        "cM3C8AT3IhOIM4ccBofuSg": "Blind Owl Brewery",
+        "cgd4udcCVzMfhJL_3W03Yw": "Milk & Cookies Bakeshop"
+      }
+    }
+  },
+  "G3_hidden_costs_V2": {
+    "K25": {
+      "sample_ids": [
+        "S0dQ8Vks0IR-PZPLoBHKRA",
+        "8gY3LGFUMIQubovGbSd7Nw",
+        "i_FWONQD1ZBqrNE2b-M5Ug"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "S0dQ8Vks0IR-PZPLoBHKRA": "McCormick & Schmick's Seafood & Steaks",
+        "8gY3LGFUMIQubovGbSd7Nw": "S\u00fcp",
+        "i_FWONQD1ZBqrNE2b-M5Ug": "Talula's Garden"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "S0dQ8Vks0IR-PZPLoBHKRA",
+        "F7etLf6od7CUnCPknsQ-6Q",
+        "JrG4NINLspXPNhSXg7Q07Q"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "S0dQ8Vks0IR-PZPLoBHKRA": "McCormick & Schmick's Seafood & Steaks",
+        "F7etLf6od7CUnCPknsQ-6Q": "Rue 127",
+        "JrG4NINLspXPNhSXg7Q07Q": "Front Street Cafe"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "S0dQ8Vks0IR-PZPLoBHKRA",
+        "lVAjWGOqyZOFHMEw5NLt9g",
+        "jbJTF1zVmZsk4hea8hoeVA"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "S0dQ8Vks0IR-PZPLoBHKRA": "McCormick & Schmick's Seafood & Steaks",
+        "lVAjWGOqyZOFHMEw5NLt9g": "KitzMo Sushi",
+        "jbJTF1zVmZsk4hea8hoeVA": "Fork"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "xtWIORPp-HG2LWtz5jQtiA",
+        "xwk_8nCLpolbdZpKcWicRA",
+        "SZU9c8V2GuREDN5KgyHFJw"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 2,
+        "Low Risk": 1
+      },
+      "names": {
+        "xtWIORPp-HG2LWtz5jQtiA": "Tortilla Press",
+        "xwk_8nCLpolbdZpKcWicRA": "Black Crow Coffee Old NE",
+        "SZU9c8V2GuREDN5KgyHFJw": "Santa Barbara Shellfish Company"
+      }
+    }
+  },
+  "G3_hidden_costs_V3": {
+    "K25": {
+      "sample_ids": [
+        "S0dQ8Vks0IR-PZPLoBHKRA",
+        "8gY3LGFUMIQubovGbSd7Nw",
+        "i_FWONQD1ZBqrNE2b-M5Ug"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "S0dQ8Vks0IR-PZPLoBHKRA": "McCormick & Schmick's Seafood & Steaks",
+        "8gY3LGFUMIQubovGbSd7Nw": "S\u00fcp",
+        "i_FWONQD1ZBqrNE2b-M5Ug": "Talula's Garden"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "S0dQ8Vks0IR-PZPLoBHKRA",
+        "F7etLf6od7CUnCPknsQ-6Q",
+        "JrG4NINLspXPNhSXg7Q07Q"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "S0dQ8Vks0IR-PZPLoBHKRA": "McCormick & Schmick's Seafood & Steaks",
+        "F7etLf6od7CUnCPknsQ-6Q": "Rue 127",
+        "JrG4NINLspXPNhSXg7Q07Q": "Front Street Cafe"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "S0dQ8Vks0IR-PZPLoBHKRA",
+        "lVAjWGOqyZOFHMEw5NLt9g",
+        "jbJTF1zVmZsk4hea8hoeVA"
+      ],
+      "counts": {
+        "Critical Risk": 1,
+        "High Risk": 1,
+        "Low Risk": 1
+      },
+      "names": {
+        "S0dQ8Vks0IR-PZPLoBHKRA": "McCormick & Schmick's Seafood & Steaks",
+        "lVAjWGOqyZOFHMEw5NLt9g": "KitzMo Sushi",
+        "jbJTF1zVmZsk4hea8hoeVA": "Fork"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "xtWIORPp-HG2LWtz5jQtiA",
+        "xwk_8nCLpolbdZpKcWicRA",
+        "SZU9c8V2GuREDN5KgyHFJw"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 2,
+        "Low Risk": 1
+      },
+      "names": {
+        "xtWIORPp-HG2LWtz5jQtiA": "Tortilla Press",
+        "xwk_8nCLpolbdZpKcWicRA": "Black Crow Coffee Old NE",
+        "SZU9c8V2GuREDN5KgyHFJw": "Santa Barbara Shellfish Company"
+      }
+    }
+  },
+  "G3_time_value_V0": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G3_time_value_V1": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G3_time_value_V2": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G3_time_value_V3": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G4_server_V0": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G4_server_V1": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G4_server_V2": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G4_server_V3": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G4_kitchen_V0": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G4_kitchen_V1": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G4_kitchen_V2": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G4_kitchen_V3": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G4_environment_V0": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G4_environment_V1": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G4_environment_V2": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G4_environment_V3": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G5_capacity_V0": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G5_capacity_V1": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G5_capacity_V2": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G5_capacity_V3": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G5_execution_V0": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G5_execution_V1": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G5_execution_V2": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G5_execution_V3": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G5_consistency_V0": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G5_consistency_V1": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G5_consistency_V2": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G5_consistency_V3": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G6_uniqueness_V0": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G6_uniqueness_V1": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G6_uniqueness_V2": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G6_uniqueness_V3": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G6_comparison_V0": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G6_comparison_V1": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G6_comparison_V2": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G6_comparison_V3": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G6_loyalty_V0": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G6_loyalty_V1": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G6_loyalty_V2": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  },
+  "G6_loyalty_V3": {
+    "K25": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K50": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K100": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    },
+    "K200": {
+      "sample_ids": [
+        "ewaaXBGXMGluuTGXOnTkRg",
+        "99dN-202N0EzRqdaOA_eRQ",
+        "dsfRniRgfbDjC8os848B6A"
+      ],
+      "counts": {
+        "Critical Risk": 0,
+        "High Risk": 0,
+        "Low Risk": 3
+      },
+      "names": {
+        "ewaaXBGXMGluuTGXOnTkRg": "Tuk Tuk Thai Street Food",
+        "99dN-202N0EzRqdaOA_eRQ": "Barcadia",
+        "dsfRniRgfbDjC8os848B6A": "Bern's Steak House"
+      }
+    }
+  }
+}

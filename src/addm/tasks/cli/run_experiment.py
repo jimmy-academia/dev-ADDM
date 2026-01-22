@@ -1555,6 +1555,11 @@ def main() -> None:
         help="Comma-separated business IDs to filter dataset (e.g., 'id1,id2,id3')",
     )
     parser.add_argument(
+        "--sample",
+        action="store_true",
+        help="Use pre-computed verdict samples (1 per verdict category) from data/answers/yelp/verdict_sample_ids.json",
+    )
+    parser.add_argument(
         "--run",
         type=int,
         default=None,
@@ -1566,10 +1571,30 @@ def main() -> None:
     # Benchmark mode is default (unless --dev is specified)
     benchmark = not args.dev
 
-    # Parse sample_ids from comma-separated string
+    # Parse sample_ids from comma-separated string or load from --sample
     sample_ids = None
     if args.sample_ids:
         sample_ids = [s.strip() for s in args.sample_ids.split(",") if s.strip()]
+    elif args.sample:
+        # Load pre-computed verdict samples
+        sample_ids_file = Path("data/answers/yelp/verdict_sample_ids.json")
+        if not sample_ids_file.exists():
+            output.error(f"Verdict samples file not found: {sample_ids_file}")
+            output.info("Generate with: .venv/bin/python scripts/select_diverse_samples.py --all --k <K> --output ...")
+            sys.exit(1)
+        with open(sample_ids_file) as f:
+            all_sample_ids = json.load(f)
+        policy_key = args.policy.replace("/", "_") if args.policy else args.task
+        k_key = f"K{args.k}"
+        if policy_key not in all_sample_ids:
+            output.error(f"Policy {policy_key} not found in verdict samples")
+            sys.exit(1)
+        ids_str = all_sample_ids[policy_key].get(k_key, "")
+        if not ids_str:
+            output.error(f"No sample IDs for {policy_key} K={args.k}")
+            sys.exit(1)
+        sample_ids = [s.strip() for s in ids_str.split(",") if s.strip()]
+        output.info(f"Using {len(sample_ids)} verdict samples for {policy_key} K={args.k}")
 
     # Parse policies - support comma-separated list for parallel execution
     policies = []
