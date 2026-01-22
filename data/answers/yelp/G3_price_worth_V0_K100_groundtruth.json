@@ -3,7 +3,7 @@
   "topic": "G3_price_worth",
   "domain": "yelp",
   "k": 100,
-  "computed_at": "2026-01-22T01:55:20.767334",
+  "computed_at": "2026-01-22T14:57:06.165472",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -12,8 +12,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -34,8 +34,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -45,8 +45,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -56,8 +56,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -67,8 +67,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -100,8 +100,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -111,8 +111,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -122,8 +122,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -133,8 +133,8 @@
       "n_reviews": 16,
       "n_judgments": 16,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -155,8 +155,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -166,8 +166,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -177,8 +177,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -188,8 +188,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -199,8 +199,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -210,8 +210,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -232,8 +232,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -243,8 +243,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -254,8 +254,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -265,8 +265,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -287,8 +287,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -298,8 +298,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -309,8 +309,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -320,8 +320,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -331,8 +331,8 @@
       "n_reviews": 73,
       "n_judgments": 73,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -353,8 +353,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -364,8 +364,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -375,8 +375,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -397,8 +397,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -408,8 +408,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -430,8 +430,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -441,8 +441,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -463,8 +463,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -474,8 +474,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -485,8 +485,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -496,8 +496,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -507,8 +507,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -518,8 +518,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -540,8 +540,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -551,8 +551,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -562,8 +562,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -595,8 +595,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -606,8 +606,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -617,8 +617,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -628,8 +628,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -639,8 +639,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -672,8 +672,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -683,8 +683,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -705,8 +705,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -727,8 +727,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -738,8 +738,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -749,8 +749,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -804,8 +804,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -826,8 +826,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -848,8 +848,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -859,8 +859,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -936,8 +936,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -958,8 +958,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -969,8 +969,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -980,8 +980,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -991,8 +991,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -1024,8 +1024,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -1035,8 +1035,8 @@
       "n_reviews": 33,
       "n_judgments": 33,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -1046,8 +1046,8 @@
       "n_reviews": 45,
       "n_judgments": 45,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -1068,8 +1068,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Fair Value",
+        "matched_rule": "FAIR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -1079,8 +1079,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     },
@@ -1101,8 +1101,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Good Value",
-        "matched_rule": "GOOD",
+        "verdict": "Poor Value",
+        "matched_rule": "POOR",
         "policy_id": "G3_price_worth_V0"
       }
     }
@@ -1110,9 +1110,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Poor Value": 0,
-      "Fair Value": 0,
-      "Good Value": 100
+      "Poor Value": 36,
+      "Fair Value": 30,
+      "Good Value": 34
     },
     "missing_judgments": 0
   }

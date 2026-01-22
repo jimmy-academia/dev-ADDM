@@ -1,5 +1,5 @@
 # G2_business_V1: Business Dining with Override Triggers
-# V1 = Override: Adds single-instance triggers
+# V1 = Extended: Multiple conditions per verdict (ANY triggers)
 
 policy_id: "G2_business_V1"
 extends: "G2_business_V0"
@@ -41,47 +41,102 @@ normative:
     ordered: true
 
     rules:
+      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Recommended"
         label: "RECOMMENDED"
         logic: ANY
         conditions:
-          - text: "At least 1 review describes impressing a client at this restaurant"
+          # V0 conditions (same thresholds)
+          - text: "100 or more reviews describe successful business meals or client meetings"
             type: count_threshold
             filter:
-              meeting_outcome: exceptional
-            min_count: 1
-          - text: "Private rooms or secluded seating explicitly mentioned"
+              meeting_outcome: positive
+            min_count: 100
+            min_count_by_k:
+              25: 12
+              50: 25
+              100: 50
+          - text: "20 or more reviews describe it as professional, quiet, or suitable for meetings"
             type: count_threshold
             filter:
-              privacy_level: private
-            min_count: 1
-          - text: "Described as 'perfect for business' or 'power lunch spot'"
+              professionalism: [professional, excellent]
+            min_count: 20
+            min_count_by_k:
+              25: 2
+              50: 5
+              100: 10
+          - text: "30 or more reviews describe efficient service that respects busy schedules"
             type: count_threshold
             filter:
-              professionalism: excellent
-            min_count: 1
+              service_efficiency: efficient
+            min_count: 30
+            min_count_by_k:
+              25: 4
+              50: 8
+              100: 15
+          # V1 additional conditions
+          - text: "5 or more reviews describe excellent conversation suitability"
+            type: count_threshold
+            filter:
+              conversation_suitability: excellent
+            min_count: 5
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 3
+          - text: "5 or more reviews describe high privacy level"
+            type: count_threshold
+            filter:
+              privacy_level: high
+            min_count: 5
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 3
 
       - verdict: "Not Recommended"
         label: "NOT_RECOMMENDED"
         precondition: "Recommended does not apply"
         logic: ANY
         conditions:
-          - text: "At least 1 review describes embarrassment with a client due to restaurant"
+          # V0 conditions (same thresholds)
+          - text: "20 or more reviews describe it as too loud for conversation"
+            type: count_threshold
+            filter:
+              conversation_suitability: poor
+            min_count: 20
+            min_count_by_k:
+              25: 2
+              50: 5
+              100: 10
+          - text: "30 or more reviews describe service as too slow for business meals"
+            type: count_threshold
+            filter:
+              service_efficiency: slow
+            min_count: 30
+            min_count_by_k:
+              25: 4
+              50: 8
+              100: 15
+          - text: "15 or more reviews describe atmosphere as too casual or unprofessional"
+            type: count_threshold
+            filter:
+              professionalism: unprofessional
+            min_count: 15
+            min_count_by_k:
+              25: 2
+              50: 4
+              100: 8
+          # V1 additional conditions
+          - text: "40 or more reviews describe negative meeting outcomes"
             type: count_threshold
             filter:
               meeting_outcome: negative
-            min_count: 1
-          - text: "Described as 'couldn't hear each other' or 'had to shout'"
-            type: count_threshold
-            filter:
-              conversation_suitability: impossible
-            min_count: 1
-          - text: "Service so slow that it impacted a business meeting"
-            type: compound
-            filter:
-              service_efficiency: very_slow
-            requires:
-              meeting_outcome: negative
+            min_count: 40
+            min_count_by_k:
+              25: 5
+              50: 10
+              100: 20
 
       - verdict: "Acceptable"
         label: "ACCEPTABLE"

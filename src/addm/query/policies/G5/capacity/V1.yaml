@@ -1,5 +1,5 @@
 # G5_capacity_V1: Capacity Management with Override Triggers
-# V1 = Override: Adds single-instance triggers for exceptional/poor capacity
+# V1 = Extended: Multiple conditions per verdict (ANY triggers) for exceptional/poor capacity
 
 policy_id: "G5_capacity_V1"
 extends: "G5_capacity_V0"
@@ -34,53 +34,108 @@ normative:
     - ref: "capacity:VOLUME_HANDLING"
 
   # Decision policy -> generates Verdict Rules section
-  # V1 adds single-instance OVERRIDES
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
     ordered: true
 
     rules:
+      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Excellent"
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - text: "At least 1 review praises handling of extremely busy night"
+          # V0 conditions (same thresholds)
+          - text: "60 or more reviews praise volume handling"
             type: count_threshold
             filter:
-              volume_handling: excellent
-              crowd_level: extremely_busy
-            min_count: 1
-          - text: "Described as 'well-oiled machine' even when packed"
+              volume_handling: handled_well
+            min_count: 60
+            min_count_by_k:
+              25: 8
+              50: 15
+              100: 30
+          - text: "30 or more reviews observe the restaurant as well-staffed"
             type: count_threshold
             filter:
-              volume_handling: exceptional
-            min_count: 1
-          - text: "Peak time execution specifically praised"
+              staffing_level: well_staffed
+            min_count: 30
+            min_count_by_k:
+              25: 4
+              50: 8
+              100: 15
+          # V1 additional conditions
+          - text: "5 or more reviews praise handling when packed"
             type: count_threshold
             filter:
-              volume_handling: excellent
-            min_count: 1
+              volume_handling: handled_well
+              crowd_level: packed
+            min_count: 5
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 3
+          - text: "20 or more reviews praise smoothly run operations"
+            type: count_threshold
+            filter:
+              volume_handling: smooth
+            min_count: 20
+            min_count_by_k:
+              25: 3
+              50: 5
+              100: 10
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - text: "At least 1 review describes 'one server for entire restaurant'"
+          # V0 conditions (same thresholds)
+          - text: "20 or more reviews describe understaffing"
+            type: count_threshold
+            filter:
+              staffing_level: understaffed
+            min_count: 20
+            min_count_by_k:
+              25: 3
+              50: 5
+              100: 10
+          - text: "25 or more reviews describe significant service degradation"
+            type: count_threshold
+            filter:
+              service_degradation: significant
+            min_count: 25
+            min_count_by_k:
+              25: 3
+              50: 6
+              100: 13
+          - text: "25 or more reviews report volume handling struggles"
+            type: count_threshold
+            filter:
+              volume_handling: struggled
+            min_count: 25
+            min_count_by_k:
+              25: 3
+              50: 6
+              100: 13
+          # V1 additional conditions
+          - text: "5 or more reviews describe severely understaffed situation"
             type: count_threshold
             filter:
               staffing_level: severely_understaffed
-            min_count: 1
-          - text: "Customers left due to overwhelming wait from understaffing"
+            min_count: 5
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 3
+          - text: "10 or more reviews describe complete service degradation"
             type: count_threshold
             filter:
-              service_degradation: customers_left
-            min_count: 1
-          - text: "Described as 'chaos' or 'disaster' during busy period"
-            type: count_threshold
-            filter:
-              volume_handling: chaos
-            min_count: 1
+              service_degradation: complete
+            min_count: 10
+            min_count_by_k:
+              25: 1
+              50: 3
+              100: 5
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

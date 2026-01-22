@@ -44,42 +44,57 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - text: "Multiple reviews praise food quality and consistency"
+          - text: "50 or more reviews praise excellent chef skill"
             type: count_threshold
             filter:
-              consistency: excellent
-            min_count: 2
-          - text: "Chef skill consistently praised as exceptional"
+              chef_skill: excellent
+            min_count: 50
+            min_count_by_k:
+              25: 6
+              50: 13
+              100: 25
+          - text: "120 or more reviews report consistent food quality"
             type: count_threshold
             filter:
-              chef_skill: exceptional
-            min_count: 2
-          - text: "Rarely or never any food quality issues reported"
-            type: count_threshold
-            filter:
-              food_issue_type: none
-            min_count: 2
+              consistency: consistent
+            min_count: 120
+            min_count_by_k:
+              25: 15
+              50: 30
+              100: 60
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - text: "Multiple reviews report food quality issues"
+          - text: "20 or more reviews report poor chef skill"
             type: count_threshold
             filter:
-              issue_severity: [moderate, severe]
-            min_count: 2
-          - text: "Consistency problems reported (hit or miss)"
+              chef_skill: poor
+            min_count: 20
+            min_count_by_k:
+              25: 3
+              50: 5
+              100: 10
+          - text: "30 or more reviews report inconsistent food quality"
             type: count_threshold
             filter:
               consistency: inconsistent
-            min_count: 2
-          - text: "Food frequently sent back or described as inedible"
+            min_count: 30
+            min_count_by_k:
+              25: 4
+              50: 8
+              100: 15
+          - text: "25 or more reviews report major food quality issues"
             type: count_threshold
             filter:
-              food_sent_back: true
-            min_count: 2
+              issue_severity: major
+            min_count: 25
+            min_count_by_k:
+              25: 3
+              50: 6
+              100: 13
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

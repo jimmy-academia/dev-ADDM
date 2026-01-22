@@ -3,7 +3,7 @@
   "topic": "G1_allergy",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-22T01:54:54.438478",
+  "computed_at": "2026-01-22T14:56:40.490570",
   "has_scoring": true,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -914,7 +914,9 @@
         "incidents": [
           {
             "review_id": "C_9HEqYieW7TnM86OtQlqw",
-            "severity": "moderate",
+            "severity_field": "incident_severity",
+            "severity_value": "moderate",
+            "severity_label": "Moderate incident",
             "base_points": 5,
             "modifiers": [
               "Dismissive staff"
@@ -923,7 +925,9 @@
           },
           {
             "review_id": "JTeR9wzcNH5dzClfgtCOmA",
-            "severity": "moderate",
+            "severity_field": "incident_severity",
+            "severity_value": "moderate",
+            "severity_label": "Moderate incident",
             "base_points": 5,
             "modifiers": [
               "Dismissive staff"
@@ -932,7 +936,9 @@
           },
           {
             "review_id": "tbm6wNuN89MQGl4B2h5qrQ",
-            "severity": "moderate",
+            "severity_field": "incident_severity",
+            "severity_value": "moderate",
+            "severity_label": "Moderate incident",
             "base_points": 5,
             "modifiers": [
               "Dismissive staff"
@@ -1244,13 +1250,15 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Critical Risk",
+        "verdict": "High Risk",
         "score": 10,
         "n_incidents": 1,
         "incidents": [
           {
             "review_id": "IJbGk6P30mvrqcmE0Q1cTA",
-            "severity": "moderate",
+            "severity_field": "incident_severity",
+            "severity_value": "moderate",
+            "severity_label": "Moderate incident",
             "base_points": 5,
             "modifiers": [
               "False assurance"
@@ -1449,8 +1457,8 @@
     "total_restaurants": 100,
     "verdict_distribution": {
       "Low Risk": 98,
-      "High Risk": 0,
-      "Critical Risk": 2
+      "High Risk": 1,
+      "Critical Risk": 1
     },
     "missing_judgments": 0
   }

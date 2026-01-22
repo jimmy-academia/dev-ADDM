@@ -47,15 +47,13 @@ class ResultsManager:
             timestamp: Optional timestamp (default: current time YYYYMMDD_HHMMSS)
 
         Returns:
-            Path to dev run directory: results/dev/{YYYYMMDD}_{run_name}/
+            Path to dev run directory: results/dev/{YYYYMMDD_HHMMSS}_{run_name}/
         """
         if timestamp is None:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-        # Use just date prefix for cleaner directory names
-        date_prefix = timestamp[:8]  # YYYYMMDD
-
-        run_dir = self.results_root / "dev" / f"{date_prefix}_{run_name}"
+        # Use full timestamp for unique directories (prevents overwrites)
+        run_dir = self.results_root / "dev" / f"{timestamp}_{run_name}"
         return run_dir
 
     def create_dev_run_dir(self, run_name: str, timestamp: Optional[str] = None) -> Path:

@@ -3,7 +3,7 @@
   "topic": "G2_group",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-22T01:54:54.871422",
+  "computed_at": "2026-01-22T14:56:41.481178",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -23,8 +23,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -34,8 +34,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -45,8 +45,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -100,8 +100,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_group_V0"
       }
     },
@@ -111,8 +111,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -122,8 +122,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -133,8 +133,8 @@
       "n_reviews": 16,
       "n_judgments": 16,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_group_V0"
       }
     },
@@ -188,8 +188,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -210,8 +210,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -254,8 +254,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -265,8 +265,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -298,8 +298,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -309,8 +309,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_group_V0"
       }
     },
@@ -320,8 +320,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -353,8 +353,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_group_V0"
       }
     },
@@ -375,8 +375,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_group_V0"
       }
     },
@@ -397,8 +397,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -408,8 +408,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -441,8 +441,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -452,8 +452,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -463,8 +463,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -474,8 +474,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -496,8 +496,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_group_V0"
       }
     },
@@ -507,8 +507,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -518,8 +518,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -562,8 +562,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -595,8 +595,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -617,8 +617,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -705,8 +705,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_group_V0"
       }
     },
@@ -727,8 +727,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_group_V0"
       }
     },
@@ -749,8 +749,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -771,8 +771,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -804,8 +804,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -848,8 +848,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -859,8 +859,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -870,8 +870,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_group_V0"
       }
     },
@@ -903,8 +903,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -914,8 +914,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -925,8 +925,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_group_V0"
       }
     },
@@ -936,8 +936,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -969,8 +969,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -980,8 +980,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -1035,8 +1035,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -1068,8 +1068,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V0"
       }
     },
@@ -1110,9 +1110,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Not Recommended": 1,
-      "Acceptable": 0,
-      "Recommended": 99
+      "Not Recommended": 35,
+      "Acceptable": 10,
+      "Recommended": 55
     },
     "missing_judgments": 0
   }

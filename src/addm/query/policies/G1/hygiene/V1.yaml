@@ -1,5 +1,5 @@
-# G1_hygiene_V1: Hygiene Risk with Override Triggers
-# V1 = Override: Adds high-priority single-instance triggers
+# G1_hygiene_V1: Hygiene Risk with Extended Conditions
+# V1 = Extended: Multiple conditions per verdict (ANY triggers)
 
 policy_id: "G1_hygiene_V1"
 extends: "G1_hygiene_V0"
@@ -35,34 +35,35 @@ normative:
     - ref: "shared:STAFF_RESPONSE"
 
   # Decision policy -> generates Verdict Rules section
-  # V1 adds single-instance OVERRIDES to V0's aggregation-based rules
   decision:
     verdicts: ["Low Risk", "High Risk", "Critical Risk"]
     ordered: true
 
     rules:
+      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Critical Risk"
         label: "CRITICAL"
         logic: ANY
         conditions:
-          - text: "At least 1 firsthand report of food poisoning requiring medical attention"
+          # V0 conditions (same thresholds)
+          - text: "2 or more reviews report food poisoning or illness"
             type: count_threshold
             filter:
               illness_reported: true
+              account_type: firsthand
+            min_count: 2
+          - text: "2 or more reviews report pest sightings (roaches, rodents)"
+            type: count_threshold
+            filter:
+              issue_type: [pest, rodent, roach]
+              account_type: firsthand
+            min_count: 2
+          # V1 additional conditions
+          - text: "1 or more severe hygiene issue reported"
+            type: count_threshold
+            filter:
               issue_severity: severe
               account_type: firsthand
-            min_count: 1
-          - text: "Rodent sighting (mouse, rat) reported firsthand"
-            type: count_threshold
-            filter:
-              issue_type: rodent
-              account_type: firsthand
-            min_count: 1
-          - text: "Multiple people in same party report getting sick"
-            type: count_threshold
-            filter:
-              illness_reported: true
-              party_affected: true
             min_count: 1
 
       - verdict: "High Risk"
@@ -70,30 +71,31 @@ normative:
         precondition: "Critical Risk does not apply"
         logic: ANY
         conditions:
-          - text: "At least 1 firsthand report of food poisoning (not requiring medical attention)"
+          # V0 conditions (same thresholds)
+          - text: "2 or more reviews describe major cleanliness issues"
+            type: count_threshold
+            filter:
+              issue_severity: major
+              account_type: firsthand
+            min_count: 2
+          - text: "At least 1 review reports food poisoning"
             type: count_threshold
             filter:
               illness_reported: true
               account_type: firsthand
             min_count: 1
-          - text: "Cockroach or multiple insect sightings reported firsthand"
-            type: count_threshold
-            filter:
-              issue_type: [cockroach, insect]
-              account_type: firsthand
-            min_count: 1
-          - text: "Hair or foreign object in food reported firsthand"
+          - text: "2 or more reviews describe hair or foreign objects in food"
             type: count_threshold
             filter:
               issue_type: [foreign_object, hair]
               account_type: firsthand
-            min_count: 1
-          - text: "Staff was dismissive when hygiene issue was reported"
-            type: compound
+            min_count: 2
+          # V1 additional conditions
+          - text: "3 or more reviews describe staff refusing to address hygiene issues"
+            type: count_threshold
             filter:
-              account_type: firsthand
-            requires:
-              staff_response: dismissive
+              staff_response: refused
+            min_count: 3
 
       - verdict: "Low Risk"
         label: "LOW"

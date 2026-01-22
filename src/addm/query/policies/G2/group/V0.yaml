@@ -44,43 +44,67 @@ normative:
         label: "RECOMMENDED"
         logic: ANY
         conditions:
-          - text: "Multiple reviews describe successful large group events"
+          - text: "5 or more reviews describe successful large group events"
             type: count_threshold
             filter:
               group_outcome: positive
               group_size: large
-            min_count: 2
-          - text: "Private rooms or dedicated group areas mentioned positively"
+            min_count: 5
+            min_count_by_k:
+              25: 3
+              50: 2
+              100: 3
+          - text: "20 or more reviews mention private rooms or dedicated group areas positively"
             type: count_threshold
             filter:
               accommodation_quality: excellent
-            min_count: 2
-          - text: "Consistently praised for handling groups well"
+            min_count: 20
+            min_count_by_k:
+              25: 5
+              50: 8
+              100: 12
+          - text: "70 or more reviews praise the handling of groups"
             type: count_threshold
             filter:
               accommodation_quality: [good, excellent]
-            min_count: 2
+            min_count: 70
+            min_count_by_k:
+              25: 12
+              50: 22
+              100: 40
 
       - verdict: "Not Recommended"
         label: "NOT_RECOMMENDED"
         precondition: "Recommended does not apply"
         logic: ANY
         conditions:
-          - text: "Multiple reviews describe groups being turned away or poorly handled"
+          - text: "30 or more reviews describe groups being turned away or poorly handled"
             type: count_threshold
             filter:
               accommodation_quality: poor
-            min_count: 2
-          - text: "Consistent complaints about long waits despite reservations"
+            min_count: 30
+            min_count_by_k:
+              25: 5
+              50: 10
+              100: 18
+          - text: "15 or more complaints about long waits despite reservations"
             type: count_threshold
             filter:
               wait_time: excessive
-            min_count: 2
-          - text: "Unable or unwilling to split checks for groups"
+            min_count: 15
+            min_count_by_k:
+              25: 3
+              50: 5
+              100: 9
+          - text: "10 or more reviews report refused check splitting for groups"
             type: count_threshold
             filter:
               check_splitting: refused
-            min_count: 2
+            min_count: 10
+            min_count_by_k:
+              25: 2
+              50: 4
+              100: 6
 
       - verdict: "Acceptable"
         label: "ACCEPTABLE"

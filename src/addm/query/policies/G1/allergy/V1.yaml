@@ -1,5 +1,5 @@
-# G1_allergy_V1: Allergy Safety with Override Triggers
-# V1 = Override: Adds high-priority triggers (false assurance, dismissive staff)
+# G1_allergy_V1: Allergy Safety with Extended Conditions
+# V1 = Extended: Multiple conditions per verdict (ANY triggers)
 
 policy_id: "G1_allergy_V1"
 extends: "G1_allergy_V0"
@@ -34,53 +34,69 @@ normative:
     - ref: "shared:STAFF_RESPONSE"
 
   # Decision policy -> generates Verdict Rules section
-  # V1 adds single-instance OVERRIDES to V0's aggregation-based rules
   decision:
     verdicts: ["Low Risk", "High Risk", "Critical Risk"]
     ordered: true
 
     rules:
+      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Critical Risk"
         label: "CRITICAL"
         logic: ANY
         conditions:
-          - text: "At least 1 severe firsthand incident is reported"
+          # V0 conditions (same thresholds)
+          - text: "1 or more severe firsthand incidents are reported"
             type: count_threshold
             filter:
               incident_severity: severe
               account_type: firsthand
             min_count: 1
-          - text: "A moderate or severe incident occurs after an explicit assurance of safety"
+          - text: "2 or more moderate firsthand incidents are reported"
+            type: count_threshold
+            filter:
+              incident_severity: moderate
+              account_type: firsthand
+            min_count: 2
+          # V1 additional conditions
+          - text: "1 or more reviews report a moderate or severe incident after an explicit assurance of safety"
             type: compound
             filter:
               incident_severity: [moderate, severe]
               account_type: firsthand
             requires:
               assurance_claim: "true"
+            min_count: 1
 
       - verdict: "High Risk"
         label: "HIGH"
         precondition: "Critical Risk does not apply"
         logic: ANY
         conditions:
-          - text: "At least 1 moderate firsthand incident is reported"
+          # V0 conditions (same thresholds)
+          - text: "1 or more moderate firsthand incidents are reported"
             type: count_threshold
             filter:
               incident_severity: moderate
               account_type: firsthand
             min_count: 1
-          - text: "A mild incident occurs after an explicit assurance of safety"
+          - text: "2 or more reviews describe staff as refusing or being dismissive about allergy concerns"
+            type: count_threshold
+            filter:
+              staff_response: [refused, dismissive]
+            min_count: 2
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 1
+          # V1 additional conditions
+          - text: "1 or more reviews report a mild incident after an explicit assurance of safety"
             type: compound
             filter:
               incident_severity: mild
               account_type: firsthand
             requires:
               assurance_claim: "true"
-          - text: "3 or more reviews describe staff as refusing or being dismissive about allergy concerns"
-            type: count_threshold
-            filter:
-              staff_response: [refused, dismissive]
-            min_count: 3
+            min_count: 1
 
       - verdict: "Low Risk"
         label: "LOW"

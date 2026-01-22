@@ -1,5 +1,5 @@
 # G5_consistency_V1: Consistency with Override Triggers
-# V1 = Override: Adds single-instance triggers for exceptional/poor consistency
+# V1 = Extended: Multiple conditions per verdict (ANY triggers) for exceptional/poor consistency
 
 policy_id: "G5_consistency_V1"
 extends: "G5_consistency_V0"
@@ -34,55 +34,99 @@ normative:
     - ref: "consistency:VISIT_FREQUENCY"
 
   # Decision policy -> generates Verdict Rules section
-  # V1 adds single-instance OVERRIDES
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
     ordered: true
 
     rules:
+      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Excellent"
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - text: "At least 1 frequent customer describes 'never disappoints'"
+          # V0 conditions (same thresholds)
+          - text: "25 or more reviews describe it as always reliable"
             type: count_threshold
             filter:
-              reliability: always
-              visit_frequency: frequent
-            min_count: 1
-          - text: "Multiple visits described as consistently excellent"
-            type: count_threshold
-            filter:
-              visit_comparison: consistently_excellent
-            min_count: 1
-          - text: "Long-term regular customer praises maintained quality"
+              reliability: always_reliable
+            min_count: 25
+            min_count_by_k:
+              25: 5
+              50: 8
+              100: 15
+          - text: "150 or more reviews describe quality as stable"
             type: count_threshold
             filter:
               quality_trend: stable
-              visit_frequency: long_term
-            min_count: 1
+            min_count: 150
+            min_count_by_k:
+              25: 22
+              50: 42
+              100: 80
+          # V1 additional conditions
+          - text: "5 or more frequent customers describe always reliable experience"
+            type: count_threshold
+            filter:
+              reliability: always_reliable
+              visit_frequency: frequent
+            min_count: 5
+            min_count_by_k:
+              25: 2
+              50: 2
+              100: 3
+          - text: "15 or more reviews describe improving quality"
+            type: count_threshold
+            filter:
+              quality_trend: improving
+            min_count: 15
+            min_count_by_k:
+              25: 4
+              50: 6
+              100: 10
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - text: "At least 1 regular customer describes 'went downhill'"
+          # V0 conditions (same thresholds)
+          - text: "25 or more reviews describe declining quality"
             type: count_threshold
             filter:
               quality_trend: declining
-              visit_frequency: regular
-            min_count: 1
-          - text: "Management change leading to quality decline"
+            min_count: 25
+            min_count_by_k:
+              25: 5
+              50: 8
+              100: 15
+          - text: "50 or more reviews describe it as hit or miss"
             type: count_threshold
             filter:
-              quality_trend: declining
-            min_count: 1
-          - text: "Described as 'coin flip' or completely unpredictable"
+              reliability: hit_or_miss
+            min_count: 50
+            min_count_by_k:
+              25: 8
+              50: 15
+              100: 28
+          - text: "15 or more reviews describe it as unpredictable"
             type: count_threshold
             filter:
-              reliability: coin_flip
-            min_count: 1
+              reliability: unpredictable
+            min_count: 15
+            min_count_by_k:
+              25: 4
+              50: 6
+              100: 10
+          # V1 additional conditions
+          - text: "10 or more reviews describe visit being much worse"
+            type: count_threshold
+            filter:
+              visit_comparison: much_worse
+            min_count: 10
+            min_count_by_k:
+              25: 3
+              50: 4
+              100: 6
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

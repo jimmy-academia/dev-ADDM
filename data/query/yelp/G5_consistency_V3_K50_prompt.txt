@@ -1,0 +1,98 @@
+# Consistency Assessment
+
+Help assess the quality consistency at this restaurant using reviews as evidence.
+This is from the perspective of a business owner diagnosing reliability.
+Assign a label: Needs Improvement, Satisfactory, or Excellent.
+
+This assessment uses a point-based scoring system with recency weighting.
+
+## Definitions of Terms
+
+### Incident
+
+Consider reviews that mention any of the following:
+- quality changes over time
+- comparison to previous visits
+- reliability and predictability
+- repeat customer observations
+
+Reviews from first-time visitors that don't mention consistency carry less weight.
+
+### Account Type
+How the reviewer relates to the described event
+
+- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+
+### Quality Trend
+Trend in quality over time
+
+- **Declining**: Quality has gotten worse
+- **Stable**: Quality remains consistent
+- **Improving**: Quality has improved
+
+### Visit Comparison
+Current visit compared to previous
+
+- **Much Worse**: Significantly worse than before
+- **Worse**: Noticeably worse than before
+- **Same**: Same quality as before
+- **Better**: Better than before
+- **Much Better**: Significantly improved
+
+### Reliability
+How reliable the experience is
+
+- **Unpredictable**: Never know what you'll get
+- **Hit or Miss**: Sometimes good, sometimes not
+- **Mostly Reliable**: Usually consistent with occasional issues
+- **Always Reliable**: Consistently excellent every time
+
+### Visit Frequency
+How often reviewer has visited
+
+- **First Visit**: First time at this restaurant
+- **Few Visits**: Have been a few times
+- **Regular**: Visit regularly
+- **Frequent**: Very frequent visitor
+
+
+## Scoring System
+
+Calculate a consistency score by summing points from relevant reviews,
+with recency weighting. For consistency, trend over time is important,
+so recency helps identify the current state.
+
+For each firsthand incident, assign points based on severity:
+- Always excellent: 10 points
+- Mostly reliable: 5 points
+- Adequate consistency: 0 points
+- Some inconsistency: -2 points
+- Hit or miss: -5 points
+- Completely unpredictable: -10 points
+
+Additional modifiers:
+- Improving trend (quality getting better): +3 points
+- Regular customer praise (frequent visitor praises consistency): +3 points
+- Declining trend (quality getting worse): -5 points
+- Management change decline (quality dropped after ownership/management change): -3 points
+
+Recency weighting:
+- Within 6 months: full point value
+- 6 months to 1 year: three-quarter point value (multiply by 0.75)
+- 1-2 years old: half point value (multiply by 0.5)
+- Over 2 years old: quarter point value (multiply by 0.25) - trends may have changed
+
+
+## Verdict Rules
+
+A restaurant is considered **Excellent** if any of the following is true:
+- Total score is 800 or higher (after recency weighting)
+
+**Needs Improvement** if Excellent does not apply, but any of the following is true:
+- Total score is 0 or lower (after recency weighting)
+
+**Satisfactory** otherwise, especially when:
+- Total score is between 1 and 799
+- Recent reviews show stable or improving consistency

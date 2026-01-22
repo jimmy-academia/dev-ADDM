@@ -1,0 +1,83 @@
+# Environment Quality Assessment
+
+Help assess the physical environment quality at this restaurant using customer reviews as evidence.
+This is from the perspective of a business owner evaluating ambiance and comfort.
+Assign a quality label: Needs Improvement, Satisfactory, or Excellent.
+
+## Definitions of Terms
+
+### Incident
+
+Consider reviews that mention any of the following:
+- cleanliness of the space
+- noise level
+- seating comfort
+- temperature comfort (AC, heating)
+- ambiance and decor fit with concept
+
+Reviews that only discuss food or service without mentioning environment carry less weight.
+
+### Account Type
+How the reviewer relates to the described event
+
+- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+
+### Cleanliness
+Cleanliness of the restaurant environment
+
+- **Dirty**: Visibly dirty, concerning
+- **Fair**: Could be cleaner but acceptable
+- **Clean**: Clean and well-maintained
+- **Spotless**: Exceptionally clean
+
+### Noise Level
+Noise level in the restaurant
+
+- **Deafening**: Extremely loud, cannot converse
+- **Loud**: Loud, conversation difficult
+- **Moderate**: Some noise but conversation possible
+- **Quiet**: Quiet, easy conversation
+
+### Comfort
+Physical comfort of seating/space
+
+- **Uncomfortable**: Seating or space is uncomfortable
+- **Fair**: Acceptable but not particularly comfortable
+- **Comfortable**: Comfortable seating and spacing
+- **Very Comfortable**: Exceptionally comfortable environment
+
+### Temperature
+Room temperature comfort
+
+- **Too Cold**: Uncomfortably cold
+- **Cold**: On the cold side
+- **Comfortable**: Temperature is comfortable
+- **Hot**: On the warm side
+- **Too Hot**: Uncomfortably hot
+
+### Ambiance Fit
+How well ambiance matches the concept
+
+- **Poor**: Ambiance doesn't fit the concept
+- **Fair**: Ambiance partially matches
+- **Good**: Ambiance matches concept well
+- **Excellent**: Ambiance perfectly complements concept
+
+
+## Verdict Rules
+
+A restaurant is considered **Excellent** if any of the following is true:
+- 50 or more reviews praise excellent atmosphere
+- 150 or more reviews describe it as clean
+
+**Needs Improvement** if Excellent does not apply, but any of the following is true:
+- 20 or more reviews describe cleanliness issues
+- 25 or more reviews report poor ambiance fit
+- 10 or more reviews complain about deafening noise
+
+**Satisfactory** otherwise, especially when:
+- Environment is acceptable but unremarkable
+- Some positive and some negative comments
+- Basic expectations met but not exceeded

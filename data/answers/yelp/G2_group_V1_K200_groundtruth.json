@@ -3,7 +3,7 @@
   "topic": "G2_group",
   "domain": "yelp",
   "k": 200,
-  "computed_at": "2026-01-22T01:55:31.461785",
+  "computed_at": "2026-01-22T14:57:20.582141",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -12,8 +12,8 @@
       "n_reviews": 125,
       "n_judgments": 125,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V1"
       }
     },
@@ -89,8 +89,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_group_V1"
       }
     },
@@ -133,8 +133,8 @@
       "n_reviews": 16,
       "n_judgments": 16,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_group_V1"
       }
     },
@@ -144,8 +144,8 @@
       "n_reviews": 86,
       "n_judgments": 86,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_group_V1"
       }
     },
@@ -298,8 +298,8 @@
       "n_reviews": 134,
       "n_judgments": 134,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V1"
       }
     },
@@ -309,8 +309,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_group_V1"
       }
     },
@@ -331,8 +331,8 @@
       "n_reviews": 73,
       "n_judgments": 73,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_group_V1"
       }
     },
@@ -430,8 +430,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V1"
       }
     },
@@ -507,8 +507,8 @@
       "n_reviews": 141,
       "n_judgments": 141,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V1"
       }
     },
@@ -518,8 +518,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V1"
       }
     },
@@ -562,8 +562,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V1"
       }
     },
@@ -617,8 +617,8 @@
       "n_reviews": 140,
       "n_judgments": 140,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_group_V1"
       }
     },
@@ -694,8 +694,8 @@
       "n_reviews": 148,
       "n_judgments": 148,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V1"
       }
     },
@@ -804,8 +804,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V1"
       }
     },
@@ -870,8 +870,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V1"
       }
     },
@@ -903,8 +903,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V1"
       }
     },
@@ -914,8 +914,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_group_V1"
       }
     },
@@ -1035,8 +1035,8 @@
       "n_reviews": 33,
       "n_judgments": 33,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_group_V1"
       }
     },
@@ -1046,8 +1046,8 @@
       "n_reviews": 45,
       "n_judgments": 45,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_group_V1"
       }
     },
@@ -1110,9 +1110,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Not Recommended": 3,
-      "Acceptable": 0,
-      "Recommended": 97
+      "Not Recommended": 12,
+      "Acceptable": 6,
+      "Recommended": 82
     },
     "missing_judgments": 0
   }

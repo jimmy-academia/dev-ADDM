@@ -53,18 +53,49 @@ class ScoringPoint:
 
 @dataclass
 class ScoringThreshold:
-    """A threshold for verdict based on score."""
+    """A threshold for verdict based on score.
+
+    Supports K-specific thresholds via min_score_by_k/max_score_by_k.
+    Example YAML:
+        - verdict: "High Risk"
+          min_score: 20
+          min_score_by_k:
+            25: 3
+            50: 5
+            100: 10
+    """
 
     verdict: str  # Verdict name (e.g., "Critical Risk")
-    min_score: int  # Minimum score for this verdict
+    min_score: Optional[int] = None  # Minimum score for this verdict (default, K=200)
+    max_score: Optional[int] = None  # Maximum score for this verdict (default, K=200)
+    min_score_by_k: Dict[int, int] = field(default_factory=dict)  # K-specific min thresholds
+    max_score_by_k: Dict[int, int] = field(default_factory=dict)  # K-specific max thresholds
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "ScoringThreshold":
         """Create ScoringThreshold from dictionary."""
+        # Parse K-specific thresholds, converting string keys to int
+        raw_min_by_k = data.get("min_score_by_k", {})
+        min_score_by_k = {int(k): v for k, v in raw_min_by_k.items()}
+
+        raw_max_by_k = data.get("max_score_by_k", {})
+        max_score_by_k = {int(k): v for k, v in raw_max_by_k.items()}
+
         return cls(
             verdict=data.get("verdict", ""),
-            min_score=data.get("min_score", 0),
+            min_score=data.get("min_score"),
+            max_score=data.get("max_score"),
+            min_score_by_k=min_score_by_k,
+            max_score_by_k=max_score_by_k,
         )
+
+    def get_min_score(self, k: int = 200) -> Optional[int]:
+        """Get min_score for a specific K value."""
+        return self.min_score_by_k.get(k, self.min_score)
+
+    def get_max_score(self, k: int = 200) -> Optional[int]:
+        """Get max_score for a specific K value."""
+        return self.max_score_by_k.get(k, self.max_score)
 
 
 @dataclass
@@ -84,6 +115,60 @@ class RecencyRule:
 
 
 @dataclass
+class ModifierFieldMapping:
+    """Maps a judgment field value to a scoring modifier label."""
+
+    field: str  # Judgment field name (e.g., "named_positively")
+    value: str  # Field value that triggers this modifier (e.g., "true")
+    label: str  # Modifier label from scoring.modifiers (e.g., "Named with praise")
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ModifierFieldMapping":
+        """Create ModifierFieldMapping from dictionary."""
+        return cls(
+            field=data.get("field", ""),
+            value=data.get("value", ""),
+            label=data.get("label", ""),
+        )
+
+
+@dataclass
+class FieldMapping:
+    """Maps judgment fields to severity labels for scoring.
+
+    This allows V2+ policies to define how extracted judgment fields
+    (from term libraries) map to the scoring system's severity_points.
+
+    Example YAML:
+        field_mapping:
+          severity_field: "attentiveness"
+          value_mappings:
+            excellent: "Exceptional service experience"
+            good: "Good service"
+          modifier_mappings:
+            - field: "named_positively"
+              value: "true"
+              label: "Named with praise"
+    """
+
+    severity_field: str  # Primary field for base score (e.g., "incident_severity")
+    value_mappings: Dict[str, str]  # Field value -> severity label
+    modifier_mappings: List[ModifierFieldMapping] = field(default_factory=list)
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "FieldMapping":
+        """Create FieldMapping from dictionary."""
+        return cls(
+            severity_field=data.get("severity_field", ""),
+            value_mappings=data.get("value_mappings", {}),
+            modifier_mappings=[
+                ModifierFieldMapping.from_dict(m)
+                for m in data.get("modifier_mappings", [])
+            ],
+        )
+
+
+@dataclass
 class ScoringSystem:
     """Point-based scoring system for V2+ policies.
 
@@ -92,6 +177,7 @@ class ScoringSystem:
     - Modifiers: bonus/penalty points for specific conditions
     - Recency rules: how incident age affects scoring
     - Thresholds: score thresholds for each verdict
+    - Field mapping: how judgment fields map to severity labels
     """
 
     severity_points: List[ScoringPoint]  # Points by severity
@@ -99,10 +185,15 @@ class ScoringSystem:
     thresholds: List[ScoringThreshold]  # Score thresholds for verdicts
     description: Optional[str] = None  # Intro text for scoring section
     recency_rules: List[RecencyRule] = field(default_factory=list)  # Recency weighting
+    field_mapping: Optional[FieldMapping] = None  # Maps judgment fields to severity labels
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "ScoringSystem":
         """Create ScoringSystem from dictionary."""
+        field_mapping = None
+        if "field_mapping" in data:
+            field_mapping = FieldMapping.from_dict(data["field_mapping"])
+
         return cls(
             severity_points=[
                 ScoringPoint.from_dict(p) for p in data.get("severity_points", [])
@@ -115,6 +206,7 @@ class ScoringSystem:
             recency_rules=[
                 RecencyRule.from_dict(r) for r in data.get("recency_rules", [])
             ],
+            field_mapping=field_mapping,
         )
 
 
@@ -132,31 +224,50 @@ class StructuredCondition:
           filter:
             incident_severity: severe
             account_type: firsthand
-          min_count: 2
+          min_count: 30
+          min_count_by_k:
+            25: 4
+            50: 8
+            100: 15
     """
 
     type: str  # count_threshold, exists, compound
     filter: Dict[str, Any]  # Field -> value requirements
-    min_count: int = 1  # For count_threshold
+    min_count: int = 1  # For count_threshold (default, used for K=200)
+    min_count_by_k: Dict[int, int] = field(default_factory=dict)  # K-specific thresholds
     requires: Optional[Dict[str, Any]] = None  # For compound conditions
     text: Optional[str] = None  # Optional NL description for prompts
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "StructuredCondition":
         """Create StructuredCondition from dictionary."""
+        # Parse min_count_by_k, converting string keys to int
+        raw_by_k = data.get("min_count_by_k", {})
+        min_count_by_k = {int(k): v for k, v in raw_by_k.items()}
+
         return cls(
             type=data.get("type", "count_threshold"),
             filter=data.get("filter", {}),
             min_count=data.get("min_count", 1),
+            min_count_by_k=min_count_by_k,
             requires=data.get("requires"),
             text=data.get("text"),
         )
+
+    def get_min_count(self, k: int = 200) -> int:
+        """Get min_count for a specific K value.
+
+        Falls back to default min_count if K not specified in min_count_by_k.
+        """
+        return self.min_count_by_k.get(k, self.min_count)
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert back to dictionary."""
         result = {"type": self.type, "filter": self.filter}
         if self.type == "count_threshold":
             result["min_count"] = self.min_count
+            if self.min_count_by_k:
+                result["min_count_by_k"] = self.min_count_by_k
         if self.requires:
             result["requires"] = self.requires
         if self.text:

@@ -237,4 +237,13 @@ __all__ = [
     "generate_formula_seed",
     "generate_formula_seed_with_config",
     "FormulaSeedInterpreter",
+    # Validation modules
+    "parse_agenda",
+    "AgendaExpectations",
+    "validate_seed",
+    "ValidationResult",
 ]
+
+# Additional exports for validation
+from addm.methods.amos.agenda_parser import parse_agenda, AgendaExpectations
+from addm.methods.amos.seed_validator import validate_seed, ValidationResult

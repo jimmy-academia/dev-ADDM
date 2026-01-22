@@ -38,6 +38,27 @@ normative:
 
   # Scoring system -> generates Scoring System section
   scoring:
+    # Field mapping: how judgment fields map to severity labels for GT scoring
+    field_mapping:
+      severity_field: "issue_severity"
+      value_mappings:
+        minor: "Minor issue"
+        major: "Major issue"
+        severe: "Severe issue (illness, rodent)"
+      modifier_mappings:
+        - field: "illness_reported"
+          value: "true"
+          label: "Food poisoning"
+        - field: "issue_type"
+          value: "pest"
+          label: "Pest sighting"
+        - field: "staff_response"
+          value: "dismissive"
+          label: "Dismissive staff"
+        - field: "multiple_reports"
+          value: "true"
+          label: "Multiple affected"
+
     description: |
       Calculate a total risk score by summing points from all firsthand hygiene incidents,
       with recency weighting applied.
@@ -74,9 +95,17 @@ normative:
 
     thresholds:
       - verdict: "Critical Risk"
-        min_score: 10
+        min_score: 150
+        min_score_by_k:
+          25: 19
+          50: 38
+          100: 75
       - verdict: "High Risk"
-        min_score: 5
+        min_score: 50
+        min_score_by_k:
+          25: 6
+          50: 13
+          100: 25
 
   # Decision policy -> generates Verdict Rules section
   decision:
@@ -88,21 +117,21 @@ normative:
         label: "CRITICAL"
         logic: ANY
         conditions:
-          - "Total risk score is 10 or higher (after recency weighting)"
+          - "Total risk score is 150 or higher (after recency weighting)"
 
       - verdict: "High Risk"
         label: "HIGH"
         precondition: "Critical Risk does not apply"
         logic: ANY
         conditions:
-          - "Total risk score is 5 or higher (after recency weighting)"
+          - "Total risk score is 50 or higher (after recency weighting)"
 
       - verdict: "Low Risk"
         label: "LOW"
         default: true
         especially_when:
           - "No hygiene issues are reported"
-          - "Total risk score is below 5"
+          - "Total risk score is below 50"
           - "Only old incidents (>2 years) exist AND 3+ recent reviews confirm cleanliness"
 
   # Output format

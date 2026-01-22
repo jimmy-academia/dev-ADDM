@@ -1960,6 +1960,27 @@ class FormulaSeedInterpreter:
         """
         self._total_reviews = len(reviews)
 
+        # ===== CHECK FOR ABSTAIN (validation failed in Phase 1) =====
+        if self.seed.get("_abstain"):
+            logger.warning(
+                f"Seed marked for ABSTAIN due to validation failure: "
+                f"{self.seed.get('_abstain_reason', 'unknown')}"
+            )
+            return {
+                "VERDICT": "ABSTAIN",
+                "_abstain": True,
+                "_abstain_reason": self.seed.get("_abstain_reason", []),
+                "_abstain_warnings": self.seed.get("_abstain_warnings", []),
+                "_extractions": [],
+                "_namespace": {"VERDICT": "ABSTAIN"},
+                "_filter_stats": {
+                    "filter_mode": self.config.filter_mode.value,
+                    "total_reviews": len(reviews),
+                    "abstained": True,
+                    "abstain_reason": self.seed.get("_abstain_reason", []),
+                },
+            }
+
         # ===== STAGE 1: QUICK SCAN =====
         # Filter reviews based on filter_mode
         filtered = await self._filter_by_mode(reviews, query, sample_id)

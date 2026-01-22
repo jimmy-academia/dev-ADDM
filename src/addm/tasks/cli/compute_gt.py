@@ -227,7 +227,7 @@ def main_policy(args: argparse.Namespace) -> None:
 
                 # Compute GT using policy scoring (with human overrides)
                 restaurant_meta = {"categories": categories, "name": name}
-                gt = compute_gt_from_policy(restaurant_judgments, policy, restaurant_meta, overrides)
+                gt = compute_gt_from_policy(restaurant_judgments, policy, restaurant_meta, overrides, k=args.k)
 
                 # Store result
                 verdict = gt.get("verdict", "Unknown")

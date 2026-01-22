@@ -23,10 +23,13 @@ from addm.query.models.term import Term, TermLibrary
 # =============================================================================
 
 OVERRIDE_FILE = Path("data/answers/yelp/judgment_overrides.json")
+OVERRIDE_KEYWORD_FILE = Path("data/answers/yelp/judgment_overrides_keyword.json")
 
 
 def load_overrides(topic: str) -> Dict[str, Dict[str, Any]]:
     """Load human judgment overrides for a topic.
+
+    Merges overrides from both manual override file and keyword-based override file.
 
     Args:
         topic: Topic name (e.g., "G1_allergy")
@@ -34,17 +37,30 @@ def load_overrides(topic: str) -> Dict[str, Dict[str, Any]]:
     Returns:
         Dict mapping review_id to override spec
     """
-    if not OVERRIDE_FILE.exists():
-        return {}
+    result: Dict[str, Dict[str, Any]] = {}
 
-    with open(OVERRIDE_FILE) as f:
-        data = json.load(f)
+    # Load manual overrides
+    if OVERRIDE_FILE.exists():
+        with open(OVERRIDE_FILE) as f:
+            data = json.load(f)
+        # Get overrides for this topic (list format)
+        topic_overrides = data.get(topic, [])
+        for o in topic_overrides:
+            result[o["review_id"]] = o
 
-    # Get overrides for this topic
-    topic_overrides = data.get(topic, [])
+    # Load keyword-based overrides
+    if OVERRIDE_KEYWORD_FILE.exists():
+        with open(OVERRIDE_KEYWORD_FILE) as f:
+            data = json.load(f)
+        # Keyword file has nested structure: topic -> overrides -> [list]
+        if topic in data and isinstance(data[topic], dict):
+            keyword_overrides = data[topic].get("overrides", [])
+            for o in keyword_overrides:
+                # Keyword overrides don't overwrite manual overrides
+                if o["review_id"] not in result:
+                    result[o["review_id"]] = o
 
-    # Index by review_id for fast lookup
-    return {o["review_id"]: o for o in topic_overrides}
+    return result
 
 
 def apply_overrides(
@@ -316,26 +332,40 @@ def get_modifier_points(label: str, scoring: ScoringSystem) -> int:
     return 0
 
 
-def determine_verdict(score: int, scoring: ScoringSystem) -> str:
-    """Determine verdict based on score and thresholds."""
-    # Sort thresholds descending by min_score
-    sorted_thresholds = sorted(
-        scoring.thresholds, key=lambda t: t.min_score, reverse=True
-    )
+def determine_verdict(
+    score: int, scoring: ScoringSystem, default_verdict: str = "Unknown", k: int = 200
+) -> str:
+    """Determine verdict based on score and thresholds.
 
-    for threshold in sorted_thresholds:
-        if score >= threshold.min_score:
+    Handles both min_score (score >= threshold) and max_score (score <= threshold)
+    for bidirectional scoring systems (where positive is good, negative is bad).
+
+    Args:
+        score: Accumulated score
+        scoring: ScoringSystem with thresholds
+        default_verdict: Fallback verdict if no threshold matches
+        k: Dataset K value (for K-specific thresholds)
+    """
+    # Check min_score thresholds first (sorted descending by K-specific threshold)
+    min_thresholds = [t for t in scoring.thresholds if t.get_min_score(k) is not None]
+    min_thresholds.sort(key=lambda t: t.get_min_score(k), reverse=True)
+
+    for threshold in min_thresholds:
+        threshold_value = threshold.get_min_score(k)
+        if score >= threshold_value:
             return threshold.verdict
 
-    # Default to first verdict (usually "Low Risk")
-    if sorted_thresholds:
-        # Find the lowest threshold and return the "below" verdict
-        lowest = min(scoring.thresholds, key=lambda t: t.min_score)
-        # The verdict for scores below the lowest threshold
-        # Get available verdicts from policy
-        return "Low Risk"  # Standard default
+    # Check max_score thresholds (sorted ascending by K-specific threshold)
+    max_thresholds = [t for t in scoring.thresholds if t.get_max_score(k) is not None]
+    max_thresholds.sort(key=lambda t: t.get_max_score(k))
 
-    return "Unknown"
+    for threshold in max_thresholds:
+        threshold_value = threshold.get_max_score(k)
+        if score <= threshold_value:
+            return threshold.verdict
+
+    # Return the default verdict if no threshold matches
+    return default_verdict
 
 
 def compute_gt_from_policy_scoring(
@@ -343,15 +373,20 @@ def compute_gt_from_policy_scoring(
     policy: PolicyIR,
     restaurant_meta: Dict[str, Any],
     overrides: Optional[Dict[str, Dict[str, Any]]] = None,
+    k: int = 200,
 ) -> Dict[str, Any]:
     """
     Compute GT using policy scoring rules (V2+).
+
+    Uses field_mapping from policy to determine which judgment fields to use
+    for scoring. Falls back to G1-style hardcoded fields if no field_mapping.
 
     Args:
         judgments: List of aggregated L0 judgments (one per review)
         policy: PolicyIR with scoring system
         restaurant_meta: Restaurant metadata with 'categories' field
         overrides: Optional dict of review_id -> override spec (from load_overrides)
+        k: Dataset K value (for K-specific score thresholds)
 
     Returns:
         Dict with verdict, score, and incident details
@@ -368,48 +403,84 @@ def compute_gt_from_policy_scoring(
     total_score = 0
     incidents: List[Dict[str, Any]] = []
 
+    # Get field mapping (or use G1-style defaults for backward compatibility)
+    field_mapping = scoring.field_mapping
+    if field_mapping:
+        severity_field = field_mapping.severity_field
+        value_mappings = field_mapping.value_mappings
+        modifier_mappings = field_mapping.modifier_mappings
+    else:
+        # Legacy G1-style hardcoded behavior
+        severity_field = "incident_severity"
+        value_mappings = {
+            "mild": "Mild incident",
+            "moderate": "Moderate incident",
+            "severe": "Severe incident",
+        }
+        modifier_mappings = []  # Will use hardcoded logic below
+
     for j in judgments:
         # Filter non-relevant (support both new and legacy field names)
         is_relevant = j.get("is_relevant", j.get("is_allergy_related", False))
         if not is_relevant:
             continue
 
-        # Filter non-firsthand
-        if j.get("account_type", "hypothetical") != "firsthand":
+        # Filter non-firsthand (only for policies that use account_type)
+        account_type = j.get("account_type")
+        if account_type is not None and account_type != "firsthand":
             continue
 
-        # Get severity
-        severity = j.get("incident_severity", "none")
-        if severity == "none":
+        # Get severity from mapped field
+        field_value = j.get(severity_field, "none")
+        if field_value == "none" or field_value is None:
+            continue
+
+        # Map field value to severity label
+        severity_label = value_mappings.get(field_value)
+        if not severity_label:
+            # No mapping for this value - skip (e.g., "adequate" might not score)
             continue
 
         # Base points for severity
-        points = get_severity_points(severity, scoring)
+        points = get_severity_points(severity_label, scoring)
 
         # Check modifiers
         applied_modifiers: List[str] = []
 
-        # False assurance modifier
-        assurance = j.get("assurance_claim", "false")
-        if assurance == "true":
-            mod_pts = get_modifier_points("False assurance", scoring)
-            points += mod_pts
-            if mod_pts > 0:
-                applied_modifiers.append("False assurance")
+        if field_mapping and modifier_mappings:
+            # Use policy-defined modifier mappings
+            for mod_map in modifier_mappings:
+                mod_field_value = j.get(mod_map.field)
+                if mod_field_value == mod_map.value:
+                    mod_pts = get_modifier_points(mod_map.label, scoring)
+                    points += mod_pts
+                    if mod_pts != 0:
+                        applied_modifiers.append(mod_map.label)
+        else:
+            # Legacy G1-style hardcoded modifiers
+            # False assurance modifier
+            assurance = j.get("assurance_claim", "false")
+            if assurance == "true":
+                mod_pts = get_modifier_points("False assurance", scoring)
+                points += mod_pts
+                if mod_pts > 0:
+                    applied_modifiers.append("False assurance")
 
-        # Dismissive staff modifier
-        staff_response = j.get("staff_response", "none")
-        if staff_response == "dismissive":
-            mod_pts = get_modifier_points("Dismissive staff", scoring)
-            points += mod_pts
-            if mod_pts > 0:
-                applied_modifiers.append("Dismissive staff")
+            # Dismissive staff modifier
+            staff_response = j.get("staff_response", "none")
+            if staff_response == "dismissive":
+                mod_pts = get_modifier_points("Dismissive staff", scoring)
+                points += mod_pts
+                if mod_pts > 0:
+                    applied_modifiers.append("Dismissive staff")
 
         total_score += points
         incidents.append({
             "review_id": j.get("review_id", ""),
-            "severity": severity,
-            "base_points": get_severity_points(severity, scoring),
+            "severity_field": severity_field,
+            "severity_value": field_value,
+            "severity_label": severity_label,
+            "base_points": get_severity_points(severity_label, scoring),
             "modifiers": applied_modifiers,
             "total_points": points,
         })
@@ -424,7 +495,14 @@ def compute_gt_from_policy_scoring(
             cuisine_modifier_applied = True
 
     # Determine verdict
-    verdict = determine_verdict(total_score, scoring)
+    # Find the default verdict from decision rules
+    default_verdict = "Unknown"
+    for rule in policy.normative.decision.rules:
+        if rule.default:
+            default_verdict = rule.verdict
+            break
+
+    verdict = determine_verdict(total_score, scoring, default_verdict, k)
 
     return {
         "verdict": verdict,
@@ -442,7 +520,9 @@ def compute_gt_from_policy_scoring(
 
 
 def evaluate_structured_condition(
-    condition: Dict[str, Any], judgments: List[Dict[str, Any]]
+    condition: Dict[str, Any],
+    judgments: List[Dict[str, Any]],
+    k: int = 200,
 ) -> bool:
     """
     Evaluate a structured condition against judgments.
@@ -450,10 +530,23 @@ def evaluate_structured_condition(
     Condition types:
     - count_threshold: count matching >= min_count
     - exists: at least one matching
+
+    Args:
+        condition: Structured condition from policy
+        judgments: List of L0 judgments
+        k: Dataset K value (used to lookup K-specific thresholds)
     """
     cond_type = condition.get("type", "count_threshold")
     filter_spec = condition.get("filter", {})
-    min_count = condition.get("min_count", 1)
+
+    # Check for K-specific threshold first, fall back to default min_count
+    min_count_by_k = condition.get("min_count_by_k", {})
+    if k in min_count_by_k:
+        min_count = min_count_by_k[k]
+    elif str(k) in min_count_by_k:
+        min_count = min_count_by_k[str(k)]
+    else:
+        min_count = condition.get("min_count", 1)
 
     # Count matching judgments
     count = 0
@@ -488,6 +581,7 @@ def compute_gt_from_policy_qualitative(
     judgments: List[Dict[str, Any]],
     policy: PolicyIR,
     restaurant_meta: Dict[str, Any],
+    k: int = 200,
 ) -> Dict[str, Any]:
     """
     Compute GT using qualitative decision rules (V0/V1).
@@ -496,6 +590,7 @@ def compute_gt_from_policy_qualitative(
         judgments: List of aggregated L0 judgments
         policy: PolicyIR with decision rules
         restaurant_meta: Restaurant metadata
+        k: Dataset K value (for K-specific thresholds)
 
     Returns:
         Dict with verdict and rule that matched
@@ -517,11 +612,11 @@ def compute_gt_from_policy_qualitative(
         # Evaluate based on logic (ANY or ALL)
         if rule.logic.value == "ANY":
             matched = any(
-                evaluate_structured_condition(c, judgments) for c in structured
+                evaluate_structured_condition(c, judgments, k) for c in structured
             )
         else:  # ALL
             matched = all(
-                evaluate_structured_condition(c, judgments) for c in structured
+                evaluate_structured_condition(c, judgments, k) for c in structured
             )
 
         if matched:
@@ -557,6 +652,7 @@ def compute_gt_from_policy(
     policy: PolicyIR,
     restaurant_meta: Dict[str, Any],
     overrides: Optional[Dict[str, Dict[str, Any]]] = None,
+    k: int = 200,
 ) -> Dict[str, Any]:
     """
     Compute ground truth using policy rules.
@@ -568,14 +664,15 @@ def compute_gt_from_policy(
         policy: PolicyIR loaded from YAML
         restaurant_meta: Restaurant metadata with 'categories' field
         overrides: Optional dict of review_id -> override spec (from load_overrides)
+        k: Dataset K value (for K-specific thresholds in qualitative rules)
 
     Returns:
         Dict with verdict and supporting details
     """
     if policy.normative.scoring:
-        return compute_gt_from_policy_scoring(judgments, policy, restaurant_meta, overrides)
+        return compute_gt_from_policy_scoring(judgments, policy, restaurant_meta, overrides, k)
     else:
-        return compute_gt_from_policy_qualitative(judgments, policy, restaurant_meta)
+        return compute_gt_from_policy_qualitative(judgments, policy, restaurant_meta, k)
 
 
 def load_policy(policy_id: str) -> PolicyIR:

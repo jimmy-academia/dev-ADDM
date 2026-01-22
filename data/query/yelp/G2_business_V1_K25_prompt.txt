@@ -1,0 +1,85 @@
+# Business Dining Suitability Assessment
+
+Help assess how suitable this restaurant is for business dining (client meetings, work lunches, interviews)
+using customer reviews as evidence.
+Assign a suitability label: Not Recommended, Acceptable, or Recommended.
+
+## Definitions of Terms
+
+### Incident
+
+Consider reviews that mention any of the following:
+- business lunches, client meetings, interviews, work events
+- noise level and ability to have conversation
+- service efficiency and professionalism
+- privacy for business discussions
+- overall professional atmosphere
+
+Reviews that only discuss food without mentioning the business context carry less weight.
+
+### Account Type
+How the reviewer relates to the described event
+
+- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+
+### Professionalism
+Overall professional atmosphere
+
+- **Poor**: Unprofessional, inappropriate for business
+- **Adequate**: Acceptable for casual business, not formal
+- **Good**: Professional atmosphere, suitable for most business
+- **Excellent**: Highly professional, suitable for important clients
+
+### Conversation Suitability
+Suitability for business conversation
+
+- **Poor**: Too loud or distracting for business discussion
+- **Fair**: Possible to talk but some challenges
+- **Good**: Comfortable for business conversation
+- **Excellent**: Perfect for confidential or important discussions
+
+### Service Efficiency
+Service efficiency for busy professionals
+
+- **Slow**: Service too slow for business meal
+- **Normal**: Average pace, not ideal for quick meetings
+- **Efficient**: Quick and professional service
+- **Exemplary**: Exceptional timing, understands business needs
+
+### Privacy Level
+Privacy available for business discussions
+
+- **None**: Very public, no privacy for sensitive topics
+- **Low**: Limited privacy, must be careful what is discussed
+- **Moderate**: Reasonable privacy for most business talk
+- **High**: Private rooms or very secluded tables available
+
+### Meeting Outcome
+How the business meal/meeting went
+
+- **Negative**: Restaurant negatively impacted the meeting
+- **Neutral**: Restaurant was adequate, didn't stand out
+- **Positive**: Restaurant contributed positively to the meeting
+
+
+## Verdict Rules
+
+A restaurant is considered **Recommended** if any of the following is true:
+- 100 or more reviews describe successful business meals or client meetings
+- 20 or more reviews describe it as professional, quiet, or suitable for meetings
+- 30 or more reviews describe efficient service that respects busy schedules
+- 5 or more reviews describe excellent conversation suitability
+- 5 or more reviews describe high privacy level
+
+**Not Recommended** if Recommended does not apply, but any of the following is true:
+- 20 or more reviews describe it as too loud for conversation
+- 30 or more reviews describe service as too slow for business meals
+- 15 or more reviews describe atmosphere as too casual or unprofessional
+- 40 or more reviews describe negative meeting outcomes
+
+**Acceptable** otherwise, especially when:
+- Suitable for internal team lunches but not client entertainment
+- Professional enough for casual business dining
+- Mixed reviews about noise or service speed

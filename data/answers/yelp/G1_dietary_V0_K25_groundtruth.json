@@ -3,7 +3,7 @@
   "topic": "G1_dietary",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-22T01:54:54.521277",
+  "computed_at": "2026-01-22T14:56:40.549278",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -45,8 +45,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -56,8 +56,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -78,8 +78,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -100,8 +100,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -166,8 +166,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -243,8 +243,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -254,8 +254,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -265,8 +265,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -320,8 +320,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -342,8 +342,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -408,8 +408,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -430,8 +430,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -452,8 +452,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -474,8 +474,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -485,8 +485,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -507,8 +507,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -562,8 +562,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -584,8 +584,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -716,8 +716,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -771,8 +771,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -804,8 +804,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -837,8 +837,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -870,8 +870,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -892,8 +892,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -903,8 +903,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -914,8 +914,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -925,8 +925,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -958,8 +958,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -1024,8 +1024,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -1035,8 +1035,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -1046,8 +1046,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -1068,8 +1068,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -1079,8 +1079,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -1090,8 +1090,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -1110,9 +1110,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Risk": 91,
-      "High Risk": 9,
-      "Critical Risk": 0
+      "Low Risk": 59,
+      "High Risk": 39,
+      "Critical Risk": 2
     },
     "missing_judgments": 0
   }

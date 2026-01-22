@@ -3,7 +3,7 @@
   "topic": "G1_dietary",
   "domain": "yelp",
   "k": 100,
-  "computed_at": "2026-01-22T01:55:20.352978",
+  "computed_at": "2026-01-22T14:57:04.242446",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -276,8 +276,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -298,8 +298,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -518,8 +518,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -540,8 +540,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -936,8 +936,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
         "policy_id": "G1_dietary_V0"
       }
     },
@@ -1110,9 +1110,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Risk": 49,
-      "High Risk": 51,
-      "Critical Risk": 0
+      "Low Risk": 47,
+      "High Risk": 48,
+      "Critical Risk": 5
     },
     "missing_judgments": 0
   }

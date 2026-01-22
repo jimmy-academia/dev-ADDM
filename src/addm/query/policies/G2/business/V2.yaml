@@ -39,6 +39,30 @@ normative:
 
   # Scoring system -> generates Scoring System section
   scoring:
+    # Field mapping: how judgment fields map to severity labels for GT scoring
+    field_mapping:
+      severity_field: "meeting_outcome"
+      value_mappings:
+        positive: "Successful client meeting"
+        neutral: "Neutral mention"
+        negative: "Client embarrassment"
+      modifier_mappings:
+        - field: "privacy_level"
+          value: "high"
+          label: "Private room available"
+        - field: "conversation_suitability"
+          value: "excellent"
+          label: "Quiet atmosphere"
+        - field: "service_efficiency"
+          value: "efficient"
+          label: "Efficient service"
+        - field: "conversation_suitability"
+          value: "poor"
+          label: "Loud environment"
+        - field: "service_efficiency"
+          value: "slow"
+          label: "Slow service"
+
     description: |
       Calculate a business suitability score by summing points from relevant reviews.
       Positive points indicate business suitability, negative points indicate drawbacks.
@@ -76,9 +100,17 @@ normative:
 
     thresholds:
       - verdict: "Recommended"
-        min_score: 8
+        min_score: 1200
+        min_score_by_k:
+          25: 150
+          50: 300
+          100: 600
       - verdict: "Not Recommended"
-        max_score: -5
+        max_score: 0
+        max_score_by_k:
+          25: -150
+          50: -100
+          100: -50
 
   # Decision policy -> generates Verdict Rules section
   decision:
@@ -90,20 +122,20 @@ normative:
         label: "RECOMMENDED"
         logic: ANY
         conditions:
-          - "Total suitability score is 8 or higher"
+          - "Total suitability score is 1200 or higher"
 
       - verdict: "Not Recommended"
         label: "NOT_RECOMMENDED"
         precondition: "Recommended does not apply"
         logic: ANY
         conditions:
-          - "Total suitability score is -5 or lower"
+          - "Total suitability score is 0 or lower"
 
       - verdict: "Acceptable"
         label: "ACCEPTABLE"
         default: true
         especially_when:
-          - "Total suitability score is between -4 and 7"
+          - "Total suitability score is between 1 and 1199"
           - "Mixed positive and negative indicators"
 
   # Output format

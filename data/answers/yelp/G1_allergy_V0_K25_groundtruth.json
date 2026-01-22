@@ -3,7 +3,7 @@
   "topic": "G1_allergy",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-22T01:54:54.423695",
+  "computed_at": "2026-01-22T14:56:40.476448",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -331,8 +331,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
         "policy_id": "G1_allergy_V0"
       }
     },
@@ -716,8 +716,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
         "policy_id": "G1_allergy_V0"
       }
     },
@@ -958,8 +958,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_allergy_V0"
       }
     },
@@ -1110,9 +1110,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Risk": 99,
+      "Low Risk": 97,
       "High Risk": 1,
-      "Critical Risk": 0
+      "Critical Risk": 2
     },
     "missing_judgments": 0
   }

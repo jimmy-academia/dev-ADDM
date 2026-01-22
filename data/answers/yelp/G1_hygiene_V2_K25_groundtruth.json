@@ -3,7 +3,7 @@
   "topic": "G1_hygiene",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-22T01:54:54.622837",
+  "computed_at": "2026-01-22T14:56:40.647655",
   "has_scoring": true,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -12,10 +12,42 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 15,
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "-pR9O5xtABzCX0xEKc24sw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "BpCzU-GsGOGmxOpeOQt9gA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "PouuwV0N0ziDrv0sJjtbXQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -26,10 +58,31 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 7,
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "caxIRGvFDtxUxio5gRaJ5w",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "QUReD8s_ABCyGJ_M_U5ruw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -40,10 +93,40 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 9,
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "M2f8YQrPklV9bxTVk5HfNg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "GYh3-rc5yIyWnLG_yIvzfw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          },
+          {
+            "review_id": "qSpW2cWXU8ldu5k9MnPUeg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -54,10 +137,146 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 86,
+        "n_incidents": 13,
+        "incidents": [
+          {
+            "review_id": "O2ldLPAYiPtOMLcUIPcelQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "FLug-7XFX0mtpZwjjcES_g",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "xdzVQLj6toIksCORs74cZg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Pest sighting",
+              "Dismissive staff"
+            ],
+            "total_points": 13
+          },
+          {
+            "review_id": "_rHsFCLwuObdAhlEmnG5HA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Pest sighting"
+            ],
+            "total_points": 10
+          },
+          {
+            "review_id": "duPQGPE2YVK__ZA43XzVjw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          },
+          {
+            "review_id": "CT5FqTfK0mhiV55qIi_AGw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "oyZIZbHUxs4ESps7IvGbsw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Pest sighting",
+              "Dismissive staff"
+            ],
+            "total_points": 13
+          },
+          {
+            "review_id": "_fNcvicy-_6h5uU1NwzlVw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "3WjnrhzmZ7tmdPFzQ_KgUA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "aem2PS4JgxWM-TPnKkhTkw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          },
+          {
+            "review_id": "q5ER0lNmJn6i9MTfdsdpCg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "Qz27Wj3PbgYy0KaX8vNFSA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "jJ4dZKa7W-VxFzQNz-AkvQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -68,10 +287,67 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 41,
+        "n_incidents": 6,
+        "incidents": [
+          {
+            "review_id": "hp0dglg04iwgxn51mgX20w",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "-VuplhtozzSin0VxOFYuBw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "aXovyTYgw0be84VLTYc_Gw",
+            "severity_field": "issue_severity",
+            "severity_value": "severe",
+            "severity_label": "Severe issue (illness, rodent)",
+            "base_points": 15,
+            "modifiers": [
+              "Food poisoning"
+            ],
+            "total_points": 25
+          },
+          {
+            "review_id": "zdPtD4f-1oqXotxUWklqGg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "BudCKpxXvESgew7pJWHYjA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "bMsIM-5sykZxYt3rLi98Qg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -82,10 +358,40 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 14,
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "GeeYuDf1vZ4x4Y-QDUE5Qw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Pest sighting"
+            ],
+            "total_points": 7
+          },
+          {
+            "review_id": "r3jTgIJ2lpxosRrXczDkJA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "iDnLjZ7hYLK4OPsZzCWknw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -96,10 +402,56 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 13,
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "omjcvwcIuYJv2cOKEQWa_w",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "CXgswKlc8g7y3TWfyMOCPw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "-S8jweUIFYkON256-zIWgg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "o2qH65rNpNkwk5P703m6Uw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "kuVJaxu5U3UbhY_y5hqyDg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -110,10 +462,38 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 9,
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "yJxxk2V-7XuGBHX3QT8u9g",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "GFID_703de5WTmaDLLpHVg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "A7Epxf7rFnsB3BHxTmOMgQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -125,9 +505,19 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 5,
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "1_7AiDQHEn9-hZ4S64AAWA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -138,10 +528,38 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 12,
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "3_ENWVsxpVUHdU0slLV5jw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "KXzWI4S8k6Ufotl_c-2Q9w",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "e33bZ6ov8ICxEmXNrj86-w",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -153,9 +571,19 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 2,
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "lhlPM2cdCesYTED1B6mbuw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -167,9 +595,28 @@
       "n_judgments": 16,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 4,
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "zV4odjKi9Q5fPC15tGvrNg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "Qpjh3xgzyeddNoUzRJGbRA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -180,10 +627,38 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 6,
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "LxR1Qn2hQUSuQzeT_jkkUQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "QFf16bxnfjfuq4fx6qtWoQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "yTx1AqKCHfYM6oq6tQjTug",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -194,10 +669,38 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 6,
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "fYCLKg23-MTG2694UiidJA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "4dOjFlFCDqRzPSKOlEAcYA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "N9-AN70aFL8V7C_NZ8kFAA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -209,9 +712,28 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 4,
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "7qD3eweIFvBmPuJWXmWvhQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "4bU284Wq0kwXHFzuWjw2Dw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -223,9 +745,28 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 4,
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "bP3dQhz0PKcyAVwO7gEZhw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "8-CT00P-R2hf2Gg1YOpHdg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -236,10 +777,40 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 12,
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "tSS9TPnRv6sTowCoBLapFw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "d_JY2jQAkot4dHHAIahLJg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "LT876wSz45Nb96wS2VODuA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -250,10 +821,29 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 7,
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "WNHQ2OvkihxzdEMgE5fQlg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "A0Pur0Osy7qr2EjVbkJJUg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -264,10 +854,29 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 7,
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "2c47VwB7MlkjJuuUIRrjQg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "otRG-pUzJSYO2Mwa_xBrug",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -278,10 +887,42 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 19,
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "xOl4E3K7SwZIL1ahqkYesQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "EKQ8DIwlNQKu3COD02MC3w",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Food poisoning"
+            ],
+            "total_points": 12
+          },
+          {
+            "review_id": "SuHNkUOT7IJmEejML-dCeg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -306,10 +947,51 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 22,
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "5i7qTCKBZ8n_AjR1xJAhwQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Pest sighting"
+            ],
+            "total_points": 7
+          },
+          {
+            "review_id": "fdmuBbLxaZAgLjcuMDRQtg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          },
+          {
+            "review_id": "opYnQ9-R6HvQYm0AZ0WSjA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "MRLwPum4AaiAP1Zn6gGTQA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -320,10 +1002,67 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 47,
+        "n_incidents": 6,
+        "incidents": [
+          {
+            "review_id": "eUUiwAc_V3AvN03jL4dlIw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "S_IHOzJnpnEtcn-nhTETDA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "3MN1erteCDd7C_pJnqfYeQ",
+            "severity_field": "issue_severity",
+            "severity_value": "severe",
+            "severity_label": "Severe issue (illness, rodent)",
+            "base_points": 15,
+            "modifiers": [
+              "Food poisoning"
+            ],
+            "total_points": 25
+          },
+          {
+            "review_id": "MCyysfTaEbbp-cL8QJHUig",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "9p-9H2byIsC77RukisHlPg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "vmXheZqkTnyjyCj9BE0Vww",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -334,10 +1073,69 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 21,
+        "n_incidents": 6,
+        "incidents": [
+          {
+            "review_id": "iD4aqf6fBY2eE3dGLhY43g",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "cQP_z3wJt2SdXYK0GEyCQg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          },
+          {
+            "review_id": "nr9eVsLQJXHFJIJ-yG4BIA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "5Pr4v3UGwal1IHhZ-FMJUw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "IEdxyyZaTsmsTV3vyV-oQg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "KrgYa0200Dy7RFcYse58pw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -349,9 +1147,19 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 2,
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "MuNXCWOX6gmCJPPz_DZjgw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -362,10 +1170,29 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 7,
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "xyuydJej9DvvxzQCWEXKkQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "JccP8qegFZgNil1SfYF2sg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -376,10 +1203,138 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 53,
+        "n_incidents": 13,
+        "incidents": [
+          {
+            "review_id": "Mj8S8-jiSHmai5FyDtDNoA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          },
+          {
+            "review_id": "bJwG2gXXFwcxUF2py_jiYQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "siK0R_Fcz5cT11XvfmC36A",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          },
+          {
+            "review_id": "s-89d30lGjmK6QBymsXorQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "HMV7ajRU-1nzMUyhS9uJWQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "E7cUGNyg1t-wjxMrX0HwMg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "k7jRK8uny6OINtRJI6x97w",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "FarddIVguOXo7rzZP7NBNQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "h1bJqq3_8fZcyr003xRDoA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          },
+          {
+            "review_id": "phwS1b3cdy9bXjyz4-Z7UQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "XZjxP0q2R4DyN-MhtfgIEA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "T7utcv8MfxBWG-OW1JUUUQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "t05jZM52ZDld-AUTcOIvAw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -404,10 +1359,85 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 31,
+        "n_incidents": 8,
+        "incidents": [
+          {
+            "review_id": "lAHxARLu3OGMON8QY7AKAQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "O2zp1AuD-JSDdPqPzzd49A",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "VwuQ2mqdvAQyZQAkhiE1TA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "UNj4YuE5X9AB8ZnGfBkjMw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "q6nVGzGSO4tj5BvvgMckUA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "EefNjGo8nLIoCglmbau-vQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "CxqvKAIGVbegzi4eaERiFA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "N9r0gJRMMfPDzx5wPIN1GA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -418,10 +1448,65 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 12,
+        "n_incidents": 6,
+        "incidents": [
+          {
+            "review_id": "BvWLOBHxZk2clSP_q7_iaQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "cMATz_NczgHQ5WhPcUdLiQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "UiBI6NNMK5gPPOnc_rc3Ug",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "XP-dKisG7yvnz1bXeZMxXw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "5CBprvqmcQ1IVCthf_Kj4w",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "1OFY7tPLX1PoGGAXRMlS4g",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -432,10 +1517,38 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 6,
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "cG03_Kw9LORAX0NIMg-FBQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "CsaHzg64bd_UI81dEGa6SA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "jmuLJcKPXhROwlPYpHVYzA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -461,9 +1574,19 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 2,
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "06JpmiM_e-rz9jBQwqN69w",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -474,10 +1597,56 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 13,
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "PQoqnpN7iDNyVrywStzwhQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "zdOb2lBYgoG2nxoH9gng1A",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "z3I9VR-aoBFFPhh-PZUk7A",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "cvqFNdwfXR4IJKVqr6tZvQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "9unutXmPv4y1PK8IKwuCTQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -489,9 +1658,19 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 2,
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "chgTrg7P9nkO-dLN6rXKdQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -502,10 +1681,42 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 15,
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "0lkMO7fsnAUJtVvsOU3C-g",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "5Ep2UrwsMwbrf6EWjZC9vQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          },
+          {
+            "review_id": "yXvbVKdFtzo9ymiBgmZqxg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -516,10 +1727,121 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 42,
+        "n_incidents": 12,
+        "incidents": [
+          {
+            "review_id": "oZh510Y4LWcRNtZfej4_XQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "XeO78sqLUHwh7zt2nWP1uA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "2SYot6bLdkeSPTAYZefo_g",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "WzkM46ieQZZlaWF9vyYdeQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "imZRMNp1DDuClvfu_7ANcw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "PANi5-LXQHbxJo_NemAIxA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "323szbJk9Q7zd6MUUbSV8w",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "UN_pt2MyR5kJeuirALp3rQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "ilh2s_6u2W3muFZRgxIukA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "EVprr4CG6RT7Qq0CITXUcQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "6cKp8OzsgjZT3SW7WaoXOg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "qkaKGrjsUE34SAvFEq-Xnw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -531,9 +1853,28 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 4,
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "GQzNKK6AWSdvNV_umKuJ7Q",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "ARMw27HUw3IU4F7_D4vzJQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -544,10 +1885,98 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 36,
+        "n_incidents": 9,
+        "incidents": [
+          {
+            "review_id": "msWw5i0v02kNyy6p78k8_w",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "1f9I5eHCa48IhR6NRCeHAg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "5v_Pe8msIBFZAgHp7L2izQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          },
+          {
+            "review_id": "By_6MUh-8-Db6DHBT_2Q6w",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "1PwgfWbdZTRd3Rc3cJ7WaA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "mabXQOeJwP3BXHM8VTTUug",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "nmOkiQGEJ8LVLYfXLFicFg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "gYsRZjsHU2-wn1bqALgwTw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "w7UWo9orNCs2SZG17LRQvQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -559,9 +1988,19 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 2,
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "3A5ETZM5k7dF5Bq103x-mQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -572,10 +2011,40 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 29,
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "qsaPcjq6KQErg6okf53ItA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "WQZTfg9iOFFB_Vo_ZvPArw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "MFzzWQ4QwHpE3yrqsDtPvQ",
+            "severity_field": "issue_severity",
+            "severity_value": "severe",
+            "severity_label": "Severe issue (illness, rodent)",
+            "base_points": 15,
+            "modifiers": [
+              "Food poisoning"
+            ],
+            "total_points": 25
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -586,10 +2055,58 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 16,
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "s9W5IuweBxJEg4HlUaolWg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "ebg-_yB_IRAnWPTZd-HPhQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "Eae7sDLJRX3iMQ3GZ86fAQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "_aeokHY3SGPHHxezb_Z3sg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "w-wQ6J2Ekffzcwoagj8eYQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -600,10 +2117,65 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 21,
+        "n_incidents": 6,
+        "incidents": [
+          {
+            "review_id": "elLQua2rVCUqqFZ2_HpIgw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "lYStKh0wmbtQBYtyxH5lIg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "j9aQAbJqXawR2HgHNg25HA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "Gi1S7snrk6jlXlEcC_xPNw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "h_32ud2RKm0v0PzHPB9zSA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "x8bWGBb4ujluaCAdLGGuWg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -614,10 +2186,32 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 15,
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "UKJyYPyxjOA182PrX4KouQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Pest sighting",
+              "Dismissive staff"
+            ],
+            "total_points": 13
+          },
+          {
+            "review_id": "w3kRZT0HNEVmbPn3g1QAhQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -628,10 +2222,60 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 25,
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "SjF2mScf-SP3rttGWTIVMg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "FjyLecg6DvC_MdoC4gfWWg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "uoW-_6mH8bSfsxg51vColg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "vudp4B2fquHQP0A6T0kWrQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "0zL-WGYOWMbJKGD5ukHwSQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -642,10 +2286,49 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 14,
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "p4-IfI1HdcF9aIvWsn6BLw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "17OMBDDrMxdC7Lmy0HGl1A",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "jT99XkOXU6WqF3h3l4xDqA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "tUeEDxRJY8fsfa-v-FIY5w",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -656,10 +2339,56 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 19,
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "X3pJbd_oSikIuO8zao_z2A",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "XQ5DYB8RvxfVhhy-aGIoLw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "wo9BKsjWGgY1pbiQhjj-8A",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "GdmJJ8O9rDgZrOC6sQ47cA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "oglnFwPoRJABikC6zQyF_A",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -670,10 +2399,29 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 7,
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "62rV-DR-6RqF3Wk6hF6E3w",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "vZ-t0zwsv5PEBO9fnXMXJg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -684,10 +2432,47 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 11,
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "UfJBp1LaP3cbyFlOTqJ4DQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "WOWuQXiy4H-9-wRD8E6r7A",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "JVyZRgFvcX40kdM_BVCu5Q",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "dyXDIOIRc3ADi30yTD5ECg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -712,10 +2497,125 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 85,
+        "n_incidents": 12,
+        "incidents": [
+          {
+            "review_id": "j8E3-MmsQi2eqwsiA1-H5Q",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "Ud_zFRpsmPSgJRpi26xtGA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "NCuDFhxNVKuAInuZQZTT6A",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "13zrkGRmF2DoiaEmffR7wg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "LeXX-m9uaUpRcKOWSs4ufA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "GW8TaoUuM5FVqqK2YtKHvg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "g22gg5UcXJfBYsmPqmf_7Q",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          },
+          {
+            "review_id": "35T8JBTPVynUiOyQe85ZaA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "Svv4rkDAltccNkPHmA7bAg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "hWNlileKZLZNCUr5KbCBFg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "_Z1KNbV5PZPbj7tVOka4Jw",
+            "severity_field": "issue_severity",
+            "severity_value": "severe",
+            "severity_label": "Severe issue (illness, rodent)",
+            "base_points": 15,
+            "modifiers": [
+              "Food poisoning"
+            ],
+            "total_points": 25
+          },
+          {
+            "review_id": "b_e_MGf2Clhw_e3CuQOA4w",
+            "severity_field": "issue_severity",
+            "severity_value": "severe",
+            "severity_label": "Severe issue (illness, rodent)",
+            "base_points": 15,
+            "modifiers": [
+              "Food poisoning"
+            ],
+            "total_points": 25
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -726,10 +2626,47 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 14,
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "Nv_sBvw8MBIcOxL0x98YEg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "gh38GnP6W-TvZdaU--SUOA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "xHjYVvou543dvIaul_DcNA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "JxGgkGoGoRpss2J0e0rezQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -740,10 +2677,31 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 10,
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "lb-4TTqUVm1cHQ3bAwDUHQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "xudIVbMYwySDjJkLULiK_g",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -754,10 +2712,49 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 17,
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "59PEgbHK6cP1HdxeH9SL9Q",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "DWnGmRK1XNrVdT95NzBKpA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "XVZiFcRapdN8UGFqjCmJ8g",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "w5reValcIhZN5uHZXiq3kA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -769,9 +2766,19 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 2,
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "z-Qp8w0JYQnQ4badseCsdg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -782,10 +2789,47 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 11,
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "2TZXowwTTB81WIeAnb0zMA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "Vm9to8nZKDAZgI4ajrp67g",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "_I6nyXTFDvzoAh4gRZ4V7A",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "7OvpivY4VWmJzhRlQ58f_g",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -796,10 +2840,67 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 21,
+        "n_incidents": 6,
+        "incidents": [
+          {
+            "review_id": "3PxyPZUOIM5lxirt7FZyTw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "vO3-olIoqfvZ2WMa8d0n_Q",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "rWPN6JvlO6mL-R1BHeg-tw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "ERgL_jc3Ecl79P8NdgmbZw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          },
+          {
+            "review_id": "tXh7eyzjLr1noKTfiwDK_A",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "rgByCzzwWs66804sKpHDjw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -810,10 +2911,22 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 8,
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "Bjc0n8M_0UtD3AdCdeS9Jg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -824,10 +2937,40 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 12,
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "jJlo9bR4D9O8Gz_MnnNbBA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          },
+          {
+            "review_id": "EMiJI5axCx2EhDjezNcwEw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "-vj2V5KGMqdvyv81EDiI5w",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -852,10 +2995,56 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 13,
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "8xDf3athukK3IW39J3u8Yw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "YdwAxt4FSLsc-UbdPmPUyw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "lMYCTHYvdT5cN6sRgsu7Jg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "-CQMRIiHiLrHpKE_EhzSgQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "opyVbC4bcLhEChTRLMzyXw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -866,10 +3055,47 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 11,
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "wnHW3lXXERaAZVNjRD4gqA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "sF_hgM7vxjPo672s5MSDSg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "IYulYupWgklL4N-IvpiyIw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "mCi0TDbtWZrVRBfaqDugxA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -880,10 +3106,56 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 10,
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "jgnm56yDM4wHKML-31IXTQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "aRxd_RXWtIVDxskbqsx3yA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "FIPtQNYMwBne9DbIKb99Xw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "G4JVoyGcHSWDN0wjolNHEg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "B_PTHmMTzmevuE9J5M9r_Q",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -895,9 +3167,19 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 5,
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "8qj6Bept92o9P35At5PfKg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -908,10 +3190,75 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 39,
+        "n_incidents": 6,
+        "incidents": [
+          {
+            "review_id": "C_9HEqYieW7TnM86OtQlqw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "93U8OAWqqnndCCe4gm82AA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "JTeR9wzcNH5dzClfgtCOmA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          },
+          {
+            "review_id": "SQfvXDKum2-19jC4yhxjeQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "tbm6wNuN89MQGl4B2h5qrQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "6xCuRLzyGzrVIwesudvDfQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -922,10 +3269,31 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 7,
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "1YfW-Sc90OCBZCyLEfkrjA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "IoaVf_rRyMveItw9bEN7wQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -936,10 +3304,38 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 12,
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "e0ZMzh9LD3b3rxnUofojEQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "ggGN7NVC8f8-qT7pANVIUQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "ONywiATwq-36QjYgJC_uKA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -950,10 +3346,85 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 36,
+        "n_incidents": 8,
+        "incidents": [
+          {
+            "review_id": "nHRcHxBytL17sOxXK6GW7Q",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "JECYAyYcWqfwCzAPfjmzIw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "qbzEMrAGPEQMOq2wgRycDA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "3_zMSsdB8byzZmOxQkFlJg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "qBoHiICAGhAWyCBnM6tDdA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Pest sighting"
+            ],
+            "total_points": 10
+          },
+          {
+            "review_id": "HTMCLLJBRiX3pMTeLUcRUg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "iOkMGbRG8rigI_7O2MVGtQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "RF38UdspFYcoNVY0Aufdbg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -964,10 +3435,47 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 14,
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "GgSuHEcZ9ZOpFQ1C3tdRZA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "FKk72Oos8cIdcr2ijQ1DPg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "VXnoo0kMEHQ4jpgv52wG7Q",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "C0LB3EhW9rx6ypbBGLl0XQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -978,10 +3486,85 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 31,
+        "n_incidents": 8,
+        "incidents": [
+          {
+            "review_id": "z9zSKLGHFKm8mU9aeB_fpw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "qwPJ6EHKA3R23iahSQ6CoA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "8xK-cXCFUrKsNEf5ZjCZLA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "h_-CQejjjr7I338jM3UMKQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "ridD_kyOXV9bkC3rn-16Aw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "We-Xm2nwQs0vutN8eM92Hg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "6Gd1TZLwc-fRPUW80IKfSA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "25TJ4QjeIfv5rJUQSnv-MA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -992,10 +3575,69 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 24,
+        "n_incidents": 6,
+        "incidents": [
+          {
+            "review_id": "HqCeItBHJL3yt1eONha27w",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "xf6D0pMMQM3XpSwc1hQb3g",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "ogT2S4g6IbOKEgjfyTE5CA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "6guMEAgjurx9h-RrJv5F-A",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "2QzPcET1XqxjKBhjWu8Xsg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "t6RGnhFKPCtQ_43iQoTVdg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1006,10 +3648,47 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 14,
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "IUu7eeHmA0aWAL2Fvm91Kw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "AZYcXb2WSGaFFwxi37YDvw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "vHScuw24h53SqMiwXfNRBg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "VIhLYd_kLIxYD4DqAYzOaw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1020,10 +3699,69 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 27,
+        "n_incidents": 6,
+        "incidents": [
+          {
+            "review_id": "8vp74cgHgUgNnZeJoIYDdg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "fBkJrzmZox0YeVJa6ZjWIA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          },
+          {
+            "review_id": "T6nYAxsy8matWshvGcsq9w",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "p4al4RRwsDEsTfr5Sa_jdA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "UXqAbuiKkDmykUmv-h3Wyw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "aINuVl9CgEtwTSZC66_lnw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1035,9 +3773,19 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 2,
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "LZMzVWCED5WCqQ_097vKXw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1048,10 +3796,38 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 6,
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "rCcIyxFM0MLaokM4IN_qhQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "U9nDCAelgKkB9ib-pWkTYA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "YgjeQxONV8X5FuhhoTGLOw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1062,10 +3838,42 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 15,
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "HGByehyF16AQK2q3zzzodA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "u6a5Cc-fmgMEvUCBfE5nMA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "3zReV2npzsdfhXyQJkIIyQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1076,10 +3884,60 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 22,
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "-TTqJ6ojod2BCIQCB921cw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "wCTLWWSQL8tQaX5lJkd7oA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "nwtKhmDjoZJ-tEZaK2_y1w",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "DL3QnFZEBBbzfGeBDA9LQQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "2azNtKpMW0aW8Yw-M9wksw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1090,10 +3948,102 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 57,
+        "n_incidents": 9,
+        "incidents": [
+          {
+            "review_id": "mJO7ytMfrqyQM-_7C7sKbA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "d2o6qb-z-TB4qgZP4Yd6Tg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "JD96Z0twk4DkMoWIfpXKjg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "WO4rnfBSI8z7D03eoyrpOA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "CB4s8EByBtrFbmRXzETRzQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "V0vbSD-d5MQZkhRcNrnD9A",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "8GqN1yPH8tiTYEIe9vyl7g",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "y1ZoWbuV_fJWTH_u-m_8dQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "hEKyyEiy22egXZf_-Blzfw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1105,9 +4055,19 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 2,
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "A1Z-O41z4f0MNgaOp1jDHA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1119,9 +4079,28 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 4,
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "CVx5fFr9Ko2yKxRfSn0h1A",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "iG0hZ1q6E4vd15sqp-MTWQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1132,10 +4111,40 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 32,
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "QjDm_6Xv6q72C0kb17YUrQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "61U7Amhq6BUhbP2ujPyhNQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "iG86hn9wnyTsJ8rcsOX-Jw",
+            "severity_field": "issue_severity",
+            "severity_value": "severe",
+            "severity_label": "Severe issue (illness, rodent)",
+            "base_points": 15,
+            "modifiers": [
+              "Food poisoning"
+            ],
+            "total_points": 25
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1146,10 +4155,69 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 27,
+        "n_incidents": 6,
+        "incidents": [
+          {
+            "review_id": "oK5jiMHbBCYpNZuvnuUxvg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "O54LRVFkVKGpNQkx8Tsg5g",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "H1-gCftSJ8brRDfRswkHVg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "F4bkDF8zJk_lLW0ZPpDxjg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          },
+          {
+            "review_id": "PIbzjMj4mfU53IUiCHCf-w",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "lt58rWOsnR9sNVwhSCTbtQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1160,10 +4228,52 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 42,
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "Swwd98GB2R5ZeFd3_Zb9QA",
+            "severity_field": "issue_severity",
+            "severity_value": "severe",
+            "severity_label": "Severe issue (illness, rodent)",
+            "base_points": 15,
+            "modifiers": [
+              "Food poisoning",
+              "Dismissive staff"
+            ],
+            "total_points": 28
+          },
+          {
+            "review_id": "V6cvh6JsY2y0F3BGqCPr-w",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "3aTiVG4_7YazFd33IVyBQA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Pest sighting"
+            ],
+            "total_points": 10
+          },
+          {
+            "review_id": "cLQfZI8FNlK62jyKgUMymA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1174,10 +4284,67 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 18,
+        "n_incidents": 6,
+        "incidents": [
+          {
+            "review_id": "96JiNWWZUr7OgF_BL2Gd9Q",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "Bo-hQKEkQ-OQP8O5XzXs-g",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "kZ_Y-2VKAPsHSTC5bLpl7w",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "Rp8ObIus4UEYrII_74OlIg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "CVUBd_gHilTKmfvvNpRKhg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          },
+          {
+            "review_id": "yxlmQjEoHY4m17ewkTjMyw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1188,10 +4355,74 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 23,
+        "n_incidents": 7,
+        "incidents": [
+          {
+            "review_id": "ntyc7wUQW2yKklAQDH82Cw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "7g2M6oybGZ6g0VJp18cg6A",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "EOkKqyJKk2CxMH62a1qeLg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "Jj9vCFfXSnKRMVHdH_5Yiw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "kWKb51aL5EsoqcfNy5X4vw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "KFF4rmTu7-8LD4BsiwZ4RA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "-GTnn4Gs2hnLXw5wumc6xw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1203,9 +4434,28 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 4,
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "3kI1uGPUEecjyC6Sg7V0Ig",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "3j-qEtWsA4wf2iMUb23F-g",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1216,10 +4466,56 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 19,
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "GSAmHRm4Gw6pwrP_otpRWA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "IJbGk6P30mvrqcmE0Q1cTA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "Quhn9UAtKLVFhCsuAQd8VQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "-pDlcyzB7FBMtSnv0F3RmA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "EfvICx9UDJecVucJTpnREQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1230,10 +4526,47 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 11,
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "4OiWvo01YjrM21YLqQokZA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "mTnAnOI2Ch8WDWIo3kZEMg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "Ogm6Hvy10TaNspC6KBJbvw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "Re_BZaWjabKuDn7Q8Ss4KA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1244,10 +4577,40 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 9,
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "tWS8Xt2twXzM9yQYMKopow",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "4X6bfEgM6Va6yMgniLX1TQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 5
+          },
+          {
+            "review_id": "xN5cBlZfp5eF7CQplYnNiw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1259,9 +4622,19 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 2,
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "g8PLHQuZ5TZctWDn18VSWg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1273,9 +4646,19 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 2,
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "dTIOpDXPHJ4dSzfRjRUwhQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1287,9 +4670,28 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 4,
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "yBCkkbWMxfPTnAs3gSpJ5Q",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "NHJeQ5c-fVntXK84b44k7A",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1301,9 +4703,19 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 5,
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "zaa5EzU8GCT_77DoTGs33A",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1314,10 +4726,60 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 28,
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "nGO7yVh80xD9J97UehR42Q",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "tywkbY_-q9JNu_Vn4FxznA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "49msuKsL-oQ2JdJFnAIRUQ",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "Ph1mLkSHNKadpW-lCQ_QEg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "mEYtFDSYNSPkETzJZqH8gw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1328,10 +4790,56 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 16,
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "1fjrSTx4m_thChscZg5-Aw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "8ECR_r9HT2loycrDH8BtRA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "z8DY95SXx0-RaMYjd9fZWQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "hxNJ1DEYm18_-J6Gt2t92A",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "PXNpSu4I2roKrD27fBxIOA",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1343,9 +4851,19 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 2,
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "zodKbbBLz0l89zuRpcoQug",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1356,10 +4874,51 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "Critical Risk",
+        "score": 23,
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "4C92tI1lO_IXjTsgpQkBvw",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "NyCxivbc520d7Bxxoy8gsA",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "3H5Hmbf0bV5PMf6255kXbw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "HfVTakZ1gwz57UmsnIFX5Q",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1370,10 +4929,42 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 18,
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "Mr0EFPk-bV5YCLWcJHWnhg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "vo50fs34moheJHjy-7EOww",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [
+              "Dismissive staff"
+            ],
+            "total_points": 8
+          },
+          {
+            "review_id": "ATWyFyS2qwfltKA5N42YXg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1384,10 +4975,47 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "verdict": "High Risk",
+        "score": 11,
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "i-4u-j2uKNVmw3GnH04Qwg",
+            "severity_field": "issue_severity",
+            "severity_value": "major",
+            "severity_label": "Major issue",
+            "base_points": 5,
+            "modifiers": [],
+            "total_points": 5
+          },
+          {
+            "review_id": "QgvZDxc1HhhbUcvyU3enOg",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "eIHLM_6rWWPUhVvP1PmcYQ",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          },
+          {
+            "review_id": "pwQK_OkdhKCm1_3wQiNx2g",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1399,9 +5027,19 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
-        "n_incidents": 0,
-        "incidents": [],
+        "score": 2,
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "b_c_q7K-eyJxeId5rZKnMw",
+            "severity_field": "issue_severity",
+            "severity_value": "minor",
+            "severity_label": "Minor issue",
+            "base_points": 2,
+            "modifiers": [],
+            "total_points": 2
+          }
+        ],
         "cuisine_modifier": false,
         "policy_id": "G1_hygiene_V2"
       }
@@ -1410,9 +5048,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Risk": 100,
-      "High Risk": 0,
-      "Critical Risk": 0
+      "Low Risk": 27,
+      "High Risk": 43,
+      "Critical Risk": 30
     },
     "missing_judgments": 0
   }

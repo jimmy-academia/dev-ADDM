@@ -43,42 +43,66 @@ normative:
         label: "STRONGER"
         logic: ANY
         conditions:
-          - text: "Multiple reviews favorably compare to competitors"
+          - text: "60 or more reviews favorably compare to competitors"
             type: count_threshold
             filter:
               comparison_outcome: favorable
-            min_count: 2
-          - text: "Customers switching from competitors to here"
+            min_count: 60
+            min_count_by_k:
+              25: 8
+              50: 15
+              100: 30
+          - text: "5 or more reviews describe customers switching to this place"
             type: count_threshold
             filter:
               switching_intent: switching_to
-            min_count: 2
-          - text: "Consistently described as better than alternatives"
+            min_count: 5
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 3
+          - text: "100 or more reviews state preference for this restaurant"
             type: count_threshold
             filter:
-              comparison_outcome: better
-            min_count: 2
+              preference_stated: prefer_this
+            min_count: 100
+            min_count_by_k:
+              25: 13
+              50: 25
+              100: 50
 
       - verdict: "Weaker"
         label: "WEAKER"
         precondition: "Stronger does not apply"
         logic: ANY
         conditions:
-          - text: "Multiple reviews prefer competitors"
+          - text: "20 or more reviews prefer competitors"
             type: count_threshold
             filter:
-              preference_stated: competitor
-            min_count: 2
-          - text: "Customers switching to competitors"
+              preference_stated: prefer_other
+            min_count: 20
+            min_count_by_k:
+              25: 3
+              50: 5
+              100: 10
+          - text: "30 or more reviews describe customers switching away"
             type: count_threshold
             filter:
-              switching_intent: switching_from
-            min_count: 2
-          - text: "Consistently described as inferior to alternatives"
+              switching_intent: switching_away
+            min_count: 30
+            min_count_by_k:
+              25: 4
+              50: 8
+              100: 15
+          - text: "40 or more reviews describe unfavorable comparisons"
             type: count_threshold
             filter:
-              comparison_outcome: inferior
-            min_count: 2
+              comparison_outcome: unfavorable
+            min_count: 40
+            min_count_by_k:
+              25: 5
+              50: 10
+              100: 20
 
       - verdict: "Comparable"
         label: "COMPARABLE"

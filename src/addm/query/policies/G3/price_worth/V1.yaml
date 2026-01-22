@@ -1,5 +1,5 @@
 # G3_price_worth_V1: Price-Worth with Override Triggers
-# V1 = Override: Adds single-instance triggers
+# V1 = Extended: Multiple conditions per verdict (ANY triggers)
 
 policy_id: "G3_price_worth_V1"
 extends: "G3_price_worth_V0"
@@ -39,46 +39,83 @@ normative:
     ordered: true
 
     rules:
+      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Good Value"
         label: "GOOD"
         logic: ANY
         conditions:
-          - text: "At least 1 review calls it 'best value in the area' or similar"
-            type: count_threshold
-            filter:
-              quality_for_price: exceptional
-            min_count: 1
-          - text: "Happy hour or lunch specials described as exceptional value"
+          # V0 conditions (same thresholds)
+          - text: "70 or more reviews describe excellent value for money"
             type: count_threshold
             filter:
               quality_for_price: excellent
-            min_count: 1
-          - text: "Fine dining quality at casual dining prices"
+            min_count: 70
+            min_count_by_k:
+              25: 9
+              50: 18
+              100: 35
+          - text: "30 or more reviews praise generous portions or quality relative to price"
             type: count_threshold
             filter:
-              quality_for_price: exceptional
-            min_count: 1
+              portion_size: generous
+            min_count: 30
+            min_count_by_k:
+              25: 4
+              50: 8
+              100: 15
+          - text: "15 or more reviews describe it as a 'great deal' or 'bargain'"
+            type: count_threshold
+            filter:
+              price_perception: bargain
+            min_count: 15
+            min_count_by_k:
+              25: 2
+              50: 4
+              100: 8
+          # V1 additional conditions
+          - text: "5 or more reviews describe price as a steal"
+            type: count_threshold
+            filter:
+              price_perception: steal
+            min_count: 5
+            min_count_by_k:
+              25: 1
+              50: 2
+              100: 3
 
       - verdict: "Poor Value"
         label: "POOR"
         precondition: "Good Value does not apply"
         logic: ANY
         conditions:
-          - text: "At least 1 review uses words like 'ripoff' or 'highway robbery'"
+          # V0 conditions (same thresholds)
+          - text: "40 or more reviews describe it as overpriced or a 'ripoff'"
+            type: count_threshold
+            filter:
+              price_perception: overpriced
+            min_count: 40
+          - text: "10 or more reviews criticize small portions relative to price"
+            type: count_threshold
+            filter:
+              portion_size: small
+            min_count: 10
+          - text: "40 or more reviews mention not returning due to poor value"
+            type: count_threshold
+            filter:
+              return_intent: no
+              quality_for_price: poor
+            min_count: 40
+          # V1 additional conditions
+          - text: "5 or more reviews describe price as ripoff"
             type: count_threshold
             filter:
               price_perception: ripoff
-            min_count: 1
-          - text: "Described as tourist trap or overpriced"
-            type: count_threshold
-            filter:
-              price_perception: [tourist_trap, overpriced]
-            min_count: 1
-          - text: "Portion sizes described as 'laughable' or 'insulting'"
+            min_count: 5
+          - text: "5 or more reviews describe portion as tiny"
             type: count_threshold
             filter:
               portion_size: tiny
-            min_count: 1
+            min_count: 5
 
       - verdict: "Fair Value"
         label: "FAIR"

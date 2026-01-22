@@ -39,6 +39,32 @@ normative:
 
   # Scoring system -> generates Scoring System section
   scoring:
+    # Field mapping: how judgment fields map to severity labels for GT scoring
+    field_mapping:
+      severity_field: "attentiveness"
+      value_mappings:
+        excellent: "Exceptional service experience"
+        good: "Good service"
+        adequate: "Adequate service"
+        poor: "Minor service issue"
+        absent: "Terrible service"
+      modifier_mappings:
+        - field: "named_positively"
+          value: "true"
+          label: "Named with praise"
+        - field: "menu_knowledge"
+          value: "excellent"
+          label: "Excellent recommendations"
+        - field: "service_errors"
+          value: "minor"
+          label: "Recovery from error"
+        - field: "friendliness"
+          value: "rude"
+          label: "Rude or hostile"
+        - field: "service_errors"
+          value: "significant"
+          label: "Unrecovered error"
+
     description: |
       Calculate a performance score by summing points from relevant reviews.
       Positive points indicate good performance, negative points indicate issues.
@@ -76,9 +102,17 @@ normative:
 
     thresholds:
       - verdict: "Excellent"
-        min_score: 8
+        min_score: 1200
+        min_score_by_k:
+          25: 150
+          50: 300
+          100: 600
       - verdict: "Needs Improvement"
-        max_score: -5
+        max_score: 500
+        max_score_by_k:
+          25: 63
+          50: 125
+          100: 250
 
   # Decision policy -> generates Verdict Rules section
   decision:
@@ -90,20 +124,20 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - "Total performance score is 8 or higher"
+          - "Total performance score is 1200 or higher"
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - "Total performance score is -5 or lower"
+          - "Total performance score is 500 or lower"
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"
         default: true
         especially_when:
-          - "Total performance score is between -4 and 7"
+          - "Total performance score is between 501 and 1199"
           - "Mixed positive and negative indicators"
 
   # Output format

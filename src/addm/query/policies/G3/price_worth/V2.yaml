@@ -37,6 +37,29 @@ normative:
 
   # Scoring system -> generates Scoring System section
   scoring:
+    # Field mapping: how judgment fields map to severity labels for GT scoring
+    field_mapping:
+      severity_field: "price_perception"
+      value_mappings:
+        steal: "Exceptional value (steal)"
+        good_value: "Good value"
+        fair: "Fair value"
+        overpriced: "Slightly overpriced"
+        ripoff: "Ripoff"
+      modifier_mappings:
+        - field: "portion_size"
+          value: "generous"
+          label: "Generous portions"
+        - field: "quality_for_price"
+          value: "excellent"
+          label: "Quality exceeds price"
+        - field: "portion_size"
+          value: "tiny"
+          label: "Tiny portions"
+        - field: "quality_for_price"
+          value: "poor"
+          label: "Quality below price"
+
     description: |
       Calculate a value score by summing points from relevant reviews.
       Positive points indicate good value, negative points indicate poor value.
@@ -74,9 +97,17 @@ normative:
 
     thresholds:
       - verdict: "Good Value"
-        min_score: 6
+        min_score: 350
+        min_score_by_k:
+          25: 44
+          50: 88
+          100: 175
       - verdict: "Poor Value"
-        max_score: -6
+        max_score: -100
+        max_score_by_k:
+          25: -13
+          50: -25
+          100: -50
 
   # Decision policy -> generates Verdict Rules section
   decision:
@@ -88,20 +119,20 @@ normative:
         label: "GOOD"
         logic: ANY
         conditions:
-          - "Total value score is 6 or higher"
+          - "Total value score is 350 or higher"
 
       - verdict: "Poor Value"
         label: "POOR"
         precondition: "Good Value does not apply"
         logic: ANY
         conditions:
-          - "Total value score is -6 or lower"
+          - "Total value score is -100 or lower"
 
       - verdict: "Fair Value"
         label: "FAIR"
         default: true
         especially_when:
-          - "Total value score is between -5 and 5"
+          - "Total value score is between -99 and 349"
 
   # Output format
   output:

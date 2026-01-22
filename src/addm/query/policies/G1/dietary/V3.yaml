@@ -39,6 +39,21 @@ normative:
 
   # Scoring system -> generates Scoring System section
   scoring:
+    # Field mapping: how judgment fields map to severity labels for GT scoring
+    field_mapping:
+      severity_field: "incident_severity"
+      value_mappings:
+        mild: "Mild incident"
+        moderate: "Moderate incident"
+        severe: "Severe incident"
+      modifier_mappings:
+        - field: "staff_knowledge"
+          value: "none"
+          label: "False assurance"
+        - field: "staff_response"
+          value: "dismissive"
+          label: "Dismissive staff"
+
     description: |
       Calculate a total risk score by summing points from all firsthand dietary incidents,
       with recency weighting applied.
@@ -73,8 +88,16 @@ normative:
     thresholds:
       - verdict: "Critical Risk"
         min_score: 8
+        min_score_by_k:
+          25: 5
+          50: 6
+          100: 7
       - verdict: "High Risk"
         min_score: 4
+        min_score_by_k:
+          25: 2
+          50: 3
+          100: 3
 
   # Decision policy -> generates Verdict Rules section
   decision:

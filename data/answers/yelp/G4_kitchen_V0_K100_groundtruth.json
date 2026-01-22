@@ -3,7 +3,7 @@
   "topic": "G4_kitchen",
   "domain": "yelp",
   "k": 100,
-  "computed_at": "2026-01-22T01:55:21.103000",
+  "computed_at": "2026-01-22T14:57:07.615289",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -45,8 +45,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_kitchen_V0"
       }
     },
@@ -111,8 +111,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_kitchen_V0"
       }
     },
@@ -133,8 +133,8 @@
       "n_reviews": 16,
       "n_judgments": 16,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_kitchen_V0"
       }
     },
@@ -320,8 +320,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_kitchen_V0"
       }
     },
@@ -397,8 +397,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_kitchen_V0"
       }
     },
@@ -430,8 +430,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_kitchen_V0"
       }
     },
@@ -463,8 +463,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_kitchen_V0"
       }
     },
@@ -562,8 +562,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_kitchen_V0"
       }
     },
@@ -914,8 +914,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_kitchen_V0"
       }
     },
@@ -1035,8 +1035,8 @@
       "n_reviews": 33,
       "n_judgments": 33,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_kitchen_V0"
       }
     },
@@ -1046,8 +1046,8 @@
       "n_reviews": 45,
       "n_judgments": 45,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_kitchen_V0"
       }
     },
@@ -1110,9 +1110,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Needs Improvement": 0,
-      "Satisfactory": 0,
-      "Excellent": 100
+      "Needs Improvement": 7,
+      "Satisfactory": 4,
+      "Excellent": 89
     },
     "missing_judgments": 0
   }

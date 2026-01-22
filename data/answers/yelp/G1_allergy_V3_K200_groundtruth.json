@@ -3,7 +3,7 @@
   "topic": "G1_allergy",
   "domain": "yelp",
   "k": 200,
-  "computed_at": "2026-01-22T01:55:30.890856",
+  "computed_at": "2026-01-22T14:57:19.022471",
   "has_scoring": true,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -54,21 +54,10 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "score": 13,
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "nUnKst735eNhs3E2hNj6tA",
-            "severity": "moderate",
-            "base_points": 5,
-            "modifiers": [
-              "False assurance",
-              "Dismissive staff"
-            ],
-            "total_points": 13
-          }
-        ],
+        "verdict": "Low Risk",
+        "score": 0,
+        "n_incidents": 0,
+        "incidents": [],
         "cuisine_modifier": false,
         "policy_id": "G1_allergy_V3"
       }
@@ -225,7 +214,9 @@
         "incidents": [
           {
             "review_id": "Zo58x_2gCuh3N4xKeot6Kw",
-            "severity": "mild",
+            "severity_field": "incident_severity",
+            "severity_value": "mild",
+            "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
             "total_points": 2
@@ -317,14 +308,18 @@
         "incidents": [
           {
             "review_id": "Zlg4nKIoFP94G3g6A_LAPw",
-            "severity": "mild",
+            "severity_field": "incident_severity",
+            "severity_value": "mild",
+            "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
             "total_points": 2
           },
           {
             "review_id": "ewwb5e81Eryht-AZ7TBeHQ",
-            "severity": "mild",
+            "severity_field": "incident_severity",
+            "severity_value": "mild",
+            "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
             "total_points": 2
@@ -360,7 +355,9 @@
         "incidents": [
           {
             "review_id": "4hdA-ggnyBu7bCl9LU7V1Q",
-            "severity": "mild",
+            "severity_field": "incident_severity",
+            "severity_value": "mild",
+            "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
             "total_points": 2
@@ -382,7 +379,9 @@
         "incidents": [
           {
             "review_id": "RBNbAcduD-C8QjJ3KNoQgA",
-            "severity": "severe",
+            "severity_field": "incident_severity",
+            "severity_value": "severe",
+            "severity_label": "Severe incident",
             "base_points": 15,
             "modifiers": [],
             "total_points": 15
@@ -684,7 +683,9 @@
         "incidents": [
           {
             "review_id": "WpWWTv81Mh-kpaJNr6h7yw",
-            "severity": "moderate",
+            "severity_field": "incident_severity",
+            "severity_value": "moderate",
+            "severity_label": "Moderate incident",
             "base_points": 5,
             "modifiers": [],
             "total_points": 5
@@ -720,7 +721,9 @@
         "incidents": [
           {
             "review_id": "DFZ3dnlUrGNkoa4XWJvVXA",
-            "severity": "severe",
+            "severity_field": "incident_severity",
+            "severity_value": "severe",
+            "severity_label": "Severe incident",
             "base_points": 15,
             "modifiers": [],
             "total_points": 15
@@ -779,17 +782,9 @@
       "n_judgments": 200,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 2,
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "nMYIG1gx9oam2TLS06_7MQ",
-            "severity": "mild",
-            "base_points": 2,
-            "modifiers": [],
-            "total_points": 2
-          }
-        ],
+        "score": 0,
+        "n_incidents": 0,
+        "incidents": [],
         "cuisine_modifier": false,
         "policy_id": "G1_allergy_V3"
       }
@@ -876,21 +871,27 @@
         "incidents": [
           {
             "review_id": "dvh8Myut-q3wyhcK3R_L_g",
-            "severity": "mild",
+            "severity_field": "incident_severity",
+            "severity_value": "mild",
+            "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
             "total_points": 2
           },
           {
             "review_id": "oUxqbtB8e7M4gZ4T1XFpfg",
-            "severity": "mild",
+            "severity_field": "incident_severity",
+            "severity_value": "mild",
+            "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
             "total_points": 2
           },
           {
             "review_id": "h_1a2bsJ1bIiJ6SVubro2g",
-            "severity": "mild",
+            "severity_field": "incident_severity",
+            "severity_value": "mild",
+            "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
             "total_points": 2
@@ -1010,7 +1011,9 @@
         "incidents": [
           {
             "review_id": "C_9HEqYieW7TnM86OtQlqw",
-            "severity": "moderate",
+            "severity_field": "incident_severity",
+            "severity_value": "moderate",
+            "severity_label": "Moderate incident",
             "base_points": 5,
             "modifiers": [
               "Dismissive staff"
@@ -1019,7 +1022,9 @@
           },
           {
             "review_id": "JTeR9wzcNH5dzClfgtCOmA",
-            "severity": "moderate",
+            "severity_field": "incident_severity",
+            "severity_value": "moderate",
+            "severity_label": "Moderate incident",
             "base_points": 5,
             "modifiers": [
               "Dismissive staff"
@@ -1028,7 +1033,9 @@
           },
           {
             "review_id": "tbm6wNuN89MQGl4B2h5qrQ",
-            "severity": "moderate",
+            "severity_field": "incident_severity",
+            "severity_value": "moderate",
+            "severity_label": "Moderate incident",
             "base_points": 5,
             "modifiers": [
               "Dismissive staff"
@@ -1103,17 +1110,9 @@
       "n_judgments": 200,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 2,
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "vJuBSCJrACzOCv6Ek8kh6g",
-            "severity": "mild",
-            "base_points": 2,
-            "modifiers": [],
-            "total_points": 2
-          }
-        ],
+        "score": 0,
+        "n_incidents": 0,
+        "incidents": [],
         "cuisine_modifier": false,
         "policy_id": "G1_allergy_V3"
       }
@@ -1144,7 +1143,9 @@
         "incidents": [
           {
             "review_id": "06SIu6-4peKcFTVSOdJv9g",
-            "severity": "moderate",
+            "severity_field": "incident_severity",
+            "severity_value": "moderate",
+            "severity_label": "Moderate incident",
             "base_points": 5,
             "modifiers": [],
             "total_points": 5
@@ -1194,7 +1195,9 @@
         "incidents": [
           {
             "review_id": "__iKmCRLHQeo_RpGmLo3Mw",
-            "severity": "severe",
+            "severity_field": "incident_severity",
+            "severity_value": "severe",
+            "severity_label": "Severe incident",
             "base_points": 15,
             "modifiers": [],
             "total_points": 15
@@ -1210,20 +1213,10 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
-        "score": 5,
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "SIbNMTMFG58czcgjXVDj7Q",
-            "severity": "mild",
-            "base_points": 2,
-            "modifiers": [
-              "Dismissive staff"
-            ],
-            "total_points": 5
-          }
-        ],
+        "verdict": "Low Risk",
+        "score": 0,
+        "n_incidents": 0,
+        "incidents": [],
         "cuisine_modifier": false,
         "policy_id": "G1_allergy_V3"
       }
@@ -1240,7 +1233,9 @@
         "incidents": [
           {
             "review_id": "PqwCitHejVvFRtCBeyX7DA",
-            "severity": "mild",
+            "severity_field": "incident_severity",
+            "severity_value": "mild",
+            "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [
               "Dismissive staff"
@@ -1300,19 +1295,11 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
-        "score": 4,
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "F2cdx4hR4UrJmGMzwprAUA",
-            "severity": "mild",
-            "base_points": 2,
-            "modifiers": [],
-            "total_points": 2
-          }
-        ],
-        "cuisine_modifier": true,
+        "verdict": "Low Risk",
+        "score": 0,
+        "n_incidents": 0,
+        "incidents": [],
+        "cuisine_modifier": false,
         "policy_id": "G1_allergy_V3"
       }
     },
@@ -1398,7 +1385,9 @@
         "incidents": [
           {
             "review_id": "IJbGk6P30mvrqcmE0Q1cTA",
-            "severity": "moderate",
+            "severity_field": "incident_severity",
+            "severity_value": "moderate",
+            "severity_label": "Moderate incident",
             "base_points": 5,
             "modifiers": [
               "False assurance"
@@ -1407,7 +1396,9 @@
           },
           {
             "review_id": "0yjLIr7eXEwCZYajfTGw4g",
-            "severity": "mild",
+            "severity_field": "incident_severity",
+            "severity_value": "mild",
+            "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
             "total_points": 2
@@ -1429,7 +1420,9 @@
         "incidents": [
           {
             "review_id": "GRPKFF5gqcMNK_owWSc8RQ",
-            "severity": "moderate",
+            "severity_field": "incident_severity",
+            "severity_value": "moderate",
+            "severity_label": "Moderate incident",
             "base_points": 5,
             "modifiers": [
               "False assurance"
@@ -1448,17 +1441,9 @@
       "n_judgments": 200,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 2,
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "fenfMbiHzRvK0PSM06w5ZQ",
-            "severity": "mild",
-            "base_points": 2,
-            "modifiers": [],
-            "total_points": 2
-          }
-        ],
+        "score": 0,
+        "n_incidents": 0,
+        "incidents": [],
         "cuisine_modifier": false,
         "policy_id": "G1_allergy_V3"
       }
@@ -1503,7 +1488,9 @@
         "incidents": [
           {
             "review_id": "vFk28MhJSqUhy92DXa9PAQ",
-            "severity": "moderate",
+            "severity_field": "incident_severity",
+            "severity_value": "moderate",
+            "severity_label": "Moderate incident",
             "base_points": 5,
             "modifiers": [],
             "total_points": 5
@@ -1623,7 +1610,9 @@
         "incidents": [
           {
             "review_id": "AjNmbmF80uRfZJPU_34IfA",
-            "severity": "severe",
+            "severity_field": "incident_severity",
+            "severity_value": "severe",
+            "severity_label": "Severe incident",
             "base_points": 15,
             "modifiers": [],
             "total_points": 15
@@ -1637,9 +1626,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Risk": 83,
-      "High Risk": 9,
-      "Critical Risk": 8
+      "Low Risk": 86,
+      "High Risk": 7,
+      "Critical Risk": 7
     },
     "missing_judgments": 0
   }

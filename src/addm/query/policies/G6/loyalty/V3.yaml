@@ -37,6 +37,25 @@ normative:
 
   # Scoring system -> generates Scoring System section
   scoring:
+    # Field mapping: how judgment fields map to severity labels for GT scoring
+    field_mapping:
+      severity_field: "return_intent"
+      value_mappings:
+        definitely: "Will definitely return"
+        likely: "Might return"
+        unlikely: "Probably won't return"
+        never: "Never returning"
+      modifier_mappings:
+        - field: "recommend_intent"
+          value: "strongly_recommend"
+          label: "Strong recommendation"
+        - field: "emotional_connection"
+          value: "high"
+          label: "Returned after issue"
+        - field: "recommend_intent"
+          value: "warn_others"
+          label: "Warns others away"
+
     description: |
       Calculate a loyalty score by summing points from relevant reviews,
       with recency weighting. Loyalty patterns can shift as restaurants change,
@@ -80,9 +99,17 @@ normative:
 
     thresholds:
       - verdict: "High Loyalty"
-        min_score: 10
+        min_score: 1400
+        min_score_by_k:
+          25: 175
+          50: 350
+          100: 700
       - verdict: "Low Loyalty"
-        max_score: -5
+        max_score: 100
+        max_score_by_k:
+          25: -100
+          50: 0
+          100: 50
 
   # Decision policy -> generates Verdict Rules section
   decision:
@@ -94,20 +121,20 @@ normative:
         label: "HIGH_LOYALTY"
         logic: ANY
         conditions:
-          - "Total score is 10 or higher (after recency weighting)"
+          - "Total score is 1400 or higher (after recency weighting)"
 
       - verdict: "Low Loyalty"
         label: "LOW_LOYALTY"
         precondition: "High Loyalty does not apply"
         logic: ANY
         conditions:
-          - "Total score is -5 or lower (after recency weighting)"
+          - "Total score is 100 or lower (after recency weighting)"
 
       - verdict: "Moderate Loyalty"
         label: "MODERATE_LOYALTY"
         default: true
         especially_when:
-          - "Total score is between -4 and 9"
+          - "Total score is between 101 and 1399"
           - "Recent reviews show stable or improving loyalty"
 
   # Output format

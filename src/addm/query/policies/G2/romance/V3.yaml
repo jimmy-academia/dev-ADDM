@@ -38,6 +38,28 @@ normative:
 
   # Scoring system -> generates Scoring System section
   scoring:
+    # Field mapping: how judgment fields map to severity labels for GT scoring
+    field_mapping:
+      severity_field: "date_outcome"
+      value_mappings:
+        memorable: "Romantic success (proposal, anniversary)"
+        positive: "Positive date experience"
+        neutral: "Neutral mention"
+        negative: "Date disaster"
+      modifier_mappings:
+        - field: "lighting_quality"
+          value: "candlelit"
+          label: "Candlelit atmosphere"
+        - field: "noise_level"
+          value: "intimate"
+          label: "Private seating"
+        - field: "service_style"
+          value: "rushed"
+          label: "Rushed service"
+        - field: "noise_level"
+          value: "loud"
+          label: "Loud music/crowd"
+
     description: |
       Calculate a romance suitability score by summing points from relevant reviews,
       with recency weighting applied.
@@ -83,9 +105,17 @@ normative:
 
     thresholds:
       - verdict: "Recommended"
-        min_score: 8
+        min_score: 400
+        min_score_by_k:
+          25: 50
+          50: 100
+          100: 200
       - verdict: "Not Recommended"
-        max_score: -5
+        max_score: -500
+        max_score_by_k:
+          25: -63
+          50: -125
+          100: -250
 
   # Decision policy -> generates Verdict Rules section
   decision:
@@ -97,20 +127,20 @@ normative:
         label: "RECOMMENDED"
         logic: ANY
         conditions:
-          - "Total suitability score is 8 or higher (after recency weighting)"
+          - "Total suitability score is 400 or higher (after recency weighting)"
 
       - verdict: "Not Recommended"
         label: "NOT_RECOMMENDED"
         precondition: "Recommended does not apply"
         logic: ANY
         conditions:
-          - "Total suitability score is -5 or lower (after recency weighting)"
+          - "Total suitability score is -500 or lower (after recency weighting)"
 
       - verdict: "Acceptable"
         label: "ACCEPTABLE"
         default: true
         especially_when:
-          - "Total suitability score is between -4 and 7"
+          - "Total suitability score is between -499 and 399"
           - "Recent reviews show improvement in romantic atmosphere"
           - "Mixed reviews but no strong negative signals"
 

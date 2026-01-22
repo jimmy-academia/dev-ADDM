@@ -1,5 +1,5 @@
 # G3_hidden_costs_V1: Hidden Costs with Override Triggers
-# V1 = Override: Adds single-instance triggers
+# V1 = Extended: Multiple conditions per verdict (ANY triggers)
 
 policy_id: "G3_hidden_costs_V1"
 extends: "G3_hidden_costs_V0"
@@ -39,47 +39,86 @@ normative:
     ordered: true
 
     rules:
+      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Critical Risk"
         label: "CRITICAL"
         logic: ANY
         conditions:
-          - text: "At least 1 review describes bill being significantly higher than expected without warning"
-            type: count_threshold
-            filter:
-              impact_severity: major
-              disclosure_level: none
-            min_count: 1
-          - text: "Undisclosed fees greater than 15% of expected bill"
+          # V0 conditions (same thresholds)
+          - text: "10 or more reviews report significant impact from undisclosed charges"
             type: count_threshold
             filter:
               impact_severity: significant
-            min_count: 1
-          - text: "Multiple charges hidden from customers until bill arrives"
+            min_count: 10
+            min_count_by_k:
+              25: 2
+              50: 4
+              100: 6
+          - text: "20 or more reviews report moderate billing impact"
             type: count_threshold
             filter:
-              disclosure_level: none
-            min_count: 2
+              impact_severity: moderate
+            min_count: 20
+            min_count_by_k:
+              25: 4
+              50: 7
+              100: 12
+          # V1 additional conditions
+          - text: "5 or more reviews mention undisclosed auto-gratuity or service charge"
+            type: count_threshold
+            filter:
+              cost_type: [auto_gratuity, service_charge]
+              disclosure_level: undisclosed
+            min_count: 5
+            min_count_by_k:
+              25: 1
+              50: 2
+              100: 3
 
       - verdict: "High Risk"
         label: "HIGH"
         precondition: "Critical Risk does not apply"
         logic: ANY
         conditions:
-          - text: "At least 1 review mentions unexpected service charge or auto-gratuity"
+          # V0 conditions (same thresholds)
+          - text: "5 or more reviews mention specific fee types (corkage, service charge, etc.)"
             type: count_threshold
             filter:
-              cost_type: [service_charge, auto_gratuity]
-            min_count: 1
-          - text: "Fees mentioned only in fine print or not disclosed"
+              cost_type: [corkage, auto_gratuity, service_charge, split_fee]
+            min_count: 5
+            min_count_by_k:
+              25: 3
+              50: 4
+              100: 4
+          - text: "15 or more reviews report minor billing impacts"
             type: count_threshold
             filter:
-              disclosure_level: [fine_print, none]
-            min_count: 1
-          - text: "Customer describes feeling deceived about pricing"
+              impact_severity: minor
+            min_count: 15
+            min_count_by_k:
+              25: 4
+              50: 8
+              100: 11
+          - text: "20 or more reviews describe feeling upset about charges"
             type: count_threshold
             filter:
-              customer_reaction: deceived
-            min_count: 1
+              customer_reaction: upset
+            min_count: 20
+            min_count_by_k:
+              25: 5
+              50: 10
+              100: 14
+          # V1 additional conditions
+          - text: "3 or more reviews mention undisclosed corkage or split fee"
+            type: count_threshold
+            filter:
+              cost_type: [corkage, split_fee]
+              disclosure_level: undisclosed
+            min_count: 3
+            min_count_by_k:
+              25: 2
+              50: 3
+              100: 3
 
       - verdict: "Low Risk"
         label: "LOW"

@@ -3,7 +3,7 @@
   "topic": "G2_romance",
   "domain": "yelp",
   "k": 100,
-  "computed_at": "2026-01-22T01:55:20.530701",
+  "computed_at": "2026-01-22T14:57:04.469375",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -12,8 +12,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -23,8 +23,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -34,8 +34,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -56,8 +56,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -67,8 +67,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -78,8 +78,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -100,8 +100,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -133,8 +133,8 @@
       "n_reviews": 16,
       "n_judgments": 16,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -144,8 +144,8 @@
       "n_reviews": 86,
       "n_judgments": 86,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -155,8 +155,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -166,8 +166,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -177,8 +177,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -221,8 +221,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -232,8 +232,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -243,8 +243,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -265,8 +265,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -276,8 +276,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -287,8 +287,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -309,8 +309,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -320,8 +320,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -331,8 +331,8 @@
       "n_reviews": 73,
       "n_judgments": 73,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -353,8 +353,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -364,8 +364,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -375,8 +375,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -386,8 +386,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -408,8 +408,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -419,8 +419,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -441,8 +441,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -452,8 +452,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -485,8 +485,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -507,8 +507,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -529,8 +529,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -540,8 +540,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -551,8 +551,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -573,8 +573,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -584,8 +584,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -606,8 +606,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -639,8 +639,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -650,8 +650,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -661,8 +661,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -672,8 +672,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -683,8 +683,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -716,8 +716,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -727,8 +727,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -738,8 +738,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -760,8 +760,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -782,8 +782,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -793,8 +793,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -815,8 +815,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -837,8 +837,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -870,8 +870,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -881,8 +881,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -925,8 +925,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -947,8 +947,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -969,8 +969,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -991,8 +991,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -1002,8 +1002,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -1013,8 +1013,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -1035,8 +1035,8 @@
       "n_reviews": 33,
       "n_judgments": 33,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -1046,8 +1046,8 @@
       "n_reviews": 45,
       "n_judgments": 45,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -1057,8 +1057,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -1079,8 +1079,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -1090,8 +1090,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     },
@@ -1101,8 +1101,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1"
       }
     }
@@ -1110,9 +1110,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Not Recommended": 100,
-      "Acceptable": 0,
-      "Recommended": 0
+      "Not Recommended": 36,
+      "Acceptable": 4,
+      "Recommended": 60
     },
     "missing_judgments": 0
   }

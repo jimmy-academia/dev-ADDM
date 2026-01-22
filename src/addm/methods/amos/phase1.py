@@ -27,11 +27,16 @@ from .config import Phase1Approach
 from .phase1_plan_and_act import generate_plan_and_act
 from .phase1_react import generate_react
 from .phase1_reflexion import generate_reflexion
+from .agenda_parser import parse_agenda, AgendaExpectations
+from .seed_validator import validate_seed, ValidationResult
 
 logger = logging.getLogger(__name__)
 
 # Maximum attempts to fix expression errors
 MAX_FIX_ATTEMPTS = 3
+
+# Maximum attempts to fix semantic validation errors
+MAX_SEMANTIC_FIX_ATTEMPTS = 1
 
 
 # =============================================================================
@@ -884,6 +889,36 @@ Output ONLY the corrected JSON (no explanation):
 ```json
 '''
 
+SEMANTIC_FIX_PROMPT = '''The Formula Seed you generated has semantic validation errors against the agenda:
+
+## ERRORS
+
+{errors}
+
+## ORIGINAL AGENDA (for reference)
+
+{agenda_snippet}
+
+## PROBLEMATIC FORMULA SEED
+
+```json
+{seed_json}
+```
+
+## FIX REQUIREMENTS
+
+Please fix these semantic errors:
+
+1. **Verdict Labels**: Use EXACT verdict labels from the agenda (e.g., "Critical Risk" not "Critical")
+2. **Evaluation Order**: The first case rule should check the first verdict in the precedence ladder
+3. **Default Verdict**: The else clause should return the default/"otherwise" verdict
+4. **Count Thresholds**: Use the EXACT thresholds from the agenda (e.g., ">= 2" if agenda says "2 or more")
+
+Output the COMPLETE corrected Formula Seed JSON:
+
+```json
+'''
+
 
 async def generate_formula_seed(
     agenda: str,
@@ -1006,12 +1041,97 @@ async def generate_formula_seed(
         logger.info(f"Formula Seed fixed after {fix_attempt} attempt(s)")
 
     # =========================================================================
+    # Semantic Validation (agenda-based)
+    # =========================================================================
+    # Parse agenda to extract structured expectations
+    expectations = parse_agenda(agenda)
+    semantic_result = validate_seed(seed, expectations)
+
+    semantic_fix_attempt = 0
+    while not semantic_result.valid and semantic_fix_attempt < MAX_SEMANTIC_FIX_ATTEMPTS:
+        semantic_fix_attempt += 1
+        logger.info(
+            f"Semantic validation failed with {len(semantic_result.errors)} errors, "
+            f"attempting fix {semantic_fix_attempt}/{MAX_SEMANTIC_FIX_ATTEMPTS}"
+        )
+
+        # Build semantic fix prompt
+        seed_for_fix = {k: v for k, v in seed.items() if not k.startswith("_")}
+
+        # Extract relevant snippet from agenda (Verdict Rules section)
+        agenda_snippet = agenda
+        verdict_rules_match = re.search(r"(## Verdict Rules.*)", agenda, re.DOTALL)
+        if verdict_rules_match:
+            agenda_snippet = verdict_rules_match.group(1)[:2000]  # Limit size
+
+        semantic_fix_prompt = SEMANTIC_FIX_PROMPT.format(
+            errors="\n".join(f"- {e}" for e in semantic_result.errors),
+            agenda_snippet=agenda_snippet,
+            seed_json=json.dumps(seed_for_fix, indent=2),
+        )
+
+        # Ask LLM to fix semantic errors
+        fix_messages = [
+            {"role": "user", "content": semantic_fix_prompt},
+        ]
+
+        fix_response, fix_usage = await llm.call_async_with_usage(
+            fix_messages,
+            context={
+                "phase": "phase1_semantic_fix",
+                "policy_id": policy_id,
+                "attempt": semantic_fix_attempt,
+            },
+        )
+        all_usages.append(fix_usage)
+
+        # Try to parse fixed seed
+        try:
+            fixed_seed = _extract_json_from_response(fix_response)
+            # Preserve intermediate results
+            fixed_seed["_approach"] = approach.value
+            fixed_seed["_intermediates"] = intermediates
+            seed = fixed_seed
+
+            # Re-run structural validation first
+            structural_errors = _validate_formula_seed(seed)
+            if structural_errors:
+                logger.warning(
+                    f"Semantic fix introduced structural errors: {structural_errors}"
+                )
+                # Don't accept this fix
+                continue
+
+            # Re-run semantic validation
+            semantic_result = validate_seed(seed, expectations)
+
+        except json.JSONDecodeError as e:
+            logger.warning(f"Semantic fix attempt {semantic_fix_attempt} failed to parse: {e}")
+
+    # If semantic validation still fails, mark for ABSTAIN
+    if not semantic_result.valid:
+        logger.warning(
+            f"Semantic validation failed after {MAX_SEMANTIC_FIX_ATTEMPTS} fix attempts. "
+            f"Marking seed for ABSTAIN."
+        )
+        seed["_abstain"] = True
+        seed["_abstain_reason"] = semantic_result.errors
+        seed["_abstain_warnings"] = semantic_result.warnings
+
+    # Store validation warnings even if valid
+    if semantic_result.warnings:
+        seed["_validation_warnings"] = semantic_result.warnings
+
+    # =========================================================================
     # Return seed (no global caching - saved to run directory by caller)
     # =========================================================================
     total_usage = _accumulate_usage(all_usages)
 
-    # Remove intermediate results before returning
-    seed_clean = {k: v for k, v in seed.items() if not k.startswith("_")}
+    # Remove intermediate results before returning (but keep _abstain markers)
+    seed_clean = {
+        k: v for k, v in seed.items()
+        if not k.startswith("_") or k in ("_abstain", "_abstain_reason", "_abstain_warnings", "_validation_warnings")
+    }
 
     return seed_clean, total_usage
 

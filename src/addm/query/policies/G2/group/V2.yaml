@@ -40,6 +40,34 @@ normative:
 
   # Scoring system -> generates Scoring System section
   scoring:
+    # Field mapping: how judgment fields map to severity labels for GT scoring
+    field_mapping:
+      severity_field: "group_outcome"
+      value_mappings:
+        great: "Perfect group event"
+        success: "Positive group experience"
+        mixed: "Neutral mention"
+        disaster: "Group disaster"
+      modifier_mappings:
+        - field: "accommodation_quality"
+          value: "excellent"
+          label: "Private room available"
+        - field: "check_splitting"
+          value: "easy"
+          label: "Easy check splitting"
+        - field: "family_friendliness"
+          value: "friendly"
+          label: "Family-friendly"
+        - field: "check_splitting"
+          value: "refused"
+          label: "Refused check split"
+        - field: "wait_time"
+          value: "excessive"
+          label: "Long wait despite reservation"
+        - field: "accommodation_quality"
+          value: "poor"
+          label: "Group split across tables"
+
     description: |
       Calculate a group suitability score by summing points from relevant reviews.
       Positive points indicate group suitability, negative points indicate drawbacks.
@@ -80,9 +108,17 @@ normative:
 
     thresholds:
       - verdict: "Recommended"
-        min_score: 8
+        min_score: 2000
+        min_score_by_k:
+          25: 250
+          50: 500
+          100: 1000
       - verdict: "Not Recommended"
-        max_score: -5
+        max_score: 600
+        max_score_by_k:
+          25: 75
+          50: 150
+          100: 300
 
   # Decision policy -> generates Verdict Rules section
   decision:
@@ -94,20 +130,20 @@ normative:
         label: "RECOMMENDED"
         logic: ANY
         conditions:
-          - "Total suitability score is 8 or higher"
+          - "Total suitability score is 2000 or higher"
 
       - verdict: "Not Recommended"
         label: "NOT_RECOMMENDED"
         precondition: "Recommended does not apply"
         logic: ANY
         conditions:
-          - "Total suitability score is -5 or lower"
+          - "Total suitability score is 600 or lower"
 
       - verdict: "Acceptable"
         label: "ACCEPTABLE"
         default: true
         especially_when:
-          - "Total suitability score is between -4 and 7"
+          - "Total suitability score is between 601 and 1999"
           - "Mixed positive and negative indicators"
 
   # Output format

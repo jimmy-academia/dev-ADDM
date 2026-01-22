@@ -1,5 +1,5 @@
 # G5_execution_V1: Execution with Override Triggers
-# V1 = Override: Adds single-instance triggers for exceptional/poor execution
+# V1 = Extended: Multiple conditions per verdict (ANY triggers) for exceptional/poor execution
 
 policy_id: "G5_execution_V1"
 extends: "G5_execution_V0"
@@ -34,52 +34,98 @@ normative:
     - ref: "execution:ISSUE_RESOLUTION"
 
   # Decision policy -> generates Verdict Rules section
-  # V1 adds single-instance OVERRIDES
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
     ordered: true
 
     rules:
+      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Excellent"
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - text: "At least 1 review describes 'perfect' order execution"
+          # V0 conditions (same thresholds)
+          - text: "170 or more reviews report perfect order accuracy"
             type: count_threshold
             filter:
               order_accuracy: perfect
-            min_count: 1
-          - text: "Manager came out to make things right when issue occurred"
+            min_count: 170
+            min_count_by_k:
+              25: 24
+              50: 48
+              100: 90
+          - text: "80 or more reviews report successful modification handling"
             type: count_threshold
             filter:
-              issue_resolution: manager_intervention
-            min_count: 1
-          - text: "Described as 'never makes mistakes'"
+              modification_handling: successful
+            min_count: 80
+            min_count_by_k:
+              25: 14
+              50: 24
+              100: 45
+          - text: "150 or more reviews report promises kept"
             type: count_threshold
             filter:
-              order_accuracy: flawless
-            min_count: 1
+              promise_kept: kept
+            min_count: 150
+            min_count_by_k:
+              25: 22
+              50: 42
+              100: 80
+          # V1 additional conditions
+          - text: "40 or more reviews describe excellent issue resolution"
+            type: count_threshold
+            filter:
+              issue_resolution: excellent
+            min_count: 40
+            min_count_by_k:
+              25: 8
+              50: 14
+              100: 25
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - text: "At least 1 review describes 'nothing was right'"
+          # V0 conditions (same thresholds)
+          - text: "20 or more reviews report significant or multiple order errors"
             type: count_threshold
             filter:
-              order_accuracy: completely_wrong
-            min_count: 1
-          - text: "Allergy modification ignored despite explicit request"
+              order_accuracy: [multiple_errors, significant_error]
+            min_count: 20
+            min_count_by_k:
+              25: 15
+              50: 14
+              100: 18
+          - text: "100 or more reviews report modifications being ignored"
             type: count_threshold
             filter:
-              modification_handling: allergy_ignored
-            min_count: 1
-          - text: "Issue not resolved and no attempt to fix"
+              modification_handling: ignored
+            min_count: 100
+            min_count_by_k:
+              25: 22
+              50: 38
+              100: 70
+          - text: "30 or more reviews report broken promises"
+            type: count_threshold
+            filter:
+              promise_kept: broken
+            min_count: 30
+            min_count_by_k:
+              25: 12
+              50: 16
+              100: 24
+          # V1 additional conditions
+          - text: "30 or more reviews describe no issue resolution"
             type: count_threshold
             filter:
               issue_resolution: none
-            min_count: 1
+            min_count: 30
+            min_count_by_k:
+              25: 18
+              50: 28
+              100: 40
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

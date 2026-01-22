@@ -42,42 +42,66 @@ normative:
         label: "RECOMMENDED"
         logic: ANY
         conditions:
-          - text: "Multiple reviews describe excellent romantic ambiance"
+          - text: "20 or more reviews describe excellent romantic ambiance"
             type: count_threshold
             filter:
               ambiance_quality: excellent
-            min_count: 2
-          - text: "Reviews mention successful dates, proposals, or anniversaries"
+            min_count: 20
+            min_count_by_k:
+              25: 4
+              50: 7
+              100: 12
+          - text: "100 or more reviews mention successful dates, proposals, or anniversaries"
             type: count_threshold
             filter:
               date_outcome: positive
-            min_count: 2
-          - text: "Consistently described as quiet, intimate, or romantic"
+            min_count: 100
+            min_count_by_k:
+              25: 15
+              50: 30
+              100: 55
+          - text: "15 or more reviews describe it as quiet, intimate, or romantic"
             type: count_threshold
             filter:
               ambiance_quality: [intimate, romantic]
-            min_count: 2
+            min_count: 15
+            min_count_by_k:
+              25: 4
+              50: 6
+              100: 10
 
       - verdict: "Not Recommended"
         label: "NOT_RECOMMENDED"
         precondition: "Recommended does not apply"
         logic: ANY
         conditions:
-          - text: "Multiple reviews describe loud noise preventing conversation"
+          - text: "20 or more reviews describe loud noise preventing conversation"
             type: count_threshold
             filter:
               noise_level: loud
-            min_count: 2
-          - text: "Reviews describe harsh lighting or unromantic atmosphere"
+            min_count: 20
+            min_count_by_k:
+              25: 4
+              50: 7
+              100: 12
+          - text: "15 or more reviews describe harsh lighting or unromantic atmosphere"
             type: count_threshold
             filter:
               ambiance_quality: [harsh, unromantic]
-            min_count: 2
-          - text: "Multiple date experiences described as negative"
+            min_count: 15
+            min_count_by_k:
+              25: 3
+              50: 5
+              100: 9
+          - text: "50 or more reviews describe negative date experiences"
             type: count_threshold
             filter:
               date_outcome: negative
-            min_count: 2
+            min_count: 50
+            min_count_by_k:
+              25: 8
+              50: 15
+              100: 28
 
       - verdict: "Acceptable"
         label: "ACCEPTABLE"

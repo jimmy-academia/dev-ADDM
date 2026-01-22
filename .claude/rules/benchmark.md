@@ -17,10 +17,10 @@
 
 | Variant | Description |
 |---------|-------------|
-| V0 | Base - aggregation, multiple incidents required |
-| V1 | +Override - single-instance triggers |
-| V2 | +Scoring - point system, thresholds |
-| V3 | +Recency - time decay, exceptions |
+| V0 | Base - single condition per verdict |
+| V1 | Extended - multiple conditions per verdict (ANY triggers) |
+| V2 | Scoring - point system with thresholds |
+| V3 | Scoring + recency weighting |
 
 ## Task ID Format
 

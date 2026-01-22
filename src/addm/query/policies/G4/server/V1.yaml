@@ -1,5 +1,5 @@
 # G4_server_V1: Server Performance with Override Triggers
-# V1 = Override: Adds single-instance triggers
+# V1 = Extended: Multiple conditions per verdict (ANY triggers)
 
 policy_id: "G4_server_V1"
 extends: "G4_server_V0"
@@ -41,47 +41,92 @@ normative:
     ordered: true
 
     rules:
+      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Excellent"
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - text: "At least 1 server mentioned by name with exceptional praise"
+          # Conditions with very high thresholds for K=200
+          - text: "150 or more reviews praise server attentiveness and friendliness"
             type: count_threshold
             filter:
-              named_positively: true
-            min_count: 1
-          - text: "Service described as 'best I've ever had' or similar"
+              attentiveness: good
+              friendliness: friendly
+            min_count: 150
+            min_count_by_k:
+              25: 19
+              50: 38
+              100: 75
+          - text: "80 or more reviews mention servers by name with exceptional praise"
             type: count_threshold
             filter:
-              attentiveness: exceptional
-            min_count: 1
-          - text: "Consistent praise for anticipatory, exceptional service"
+              named_positively: "true"
+            min_count: 80
+            min_count_by_k:
+              25: 10
+              50: 20
+              100: 40
+          - text: "100 or more reviews describe servers as knowledgeable"
             type: count_threshold
             filter:
-              attentiveness: exceptional
-              friendliness: exceptional
-            min_count: 1
+              menu_knowledge: excellent
+            min_count: 100
+            min_count_by_k:
+              25: 13
+              50: 25
+              100: 50
+          # V1 additional conditions
+          - text: "80 or more reviews describe excellent attentiveness"
+            type: count_threshold
+            filter:
+              attentiveness: excellent
+            min_count: 80
+            min_count_by_k:
+              25: 10
+              50: 20
+              100: 40
+          - text: "60 or more reviews describe exceptionally warm service"
+            type: count_threshold
+            filter:
+              friendliness: warm
+            min_count: 60
+            min_count_by_k:
+              25: 8
+              50: 15
+              100: 30
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - text: "At least 1 review describes actively rude or hostile server"
+          # Negative conditions with lower thresholds to catch more
+          - text: "5 or more reviews describe inattentive servers"
             type: count_threshold
             filter:
-              friendliness: hostile
-            min_count: 1
-          - text: "Server described as 'worst service ever' or similar"
+              attentiveness: poor
+            min_count: 5
+          - text: "3 or more reviews complain about rude service"
             type: count_threshold
             filter:
-              attentiveness: terrible
-            min_count: 1
-          - text: "Pattern of complaints about being ignored or forgotten"
+              friendliness: rude
+            min_count: 3
+          - text: "10 or more reviews report significant service errors"
             type: count_threshold
             filter:
-              attentiveness: ignored
-            min_count: 1
+              service_errors: significant
+            min_count: 10
+          # V1 additional conditions
+          - text: "3 or more reviews describe absent servers"
+            type: count_threshold
+            filter:
+              attentiveness: absent
+            min_count: 3
+          - text: "2 or more reviews describe severe service errors"
+            type: count_threshold
+            filter:
+              service_errors: severe
+            min_count: 2
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

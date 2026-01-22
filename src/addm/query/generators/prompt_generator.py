@@ -7,6 +7,7 @@ agenda prompt with three sections:
 3. Verdict Rules - Precedence ladder with conditions
 """
 
+import re
 from pathlib import Path
 from typing import List, Optional
 
@@ -16,17 +17,99 @@ from ..models.policy import PolicyIR, DecisionRule, ScoringSystem
 from ..models.term import Term, TermLibrary
 
 
+def _get_effective_min_count(condition: dict, k: int) -> int:
+    """Get the effective min_count for a condition based on K value.
+
+    Args:
+        condition: Condition dict with min_count and optional min_count_by_k
+        k: The K value (context size)
+
+    Returns:
+        The effective min_count threshold for this K
+    """
+    min_count_by_k = condition.get("min_count_by_k", {})
+    # Check for K-specific threshold (try both int and str keys)
+    if k in min_count_by_k:
+        return min_count_by_k[k]
+    if str(k) in min_count_by_k:
+        return min_count_by_k[str(k)]
+    # Fall back to base min_count
+    return condition.get("min_count", 1)
+
+
+def _substitute_min_count(text: str, min_count: int) -> str:
+    """Substitute {min_count} placeholder in text with actual value.
+
+    Args:
+        text: Condition text that may contain {min_count} placeholder
+        min_count: The threshold value to substitute
+
+    Returns:
+        Text with {min_count} replaced by the actual number
+    """
+    return text.replace("{min_count}", str(min_count))
+
+
+def _make_threshold_explicit(text: str, min_count: int) -> str:
+    """Replace vague quantifiers in condition text with explicit threshold.
+
+    Examples:
+        "Multiple reviews praise..." + min_count=2 -> "2 or more reviews praise..."
+        "Several complaints about..." + min_count=3 -> "3 or more complaints about..."
+        "Consistent reports of..." + min_count=2 -> "2 or more reports of..."
+        "{min_count} or more reviews..." + min_count=2 -> "2 or more reviews..."
+
+    Args:
+        text: The condition text that may contain vague quantifiers or {min_count}
+        min_count: The explicit threshold to use
+
+    Returns:
+        Text with vague quantifiers replaced by explicit threshold
+    """
+    # First, substitute {min_count} placeholder if present
+    text = _substitute_min_count(text, min_count)
+
+    # Pattern to match vague quantifiers at the start of condition text
+    vague_patterns = [
+        (r"^Multiple\s+reviews?\s+", f"{min_count} or more reviews "),
+        (r"^Several\s+reviews?\s+", f"{min_count} or more reviews "),
+        (r"^Many\s+reviews?\s+", f"{min_count} or more reviews "),
+        (r"^Consistent\s+(\w+)\s+", f"{min_count} or more \\1 "),
+        (r"^Consistently\s+", f"{min_count} or more reviews "),
+        (r"^Frequent\s+(\w+)\s+", f"{min_count} or more \\1 "),
+        (r"^Frequently\s+", f"{min_count} or more reviews "),
+        # General pattern for "Multiple X" where X is not "reviews"
+        (r"^Multiple\s+", f"{min_count} or more "),
+        (r"^Several\s+", f"{min_count} or more "),
+    ]
+
+    for pattern, replacement in vague_patterns:
+        if re.match(pattern, text, re.IGNORECASE):
+            return re.sub(pattern, replacement, text, count=1, flags=re.IGNORECASE)
+
+    # If no vague quantifier found but min_count is provided,
+    # check if text already has an explicit number at the start
+    if re.match(r"^\d+\s+", text):
+        # Already has explicit number, leave as-is
+        return text
+
+    # No vague quantifier and no explicit number - don't modify
+    return text
+
+
 class PromptGenerator:
     """Generate NL agenda prompts from PolicyIR."""
 
-    def __init__(self, term_library: TermLibrary, templates_dir: Optional[Path] = None):
+    def __init__(self, term_library: TermLibrary, templates_dir: Optional[Path] = None, k: int = 200):
         """Initialize the prompt generator.
 
         Args:
             term_library: Loaded term library for resolving term references
             templates_dir: Optional custom templates directory
+            k: Context size (25, 50, 100, 200) - affects threshold values
         """
         self.term_library = term_library
+        self.k = k
 
         # Set up Jinja2 environment
         if templates_dir is None:
@@ -37,6 +120,11 @@ class PromptGenerator:
             trim_blocks=True,
             lstrip_blocks=True,
         )
+
+        # Register custom filters
+        self.env.filters["make_threshold_explicit"] = _make_threshold_explicit
+        # Register K-aware functions
+        self.env.globals["get_effective_min_count"] = lambda c: _get_effective_min_count(c, self.k)
 
     def generate(self, policy: PolicyIR) -> str:
         """Generate NL agenda prompt from PolicyIR.

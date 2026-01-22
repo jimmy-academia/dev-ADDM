@@ -3,7 +3,7 @@
   "topic": "G5_consistency",
   "domain": "yelp",
   "k": 50,
-  "computed_at": "2026-01-22T01:55:10.402431",
+  "computed_at": "2026-01-22T14:56:55.413497",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -45,8 +45,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -111,8 +111,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -133,8 +133,8 @@
       "n_reviews": 16,
       "n_judgments": 16,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -254,8 +254,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -298,8 +298,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -320,8 +320,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -397,8 +397,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -408,8 +408,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -430,8 +430,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -463,8 +463,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -518,8 +518,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -562,8 +562,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -628,8 +628,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -694,8 +694,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -749,8 +749,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -771,8 +771,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -782,8 +782,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -793,8 +793,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -826,8 +826,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -859,8 +859,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -903,8 +903,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -914,8 +914,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -925,8 +925,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -1035,8 +1035,8 @@
       "n_reviews": 33,
       "n_judgments": 33,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -1046,8 +1046,8 @@
       "n_reviews": 45,
       "n_judgments": 45,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -1068,8 +1068,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V0"
       }
     },
@@ -1110,9 +1110,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Needs Improvement": 0,
-      "Satisfactory": 0,
-      "Excellent": 100
+      "Needs Improvement": 24,
+      "Satisfactory": 2,
+      "Excellent": 74
     },
     "missing_judgments": 0
   }

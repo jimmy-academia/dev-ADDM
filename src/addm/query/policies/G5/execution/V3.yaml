@@ -37,6 +37,28 @@ normative:
 
   # Scoring system -> generates Scoring System section
   scoring:
+    # Field mapping: how judgment fields map to severity labels for GT scoring
+    field_mapping:
+      severity_field: "order_accuracy"
+      value_mappings:
+        perfect: "Perfect execution"
+        minor_error: "Minor execution error"
+        significant_error: "Significant execution error"
+        multiple_errors: "Complete failure"
+      modifier_mappings:
+        - field: "issue_resolution"
+          value: "excellent"
+          label: "Above and beyond resolution"
+        - field: "modification_handling"
+          value: "successful"
+          label: "Modifications handled perfectly"
+        - field: "modification_handling"
+          value: "ignored"
+          label: "Modification ignored"
+        - field: "issue_resolution"
+          value: "none"
+          label: "No resolution attempt"
+
     description: |
       Calculate an execution score by summing points from relevant reviews,
       with recency weighting. Execution processes can improve or degrade,
@@ -82,9 +104,17 @@ normative:
 
     thresholds:
       - verdict: "Excellent"
-        min_score: 8
+        min_score: 500
+        min_score_by_k:
+          25: 63
+          50: 125
+          100: 250
       - verdict: "Needs Improvement"
-        max_score: -5
+        max_score: -100
+        max_score_by_k:
+          25: -75
+          50: -60
+          100: -75
 
   # Decision policy -> generates Verdict Rules section
   decision:
@@ -96,20 +126,20 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - "Total score is 8 or higher (after recency weighting)"
+          - "Total score is 500 or higher (after recency weighting)"
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - "Total score is -5 or lower (after recency weighting)"
+          - "Total score is -100 or lower (after recency weighting)"
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"
         default: true
         especially_when:
-          - "Total score is between -4 and 7"
+          - "Total score is between -99 and 499"
           - "Recent reviews show improvement in execution"
 
   # Output format

@@ -1,5 +1,5 @@
 # G6_loyalty_V1: Loyalty with Override Triggers
-# V1 = Override: Adds single-instance triggers for strong loyalty signals
+# V1 = Extended: Multiple conditions per verdict (ANY triggers) for strong loyalty signals
 
 policy_id: "G6_loyalty_V1"
 extends: "G6_loyalty_V0"
@@ -34,57 +34,107 @@ normative:
     - ref: "loyalty:LOYALTY_DRIVER"
 
   # Decision policy -> generates Verdict Rules section
-  # V1 adds single-instance OVERRIDES
   decision:
     verdicts: ["Low Loyalty", "Moderate Loyalty", "High Loyalty"]
     ordered: true
 
     rules:
+      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "High Loyalty"
         label: "HIGH_LOYALTY"
         logic: ANY
         conditions:
-          - text: "At least 1 review mentions being a 'regular' or '10+ visits'"
+          # V0 conditions (same thresholds)
+          - text: "50 or more reviews describe high emotional connection"
             type: count_threshold
             filter:
-              return_intent: regular
-            min_count: 1
-          - text: "Customer returned after bad experience"
+              emotional_connection: high
+            min_count: 50
+            min_count_by_k:
+              25: 9
+              50: 16
+              100: 30
+          - text: "60 or more reviews strongly recommend"
             type: count_threshold
             filter:
-              loyalty_driver: despite_issues
-            min_count: 1
-          - text: "Described as 'favorite restaurant' or equivalent"
+              recommend_intent: strongly_recommend
+            min_count: 60
+            min_count_by_k:
+              25: 11
+              50: 18
+              100: 35
+          - text: "40 or more reviews say they would definitely return"
             type: count_threshold
             filter:
-              emotional_connection: favorite
-            min_count: 1
-          - text: "Recommendation with strong enthusiasm ('must go', 'best in city')"
+              return_intent: definitely
+            min_count: 40
+            min_count_by_k:
+              25: 8
+              50: 13
+              100: 24
+          # V1 additional conditions
+          - text: "30 or more reviews describe love as loyalty driver"
             type: count_threshold
             filter:
-              recommend_intent: must_go
-            min_count: 1
+              loyalty_driver: love
+            min_count: 30
+            min_count_by_k:
+              25: 6
+              50: 10
+              100: 18
+          - text: "20 or more reviews describe frequent visits"
+            type: count_threshold
+            filter:
+              loyalty_driver: habit
+            min_count: 20
+            min_count_by_k:
+              25: 5
+              50: 7
+              100: 12
 
       - verdict: "Low Loyalty"
         label: "LOW_LOYALTY"
         precondition: "High Loyalty does not apply"
         logic: ANY
         conditions:
-          - text: "At least 1 review explicitly says 'never coming back'"
+          # V0 conditions (same thresholds)
+          - text: "20 or more reviews say 'will never return'"
             type: count_threshold
             filter:
               return_intent: never
-            min_count: 1
-          - text: "Customer warns others not to visit"
+            min_count: 20
+            min_count_by_k:
+              25: 5
+              50: 7
+              100: 12
+          - text: "40 or more reviews report unlikely to return"
             type: count_threshold
             filter:
-              recommend_intent: warn_against
-            min_count: 1
-          - text: "Explicitly switched to competitor"
+              return_intent: unlikely
+            min_count: 40
+            min_count_by_k:
+              25: 7
+              50: 12
+              100: 24
+          - text: "40 or more reviews warn others"
             type: count_threshold
             filter:
-              loyalty_driver: switched_competitor
-            min_count: 1
+              recommend_intent: warn_others
+            min_count: 40
+            min_count_by_k:
+              25: 7
+              50: 12
+              100: 24
+          # V1 additional conditions
+          - text: "30 or more reviews have no emotional connection"
+            type: count_threshold
+            filter:
+              emotional_connection: none
+            min_count: 30
+            min_count_by_k:
+              25: 6
+              50: 10
+              100: 18
 
       - verdict: "Moderate Loyalty"
         label: "MODERATE_LOYALTY"

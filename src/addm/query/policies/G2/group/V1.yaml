@@ -1,5 +1,5 @@
 # G2_group_V1: Group Dining with Override Triggers
-# V1 = Override: Adds single-instance triggers
+# V1 = Extended: Multiple conditions per verdict (ANY triggers)
 
 policy_id: "G2_group_V1"
 extends: "G2_group_V0"
@@ -42,46 +42,78 @@ normative:
     ordered: true
 
     rules:
+      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Recommended"
         label: "RECOMMENDED"
         logic: ANY
         conditions:
-          - text: "At least 1 review describes a 'perfect' group event (birthday, celebration)"
+          # V0 conditions (same thresholds)
+          - text: "5 or more reviews describe successful large group events"
             type: count_threshold
             filter:
-              group_outcome: exceptional
-            min_count: 1
-          - text: "Private room or group menu explicitly praised"
+              group_outcome: positive
+              group_size: large
+            min_count: 5
+            min_count_by_k:
+              25: 1
+              50: 2
+              100: 3
+          - text: "20 or more reviews mention private rooms or dedicated group areas positively"
             type: count_threshold
             filter:
               accommodation_quality: excellent
-            min_count: 1
-          - text: "Described as 'great for groups' or 'perfect for parties'"
+            min_count: 20
+            min_count_by_k:
+              25: 3
+              50: 5
+              100: 10
+          - text: "70 or more reviews praise the handling of groups"
             type: count_threshold
             filter:
-              accommodation_quality: [excellent, great]
-            min_count: 1
+              accommodation_quality: [good, excellent]
+            min_count: 70
+            min_count_by_k:
+              25: 9
+              50: 18
+              100: 35
+          # V1 additional conditions
+          - text: "5 or more reviews describe exceptional family friendliness"
+            type: count_threshold
+            filter:
+              family_friendliness: exceptional
+            min_count: 5
+            min_count_by_k:
+              25: 1
+              50: 2
+              100: 3
 
       - verdict: "Not Recommended"
         label: "NOT_RECOMMENDED"
         precondition: "Recommended does not apply"
         logic: ANY
         conditions:
-          - text: "At least 1 review describes a group event being 'ruined' by the restaurant"
+          # V0 conditions (same thresholds)
+          - text: "30 or more reviews describe groups being turned away or poorly handled"
             type: count_threshold
             filter:
-              group_outcome: ruined
-            min_count: 1
-          - text: "Group was split across multiple tables despite reservation"
+              accommodation_quality: poor
+            min_count: 30
+          - text: "15 or more complaints about long waits despite reservations"
             type: count_threshold
             filter:
-              accommodation_quality: [poor, split]
-            min_count: 1
-          - text: "Refused to accommodate a group or split checks"
+              wait_time: excessive
+            min_count: 15
+          - text: "10 or more reviews report refused check splitting for groups"
             type: count_threshold
             filter:
               check_splitting: refused
-            min_count: 1
+            min_count: 10
+          # V1 additional conditions
+          - text: "10 or more reviews describe disaster group outcomes"
+            type: count_threshold
+            filter:
+              group_outcome: disaster
+            min_count: 10
 
       - verdict: "Acceptable"
         label: "ACCEPTABLE"

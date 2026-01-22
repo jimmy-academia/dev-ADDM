@@ -1,5 +1,5 @@
 # G4_environment_V1: Environment with Override Triggers
-# V1 = Override: Adds single-instance triggers for exceptional/poor environment
+# V1 = Extended: Multiple conditions per verdict (ANY triggers) for exceptional/poor environment
 
 policy_id: "G4_environment_V1"
 extends: "G4_environment_V0"
@@ -36,52 +36,107 @@ normative:
     - ref: "environment:AMBIANCE_FIT"
 
   # Decision policy -> generates Verdict Rules section
-  # V1 adds single-instance OVERRIDES
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
     ordered: true
 
     rules:
+      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Excellent"
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - text: "At least 1 review describes atmosphere as 'stunning' or 'perfect'"
+          # V0 conditions (same thresholds)
+          - text: "50 or more reviews praise excellent atmosphere"
             type: count_threshold
             filter:
-              ambiance_fit: stunning
-            min_count: 1
-          - text: "Environment specifically mentioned as reason to return"
+              ambiance_fit: excellent
+            min_count: 50
+            min_count_by_k:
+              25: 6
+              50: 13
+              100: 25
+          - text: "150 or more reviews describe it as clean"
             type: count_threshold
             filter:
-              ambiance_fit: return_worthy
-            min_count: 1
-          - text: "Immersive or transportive experience praised"
+              cleanliness: clean
+            min_count: 150
+            min_count_by_k:
+              25: 19
+              50: 38
+              100: 75
+          # V1 additional conditions
+          - text: "10 or more reviews describe spotless cleanliness"
             type: count_threshold
             filter:
-              ambiance_fit: immersive
-            min_count: 1
+              cleanliness: spotless
+            min_count: 10
+            min_count_by_k:
+              25: 1
+              50: 3
+              100: 5
+          - text: "15 or more reviews describe very comfortable seating"
+            type: count_threshold
+            filter:
+              comfort: very_comfortable
+            min_count: 15
+            min_count_by_k:
+              25: 2
+              50: 4
+              100: 8
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - text: "At least 1 review describes space as 'filthy' or 'disgusting'"
+          # V0 conditions (same thresholds)
+          - text: "20 or more reviews describe cleanliness issues"
+            type: count_threshold
+            filter:
+              cleanliness: dirty
+            min_count: 20
+            min_count_by_k:
+              25: 3
+              50: 5
+              100: 10
+          - text: "25 or more reviews report poor ambiance fit"
+            type: count_threshold
+            filter:
+              ambiance_fit: poor
+            min_count: 25
+            min_count_by_k:
+              25: 3
+              50: 6
+              100: 13
+          - text: "10 or more reviews complain about deafening noise"
+            type: count_threshold
+            filter:
+              noise_level: deafening
+            min_count: 10
+            min_count_by_k:
+              25: 1
+              50: 3
+              100: 5
+          # V1 additional conditions
+          - text: "15 or more reviews describe uncomfortable seating"
+            type: count_threshold
+            filter:
+              comfort: uncomfortable
+            min_count: 15
+            min_count_by_k:
+              25: 2
+              50: 4
+              100: 8
+          - text: "10 or more reviews describe filthy environment"
             type: count_threshold
             filter:
               cleanliness: filthy
-            min_count: 1
-          - text: "Noise level so loud customers left or couldn't converse"
-            type: count_threshold
-            filter:
-              noise_level: unbearable
-            min_count: 1
-          - text: "Temperature issues (freezing/sweltering) significantly impacted meal"
-            type: count_threshold
-            filter:
-              temperature: extreme
-            min_count: 1
+            min_count: 10
+            min_count_by_k:
+              25: 1
+              50: 3
+              100: 5
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

@@ -37,6 +37,27 @@ normative:
 
   # Scoring system -> generates Scoring System section
   scoring:
+    # Field mapping: how judgment fields map to severity labels for GT scoring
+    field_mapping:
+      severity_field: "comparison_outcome"
+      value_mappings:
+        favorable: "Better than competitor"
+        neutral: "Comparable"
+        unfavorable: "Worse than competitor"
+      modifier_mappings:
+        - field: "switching_intent"
+          value: "switching_to"
+          label: "Customer switched here"
+        - field: "preference_stated"
+          value: "prefer_this"
+          label: "Recommended over competitor"
+        - field: "switching_intent"
+          value: "switching_away"
+          label: "Customer switched away"
+        - field: "preference_stated"
+          value: "prefer_other"
+          label: "Warned to go elsewhere"
+
     description: |
       Calculate a competitive position score by summing points from relevant reviews,
       with recency weighting. Competition can change as restaurants improve or decline,
@@ -80,9 +101,17 @@ normative:
 
     thresholds:
       - verdict: "Stronger"
-        min_score: 8
+        min_score: 500
+        min_score_by_k:
+          25: 63
+          50: 125
+          100: 250
       - verdict: "Weaker"
-        max_score: -5
+        max_score: -200
+        max_score_by_k:
+          25: -25
+          50: -50
+          100: -100
 
   # Decision policy -> generates Verdict Rules section
   decision:
@@ -94,20 +123,20 @@ normative:
         label: "STRONGER"
         logic: ANY
         conditions:
-          - "Total score is 8 or higher (after recency weighting)"
+          - "Total score is 500 or higher (after recency weighting)"
 
       - verdict: "Weaker"
         label: "WEAKER"
         precondition: "Stronger does not apply"
         logic: ANY
         conditions:
-          - "Total score is -5 or lower (after recency weighting)"
+          - "Total score is -200 or lower (after recency weighting)"
 
       - verdict: "Comparable"
         label: "COMPARABLE"
         default: true
         especially_when:
-          - "Total score is between -4 and 7"
+          - "Total score is between -199 and 499"
           - "Recent reviews show stable competitive position"
 
   # Output format

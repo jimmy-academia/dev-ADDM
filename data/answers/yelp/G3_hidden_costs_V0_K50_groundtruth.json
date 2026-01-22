@@ -3,7 +3,7 @@
   "topic": "G3_hidden_costs",
   "domain": "yelp",
   "k": 50,
-  "computed_at": "2026-01-22T01:55:09.680458",
+  "computed_at": "2026-01-22T14:56:53.680944",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -12,8 +12,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -34,8 +34,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -78,8 +78,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -166,8 +166,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -210,8 +210,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -298,8 +298,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -309,8 +309,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Low Risk",
+        "matched_rule": "LOW",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -397,8 +397,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -408,8 +408,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -452,8 +452,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -474,8 +474,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -540,8 +540,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -606,8 +606,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -672,8 +672,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "Low Risk",
+        "matched_rule": "LOW",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -705,8 +705,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -749,8 +749,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -760,8 +760,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -782,8 +782,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -793,8 +793,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -804,8 +804,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -848,8 +848,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -892,8 +892,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -914,8 +914,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -925,8 +925,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -936,8 +936,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -969,8 +969,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -1046,8 +1046,8 @@
       "n_reviews": 45,
       "n_judgments": 45,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     },
@@ -1101,8 +1101,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G3_hidden_costs_V0"
       }
     }
@@ -1110,9 +1110,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Risk": 0,
-      "High Risk": 57,
-      "Critical Risk": 43
+      "Low Risk": 2,
+      "High Risk": 82,
+      "Critical Risk": 16
     },
     "missing_judgments": 0
   }

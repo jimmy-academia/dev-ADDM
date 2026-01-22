@@ -39,6 +39,37 @@ normative:
 
   # Scoring system -> generates Scoring System section
   scoring:
+    # Field mapping: how judgment fields map to severity labels for GT scoring
+    field_mapping:
+      severity_field: "ambiance_fit"
+      value_mappings:
+        excellent: "Exceptional atmosphere"
+        good: "Pleasant environment"
+        fair: "Adequate environment"
+        poor: "Significant environment issue"
+      modifier_mappings:
+        - field: "cleanliness"
+          value: "spotless"
+          label: "Spotless clean"
+        - field: "comfort"
+          value: "very_comfortable"
+          label: "Comfortable seating"
+        - field: "noise_level"
+          value: "loud"
+          label: "Too loud"
+        - field: "noise_level"
+          value: "deafening"
+          label: "Too loud"
+        - field: "temperature"
+          value: "too_cold"
+          label: "Temperature issues"
+        - field: "temperature"
+          value: "too_hot"
+          label: "Temperature issues"
+        - field: "cleanliness"
+          value: "dirty"
+          label: "Dirty/unclean"
+
     description: |
       Calculate a quality score by summing points from relevant reviews,
       with recency weighting. Environment can change with renovations
@@ -90,9 +121,17 @@ normative:
 
     thresholds:
       - verdict: "Excellent"
-        min_score: 8
+        min_score: 900
+        min_score_by_k:
+          25: 113
+          50: 225
+          100: 450
       - verdict: "Needs Improvement"
-        max_score: -5
+        max_score: 200
+        max_score_by_k:
+          25: 25
+          50: 50
+          100: 100
 
   # Decision policy -> generates Verdict Rules section
   decision:
@@ -104,20 +143,20 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - "Total quality score is 8 or higher (after recency weighting)"
+          - "Total quality score is 900 or higher (after recency weighting)"
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - "Total quality score is -5 or lower (after recency weighting)"
+          - "Total quality score is 200 or lower (after recency weighting)"
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"
         default: true
         especially_when:
-          - "Total quality score is between -4 and 7"
+          - "Total quality score is between 201 and 899"
           - "Recent reviews show improvement after renovation/updates"
 
   # Output format

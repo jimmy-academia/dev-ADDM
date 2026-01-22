@@ -36,6 +36,28 @@ normative:
 
   # Scoring system -> generates Scoring System section
   scoring:
+    # Field mapping: how judgment fields map to severity labels for GT scoring
+    field_mapping:
+      severity_field: "wait_justification"
+      value_mappings:
+        definitely_worth_it: "Exceptional - worth any wait"
+        worth_it: "Worth the wait"
+        barely: "Neutral/acceptable wait"
+        not_worth_it: "Definitely not worth waiting"
+      modifier_mappings:
+        - field: "wait_duration"
+          value: "none"
+          label: "No wait ever"
+        - field: "would_wait_again"
+          value: "definitely"
+          label: "Would wait again"
+        - field: "wait_type"
+          value: "reservation"
+          label: "Reservations not honored"
+        - field: "would_wait_again"
+          value: "never"
+          label: "Would not wait again"
+
     description: |
       Calculate a time-value score by summing points from relevant reviews.
       Positive points indicate worth waiting, negative points indicate not worth it.
@@ -73,9 +95,17 @@ normative:
 
     thresholds:
       - verdict: "Definitely Worth Waiting"
-        min_score: 8
+        min_score: 1400
+        min_score_by_k:
+          25: 175
+          50: 350
+          100: 700
       - verdict: "Not Worth Waiting"
-        max_score: -6
+        max_score: 500
+        max_score_by_k:
+          25: 63
+          50: 125
+          100: 250
 
   # Decision policy -> generates Verdict Rules section
   decision:
@@ -87,20 +117,20 @@ normative:
         label: "DEFINITELY"
         logic: ANY
         conditions:
-          - "Total time-value score is 8 or higher"
+          - "Total time-value score is 1400 or higher"
 
       - verdict: "Not Worth Waiting"
         label: "NOT_WORTH"
         precondition: "Definitely Worth Waiting does not apply"
         logic: ANY
         conditions:
-          - "Total time-value score is -6 or lower"
+          - "Total time-value score is 500 or lower"
 
       - verdict: "Worth Waiting"
         label: "WORTH"
         default: true
         especially_when:
-          - "Total time-value score is between -5 and 7"
+          - "Total time-value score is between 501 and 1399"
 
   # Output format
   output:

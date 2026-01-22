@@ -43,44 +43,57 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - text: "Multiple regular customers praise consistency"
+          - text: "25 or more reviews describe it as always reliable"
             type: count_threshold
             filter:
-              reliability: excellent
-              visit_frequency: regular
-            min_count: 2
-          - text: "Described as 'always reliable' or 'never disappoints'"
+              reliability: always_reliable
+            min_count: 25
+            min_count_by_k:
+              25: 5
+              50: 8
+              100: 15
+          - text: "150 or more reviews describe quality as stable"
             type: count_threshold
             filter:
-              reliability: always
-            min_count: 2
-          - text: "Quality stable or improving over time"
-            type: count_threshold
-            filter:
-              quality_trend: [stable, improving]
-            min_count: 2
+              quality_trend: stable
+            min_count: 150
+            min_count_by_k:
+              25: 22
+              50: 42
+              100: 80
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - text: "Multiple reviews describe declining quality"
+          - text: "25 or more reviews describe declining quality"
             type: count_threshold
             filter:
               quality_trend: declining
-            min_count: 2
-          - text: "Described as 'hit or miss' or unpredictable"
+            min_count: 25
+            min_count_by_k:
+              25: 5
+              50: 8
+              100: 15
+          - text: "50 or more reviews describe it as hit or miss"
+            type: count_threshold
+            filter:
+              reliability: hit_or_miss
+            min_count: 50
+            min_count_by_k:
+              25: 8
+              50: 15
+              100: 28
+          - text: "15 or more reviews describe it as unpredictable"
             type: count_threshold
             filter:
               reliability: unpredictable
-            min_count: 2
-          - text: "Regular customers noting worsening experience"
-            type: count_threshold
-            filter:
-              visit_comparison: worse
-              visit_frequency: regular
-            min_count: 2
+            min_count: 15
+            min_count_by_k:
+              25: 4
+              50: 6
+              100: 10
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

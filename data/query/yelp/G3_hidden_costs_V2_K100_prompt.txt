@@ -1,0 +1,88 @@
+# Hidden Costs Risk Assessment
+
+Help assess the risk of unexpected charges at this restaurant using customer reviews as evidence.
+Assign a risk label: Low Risk, High Risk, or Critical Risk.
+
+This assessment uses a point-based scoring system to quantify risk.
+
+## Definitions of Terms
+
+### Incident
+
+Consider reviews that mention any of the following:
+- unexpected charges on the bill
+- mandatory service charges or auto-gratuity
+- corkage fees, split fees, or other surcharges
+- bill surprises or lack of price transparency
+- fine print charges
+
+Reviews that only discuss food without mentioning billing carry less weight.
+
+### Account Type
+How the reviewer relates to the described event
+
+- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+
+### Cost Type
+Type of hidden or unexpected cost
+
+- **Service Charge**: Mandatory service charge added to bill
+- **Auto Gratuity**: Automatic tip added to bill
+- **Corkage Fee**: Fee for bringing own wine
+- **Split Fee**: Fee for splitting dishes or checks
+- **Other**: Other unexpected charges
+
+### Disclosure Level
+How well the hidden cost was disclosed
+
+- **No Disclosure**: Not mentioned until bill arrived
+- **Fine Print**: Mentioned in small print on menu
+- **Verbal**: Server mentioned it verbally
+- **Clear**: Clearly displayed or communicated
+
+### Impact Severity
+Impact of hidden cost on total bill
+
+- **Minor**: Small percentage of bill (<5%)
+- **Moderate**: Noticeable addition (5-15%)
+- **Significant**: Major impact on bill (>15%)
+
+### Customer Reaction
+Customer's reaction to the hidden cost
+
+- **Upset**: Very unhappy about undisclosed charges
+- **Annoyed**: Mildly annoyed but not deal-breaker
+- **Neutral**: Accepted the charge
+- **Understanding**: Understood and accepted the charge
+
+
+## Scoring System
+
+Calculate a risk score by summing points from hidden cost incidents.
+Higher scores indicate greater risk of unexpected charges.
+
+For each firsthand incident, assign points based on severity:
+- Minor hidden cost (<5% impact): 2 points
+- Moderate hidden cost (5-15% impact): 5 points
+- Significant hidden cost (>15% impact): 10 points
+
+Additional modifiers:
+- No disclosure (charge was not disclosed until bill arrived): +5 points
+- Fine print only (charge mentioned only in small print): +3 points
+- Multiple hidden charges (more than one type of hidden charge reported): +3 points
+- Customer very upset (reviewer expressed strong negative reaction): +2 points
+
+
+## Verdict Rules
+
+A restaurant is considered **Critical Risk** if any of the following is true:
+- Total risk score is 700 or higher
+
+**High Risk** if Critical Risk does not apply, but any of the following is true:
+- Total risk score is 350 or higher
+
+**Low Risk** otherwise, especially when:
+- No hidden cost incidents reported
+- Total risk score is below 350

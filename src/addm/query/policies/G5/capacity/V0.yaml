@@ -43,43 +43,57 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - text: "Multiple reviews praise volume handling during busy times"
+          - text: "60 or more reviews praise volume handling"
             type: count_threshold
             filter:
-              volume_handling: excellent
-            min_count: 2
-          - text: "Consistently well-staffed observations"
+              volume_handling: handled_well
+            min_count: 60
+            min_count_by_k:
+              25: 8
+              50: 15
+              100: 30
+          - text: "30 or more reviews observe the restaurant as well-staffed"
             type: count_threshold
             filter:
               staffing_level: well_staffed
-            min_count: 2
-          - text: "No service degradation reported even when packed"
-            type: count_threshold
-            filter:
-              service_degradation: none
-              crowd_level: packed
-            min_count: 2
+            min_count: 30
+            min_count_by_k:
+              25: 4
+              50: 8
+              100: 15
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - text: "Multiple reviews describe understaffing"
+          - text: "20 or more reviews describe understaffing"
             type: count_threshold
             filter:
               staffing_level: understaffed
-            min_count: 2
-          - text: "Consistent service degradation when busy"
+            min_count: 20
+            min_count_by_k:
+              25: 3
+              50: 5
+              100: 10
+          - text: "25 or more reviews describe significant service degradation"
             type: count_threshold
             filter:
-              service_degradation: severe
-            min_count: 2
-          - text: "Reports of restaurant 'falling apart' under volume"
+              service_degradation: significant
+            min_count: 25
+            min_count_by_k:
+              25: 3
+              50: 6
+              100: 13
+          - text: "25 or more reviews report volume handling struggles"
             type: count_threshold
             filter:
-              volume_handling: failing
-            min_count: 2
+              volume_handling: struggled
+            min_count: 25
+            min_count_by_k:
+              25: 3
+              50: 6
+              100: 13
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

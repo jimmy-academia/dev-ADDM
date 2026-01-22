@@ -39,6 +39,25 @@ normative:
 
   # Scoring system -> generates Scoring System section
   scoring:
+    # Field mapping: how judgment fields map to severity labels for GT scoring
+    field_mapping:
+      severity_field: "chef_skill"
+      value_mappings:
+        excellent: "Exceptional food quality"
+        good: "Good food quality"
+        average: "Adequate food quality"
+        poor: "Significant food issue"
+      modifier_mappings:
+        - field: "consistency"
+          value: "consistent"
+          label: "Consistent excellence"
+        - field: "consistency"
+          value: "inconsistent"
+          label: "Inconsistent quality"
+        - field: "food_sent_back"
+          value: "true"
+          label: "Food sent back"
+
     description: |
       Calculate a performance score by summing points from relevant reviews.
       Positive points indicate good performance, negative points indicate issues.
@@ -76,9 +95,17 @@ normative:
 
     thresholds:
       - verdict: "Excellent"
-        min_score: 8
+        min_score: 1400
+        min_score_by_k:
+          25: 175
+          50: 350
+          100: 700
       - verdict: "Needs Improvement"
-        max_score: -5
+        max_score: 500
+        max_score_by_k:
+          25: 63
+          50: 125
+          100: 250
 
   # Decision policy -> generates Verdict Rules section
   decision:
@@ -90,20 +117,20 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - "Total performance score is 8 or higher"
+          - "Total performance score is 1400 or higher"
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - "Total performance score is -5 or lower"
+          - "Total performance score is 500 or lower"
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"
         default: true
         especially_when:
-          - "Total performance score is between -4 and 7"
+          - "Total performance score is between 501 and 1399"
           - "Mixed positive and negative indicators"
 
   # Output format

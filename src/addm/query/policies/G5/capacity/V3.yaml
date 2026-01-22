@@ -37,6 +37,31 @@ normative:
 
   # Scoring system -> generates Scoring System section
   scoring:
+    # Field mapping: how judgment fields map to severity labels for GT scoring
+    field_mapping:
+      severity_field: "volume_handling"
+      value_mappings:
+        handled_well: "Excellent peak handling"
+        managed: "Adequate capacity"
+        struggled: "Significant understaffing"
+        collapsed: "Complete breakdown"
+      modifier_mappings:
+        - field: "staffing_level"
+          value: "well_staffed"
+          label: "Well staffed"
+        - field: "service_degradation"
+          value: "none"
+          label: "Smooth peak times"
+        - field: "staffing_level"
+          value: "understaffed"
+          label: "Understaffed"
+        - field: "staffing_level"
+          value: "severely_understaffed"
+          label: "Understaffed"
+        - field: "service_degradation"
+          value: "complete"
+          label: "Service collapsed"
+
     description: |
       Calculate a capacity score by summing points from relevant reviews,
       with recency weighting. Staffing levels can change significantly,
@@ -82,9 +107,17 @@ normative:
 
     thresholds:
       - verdict: "Excellent"
-        min_score: 8
+        min_score: 1300
+        min_score_by_k:
+          25: 163
+          50: 325
+          100: 650
       - verdict: "Needs Improvement"
-        max_score: -5
+        max_score: 400
+        max_score_by_k:
+          25: 50
+          50: 100
+          100: 200
 
   # Decision policy -> generates Verdict Rules section
   decision:
@@ -96,20 +129,20 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - "Total score is 8 or higher (after recency weighting)"
+          - "Total score is 1300 or higher (after recency weighting)"
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - "Total score is -5 or lower (after recency weighting)"
+          - "Total score is 400 or lower (after recency weighting)"
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"
         default: true
         especially_when:
-          - "Total score is between -4 and 7"
+          - "Total score is between 401 and 1299"
           - "Recent reviews show improvement in capacity handling"
 
   # Output format

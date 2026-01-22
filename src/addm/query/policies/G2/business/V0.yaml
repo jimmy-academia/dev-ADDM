@@ -43,42 +43,66 @@ normative:
         label: "RECOMMENDED"
         logic: ANY
         conditions:
-          - text: "Multiple reviews describe successful business meals or client meetings"
+          - text: "100 or more reviews describe successful business meals or client meetings"
             type: count_threshold
             filter:
               meeting_outcome: positive
-            min_count: 2
-          - text: "Consistently described as professional, quiet, or suitable for meetings"
+            min_count: 100
+            min_count_by_k:
+              25: 12
+              50: 25
+              100: 50
+          - text: "20 or more reviews describe it as professional, quiet, or suitable for meetings"
             type: count_threshold
             filter:
               professionalism: [professional, excellent]
-            min_count: 2
-          - text: "Efficient service that respects busy schedules"
+            min_count: 20
+            min_count_by_k:
+              25: 2
+              50: 5
+              100: 10
+          - text: "30 or more reviews describe efficient service that respects busy schedules"
             type: count_threshold
             filter:
               service_efficiency: efficient
-            min_count: 2
+            min_count: 30
+            min_count_by_k:
+              25: 4
+              50: 8
+              100: 15
 
       - verdict: "Not Recommended"
         label: "NOT_RECOMMENDED"
         precondition: "Recommended does not apply"
         logic: ANY
         conditions:
-          - text: "Multiple reviews describe it as too loud for conversation"
+          - text: "20 or more reviews describe it as too loud for conversation"
             type: count_threshold
             filter:
               conversation_suitability: poor
-            min_count: 2
-          - text: "Service is consistently described as too slow for business meals"
+            min_count: 20
+            min_count_by_k:
+              25: 2
+              50: 5
+              100: 10
+          - text: "30 or more reviews describe service as too slow for business meals"
             type: count_threshold
             filter:
               service_efficiency: slow
-            min_count: 2
-          - text: "Atmosphere described as too casual or unprofessional"
+            min_count: 30
+            min_count_by_k:
+              25: 4
+              50: 8
+              100: 15
+          - text: "15 or more reviews describe atmosphere as too casual or unprofessional"
             type: count_threshold
             filter:
               professionalism: unprofessional
-            min_count: 2
+            min_count: 15
+            min_count_by_k:
+              25: 2
+              50: 4
+              100: 8
 
       - verdict: "Acceptable"
         label: "ACCEPTABLE"

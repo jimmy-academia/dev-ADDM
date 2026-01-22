@@ -21,7 +21,11 @@ A restaurant is considered **{{ rule.verdict }}** if any of the following is tru
 {% endif %}
 {% for condition in rule.conditions %}
 {% if condition is mapping %}
-- {{ condition.text }}
+{# Use K-aware threshold: get_effective_min_count checks min_count_by_k first #}
+{% set effective_count = get_effective_min_count(condition) %}
+{% if effective_count < 999 %}
+- {{ condition.text | make_threshold_explicit(effective_count) }}
+{% endif %}
 {% else %}
 - {{ condition }}
 {% endif %}

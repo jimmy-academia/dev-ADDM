@@ -1,5 +1,5 @@
 # G6_uniqueness_V1: Uniqueness with Override Triggers
-# V1 = Override: Adds single-instance triggers for exceptional/poor uniqueness
+# V1 = Extended: Multiple conditions per verdict (ANY triggers) for exceptional/poor uniqueness
 
 policy_id: "G6_uniqueness_V1"
 extends: "G6_uniqueness_V0"
@@ -34,52 +34,91 @@ normative:
     - ref: "uniqueness:SIGNATURE_ITEM"
 
   # Decision policy -> generates Verdict Rules section
-  # V1 adds single-instance OVERRIDES
   decision:
     verdicts: ["Generic", "Differentiated", "Highly Unique"]
     ordered: true
 
     rules:
+      # V1 includes V0 conditions PLUS additional conditions with calibrated thresholds
       - verdict: "Highly Unique"
         label: "HIGHLY_UNIQUE"
         logic: ANY
         conditions:
-          - text: "At least 1 review describes it as 'only place in the city'"
+          # Very high thresholds for K=200
+          - text: "30 or more reviews describe it as 'one of a kind'"
             type: count_threshold
             filter:
-              differentiation_level: only_option
-            min_count: 1
-          - text: "Described as destination restaurant worth traveling for"
+              differentiation_level: one_of_a_kind
+            min_count: 30
+            min_count_by_k:
+              25: 8
+              50: 12
+              100: 18
+          - text: "100 or more reviews mention signature items"
             type: count_threshold
             filter:
-              unique_aspect: destination
-            min_count: 1
-          - text: "'Hidden gem' that reviewers don't want to share"
+              signature_item: "true"
+            min_count: 100
+            min_count_by_k:
+              25: 20
+              50: 35
+              100: 60
+          - text: "30 or more reviews describe it as unforgettable"
             type: count_threshold
             filter:
-              unique_aspect: hidden_gem
-            min_count: 1
+              memorability: unforgettable
+            min_count: 30
+            min_count_by_k:
+              25: 8
+              50: 12
+              100: 18
+          # V1 additional conditions
+          - text: "150 or more reviews describe it as memorable"
+            type: count_threshold
+            filter:
+              memorability: memorable
+            min_count: 150
+            min_count_by_k:
+              25: 23
+              50: 45
+              100: 85
+          - text: "100 or more reviews describe it as unique"
+            type: count_threshold
+            filter:
+              differentiation_level: unique
+            min_count: 100
+            min_count_by_k:
+              25: 20
+              50: 35
+              100: 60
 
       - verdict: "Generic"
         label: "GENERIC"
         precondition: "Highly Unique does not apply"
         logic: ANY
         conditions:
-          - text: "At least 1 review says 'could be any restaurant'"
+          # Lower thresholds to catch more
+          - text: "5 or more reviews describe it as 'nothing special'"
             type: count_threshold
             filter:
               differentiation_level: generic
-            min_count: 1
-          - text: "Described as chain-restaurant quality"
-            type: count_threshold
-            filter:
-              differentiation_level: chain_quality
-            min_count: 1
-          - text: "No distinctive features mentioned across reviews"
+            min_count: 5
+          - text: "5 or more reviews mention no distinguishing features"
             type: count_threshold
             filter:
               unique_aspect: none
-            min_count: 1
+            min_count: 5
+          # V1 additional conditions
+          - text: "5 or more reviews describe forgettable experience"
+            type: count_threshold
+            filter:
+              memorability: forgettable
+            min_count: 5
+          - text: "10 or more reviews describe average experience"
+            type: count_threshold
+            filter:
+              memorability: average
+            min_count: 10
 
       - verdict: "Differentiated"
         label: "DIFFERENTIATED"

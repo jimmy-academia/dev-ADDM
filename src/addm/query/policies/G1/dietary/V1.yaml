@@ -1,5 +1,5 @@
-# G1_dietary_V1: Dietary Accommodation with Override Triggers
-# V1 = Override: Adds high-priority single-instance triggers
+# G1_dietary_V1: Dietary Accommodation with Extended Conditions
+# V1 = Extended: Multiple conditions per verdict (ANY triggers)
 
 policy_id: "G1_dietary_V1"
 extends: "G1_dietary_V0"
@@ -36,52 +36,103 @@ normative:
     - ref: "shared:STAFF_RESPONSE"
 
   # Decision policy -> generates Verdict Rules section
-  # V1 adds single-instance OVERRIDES to V0's aggregation-based rules
   decision:
     verdicts: ["Low Risk", "High Risk", "Critical Risk"]
     ordered: true
 
     rules:
+      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Critical Risk"
         label: "CRITICAL"
         logic: ANY
         conditions:
-          - text: "At least 1 severe dietary incident (hospitalization, severe reaction)"
+          # V0 conditions (same thresholds)
+          - text: "{min_count} or more severe dietary incidents (restricted food served, person got sick)"
+            type: count_threshold
+            filter:
+              incident_severity: severe
+              account_type: firsthand
+            min_count: 2
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 1
+          - text: "{min_count} or more reviews report staff providing incorrect ingredient information"
+            type: count_threshold
+            filter:
+              staff_knowledge: incorrect
+              account_type: firsthand
+            min_count: 2
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 1
+          # V1 additional conditions
+          - text: "{min_count} or more severe dietary incident with firsthand account"
             type: count_threshold
             filter:
               incident_severity: severe
               account_type: firsthand
             min_count: 1
-          - text: "Staff confirmed food was safe for restriction, but it contained restricted ingredient (false assurance)"
-            type: compound
+          - text: "{min_count} or more moderate dietary incidents"
+            type: count_threshold
             filter:
-              incident_severity: [moderate, severe]
+              incident_severity: moderate
               account_type: firsthand
-            requires:
-              assurance_claim: "true"
+            min_count: 999
+            min_count_by_k:
+              25: 2
 
       - verdict: "High Risk"
         label: "HIGH"
         precondition: "Critical Risk does not apply"
         logic: ANY
         conditions:
-          - text: "At least 1 moderate dietary incident (got sick, had symptoms)"
+          # V0 conditions (same thresholds)
+          - text: "{min_count} or more moderate dietary incidents"
             type: count_threshold
             filter:
               incident_severity: moderate
               account_type: firsthand
-            min_count: 1
-          - text: "Staff gave incorrect ingredient information that led to eating restricted food"
-            type: compound
+            min_count: 2
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 1
+          - text: "{min_count} or more reviews describe poor accommodation despite clear requests"
+            type: count_threshold
             filter:
+              accommodation_level: poor
               account_type: firsthand
-            requires:
-              staff_knowledge: incorrect
-          - text: "Multiple reviews describe staff being dismissive of dietary requests"
+            min_count: 2
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 1
+          - text: "{min_count} or more reviews describe staff as unknowledgeable about ingredients"
+            type: count_threshold
+            filter:
+              staff_knowledge: unknowledgeable
+            min_count: 2
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 1
+          # V1 additional conditions
+          - text: "{min_count} or more reviews describe staff refusing accommodation"
+            type: count_threshold
+            filter:
+              staff_response: refused
+            min_count: 1
+          - text: "{min_count} or more reviews describe staff being dismissive"
             type: count_threshold
             filter:
               staff_response: dismissive
-            min_count: 2
+            min_count: 3
+            min_count_by_k:
+              25: 1
+              50: 2
+              100: 2
 
       - verdict: "Low Risk"
         label: "LOW"

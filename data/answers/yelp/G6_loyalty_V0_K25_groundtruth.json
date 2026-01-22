@@ -3,7 +3,7 @@
   "topic": "G6_loyalty",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-22T01:54:56.545585",
+  "computed_at": "2026-01-22T14:56:44.318171",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -12,8 +12,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "Moderate Loyalty",
+        "matched_rule": "MODERATE_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -23,8 +23,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "Moderate Loyalty",
+        "matched_rule": "MODERATE_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -34,8 +34,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -56,8 +56,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -67,8 +67,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -89,8 +89,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -100,8 +100,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "Moderate Loyalty",
+        "matched_rule": "MODERATE_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -122,8 +122,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Moderate Loyalty",
-        "matched_rule": "MODERATE_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -144,8 +144,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Moderate Loyalty",
-        "matched_rule": "MODERATE_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -155,8 +155,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "Moderate Loyalty",
+        "matched_rule": "MODERATE_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -166,8 +166,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -177,8 +177,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -199,8 +199,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Moderate Loyalty",
-        "matched_rule": "MODERATE_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -221,8 +221,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -232,8 +232,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Moderate Loyalty",
-        "matched_rule": "MODERATE_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -243,8 +243,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "Moderate Loyalty",
+        "matched_rule": "MODERATE_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -265,8 +265,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -276,8 +276,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -287,8 +287,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -309,8 +309,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -331,8 +331,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -342,8 +342,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -353,8 +353,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Moderate Loyalty",
-        "matched_rule": "MODERATE_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -364,8 +364,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -375,8 +375,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -386,8 +386,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -419,8 +419,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -441,8 +441,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -452,8 +452,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "Moderate Loyalty",
+        "matched_rule": "MODERATE_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -485,8 +485,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "Moderate Loyalty",
+        "matched_rule": "MODERATE_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -496,8 +496,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -507,8 +507,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "Moderate Loyalty",
+        "matched_rule": "MODERATE_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -529,8 +529,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -540,8 +540,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "Moderate Loyalty",
+        "matched_rule": "MODERATE_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -551,8 +551,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Moderate Loyalty",
-        "matched_rule": "MODERATE_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -573,8 +573,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -584,8 +584,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -595,8 +595,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "Moderate Loyalty",
+        "matched_rule": "MODERATE_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -606,8 +606,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "Moderate Loyalty",
+        "matched_rule": "MODERATE_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -617,8 +617,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "Moderate Loyalty",
+        "matched_rule": "MODERATE_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -628,8 +628,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -650,8 +650,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -661,8 +661,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Moderate Loyalty",
-        "matched_rule": "MODERATE_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -672,8 +672,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "Moderate Loyalty",
+        "matched_rule": "MODERATE_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -683,8 +683,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Moderate Loyalty",
-        "matched_rule": "MODERATE_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -694,8 +694,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "Moderate Loyalty",
+        "matched_rule": "MODERATE_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -705,8 +705,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -716,8 +716,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -727,8 +727,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -738,8 +738,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -760,8 +760,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -782,8 +782,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -815,8 +815,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -826,8 +826,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -837,8 +837,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -870,8 +870,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -881,8 +881,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -892,8 +892,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -947,8 +947,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -969,8 +969,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Moderate Loyalty",
-        "matched_rule": "MODERATE_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -991,8 +991,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "Moderate Loyalty",
+        "matched_rule": "MODERATE_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -1002,8 +1002,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Moderate Loyalty",
-        "matched_rule": "MODERATE_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -1013,8 +1013,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -1024,8 +1024,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -1057,8 +1057,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -1079,8 +1079,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -1090,8 +1090,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     },
@@ -1101,8 +1101,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "High Loyalty",
+        "matched_rule": "HIGH_LOYALTY",
         "policy_id": "G6_loyalty_V0"
       }
     }
@@ -1110,9 +1110,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Loyalty": 89,
-      "Moderate Loyalty": 11,
-      "High Loyalty": 0
+      "Low Loyalty": 31,
+      "Moderate Loyalty": 16,
+      "High Loyalty": 53
     },
     "missing_judgments": 0
   }

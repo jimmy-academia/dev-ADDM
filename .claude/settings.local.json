@@ -65,7 +65,13 @@
       "Bash(SAMPLE_IDS=\"lVAjWGOqyZOFHMEw5NLt9g,sf-KdXHB5nxfNjl2uUpI6Q,JrG4NINLspXPNhSXg7Q07Q,gebiRewfieSdtt17PTW6Zg,TCAaeZi4m_RwUTTbZseRmg,eZ-t73r7ETHjyclRB7SnwQ,-Tskf8WK17rb3ZfeFuRSWA,ny1N_Py01kVoGOvL9oKjMQ,zljfjg_zTL3ceGi_Vr4OFw,SZU9c8V2GuREDN5KgyHFJw\")",
       "Bash(xargs:*)",
       "Bash(jq:*)",
-      "Bash(pdflatex:*)"
+      "Bash(pdflatex:*)",
+      "Bash(for f in src/addm/query/policies/*/*/V2.yaml)",
+      "Bash(do)",
+      "Bash(if grep -q \"min_score_by_k\" \"$f\")",
+      "Bash(then)",
+      "Bash(else)",
+      "Bash(fi)"
     ]
   }
 }

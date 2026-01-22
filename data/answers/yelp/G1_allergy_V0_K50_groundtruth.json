@@ -3,7 +3,7 @@
   "topic": "G1_allergy",
   "domain": "yelp",
   "k": 50,
-  "computed_at": "2026-01-22T01:55:09.163210",
+  "computed_at": "2026-01-22T14:56:52.057432",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -331,8 +331,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
         "policy_id": "G1_allergy_V0"
       }
     },
@@ -518,8 +518,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
         "policy_id": "G1_allergy_V0"
       }
     },
@@ -584,8 +584,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_allergy_V0"
       }
     },
@@ -716,8 +716,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Critical Risk",
+        "matched_rule": "CRITICAL",
         "policy_id": "G1_allergy_V0"
       }
     },
@@ -958,8 +958,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_allergy_V0"
       }
     },
@@ -1013,8 +1013,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_allergy_V0"
       }
     },
@@ -1110,9 +1110,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Risk": 99,
-      "High Risk": 1,
-      "Critical Risk": 0
+      "Low Risk": 94,
+      "High Risk": 3,
+      "Critical Risk": 3
     },
     "missing_judgments": 0
   }

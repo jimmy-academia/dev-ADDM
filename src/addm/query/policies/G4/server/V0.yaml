@@ -44,18 +44,18 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - text: "Multiple reviews praise server attentiveness and friendliness"
+          - text: "2 or more reviews praise server attentiveness and friendliness"
             type: count_threshold
             filter:
               attentiveness: high
               friendliness: high
             min_count: 2
-          - text: "Servers mentioned by name with exceptional praise"
+          - text: "2 or more reviews mention servers by name with exceptional praise"
             type: count_threshold
             filter:
               named_positively: true
             min_count: 2
-          - text: "Consistently described as knowledgeable and helpful"
+          - text: "2 or more reviews describe servers as knowledgeable and helpful"
             type: count_threshold
             filter:
               menu_knowledge: excellent
@@ -66,17 +66,17 @@ normative:
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - text: "Multiple reviews describe inattentive or absent servers"
+          - text: "2 or more reviews describe inattentive or absent servers"
             type: count_threshold
             filter:
               attentiveness: low
             min_count: 2
-          - text: "Consistent complaints about rude or unfriendly service"
+          - text: "2 or more reviews complain about rude or unfriendly service"
             type: count_threshold
             filter:
               friendliness: rude
             min_count: 2
-          - text: "Frequent service errors reported"
+          - text: "2 or more reviews report frequent service errors"
             type: count_threshold
             filter:
               service_errors: frequent

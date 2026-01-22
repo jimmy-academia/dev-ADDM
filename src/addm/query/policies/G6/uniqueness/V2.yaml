@@ -37,6 +37,25 @@ normative:
 
   # Scoring system -> generates Scoring System section
   scoring:
+    # Field mapping: how judgment fields map to severity labels for GT scoring
+    field_mapping:
+      severity_field: "differentiation_level"
+      value_mappings:
+        one_of_a_kind: "One of a kind"
+        unique: "Clearly unique"
+        somewhat_different: "Somewhat different"
+        generic: "Generic/forgettable"
+      modifier_mappings:
+        - field: "signature_item"
+          value: "true"
+          label: "Signature dish praised"
+        - field: "memorability"
+          value: "unforgettable"
+          label: "Unforgettable experience"
+        - field: "memorability"
+          value: "forgettable"
+          label: "Like a chain"
+
     description: |
       Calculate a uniqueness score by summing points from relevant reviews.
       Positive points indicate strong differentiation, negative points indicate generic.
@@ -69,9 +88,17 @@ normative:
 
     thresholds:
       - verdict: "Highly Unique"
-        min_score: 10
+        min_score: 1000
+        min_score_by_k:
+          25: 125
+          50: 250
+          100: 500
       - verdict: "Generic"
-        max_score: -3
+        max_score: 350
+        max_score_by_k:
+          25: 44
+          50: 88
+          100: 175
 
   # Decision policy -> generates Verdict Rules section
   decision:
@@ -83,20 +110,20 @@ normative:
         label: "HIGHLY_UNIQUE"
         logic: ANY
         conditions:
-          - "Total score is 10 or higher"
+          - "Total score is 1000 or higher"
 
       - verdict: "Generic"
         label: "GENERIC"
         precondition: "Highly Unique does not apply"
         logic: ANY
         conditions:
-          - "Total score is -3 or lower"
+          - "Total score is 350 or lower"
 
       - verdict: "Differentiated"
         label: "DIFFERENTIATED"
         default: true
         especially_when:
-          - "Total score is between -2 and 9"
+          - "Total score is between 351 and 999"
           - "Mixed signals on uniqueness"
 
   # Output format

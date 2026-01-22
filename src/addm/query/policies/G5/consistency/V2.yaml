@@ -37,6 +37,28 @@ normative:
 
   # Scoring system -> generates Scoring System section
   scoring:
+    # Field mapping: how judgment fields map to severity labels for GT scoring
+    field_mapping:
+      severity_field: "reliability"
+      value_mappings:
+        always_reliable: "Always excellent"
+        mostly_reliable: "Mostly reliable"
+        hit_or_miss: "Hit or miss"
+        unpredictable: "Completely unpredictable"
+      modifier_mappings:
+        - field: "quality_trend"
+          value: "improving"
+          label: "Improving trend"
+        - field: "visit_frequency"
+          value: "regular"
+          label: "Regular customer praise"
+        - field: "visit_frequency"
+          value: "frequent"
+          label: "Regular customer praise"
+        - field: "quality_trend"
+          value: "declining"
+          label: "Declining trend"
+
     description: |
       Calculate a consistency score by summing points from relevant reviews.
       Positive points indicate good reliability, negative points indicate inconsistency.
@@ -71,9 +93,17 @@ normative:
 
     thresholds:
       - verdict: "Excellent"
-        min_score: 8
+        min_score: 800
+        min_score_by_k:
+          25: 100
+          50: 200
+          100: 400
       - verdict: "Needs Improvement"
-        max_score: -5
+        max_score: 0
+        max_score_by_k:
+          25: -100
+          50: -50
+          100: -25
 
   # Decision policy -> generates Verdict Rules section
   decision:
@@ -85,20 +115,20 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - "Total score is 8 or higher"
+          - "Total score is 800 or higher"
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - "Total score is -5 or lower"
+          - "Total score is 0 or lower"
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"
         default: true
         especially_when:
-          - "Total score is between -4 and 7"
+          - "Total score is between 1 and 799"
           - "Mixed positive and negative indicators"
 
   # Output format

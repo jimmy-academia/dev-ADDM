@@ -54,6 +54,7 @@ def generate_prompt(
     policy_path: str,
     output_dir: Path | None = None,
     save: bool = True,
+    k: int = 200,
 ) -> tuple[str, str]:
     """Generate a prompt from a policy path.
 
@@ -61,6 +62,7 @@ def generate_prompt(
         policy_path: Relative path like "G1/allergy/V1" or full path
         output_dir: Output directory to save the prompt (default: data/query/yelp/)
         save: Whether to save to file
+        k: Context size (25, 50, 100, 200) - affects threshold values
 
     Returns:
         Tuple of (prompt text, output file path or "")
@@ -82,9 +84,9 @@ def generate_prompt(
     # Load term library
     term_library = load_term_library()
 
-    # Load policy and generate
+    # Load policy and generate with K-aware thresholds
     policy = PolicyIR.load(full_path)
-    generator = PromptGenerator(term_library)
+    generator = PromptGenerator(term_library, k=k)
     prompt = generator.generate(policy)
 
     # Save to file
@@ -93,21 +95,25 @@ def generate_prompt(
         if output_dir is None:
             output_dir = DEFAULT_OUTPUT_DIR
         output_dir.mkdir(parents=True, exist_ok=True)
-        output_file = output_dir / f"{policy.policy_id}_prompt.txt"
+        output_file = output_dir / f"{policy.policy_id}_K{k}_prompt.txt"
         output_file.write_text(prompt)
 
     return prompt, str(output_file) if output_file else ""
 
 
-def generate_all(output_dir: Path | None = None) -> list[str]:
+def generate_all(output_dir: Path | None = None, k_values: list[int] | None = None) -> list[str]:
     """Generate prompts for all policies.
 
     Args:
         output_dir: Output directory (default: data/query/yelp/)
+        k_values: List of K values to generate for (default: [25, 50, 100, 200])
 
     Returns:
         List of generated file paths
     """
+    if k_values is None:
+        k_values = [25, 50, 100, 200]
+
     policies_dir = get_policies_dir()
     generated = []
 
@@ -117,13 +123,14 @@ def generate_all(output_dir: Path | None = None) -> list[str]:
         rel_path = policy_file.relative_to(policies_dir)
         policy_path = str(rel_path.with_suffix(""))
 
-        try:
-            _, output_file = generate_prompt(policy_path, output_dir, save=True)
-            if output_file:
-                generated.append(output_file)
-                print(f"Generated: {output_file}")
-        except Exception as e:
-            print(f"Error generating {policy_path}: {e}")
+        for k in k_values:
+            try:
+                _, output_file = generate_prompt(policy_path, output_dir, save=True, k=k)
+                if output_file:
+                    generated.append(output_file)
+                    print(f"Generated: {output_file}")
+            except Exception as e:
+                print(f"Error generating {policy_path} K={k}: {e}")
 
     return generated
 
@@ -140,6 +147,12 @@ def main():
         help=f"Output directory (default: {DEFAULT_OUTPUT_DIR})",
     )
     parser.add_argument(
+        "--k",
+        type=int,
+        default=None,
+        help="Context size (25, 50, 100, 200). If not specified, generates for all K values.",
+    )
+    parser.add_argument(
         "--no-save",
         action="store_true",
         help="Don't save to file, just print",
@@ -148,18 +161,22 @@ def main():
     args = parser.parse_args()
 
     if args.policy:
+        # Single policy - use specified K or default to 200
+        k = args.k if args.k else 200
         prompt, output_file = generate_prompt(
             args.policy,
             args.output,
             save=not args.no_save,
+            k=k,
         )
         if args.no_save or not output_file:
             print(prompt)
         else:
             print(f"Saved to: {output_file}")
     else:
-        # Default: generate all policies
-        generated = generate_all(args.output)
+        # Generate all policies
+        k_values = [args.k] if args.k else None  # None means all K values
+        generated = generate_all(args.output, k_values)
         print(f"\nGenerated {len(generated)} prompts")
 
 

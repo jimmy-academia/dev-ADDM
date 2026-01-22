@@ -41,44 +41,48 @@ normative:
         label: "DEFINITELY"
         logic: ANY
         conditions:
-          - text: "Multiple reviews say the experience was 'worth the wait'"
+          - text: "80 or more reviews say it was definitely worth the wait"
             type: count_threshold
             filter:
-              wait_justification: justified
-            min_count: 2
-          - text: "Long waits consistently justified by exceptional experience"
+              wait_justification: definitely_worth_it
+            min_count: 80
+            min_count_by_k:
+              25: 10
+              50: 20
+              100: 40
+          - text: "100 or more reviews say they would definitely wait again"
             type: count_threshold
             filter:
-              wait_duration: long
-              wait_justification: exceptional
-            min_count: 2
-          - text: "Reviewers say they would gladly wait again"
-            type: count_threshold
-            filter:
-              would_wait_again: yes
-            min_count: 2
+              would_wait_again: definitely
+            min_count: 100
+            min_count_by_k:
+              25: 13
+              50: 25
+              100: 50
 
       - verdict: "Not Worth Waiting"
         label: "NOT_WORTH"
         precondition: "Definitely Worth Waiting does not apply"
         logic: ANY
         conditions:
-          - text: "Multiple reviews describe waits as 'not worth it'"
+          - text: "50 or more reviews describe waits as 'not worth it'"
             type: count_threshold
             filter:
-              wait_justification: not_justified
-            min_count: 2
-          - text: "Reservations frequently not honored"
+              wait_justification: not_worth_it
+            min_count: 50
+            min_count_by_k:
+              25: 6
+              50: 13
+              100: 25
+          - text: "35 or more reviews say they would never wait again"
             type: count_threshold
             filter:
-              wait_type: reservation_not_honored
-            min_count: 2
-          - text: "Long waits for mediocre experience"
-            type: count_threshold
-            filter:
-              wait_duration: long
-              wait_justification: not_justified
-            min_count: 2
+              would_wait_again: never
+            min_count: 35
+            min_count_by_k:
+              25: 4
+              50: 9
+              100: 18
 
       - verdict: "Worth Waiting"
         label: "WORTH"

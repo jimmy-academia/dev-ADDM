@@ -43,17 +43,17 @@ normative:
         label: "HIGHLY_UNIQUE"
         logic: ANY
         conditions:
-          - text: "Multiple reviews describe it as 'one of a kind'"
+          - text: "2 or more reviews describe it as 'one of a kind'"
             type: count_threshold
             filter:
               differentiation_level: one_of_a_kind
             min_count: 2
-          - text: "Signature items frequently praised"
+          - text: "2 or more reviews praise signature items"
             type: count_threshold
             filter:
               signature_item: praised
             min_count: 2
-          - text: "Described as unforgettable or irreplaceable"
+          - text: "2 or more reviews describe it as unforgettable or irreplaceable"
             type: count_threshold
             filter:
               memorability: unforgettable
@@ -64,17 +64,17 @@ normative:
         precondition: "Highly Unique does not apply"
         logic: ANY
         conditions:
-          - text: "Multiple reviews describe it as 'nothing special'"
+          - text: "2 or more reviews describe it as 'nothing special'"
             type: count_threshold
             filter:
               differentiation_level: generic
             min_count: 2
-          - text: "No distinguishing features mentioned"
+          - text: "2 or more reviews mention no distinguishing features"
             type: count_threshold
             filter:
               unique_aspect: none
             min_count: 2
-          - text: "Easily confused with competitors"
+          - text: "2 or more reviews describe it as easily confused with competitors"
             type: count_threshold
             filter:
               differentiation_level: interchangeable

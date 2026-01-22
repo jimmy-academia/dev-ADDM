@@ -37,6 +37,24 @@ normative:
 
   # Scoring system -> generates Scoring System section
   scoring:
+    # Field mapping: how judgment fields map to severity labels for GT scoring
+    field_mapping:
+      severity_field: "impact_severity"
+      value_mappings:
+        minor: "Minor hidden cost (<5% impact)"
+        moderate: "Moderate hidden cost (5-15% impact)"
+        significant: "Significant hidden cost (>15% impact)"
+      modifier_mappings:
+        - field: "disclosure_level"
+          value: "none"
+          label: "No disclosure"
+        - field: "disclosure_level"
+          value: "fine_print"
+          label: "Fine print only"
+        - field: "customer_reaction"
+          value: "upset"
+          label: "Customer very upset"
+
     description: |
       Calculate a risk score by summing points from hidden cost incidents,
       with recency weighting. Pricing policies can change, so recent reviews
@@ -76,9 +94,17 @@ normative:
 
     thresholds:
       - verdict: "Critical Risk"
-        min_score: 10
+        min_score: 700
+        min_score_by_k:
+          25: 88
+          50: 175
+          100: 350
       - verdict: "High Risk"
-        min_score: 5
+        min_score: 350
+        min_score_by_k:
+          25: 44
+          50: 88
+          100: 175
 
   # Decision policy -> generates Verdict Rules section
   decision:
@@ -90,21 +116,21 @@ normative:
         label: "CRITICAL"
         logic: ANY
         conditions:
-          - "Total risk score is 10 or higher (after recency weighting)"
+          - "Total risk score is 700 or higher (after recency weighting)"
 
       - verdict: "High Risk"
         label: "HIGH"
         precondition: "Critical Risk does not apply"
         logic: ANY
         conditions:
-          - "Total risk score is 5 or higher (after recency weighting)"
+          - "Total risk score is 350 or higher (after recency weighting)"
 
       - verdict: "Low Risk"
         label: "LOW"
         default: true
         especially_when:
           - "No hidden cost incidents reported"
-          - "Total risk score is below 5"
+          - "Total risk score is below 350"
           - "Only old complaints and recent reviews show transparency"
 
   # Output format
