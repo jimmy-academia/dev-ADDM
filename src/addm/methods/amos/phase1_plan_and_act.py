@@ -316,9 +316,10 @@ Look at observations.policy_type to determine the structure:
 - Modifier fields: one per modifier in observations.scoring_system.modifiers
 
 ### COMPUTE OPERATIONS
-1. N_INCIDENTS: count where <account_field> = <counting_account_type> AND <severity_field> IN ['mild','moderate','severe']
-   - CRITICAL: Only count extractions with actual incidents (severity != 'none')
-   - Example: {{"name": "N_INCIDENTS", "op": "count", "where": {{"ACCOUNT_TYPE": "firsthand", "INCIDENT_SEVERITY": ["mild", "moderate", "severe"]}}}}
+1. N_INCIDENTS: count where <account_field> = <counting_account_type> AND <outcome_field> NOT IN <none_values>
+   - CRITICAL: Only count extractions with actual incidents (outcome != none_value)
+   - The outcome_field and none_values come from your extract section (defined below)
+   - Example: {{"name": "N_INCIDENTS", "op": "count", "where": {{"field": "<account_field>", "equals": "<counting_type>"}}, "and": [{{"field": "<outcome_field>", "not_equals": <none_values>}}]}}
 2. BASE_POINTS: sum using EXACT point values from observations.scoring_system.base_point_categories
    Example: "CASE WHEN OUTCOME = 'severe' THEN 15 WHEN OUTCOME = 'moderate' THEN 5 ... ELSE 0 END"
 3. MODIFIER_POINTS: sum using EXACT point values from observations.scoring_system.modifiers
@@ -352,11 +353,11 @@ Use observations.verdict_rules.rules to build:
 - Any additional fields needed for compound conditions
 
 ### COMPUTE OPERATIONS
-1. N_INCIDENTS: count where <account_field> = <counting_account_type> AND <severity_field> IN ['mild','moderate','severe']
-   - CRITICAL: Only count extractions with actual incidents (severity != 'none')
-   - Example: {{"name": "N_INCIDENTS", "op": "count", "where": {{"ACCOUNT_TYPE": "firsthand", "INCIDENT_SEVERITY": ["mild", "moderate", "severe"]}}}}
-2. N_SEVERE: count where <account_field> = <counting_account_type> AND <CATEGORY_FIELD> = "severe"
-3. N_MODERATE: count where <account_field> = <counting_account_type> AND <CATEGORY_FIELD> = "moderate"
+1. N_INCIDENTS: count where <account_field> = <counting_account_type> AND <outcome_field> NOT IN <none_values>
+   - CRITICAL: Only count extractions with actual incidents (outcome != none_value)
+   - The outcome_field and none_values come from your extract section (defined below)
+2. N_SEVERE: count where <account_field> = <counting_account_type> AND <CATEGORY_FIELD> = "severe" (or highest category)
+3. N_MODERATE: count where <account_field> = <counting_account_type> AND <CATEGORY_FIELD> = "moderate" (or middle category)
 4. (Add more counts as needed for verdict rules)
 5. VERDICT: case using COUNT conditions (NOT score)
 
@@ -407,7 +408,7 @@ OR use compound conditions in a single case:
         "<type1>": "<description1>",
         "<type2>": "<description2>"
       }}}},
-      // REQUIRED: Category field with values as DICT
+      // REQUIRED: Category/outcome field with values as DICT
       {{"name": "<observations.categories.field_name>", "type": "enum", "values": {{
         "<cat1>": "<cat1 description>",
         "<cat2>": "<cat2 description>"
@@ -416,7 +417,10 @@ OR use compound conditions in a single case:
       {{"name": "<observations.description_field.name>", "type": "string", "description": "<observations.description_field.purpose>"}},
       // REQUIRED: Include ALL modifier-related fields from observations.extraction_fields
       // Each field referenced in MODIFIER_POINTS MUST be defined here!
-    ]
+    ],
+    // REQUIRED METADATA - tells phase2 which field represents the outcome and what means "no incident"
+    "outcome_field": "<observations.categories.field_name>",  // e.g., "INCIDENT_SEVERITY", "QUALITY_LEVEL", "OUTCOME"
+    "none_values": ["<values that mean no incident>"]  // e.g., ["none", "no incident", "n/a"] - from observations.categories.values
   }},
 
   "compute": [
@@ -465,6 +469,12 @@ OR use compound conditions in a single case:
 7. **VERDICT LABELS**: Use EXACT verdict strings from observations.verdict_rules.verdicts - copy character-for-character!
    - If observations say "Critical Risk", use "Critical Risk" NOT "Critical"
    - If observations say "Low Risk", use "Low Risk" NOT "Low"
+8. **outcome_field (REQUIRED)**: MUST set extract.outcome_field to the category field name that represents the outcome
+   - This is the field phase2 uses to determine if an extraction represents an actual incident
+   - Example: for allergy → "INCIDENT_SEVERITY", for romance → "AMBIANCE_QUALITY", for service → "SERVICE_OUTCOME"
+9. **none_values (REQUIRED)**: MUST set extract.none_values to the list of values that mean "no incident"
+   - Derive from observations.categories.values - find values meaning absence/none/not applicable
+   - Example: ["none", "not applicable", "no incident"]
 
 8. **extraction_guidelines**: MUST be generated from observations to guide precise extraction. Format as a multi-line string:
 

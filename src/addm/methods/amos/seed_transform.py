@@ -364,8 +364,8 @@ def _get_severity_field_and_values(seed: Dict[str, Any]) -> Tuple[Optional[str],
 def _fix_n_incidents_logic(compute_ops: List[Dict[str, Any]], seed: Dict[str, Any]) -> List[Dict[str, Any]]:
     """Fix common N_INCIDENTS semantic errors.
 
-    If N_INCIDENTS only filters by ACCOUNT_TYPE, add severity filter.
-    This is a defensive backup for when Phase 1 generates incomplete logic.
+    If N_INCIDENTS only filters by ACCOUNT_TYPE, add outcome/severity filter.
+    Uses seed metadata (outcome_field, none_values) if available, falls back to detection.
 
     Args:
         compute_ops: List of compute operation dicts
@@ -374,7 +374,41 @@ def _fix_n_incidents_logic(compute_ops: List[Dict[str, Any]], seed: Dict[str, An
     Returns:
         Fixed compute operations list
     """
-    severity_field, severity_values = _get_severity_field_and_values(seed)
+    # Try to get outcome field from seed metadata first (generalizable approach)
+    extract = seed.get("extract", {})
+    outcome_field = extract.get("outcome_field")
+    none_values = extract.get("none_values", [])
+
+    # If outcome_field from metadata, derive non-none values from field definition
+    if outcome_field:
+        # Get all values for this field and exclude none_values
+        for field in extract.get("fields", []):
+            if field.get("name") == outcome_field:
+                values = field.get("values", {})
+                if isinstance(values, dict):
+                    all_values = list(values.keys())
+                elif isinstance(values, list):
+                    all_values = values
+                else:
+                    all_values = []
+
+                # Filter out none values (case-insensitive)
+                none_lower = {v.lower() for v in none_values}
+                severity_values = [v for v in all_values if v.lower() not in none_lower]
+                severity_field = outcome_field
+                break
+        else:
+            # Field not found, fall back to detection
+            outcome_field = None
+
+    # Fall back to detection if no metadata
+    if not outcome_field:
+        severity_field, severity_values = _get_severity_field_and_values(seed)
+    else:
+        logger.debug(
+            f"[seed_transform] Using seed metadata: outcome_field={outcome_field}, "
+            f"none_values={none_values}"
+        )
 
     for op in compute_ops:
         op_name = op.get("name", "")
@@ -388,19 +422,24 @@ def _fix_n_incidents_logic(compute_ops: List[Dict[str, Any]], seed: Dict[str, An
         if not isinstance(where, dict):
             continue
 
-        # Check if severity filter is missing
-        has_severity_filter = False
+        # Check if outcome/severity filter is already present
+        has_outcome_filter = False
         for key in where.keys():
-            if any(x in key.lower() for x in ["severity", "outcome", "level", "intensity"]):
-                has_severity_filter = True
+            key_lower = key.lower()
+            # Check for the specific outcome field or common severity-related names
+            if outcome_field and key.upper() == outcome_field.upper():
+                has_outcome_filter = True
+                break
+            if any(x in key_lower for x in ["severity", "outcome", "level", "intensity", "quality"]):
+                has_outcome_filter = True
                 break
 
-        if not has_severity_filter and severity_field and severity_values:
-            # Add the severity filter
+        if not has_outcome_filter and severity_field and severity_values:
+            # Add the outcome/severity filter
             where[severity_field] = severity_values
             op["where"] = where
             logger.info(
-                f"[seed_transform] Fixed N_INCIDENTS: added severity filter "
+                f"[seed_transform] Fixed N_INCIDENTS: added outcome filter "
                 f"{severity_field} IN {severity_values}"
             )
 

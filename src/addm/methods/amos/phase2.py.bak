@@ -289,7 +289,7 @@ class FormulaSeedInterpreter:
         self,
         seed: Dict[str, Any],
         llm: LLMService,
-        max_concurrent: int = 256,
+        max_concurrent: int = 32,
         config: Optional[AMOSConfig] = None,
     ):
         """Initialize interpreter.
@@ -776,8 +776,8 @@ class FormulaSeedInterpreter:
     ) -> None:
         """Thorough sweep of remaining reviews not matched by keywords.
 
-        Processes ALL unprocessed reviews in parallel, adding any relevant extractions
-        to self._extractions.
+        Processes unprocessed reviews in batches, adding any relevant extractions
+        to self._extractions. Can early exit during sweep if severe evidence found.
 
         Args:
             unprocessed: List of reviews that weren't matched by keyword filter
@@ -799,14 +799,30 @@ class FormulaSeedInterpreter:
                 reverse=True
             )[:max_reviews]
 
-        # Run ALL reviews in parallel (no batching for maximum speed)
-        tasks = [self._extract_single_review(r, fields) for r in unprocessed]
-        results = await gather_with_concurrency(self.max_concurrent, tasks)
+        batch_size = self.config.sweep_batch_size
 
-        # Add relevant extractions
-        for r in results:
-            if r.get("is_relevant", False):
-                self._extractions.append(r)
+        for i in range(0, len(unprocessed), batch_size):
+            batch = unprocessed[i : i + batch_size]
+
+            # Extract batch (reuse existing extraction logic)
+            tasks = [self._extract_single_review(r, fields) for r in batch]
+            results = await gather_with_concurrency(self.max_concurrent, tasks)
+
+            # Add relevant extractions
+            for r in results:
+                if r.get("is_relevant", False):
+                    self._extractions.append(r)
+
+            # Early exit during sweep if severe found
+            if self.config.sweep_early_exit and len(self._extractions) > 0:
+                self._execute_compute_partial()
+                if self._should_early_exit():
+                    self._sweep_early_stopped = True
+                    logger.debug(
+                        f"Sweep early stopped at batch {i // batch_size + 1}, "
+                        f"total extractions: {len(self._extractions)}"
+                    )
+                    break
 
     def _get_enum_values_for_field(self, field_name: str) -> Optional[List[str]]:
         """Get expected enum values for a field from the Formula Seed.
@@ -824,85 +840,6 @@ class FormulaSeedInterpreter:
                 if values:
                     return list(values.keys())
         return None
-
-    def _get_outcome_field_info(self) -> Tuple[Optional[str], List[str]]:
-        """Get outcome field name and none values from seed metadata.
-
-        This is the generalizable approach: Phase 1 declares which field
-        represents the outcome and what values mean "no incident".
-
-        Returns:
-            Tuple of (outcome_field_name, list_of_none_values)
-            - outcome_field_name: e.g., "INCIDENT_SEVERITY", "QUALITY_LEVEL"
-            - list_of_none_values: e.g., ["none", "n/a", "no incident"]
-        """
-        extract = self.seed.get("extract", {})
-
-        # First try seed metadata (generalizable)
-        outcome_field = extract.get("outcome_field")
-        none_values = extract.get("none_values", [])
-
-        if outcome_field:
-            return outcome_field, none_values
-
-        # Fallback: detect outcome field from field names (backwards compatibility)
-        fields = extract.get("fields", [])
-        for field in fields:
-            field_name = field.get("name", "")
-            field_lower = field_name.lower()
-
-            # Look for severity/outcome/quality/level fields
-            if any(x in field_lower for x in ["severity", "outcome", "quality", "level", "intensity"]):
-                values = field.get("values", {})
-                if isinstance(values, dict):
-                    # Detect none values from field values
-                    detected_none = []
-                    for v in values.keys():
-                        v_lower = v.lower()
-                        if any(ind in v_lower for ind in ["none", "no ", "n/a", "not ", "absent", "nothing"]):
-                            detected_none.append(v)
-                    return field_name, detected_none
-
-        return None, []
-
-    def _is_none_value(self, value: Any, none_values: List[str]) -> bool:
-        """Check if a value represents "no incident" using seed's none_values.
-
-        Args:
-            value: The value to check
-            none_values: List of values that mean "no incident" from seed
-
-        Returns:
-            True if value represents "no incident"
-        """
-        if value is None:
-            return True
-
-        value_str = str(value).strip().lower()
-
-        # Check against seed's none_values (case-insensitive)
-        for nv in none_values:
-            if value_str == nv.lower():
-                return True
-
-        # Also check normalization map as fallback for common variations
-        if value_str in _SEVERITY_NORMALIZATION_MAP:
-            normalized = _SEVERITY_NORMALIZATION_MAP[value_str]
-            if normalized == "none":
-                return True
-
-        # Keyword-based detection for unlisted variations
-        none_indicators = ["no ", "none", "n/a", "not ", "absent", "nothing", "irrelevant"]
-        has_none_indicator = any(ind in value_str for ind in none_indicators)
-
-        # Only return True if it has none indicator AND no severity keywords
-        if has_none_indicator:
-            severity_keywords = ["mild", "moderate", "severe", "serious", "critical", "emergency", "life"]
-            has_severity = any(kw in value_str for kw in severity_keywords)
-            if not has_severity:
-                return True
-
-        return False
 
     def _normalize_actual_value(self, field_name: str, actual: Any) -> Any:
         """Normalize an actual value from extraction for comparison.
@@ -980,42 +917,18 @@ class FormulaSeedInterpreter:
             if "equals" in condition:
                 expected = condition["equals"]
                 if isinstance(expected, list):
-                    # Case-insensitive list matching for strings
-                    if isinstance(actual, str):
-                        if not any(
-                            actual.lower() == e.lower() if isinstance(e, str) else actual == e
-                            for e in expected
-                        ):
-                            return False
-                    elif actual not in expected:
+                    if actual not in expected:
                         return False
-                else:
-                    # Case-insensitive comparison for strings
-                    if isinstance(actual, str) and isinstance(expected, str):
-                        if actual.lower() != expected.lower():
-                            return False
-                    elif actual != expected:
-                        return False
+                elif actual != expected:
+                    return False
 
             if "not_equals" in condition:
                 not_expected = condition["not_equals"]
                 if isinstance(not_expected, list):
-                    # Case-insensitive list matching for strings
-                    if isinstance(actual, str):
-                        if any(
-                            actual.lower() == e.lower() if isinstance(e, str) else actual == e
-                            for e in not_expected
-                        ):
-                            return False
-                    elif actual in not_expected:
+                    if actual in not_expected:
                         return False
-                else:
-                    # Case-insensitive comparison for strings
-                    if isinstance(actual, str) and isinstance(not_expected, str):
-                        if actual.lower() == not_expected.lower():
-                            return False
-                    elif actual == not_expected:
-                        return False
+                elif actual == not_expected:
+                    return False
 
         # Handle "and" conditions (check all must match)
         if "and" in condition:
@@ -1043,29 +956,13 @@ class FormulaSeedInterpreter:
             actual = self._get_field_value(extraction, field)
             # Normalize actual value for enum fields
             actual = self._normalize_actual_value(field, actual)
-
-            # Case-insensitive comparison for string values
-            if isinstance(actual, str) and isinstance(expected, str):
-                matches = actual.lower() == expected.lower()
-            elif isinstance(expected, list):
-                # Match any in list (case-insensitive for strings)
-                if isinstance(actual, str):
-                    matches = any(
-                        actual.lower() == e.lower() if isinstance(e, str) else actual == e
-                        for e in expected
-                    )
-                else:
-                    matches = actual in expected
+            if isinstance(expected, list):
+                # Match any in list
+                if actual not in expected:
+                    return False
             else:
-                matches = actual == expected
-
-            logger.debug(
-                f"[WHERE DEBUG] field={field}, expected={expected!r}, actual={actual!r}, "
-                f"match={matches}"
-            )
-
-            if not matches:
-                return False
+                if actual != expected:
+                    return False
 
         return True
 
@@ -1074,7 +971,6 @@ class FormulaSeedInterpreter:
 
         Handles conditions like: {"field": "SEVERITY", "equals": "severe"}
         Applies enum value normalization for enum fields.
-        Uses case-insensitive comparison for string values.
 
         Args:
             extraction: Single extraction result
@@ -1089,18 +985,8 @@ class FormulaSeedInterpreter:
             actual = self._get_field_value(extraction, field)
             # Normalize actual value for enum fields
             actual = self._normalize_actual_value(field, actual)
-
-            # Case-insensitive comparison for strings
             if isinstance(expected, list):
-                if isinstance(actual, str):
-                    return any(
-                        actual.lower() == e.lower() if isinstance(e, str) else actual == e
-                        for e in expected
-                    )
                 return actual in expected
-
-            if isinstance(actual, str) and isinstance(expected, str):
-                return actual.lower() == expected.lower()
             return actual == expected
 
         # Fall back to simple matching if not in field/equals format
@@ -1181,8 +1067,6 @@ class FormulaSeedInterpreter:
 
         for field, value, then_value in matches:
             actual_value = self._get_field_value(extraction, field)
-            # Normalize enum values before comparison (handles "no reaction" -> "none", etc.)
-            actual_value = self._normalize_actual_value(field, actual_value)
             logger.debug(
                 f"[CASE DEBUG] checking: field={field}, expected='{value}', "
                 f"actual='{actual_value}', actual_type={type(actual_value).__name__}"
@@ -1190,24 +1074,21 @@ class FormulaSeedInterpreter:
             if actual_value is None:
                 actual_value = ""
 
-            # Compare (case-insensitive, exact match for strings)
-            # Use exact matching to avoid "Mild incident" matching when looking for "mild"
-            if str(actual_value).lower().strip() == value.lower().strip():
+            # Compare (case-insensitive for strings)
+            if str(actual_value).lower() == value.lower():
                 logger.debug(f"[CASE DEBUG] MATCH! returning {then_value}")
                 return float(then_value)
 
         # Check IN clauses
         for field, values_str, then_value in in_matches:
             actual_value = self._get_field_value(extraction, field)
-            # Normalize enum values before comparison
-            actual_value = self._normalize_actual_value(field, actual_value)
             if actual_value is None:
                 actual_value = ""
 
             # Parse the values list (e.g., "'Thai','Vietnamese','Chinese'")
             # Remove quotes and split by comma
             values = [v.strip().strip("'\"") for v in values_str.split(",")]
-            if str(actual_value).lower().strip() in [v.lower().strip() for v in values]:
+            if str(actual_value).lower() in [v.lower() for v in values]:
                 return float(then_value)
 
         # Check for ELSE clause
@@ -1530,17 +1411,11 @@ class FormulaSeedInterpreter:
             "justification": {triggered_rule, direct_evidence, scoring_trace, reasoning}
         }
 
-        Uses seed's outcome_field and none_values for generalizable incident detection
-        across all policy types (G1-G6).
-
         Returns:
             Dict in standard output format
         """
         evidences = []
         evidence_idx = 1
-
-        # Get outcome field info from seed metadata (generalizable approach)
-        outcome_field, none_values = self._get_outcome_field_info()
 
         for ext in self._extractions:
             review_id = ext.get("review_id", ext.get("_review_id", "unknown"))
@@ -1551,24 +1426,6 @@ class FormulaSeedInterpreter:
                 snippet = ext.get("supporting_quote", "")
             if not snippet and "_source_text" in ext:
                 snippet = ext["_source_text"][:200]  # Limit snippet length
-
-            # Check if this extraction represents an actual incident
-            # Use seed's outcome_field if available, fall back to common names
-            if outcome_field:
-                outcome_value = self._get_field_value(ext, outcome_field)
-            else:
-                # Fallback: try common outcome field names (backwards compatibility)
-                outcome_value = (
-                    self._get_field_value(ext, "incident_severity") or
-                    self._get_field_value(ext, "severity") or
-                    self._get_field_value(ext, "outcome") or
-                    self._get_field_value(ext, "quality_level") or
-                    "none"
-                )
-
-            # Skip extractions that don't represent actual incidents
-            if self._is_none_value(outcome_value, none_values):
-                continue
 
             for field, value in ext.items():
                 # Skip internal fields, metadata, and supporting_quote (stored as _snippet)
@@ -1615,19 +1472,12 @@ class FormulaSeedInterpreter:
         # Determine if this is a scoring-based policy (V2/V3) or count-based (V0/V1)
         is_scoring_based = "SCORE" in self._namespace or "INCIDENT_POINTS" in self._namespace
 
-        # Get outcome field from seed (generalizable across G1-G6)
-        outcome_field, _ = self._get_outcome_field_info()
-        # Build list of field names to check for outcome (lowercase for comparison)
-        outcome_field_names = {"incident_severity", "severity", "outcome", "quality_level"}
-        if outcome_field:
-            outcome_field_names.add(outcome_field.lower())
-
         # Build scoring trace from incident data
         breakdown = []
         if is_scoring_based:
             # Scoring-based policies (V2/V3): Show point breakdown
             for ev in evidences:
-                if ev["field"] in outcome_field_names:
+                if ev["field"] in ("incident_severity", "severity"):
                     points = self._get_points_for_severity(ev["judgement"])
                     if points > 0:
                         modifiers = []
@@ -1648,7 +1498,7 @@ class FormulaSeedInterpreter:
             if incident_count > 0:
                 # Add one breakdown entry per counted incident
                 for ev in evidences:
-                    if ev["field"] in outcome_field_names:
+                    if ev["field"] in ("incident_severity", "severity"):
                         breakdown.append({
                             "evidence_id": ev["evidence_id"],
                             "base_points": "1",
@@ -1680,16 +1530,13 @@ class FormulaSeedInterpreter:
         }
 
     def _get_points_for_severity(self, severity: str) -> int:
-        """Get point value for a severity/outcome level.
-
-        Uses seed's compute operations to find point values dynamically.
-        Falls back to default mapping for common severity levels.
+        """Get point value for a severity level.
 
         Args:
-            severity: Severity/outcome string (e.g., "severe", "moderate", "mild")
+            severity: Severity string (e.g., "severe", "moderate", "mild")
 
         Returns:
-            Point value for the severity/outcome
+            Point value for the severity
         """
         # Default point mapping (can be overridden by seed)
         severity_points = {
@@ -1699,29 +1546,15 @@ class FormulaSeedInterpreter:
             "none": 0,
         }
 
-        # Get outcome field from seed for dynamic lookup
-        outcome_field, _ = self._get_outcome_field_info()
-
         # Try to get points from seed compute operations
         for op in self.seed.get("compute", []):
-            if op.get("op") == "case":
-                source = op.get("source", "")
-                # Check if this operation uses the outcome field (case-insensitive)
-                if outcome_field and source.lower() == outcome_field.lower():
-                    for rule in op.get("rules", []):
-                        if rule.get("when", "").lower() == severity.lower():
-                            try:
-                                return int(rule.get("then", 0))
-                            except (ValueError, TypeError):
-                                pass
-                # Fallback: check common outcome field names
-                elif source.lower() in ("incident_severity", "severity", "outcome", "quality_level"):
-                    for rule in op.get("rules", []):
-                        if rule.get("when", "").lower() == severity.lower():
-                            try:
-                                return int(rule.get("then", 0))
-                            except (ValueError, TypeError):
-                                pass
+            if op.get("op") == "case" and op.get("source") == "incident_severity":
+                for rule in op.get("rules", []):
+                    if rule.get("when", "").lower() == severity.lower():
+                        try:
+                            return int(rule.get("then", 0))
+                        except (ValueError, TypeError):
+                            pass
 
         return severity_points.get(severity.lower(), 0)
 

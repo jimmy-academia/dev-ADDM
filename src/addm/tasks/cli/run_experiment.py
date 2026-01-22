@@ -36,6 +36,7 @@ from addm.eval import VERDICT_TO_ORDINAL, compute_ordinal_auprc, compute_unified
 from addm.llm import LLMService
 from addm.llm_batch import BatchClient, build_chat_batch_item
 from addm.methods.rlm import eval_restaurant_rlm
+from addm.methods.cot import SYSTEM_PROMPT as COT_SYSTEM_PROMPT
 from addm.tasks.base import load_task
 from addm.utils.async_utils import gather_with_concurrency
 from addm.utils.debug_logger import DebugLogger, get_debug_logger, set_debug_logger
@@ -43,6 +44,7 @@ from addm.utils.item_logger import ItemLogger, get_item_logger, set_item_logger
 from addm.utils.logging import ResultLogger, get_result_logger, set_result_logger
 from addm.utils.output import output
 from addm.utils.results_manager import ResultsManager, get_results_manager
+from addm.utils.usage import compute_cost
 
 
 # Mapping from policy topic to legacy task ID for ground truth comparison
@@ -53,6 +55,87 @@ POLICY_TO_TASK = {
     "hygiene": "i",    # G1_hygiene_V* -> G1i
     # Add more mappings as policies are developed
 }
+
+
+# =============================================================================
+# Batch Manifest Functions
+# =============================================================================
+
+def _get_manifest_path(method: str, benchmark_id: str) -> Path:
+    """Get manifest path: results/{method}/{benchmark_id}/batch_manifest.json"""
+    return Path(f"results/{method}/{benchmark_id}/batch_manifest.json")
+
+
+def _save_manifest(method: str, benchmark_id: str, manifest: dict) -> None:
+    """Save batch manifest to track pending job."""
+    path = _get_manifest_path(method, benchmark_id)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w") as f:
+        json.dump(manifest, f, indent=2)
+
+
+def _load_manifest(method: str, benchmark_id: str) -> Optional[dict]:
+    """Load batch manifest if it exists."""
+    path = _get_manifest_path(method, benchmark_id)
+    if path.exists():
+        with open(path) as f:
+            return json.load(f)
+    return None
+
+
+def _delete_manifest(method: str, benchmark_id: str) -> None:
+    """Delete batch manifest after processing."""
+    path = _get_manifest_path(method, benchmark_id)
+    if path.exists():
+        path.unlink()
+
+
+def _check_batch_status(method: str, benchmark_id: str) -> tuple[str, Optional[dict]]:
+    """Check if existing batch manifest exists and its status.
+
+    Returns:
+        ("none", None) - No manifest, proceed with new submission
+        ("processing", manifest) - Batch still in progress
+        ("ready", manifest) - Batch complete, ready to process
+        ("failed", manifest) - Batch failed
+    """
+    manifest = _load_manifest(method, benchmark_id)
+    if not manifest:
+        return ("none", None)
+
+    batch_client = BatchClient()
+    batch_id = manifest.get("batch_id")
+    if not batch_id:
+        return ("failed", manifest)
+
+    batch = batch_client.get_batch(batch_id)
+    status = _get_batch_field(batch, "status")
+
+    if status == "completed":
+        return ("ready", manifest)
+    elif status in {"failed", "expired", "cancelled"}:
+        return ("failed", manifest)
+    else:
+        return ("processing", manifest)
+
+
+def _get_batch_usage(item: Dict[str, Any], model: str) -> Dict[str, Any]:
+    """Extract token usage from batch response item."""
+    response = item.get("response") or {}
+    body = response.get("body") or {}
+    usage = body.get("usage") or {}
+
+    prompt_tokens = usage.get("prompt_tokens", 0)
+    completion_tokens = usage.get("completion_tokens", 0)
+
+    return {
+        "prompt_tokens": prompt_tokens,
+        "completion_tokens": completion_tokens,
+        "total_tokens": prompt_tokens + completion_tokens,
+        "cost_usd": compute_cost(model, prompt_tokens, completion_tokens),
+        "latency_ms": None,  # Batch mode - no latency tracking
+        "llm_calls": 1,
+    }
 
 
 def policy_to_task_id(policy_id: str) -> Optional[str]:
@@ -603,9 +686,12 @@ async def run_experiment(
     set_item_logger(item_logger)
 
     method_name_map = {
+        "direct": "Direct LLM",
+        "cot": "CoT (Chain-of-Thought)",
+        "react": "ReACT (Reasoning + Acting)",
         "rlm": "RLM (Recursive LLM)",
         "rag": "RAG (Retrieval Augmented Generation)",
-        "direct": "Direct LLM",
+        "amos": "AMOS (Agenda-Driven Mining)",
     }
     method_name = method_name_map.get(method, "Direct LLM")
     output.header(f"{method_name} Baseline", run_id)
@@ -636,17 +722,42 @@ async def run_experiment(
         )
 
     if effective_mode == "batch":
-        if method in ["rlm", "rag"]:
-            raise ValueError("batch mode is only supported for method=direct")
+        if method in ["rlm", "rag", "react"]:
+            raise ValueError("batch mode is only supported for single-call methods (direct, cot)")
 
         batch_client = BatchClient()
+        benchmark_id = f"{run_id}_K{k}"
 
+        # Check for existing batch job via manifest (unless explicit batch_id provided)
+        if not batch_id:
+            manifest_status, manifest = _check_batch_status(method, benchmark_id)
+
+            if manifest_status == "processing":
+                manifest_batch_id = manifest["batch_id"]
+                batch = batch_client.get_batch(manifest_batch_id)
+                status = _get_batch_field(batch, "status")
+                output.batch_status(manifest_batch_id, status)
+                output.info("Re-run this command later to check status and download results.")
+                return {"status": "processing", "batch_id": manifest_batch_id}
+
+            elif manifest_status == "failed":
+                output.warn(f"Previous batch failed. Deleting manifest and resubmitting...")
+                _delete_manifest(method, benchmark_id)
+                # Fall through to new submission
+
+            elif manifest_status == "ready":
+                # Batch complete - use manifest batch_id for result processing
+                batch_id = manifest["batch_id"]
+                output.info(f"Found completed batch: {batch_id[:20]}...")
+
+        # Process existing batch results (from --batch-id or manifest)
         if batch_id:
             batch = batch_client.get_batch(batch_id)
             status = _get_batch_field(batch, "status")
             if status not in {"completed", "failed", "expired", "cancelled"}:
                 output.batch_status(batch_id, status)
-                return {}
+                output.info("Re-run this command later to check status.")
+                return {"status": "processing", "batch_id": batch_id}
 
             output_file_id = _get_batch_field(batch, "output_file_id")
             error_file_id = _get_batch_field(batch, "error_file_id")
@@ -655,6 +766,7 @@ async def run_experiment(
 
             if not output_file_id:
                 output.warn(f"No output file available for batch {batch_id}")
+                _delete_manifest(method, benchmark_id)
                 return {}
 
             output_bytes = batch_client.download_file(output_file_id)
@@ -690,17 +802,40 @@ async def run_experiment(
                     response=response_text,
                     system_prompt=system_prompt,
                 )
+                # Add token usage from batch response
+                usage = _get_batch_usage(item, model)
+                result.update(usage)
                 results.append(result)
+
+            # Delete manifest after successful processing
+            _delete_manifest(method, benchmark_id)
         else:
+            # Submit new batch
             request_items = []
             for restaurant in restaurants:
                 business = restaurant.get("business", {})
                 business_id = business.get("business_id", "")
-                if system_prompt:
+
+                # Build messages based on method
+                if method == "cot":
+                    # CoT uses step-by-step reasoning prompt
+                    context = str(restaurant)
+                    user_content = f"""Query: {agenda}
+
+Context:
+{context}
+
+Let's think through this step-by-step:"""
+                    messages = [
+                        {"role": "system", "content": COT_SYSTEM_PROMPT},
+                        {"role": "user", "content": user_content},
+                    ]
+                elif system_prompt:
                     messages = build_messages(restaurant, agenda, system_prompt)
                 else:
                     prompt = build_prompt(restaurant, agenda)
                     messages = [{"role": "user", "content": prompt}]
+
                 custom_id = _build_sample_custom_id(run_id, business_id)
                 request_items.append(
                     build_chat_batch_item(
@@ -712,8 +847,22 @@ async def run_experiment(
 
             input_file_id = batch_client.upload_batch_file(request_items)
             batch_id = batch_client.submit_batch(input_file_id)
+
+            # Save manifest for status tracking
+            manifest = {
+                "batch_id": batch_id,
+                "method": method,
+                "policy_id": run_id,
+                "k": k,
+                "n": len(restaurants),
+                "model": model,
+                "created_at": datetime.now().isoformat(),
+            }
+            _save_manifest(method, benchmark_id, manifest)
+
             output.batch_submitted(batch_id)
-            return {"batch_id": batch_id}
+            output.info("Re-run this command to check status and download results.")
+            return {"batch_id": batch_id, "manifest_saved": True}
     else:
         # Configure LLM
         llm = LLMService()
@@ -929,6 +1078,164 @@ async def run_experiment(
 
             # Save Formula Seed to run directory for artifact tracking
             amos_method.save_formula_seed_to_run_dir(output_dir)
+        elif method == "cot":
+            # CoT method - chain-of-thought reasoning
+            from addm.methods import build_method_registry
+            from addm.data.types import Sample
+
+            registry = build_method_registry()
+            cot_class = registry.get("cot")
+            cot_method = cot_class(system_prompt=system_prompt)
+
+            # Convert restaurants to Sample objects
+            samples = [
+                Sample(
+                    sample_id=r["business"]["business_id"],
+                    query=agenda,
+                    context=str(r),  # CoT uses string context
+                    metadata={"restaurant_name": r["business"]["name"]},
+                )
+                for r in restaurants
+            ]
+
+            # Run via method interface
+            tasks = [cot_method.run_sample(s, llm) for s in samples]
+            results_raw = await gather_with_concurrency(32, tasks)
+
+            # Convert CoT results to expected format
+            results = []
+            for raw_result in results_raw:
+                sample_id = raw_result["sample_id"]
+                restaurant = next((r for r in restaurants if r["business"]["business_id"] == sample_id), None)
+                if not restaurant:
+                    continue
+
+                response = raw_result["output"]
+                parsed = extract_json_response(response)
+
+                if "parse_error" not in parsed:
+                    verdict = parsed.get("verdict")
+                    if verdict:
+                        v_lower = verdict.lower()
+                        if "low" in v_lower:
+                            verdict = "Low Risk"
+                        elif "critical" in v_lower:
+                            verdict = "Critical Risk"
+                        elif "high" in v_lower:
+                            verdict = "High Risk"
+
+                    results.append({
+                        "business_id": sample_id,
+                        "name": restaurant["business"]["name"],
+                        "response": response,
+                        "parsed": parsed,
+                        "verdict": verdict,
+                        "risk_score": None,
+                        "prompt_chars": raw_result.get("prompt_tokens", 0) * 4,
+                        "prompt_tokens": raw_result.get("prompt_tokens", 0),
+                        "completion_tokens": raw_result.get("completion_tokens", 0),
+                        "cost_usd": raw_result.get("cost_usd", 0.0),
+                        "latency_ms": raw_result.get("latency_ms", 0.0),
+                        "llm_calls": raw_result.get("llm_calls", 1),
+                    })
+                else:
+                    verdict = extract_verdict(response)
+                    risk_score = extract_risk_score(response)
+                    results.append({
+                        "business_id": sample_id,
+                        "name": restaurant["business"]["name"],
+                        "response": response,
+                        "verdict": verdict,
+                        "risk_score": risk_score,
+                        "prompt_chars": raw_result.get("prompt_tokens", 0) * 4,
+                        "prompt_tokens": raw_result.get("prompt_tokens", 0),
+                        "completion_tokens": raw_result.get("completion_tokens", 0),
+                        "cost_usd": raw_result.get("cost_usd", 0.0),
+                        "latency_ms": raw_result.get("latency_ms", 0.0),
+                        "llm_calls": raw_result.get("llm_calls", 1),
+                    })
+        elif method == "react":
+            # ReACT method - reasoning and acting with tools
+            from addm.methods import build_method_registry
+            from addm.data.types import Sample
+
+            registry = build_method_registry()
+            react_class = registry.get("react")
+            react_method = react_class()
+
+            # Convert restaurants to Sample objects
+            samples = [
+                Sample(
+                    sample_id=r["business"]["business_id"],
+                    query=agenda,
+                    context=json.dumps(r),  # ReACT needs JSON for tool access
+                    metadata={"restaurant_name": r["business"]["name"]},
+                )
+                for r in restaurants
+            ]
+
+            # Run via method interface (lower concurrency due to multi-step)
+            tasks = [react_method.run_sample(s, llm) for s in samples]
+            results_raw = await gather_with_concurrency(8, tasks)
+
+            # Convert ReACT results to expected format
+            results = []
+            for raw_result in results_raw:
+                sample_id = raw_result["sample_id"]
+                restaurant = next((r for r in restaurants if r["business"]["business_id"] == sample_id), None)
+                if not restaurant:
+                    continue
+
+                response = raw_result["output"]
+                parsed = extract_json_response(response)
+
+                if "parse_error" not in parsed:
+                    verdict = parsed.get("verdict")
+                    if verdict:
+                        v_lower = verdict.lower()
+                        if "low" in v_lower:
+                            verdict = "Low Risk"
+                        elif "critical" in v_lower:
+                            verdict = "Critical Risk"
+                        elif "high" in v_lower:
+                            verdict = "High Risk"
+
+                    results.append({
+                        "business_id": sample_id,
+                        "name": restaurant["business"]["name"],
+                        "response": response,
+                        "parsed": parsed,
+                        "verdict": verdict,
+                        "risk_score": None,
+                        "prompt_chars": raw_result.get("prompt_tokens", 0) * 4,
+                        "prompt_tokens": raw_result.get("prompt_tokens", 0),
+                        "completion_tokens": raw_result.get("completion_tokens", 0),
+                        "cost_usd": raw_result.get("cost_usd", 0.0),
+                        "latency_ms": raw_result.get("latency_ms", 0.0),
+                        "llm_calls": raw_result.get("llm_calls", 1),
+                        # ReACT-specific metrics
+                        "steps_taken": raw_result.get("steps_taken", 0),
+                        "max_steps": raw_result.get("max_steps", 5),
+                    })
+                else:
+                    verdict = extract_verdict(response)
+                    risk_score = extract_risk_score(response)
+                    results.append({
+                        "business_id": sample_id,
+                        "name": restaurant["business"]["name"],
+                        "response": response,
+                        "verdict": verdict,
+                        "risk_score": risk_score,
+                        "prompt_chars": raw_result.get("prompt_tokens", 0) * 4,
+                        "prompt_tokens": raw_result.get("prompt_tokens", 0),
+                        "completion_tokens": raw_result.get("completion_tokens", 0),
+                        "cost_usd": raw_result.get("cost_usd", 0.0),
+                        "latency_ms": raw_result.get("latency_ms", 0.0),
+                        "llm_calls": raw_result.get("llm_calls", 1),
+                        # ReACT-specific metrics
+                        "steps_taken": raw_result.get("steps_taken", 0),
+                        "max_steps": raw_result.get("max_steps", 5),
+                    })
         else:
             # Direct method - single LLM call with full context
             tasks = [eval_restaurant(r, agenda, llm, system_prompt) for r in restaurants]
@@ -1197,8 +1504,8 @@ def main() -> None:
         "--method",
         type=str,
         default="direct",
-        choices=["direct", "rlm", "rag", "amos"],
-        help="Method: direct (default), rlm (recursive LLM), rag (retrieval), or amos (agenda-driven mining)",
+        choices=["direct", "cot", "react", "rlm", "rag", "amos"],
+        help="Method: direct (default), cot (chain-of-thought), react (reasoning+acting), rlm (recursive LLM), rag (retrieval), or amos (agenda-driven mining)",
     )
     parser.add_argument(
         "--token-limit",
@@ -1358,8 +1665,12 @@ def main() -> None:
         # Handle batch submission notification
         if isinstance(run_result, dict):
             batch_id = run_result.get("batch_id")
-            if batch_id and not args.batch_id:
-                # Batch submitted - print instructions to check status
+            manifest_saved = run_result.get("manifest_saved", False)
+            if batch_id and manifest_saved:
+                # Batch submitted with manifest - re-run same command to check
+                pass  # Message already printed in run_experiment()
+            elif batch_id and not args.batch_id:
+                # Legacy: batch submitted without manifest tracking
                 output.info("Batch submitted. Re-run this command with --batch-id to check status.")
                 output.console.print(f"  [dim]--batch-id {batch_id}[/dim]")
 
