@@ -2,28 +2,43 @@
 
 Captures important experiment outcomes and metrics for analysis.
 Separate from output.py (display) and debug_logger.py (LLM capture).
+
+NOTE: ResultLogger is DEPRECATED. Per-sample results are now written to
+item_logs/{sample_id}.json via ItemLogger. Aggregated usage is in results.json.
 """
 
 import json
 import logging
+import warnings
 from datetime import datetime
 from pathlib import Path
 from typing import Any
 
 
 class ResultLogger:
-    """Logger for capturing key experiment results.
+    """DEPRECATED: Logger for capturing key experiment results.
 
-    Records structured experiment outcomes for post-analysis.
-    Writes to results.jsonl for each run.
+    This class is deprecated. Use ItemLogger for per-sample logging.
+    Per-sample data should go to item_logs/{sample_id}.json.
+    Aggregated metrics should go directly to results.json.
+
+    Kept for backward compatibility only.
     """
 
     def __init__(self, output_file: Path | None = None):
         """Initialize result logger.
 
+        DEPRECATED: Use ItemLogger instead.
+
         Args:
             output_file: Path to write results. If None, logging disabled.
         """
+        warnings.warn(
+            "ResultLogger is deprecated. Use ItemLogger for per-sample logging. "
+            "Per-sample data goes to item_logs/{sample_id}.json.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         self.output_file = output_file
         self._results: list[dict] = []
         self._enabled = output_file is not None

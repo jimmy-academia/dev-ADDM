@@ -1,99 +1,157 @@
 # Evaluation Metrics
 
-Overview of the unified 3-score evaluation system for ADDM methods.
+Simplified evaluation system with **6 separate, interpretable metrics** - no weighted composites.
 
-## The Three Scores
+## Design Philosophy
 
-Every method run produces three scores (0-100%). Target: **>75% for each**.
+The old system used weighted composite scores (Process Score = 35% incident precision + 30% severity accuracy + ...). This had problems:
+- Arbitrary weights obscured what was actually being measured
+- A single "Process Score" hid important distinctions
+- Hard to diagnose what went wrong
 
-| Score | What It Measures | Location |
-|-------|------------------|----------|
-| **AUPRC** | Ranking quality of final verdicts | `src/addm/eval/metrics.py` |
-| **Process** | Quality of intermediate reasoning steps | `src/addm/eval/unified_metrics.py` |
-| **Consistency** | Alignment between evidence and verdict | `src/addm/eval/unified_metrics.py` |
+**New approach:** 6 separate metrics, each measuring one thing clearly.
 
 ---
 
-## 1. AUPRC (Ranking Quality)
+## The Six Metrics
+
+| Tier | Metric | What It Measures |
+|------|--------|------------------|
+| **Final Quality** | AUPRC | Ranking quality of verdicts |
+| **Evidence Quality** | Incident Precision | Are claimed incidents real? |
+| **Evidence Quality** | Snippet Validity | Are quoted texts real? |
+| **Reasoning Quality** | Judgement Accuracy | Are field values correct? |
+| **Reasoning Quality** | Score Accuracy | Is computed score correct? (V2/V3) |
+| **Reasoning Quality** | Verdict Consistency | Does evidence → verdict logic hold? |
+
+---
+
+## Tier 1: Final Quality
+
+### AUPRC (Ordinal Area Under Precision-Recall Curve)
 
 **Purpose:** Measures how well the method ranks restaurants by risk level.
 
 **Computation:**
-- Ordinal AUPRC averaging two binary tasks:
-  - **AUPRC ≥High**: High+Critical vs Low (threshold=1)
-  - **AUPRC ≥Critical**: Critical vs rest (threshold=2)
-- Final score: Mean of both AUPRC values
+- Binary AUPRC for two thresholds:
+  - **≥High**: High+Critical vs Low
+  - **≥Critical**: Critical vs rest
+- Final: Mean of both AUPRC values
+
+**Why ordinal?** Standard AUPRC treats all errors equally. Ordinal AUPRC respects severity ordering - confusing High/Critical is less wrong than confusing Low/Critical.
 
 **Location:** `src/addm/eval/metrics.py::compute_ordinal_auprc()`
 
-**Why ordinal AUPRC?**
-- Standard AUPRC treats all misclassifications equally
-- Ordinal AUPRC respects the severity ordering (Low < High < Critical)
-- A method that confuses High/Critical is less wrong than one confusing Low/Critical
-
-**Example:**
 ```python
-from addm.eval.metrics import compute_ordinal_auprc
+from addm.eval import compute_ordinal_auprc
 import numpy as np
 
 y_true = np.array([0, 0, 1, 2])  # Low, Low, High, Critical
-y_scores = np.array([1.0, 2.0, 6.0, 10.0])  # Risk scores
+y_scores = np.array([1.0, 2.0, 6.0, 10.0])
 
 result = compute_ordinal_auprc(y_true, y_scores)
-# result["ordinal_auprc"] = mean of auprc_ge_high and auprc_ge_critical
+# result["ordinal_auprc"] = 0.85
 ```
 
 ---
 
-## 2. Process Score (Reasoning Quality)
+## Tier 2: Evidence Quality
 
-**Purpose:** Evaluates the quality of intermediate reasoning steps, not just final verdicts.
+### Incident Precision
 
-**Computation:** Weighted average of five components:
+**Purpose:** Are the claimed incidents actually in the ground truth?
 
-| Component | Weight | Description |
-|-----------|--------|-------------|
-| `incident_precision` | 35% | Found correct incidents (claimed ∩ GT / claimed) |
-| `severity_accuracy` | 30% | Correct severity classification for matched incidents |
-| `modifier_accuracy` | 15% | Correct modifier detection (False assurance, Dismissive staff) |
-| `verdict_support_rate` | 15% | Does claimed evidence support the claimed verdict? |
-| `snippet_validity` | 5% | Are quoted snippets actually in the review text? |
+**Formula:** `|claimed ∩ GT| / |claimed|` (by review_id)
 
-**Note:** If `snippet_validity` is null (AMOS doesn't use snippets), the weight is redistributed proportionally among other components.
+**Interpretation:**
+- 100% = Every claimed incident exists in GT
+- 80% = 20% of claims are fabricated/wrong review IDs
+- N/A = Method made no incident claims (can't compute precision)
 
-**Location:** `src/addm/eval/unified_metrics.py::compute_process_score()`
+**Location:** `src/addm/eval/intermediate_metrics.py::compute_evidence_validity()`
 
-**Three-stage evaluation:**
-1. **Stage 1 - Evidence Validity:** Are claimed evidence items actually valid?
-2. **Stage 2 - Classification Accuracy:** For valid matches, are classifications correct?
-3. **Stage 3 - Verdict Support:** Does claimed evidence support the verdict?
+### Snippet Validity
 
-**Location:** `src/addm/eval/intermediate_metrics.py::compute_intermediate_metrics()`
+**Purpose:** Are the quoted text snippets actually in the source reviews?
 
----
+**Formula:** `|valid snippets| / |total snippets|`
 
-## 3. Consistency Score (Verdict-Evidence Alignment)
+**Validation:** Each `evidence.snippet` is checked as substring of `reviews[evidence.review_id].text`.
 
-**Purpose:** Checks if the method's claimed verdict matches what would be computed from its claimed evidence.
+**Interpretation:**
+- 100% = All quotes are real
+- <100% = Some quotes are fabricated/hallucinated
+- N/A = No snippets provided or no review data available
 
-**Computation:**
-1. Extract method's claimed evidences
-2. Recompute what verdict SHOULD be using V2 policy scoring rules
-3. Compare to method's claimed verdict
-4. Score = (consistent / total) × 100
-
-**Location:** `src/addm/eval/unified_metrics.py::compute_consistency_score()`
-
-**Why this matters:**
-- A method might find correct incidents but compute the wrong verdict
-- This score catches "math errors" in the method's scoring logic
-- 100% consistency means the method's internal logic is sound
+**Note:** Requires `reviews_data` parameter to be passed to compute.
 
 ---
 
-## Scoring Rules (V2 Policy)
+## Tier 3: Reasoning Quality
 
-The evaluation uses V2 policy scoring rules for consistency checks:
+### Judgement Accuracy
+
+**Purpose:** For matched incidents, are the field values correct?
+
+**How it works:**
+1. Match method's evidences to GT incidents by `review_id`
+2. For each match, compare method's `field`/`judgement` to GT's `severity_field`/`severity_value`
+3. Also checks modifier fields (assurance, staff response) if present
+
+**Policy-agnostic:** Works for any policy group (G1-G6) using GT's `severity_field`/`severity_value`.
+
+**Example:**
+- GT: `{review_id: "abc", severity_field: "incident_severity", severity_value: "moderate"}`
+- Method: `{review_id: "abc", field: "INCIDENT_SEVERITY", judgement: "moderate incident"}`
+- Result: ✓ Match (normalized comparison)
+
+**Location:** `src/addm/eval/intermediate_metrics.py::compute_judgement_accuracy()`
+
+### Score Accuracy (V2/V3 only)
+
+**Purpose:** Does the method's computed score match ground truth?
+
+**Formula:** `|method_score - gt_score| < 0.01` (exact match within float tolerance)
+
+**Only evaluated for:**
+- V2 policies (point-based scoring)
+- V3 policies (point-based with recency weighting)
+
+**Skipped for:**
+- V0/V1 policies (condition-based, no numeric scores)
+
+**Fields compared:**
+- Method: `parsed.justification.scoring_trace.total_score`
+- GT: `score`
+
+**Location:** `src/addm/eval/metrics.py::compute_score_accuracy()`
+
+### Verdict Consistency (Enhanced)
+
+**Purpose:** Does the method's internal reasoning support its claimed verdict?
+
+**Two checks:**
+1. **Evidence → Verdict:** Recompute verdict from method's claimed evidences using V2 scoring rules. Does it match claimed verdict?
+2. **Rule → Verdict:** If method claims `triggered_rule`, does that rule imply the claimed verdict?
+
+**Consistent only if BOTH pass** (rule check skipped if no rule claimed).
+
+**Rule mapping:**
+| triggered_rule | Implied Verdict |
+|----------------|-----------------|
+| `CRITICAL` | Critical Risk |
+| `HIGH` | High Risk |
+| `LOW` | Low Risk |
+
+**Why enhanced?** Old version only checked evidence→verdict. New version also validates that claimed triggered_rule is consistent.
+
+**Location:** `src/addm/eval/metrics.py::compute_verdict_consistency_enhanced()`
+
+---
+
+## Scoring Rules Reference (V2 Policy)
+
+Used for Verdict Consistency and Score Accuracy validation:
 
 ### Severity Base Points
 
@@ -118,124 +176,193 @@ The evaluation uses V2 policy scoring rules for consistency checks:
 | High Risk | ≥4 points |
 | Low Risk | <4 points |
 
-**Example:**
-- 1 moderate incident (5 pts) + false assurance (+5 pts) = 10 pts → Critical Risk
-- 2 mild incidents (2×2 = 4 pts) → High Risk
-- 1 mild incident (2 pts) → Low Risk
+**Example scoring:**
+- 1 moderate (5) + false assurance (+5) = 10 → Critical Risk
+- 2 mild (2×2 = 4) → High Risk
+- 1 mild (2) → Low Risk
 
----
-
-## results.json Structure
-
-Each run produces a `results.json` file with this structure:
-
-```json
-{
-  "run_id": "G1_allergy_V2",
-  "policy_id": "G1_allergy_V2",
-  "domain": "yelp",
-  "method": "amos",
-  "model": "gpt-5-nano",
-  "k": 50,
-  "n": 100,
-  "timestamp": "20260119_004007",
-
-  "accuracy": 0.97,
-  "correct": 97,
-  "total": 100,
-
-  "auprc": {
-    "auprc_ge_high": 0.73,
-    "auprc_ge_critical": 0.87,
-    "ordinal_auprc": 0.80,
-    "n_samples": 100
-  },
-
-  "unified_scores": {
-    "auprc": 0.80,
-    "process_score": 86.15,
-    "consistency_score": 100.0
-  },
-
-  "unified_metrics_full": {
-    "auprc": 0.80,
-    "process_score": 86.15,
-    "process_components": {
-      "incident_precision": 1.0,
-      "severity_accuracy": 0.57,
-      "modifier_accuracy": 1.0,
-      "verdict_support_rate": 0.98,
-      "snippet_validity": null,
-      "weighted_sum": 0.82,
-      "total_weight": 0.95
-    },
-    "consistency_score": 100.0,
-    "consistency_details": {
-      "consistent": 5,
-      "total": 5,
-      "per_sample": [...]
-    },
-    "intermediate_metrics": {...}
-  },
-
-  "results": [...]  // Per-sample results array
-}
-```
-
-### Key Fields
-
-| Field | Description |
-|-------|-------------|
-| `unified_scores` | The 3 main scores (AUPRC, Process, Consistency) |
-| `process_components` | Breakdown of Process Score components |
-| `consistency_details` | Per-sample consistency analysis |
-| `accuracy` | Simple verdict accuracy (correct/total) |
-| `results` | Array of per-sample method outputs |
+**Constants:** `src/addm/eval/constants.py`
 
 ---
 
 ## Console Output
 
-When running `run_experiment.py`, you'll see output like:
-
 ```
-═══════════════════════════════════════════════════════════════════
- RUN: G1_allergy_V2 | Method: amos | K=50 | N=100
-═══════════════════════════════════════════════════════════════════
-
- UNIFIED SCORES
- ┌──────────────────┬─────────┬────────┐
- │ Metric           │ Score   │ Status │
- ├──────────────────┼─────────┼────────┤
- │ AUPRC            │ 79.8%   │ ✓      │
- │ Process          │ 86.2%   │ ✓      │
- │ Consistency      │ 100.0%  │ ✓      │
- └──────────────────┴─────────┴────────┘
-
- PROCESS COMPONENTS
- ┌─────────────────────┬─────────┬────────┐
- │ Component           │ Score   │ Weight │
- ├─────────────────────┼─────────┼────────┤
- │ Incident Precision  │ 100.0%  │ 35%    │
- │ Severity Accuracy   │ 57.1%   │ 30%    │
- │ Modifier Accuracy   │ 100.0%  │ 15%    │
- │ Verdict Support     │ 98.0%   │ 15%    │
- │ Snippet Validity    │ N/A     │ 5%     │
- └─────────────────────┴─────────┴────────┘
+EVALUATION METRICS (6 total)
+┌─────────────────────┬─────────┬────────────────────────────────┐
+│ Metric              │ Score   │ Notes                          │
+├─────────────────────┼─────────┼────────────────────────────────┤
+│ AUPRC               │ 85.3%   │ (ranking quality)              │
+│ Incident Precision  │ 72.0%   │ (12/15 claimed exist in GT)    │
+│ Snippet Validity    │ 95.0%   │ (19/20 quotes match source)    │
+│ Judgement Accuracy  │ 68.5%   │ (field correctness)            │
+│ Score Accuracy      │ 90.0%   │ (9/10 scores match GT)         │
+│ Verdict Consistency │ 91.2%   │ (evidence+rule→verdict)        │
+└─────────────────────┴─────────┴────────────────────────────────┘
 ```
 
-Use `show_results.py` CLI to generate formatted summaries:
+---
 
-```bash
-# Show latest benchmark results
-.venv/bin/python -m addm.eval.cli.show_results
+## results.json Structure
 
-# Filter by method
-.venv/bin/python -m addm.eval.cli.show_results --method amos
+```json
+{
+  "run_id": "G1_allergy_V2",
+  "policy_id": "G1_allergy_V2",
+  "method": "amos",
+  "model": "gpt-5-nano",
+  "k": 50,
+  "n": 100,
 
-# Show specific dev run
-.venv/bin/python -m addm.eval.cli.show_results --dev results/dev/20260119_004007_G1_allergy_V2/
+  "evaluation_metrics": {
+    "auprc": 0.853,
+    "incident_precision": 0.72,
+    "snippet_validity": 0.95,
+    "judgement_accuracy": 0.685,
+    "score_accuracy": 0.90,
+    "verdict_consistency": 0.912,
+    "n_samples": 100,
+    "n_structured": 95,
+    "n_with_gt": 100
+  },
+
+  "evaluation_metrics_full": {
+    "auprc": 0.853,
+    "incident_precision": 0.72,
+    "snippet_validity": 0.95,
+    "judgement_accuracy": 0.685,
+    "score_accuracy": 0.90,
+    "verdict_consistency": 0.912,
+    "details": {
+      "auprc_metrics": {
+        "auprc_ge_high": 0.83,
+        "auprc_ge_critical": 0.88,
+        "ordinal_auprc": 0.853
+      },
+      "incident_details": {
+        "total_claimed": 15,
+        "total_matched": 12,
+        "total_snippets": 20,
+        "valid_snippets": 19
+      },
+      "judgement_details": {
+        "correct": 24,
+        "total": 35,
+        "per_field": {...}
+      },
+      "score_details": {
+        "correct": 9,
+        "total": 10,
+        "per_sample": [...]
+      },
+      "consistency_details": {
+        "consistent": 82,
+        "total": 90,
+        "skipped_no_evidence": 5,
+        "per_sample": [...]
+      }
+    }
+  },
+
+  "results": [...]
+}
 ```
+
+---
+
+## API Usage
+
+### Main Entry Point
+
+```python
+from addm.eval import compute_evaluation_metrics
+
+metrics = compute_evaluation_metrics(
+    results=method_outputs,      # List of method result dicts
+    gt_data=gt_with_incidents,   # {biz_id: {verdict, score, incidents}}
+    gt_verdicts=gt_verdicts,     # {biz_id: verdict}
+    method="amos",               # Method name
+    reviews_data=reviews_data,   # Optional: for snippet validation
+    policy_id="G1_allergy_V2",   # Optional: for V2/V3 score check
+)
+
+# Access individual metrics
+print(f"AUPRC: {metrics['auprc']:.1%}")
+print(f"Incident Precision: {metrics['incident_precision']:.1%}")
+print(f"Snippet Validity: {metrics['snippet_validity']:.1%}")
+print(f"Judgement Accuracy: {metrics['judgement_accuracy']:.1%}")
+print(f"Score Accuracy: {metrics['score_accuracy']:.1%}")
+print(f"Verdict Consistency: {metrics['verdict_consistency']:.1%}")
+```
+
+### Individual Metrics
+
+```python
+from addm.eval import (
+    compute_ordinal_auprc,
+    compute_evidence_validity,
+    compute_judgement_accuracy,
+    compute_score_accuracy,
+    compute_verdict_consistency_enhanced,
+)
+
+# Each can be computed independently
+score_acc, score_details = compute_score_accuracy(results, gt_data, policy_id)
+consistency, cons_details = compute_verdict_consistency_enhanced(results, policy_id)
+```
+
+---
+
+## Interpreting Results
+
+### Healthy Results
+```
+AUPRC               85%+    Method ranks restaurants well
+Incident Precision  80%+    Most claims are real incidents
+Snippet Validity    95%+    Quotes are accurate
+Judgement Accuracy  70%+    Classifications are mostly correct
+Score Accuracy      90%+    Point calculations are accurate
+Verdict Consistency 90%+    Internal logic is sound
+```
+
+### Diagnosing Issues
+
+| Symptom | Likely Cause | Fix |
+|---------|--------------|-----|
+| Low AUPRC | Wrong verdicts | Check GT accuracy, method prompts |
+| Low Incident Precision | Fabricated incidents | Improve evidence extraction |
+| Low Snippet Validity | Hallucinated quotes | Add source verification |
+| Low Judgement Accuracy | Wrong severity labels | Review classification prompts |
+| Low Score Accuracy | Math errors | Check scoring trace logic |
+| Low Verdict Consistency | Logic bugs | Audit verdict derivation |
+
+---
+
+## Migration from Old System
+
+### Removed Metrics
+
+| Old | Replacement |
+|-----|-------------|
+| Process Score | Split into Incident Precision, Judgement Accuracy, Snippet Validity |
+| Consistency Score | Now Verdict Consistency (enhanced with triggered_rule) |
+| Accuracy | Removed (misleading with class imbalance) |
+| Incident Recall | Removed (partial extraction is fine) |
+
+### Legacy Support
+
+Old `unified_scores` still computed for backward compatibility:
+```json
+{
+  "unified_scores": {
+    "auprc": 0.85,
+    "process_score": 82.5,
+    "consistency_score": 100.0
+  }
+}
+```
+
+Use `evaluation_metrics` for new code.
 
 ---
 
@@ -243,59 +370,27 @@ Use `show_results.py` CLI to generate formatted summaries:
 
 | File | Purpose |
 |------|---------|
-| `src/addm/eval/unified_metrics.py` | Main 3-score computation, AMOS normalization |
-| `src/addm/eval/intermediate_metrics.py` | Process score components (evidence validity, classification, verdict support) |
-| `src/addm/eval/metrics.py` | AUPRC computation, primitive accuracy |
-| `src/addm/eval/cli/show_results.py` | CLI for formatted result display |
+| `src/addm/eval/metrics.py` | AUPRC, Score Accuracy, Verdict Consistency (enhanced) |
+| `src/addm/eval/intermediate_metrics.py` | Incident Precision, Snippet Validity, Judgement Accuracy |
+| `src/addm/eval/constants.py` | Scoring rules (SEVERITY_BASE_POINTS, etc.) |
+| `src/addm/eval/unified_metrics.py` | Legacy 3-score system (deprecated) |
+| `src/addm/eval/__init__.py` | Public exports |
 
 ---
 
-## API Usage
+## Known Limitations
 
-```python
-from addm.eval.unified_metrics import compute_unified_metrics
+1. **Verdict Consistency** uses hardcoded V2 scoring rules. Works for G1, may not be accurate for G2-G6 with different scoring schemes.
+   - Future: Load policy-specific rules from YAML
 
-# Main entry point
-metrics = compute_unified_metrics(
-    results=method_outputs,      # List of method result dicts
-    gt_data=gt_with_incidents,   # {business_id: {verdict, incidents, ...}}
-    gt_verdicts=gt_verdicts,     # {business_id: verdict}
-    method="amos",               # Method name
-    reviews_data=reviews_data,   # Optional: for snippet validation
-)
+2. **Score Accuracy** only for V2/V3. Returns `None` for V0/V1 condition-based policies.
 
-# Access scores
-print(f"AUPRC: {metrics['auprc']:.1%}")
-print(f"Process: {metrics['process_score']:.1f}%")
-print(f"Consistency: {metrics['consistency_score']:.1f}%")
-```
-
----
-
-## Interpreting Results
-
-### Good Results (>75% all three)
-- AUPRC 80%, Process 86%, Consistency 100%
-- Method ranks restaurants well, finds correct incidents, internal logic is sound
-
-### Process Score Issues
-- **Low incident_precision:** Method finding non-existent incidents
-- **Low severity_accuracy:** Misclassifying incident severity
-- **Low verdict_support_rate:** Evidence doesn't justify verdict
-
-### Consistency Issues
-- **<100% consistency:** Method has scoring bugs
-- Check `consistency_details.per_sample` for specific failures
-
-### AUPRC Issues
-- **Low auprc_ge_high:** Confusing Low/High boundary
-- **Low auprc_ge_critical:** Confusing High/Critical boundary
-- May indicate need for human overrides to correct GT
+3. **Snippet Validity** requires `reviews_data`. Returns `None` if not provided.
 
 ---
 
 ## Related Documentation
 
-- `docs/specs/ground_truth.md` - GT generation and human override system
-- `docs/BASELINES.md` - Method specifications (direct, rag, rlm, amos)
-- `docs/tasks/TAXONOMY.md` - 72 task definitions
+- [Ground Truth Pipeline](ground_truth.md) - GT generation and human overrides
+- [Methods](../../.claude/rules/methods.md) - Method specifications
+- [Output Schema](output_system.md) - Structured output format

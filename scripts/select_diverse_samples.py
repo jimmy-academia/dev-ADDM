@@ -46,25 +46,21 @@ def load_ground_truth(policy_id: str, k: int) -> Optional[Dict]:
 def categorize_by_verdict(gt_data: Dict) -> Dict[str, List[str]]:
     """Categorize business IDs by verdict.
 
+    Dynamically discovers verdict labels from the GT data itself.
+
     Args:
         gt_data: Ground truth data dict
 
     Returns:
         Dict mapping verdict to list of business IDs
     """
-    by_verdict: Dict[str, List[str]] = {
-        "Critical Risk": [],
-        "High Risk": [],
-        "Low Risk": [],
-    }
+    by_verdict: Dict[str, List[str]] = {}
 
     for biz_id, data in gt_data.get("restaurants", {}).items():
-        verdict = data.get("ground_truth", {}).get("verdict", "Low Risk")
-        if verdict in by_verdict:
-            by_verdict[verdict].append(biz_id)
-        else:
-            # Unknown verdict, put in Low Risk
-            by_verdict["Low Risk"].append(biz_id)
+        verdict = data.get("ground_truth", {}).get("verdict", "Unknown")
+        if verdict not in by_verdict:
+            by_verdict[verdict] = []
+        by_verdict[verdict].append(biz_id)
 
     return by_verdict
 
@@ -76,7 +72,8 @@ def select_diverse_samples(
 ) -> Tuple[List[str], Dict[str, int]]:
     """Select diverse samples covering all verdict categories.
 
-    Tries to select from each category proportionally:
+    Dynamically discovers verdict categories from GT data.
+    Tries to select from each category:
     - First, ensure at least 1 from each non-empty category
     - Then fill remaining slots from categories with more samples
 
@@ -92,17 +89,18 @@ def select_diverse_samples(
     random.seed(seed)
 
     by_verdict = categorize_by_verdict(gt_data)
+    verdicts = list(by_verdict.keys())
 
     # Shuffle each category for randomness
     for v in by_verdict:
         random.shuffle(by_verdict[v])
 
     selected: List[str] = []
-    counts = {"Critical Risk": 0, "High Risk": 0, "Low Risk": 0}
+    counts = {v: 0 for v in verdicts}
 
     # First pass: take 1 from each non-empty category
-    for verdict in ["Critical Risk", "High Risk", "Low Risk"]:
-        if by_verdict[verdict] and len(selected) < n:
+    for verdict in verdicts:
+        if by_verdict.get(verdict) and len(selected) < n:
             selected.append(by_verdict[verdict].pop(0))
             counts[verdict] += 1
 
@@ -179,7 +177,11 @@ def main():
     )
     parser.add_argument(
         "--k", type=int, default=50,
-        help="Context size (default: 50)"
+        help="Context size (default: 50). Use --all-k for all K values."
+    )
+    parser.add_argument(
+        "--all-k", action="store_true",
+        help="Generate for all K values (25, 50, 100, 200). Requires --all and --output."
     )
     parser.add_argument(
         "--n", type=int, default=5,
@@ -201,6 +203,30 @@ def main():
     args = parser.parse_args()
 
     if args.all:
+        if args.all_k:
+            # Generate for all K values in verdict_sample_ids.json format
+            if not args.output:
+                print("Error: --all-k requires --output")
+                sys.exit(1)
+
+            k_values = [25, 50, 100, 200]
+            combined = {}
+
+            for policy_id in ALL_POLICIES:
+                combined[policy_id] = {}
+                for k in k_values:
+                    gt_data = load_ground_truth(policy_id, k)
+                    if gt_data is None:
+                        combined[policy_id][f"K{k}"] = ""
+                        continue
+                    sample_ids, _ = select_diverse_samples(gt_data, n=args.n, seed=args.seed)
+                    combined[policy_id][f"K{k}"] = ",".join(sample_ids)
+
+            with open(args.output, "w") as f:
+                json.dump(combined, f, indent=2)
+            print(f"Saved {len(combined)} policies × {len(k_values)} K values to {args.output}")
+            return
+
         results = select_for_all_policies(args.k, args.n, args.seed)
 
         if args.output:
@@ -221,10 +247,9 @@ def main():
                     total_missing_gt += 1
                 else:
                     counts = info["counts"]
-                    c = counts.get("Critical Risk", 0)
-                    h = counts.get("High Risk", 0)
-                    l = counts.get("Low Risk", 0)
-                    print(f"{policy_id}: ✓ C={c} H={h} L={l}")
+                    # Dynamic display based on actual verdicts
+                    counts_str = " ".join(f"{v[:3]}={c}" for v, c in counts.items())
+                    print(f"{policy_id}: ✓ {counts_str}")
                     total_with_gt += 1
 
             print("=" * 70)
@@ -272,10 +297,14 @@ def main():
         print("=" * 70)
 
         by_verdict = categorize_by_verdict(gt_data)
-        print(f"Total available: C={len(by_verdict['Critical Risk'])} "
-              f"H={len(by_verdict['High Risk'])} L={len(by_verdict['Low Risk'])}")
-        print(f"Selected {len(sample_ids)} samples: C={counts['Critical Risk']} "
-              f"H={counts['High Risk']} L={counts['Low Risk']}")
+
+        # Dynamic display of available counts
+        avail_str = " ".join(f"{v[:3]}={len(items)}" for v, items in by_verdict.items())
+        print(f"Total available: {avail_str}")
+
+        # Dynamic display of selected counts
+        sel_str = " ".join(f"{v[:3]}={c}" for v, c in counts.items())
+        print(f"Selected {len(sample_ids)} samples: {sel_str}")
         print()
 
         for biz_id in sample_ids:
@@ -284,8 +313,8 @@ def main():
             verdict = rest_data.get("ground_truth", {}).get("verdict", "Unknown")
             score = rest_data.get("ground_truth", {}).get("score", 0)
 
-            # Verdict abbreviation
-            v_abbr = {"Critical Risk": "C", "High Risk": "H", "Low Risk": "L"}.get(verdict, "?")
+            # Verdict abbreviation (first letter of each word)
+            v_abbr = "".join(w[0] for w in verdict.split()) if verdict != "Unknown" else "?"
 
             print(f"  [{v_abbr}] {name[:40]:<40} ({biz_id[:16]}...) score={score}")
 

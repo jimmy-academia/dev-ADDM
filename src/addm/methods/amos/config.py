@@ -29,17 +29,9 @@ class Phase1Approach(Enum):
 
     PLAN_AND_ACT: Fixed 3-step pipeline (OBSERVE → PLAN → ACT)
                   Same cost as current approach, no self-correction.
-
-    REACT: Iterative loop with actions (Thought → Action → Observation)*
-           Self-correcting, handles complex agendas. 5-10 LLM calls.
-
-    REFLEXION: Initial generation + quality analysis + revision
-               Highest quality, most expensive (7-15 LLM calls).
     """
 
     PLAN_AND_ACT = "plan_and_act"
-    REACT = "react"
-    REFLEXION = "reflexion"
 
 
 @dataclass
@@ -67,14 +59,12 @@ class AMOSConfig:
     max_concurrent: int = 256
 
     # Stage 2: Thorough sweep configuration (always on)
-    sweep_batch_size: int = 256  # Legacy - sweep is now fully parallel
+    sweep_batch_size: int = 1  # Reviews per LLM call (1=parallel processing)
     max_sweep_reviews: int = 200  # Process all reviews (K=200 max)
     sweep_early_exit: bool = False  # Disabled - sweep is fully parallel now
 
     # Phase 1 (Formula Seed generation)
     phase1_approach: Phase1Approach = Phase1Approach.PLAN_AND_ACT
-    react_max_iterations: int = 8
-    reflexion_max_iterations: int = 2
 
     # Embedding configuration (for EMBEDDING and HYBRID filter modes)
     embedding_model: str = "text-embedding-3-large"

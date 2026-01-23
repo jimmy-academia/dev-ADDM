@@ -221,17 +221,13 @@ class RAGMethod(Method):
         try:
             restaurant = self._parse_restaurant(sample.context or "")
         except ValueError as e:
-            return {
-                "sample_id": sample.sample_id,
-                "output": "",
-                "error": str(e),
-                "prompt_tokens": 0,
-                "completion_tokens": 0,
-                "total_tokens": 0,
-                "cost_usd": 0.0,
-                "latency_ms": 0.0,
-                "llm_calls": 0,
-            }
+            return self._make_result(
+                sample.sample_id,
+                "",
+                {},
+                llm_calls=0,
+                error=str(e),
+            )
 
         reviews = restaurant.get("reviews", [])
         num_reviews = len(reviews)
@@ -247,27 +243,20 @@ class RAGMethod(Method):
                 context={"sample_id": sample.sample_id, "method": self.name},
             )
 
-            total_latency = (time.time() - start_time) * 1000
+            usage["latency_ms"] = (time.time() - start_time) * 1000
 
-            return {
-                "sample_id": sample.sample_id,
-                "output": response,
-                # LLM usage
-                "prompt_tokens": usage.get("prompt_tokens", 0),
-                "completion_tokens": usage.get("completion_tokens", 0),
-                "total_tokens": usage.get("prompt_tokens", 0) + usage.get("completion_tokens", 0),
-                "cost_usd": usage.get("cost_usd", 0.0),
-                "latency_ms": total_latency,
-                "llm_calls": 1,
-                # RAG-specific metrics
-                "embedding_tokens": 0,
-                "embedding_cost_usd": 0.0,
-                "reviews_retrieved": num_reviews,
-                "reviews_total": num_reviews,
-                "top_review_indices": list(range(num_reviews)),
-                "cache_hit_embeddings": False,
-                "cache_hit_retrieval": False,
-            }
+            return self._make_result(
+                sample.sample_id,
+                response,
+                usage,
+                embedding_tokens=0,
+                embedding_cost_usd=0.0,
+                reviews_retrieved=num_reviews,
+                reviews_total=num_reviews,
+                top_review_indices=list(range(num_reviews)),
+                cache_hit_embeddings=False,
+                cache_hit_retrieval=False,
+            )
 
         # Try to load cached retrieval results first
         cached_retrieval = self._load_cached_retrieval(sample.sample_id, num_reviews, self.top_k)
@@ -285,27 +274,20 @@ class RAGMethod(Method):
                 context={"sample_id": sample.sample_id, "method": self.name},
             )
 
-            total_latency = (time.time() - start_time) * 1000
+            usage["latency_ms"] = (time.time() - start_time) * 1000
 
-            return {
-                "sample_id": sample.sample_id,
-                "output": response,
-                # LLM usage
-                "prompt_tokens": usage.get("prompt_tokens", 0),
-                "completion_tokens": usage.get("completion_tokens", 0),
-                "total_tokens": usage.get("prompt_tokens", 0) + usage.get("completion_tokens", 0),
-                "cost_usd": usage.get("cost_usd", 0.0),
-                "latency_ms": total_latency,
-                "llm_calls": 1,
-                # RAG-specific metrics
-                "embedding_tokens": 0,
-                "embedding_cost_usd": 0.0,
-                "reviews_retrieved": len(top_indices),
-                "reviews_total": num_reviews,
-                "top_review_indices": top_indices,
-                "cache_hit_embeddings": True,
-                "cache_hit_retrieval": True,
-            }
+            return self._make_result(
+                sample.sample_id,
+                response,
+                usage,
+                embedding_tokens=0,
+                embedding_cost_usd=0.0,
+                reviews_retrieved=len(top_indices),
+                reviews_total=num_reviews,
+                top_review_indices=top_indices,
+                cache_hit_embeddings=True,
+                cache_hit_retrieval=True,
+            )
 
         # Try to load cached embeddings
         cached_embeddings = self._load_cached_embeddings(sample.sample_id, num_reviews)
@@ -381,24 +363,18 @@ class RAGMethod(Method):
             context={"sample_id": sample.sample_id, "method": self.name},
         )
 
-        total_latency = (time.time() - start_time) * 1000
+        usage["latency_ms"] = (time.time() - start_time) * 1000
+        usage["cost_usd"] = usage.get("cost_usd", 0.0) + embedding_cost
 
-        return {
-            "sample_id": sample.sample_id,
-            "output": response,
-            # LLM usage
-            "prompt_tokens": usage.get("prompt_tokens", 0),
-            "completion_tokens": usage.get("completion_tokens", 0),
-            "total_tokens": usage.get("prompt_tokens", 0) + usage.get("completion_tokens", 0),
-            "cost_usd": usage.get("cost_usd", 0.0) + embedding_cost,
-            "latency_ms": total_latency,
-            "llm_calls": 1,
-            # RAG-specific metrics
-            "embedding_tokens": embedding_tokens,
-            "embedding_cost_usd": embedding_cost,
-            "reviews_retrieved": len(top_indices),
-            "reviews_total": num_reviews,
-            "top_review_indices": top_indices,
-            "cache_hit_embeddings": cache_hit_embeddings,
-            "cache_hit_retrieval": False,  # Just computed fresh retrieval
-        }
+        return self._make_result(
+            sample.sample_id,
+            response,
+            usage,
+            embedding_tokens=embedding_tokens,
+            embedding_cost_usd=embedding_cost,
+            reviews_retrieved=len(top_indices),
+            reviews_total=num_reviews,
+            top_review_indices=top_indices,
+            cache_hit_embeddings=cache_hit_embeddings,
+            cache_hit_retrieval=False,  # Just computed fresh retrieval
+        )

@@ -6,33 +6,17 @@ Research benchmark: 72 policy evaluation tasks across restaurant reviews (Yelp).
 
 ## ⚠️ MULTI-AGENT COORDINATION (2026-01-22)
 
-**5 Claude agents are currently active.** Multiple agents are working on AMOS fixes.
+**3 Claude agents currently active.**
 
-**Before editing AMOS files**, check this coordination log:
-
-| Agent | Terminal | Working On | Status |
-|-------|----------|------------|--------|
-| Agent 1 | s005 | Coordinator (this note) | Active |
-| Agent 2 | s001 | eval/metrics.py type bug fix | Active |
-| Agent 3 | s007 | AMOS generalization (G1/G2/G4) | Active |
-| Agent 4 | s000 | G3/G5 testing + seed_transform fixes | **DONE - HANDOFF** |
-| Agent 5 | s006 | ? | Sleeping |
+| Agent | Working On | Status |
+|-------|------------|--------|
+| Agent 1 | G1 policies | Active |
+| Agent 2 | G6 policies | Active |
+| Agent 3 | This session | Active |
 
 **Files at risk of conflict:**
-- `src/addm/methods/amos/phase2.py` - 230+ uncommitted changes
-- `src/addm/methods/amos/seed_transform.py` - **MODIFIED by Agent 4 (s000)** - ready for merge
-
-### Agent 4 (s000) Handoff Notes:
-
-**Fixes applied to `seed_transform.py`:**
-1. `normalize_verdict_label()` now handles non-strings (fixes G5 crash)
-2. `VERDICT_LABEL_MAP` expanded with G2/G5 verdicts
-
-**Test results:**
-- G5_capacity_V0: ✓ 100% (was crashing)
-- G2_group_V1: Returns string labels now (was numeric `0`)
-
-**To merge:** See `scripts/debug/fix_seed_transform_generalization.py` for details.
+- `src/addm/methods/amos/phase2.py` - uncommitted changes
+- `src/addm/tasks/cli/run_experiment.py` - uncommitted changes
 
 **BEFORE editing AMOS**: Update this table with what you're working on. ASK the user if unsure.
 
@@ -45,6 +29,7 @@ Research benchmark: 72 policy evaluation tasks across restaurant reviews (Yelp).
 - **Console**: Use `output` singleton from `src/addm/utils/output.py`, not `print()`
 - **Git**: See global rules. Additional: NEVER add "Co-Authored-By: Claude" lines.
 - **Docs**: Two-tier system. Details go in `docs/`, `.claude/` links to them. See below.
+- **AMOS Workflow**: Do NOT run experiments directly. Prepare the command and hand it to the user to run. This applies to all AMOS debugging/fixing work.
 
 ## Documentation Strategy
 
@@ -79,6 +64,7 @@ Research benchmark: 72 policy evaluation tasks across restaurant reviews (Yelp).
 | Benchmark (72 Tasks) | [.claude/rules/benchmark.md](rules/benchmark.md) |
 | CLI Commands | [.claude/rules/cli-commands.md](rules/cli-commands.md) |
 | Ground Truth Pipeline | [.claude/rules/ground-truth.md](rules/ground-truth.md) |
+| **Evaluation Metrics (6)** | [.claude/rules/evaluation.md](rules/evaluation.md) |
 | Methods (direct/rlm/rag/amos) | [.claude/rules/methods.md](rules/methods.md) |
 | AMOS Phase 1 | [docs/specs/phase1_formula_seed_generation.md](../docs/specs/phase1_formula_seed_generation.md) |
 | Data Pipeline | [.claude/rules/data-pipeline.md](rules/data-pipeline.md) |

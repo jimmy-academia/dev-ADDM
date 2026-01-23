@@ -24,252 +24,19 @@ from addm.methods.amos.config import AMOSConfig, FilterMode
 from addm.methods.amos.search.executor import SafeExpressionExecutor
 from addm.methods.amos.search.embeddings import HybridRetriever
 from addm.methods.amos.seed_transform import transform_formula_seed
+from addm.methods.amos.phase2_prompts import (
+    SEVERITY_NORMALIZATION_MAP as _SEVERITY_NORMALIZATION_MAP,
+    normalize_enum_value as _normalize_enum_value,
+    build_extraction_prompt as _build_extraction_prompt,
+    parse_extraction_response as _parse_extraction_response,
+    build_batch_extraction_prompt as _build_batch_extraction_prompt,
+    parse_batch_extraction_response as _parse_batch_extraction_response,
+)
 from addm.utils.async_utils import gather_with_concurrency
+from addm.utils.debug_logger import get_debug_logger
+from addm.utils.output import output
 
 logger = logging.getLogger(__name__)
-
-
-# =============================================================================
-# Enum Value Normalization
-# =============================================================================
-
-# Common variations that map to canonical enum values
-_SEVERITY_NORMALIZATION_MAP = {
-    "none": "none", "no": "none", "n/a": "none", "na": "none",
-    "not applicable": "none", "no incident": "none", "no reaction": "none",
-    "no allergy": "none", "no allergy incident": "none", "no allergic reaction": "none",
-    "no relevant incident": "none", "not relevant": "none", "irrelevant": "none",
-    "no issue": "none", "no issues": "none", "no problem": "none", "no problems": "none",
-    "nothing": "none", "absent": "none", "no symptoms": "none",
-    "mild": "mild", "minor": "mild", "slight": "mild", "minimal": "mild", "low": "mild",
-    "mild incident": "mild", "mild reaction": "mild", "minor incident": "mild",
-    "minor reaction": "mild", "discomfort": "mild",
-    "moderate": "moderate", "medium": "moderate", "moderate incident": "moderate",
-    "moderate reaction": "moderate", "some symptoms": "moderate", "noticeable": "moderate",
-    "severe": "severe", "serious": "severe", "critical": "severe", "high": "severe",
-    "extreme": "severe", "severe incident": "severe", "severe reaction": "severe",
-    "life-threatening": "severe", "life threatening": "severe", "emergency": "severe",
-    "anaphylaxis": "severe", "anaphylactic": "severe", "hospitalization": "severe",
-    "hospital": "severe",
-}
-
-
-def _normalize_enum_value(value: Any, expected_values: List[str]) -> Any:
-    """Normalize an enum value to match expected canonical values.
-
-    Handles common variations in LLM outputs:
-    - "no reaction" -> "none"
-    - "no allergy incident described" -> "none"
-    - Keyword-based fuzzy matching for severity fields
-
-    Args:
-        value: The value to normalize (from LLM extraction)
-        expected_values: List of valid enum values (e.g., ["none", "mild", "moderate", "severe"])
-
-    Returns:
-        Normalized value if a match is found, otherwise original value
-    """
-    if value is None:
-        return value
-
-    value_str = str(value).strip().lower()
-
-    # 1. Exact match
-    for expected in expected_values:
-        if value_str == expected.lower():
-            return expected
-
-    # 2. Check normalization map
-    if value_str in _SEVERITY_NORMALIZATION_MAP:
-        normalized = _SEVERITY_NORMALIZATION_MAP[value_str]
-        for expected in expected_values:
-            if normalized == expected.lower():
-                return expected
-
-    # 3. Keyword-based matching for severity enums
-    expected_lower = {e.lower() for e in expected_values}
-    is_severity_enum = expected_lower & {"none", "mild", "moderate", "severe"}
-
-    if is_severity_enum:
-        none_indicators = ["no ", "none", "n/a", "not ", "absent", "nothing", "irrelevant"]
-        severity_keywords = ["mild", "moderate", "severe", "serious", "critical", "emergency", "life"]
-
-        has_none_indicator = any(ind in value_str for ind in none_indicators)
-        has_severity_keyword = any(kw in value_str for kw in severity_keywords)
-
-        if has_none_indicator and not has_severity_keyword:
-            if "none" in expected_lower:
-                return "none"
-
-        if "life-threatening" in value_str or "life threatening" in value_str:
-            if "severe" in expected_lower:
-                return "severe"
-        if "anaphyla" in value_str:
-            if "severe" in expected_lower:
-                return "severe"
-        if "emergency" in value_str or "hospital" in value_str:
-            if "severe" in expected_lower:
-                return "severe"
-        if "severe" in value_str or "serious" in value_str or "critical" in value_str:
-            if "severe" in expected_lower:
-                return "severe"
-        if "moderate" in value_str or "medium" in value_str:
-            if "moderate" in expected_lower:
-                return "moderate"
-        if "mild" in value_str or "minor" in value_str or "slight" in value_str:
-            if "mild" in expected_lower:
-                return "mild"
-
-    return value
-
-
-def _build_extraction_prompt(
-    fields: List[Dict[str, Any]],
-    review_text: str,
-    review_id: str,
-    task_name: str = "relevant information",
-    extraction_guidelines: Optional[str] = None,
-) -> str:
-    """Build extraction prompt from Formula Seed field definitions.
-
-    Args:
-        fields: List of field definitions from Formula Seed
-        review_text: The review text to analyze
-        review_id: Review identifier
-        task_name: Human-readable task description (e.g., "allergy safety", "romantic dining")
-        extraction_guidelines: Optional task-specific extraction guidelines
-
-    Returns:
-        Extraction prompt string
-    """
-    field_defs = []
-    field_names = []
-    for field in fields:
-        name = field["name"]
-        field_names.append(name)
-        ftype = field.get("type", "enum")
-        values = field.get("values", {})
-
-        if ftype == "enum" and values:
-            value_list = ", ".join(values.keys())
-            field_defs.append(f"{name.upper()} // MUST be exactly one of: {{{value_list}}}")
-            field_defs.append("  IMPORTANT: Use ONLY these exact values. Do NOT paraphrase or use synonyms.")
-            for value, description in values.items():
-                field_defs.append(f'  - "{value}": {description}')
-            field_defs.append("")
-        elif ftype == "int":
-            field_defs.append(f"{name.upper()} // integer value")
-            if values:
-                for value, description in values.items():
-                    field_defs.append(f"  - {value}: {description}")
-            field_defs.append("")
-        elif ftype == "float":
-            field_defs.append(f"{name.upper()} // numeric value (0.0-1.0 or as specified)")
-            field_defs.append("")
-        elif ftype == "bool":
-            field_defs.append(f"{name.upper()} // true or false")
-            field_defs.append("")
-
-    field_definitions = "\n".join(field_defs)
-
-    # Build explicit field list for output constraint
-    allowed_fields_list = ", ".join(f'"{name}"' for name in field_names)
-
-    # Build output format with example values from enum definitions
-    output_field_examples = []
-    for field in fields:
-        name = field["name"]
-        ftype = field.get("type", "enum")
-        values = field.get("values", {})
-        if ftype == "enum" and values:
-            # Use first enum value as example
-            example_value = list(values.keys())[0]
-            output_field_examples.append(f'"{name}": "{example_value}"')
-        else:
-            output_field_examples.append(f'"{name}": <value>')
-    output_fields = ", ".join(output_field_examples)
-
-    # Use task-specific guidelines if provided, otherwise generate generic ones
-    if extraction_guidelines:
-        guidelines_section = f"EXTRACTION GUIDELINES:\n{extraction_guidelines}"
-    else:
-        guidelines_section = """EXTRACTION GUIDELINES:
-- Only extract fields that are explicitly mentioned or strongly implied in the review
-- If a field is not discussed or cannot be determined, use the default/none value
-- Focus on factual content, not inferences"""
-
-    prompt = f"""Extract the following fields from this review for {task_name}.
-
-{guidelines_section}
-
-STRICT OUTPUT RULES:
-1. ONLY output the fields listed below. Do NOT add any additional fields (no "staff_response", "cuisine_risk", "additional_context", etc.).
-2. For enum fields, you MUST use EXACTLY one of the listed values. Do NOT paraphrase or use synonyms (e.g., use "none" not "no reaction" or "no incident").
-3. The ONLY allowed fields in your output are: "review_id", "is_relevant", "supporting_quote", {allowed_fields_list}
-
-FIELD DEFINITIONS:
-{field_definitions}
-
-REVIEW TEXT:
-{review_text}
-
-WHEN TO SET is_relevant: false
-- If the review does NOT contain any ACTUAL evidence related to {task_name}
-- If the review only mentions ingredients, menu items, or general topics without describing an actual incident or relevant experience
-- If you cannot find a direct quote that demonstrates evidence for the task
-- When in doubt, set is_relevant: false
-
-WHEN TO SET is_relevant: true
-- ONLY if the review contains ACTUAL evidence (a real incident, experience, or observation directly related to {task_name})
-- You must be able to quote specific text that demonstrates the evidence
-
-CRITICAL - EVIDENCE REQUIREMENT:
-You MUST include a "supporting_quote" field with the EXACT text from the review that supports your extraction.
-- Copy the relevant sentence(s) verbatim from the review
-- The quote must exist in the review text exactly as written
-- If you cannot quote specific evidence, set is_relevant: false
-
-Output JSON only. If the review does not contain relevant evidence for this task, output:
-{{"is_relevant": false}}
-
-Otherwise output ONLY these fields (no extra fields):
-{{
-  "review_id": "{review_id}",
-  "is_relevant": true,
-  "supporting_quote": "<EXACT text from review>",
-  {output_fields}
-}}"""
-
-    return prompt
-
-
-def _parse_extraction_response(response: str) -> Dict[str, Any]:
-    """Parse LLM extraction response to JSON."""
-    response = response.strip()
-
-    # Handle markdown code blocks
-    if "```json" in response:
-        start = response.find("```json") + 7
-        end = response.find("```", start)
-        if end > start:
-            response = response[start:end].strip()
-    elif "```" in response:
-        start = response.find("```") + 3
-        end = response.find("```", start)
-        if end > start:
-            response = response[start:end].strip()
-
-    # Find JSON object boundaries
-    brace_start = response.find("{")
-    brace_end = response.rfind("}")
-    if brace_start >= 0 and brace_end > brace_start:
-        response = response[brace_start : brace_end + 1]
-
-    try:
-        return json.loads(response)
-    except json.JSONDecodeError as e:
-        # Return non-relevant for parse failures
-        return {"is_relevant": False, "_parse_error": str(e)}
 
 
 class FormulaSeedInterpreter:
@@ -316,8 +83,10 @@ class FormulaSeedInterpreter:
         # Hybrid retriever (initialized lazily)
         self._retriever: Optional[HybridRetriever] = None
 
-        # Usage tracking
+        # Usage tracking (total and per-stage)
         self._usage_records: List[Dict[str, Any]] = []
+        self._stage1_usage: List[Dict[str, Any]] = []
+        self._stage2_usage: List[Dict[str, Any]] = []
         self._extractions: List[Dict[str, Any]] = []
 
         # Computed values namespace
@@ -344,6 +113,12 @@ class FormulaSeedInterpreter:
             "rejected_no_quote": 0,
             "rejected_quote_not_found": 0,
         }
+
+        # Current sample ID for debug logging
+        self._current_sample_id: str = ""
+
+        # Current stage for usage tracking (1 or 2)
+        self._current_stage: int = 1
 
     def _validate_and_store_snippet(
         self,
@@ -482,10 +257,26 @@ class FormulaSeedInterpreter:
 
         response, usage = await self.llm.call_async_with_usage(
             messages,
-            context={"phase": "phase2_extract", "review_id": review_id},
+            context={"phase": "phase2_extract", "review_id": review_id, "stage": self._current_stage},
         )
 
         self._usage_records.append(usage)
+        if self._current_stage == 1:
+            self._stage1_usage.append(usage)
+        else:
+            self._stage2_usage.append(usage)
+
+        # Debug log the LLM call
+        if debug_logger := get_debug_logger():
+            debug_logger.log_llm_call(
+                sample_id=self._current_sample_id,
+                phase="phase2_extract_single",
+                prompt=prompt,
+                response=response,
+                model=self.llm._config.get("model", "unknown"),
+                latency_ms=usage.get("latency_ms", 0.0),
+                metadata={"review_id": review_id},
+            )
 
         extraction = _parse_extraction_response(response)
         extraction["review_id"] = review_id
@@ -521,8 +312,91 @@ class FormulaSeedInterpreter:
 
         return extraction
 
+    async def _extract_batch_reviews(
+        self,
+        reviews: List[Dict[str, Any]],
+        fields: List[Dict[str, Any]],
+        batch_size: int = 10,
+    ) -> List[Dict[str, Any]]:
+        """Extract signals from multiple reviews in batched LLM calls.
+
+        Much more efficient than single-review extraction:
+        - 50 reviews with batch_size=10 = 5 LLM calls (vs 50 calls)
+
+        Args:
+            reviews: List of reviews to process
+            fields: Field definitions from Formula Seed
+            batch_size: Reviews per LLM call (default: 10)
+
+        Returns:
+            List of extraction results
+        """
+        if not reviews or not fields:
+            return []
+
+        # Filter out temporal fields
+        temporal_field_names = {"REVIEW_DATE", "AGE_YEARS"}
+        llm_fields = [f for f in fields if f.get("name") not in temporal_field_names]
+
+        task_name = self.seed.get("task_name", "relevant information")
+        extraction_guidelines = self.seed.get("extraction_guidelines")
+
+        # Create review lookup for post-processing
+        review_lookup = {r.get("review_id"): r for r in reviews}
+
+        # Process in batches
+        all_results = []
+        for i in range(0, len(reviews), batch_size):
+            batch = reviews[i:i + batch_size]
+            review_ids = [r.get("review_id", f"unknown_{j}") for j, r in enumerate(batch)]
+
+            prompt = _build_batch_extraction_prompt(
+                llm_fields, batch, task_name, extraction_guidelines
+            )
+            messages = [{"role": "user", "content": prompt}]
+
+            response, usage = await self.llm.call_async_with_usage(
+                messages,
+                context={"phase": "phase2_batch_extract", "batch_idx": i // batch_size, "stage": self._current_stage},
+            )
+            self._usage_records.append(usage)
+            if self._current_stage == 1:
+                self._stage1_usage.append(usage)
+            else:
+                self._stage2_usage.append(usage)
+
+            # Debug log the LLM call
+            if debug_logger := get_debug_logger():
+                debug_logger.log_llm_call(
+                    sample_id=self._current_sample_id,
+                    phase="phase2_batch_extract",
+                    prompt=prompt,
+                    response=response,
+                    model=self.llm._config.get("model", "unknown"),
+                    latency_ms=usage.get("latency_ms", 0.0),
+                    metadata={"batch_idx": i // batch_size, "batch_size": len(batch)},
+                )
+
+            # Parse batch response
+            batch_results = _parse_batch_extraction_response(response, review_ids)
+
+            # Post-process each extraction
+            for extraction in batch_results:
+                rid = extraction.get("review_id", "")
+                review = review_lookup.get(rid, {})
+                review_text = review.get("text", "")
+
+                # Validate quote
+                if extraction.get("is_relevant", False):
+                    quote = extraction.get("supporting_quote", "")
+                    extraction = self._validate_and_store_snippet(extraction, quote, review_text)
+
+                all_results.append(extraction)
+
+        return all_results
+
     async def _extract_signals(self, reviews: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        """Extract signals from all reviews via parallel LLM calls.
+        """Extract signals from all reviews via batched LLM calls.
 
         Args:
             reviews: List of filtered reviews
@@ -534,9 +408,9 @@ class FormulaSeedInterpreter:
         if not fields or not reviews:
             return []
 
-        # Run extractions in parallel with concurrency limit
-        tasks = [self._extract_single_review(r, fields) for r in reviews]
-        results = await gather_with_concurrency(self.max_concurrent, tasks)
+        # Use BATCHED extraction for efficiency
+        batch_size = self.config.sweep_batch_size
+        results = await self._extract_batch_reviews(reviews, fields, batch_size=batch_size)
 
         # Filter to only relevant extractions
         relevant = [r for r in results if r.get("is_relevant", False)]
@@ -776,8 +650,8 @@ class FormulaSeedInterpreter:
     ) -> None:
         """Thorough sweep of remaining reviews not matched by keywords.
 
-        Processes ALL unprocessed reviews in parallel, adding any relevant extractions
-        to self._extractions.
+        Uses BATCHED extraction to minimize LLM calls:
+        - 50 reviews with batch_size=10 = 5 LLM calls (vs 50 with single-review)
 
         Args:
             unprocessed: List of reviews that weren't matched by keyword filter
@@ -799,9 +673,9 @@ class FormulaSeedInterpreter:
                 reverse=True
             )[:max_reviews]
 
-        # Run ALL reviews in parallel (no batching for maximum speed)
-        tasks = [self._extract_single_review(r, fields) for r in unprocessed]
-        results = await gather_with_concurrency(self.max_concurrent, tasks)
+        # Use BATCHED extraction for efficiency (configurable reviews per LLM call)
+        batch_size = self.config.sweep_batch_size
+        results = await self._extract_batch_reviews(unprocessed, fields, batch_size=batch_size)
 
         # Add relevant extractions
         for r in results:
@@ -1801,28 +1675,32 @@ class FormulaSeedInterpreter:
         """Get output in standard format (matching output_schema.txt).
 
         Should be called after execute() to get the standardized output.
+        This returns ONLY schema-compliant fields (no metadata).
 
         Returns:
             Dict with verdict, evidences, justification, other_notes
         """
-        standard = self._build_standard_output()
+        return self._build_standard_output()
 
-        # Add AMOS-specific metadata (for debugging, not part of standard)
-        standard["_amos_metadata"] = {
+    def get_debug_metadata(self) -> Dict[str, Any]:
+        """Get AMOS-specific debug metadata (separate from standard output).
+
+        Returns:
+            Dict with extractions_count, stopped_early, reviews_skipped, namespace
+        """
+        return {
             "extractions_count": len(self._extractions),
             "stopped_early": self._stopped_early,
             "reviews_skipped": self._reviews_skipped,
             "namespace": self._namespace,
         }
 
-        return standard
-
     def get_usage_metrics(self) -> Dict[str, Any]:
         """Get aggregated usage metrics from all LLM calls.
 
         Returns:
             Dict with prompt_tokens, completion_tokens, total_tokens,
-            cost_usd, latency_ms, llm_calls, and strategy metrics
+            cost_usd, latency_ms, llm_calls, strategy metrics, and per-stage breakdown
         """
         if not self._usage_records:
             metrics = {
@@ -1847,6 +1725,22 @@ class FormulaSeedInterpreter:
                 "latency_ms": latency_ms,
                 "llm_calls": len(self._usage_records),
             }
+
+        # Add per-stage breakdown
+        metrics["stage1"] = {
+            "prompt_tokens": sum(u.get("prompt_tokens", 0) for u in self._stage1_usage),
+            "completion_tokens": sum(u.get("completion_tokens", 0) for u in self._stage1_usage),
+            "cost_usd": sum(u.get("cost_usd", 0.0) for u in self._stage1_usage),
+            "latency_ms": sum(u.get("latency_ms", 0.0) for u in self._stage1_usage),
+            "llm_calls": len(self._stage1_usage),
+        }
+        metrics["stage2"] = {
+            "prompt_tokens": sum(u.get("prompt_tokens", 0) for u in self._stage2_usage),
+            "completion_tokens": sum(u.get("completion_tokens", 0) for u in self._stage2_usage),
+            "cost_usd": sum(u.get("cost_usd", 0.0) for u in self._stage2_usage),
+            "latency_ms": sum(u.get("latency_ms", 0.0) for u in self._stage2_usage),
+            "llm_calls": len(self._stage2_usage),
+        }
 
         # Add strategy metrics
         metrics["strategy_metrics"] = {
@@ -1959,9 +1853,15 @@ class FormulaSeedInterpreter:
             Dict with output values and observability data
         """
         self._total_reviews = len(reviews)
+        self._current_sample_id = sample_id  # Store for debug logging
+
+        # Verbose output: Starting Phase 2
+        biz_name = business.get("name", sample_id[:12])
+        output.status(f"  [Phase 2] {biz_name} | {len(reviews)} reviews")
 
         # ===== CHECK FOR ABSTAIN (validation failed in Phase 1) =====
         if self.seed.get("_abstain"):
+            output.warn(f"  [Phase 2] ABSTAIN: {self.seed.get('_abstain_reason', 'unknown')[:50]}")
             logger.warning(
                 f"Seed marked for ABSTAIN due to validation failure: "
                 f"{self.seed.get('_abstain_reason', 'unknown')}"
@@ -1982,10 +1882,14 @@ class FormulaSeedInterpreter:
             }
 
         # ===== STAGE 1: QUICK SCAN =====
+        output.status(f"  [Stage 1] Filtering ({self.config.filter_mode.value})...")
+
         # Filter reviews based on filter_mode
         filtered = await self._filter_by_mode(reviews, query, sample_id)
+        output.status(f"  [Stage 1] {len(filtered)}/{len(reviews)} reviews matched filter")
 
         # Extract signals from filtered reviews
+        output.status(f"  [Stage 1] Extracting signals from {len(filtered)} reviews...")
         await self._extract_signals(filtered)
 
         # Compute verdict from Stage 1 extractions
@@ -1994,9 +1898,11 @@ class FormulaSeedInterpreter:
         # Capture Stage 1 results for stats
         stage1_verdict = self._namespace.get("VERDICT")
         stage1_extractions = len(self._extractions)
+        output.status(f"  [Stage 1] {stage1_extractions} relevant extractions -> verdict={stage1_verdict}")
 
         # Check early exit (severe evidence found in Stage 1)
         if self._should_early_exit():
+            output.status(f"  [Stage 1] Early exit: verdict='{stage1_verdict}' (severe evidence)")
             logger.debug(f"Early exit: Stage 1 verdict '{stage1_verdict}' is severe")
             result = self._get_output()
             result["_filter_stats"] = {
@@ -2026,6 +1932,7 @@ class FormulaSeedInterpreter:
             sweep_performed = True
             sweep_reviews_processed = min(len(unprocessed), self.config.max_sweep_reviews)
 
+            output.status(f"  [Stage 2] Sweeping {sweep_reviews_processed}/{len(unprocessed)} remaining reviews...")
             logger.debug(
                 f"Stage 2 sweep: {len(unprocessed)} unprocessed reviews, "
                 f"processing up to {self.config.max_sweep_reviews}"
@@ -2033,33 +1940,18 @@ class FormulaSeedInterpreter:
 
             # Track Stage 2 extractions separately for verdict stabilization
             stage1_extraction_count = len(self._extractions)
+            self._current_stage = 2  # Switch to Stage 2 for usage tracking
             await self._sweep_remaining_reviews(unprocessed)
             stage2_extractions_added = len(self._extractions) - stage1_extraction_count
 
             # Recompute verdict with all extractions
             self._execute_compute(business)
 
-            # Verdict stabilization: if Stage 2 would flip verdict, require strong evidence
-            new_verdict = self._namespace.get("VERDICT")
-            if new_verdict != stage1_verdict and stage2_extractions_added > 0:
-                # Count Stage 2 validated extractions (those with _snippet_validated=True)
-                stage2_validated = sum(
-                    1 for e in self._extractions[stage1_extraction_count:]
-                    if e.get("_snippet_validated", False)
-                )
-
-                # Require at least 2 validated Stage 2 extractions to flip verdict
-                min_required = 2
-                if stage2_validated < min_required:
-                    logger.debug(
-                        f"Verdict stabilization: Stage 2 would flip {stage1_verdict} → {new_verdict} "
-                        f"but only {stage2_validated} validated extractions (need {min_required}). "
-                        f"Reverting to Stage 1 extractions only."
-                    )
-                    # Revert to Stage 1 extractions only
-                    self._extractions = self._extractions[:stage1_extraction_count]
-                    self._execute_compute(business)
-                    stage2_extractions_added = 0
+            final_verdict = self._namespace.get("VERDICT")
+            verdict_changed = "CHANGED" if stage1_verdict != final_verdict else "unchanged"
+            output.status(f"  [Stage 2] +{stage2_extractions_added} extractions -> verdict={final_verdict} ({verdict_changed})")
+        else:
+            output.status(f"  [Stage 2] No remaining reviews to sweep")
 
         # Return final output
         result = self._get_output()

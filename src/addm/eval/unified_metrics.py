@@ -1,9 +1,13 @@
 """Unified 3-score evaluation for ADDM methods.
 
-Every method run produces 3 scores (0-100%):
-1. AUPRC - Ranking quality of final verdicts
-2. Process Score - Quality of intermediate reasoning steps
-3. Consistency Score - Alignment between evidence and verdict
+DEPRECATED: This module is being replaced by the simplified metrics in metrics.py.
+Use compute_evaluation_metrics() from addm.eval.metrics for new code.
+
+Legacy functions maintained for backward compatibility:
+- compute_unified_metrics() - old 3-score system
+- compute_process_score() - weighted composite (removed in new system)
+- compute_consistency_score() - now just verdict_consistency
+- normalize_amos_output() - still needed for AMOS output normalization
 """
 
 import json
@@ -11,10 +15,21 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 
-from addm.eval.metrics import compute_ordinal_auprc, VERDICT_TO_ORDINAL, normalize_verdict
+from addm.eval.metrics import (
+    compute_ordinal_auprc,
+    normalize_verdict,
+    normalize_judgement,
+)
+from addm.eval.constants import (
+    VERDICT_TO_ORDINAL,
+    SEVERITY_BASE_POINTS,
+    MODIFIER_POINTS,
+    VERDICT_THRESHOLDS,
+)
 
 
-# Process Score weights
+# DEPRECATED: Process Score weights (kept for backward compatibility)
+# New system uses separate metrics without weighting
 PROCESS_WEIGHTS = {
     "incident_precision": 0.35,   # Finding correct incidents (most important)
     "severity_accuracy": 0.30,    # Correct severity classification
@@ -22,54 +37,6 @@ PROCESS_WEIGHTS = {
     "verdict_support_rate": 0.15, # Evidence supports verdict
     "snippet_validity": 0.05,     # Valid quotes (AMOS doesn't have snippets)
 }
-
-# Verdict scoring thresholds (from V2 policy)
-SEVERITY_BASE_POINTS = {
-    "mild": 2,
-    "moderate": 5,
-    "severe": 15,
-}
-
-MODIFIER_POINTS = {
-    "False assurance": 5,
-    "Dismissive staff": 3,
-}
-
-VERDICT_THRESHOLDS = {
-    "Critical Risk": 8,
-    "High Risk": 4,
-    "Low Risk": 0,
-}
-
-
-def normalize_judgement(judgement: str, valid_values: List[str]) -> Optional[str]:
-    """Extract a known value from a judgement string.
-
-    Handles flexible formatting like "moderate incident" → "moderate",
-    "Dismissive" → "dismissive", etc.
-
-    Args:
-        judgement: Raw judgement string from method output
-        valid_values: List of valid values to look for (lowercase)
-
-    Returns:
-        Matched value (lowercase) or None if no match
-    """
-    if not judgement:
-        return None
-
-    judgement_lower = judgement.lower()
-
-    # First try exact match
-    if judgement_lower in valid_values:
-        return judgement_lower
-
-    # Then try substring match (e.g., "moderate incident" contains "moderate")
-    for value in valid_values:
-        if value in judgement_lower:
-            return value
-
-    return None
 
 
 def normalize_amos_output(result: Dict[str, Any]) -> Dict[str, Any]:

@@ -32,7 +32,13 @@ from typing import Any, Dict, List, Optional
 
 import numpy as np
 
-from addm.eval import VERDICT_TO_ORDINAL, compute_ordinal_auprc, compute_unified_metrics, normalize_verdict
+from addm.eval import (
+    VERDICT_TO_ORDINAL,
+    compute_ordinal_auprc,
+    compute_unified_metrics,  # Legacy (kept for backward compat)
+    compute_evaluation_metrics,  # New simplified metrics
+    normalize_verdict,
+)
 from addm.llm import LLMService
 from addm.llm_batch import BatchClient, build_chat_batch_item
 from addm.methods.rlm import eval_restaurant_rlm
@@ -41,7 +47,7 @@ from addm.tasks.base import load_task
 from addm.utils.async_utils import gather_with_concurrency
 from addm.utils.debug_logger import DebugLogger, get_debug_logger, set_debug_logger
 from addm.utils.item_logger import ItemLogger, get_item_logger, set_item_logger
-from addm.utils.logging import ResultLogger, get_result_logger, set_result_logger
+from addm.utils.logging import setup_logging  # Legacy, kept for backward compat
 from addm.utils.output import output
 from addm.utils.results_manager import ResultsManager, get_results_manager
 from addm.utils.usage import compute_cost
@@ -165,12 +171,13 @@ def policy_to_task_id(policy_id: str) -> Optional[str]:
     return f"{group}{variant}"  # e.g., "G1a"
 
 
-def load_policy_prompt(policy_id: str, domain: str = "yelp") -> str:
+def load_policy_prompt(policy_id: str, domain: str = "yelp", k: int = 200) -> str:
     """Load prompt from policy-generated file.
 
     Args:
         policy_id: Policy ID like "G1_allergy_V2" or "G1/allergy/V2"
         domain: Domain (default: yelp)
+        k: Context size (25, 50, 100, 200) - prompts are K-specific
 
     Returns:
         Prompt text
@@ -178,9 +185,13 @@ def load_policy_prompt(policy_id: str, domain: str = "yelp") -> str:
     # Normalize policy ID: "G1/allergy/V2" -> "G1_allergy_V2"
     normalized = policy_id.replace("/", "_")
 
-    prompt_path = Path(f"data/query/{domain}/{normalized}_prompt.txt")
+    # Try K-specific prompt first
+    prompt_path = Path(f"data/query/{domain}/{normalized}_K{k}_prompt.txt")
     if not prompt_path.exists():
-        raise FileNotFoundError(f"Policy prompt not found: {prompt_path}")
+        # Fallback to old format without K
+        prompt_path = Path(f"data/query/{domain}/{normalized}_prompt.txt")
+        if not prompt_path.exists():
+            raise FileNotFoundError(f"Policy prompt not found: {prompt_path}")
 
     return prompt_path.read_text()
 
@@ -457,7 +468,16 @@ async def eval_restaurant(
         prompt_chars = len(prompt)
 
     try:
-        response = await llm.call_async(messages)
+        response, usage = await llm.call_async_with_usage(
+            messages, context={"sample_id": business_id}
+        )
+
+        # Extract usage metrics
+        prompt_tokens = usage.get("prompt_tokens", 0)
+        completion_tokens = usage.get("completion_tokens", 0)
+        total_tokens = prompt_tokens + completion_tokens
+        cost_usd = usage.get("cost_usd", 0.0)
+        latency_ms = usage.get("latency_ms")
 
         # Try JSON parsing first (for structured output)
         parsed = extract_json_response(response)
@@ -482,6 +502,12 @@ async def eval_restaurant(
                 "verdict": verdict,
                 "risk_score": None,  # JSON format doesn't use numeric score
                 "prompt_chars": prompt_chars,
+                "prompt_tokens": prompt_tokens,
+                "completion_tokens": completion_tokens,
+                "total_tokens": total_tokens,
+                "cost_usd": cost_usd,
+                "latency_ms": latency_ms,
+                "llm_calls": 1,
             }
 
         # Fallback to regex extraction (legacy format)
@@ -495,6 +521,12 @@ async def eval_restaurant(
             "verdict": verdict,
             "risk_score": risk_score,
             "prompt_chars": prompt_chars,
+            "prompt_tokens": prompt_tokens,
+            "completion_tokens": completion_tokens,
+            "total_tokens": total_tokens,
+            "cost_usd": cost_usd,
+            "latency_ms": latency_ms,
+            "llm_calls": 1,
         }
     except Exception as e:
         return {
@@ -522,6 +554,7 @@ async def run_experiment(
     batch_id: Optional[str] = None,
     top_k: int = 20,
     filter_mode: str = "keyword",
+    batch_size: int = 10,
     sample_ids: Optional[List[str]] = None,
     phase: Optional[str] = None,
     seed_path: Optional[str] = None,
@@ -573,7 +606,7 @@ async def run_experiment(
     system_prompt = None
     if policy_id:
         # Policy mode: load from data/query/ with system prompt
-        agenda = load_policy_prompt(policy_id, domain)
+        agenda = load_policy_prompt(policy_id, domain, k=k)
         system_prompt = load_system_prompt()
         run_id = policy_id.replace("/", "_")
         # Use policy ID directly for ground truth (policy-based GT files)
@@ -673,15 +706,11 @@ async def run_experiment(
     output.configure(quiet=not verbose, mode=effective_mode)
 
     # Setup loggers
-    # Result logger writes to results.jsonl
-    result_logger = ResultLogger(output_dir / "results.jsonl")
-    set_result_logger(result_logger)
-
     # Debug logger writes to debug.jsonl (consolidated mode)
     debug_logger = DebugLogger(output_dir, consolidated=True)
     set_debug_logger(debug_logger)
 
-    # Item logger writes to item_logs/{business_id}.json
+    # Item logger writes to item_logs/{sample_id}.json (streaming, per-sample)
     item_logger = ItemLogger(output_dir)
     set_item_logger(item_logger)
 
@@ -707,6 +736,7 @@ async def run_experiment(
         "Restaurants": len(restaurants),
         "Model": model,
         "K": k,
+        "Output": str(output_dir),
     })
     if gt_task_id:
         output.status(f"Ground truth: {gt_task_id}_K{k}_groundtruth.json")
@@ -970,6 +1000,7 @@ Let's think through this step-by-step:"""
                 policy_id=run_id,
                 max_concurrent=256,
                 filter_mode=filter_mode,
+                batch_size=batch_size,
                 system_prompt=system_prompt,
             )
 
@@ -1057,11 +1088,13 @@ Let's think through this step-by-step:"""
                     "total_tokens": raw_result.get("total_tokens", 0),
                     "cost_usd": raw_result.get("cost_usd", 0.0),
                     "latency_ms": raw_result.get("latency_ms", 0.0),
+                    "llm_calls": raw_result.get("llm_calls", 0),
+                    # Per-phase/stage usage breakdown (AMOS-specific)
+                    "usage_breakdown": raw_result.get("usage_breakdown", {}),
                     # AMOS-specific metrics
                     "filter_stats": raw_result.get("filter_stats", {}),
                     "extractions_count": raw_result.get("extractions_count", 0),
                     "phase1_cached": raw_result.get("phase1_cached", False),
-                    "llm_calls": raw_result.get("llm_calls", 0),
                     # Strategy metrics (new)
                     "strategy_stats": raw_result.get("strategy_stats", {}),
                     "adaptive_mode": raw_result.get("adaptive_mode", False),
@@ -1253,12 +1286,20 @@ Let's think through this step-by-step:"""
     total = 0
 
     for result in results:
+        biz_id = result.get("business_id", "")
+        gt_verdict = gt_verdicts.get(biz_id)
+
         if "error" in result:
-            output.error(f"{result['name']}: {result['error']}")
+            output.error(f"{result.get('name', biz_id)}: {result['error']}")
+            # Log error to item_logs
+            if item_logger := get_item_logger():
+                item_logger.log_item_error(
+                    sample_id=biz_id,
+                    error=result["error"],
+                    ground_truth=gt_verdict,
+                )
             continue
 
-        biz_id = result["business_id"]
-        gt_verdict = gt_verdicts.get(biz_id)
         pred_verdict = result["verdict"]
         # Normalize verdicts for comparison (handles quotes, case, whitespace)
         pred_normalized = normalize_verdict(pred_verdict, run_id)
@@ -1273,16 +1314,38 @@ Let's think through this step-by-step:"""
         result["gt_verdict"] = gt_verdict
         result["correct"] = is_correct
 
-        risk_score = result.get("risk_score")
+        # Build metrics dict for item_logger
+        item_metrics = {
+            "prompt_tokens": result.get("prompt_tokens", 0),
+            "completion_tokens": result.get("completion_tokens", 0),
+            "total_tokens": result.get("total_tokens", 0),
+            "cost_usd": result.get("cost_usd", 0.0),
+            "latency_ms": result.get("latency_ms"),
+            "llm_calls": result.get("llm_calls", 1),
+        }
 
-        # Log to result logger if enabled
-        if result_logger := get_result_logger():
-            result_logger.log_result(
+        # Log to item_logs/{sample_id}.json (streaming)
+        if item_logger := get_item_logger():
+            # Collect method-specific extra fields
+            extra_fields = {}
+            for key in ["filter_stats", "early_exit", "extractions_count", "phase1_cached",
+                        "strategy_stats", "adaptive_mode", "stopped_early", "reviews_skipped",
+                        "embedding_tokens", "embedding_cost_usd", "reviews_retrieved",
+                        "reviews_total", "top_review_indices", "cache_hit_embeddings",
+                        "cache_hit_retrieval", "steps_taken", "max_steps",
+                        "usage_breakdown"]:  # AMOS per-phase breakdown
+                if key in result:
+                    extra_fields[key] = result[key]
+
+            item_logger.log_item(
                 sample_id=biz_id,
                 verdict=pred_verdict,
+                output=result.get("response", ""),
+                parsed=result.get("parsed"),
                 ground_truth=gt_verdict,
-                risk_score=risk_score,
                 correct=is_correct,
+                metrics=item_metrics,
+                **extra_fields,
             )
 
         # Display result (mode-aware via output.configure())
@@ -1292,7 +1355,7 @@ Let's think through this step-by-step:"""
                 name=result["name"],
                 predicted=pred_verdict,
                 ground_truth=gt_verdict,
-                score=risk_score,
+                score=result.get("risk_score"),
                 correct=is_correct,
             )
             if verbose:
@@ -1374,15 +1437,27 @@ Let's think through this step-by-step:"""
                 if int_rows:
                     output.print_table("Intermediate Metrics", ["Metric", "Value"], int_rows)
 
-    # Compute unified 3-score metrics
-    unified_metrics = {}
+    # Compute evaluation metrics (new simplified system)
+    eval_metrics = {}
+    unified_metrics = {}  # Keep for backward compat in results.json
     if gt_verdicts:
-        # Load full GT data for unified metrics
+        # Load full GT data for metrics
         from addm.eval.intermediate_metrics import load_gt_with_incidents, build_reviews_data
 
         gt_data_full, _ = load_gt_with_incidents(gt_task_id, domain, k)
         reviews_data = build_reviews_data(restaurants)
 
+        # Compute new simplified metrics
+        eval_metrics = compute_evaluation_metrics(
+            results=results,
+            gt_data=gt_data_full,
+            gt_verdicts=gt_verdicts,
+            method=method,
+            reviews_data=reviews_data,
+            policy_id=run_id,
+        )
+
+        # Also compute legacy unified metrics for backward compat
         unified_metrics = compute_unified_metrics(
             results=results,
             gt_data=gt_data_full,
@@ -1392,36 +1467,66 @@ Let's think through this step-by-step:"""
             policy_id=run_id,
         )
 
-        # Display 3-score summary table with coverage info
+        # Display new metrics format (6 metrics)
         output.rule()
 
-        # Extract coverage details
-        consistency_details = unified_metrics.get("consistency_details", {})
-        consistency_total = consistency_details.get("total", 0)
-        consistency_skipped = consistency_details.get("skipped_no_evidence", 0)
-        total_samples = len(results)
+        # Extract details for notes
+        details = eval_metrics.get("details", {})
+        incident_details = details.get("incident_details", {})
+        judgement_details = details.get("judgement_details", {})
+        score_details = details.get("score_details", {})
+        consistency_details = details.get("consistency_details", {})
 
-        fp_details = unified_metrics.get("fp_details", {})
-        fp_count = fp_details.get("false_positives", 0)
-        negative_count = fp_details.get("negative_samples", 0)
+        total_samples = len(results)
+        total_claimed = incident_details.get("total_claimed", 0)
+        total_matched = incident_details.get("total_matched", 0)
+        total_snippets = incident_details.get("total_snippets", 0)
+        valid_snippets = incident_details.get("valid_snippets", 0)
+        judgement_total = judgement_details.get("total", 0)
+        judgement_correct = judgement_details.get("correct", 0)
+        score_total = score_details.get("total", 0)
+        score_correct = score_details.get("correct", 0)
+        consistency_total = consistency_details.get("total", 0)
+        consistency_count = consistency_details.get("consistent", 0)
+
+        # Format metrics with notes
+        def fmt_pct(val):
+            return f"{val:.1%}" if val is not None else "N/A"
 
         score_rows = [
-            ["AUPRC", f"{unified_metrics['auprc']:.1%}", "Ranking quality"],
-            ["Process", f"{unified_metrics['process_score']:.1f}%",
-             f"Based on {unified_metrics.get('n_structured', 0)}/{total_samples} samples"],
-            ["Consistency", f"{unified_metrics['consistency_score']:.1f}%",
-             f"Based on {consistency_total}/{total_samples} samples"],
-            ["False Pos. Rate", f"{unified_metrics.get('false_positive_rate', 0):.1%}",
-             f"{fp_count}/{negative_count} negative samples"],
+            # Tier 1: Final Quality
+            ["AUPRC", fmt_pct(eval_metrics.get("auprc")), "(ranking quality)"],
+            # Tier 2: Evidence Quality
+            ["Incident Precision", fmt_pct(eval_metrics.get("incident_precision")),
+             f"({total_matched}/{total_claimed} claimed exist in GT)" if total_claimed > 0 else "(no claims)"],
+            ["Snippet Validity", fmt_pct(eval_metrics.get("snippet_validity")),
+             f"({valid_snippets}/{total_snippets} quotes match source)" if total_snippets > 0 else "(no snippets)"],
+            # Tier 3: Reasoning Quality
+            ["Judgement Accuracy", fmt_pct(eval_metrics.get("judgement_accuracy")),
+             f"({judgement_correct}/{judgement_total} field correctness)" if judgement_total > 0 else "(no matches)"],
+            ["Score Accuracy", fmt_pct(eval_metrics.get("score_accuracy")),
+             f"({score_correct}/{score_total} scores match GT)" if score_total > 0 else
+             (score_details.get("skipped", "(V2/V3 only)") if isinstance(score_details, dict) else "(V2/V3 only)")],
+            ["Verdict Consistency", fmt_pct(eval_metrics.get("verdict_consistency")),
+             f"({consistency_count}/{consistency_total} evidence+rule→verdict)" if consistency_total > 0 else "(no evidence)"],
         ]
-        output.print_table("UNIFIED EVALUATION SCORES", ["Metric", "Score", "Notes"], score_rows)
+        output.print_table("EVALUATION METRICS (6 total)", ["Metric", "Score", "Notes"], score_rows)
 
-    # Log metrics to result logger if enabled
-    if result_logger := get_result_logger():
-        result_logger.log_metrics(
-            metrics={"accuracy": accuracy, **auprc_metrics},
-            metadata={"run_id": run_id, "n_samples": total},
-        )
+    # Compute aggregated usage from all results
+    aggregated_usage = {
+        "total_prompt_tokens": sum(r.get("prompt_tokens", 0) for r in results if "error" not in r),
+        "total_completion_tokens": sum(r.get("completion_tokens", 0) for r in results if "error" not in r),
+        "total_tokens": sum(r.get("total_tokens", 0) for r in results if "error" not in r),
+        "total_cost_usd": sum(r.get("cost_usd", 0.0) for r in results if "error" not in r),
+        "total_latency_ms": sum(r.get("latency_ms", 0.0) for r in results if "error" not in r and r.get("latency_ms")),
+        "total_llm_calls": sum(r.get("llm_calls", 1) for r in results if "error" not in r),
+    }
+    # Add embedding costs for RAG/hybrid methods
+    embedding_tokens = sum(r.get("embedding_tokens", 0) for r in results if "error" not in r)
+    embedding_cost = sum(r.get("embedding_cost_usd", 0.0) for r in results if "error" not in r)
+    if embedding_tokens > 0:
+        aggregated_usage["total_embedding_tokens"] = embedding_tokens
+        aggregated_usage["total_embedding_cost_usd"] = embedding_cost
 
     # Save results (output_dir determined earlier)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -1448,6 +1553,24 @@ Let's think through this step-by-step:"""
         "total": total,
         "auprc": auprc_metrics,
         "intermediate_metrics": intermediate_metrics,
+        # New simplified metrics (recommended - 6 metrics)
+        "evaluation_metrics": {
+            # Tier 1: Final Quality
+            "auprc": eval_metrics.get("auprc"),
+            # Tier 2: Evidence Quality
+            "incident_precision": eval_metrics.get("incident_precision"),
+            "snippet_validity": eval_metrics.get("snippet_validity"),
+            # Tier 3: Reasoning Quality
+            "judgement_accuracy": eval_metrics.get("judgement_accuracy"),
+            "score_accuracy": eval_metrics.get("score_accuracy"),
+            "verdict_consistency": eval_metrics.get("verdict_consistency"),
+            # Sample counts
+            "n_samples": eval_metrics.get("n_samples", 0),
+            "n_structured": eval_metrics.get("n_structured", 0),
+            "n_with_gt": eval_metrics.get("n_with_gt", 0),
+        } if eval_metrics else None,
+        "evaluation_metrics_full": eval_metrics if eval_metrics else None,
+        # Legacy unified scores (deprecated, kept for backward compat)
         "unified_scores": {
             "auprc": unified_metrics.get("auprc", 0.0),
             "process_score": unified_metrics.get("process_score", 0.0),
@@ -1455,7 +1578,9 @@ Let's think through this step-by-step:"""
             "false_positive_rate": unified_metrics.get("false_positive_rate", 0.0),
         } if unified_metrics else None,
         "unified_metrics_full": unified_metrics if unified_metrics else None,
-        "results": results,
+        # Aggregated usage (per-sample data in item_logs/)
+        "aggregated_usage": aggregated_usage,
+        # NOTE: Per-sample results removed - see item_logs/{sample_id}.json for details
     }
 
     with open(output_path, "w") as f:
@@ -1526,6 +1651,12 @@ def main() -> None:
         choices=["keyword", "embedding", "hybrid"],
         help="AMOS: Stage 1 filter strategy (default: keyword). "
              "keyword=fast, embedding=better recall, hybrid=both",
+    )
+    parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=10,
+        help="AMOS: Reviews per LLM call in sweep (default: 10). Higher=fewer calls, lower=more parallel.",
     )
     parser.add_argument(
         "--phase",
@@ -1624,6 +1755,7 @@ def main() -> None:
                     batch_id=args.batch_id,
                     top_k=args.top_k,
                     filter_mode=args.filter_mode,
+                    batch_size=args.batch_size,
                     sample_ids=sample_ids,
                     phase=args.phase,
                     seed_path=args.seed,
@@ -1680,6 +1812,7 @@ def main() -> None:
                 batch_id=args.batch_id,
                 top_k=args.top_k,
                 filter_mode=args.filter_mode,
+                batch_size=args.batch_size,
                 sample_ids=sample_ids,
                 phase=args.phase,
                 seed_path=args.seed,

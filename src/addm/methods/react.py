@@ -294,19 +294,13 @@ class ReACTMethod(Method):
 
         # Aggregate usage
         total_usage = self._accumulate_usage(usage_records)
-        total_latency = (time.time() - start_time) * 1000
+        total_usage["latency_ms"] = (time.time() - start_time) * 1000
 
-        return {
-            "sample_id": sample.sample_id,
-            "output": final_answer,
-            # Usage metrics
-            "prompt_tokens": total_usage.get("prompt_tokens", 0),
-            "completion_tokens": total_usage.get("completion_tokens", 0),
-            "total_tokens": total_usage.get("total_tokens", 0),
-            "cost_usd": total_usage.get("cost_usd", 0.0),
-            "latency_ms": total_latency,
-            "llm_calls": len(usage_records),
-            # ReACT-specific metrics
-            "steps_taken": len(history) + 1,
-            "max_steps": self.max_steps,
-        }
+        return self._make_result(
+            sample.sample_id,
+            final_answer,
+            total_usage,
+            llm_calls=len(usage_records),
+            steps_taken=len(history) + 1,
+            max_steps=self.max_steps,
+        )

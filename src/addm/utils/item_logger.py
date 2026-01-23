@@ -76,72 +76,58 @@ class ItemLogger:
 
     def log_item(
         self,
-        business_id: str,
-        messages: List[Dict[str, str]],
-        model: str,
-        response: str,
+        sample_id: str,
+        verdict: str,
+        output: str,
         parsed: Optional[Dict[str, Any]] = None,
-        latency_ms: Optional[float] = None,
-        prompt_tokens: Optional[int] = None,
-        completion_tokens: Optional[int] = None,
-        total_tokens: Optional[int] = None,
-        cost_usd: Optional[float] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        ground_truth: Optional[str] = None,
+        correct: Optional[bool] = None,
+        metrics: Optional[Dict[str, Any]] = None,
+        **extra,
     ) -> None:
-        """Log a single item (restaurant) LLM interaction.
+        """Log a single sample result with full details.
+
+        Written immediately as each sample completes for streaming output.
+        Optimized for debugging - easy to inspect individual samples.
 
         Args:
-            business_id: Restaurant/business identifier
-            messages: Input messages to LLM
-            model: Model name used
-            response: Raw LLM response text
+            sample_id: Sample identifier (business_id)
+            verdict: Predicted verdict
+            output: Raw LLM response text
             parsed: Parsed response (if successful)
-            latency_ms: API call latency in milliseconds
-            prompt_tokens: Input token count
-            completion_tokens: Output token count
-            total_tokens: Total token count
-            cost_usd: Cost in USD
-            metadata: Additional metadata
+            ground_truth: True verdict (if available)
+            correct: Whether prediction matches GT
+            metrics: Token/cost/latency metrics dict with keys:
+                - prompt_tokens, completion_tokens, total_tokens
+                - cost_usd, latency_ms, llm_calls
+                - For AMOS: total, phase1, phase2_stage1, phase2_stage2
+            **extra: Method-specific fields (filter_stats, early_exit, etc.)
         """
         if not self._enabled:
             return
 
         item_data: Dict[str, Any] = {
-            "business_id": business_id,
-            "input": {
-                "messages": messages,
-                "model": model,
-            },
-            "output": {
-                "response": response,
-            },
-            "metrics": {},
+            "sample_id": sample_id,
+            "verdict": verdict,
+            "output": output,
         }
 
         if parsed is not None:
-            item_data["output"]["parsed"] = parsed
+            item_data["parsed"] = parsed
+        if ground_truth is not None:
+            item_data["ground_truth"] = ground_truth
+        if correct is not None:
+            item_data["correct"] = correct
+        if metrics is not None:
+            item_data["metrics"] = metrics
 
-        # Build metrics
-        metrics = item_data["metrics"]
-        if latency_ms is not None:
-            metrics["latency_ms"] = latency_ms
-        if prompt_tokens is not None:
-            metrics["prompt_tokens"] = prompt_tokens
-        if completion_tokens is not None:
-            metrics["completion_tokens"] = completion_tokens
-        if total_tokens is not None:
-            metrics["total_tokens"] = total_tokens
-        elif prompt_tokens is not None and completion_tokens is not None:
-            metrics["total_tokens"] = prompt_tokens + completion_tokens
-        if cost_usd is not None:
-            metrics["cost_usd"] = cost_usd
+        # Add any method-specific extra fields
+        for key, value in extra.items():
+            if value is not None:
+                item_data[key] = value
 
-        # Add metadata if provided
-        if metadata:
-            item_data["metadata"] = metadata
-
-        # Sanitize business_id for filename
-        safe_id = "".join(c if c.isalnum() or c in "-_" else "_" for c in business_id)
+        # Sanitize sample_id for filename
+        safe_id = "".join(c if c.isalnum() or c in "-_" else "_" for c in sample_id)
         item_path = self.item_logs_dir / f"{safe_id}.json"
 
         with open(item_path, "w") as f:
@@ -149,35 +135,32 @@ class ItemLogger:
 
     def log_item_error(
         self,
-        business_id: str,
+        sample_id: str,
         error: str,
-        messages: Optional[List[Dict[str, str]]] = None,
-        model: Optional[str] = None,
+        ground_truth: Optional[str] = None,
     ) -> None:
-        """Log an error for a single item.
+        """Log an error for a single sample.
 
         Args:
-            business_id: Restaurant/business identifier
+            sample_id: Sample identifier (business_id)
             error: Error message
-            messages: Input messages (if available)
-            model: Model name (if available)
+            ground_truth: True verdict (if available)
         """
         if not self._enabled:
             return
 
         item_data: Dict[str, Any] = {
-            "business_id": business_id,
+            "sample_id": sample_id,
             "error": error,
+            "verdict": None,
+            "correct": False,
         }
 
-        if messages is not None:
-            item_data["input"] = {
-                "messages": messages,
-                "model": model or "unknown",
-            }
+        if ground_truth is not None:
+            item_data["ground_truth"] = ground_truth
 
-        # Sanitize business_id for filename
-        safe_id = "".join(c if c.isalnum() or c in "-_" else "_" for c in business_id)
+        # Sanitize sample_id for filename
+        safe_id = "".join(c if c.isalnum() or c in "-_" else "_" for c in sample_id)
         item_path = self.item_logs_dir / f"{safe_id}.json"
 
         with open(item_path, "w") as f:

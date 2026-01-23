@@ -67,14 +67,4 @@ class DirectMethod(Method):
             context={"sample_id": sample.sample_id, "method": self.name},
         )
 
-        return {
-            "sample_id": sample.sample_id,
-            "output": response,
-            # Usage metrics
-            "prompt_tokens": usage.get("prompt_tokens", 0),
-            "completion_tokens": usage.get("completion_tokens", 0),
-            "total_tokens": usage.get("prompt_tokens", 0) + usage.get("completion_tokens", 0),
-            "cost_usd": usage.get("cost_usd", 0.0),
-            "latency_ms": usage.get("latency_ms", 0.0),
-            "llm_calls": 1,
-        }
+        return self._make_result(sample.sample_id, response, usage)

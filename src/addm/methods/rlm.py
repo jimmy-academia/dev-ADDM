@@ -203,30 +203,29 @@ class RLMMethod(Method):
         try:
             result = await rlm.acompletion(query=query, context=context)
         except Exception as e:
-            return {
-                "sample_id": sample.sample_id,
-                "output": None,
-                "error": str(e),
-                "llm_calls": 0,
-            }
+            return self._make_result(
+                sample.sample_id,
+                "",
+                {},
+                llm_calls=0,
+                error=str(e),
+            )
 
         latency_ms = (time.perf_counter() - start_time) * 1000
 
         # Parse FINAL output
         parsed = self._parse_final_output(result)
 
-        return {
-            "sample_id": sample.sample_id,
-            "output": result,
-            "parsed": parsed,
-            # RLM doesn't expose detailed token usage, estimate from result
-            "prompt_tokens": 0,  # Not tracked by RLM
-            "completion_tokens": 0,
-            "total_tokens": 0,
-            "cost_usd": 0.0,  # Would need to track internally
-            "latency_ms": latency_ms,
-            "llm_calls": self.max_iterations,  # Upper bound estimate
-        }
+        # RLM doesn't expose detailed token usage
+        usage = {"latency_ms": latency_ms}
+
+        return self._make_result(
+            sample.sample_id,
+            result,
+            usage,
+            llm_calls=self.max_iterations,  # Upper bound estimate
+            parsed=parsed,
+        )
 
     def _parse_final_output(self, result: str) -> Dict[str, Any]:
         """Parse FINAL() output from RLM result.
