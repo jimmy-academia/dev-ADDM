@@ -50,7 +50,7 @@ normative:
               impact_severity: significant
             min_count: 5
             min_count_by_k:
-              25: 2
+              25: 1
               50: 2
               100: 3
           - text: "10 or more reviews report moderate billing impact"
@@ -59,7 +59,7 @@ normative:
               impact_severity: moderate
             min_count: 10
             min_count_by_k:
-              25: 4
+              25: 3
               50: 5
               100: 7
 
@@ -68,7 +68,7 @@ normative:
         precondition: "Critical Risk does not apply"
         logic: ANY
         conditions:
-          - text: "3 or more reviews report significant impact"
+          - text: "1 or more reviews report significant impact"
             type: count_threshold
             filter:
               impact_severity: significant
@@ -77,13 +77,13 @@ normative:
               25: 1
               50: 1
               100: 2
-          - text: "5 or more reviews report moderate billing impact"
+          - text: "2 or more reviews report moderate billing impact"
             type: count_threshold
             filter:
               impact_severity: moderate
             min_count: 5
             min_count_by_k:
-              25: 2
+              25: 1
               50: 3
               100: 4
 
