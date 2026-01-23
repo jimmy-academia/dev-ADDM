@@ -66,17 +66,17 @@ normative:
       points: 2
     thresholds:
     - verdict: Critical Risk
-      min_score: 700
+      min_score: 200
       min_score_by_k:
-        25: 88
-        50: 175
-        100: 350
+        25: 25
+        50: 50
+        100: 100
     - verdict: High Risk
-      min_score: 350
+      min_score: 80
       min_score_by_k:
-        25: 44
-        50: 88
-        100: 175
+        25: 10
+        50: 20
+        100: 40
   decision:
     verdicts:
     - Low Risk

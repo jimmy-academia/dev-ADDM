@@ -9,6 +9,188 @@ from typing import Any, Dict, List, Optional, Tuple
 
 
 # =============================================================================
+# Verdict Label Normalization
+# =============================================================================
+
+# Standard verdict labels (GT format) vs common LLM abbreviations
+# Maps various LLM-generated labels to canonical GT format
+VERDICT_LABEL_MAP = {
+    # =========================================================================
+    # G1 - Customer Safety (Risk-based)
+    # Verdicts: Low Risk, High Risk, Critical Risk
+    # =========================================================================
+    "critical": "Critical Risk",
+    "critical risk": "Critical Risk",
+    "Critical": "Critical Risk",
+    "Critical Risk": "Critical Risk",
+    "CRITICAL": "Critical Risk",
+    "CRITICAL_RISK": "Critical Risk",
+
+    "high": "High Risk",
+    "high risk": "High Risk",
+    "High": "High Risk",
+    "High Risk": "High Risk",
+    "HIGH": "High Risk",
+    "HIGH_RISK": "High Risk",
+
+    "low": "Low Risk",
+    "low risk": "Low Risk",
+    "Low": "Low Risk",
+    "Low Risk": "Low Risk",
+    "LOW": "Low Risk",
+    "LOW_RISK": "Low Risk",
+
+    # =========================================================================
+    # G2 - Customer Experience (Recommendation-based)
+    # Verdicts: Not Recommended, Recommended
+    # =========================================================================
+    "recommended": "Recommended",
+    "Recommended": "Recommended",
+    "RECOMMENDED": "Recommended",
+
+    "not recommended": "Not Recommended",
+    "not_recommended": "Not Recommended",
+    "Not Recommended": "Not Recommended",
+    "NOT_RECOMMENDED": "Not Recommended",
+    "NotRecommended": "Not Recommended",
+
+    # =========================================================================
+    # G3 - Customer Value (Value-based)
+    # Verdicts: Poor Value, Fair Value, Great Value
+    # =========================================================================
+    "great value": "Great Value",
+    "great_value": "Great Value",
+    "Great Value": "Great Value",
+    "GREAT_VALUE": "Great Value",
+    "excellent value": "Great Value",
+
+    "fair value": "Fair Value",
+    "fair_value": "Fair Value",
+    "Fair Value": "Fair Value",
+    "FAIR_VALUE": "Fair Value",
+    "moderate value": "Fair Value",
+
+    "poor value": "Poor Value",
+    "poor_value": "Poor Value",
+    "Poor Value": "Poor Value",
+    "POOR_VALUE": "Poor Value",
+    "bad value": "Poor Value",
+
+    # =========================================================================
+    # G4 - Owner Operations (Performance-based)
+    # Verdicts: Needs Improvement, Satisfactory, Excellent
+    # =========================================================================
+    "excellent": "Excellent",
+    "Excellent": "Excellent",
+    "EXCELLENT": "Excellent",
+
+    "satisfactory": "Satisfactory",
+    "Satisfactory": "Satisfactory",
+    "SATISFACTORY": "Satisfactory",
+    "adequate": "Satisfactory",
+
+    "needs improvement": "Needs Improvement",
+    "needs_improvement": "Needs Improvement",
+    "Needs Improvement": "Needs Improvement",
+    "NEEDS_IMPROVEMENT": "Needs Improvement",
+    "NeedsImprovement": "Needs Improvement",
+    "poor": "Needs Improvement",
+    "Poor": "Needs Improvement",
+
+    # =========================================================================
+    # G5 - Owner Performance (Performance-based - same as G4)
+    # Verdicts: Needs Improvement, Satisfactory, Excellent
+    # (Already covered above)
+    # =========================================================================
+
+    # =========================================================================
+    # G6 - Owner Strategy (Strategy-based - varies by topic)
+    # =========================================================================
+
+    # G6 Uniqueness: Generic, Differentiated, Highly Unique
+    "highly unique": "Highly Unique",
+    "highly_unique": "Highly Unique",
+    "Highly Unique": "Highly Unique",
+    "HIGHLY_UNIQUE": "Highly Unique",
+    "unique": "Highly Unique",
+
+    "differentiated": "Differentiated",
+    "Differentiated": "Differentiated",
+    "DIFFERENTIATED": "Differentiated",
+
+    "generic": "Generic",
+    "Generic": "Generic",
+    "GENERIC": "Generic",
+    "common": "Generic",
+
+    # G6 Comparison: Weaker, Comparable, Stronger
+    "stronger": "Stronger",
+    "Stronger": "Stronger",
+    "STRONGER": "Stronger",
+    "better": "Stronger",
+
+    "comparable": "Comparable",
+    "Comparable": "Comparable",
+    "COMPARABLE": "Comparable",
+    "similar": "Comparable",
+
+    "weaker": "Weaker",
+    "Weaker": "Weaker",
+    "WEAKER": "Weaker",
+    "worse": "Weaker",
+
+    # G6 Loyalty: Low Loyalty, Moderate Loyalty, High Loyalty
+    "high loyalty": "High Loyalty",
+    "high_loyalty": "High Loyalty",
+    "High Loyalty": "High Loyalty",
+    "HIGH_LOYALTY": "High Loyalty",
+    "strong loyalty": "High Loyalty",
+
+    "moderate loyalty": "Moderate Loyalty",
+    "moderate_loyalty": "Moderate Loyalty",
+    "Moderate Loyalty": "Moderate Loyalty",
+    "MODERATE_LOYALTY": "Moderate Loyalty",
+    "medium loyalty": "Moderate Loyalty",
+
+    "low loyalty": "Low Loyalty",
+    "low_loyalty": "Low Loyalty",
+    "Low Loyalty": "Low Loyalty",
+    "LOW_LOYALTY": "Low Loyalty",
+    "weak loyalty": "Low Loyalty",
+}
+
+
+def normalize_verdict_label(label):
+    """Normalize a verdict label to GT format.
+
+    Args:
+        label: Raw verdict label from LLM (string, bool, int, or None)
+
+    Returns:
+        Normalized verdict label (e.g., "Critical Risk") or original value if not a string
+    """
+    # Handle non-string types (booleans, numbers, None)
+    if not isinstance(label, str):
+        return label
+
+    if not label:
+        return label
+
+    # Try exact match first
+    if label in VERDICT_LABEL_MAP:
+        return VERDICT_LABEL_MAP[label]
+
+    # Try case-insensitive match
+    label_lower = label.lower().strip()
+    for key, value in VERDICT_LABEL_MAP.items():
+        if key.lower() == label_lower:
+            return value
+
+    # Return as-is if no mapping found
+    return label
+
+
+# =============================================================================
 # Enum Value Normalization
 # =============================================================================
 

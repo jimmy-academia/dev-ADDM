@@ -3,7 +3,7 @@
   "topic": "G1_dietary",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-22T19:59:09.002938",
+  "computed_at": "2026-01-23T16:42:44.555730",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -64,18 +64,11 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Low Risk",
+        "matched_rule": "LOW",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "aXovyTYgw0be84VLTYc_Gw",
-            "severity_field": "incident_severity",
-            "severity_value": "moderate",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "L5LLN0RafiV1Z9cddzvuCw": {
@@ -100,15 +93,8 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "CXgswKlc8g7y3TWfyMOCPw",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "iSRTaT9WngzB8JJ2YKJUig": {
@@ -120,15 +106,8 @@
         "verdict": "Low Risk",
         "matched_rule": "LOW",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "1ywuJtMBDljbbjVa5dhZbw",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "oQdGhdjzz_HhTaC4VrtBLQ": {
@@ -153,21 +132,8 @@
         "verdict": "Low Risk",
         "matched_rule": "LOW",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 2,
-        "incidents": [
-          {
-            "review_id": "KXzWI4S8k6Ufotl_c-2Q9w",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          },
-          {
-            "review_id": "e33bZ6ov8ICxEmXNrj86-w",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "zwBvdDWFQpYJE1UMDTlSyw": {
@@ -231,15 +197,8 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "4bU284Wq0kwXHFzuWjw2Dw",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "S8ZFYEgMejpChID8tzKo9A": {
@@ -257,7 +216,10 @@
             "review_id": "tfh99iLgTMI4iG9s56uOHA",
             "severity_field": "incident_severity",
             "severity_value": "mild",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": [
+              "Dismissive staff"
+            ]
           }
         ]
       }
@@ -271,15 +233,8 @@
         "verdict": "Low Risk",
         "matched_rule": "LOW",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "1B7JwyWgCuvvkBwriU59Sg",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "r2bYRNrtMhv-ED2-cFZp6Q": {
@@ -317,15 +272,8 @@
         "verdict": "Low Risk",
         "matched_rule": "LOW",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "EKQ8DIwlNQKu3COD02MC3w",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "iNiAJAtsbV5xOQGRtce-NQ": {
@@ -356,7 +304,8 @@
             "review_id": "opYnQ9-R6HvQYm0AZ0WSjA",
             "severity_field": "incident_severity",
             "severity_value": "mild",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -367,18 +316,11 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Low Risk",
+        "matched_rule": "LOW",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "3MN1erteCDd7C_pJnqfYeQ",
-            "severity_field": "incident_severity",
-            "severity_value": "moderate",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "F7etLf6od7CUnCPknsQ-6Q": {
@@ -416,15 +358,8 @@
         "verdict": "Low Risk",
         "matched_rule": "LOW",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "xyuydJej9DvvxzQCWEXKkQ",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "-T1sYi2cqB2oW4GeUXmIBQ": {
@@ -462,21 +397,8 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 2,
-        "incidents": [
-          {
-            "review_id": "EefNjGo8nLIoCglmbau-vQ",
-            "severity_field": "incident_severity",
-            "severity_value": "moderate",
-            "account_type": "firsthand"
-          },
-          {
-            "review_id": "N9r0gJRMMfPDzx5wPIN1GA",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "IhN-DlnytNvnzCoTIwwfgQ": {
@@ -507,7 +429,8 @@
             "review_id": "jmuLJcKPXhROwlPYpHVYzA",
             "severity_field": "incident_severity",
             "severity_value": "mild",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -583,24 +506,11 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Low Risk",
+        "matched_rule": "LOW",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 2,
-        "incidents": [
-          {
-            "review_id": "2SYot6bLdkeSPTAYZefo_g",
-            "severity_field": "incident_severity",
-            "severity_value": "moderate",
-            "account_type": "firsthand"
-          },
-          {
-            "review_id": "qkaKGrjsUE34SAvFEq-Xnw",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "GBTPC53ZrG1ZBY3DT8Mbcw": {
@@ -625,15 +535,8 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "By_6MUh-8-Db6DHBT_2Q6w",
-            "severity_field": "incident_severity",
-            "severity_value": "moderate",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "eCikDKFbaeYVNdCD2beX0Q": {
@@ -655,18 +558,11 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Low Risk",
+        "matched_rule": "LOW",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "MFzzWQ4QwHpE3yrqsDtPvQ",
-            "severity_field": "incident_severity",
-            "severity_value": "moderate",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "yT3Qs8rz82wqhKFlfWr1Lg": {
@@ -678,15 +574,8 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "ebg-_yB_IRAnWPTZd-HPhQ",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "ewaaXBGXMGluuTGXOnTkRg": {
@@ -695,18 +584,11 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Low Risk",
+        "matched_rule": "LOW",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "5Wms3iWix1hgaAbs_QN4Pg",
-            "severity_field": "incident_severity",
-            "severity_value": "moderate",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "yksAB6aQXfNRrZM0jTxyOA": {
@@ -718,15 +600,8 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "UKJyYPyxjOA182PrX4KouQ",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "_1JmbxhyiTXO_CDytQTkgA": {
@@ -738,19 +613,16 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 2,
+        "n_incidents": 1,
         "incidents": [
           {
             "review_id": "SjF2mScf-SP3rttGWTIVMg",
             "severity_field": "incident_severity",
             "severity_value": "mild",
-            "account_type": "firsthand"
-          },
-          {
-            "review_id": "0zL-WGYOWMbJKGD5ukHwSQ",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "secondhand"
+            "account_type": "firsthand",
+            "modifiers": [
+              "Dismissive staff"
+            ]
           }
         ]
       }
@@ -764,15 +636,8 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "17OMBDDrMxdC7Lmy0HGl1A",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "lVAjWGOqyZOFHMEw5NLt9g": {
@@ -810,15 +675,8 @@
         "verdict": "Low Risk",
         "matched_rule": "LOW",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "WOWuQXiy4H-9-wRD8E6r7A",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "RQTRnBmDXXNWiM1-1LEqWg": {
@@ -840,30 +698,11 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 3,
-        "incidents": [
-          {
-            "review_id": "oo5053J3YVHtvslA-7ymHA",
-            "severity_field": "incident_severity",
-            "severity_value": "moderate",
-            "account_type": "firsthand"
-          },
-          {
-            "review_id": "_Z1KNbV5PZPbj7tVOka4Jw",
-            "severity_field": "incident_severity",
-            "severity_value": "moderate",
-            "account_type": "firsthand"
-          },
-          {
-            "review_id": "b_e_MGf2Clhw_e3CuQOA4w",
-            "severity_field": "incident_severity",
-            "severity_value": "moderate",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "kK-pcrXr3CEnWP-ci7XXgw": {
@@ -875,15 +714,8 @@
         "verdict": "Low Risk",
         "matched_rule": "LOW",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "Nv_sBvw8MBIcOxL0x98YEg",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "tV46IhCfHbsx_af-pMupiw": {
@@ -1057,31 +889,46 @@
             "review_id": "C_9HEqYieW7TnM86OtQlqw",
             "severity_field": "incident_severity",
             "severity_value": "moderate",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": [
+              "Dismissive staff"
+            ]
           },
           {
             "review_id": "93U8OAWqqnndCCe4gm82AA",
             "severity_field": "incident_severity",
             "severity_value": "moderate",
-            "account_type": "secondhand"
+            "account_type": "secondhand",
+            "modifiers": [
+              "Dismissive staff"
+            ]
           },
           {
             "review_id": "JTeR9wzcNH5dzClfgtCOmA",
             "severity_field": "incident_severity",
             "severity_value": "moderate",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": [
+              "Dismissive staff"
+            ]
           },
           {
             "review_id": "SQfvXDKum2-19jC4yhxjeQ",
             "severity_field": "incident_severity",
             "severity_value": "mild",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": [
+              "Dismissive staff"
+            ]
           },
           {
             "review_id": "tbm6wNuN89MQGl4B2h5qrQ",
             "severity_field": "incident_severity",
             "severity_value": "moderate",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": [
+              "Dismissive staff"
+            ]
           }
         ]
       }
@@ -1121,25 +968,14 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 3,
+        "n_incidents": 1,
         "incidents": [
-          {
-            "review_id": "JECYAyYcWqfwCzAPfjmzIw",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          },
           {
             "review_id": "3_zMSsdB8byzZmOxQkFlJg",
             "severity_field": "incident_severity",
             "severity_value": "mild",
-            "account_type": "firsthand"
-          },
-          {
-            "review_id": "qBoHiICAGhAWyCBnM6tDdA",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1153,15 +989,8 @@
         "verdict": "Low Risk",
         "matched_rule": "LOW",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "FKk72Oos8cIdcr2ijQ1DPg",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "ZfOS7Mz-iGseNxBhlhXm_w": {
@@ -1225,15 +1054,8 @@
         "verdict": "Low Risk",
         "matched_rule": "LOW",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "LZMzVWCED5WCqQ_097vKXw",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "B_q2xoAgTyn6U4YNEc3kSw": {
@@ -1245,15 +1067,8 @@
         "verdict": "Low Risk",
         "matched_rule": "LOW",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "U9nDCAelgKkB9ib-pWkTYA",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "6LyhttbsQn6a6PDxQDojCw": {
@@ -1265,15 +1080,8 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "u6a5Cc-fmgMEvUCBfE5nMA",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "LIHDIAocngz5Loe04eQ_oA": {
@@ -1285,15 +1093,8 @@
         "verdict": "Low Risk",
         "matched_rule": "LOW",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "DL3QnFZEBBbzfGeBDA9LQQ",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "DvBdqAA3XleMaOMwBl7g4g": {
@@ -1305,15 +1106,8 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "V0vbSD-d5MQZkhRcNrnD9A",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "1vPSY4EA-fTRIZYz1Ruzow": {
@@ -1348,24 +1142,11 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Low Risk",
+        "matched_rule": "LOW",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 2,
-        "incidents": [
-          {
-            "review_id": "QjDm_6Xv6q72C0kb17YUrQ",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          },
-          {
-            "review_id": "iG86hn9wnyTsJ8rcsOX-Jw",
-            "severity_field": "incident_severity",
-            "severity_value": "moderate",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "Fc_8eLlcq5yy4DzrEeqEaQ": {
@@ -1377,15 +1158,8 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "O54LRVFkVKGpNQkx8Tsg5g",
-            "severity_field": "incident_severity",
-            "severity_value": "moderate",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "HDnaNdHEZpQMYXo-ZHHG9g": {
@@ -1397,21 +1171,8 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 2,
-        "incidents": [
-          {
-            "review_id": "Swwd98GB2R5ZeFd3_Zb9QA",
-            "severity_field": "incident_severity",
-            "severity_value": "moderate",
-            "account_type": "firsthand"
-          },
-          {
-            "review_id": "3aTiVG4_7YazFd33IVyBQA",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "ws7z5fLdaVgwxZ9ex3cKxw": {
@@ -1423,15 +1184,8 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "EmHUDCrXdSHPIFfzF_DK7g",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "9PZxjhTIU7OgPIzuGi89Ew": {
@@ -1469,19 +1223,14 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 2,
+        "n_incidents": 1,
         "incidents": [
           {
             "review_id": "IJbGk6P30mvrqcmE0Q1cTA",
             "severity_field": "incident_severity",
             "severity_value": "moderate",
-            "account_type": "firsthand"
-          },
-          {
-            "review_id": "-pDlcyzB7FBMtSnv0F3RmA",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1560,15 +1309,8 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "zaa5EzU8GCT_77DoTGs33A",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "D16LyrKmQ0Cs8NQQkFZD6A": {
@@ -1580,21 +1322,8 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 2,
-        "incidents": [
-          {
-            "review_id": "tywkbY_-q9JNu_Vn4FxznA",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          },
-          {
-            "review_id": "49msuKsL-oQ2JdJFnAIRUQ",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "9z2z_y0JK1F2CC5MAPuzrg": {
@@ -1606,15 +1335,8 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "DZYguu6eEzTx_F3TihTDSA",
-            "severity_field": "incident_severity",
-            "severity_value": "moderate",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "2CDI713ATuxHfnB5b-sBdw": {
@@ -1645,7 +1367,10 @@
             "review_id": "4C92tI1lO_IXjTsgpQkBvw",
             "severity_field": "incident_severity",
             "severity_value": "mild",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": [
+              "Dismissive staff"
+            ]
           }
         ]
       }
@@ -1659,15 +1384,8 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "Mr0EFPk-bV5YCLWcJHWnhg",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "fdez0D4ovth2k1IvR0ZbpQ": {
@@ -1679,15 +1397,8 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_dietary_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "WYcFf7d4YHCL6jYb144kXA",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "kZ1q0K13tFYG_ZJrVvsJHA": {
@@ -1707,9 +1418,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Risk": 59,
-      "High Risk": 39,
-      "Critical Risk": 2
+      "Low Risk": 65,
+      "High Risk": 34,
+      "Critical Risk": 1
     },
     "missing_judgments": 0
   }

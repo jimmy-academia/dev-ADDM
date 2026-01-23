@@ -79,4 +79,7 @@ A restaurant is considered **Recommended** if any of the following is true:
 - 50 or more reviews describe negative date experiences
 - 10 or more reviews describe rushed service style
 
-**Acceptable** otherwise
+**Acceptable** otherwise, especially when:
+- Atmosphere is pleasant but not particularly romantic
+- Good for casual dates but not special occasions
+- Mixed reviews about ambiance

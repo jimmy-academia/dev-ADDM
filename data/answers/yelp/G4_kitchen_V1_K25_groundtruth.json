@@ -3,7 +3,7 @@
   "topic": "G4_kitchen",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-22T19:59:11.168290",
+  "computed_at": "2026-01-23T16:42:46.109515",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -740,8 +740,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_kitchen_V1",
         "n_incidents": 0,
         "incidents": []
@@ -1310,8 +1310,8 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Needs Improvement": 59,
-      "Satisfactory": 9,
+      "Needs Improvement": 58,
+      "Satisfactory": 10,
       "Excellent": 32
     },
     "missing_judgments": 0

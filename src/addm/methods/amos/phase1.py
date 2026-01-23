@@ -269,7 +269,8 @@ def _validate_formula_seed(seed: Dict[str, Any]) -> List[str]:
     """
     errors = []
 
-    required_keys = ["filter", "extract", "compute", "output"]
+    # Required keys (filter is NO LONGER required - simplified schema)
+    required_keys = ["extract", "compute", "output"]
     for key in required_keys:
         if key not in seed:
             errors.append(f"Missing required key: {key}")
@@ -277,45 +278,81 @@ def _validate_formula_seed(seed: Dict[str, Any]) -> List[str]:
     if errors:
         return errors  # Can't continue without required keys
 
-    # Validate filter
-    if "keywords" not in seed["filter"]:
-        errors.append("filter missing 'keywords'")
-    elif not isinstance(seed["filter"]["keywords"], list):
-        errors.append("filter.keywords must be a list")
-
     # Validate extract
     if "fields" not in seed["extract"]:
         errors.append("extract missing 'fields'")
     elif not isinstance(seed["extract"]["fields"], list):
         errors.append("extract.fields must be a list")
+    else:
+        # Check for duplicate field names
+        seen_field_names = set()
+        for i, field in enumerate(seed["extract"]["fields"]):
+            if not isinstance(field, dict):
+                continue
+            field_name = field.get("name", "")
+            if field_name:
+                upper_name = field_name.upper()
+                if upper_name in seen_field_names:
+                    errors.append(
+                        f"extract.fields: Duplicate field name '{field_name}'. "
+                        f"Each field must appear exactly once."
+                    )
+                seen_field_names.add(upper_name)
+
+        # Validate field values format (must be dict, not list)
+        for i, field in enumerate(seed["extract"]["fields"]):
+            if not isinstance(field, dict):
+                continue
+            field_name = field.get("name", f"field[{i}]")
+            if field.get("type") == "enum":
+                values = field.get("values")
+                if values is not None and not isinstance(values, dict):
+                    errors.append(
+                        f"extract.fields[{field_name}].values must be a dict "
+                        f"(e.g., {{\"value1\": \"desc1\"}}), not {type(values).__name__}"
+                    )
+
+    # Validate outcome_field and none_values (required for generalizable incident detection)
+    extract = seed.get("extract", {})
+    if "outcome_field" not in extract:
+        errors.append(
+            "extract.outcome_field is required (e.g., 'INCIDENT_SEVERITY', 'QUALITY_LEVEL')"
+        )
+    if "none_values" not in extract:
+        errors.append(
+            "extract.none_values is required (e.g., ['none', 'n/a'])"
+        )
+    elif not isinstance(extract.get("none_values"), list):
+        errors.append("extract.none_values must be a list")
 
     # Validate compute
     if not isinstance(seed["compute"], list):
         errors.append("compute must be a list")
+    elif len(seed["compute"]) == 0:
+        errors.append("compute must not be empty - at minimum needs N_INCIDENTS and VERDICT operations")
+    else:
+        # Validate VERDICT operation exists
+        has_verdict = False
+        for op in seed["compute"]:
+            if isinstance(op, dict) and op.get("name") == "VERDICT":
+                has_verdict = True
+                if op.get("op") != "case":
+                    errors.append(
+                        f"VERDICT operation must have op='case', got op='{op.get('op')}'"
+                    )
+                elif "rules" not in op:
+                    errors.append("VERDICT case operation must have 'rules' list")
+                break
+        if not has_verdict:
+            errors.append(
+                "compute must include a VERDICT operation with op='case' and 'rules'"
+            )
 
     # Validate output
     if not isinstance(seed["output"], list):
         errors.append("output must be a list")
 
-    # Validate search_strategy expressions
-    if "search_strategy" in seed:
-        strategy = seed["search_strategy"]
-        if not isinstance(strategy, dict):
-            errors.append("search_strategy must be a dict")
-        else:
-            if "priority_keywords" in strategy:
-                if not isinstance(strategy["priority_keywords"], list):
-                    errors.append("search_strategy.priority_keywords must be a list")
-
-            for expr_field in ["priority_expr", "stopping_condition", "early_verdict_expr", "use_embeddings_when"]:
-                if expr_field in strategy:
-                    expr = strategy[expr_field]
-                    if not isinstance(expr, str):
-                        errors.append(f"search_strategy.{expr_field} must be a string expression")
-                    else:
-                        expr_error = _validate_expression(expr, f"search_strategy.{expr_field}")
-                        if expr_error:
-                            errors.append(expr_error)
+    # Note: search_strategy validation removed - no longer part of simplified schema
 
     # Validate field references in compute operations
     field_errors = _validate_field_references(seed)
@@ -332,6 +369,8 @@ def _validate_formula_seed(seed: Dict[str, Any]) -> List[str]:
 def _validate_field_references(seed: Dict[str, Any]) -> List[str]:
     """Validate that compute operations reference valid extraction fields.
 
+    Also validates that where clauses only reference enum fields (not string fields).
+
     Args:
         seed: Formula Seed dict
 
@@ -340,13 +379,16 @@ def _validate_field_references(seed: Dict[str, Any]) -> List[str]:
     """
     errors = []
 
-    # Get extraction field names
+    # Get extraction field names and their types
     extraction_fields = set()
+    field_types = {}  # field_name.upper() -> "enum" or "string"
     for field in seed.get("extract", {}).get("fields", []):
         field_name = field.get("name", "")
+        field_type = field.get("type", "string")
         if field_name:
             extraction_fields.add(field_name.upper())
             extraction_fields.add(field_name)
+            field_types[field_name.upper()] = field_type
 
     # Get computed value names
     computed_names = set()
@@ -388,10 +430,18 @@ def _validate_field_references(seed: Dict[str, Any]) -> List[str]:
             for field_ref in where.keys():
                 if field_ref in ("and", "or", "field", "equals", "not_equals"):
                     continue
-                if field_ref.upper() not in extraction_fields:
+                field_upper = field_ref.upper()
+                if field_upper not in extraction_fields:
                     errors.append(
                         f"compute.{op_name}: where condition references unknown field '{field_ref}'. "
                         f"Available extraction fields: {sorted(extraction_fields)}"
+                    )
+                elif field_types.get(field_upper) == "string":
+                    # Where clauses can only filter by enum fields, not string fields
+                    errors.append(
+                        f"compute.{op_name}: where condition references string field '{field_ref}'. "
+                        f"Count/sum where clauses can only filter by enum fields. "
+                        f"To count by this criterion, create an enum field instead."
                     )
 
         # Check case operations that reference extraction fields

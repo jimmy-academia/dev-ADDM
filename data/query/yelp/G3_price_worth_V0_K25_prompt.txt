@@ -69,4 +69,7 @@ A restaurant is considered **Good Value** if any of the following is true:
 - 10 or more reviews criticize small portions relative to price
 - 40 or more reviews mention not returning due to poor value
 
-**Fair Value** otherwise
+**Fair Value** otherwise, especially when:
+- Prices described as reasonable for the area/cuisine
+- You get what you pay for
+- Mixed reviews about value

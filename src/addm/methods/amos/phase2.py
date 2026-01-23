@@ -17,10 +17,11 @@ from typing import Any, Dict, List, Optional, Tuple, TYPE_CHECKING
 from addm.llm import LLMService
 from addm.methods.amos.config import AMOSConfig
 from addm.methods.amos.search.executor import SafeExpressionExecutor
-from addm.methods.amos.seed_transform import transform_formula_seed
 from addm.methods.amos.phase2_prompts import (
     SEVERITY_NORMALIZATION_MAP as _SEVERITY_NORMALIZATION_MAP,
+    VERDICT_LABEL_MAP as _VERDICT_LABEL_MAP,
     normalize_enum_value as _normalize_enum_value,
+    normalize_verdict_label as _normalize_verdict_label,
     validate_enum_strict as _validate_enum_strict,
     build_extraction_prompt as _build_extraction_prompt,
     parse_extraction_response as _parse_extraction_response,
@@ -55,14 +56,14 @@ class FormulaSeedInterpreter:
         """Initialize interpreter.
 
         Args:
-            seed: Formula Seed specification
+            seed: Formula Seed specification (must be in Phase 2 format)
             llm: LLM service for extraction calls
             max_concurrent: Max concurrent LLM calls for extraction
             config: AMOS configuration
         """
-        # Transform seed to ensure phase2-compatible format
-        # (handles LLM-generated SQL expressions → op/expr/where format)
-        self.seed = transform_formula_seed(seed)
+        # Phase 1 now generates seeds in the correct format directly
+        # No transformation needed (seed_transform.py removed)
+        self.seed = seed
         self.llm = llm
         self.max_concurrent = max_concurrent
         self.config = config or AMOSConfig()
@@ -869,24 +870,28 @@ class FormulaSeedInterpreter:
         in_pattern = r"WHEN\s+(\w+)\s+IN\s*\(([^)]+)\)\s+THEN\s+(\d+(?:\.\d+)?)"
         in_matches = re.findall(in_pattern, case_body, re.IGNORECASE)
 
-        # DEBUG: Log CASE evaluation details
-        logger.debug(f"[CASE DEBUG] case_body: {case_body[:100]}...")
-        logger.debug(f"[CASE DEBUG] matches found: {matches}")
+        # DEBUG: Log CASE evaluation details (use INFO level for visibility)
+        logger.info(f"[CASE] case_body: {case_body[:150]}...")
+        logger.info(f"[CASE] WHEN/THEN matches found: {matches}")
+        logger.info(f"[CASE] IN matches found: {in_matches}")
 
         for field, value, then_value in matches:
             actual_value = self._get_field_value(extraction, field)
             # Normalize enum values before comparison (handles "no reaction" -> "none", etc.)
-            actual_value = self._normalize_actual_value(field, actual_value)
-            logger.debug(
-                f"[CASE DEBUG] checking: field={field}, expected='{value}', "
-                f"actual='{actual_value}', actual_type={type(actual_value).__name__}"
+            actual_value_normalized = self._normalize_actual_value(field, actual_value)
+            logger.info(
+                f"[CASE] checking: field={field}, expected='{value}', "
+                f"actual_raw='{actual_value}', actual_normalized='{actual_value_normalized}', "
+                f"type={type(actual_value).__name__}"
             )
-            if actual_value is None:
-                actual_value = ""
+            if actual_value_normalized is None:
+                actual_value_normalized = ""
 
             # Use fuzzy matching to handle label inconsistencies (e.g., "Severe incident" vs "Severe")
-            if self._fuzzy_enum_match(str(actual_value), value):
-                logger.debug(f"[CASE DEBUG] MATCH! returning {then_value}")
+            is_match = self._fuzzy_enum_match(str(actual_value_normalized), value)
+            logger.info(f"[CASE]   fuzzy_match('{actual_value_normalized}', '{value}') = {is_match}")
+            if is_match:
+                logger.info(f"[CASE] MATCH! returning {then_value}")
                 return float(then_value)
 
         # Check IN clauses
@@ -900,17 +905,24 @@ class FormulaSeedInterpreter:
             # Parse the values list (e.g., "'Thai','Vietnamese','Chinese'")
             # Remove quotes and split by comma
             values = [v.strip().strip("'\"") for v in values_str.split(",")]
-            if str(actual_value).lower().strip() in [v.lower().strip() for v in values]:
+            actual_lower = str(actual_value).lower().strip()
+            values_lower = [v.lower().strip() for v in values]
+            logger.info(
+                f"[CASE] checking IN: field={field}, values={values}, "
+                f"actual='{actual_value}', match={actual_lower in values_lower}"
+            )
+            if actual_lower in values_lower:
+                logger.info(f"[CASE] IN MATCH! returning {then_value}")
                 return float(then_value)
 
         # Check for ELSE clause
         else_pattern = r"ELSE\s+(\d+(?:\.\d+)?)"
         else_match = re.search(else_pattern, case_body, re.IGNORECASE)
         if else_match:
-            logger.debug(f"[CASE DEBUG] no match, returning ELSE value: {else_match.group(1)}")
+            logger.info(f"[CASE] no match, returning ELSE value: {else_match.group(1)}")
             return float(else_match.group(1))
 
-        logger.debug("[CASE DEBUG] no match and no ELSE, returning 0.0")
+        logger.info("[CASE] no match and no ELSE, returning 0.0")
         return 0.0
 
     def _compute_sum(self, op_def: Dict[str, Any]) -> float:
@@ -930,21 +942,37 @@ class FormulaSeedInterpreter:
         # Check if this is a SQL-style CASE expression
         is_sql_case = expr.strip().upper().startswith("CASE")
 
+        # DEBUG: Log operation start
+        logger.info(
+            f"[SUM] {name}: Starting sum over {len(self._extractions)} extractions, "
+            f"expr={expr[:60]}..., where={where}"
+        )
+
         total = 0.0
         for extraction in self._extractions:
+            # DEBUG: Log extraction details
+            logger.info(
+                f"[SUM] {name}: Processing extraction review_id={extraction.get('review_id')}, "
+                f"keys={list(extraction.keys())}"
+            )
+            # Log actual field values for debugging
+            for key, val in extraction.items():
+                if not key.startswith("_"):
+                    logger.info(f"[SUM] {name}:   {key}={val!r}")
+
             if where and not self._matches_condition(extraction, where):
-                logger.debug(
-                    f"[SUM DEBUG] {name}: extraction {extraction.get('review_id')} "
-                    f"skipped - where condition not met"
+                logger.info(
+                    f"[SUM] {name}: extraction {extraction.get('review_id')} "
+                    f"SKIPPED - where condition not met"
                 )
                 continue
 
             if is_sql_case:
                 # Handle SQL-style CASE WHEN ... THEN ... END
                 value = self._eval_sql_case_expr(expr, extraction)
-                logger.debug(
-                    f"[SUM DEBUG] {name}: extraction {extraction.get('review_id')} "
-                    f"CASE eval = {value}, fields = {list(extraction.keys())}"
+                logger.info(
+                    f"[SUM] {name}: extraction {extraction.get('review_id')} "
+                    f"CASE eval = {value}"
                 )
                 total += value
             else:
@@ -956,14 +984,18 @@ class FormulaSeedInterpreter:
                         **self._namespace,
                     }
                     value = eval(expr, {"__builtins__": {}}, safe_namespace)
-                    logger.debug(
-                        f"[SUM DEBUG] {name}: extraction {extraction.get('review_id')} "
+                    logger.info(
+                        f"[SUM] {name}: extraction {extraction.get('review_id')} "
                         f"expr eval = {value}"
                     )
                     total += float(value)
-                except Exception:
-                    pass  # Skip invalid expressions
+                except Exception as e:
+                    logger.warning(
+                        f"[SUM] {name}: extraction {extraction.get('review_id')} "
+                        f"expr eval FAILED: {e}"
+                    )
 
+        logger.info(f"[SUM] {name}: TOTAL = {total}")
         return total
 
     def _apply_case_to_extraction(
@@ -1021,6 +1053,13 @@ class FormulaSeedInterpreter:
     def _compute_expr(self, op_def: Dict[str, Any]) -> Any:
         """Evaluate mathematical expression.
 
+        Supports embedded SQL CASE WHEN blocks which are evaluated as sums
+        over extractions before the final expression is evaluated.
+
+        Example:
+            "BASE_POINTS + (CASE WHEN X = 'a' THEN 5 ELSE 0 END)"
+            -> Evaluates CASE as sum over extractions, then combines with BASE_POINTS
+
         Args:
             op_def: Operation definition with 'expr'
 
@@ -1028,6 +1067,31 @@ class FormulaSeedInterpreter:
             Expression result
         """
         expr = op_def.get("expr", "0")
+        name = op_def.get("name", "UNNAMED_EXPR")
+
+        # Check for embedded SQL CASE blocks and evaluate them first
+        # Pattern: CASE ... END (possibly wrapped in parentheses)
+        case_pattern = r"\(?\s*CASE\s+.+?\s+END\s*\)?"
+        case_blocks = re.findall(case_pattern, expr, re.IGNORECASE | re.DOTALL)
+
+        if case_blocks:
+            # Evaluate each CASE block as a sum over extractions
+            modified_expr = expr
+            for case_block in case_blocks:
+                # Sum the CASE result over all extractions
+                case_sum = 0.0
+                for extraction in self._extractions:
+                    case_sum += self._eval_sql_case_expr(case_block, extraction)
+
+                logger.debug(
+                    f"[EXPR DEBUG] {name}: embedded CASE '{case_block[:50]}...' "
+                    f"evaluated to {case_sum}"
+                )
+                # Replace the CASE block with its computed value
+                modified_expr = modified_expr.replace(case_block, str(case_sum), 1)
+
+            expr = modified_expr
+            logger.debug(f"[EXPR DEBUG] {name}: after CASE substitution: {expr}")
 
         # Safe evaluation with namespace
         try:
@@ -1042,6 +1106,7 @@ class FormulaSeedInterpreter:
             }
             return eval(expr, {"__builtins__": safe_builtins}, self._namespace)
         except Exception as e:
+            logger.debug(f"[EXPR DEBUG] {name}: eval failed: {e}")
             return 0
 
     def _compute_lookup(self, op_def: Dict[str, Any], business: Dict[str, Any]) -> Any:
@@ -1293,8 +1358,12 @@ class FormulaSeedInterpreter:
         # This makes the deterministic computation transparent
         computed_values = self._get_computed_values_export()
 
+        # Normalize verdict label to GT format (e.g., "Critical" → "Critical Risk")
+        raw_verdict = self._namespace.get("VERDICT")
+        normalized_verdict = _normalize_verdict_label(raw_verdict)
+
         return {
-            "verdict": self._namespace.get("VERDICT"),
+            "verdict": normalized_verdict,
             "evidences": evidences,
             "justification": justification,
             "computed_values": computed_values,

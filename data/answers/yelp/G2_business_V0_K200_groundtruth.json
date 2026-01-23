@@ -3,7 +3,7 @@
   "topic": "G2_business",
   "domain": "yelp",
   "k": 200,
-  "computed_at": "2026-01-22T20:00:14.142235",
+  "computed_at": "2026-01-23T16:43:26.319259",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -12,8 +12,8 @@
       "n_reviews": 125,
       "n_judgments": 125,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_business_V0",
         "n_incidents": 0,
         "incidents": []
@@ -129,8 +129,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_business_V0",
         "n_incidents": 0,
         "incidents": []
@@ -168,8 +168,8 @@
       "n_reviews": 86,
       "n_judgments": 86,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Not Recommended",
+        "matched_rule": "NOT_RECOMMENDED",
         "policy_id": "G2_business_V0",
         "n_incidents": 0,
         "incidents": []
@@ -298,8 +298,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_business_V0",
         "n_incidents": 0,
         "incidents": []
@@ -350,8 +350,8 @@
       "n_reviews": 134,
       "n_judgments": 134,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_business_V0",
         "n_incidents": 0,
         "incidents": []
@@ -389,8 +389,8 @@
       "n_reviews": 73,
       "n_judgments": 73,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_business_V0",
         "n_incidents": 0,
         "incidents": []
@@ -506,8 +506,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_business_V0",
         "n_incidents": 0,
         "incidents": []
@@ -519,8 +519,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_business_V0",
         "n_incidents": 0,
         "incidents": []
@@ -597,8 +597,8 @@
       "n_reviews": 141,
       "n_judgments": 141,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_business_V0",
         "n_incidents": 0,
         "incidents": []
@@ -662,8 +662,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_business_V0",
         "n_incidents": 0,
         "incidents": []
@@ -701,8 +701,8 @@
       "n_reviews": 195,
       "n_judgments": 195,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_business_V0",
         "n_incidents": 0,
         "incidents": []
@@ -740,8 +740,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_business_V0",
         "n_incidents": 0,
         "incidents": []
@@ -909,8 +909,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_business_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1065,8 +1065,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_business_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1310,9 +1310,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Not Recommended": 6,
-      "Acceptable": 9,
-      "Recommended": 85
+      "Not Recommended": 2,
+      "Acceptable": 22,
+      "Recommended": 76
     },
     "missing_judgments": 0
   }

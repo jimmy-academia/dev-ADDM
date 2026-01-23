@@ -19,6 +19,7 @@ from addm.eval.metrics import (
     compute_ordinal_auprc,
     normalize_verdict,
     normalize_judgement,
+    extract_verdict_from_rule,
 )
 from addm.eval.constants import (
     VERDICT_TO_ORDINAL,
@@ -164,49 +165,6 @@ def _extract_evidences(result: Dict[str, Any]) -> List[Dict[str, Any]]:
     return []
 
 
-def _compute_verdict_from_evidences(evidences: List[Dict[str, Any]]) -> Tuple[str, float]:
-    """Compute verdict from evidences using V2 policy scoring rules.
-
-    Args:
-        evidences: List of evidence dicts with field and judgement
-
-    Returns:
-        Tuple of (computed_verdict, computed_score)
-    """
-    score = 0.0
-
-    # Valid values for normalization
-    severity_values = list(SEVERITY_BASE_POINTS.keys())
-    assurance_positive = ["true", "yes", "detected", "false assurance", "no assurance"]
-    staff_negative = ["dismissive", "negative", "bad", "rude", "unhelpful"]
-
-    # Group by review_id to handle modifiers correctly
-    for evidence in evidences:
-        field = evidence.get("field", "").upper()
-        judgement = evidence.get("judgement", "")
-
-        if field == "INCIDENT_SEVERITY":
-            normalized = normalize_judgement(judgement, severity_values)
-            if normalized:
-                score += SEVERITY_BASE_POINTS.get(normalized, 0)
-        elif field in ("ASSURANCE_CLAIM", "ASSURANCE_OF_SAFETY"):
-            normalized = normalize_judgement(judgement, assurance_positive)
-            if normalized:
-                score += MODIFIER_POINTS.get("False assurance", 0)
-        elif field == "STAFF_RESPONSE":
-            normalized = normalize_judgement(judgement, staff_negative)
-            if normalized:
-                score += MODIFIER_POINTS.get("Dismissive staff", 0)
-
-    # Determine verdict from score
-    if score >= VERDICT_THRESHOLDS["Critical Risk"]:
-        verdict = "Critical Risk"
-    elif score >= VERDICT_THRESHOLDS["High Risk"]:
-        verdict = "High Risk"
-    else:
-        verdict = "Low Risk"
-
-    return verdict, score
 
 
 def compute_process_score(
@@ -302,28 +260,33 @@ def compute_consistency_score(
     results: List[Dict[str, Any]],
     method: str = "direct",
     policy_id: Optional[str] = None,
+    formula_seed: Optional[Dict[str, Any]] = None,
 ) -> Tuple[float, Dict[str, Any]]:
-    """Compute verdict consistency score (0-100).
+    """OUTPUT-BASED verdict consistency score (0-100).
 
     For each result:
-    1. Take method's claimed extractions/evidences
-    2. Compute what verdict SHOULD be from those extractions
-    3. Compare to method's claimed verdict
+    1. Extract verdict from method's triggered_rule (e.g., "SCORE >= 5 → Critical Risk")
+    2. Compare to method's claimed verdict
+    3. Consistent if they match
 
-    Samples with no evidence are excluded from the denominator (can't evaluate
-    reasoning if no reasoning happened).
+    This is OUTPUT-BASED: we check the method's internal consistency (does its
+    triggered_rule lead to its claimed verdict?) rather than re-computing verdict
+    from evidences.
+
+    Samples with no triggered_rule are excluded from the denominator.
 
     Args:
         results: List of method outputs
         method: Method name ("direct", "amos", etc.)
         policy_id: Optional policy ID for verdict normalization
+        formula_seed: Unused (kept for API compatibility)
 
     Returns:
         Tuple of (consistency_score, details)
     """
     total = 0
     consistent = 0
-    skipped_no_evidence = 0  # Track samples with no evidence to evaluate
+    skipped_no_rule = 0
     per_sample = []
 
     for result in results:
@@ -340,19 +303,28 @@ def compute_consistency_score(
         if method == "amos":
             result = normalize_amos_output(result)
 
-        evidences = _extract_evidences(result)
+        # Get triggered_rule from justification
+        parsed = result.get("parsed", {})
+        justification = parsed.get("justification", {}) if isinstance(parsed, dict) else {}
+        triggered_rule = justification.get("triggered_rule", "") if isinstance(justification, dict) else ""
 
-        if not evidences:
-            # No evidences to evaluate - skip from denominator
-            skipped_no_evidence += 1
+        if not triggered_rule:
+            skipped_no_rule += 1
             continue
 
-        # Compute verdict from method's claimed evidences
-        computed_verdict, computed_score = _compute_verdict_from_evidences(evidences)
+        # Extract verdict from triggered_rule string
+        rule_verdict = extract_verdict_from_rule(triggered_rule)
+
+        if not rule_verdict:
+            skipped_no_rule += 1
+            continue
 
         total += 1
+
         # Normalize for comparison (handles quotes, case, whitespace)
-        is_consistent = normalize_verdict(method_verdict, policy_id) == normalize_verdict(computed_verdict, policy_id)
+        method_norm = normalize_verdict(method_verdict, policy_id)
+        rule_norm = normalize_verdict(rule_verdict, policy_id)
+        is_consistent = method_norm == rule_norm
 
         if is_consistent:
             consistent += 1
@@ -360,10 +332,11 @@ def compute_consistency_score(
         per_sample.append({
             "business_id": biz_id,
             "method_verdict": method_verdict,
-            "computed_verdict": computed_verdict,
-            "computed_score": computed_score,
+            "method_verdict_normalized": method_norm,
+            "triggered_rule": triggered_rule,
+            "rule_verdict": rule_verdict,
+            "rule_verdict_normalized": rule_norm,
             "is_consistent": is_consistent,
-            "n_evidences": len(evidences),
         })
 
     consistency_score = (consistent / total * 100) if total > 0 else 0.0
@@ -371,7 +344,7 @@ def compute_consistency_score(
     return consistency_score, {
         "consistent": consistent,
         "total": total,
-        "skipped_no_evidence": skipped_no_evidence,
+        "skipped_no_rule": skipped_no_rule,
         "per_sample": per_sample,
     }
 
@@ -459,6 +432,7 @@ def compute_unified_metrics(
     method: str = "direct",
     reviews_data: Optional[Dict[str, Dict[str, str]]] = None,
     policy_id: Optional[str] = None,
+    formula_seed: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     """Main entry point - returns all 3 scores.
 
@@ -469,6 +443,7 @@ def compute_unified_metrics(
         method: Method name ("direct", "amos", etc.)
         reviews_data: Optional {business_id: {review_id: text}} for snippet validation
         policy_id: Optional policy ID for verdict normalization
+        formula_seed: Optional Formula Seed for policy-aware verdict computation
 
     Returns:
         Dict with:
@@ -495,14 +470,18 @@ def compute_unified_metrics(
         if not gt_verdict:
             continue
 
-        gt_ord = VERDICT_TO_ORDINAL.get(gt_verdict)
+        # Normalize GT verdict for lookup (defensive - should already be normalized)
+        gt_verdict_norm = normalize_verdict(gt_verdict, policy_id)
+        gt_ord = VERDICT_TO_ORDINAL.get(gt_verdict_norm or gt_verdict)
         if gt_ord is None:
             continue
 
         # Get risk score (continuous), fallback to verdict ordinal * 5
         risk_score = result.get("risk_score")
         if risk_score is None:
-            pred_ord = VERDICT_TO_ORDINAL.get(result.get("verdict"))
+            # Normalize predicted verdict for lookup (handles "HIGH_RISK" -> "High Risk")
+            pred_verdict = normalize_verdict(result.get("verdict"), policy_id)
+            pred_ord = VERDICT_TO_ORDINAL.get(pred_verdict)
             risk_score = pred_ord * 5.0 if pred_ord is not None else None
 
         if risk_score is not None:
@@ -537,7 +516,7 @@ def compute_unified_metrics(
         process_components = {"error": "No structured output available"}
 
     # 3. Compute Consistency Score
-    consistency_score, consistency_details = compute_consistency_score(results, method, policy_id)
+    consistency_score, consistency_details = compute_consistency_score(results, method, policy_id, formula_seed)
 
     # 4. Compute False Positive Rate
     fp_rate, fp_details = compute_false_positive_rate(results, gt_verdicts, method, policy_id)

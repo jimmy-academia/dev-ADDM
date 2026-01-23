@@ -1,11 +1,19 @@
-policy_id: G4_kitchen_V0
-version: '1.0'
+# G4_kitchen_V0: Base Kitchen Performance Assessment
+# V0 = Base: Simple per-instance reasoning, basic thresholds
+# Owner perspective: Evaluating kitchen/food execution
+
+policy_id: "G4_kitchen_V0"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
 overview:
-  title: Kitchen Performance Assessment
+  title: "Kitchen Performance Assessment"
+
   purpose: |
     Help assess the kitchen performance at this restaurant using customer reviews as evidence.
     This is from the perspective of a business owner evaluating their kitchen team's execution.
     Assign a performance label: Needs Improvement, Satisfactory, or Excellent.
+
   incident_definition: |
     Consider reviews that mention any of the following:
     - food quality issues (temperature, doneness, taste)
@@ -15,103 +23,112 @@ overview:
     - food sent back or complaints addressed
 
     Reviews that only discuss service without mentioning food quality carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
-  - ref: shared:ACCOUNT_TYPE
-  - ref: kitchen:FOOD_ISSUE_TYPE
-  - ref: kitchen:ISSUE_SEVERITY
-  - ref: kitchen:CONSISTENCY
-  - ref: kitchen:CHEF_SKILL
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "kitchen:FOOD_ISSUE_TYPE"
+    - ref: "kitchen:ISSUE_SEVERITY"
+    - ref: "kitchen:CONSISTENCY"
+    - ref: "kitchen:CHEF_SKILL"
+
+  # Decision policy -> generates Verdict Rules section
   decision:
-    verdicts:
-    - Needs Improvement
-    - Satisfactory
-    - Excellent
-    ordered: true
+    verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
+    ordered: true  # Higher = better performance
+
     rules:
-    - verdict: Excellent
-      label: EXCELLENT
-      logic: ANY
-      conditions:
-      - text: 50 or more reviews praise excellent chef skill
-        type: count_threshold
-        filter:
-          chef_skill: excellent
-        min_count: 50
-        min_count_by_k:
-          25: 6
-          50: 13
-          100: 25
-      - text: 120 or more reviews report consistent food quality
-        type: count_threshold
-        filter:
-          consistency: consistent
-        min_count: 120
-        min_count_by_k:
-          25: 15
-          50: 30
-          100: 60
-    - verdict: Needs Improvement
-      label: NEEDS_IMPROVEMENT
-      precondition: Excellent does not apply
-      logic: ANY
-      conditions:
-      - text: 20 or more reviews report poor chef skill
-        type: count_threshold
-        filter:
-          chef_skill: poor
-        min_count: 20
-        min_count_by_k:
-          25: 3
-          50: 5
-          100: 10
-      - text: 30 or more reviews report inconsistent food quality
-        type: count_threshold
-        filter:
-          consistency: inconsistent
-        min_count: 30
-        min_count_by_k:
-          25: 4
-          50: 8
-          100: 15
-      - text: 25 or more reviews report major food quality issues
-        type: count_threshold
-        filter:
-          issue_severity: major
-        min_count: 25
-        min_count_by_k:
-          25: 3
-          50: 6
-          100: 13
-    - verdict: Satisfactory
-      label: SATISFACTORY
-      default: true
+      - verdict: "Excellent"
+        label: "EXCELLENT"
+        logic: ANY
+        conditions:
+          - text: "50 or more reviews praise excellent chef skill"
+            type: count_threshold
+            filter:
+              chef_skill: excellent
+            min_count: 50
+            min_count_by_k:
+              25: 6
+              50: 13
+              100: 25
+          - text: "120 or more reviews report consistent food quality"
+            type: count_threshold
+            filter:
+              consistency: consistent
+            min_count: 120
+            min_count_by_k:
+              25: 15
+              50: 30
+              100: 60
+
+      - verdict: "Needs Improvement"
+        label: "NEEDS_IMPROVEMENT"
+        precondition: "Excellent does not apply"
+        logic: ANY
+        conditions:
+          - text: "20 or more reviews report poor chef skill"
+            type: count_threshold
+            filter:
+              chef_skill: poor
+            min_count: 20
+            min_count_by_k:
+              25: 3
+              50: 5
+              100: 10
+          - text: "30 or more reviews report inconsistent food quality"
+            type: count_threshold
+            filter:
+              consistency: inconsistent
+            min_count: 30
+            min_count_by_k:
+              25: 4
+              50: 8
+              100: 15
+          - text: "25 or more reviews report major food quality issues"
+            type: count_threshold
+            filter:
+              issue_severity: major
+            min_count: 25
+            min_count_by_k:
+              25: 3
+              50: 6
+              100: 13
+
+      - verdict: "Satisfactory"
+        label: "SATISFACTORY"
+        default: true
+        especially_when:
+          - "Food quality is acceptable but not exceptional"
+          - "Some good dishes, some less impressive"
+          - "Occasional issues but generally competent"
+
+  # Output format
   output:
     verdict:
       type: enum
-      values:
-      - Needs Improvement
-      - Satisfactory
-      - Excellent
+      values: ["Needs Improvement", "Satisfactory", "Excellent"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: Relevant quotes supporting the verdict
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
-      description: Explain how the evidence was used to arrive at the final verdict
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
-      values:
-      - low
-      - medium
-      - high
-      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
-      description: Any other relevant observations or caveats
+      description: "Any other relevant observations or caveats"

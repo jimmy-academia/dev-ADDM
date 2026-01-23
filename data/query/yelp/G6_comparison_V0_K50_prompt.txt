@@ -67,4 +67,7 @@ A restaurant is considered **Stronger** if any of the following is true:
 - 30 or more reviews describe customers switching away
 - 40 or more reviews describe unfavorable comparisons
 
-**Comparable** otherwise
+**Comparable** otherwise, especially when:
+- Mixed comparisons
+- Similar to competitors
+- Different strengths and weaknesses

@@ -73,4 +73,7 @@ A restaurant is considered **High Loyalty** if any of the following is true:
 - 40 or more reviews warn others
 - 30 or more reviews have no emotional connection
 
-**Moderate Loyalty** otherwise
+**Moderate Loyalty** otherwise, especially when:
+- Will return but not enthusiastic
+- Recommendations with caveats
+- No strong emotional connection

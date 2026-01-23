@@ -63,10 +63,14 @@ Staff knowledge about ingredients and dietary accommodations
 A restaurant is considered **Critical Risk** if any of the following is true:
 - 1 or more severe dietary incidents (restricted food served, person got sick)
 - 1 or more reviews report staff providing incorrect ingredient information
+- 3 or more moderate dietary incidents
 
 **High Risk** if Critical Risk does not apply, but any of the following is true:
 - 2 or more moderate dietary incidents
 - 2 or more reviews describe poor accommodation despite clear requests
 - 2 or more reviews describe staff as unknowledgeable about ingredients
 
-**Low Risk** otherwise
+**Low Risk** otherwise, especially when:
+- No dietary incidents are reported
+- Reviews describe consistent and knowledgeable accommodation
+- Menu clearly labels dietary options

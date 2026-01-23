@@ -82,4 +82,7 @@ A restaurant is considered **Excellent** if any of the following is true:
 - 3 or more reviews describe absent servers
 - 2 or more reviews describe severe service errors
 
-**Satisfactory** otherwise
+**Satisfactory** otherwise, especially when:
+- Service is professional and adequate
+- No major complaints or exceptional praise
+- Servers do their job without standing out

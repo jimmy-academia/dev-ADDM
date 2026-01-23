@@ -3,7 +3,7 @@
   "topic": "G3_time_value",
   "domain": "yelp",
   "k": 200,
-  "computed_at": "2026-01-22T20:00:20.197931",
+  "computed_at": "2026-01-23T16:43:28.862985",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -12,8 +12,8 @@
       "n_reviews": 125,
       "n_judgments": 125,
       "ground_truth": {
-        "verdict": "Not Worth Waiting",
-        "matched_rule": "NOT_WORTH",
+        "verdict": "Worth Waiting",
+        "matched_rule": "WORTH",
         "policy_id": "G3_time_value_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1310,8 +1310,8 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Not Worth Waiting": 39,
-      "Worth Waiting": 23,
+      "Not Worth Waiting": 38,
+      "Worth Waiting": 24,
       "Definitely Worth Waiting": 38
     },
     "missing_judgments": 0

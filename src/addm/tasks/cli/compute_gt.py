@@ -25,13 +25,18 @@ from addm.tasks.base import load_task
 from addm.tasks.extraction import JudgmentCache, PolicyJudgmentCache
 from addm.tasks.policy_gt import (
     compute_gt_from_policy,
-    get_topic_from_policy_id,
     load_overrides,
     load_policy,
 )
 
-# All topics, policies, and K values (imported from shared constants)
-from addm.tasks.constants import ALL_TOPICS, ALL_POLICIES, K_VALUES
+# All topics, policies, K values, and expansion helpers (imported from shared constants)
+from addm.tasks.constants import (
+    ALL_TOPICS,
+    ALL_POLICIES,
+    K_VALUES,
+    expand_policies,
+    get_topic_from_policy_id,
+)
 
 
 def _get_judgement_cache_path(domain: str) -> Path:
@@ -289,6 +294,11 @@ def main() -> None:
         help="Topic (e.g., G1_allergy) - computes all V0-V3 variants for K=25,50,100,200",
     )
     target_group.add_argument(
+        "--group",
+        type=str,
+        help="Group (e.g., G1) - computes all topics × V0-V3 variants (12 policies)",
+    )
+    target_group.add_argument(
         "--policy",
         type=str,
         help="Policy ID(s), comma-separated (e.g., G1_allergy_V2 or G1_allergy_V0,V1,V2,V3)",
@@ -306,29 +316,50 @@ def main() -> None:
 
     if args.task:
         main_task(args)
-    elif args.topic:
-        # Compute all V0-V3 for this topic across all K values
-        if args.topic not in ALL_TOPICS:
-            print(f"[ERROR] Unknown topic: {args.topic}")
-            print(f"        Valid topics: {ALL_TOPICS}")
+    elif args.topic or args.group or args.policy or args.all:
+        # Use centralized expand_policies() for all policy-based modes
+        try:
+            policies = expand_policies(
+                policy=args.policy,
+                topic=args.topic,
+                group=args.group,
+            )
+        except ValueError as e:
+            print(f"[ERROR] {e}")
             return
 
-        # Generate GT for all K values (25, 50, 100, 200)
-        args.policy = ",".join(f"{args.topic}_{v}" for v in ["V0", "V1", "V2", "V3"])
-        print(f"\n{'='*70}")
-        print(f"Generating GT for topic: {args.topic}")
-        print(f"K values: {K_VALUES}")
-        print(f"Policies: {args.policy}")
-        print(f"{'='*70}\n")
+        args.policy = ",".join(policies)
 
-        for k_value in K_VALUES:
-            print(f"\n{'#'*70}")
-            print(f"# K = {k_value}")
-            print(f"{'#'*70}\n")
-            args.k = k_value
+        # For --topic, iterate over all K values
+        if args.topic:
+            print(f"\n{'='*70}")
+            print(f"Generating GT for topic: {args.topic}")
+            print(f"K values: {K_VALUES}")
+            print(f"Policies: {args.policy}")
+            print(f"{'='*70}\n")
+
+            for k_value in K_VALUES:
+                print(f"\n{'#'*70}")
+                print(f"# K = {k_value}")
+                print(f"{'#'*70}\n")
+                args.k = k_value
+                main_policy(args)
+        # For --group, also iterate over all K values
+        elif args.group:
+            print(f"\n{'='*70}")
+            print(f"Generating GT for group: {args.group}")
+            print(f"K values: {K_VALUES}")
+            print(f"Policies ({len(policies)}): {args.policy[:80]}...")
+            print(f"{'='*70}\n")
+
+            for k_value in K_VALUES:
+                print(f"\n{'#'*70}")
+                print(f"# K = {k_value}")
+                print(f"{'#'*70}\n")
+                args.k = k_value
+                main_policy(args)
+        else:
             main_policy(args)
-    elif args.policy:
-        main_policy(args)
     else:
         # Default: compute GT for all policies
         print("No target specified, defaulting to --all (72 policies)")

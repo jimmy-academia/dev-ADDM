@@ -71,4 +71,7 @@ A restaurant is considered **Highly Unique** if any of the following is true:
 - 5 or more reviews describe forgettable experience
 - 10 or more reviews describe average experience
 
-**Differentiated** otherwise
+**Differentiated** otherwise, especially when:
+- Some unique elements noted
+- Has character but not irreplaceable
+- Memorable aspects mentioned

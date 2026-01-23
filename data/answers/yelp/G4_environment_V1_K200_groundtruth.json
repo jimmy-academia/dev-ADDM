@@ -3,7 +3,7 @@
   "topic": "G4_environment",
   "domain": "yelp",
   "k": 200,
-  "computed_at": "2026-01-22T20:00:24.457288",
+  "computed_at": "2026-01-23T16:43:31.837909",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -558,8 +558,8 @@
       "n_reviews": 185,
       "n_judgments": 185,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Excellent",
+        "matched_rule": "EXCELLENT",
         "policy_id": "G4_environment_V1",
         "n_incidents": 0,
         "incidents": []
@@ -909,8 +909,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Excellent",
+        "matched_rule": "EXCELLENT",
         "policy_id": "G4_environment_V1",
         "n_incidents": 0,
         "incidents": []
@@ -1143,8 +1143,8 @@
       "n_reviews": 173,
       "n_judgments": 173,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Excellent",
+        "matched_rule": "EXCELLENT",
         "policy_id": "G4_environment_V1",
         "n_incidents": 0,
         "incidents": []
@@ -1260,8 +1260,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Excellent",
+        "matched_rule": "EXCELLENT",
         "policy_id": "G4_environment_V1",
         "n_incidents": 0,
         "incidents": []
@@ -1310,9 +1310,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Needs Improvement": 21,
+      "Needs Improvement": 17,
       "Satisfactory": 7,
-      "Excellent": 72
+      "Excellent": 76
     },
     "missing_judgments": 0
   }

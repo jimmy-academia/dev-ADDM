@@ -37,7 +37,6 @@ from addm.tasks.policy_gt import (
     aggregate_judgments,
     build_l0_schema_from_topic,
     compute_term_hash,
-    get_topic_from_policy_id,
     load_term_library,
 )
 from addm.utils.output import output
@@ -1197,10 +1196,10 @@ async def main_policy_async(args: argparse.Namespace, topic: str) -> None:
 
 
 # =============================================================================
-# All topics definition (imported from shared constants)
+# All topics and expansion helpers (imported from shared constants)
 # =============================================================================
 
-from addm.tasks.constants import ALL_TOPICS
+from addm.tasks.constants import ALL_TOPICS, expand_topics, get_topic_from_policy_id
 
 
 # =============================================================================
@@ -1835,8 +1834,18 @@ async def main_async(args: argparse.Namespace) -> None:
     if args.all:
         # Extract all topics
         await main_all_topics_async(args)
+    elif args.group:
+        # Extract all topics in a group using expand_topics()
+        try:
+            topics = expand_topics(group=args.group)
+        except ValueError as e:
+            output.error(str(e))
+            return
+        output.info(f"Extracting group {args.group}: {len(topics)} topics")
+        for topic in topics:
+            await main_policy_async(args, topic)
     elif args.topic:
-        # Explicit topic
+        # Explicit single topic
         await main_policy_async(args, args.topic)
     elif args.policy:
         # Derive topic from policy
@@ -1861,6 +1870,9 @@ def main() -> None:
     target_group.add_argument("--task", type=str, help="Task ID (e.g., G1a) - legacy mode")
     target_group.add_argument(
         "--topic", type=str, help="Topic ID (e.g., G1_allergy) - single topic"
+    )
+    target_group.add_argument(
+        "--group", type=str, help="Group (e.g., G1) - extracts all 3 topics in group"
     )
     target_group.add_argument(
         "--policy", type=str, help="Policy ID (e.g., G1_allergy_V2) - derives topic"

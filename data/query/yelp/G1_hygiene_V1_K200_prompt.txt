@@ -77,4 +77,7 @@ A restaurant is considered **Critical Risk** if any of the following is true:
 - 2 or more reviews describe hair or foreign objects in food
 - 3 or more reviews describe staff refusing to address hygiene issues
 
-**Low Risk** otherwise
+**Low Risk** otherwise, especially when:
+- No hygiene issues are reported
+- Reviews describe the restaurant as clean
+- Minor issues were addressed promptly by staff

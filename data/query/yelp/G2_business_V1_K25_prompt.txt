@@ -79,4 +79,7 @@ A restaurant is considered **Recommended** if any of the following is true:
 - 15 or more reviews describe atmosphere as too casual or unprofessional
 - 40 or more reviews describe negative meeting outcomes
 
-**Acceptable** otherwise
+**Acceptable** otherwise, especially when:
+- Suitable for internal team lunches but not client entertainment
+- Professional enough for casual business dining
+- Mixed reviews about noise or service speed

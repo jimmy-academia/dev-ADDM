@@ -59,8 +59,8 @@ Customer's reaction to the hidden cost
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- 10 or more reviews report significant impact from undisclosed charges
-- 20 or more reviews report moderate billing impact
+- 3 or more reviews report significant impact from undisclosed charges
+- 8 or more reviews report moderate billing impact
 - 5 or more reviews mention undisclosed auto-gratuity or service charge
 
 **High Risk** if Critical Risk does not apply, but any of the following is true:
@@ -69,4 +69,7 @@ A restaurant is considered **Critical Risk** if any of the following is true:
 - 20 or more reviews describe feeling upset about charges
 - 3 or more reviews mention undisclosed corkage or split fee
 
-**Low Risk** otherwise
+**Low Risk** otherwise, especially when:
+- No mentions of hidden charges
+- Fees are clearly disclosed upfront
+- Transparent pricing praised

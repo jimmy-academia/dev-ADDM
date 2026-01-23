@@ -3,7 +3,7 @@
   "topic": "G4_environment",
   "domain": "yelp",
   "k": 50,
-  "computed_at": "2026-01-22T20:00:02.629250",
+  "computed_at": "2026-01-23T16:42:58.686416",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -480,8 +480,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Excellent",
+        "matched_rule": "EXCELLENT",
         "policy_id": "G4_environment_V1",
         "n_incidents": 0,
         "incidents": []
@@ -519,8 +519,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Excellent",
+        "matched_rule": "EXCELLENT",
         "policy_id": "G4_environment_V1",
         "n_incidents": 0,
         "incidents": []
@@ -532,8 +532,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Excellent",
+        "matched_rule": "EXCELLENT",
         "policy_id": "G4_environment_V1",
         "n_incidents": 0,
         "incidents": []
@@ -584,8 +584,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Excellent",
+        "matched_rule": "EXCELLENT",
         "policy_id": "G4_environment_V1",
         "n_incidents": 0,
         "incidents": []
@@ -701,8 +701,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Excellent",
+        "matched_rule": "EXCELLENT",
         "policy_id": "G4_environment_V1",
         "n_incidents": 0,
         "incidents": []
@@ -909,8 +909,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Excellent",
+        "matched_rule": "EXCELLENT",
         "policy_id": "G4_environment_V1",
         "n_incidents": 0,
         "incidents": []
@@ -1310,9 +1310,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Needs Improvement": 25,
+      "Needs Improvement": 19,
       "Satisfactory": 1,
-      "Excellent": 74
+      "Excellent": 80
     },
     "missing_judgments": 0
   }

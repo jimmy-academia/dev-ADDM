@@ -3,7 +3,7 @@
   "topic": "G3_time_value",
   "domain": "yelp",
   "k": 100,
-  "computed_at": "2026-01-22T20:00:13.833468",
+  "computed_at": "2026-01-23T16:43:11.724930",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -246,8 +246,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Worth Waiting",
-        "matched_rule": "NOT_WORTH",
+        "verdict": "Worth Waiting",
+        "matched_rule": "WORTH",
         "policy_id": "G3_time_value_V0",
         "n_incidents": 0,
         "incidents": []
@@ -636,8 +636,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Worth Waiting",
-        "matched_rule": "NOT_WORTH",
+        "verdict": "Worth Waiting",
+        "matched_rule": "WORTH",
         "policy_id": "G3_time_value_V0",
         "n_incidents": 0,
         "incidents": []
@@ -688,8 +688,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Worth Waiting",
-        "matched_rule": "NOT_WORTH",
+        "verdict": "Worth Waiting",
+        "matched_rule": "WORTH",
         "policy_id": "G3_time_value_V0",
         "n_incidents": 0,
         "incidents": []
@@ -935,8 +935,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Worth Waiting",
-        "matched_rule": "NOT_WORTH",
+        "verdict": "Worth Waiting",
+        "matched_rule": "WORTH",
         "policy_id": "G3_time_value_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1208,8 +1208,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Not Worth Waiting",
-        "matched_rule": "NOT_WORTH",
+        "verdict": "Worth Waiting",
+        "matched_rule": "WORTH",
         "policy_id": "G3_time_value_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1310,8 +1310,8 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Not Worth Waiting": 43,
-      "Worth Waiting": 15,
+      "Not Worth Waiting": 38,
+      "Worth Waiting": 20,
       "Definitely Worth Waiting": 42
     },
     "missing_judgments": 0

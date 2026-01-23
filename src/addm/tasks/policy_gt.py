@@ -753,17 +753,5 @@ def load_policy(policy_id: str) -> PolicyIR:
     return PolicyIR.load(policy_path)
 
 
-def get_topic_from_policy_id(policy_id: str) -> str:
-    """
-    Extract topic from policy ID.
-
-    "G1_allergy_V2" -> "G1_allergy"
-    "G3_price_worth_V2" -> "G3_price_worth"
-    """
-    parts = policy_id.split("_")
-    if len(parts) < 2:
-        raise ValueError(f"Invalid policy_id: {policy_id}")
-    # Variant is always last part matching V{digit}
-    if parts[-1].startswith("V") and parts[-1][1:].isdigit():
-        return "_".join(parts[:-1])
-    return policy_id  # No variant suffix found
+# Re-export from constants for backward compatibility
+from addm.tasks.constants import get_topic_from_policy_id

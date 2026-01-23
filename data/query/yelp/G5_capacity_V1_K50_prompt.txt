@@ -71,4 +71,7 @@ A restaurant is considered **Excellent** if any of the following is true:
 - 5 or more reviews describe severely understaffed situation
 - 10 or more reviews describe complete service degradation
 
-**Satisfactory** otherwise
+**Satisfactory** otherwise, especially when:
+- Adequate handling most of the time
+- Occasional peak-time struggles
+- Generally manages volume acceptably

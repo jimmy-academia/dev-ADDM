@@ -3,7 +3,7 @@
   "topic": "G2_romance",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-22T19:59:09.296388",
+  "computed_at": "2026-01-23T16:42:44.780289",
   "has_scoring": true,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -4953,7 +4953,7 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
+        "verdict": "Not Recommended",
         "score": -10,
         "n_incidents": 14,
         "incidents": [
@@ -5283,7 +5283,7 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
+        "verdict": "Not Recommended",
         "score": -18,
         "n_incidents": 16,
         "incidents": [
@@ -7270,7 +7270,7 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
+        "verdict": "Not Recommended",
         "score": -13,
         "n_incidents": 3,
         "incidents": [
@@ -9431,7 +9431,7 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
+        "verdict": "Not Recommended",
         "score": -31,
         "n_incidents": 9,
         "incidents": [
@@ -13202,7 +13202,7 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
+        "verdict": "Not Recommended",
         "score": -20,
         "n_incidents": 19,
         "incidents": [
@@ -18948,8 +18948,8 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Not Recommended": 1,
-      "Acceptable": 38,
+      "Not Recommended": 6,
+      "Acceptable": 33,
       "Recommended": 61
     },
     "missing_judgments": 0

@@ -175,8 +175,9 @@ class AMOSMethod(Method):
         # Get debug metadata separately (not included in serialized output)
         debug_metadata = interpreter.get_debug_metadata()
 
-        # Extract verdict and risk score from computed output
-        verdict = result.get("VERDICT")
+        # Extract verdict from standard_output (normalized to GT format like "High Risk")
+        # NOT from result["VERDICT"] which has raw format like "HIGH_RISK"
+        verdict = standard_output.get("verdict")
         risk_score = result.get("FINAL_RISK_SCORE") or result.get("RISK_SCORE") or result.get("SCORE")
 
         # Get usage metrics from interpreter

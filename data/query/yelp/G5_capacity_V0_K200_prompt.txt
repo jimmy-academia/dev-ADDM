@@ -67,4 +67,7 @@ A restaurant is considered **Excellent** if any of the following is true:
 - 25 or more reviews describe significant service degradation
 - 25 or more reviews report volume handling struggles
 
-**Satisfactory** otherwise
+**Satisfactory** otherwise, especially when:
+- Handles normal volume adequately
+- Some struggles during peak times but manages
+- Mixed reports on busy-time handling

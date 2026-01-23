@@ -3,7 +3,7 @@
   "topic": "G5_consistency",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-22T19:59:12.968503",
+  "computed_at": "2026-01-23T16:42:47.123451",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -636,8 +636,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Satisfactory",
-        "matched_rule": "SATISFACTORY",
+        "verdict": "Excellent",
+        "matched_rule": "EXCELLENT",
         "policy_id": "G5_consistency_V1",
         "n_incidents": 0,
         "incidents": []
@@ -1311,8 +1311,8 @@
     "total_restaurants": 100,
     "verdict_distribution": {
       "Needs Improvement": 26,
-      "Satisfactory": 6,
-      "Excellent": 68
+      "Satisfactory": 5,
+      "Excellent": 69
     },
     "missing_judgments": 0
   }

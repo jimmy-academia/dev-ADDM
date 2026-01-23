@@ -3,7 +3,7 @@
   "topic": "G1_allergy",
   "domain": "yelp",
   "k": 200,
-  "computed_at": "2026-01-22T20:49:11.214199",
+  "computed_at": "2026-01-23T16:43:23.583956",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -203,7 +203,8 @@
             "review_id": "Zo58x_2gCuh3N4xKeot6Kw",
             "severity_field": "incident_severity",
             "severity_value": "mild",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -288,13 +289,15 @@
             "review_id": "Zlg4nKIoFP94G3g6A_LAPw",
             "severity_field": "incident_severity",
             "severity_value": "mild",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "ewwb5e81Eryht-AZ7TBeHQ",
             "severity_field": "incident_severity",
             "severity_value": "mild",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -327,7 +330,8 @@
             "review_id": "4hdA-ggnyBu7bCl9LU7V1Q",
             "severity_field": "incident_severity",
             "severity_value": "mild",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -347,7 +351,8 @@
             "review_id": "RBNbAcduD-C8QjJ3KNoQgA",
             "severity_field": "incident_severity",
             "severity_value": "severe",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -627,7 +632,8 @@
             "review_id": "WpWWTv81Mh-kpaJNr6h7yw",
             "severity_field": "incident_severity",
             "severity_value": "moderate",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -660,7 +666,8 @@
             "review_id": "DFZ3dnlUrGNkoa4XWJvVXA",
             "severity_field": "incident_severity",
             "severity_value": "severe",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -797,19 +804,22 @@
             "review_id": "dvh8Myut-q3wyhcK3R_L_g",
             "severity_field": "incident_severity",
             "severity_value": "mild",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "oUxqbtB8e7M4gZ4T1XFpfg",
             "severity_field": "incident_severity",
             "severity_value": "mild",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "h_1a2bsJ1bIiJ6SVubro2g",
             "severity_field": "incident_severity",
             "severity_value": "mild",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -920,25 +930,37 @@
             "review_id": "C_9HEqYieW7TnM86OtQlqw",
             "severity_field": "incident_severity",
             "severity_value": "moderate",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": [
+              "Dismissive staff"
+            ]
           },
           {
             "review_id": "93U8OAWqqnndCCe4gm82AA",
             "severity_field": "incident_severity",
             "severity_value": "mild",
-            "account_type": "secondhand"
+            "account_type": "secondhand",
+            "modifiers": [
+              "Dismissive staff"
+            ]
           },
           {
             "review_id": "JTeR9wzcNH5dzClfgtCOmA",
             "severity_field": "incident_severity",
             "severity_value": "moderate",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": [
+              "Dismissive staff"
+            ]
           },
           {
             "review_id": "tbm6wNuN89MQGl4B2h5qrQ",
             "severity_field": "incident_severity",
             "severity_value": "moderate",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": [
+              "Dismissive staff"
+            ]
           }
         ]
       }
@@ -1036,7 +1058,8 @@
             "review_id": "06SIu6-4peKcFTVSOdJv9g",
             "severity_field": "incident_severity",
             "severity_value": "moderate",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1082,7 +1105,8 @@
             "review_id": "__iKmCRLHQeo_RpGmLo3Mw",
             "severity_field": "incident_severity",
             "severity_value": "severe",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1115,7 +1139,10 @@
             "review_id": "PqwCitHejVvFRtCBeyX7DA",
             "severity_field": "incident_severity",
             "severity_value": "mild",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": [
+              "Dismissive staff"
+            ]
           }
         ]
       }
@@ -1252,13 +1279,17 @@
             "review_id": "IJbGk6P30mvrqcmE0Q1cTA",
             "severity_field": "incident_severity",
             "severity_value": "mild",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": [
+              "False assurance"
+            ]
           },
           {
             "review_id": "0yjLIr7eXEwCZYajfTGw4g",
             "severity_field": "incident_severity",
             "severity_value": "mild",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1278,7 +1309,10 @@
             "review_id": "GRPKFF5gqcMNK_owWSc8RQ",
             "severity_field": "incident_severity",
             "severity_value": "moderate",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": [
+              "False assurance"
+            ]
           }
         ]
       }
@@ -1337,7 +1371,8 @@
             "review_id": "vFk28MhJSqUhy92DXa9PAQ",
             "severity_field": "incident_severity",
             "severity_value": "moderate",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1448,7 +1483,8 @@
             "review_id": "AjNmbmF80uRfZJPU_34IfA",
             "severity_field": "incident_severity",
             "severity_value": "severe",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }

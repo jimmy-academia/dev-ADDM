@@ -81,4 +81,7 @@ A restaurant is considered **Excellent** if any of the following is true:
 - 15 or more reviews describe uncomfortable seating
 - 10 or more reviews describe filthy environment
 
-**Satisfactory** otherwise
+**Satisfactory** otherwise, especially when:
+- Environment is pleasant but not remarkable
+- Minor issues but overall acceptable
+- Gets the job done without standing out

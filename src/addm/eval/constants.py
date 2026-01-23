@@ -82,3 +82,29 @@ def get_evidence_config(policy_id: str) -> dict:
     # Extract group from policy_id (e.g., "G1" from "G1_allergy_V0")
     group = policy_id.split("_")[0] if "_" in policy_id else policy_id[:2]
     return EVIDENCE_FIELDS.get(group, EVIDENCE_FIELDS["G1"])  # Default to G1
+
+
+# Policy group verdict mappings (ordinal: lowest=0 to highest=n)
+# Verified from src/addm/query/policies/G{1-6}/*/V0.yaml
+POLICY_VERDICTS = {
+    "G1": ["Low Risk", "High Risk", "Critical Risk"],
+    "G2": ["Not Recommended", "Acceptable", "Recommended"],
+    "G3": ["Poor Value", "Fair Value", "Good Value"],
+    "G4": ["Needs Improvement", "Satisfactory", "Excellent"],
+    "G5": ["Needs Improvement", "Satisfactory", "Excellent"],
+    "G6": ["Generic", "Differentiated", "Highly Unique"],
+}
+
+
+def get_verdict_to_ordinal(policy_id: str) -> dict:
+    """Get verdict-to-ordinal mapping for a policy.
+
+    Args:
+        policy_id: Policy ID like "G1_allergy_V0" or "G2_romance_V1"
+
+    Returns:
+        Dict mapping verdict strings to ordinal values (0, 1, 2, ...)
+    """
+    group = policy_id.split("_")[0] if "_" in policy_id else policy_id[:2]
+    verdicts = POLICY_VERDICTS.get(group, POLICY_VERDICTS["G1"])
+    return {v: i for i, v in enumerate(verdicts)}

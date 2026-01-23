@@ -3,7 +3,7 @@
   "topic": "G2_business",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-22T19:59:09.397055",
+  "computed_at": "2026-01-23T16:42:44.865983",
   "has_scoring": true,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -7222,7 +7222,7 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
+        "verdict": "Not Recommended",
         "score": -5,
         "n_incidents": 3,
         "incidents": [
@@ -18856,8 +18856,8 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Not Recommended": 0,
-      "Acceptable": 29,
+      "Not Recommended": 1,
+      "Acceptable": 28,
       "Recommended": 71
     },
     "missing_judgments": 0

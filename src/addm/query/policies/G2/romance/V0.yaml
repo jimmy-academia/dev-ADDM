@@ -1,11 +1,18 @@
-policy_id: G2_romance_V0
-version: '1.0'
+# G2_romance_V0: Base Romantic Dining Suitability Assessment
+# V0 = Base: Simple per-instance reasoning, basic thresholds
+
+policy_id: "G2_romance_V0"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
 overview:
-  title: Romantic Dining Suitability Assessment
+  title: "Romantic Dining Suitability Assessment"
+
   purpose: |
     Help assess how suitable this restaurant is for romantic dining (dates, anniversaries, proposals)
     using customer reviews as evidence.
     Assign a suitability label: Not Recommended, Acceptable, or Recommended.
+
   incident_definition: |
     Consider reviews that mention any of the following:
     - date nights, anniversaries, romantic occasions, proposals
@@ -14,116 +21,121 @@ overview:
     - overall romantic atmosphere
 
     Reviews that only discuss food without mentioning atmosphere carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
-  - ref: shared:ACCOUNT_TYPE
-  - ref: romance:AMBIANCE_QUALITY
-  - ref: romance:NOISE_LEVEL
-  - ref: romance:LIGHTING_QUALITY
-  - ref: romance:SERVICE_STYLE
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "romance:AMBIANCE_QUALITY"
+    - ref: "romance:NOISE_LEVEL"
+    - ref: "romance:LIGHTING_QUALITY"
+    - ref: "romance:SERVICE_STYLE"
+
+  # Decision policy -> generates Verdict Rules section
   decision:
-    verdicts:
-    - Not Recommended
-    - Acceptable
-    - Recommended
-    ordered: true
+    verdicts: ["Not Recommended", "Acceptable", "Recommended"]
+    ordered: true  # Higher = better suitability
+
     rules:
-    - verdict: Recommended
-      label: RECOMMENDED
-      logic: ANY
-      conditions:
-      - text: 20 or more reviews describe excellent romantic ambiance
-        type: count_threshold
-        filter:
-          ambiance_quality: excellent
-        min_count: 20
-        min_count_by_k:
-          25: 4
-          50: 7
-          100: 12
-      - text: 100 or more reviews mention successful dates, proposals, or anniversaries
-        type: count_threshold
-        filter:
-          date_outcome: positive
-        min_count: 100
-        min_count_by_k:
-          25: 15
-          50: 30
-          100: 55
-      - text: 15 or more reviews describe it as quiet, intimate, or romantic
-        type: count_threshold
-        filter:
-          ambiance_quality:
-          - intimate
-          - romantic
-        min_count: 15
-        min_count_by_k:
-          25: 4
-          50: 6
-          100: 10
-    - verdict: Not Recommended
-      label: NOT_RECOMMENDED
-      precondition: Recommended does not apply
-      logic: ANY
-      conditions:
-      - text: 20 or more reviews describe loud noise preventing conversation
-        type: count_threshold
-        filter:
-          noise_level: loud
-        min_count: 20
-        min_count_by_k:
-          25: 4
-          50: 7
-          100: 12
-      - text: 15 or more reviews describe harsh lighting or unromantic atmosphere
-        type: count_threshold
-        filter:
-          ambiance_quality:
-          - harsh
-          - unromantic
-        min_count: 15
-        min_count_by_k:
-          25: 3
-          50: 5
-          100: 9
-      - text: 50 or more reviews describe negative date experiences
-        type: count_threshold
-        filter:
-          date_outcome: negative
-        min_count: 50
-        min_count_by_k:
-          25: 8
-          50: 15
-          100: 28
-    - verdict: Acceptable
-      label: ACCEPTABLE
-      default: true
+      - verdict: "Recommended"
+        label: "RECOMMENDED"
+        logic: ANY
+        conditions:
+          - text: "20 or more reviews describe excellent romantic ambiance"
+            type: count_threshold
+            filter:
+              ambiance_quality: excellent
+            min_count: 20
+            min_count_by_k:
+              25: 4
+              50: 7
+              100: 12
+          - text: "100 or more reviews mention successful dates, proposals, or anniversaries"
+            type: count_threshold
+            filter:
+              date_outcome: positive
+            min_count: 100
+            min_count_by_k:
+              25: 15
+              50: 30
+              100: 55
+          - text: "15 or more reviews describe it as quiet, intimate, or romantic"
+            type: count_threshold
+            filter:
+              ambiance_quality: [intimate, romantic]
+            min_count: 15
+            min_count_by_k:
+              25: 4
+              50: 6
+              100: 10
+
+      - verdict: "Not Recommended"
+        label: "NOT_RECOMMENDED"
+        precondition: "Recommended does not apply"
+        logic: ANY
+        conditions:
+          - text: "20 or more reviews describe loud noise preventing conversation"
+            type: count_threshold
+            filter:
+              noise_level: loud
+            min_count: 20
+            min_count_by_k:
+              25: 4
+              50: 7
+              100: 12
+          - text: "15 or more reviews describe harsh lighting or unromantic atmosphere"
+            type: count_threshold
+            filter:
+              ambiance_quality: [harsh, unromantic]
+            min_count: 15
+            min_count_by_k:
+              25: 3
+              50: 5
+              100: 9
+          - text: "50 or more reviews describe negative date experiences"
+            type: count_threshold
+            filter:
+              date_outcome: negative
+            min_count: 50
+            min_count_by_k:
+              25: 8
+              50: 15
+              100: 28
+
+      - verdict: "Acceptable"
+        label: "ACCEPTABLE"
+        default: true
+        especially_when:
+          - "Mixed reviews about romantic suitability"
+          - "Atmosphere is neutral - neither romantic nor anti-romantic"
+          - "Food is good but ambiance is not particularly romantic"
+
+  # Output format
   output:
     verdict:
       type: enum
-      values:
-      - Not Recommended
-      - Acceptable
-      - Recommended
+      values: ["Not Recommended", "Acceptable", "Recommended"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: Relevant quotes supporting the verdict
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
-      description: Explain how the evidence was used to arrive at the final verdict
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
-      values:
-      - low
-      - medium
-      - high
-      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
-      description: Any other relevant observations or caveats
+      description: "Any other relevant observations or caveats"

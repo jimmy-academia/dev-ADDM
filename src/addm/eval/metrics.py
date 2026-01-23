@@ -21,7 +21,7 @@ from pathlib import Path
 
 import numpy as np
 import yaml
-from sklearn.metrics import average_precision_score
+from sklearn.metrics import average_precision_score, f1_score
 from typing import Dict, List, Optional, Any, Tuple
 
 from addm.eval.constants import (
@@ -30,6 +30,7 @@ from addm.eval.constants import (
     SEVERITY_BASE_POINTS,
     MODIFIER_POINTS,
     VERDICT_THRESHOLDS,
+    get_verdict_to_ordinal,
 )
 
 # Cache for loaded policy verdicts
@@ -103,6 +104,7 @@ def normalize_verdict(verdict: Optional[str], policy_id: Optional[str] = None) -
     Handles:
     - Extra quotes: "'Low Risk'" -> "Low Risk"
     - Whitespace: " Low Risk " -> "Low Risk"
+    - Underscore format: "HIGH_RISK" -> "High Risk"
     - Case-insensitive matching to policy's valid verdicts
 
     Args:
@@ -127,9 +129,10 @@ def normalize_verdict(verdict: Optional[str], policy_id: Optional[str] = None) -
     # If policy_id provided, match against valid verdicts (case-insensitive)
     if policy_id:
         valid_verdicts = get_policy_verdicts(policy_id)
-        normalized_lower = normalized.lower()
+        # Normalize for comparison: lowercase and replace underscores with spaces
+        normalized_for_cmp = normalized.lower().replace("_", " ")
         for valid in valid_verdicts:
-            if valid.lower() == normalized_lower:
+            if valid.lower() == normalized_for_cmp:
                 return valid  # Return canonical form
 
     return normalized
@@ -181,8 +184,201 @@ def _extract_evidences(result: Dict[str, Any]) -> List[Dict[str, Any]]:
     return []
 
 
-def _compute_verdict_from_evidences(evidences: List[Dict[str, Any]]) -> Tuple[str, float]:
-    """Compute verdict from evidences using V2 policy scoring rules.
+def _compute_verdict_from_seed(
+    evidences: List[Dict[str, Any]],
+    formula_seed: Dict[str, Any],
+) -> Tuple[str, float]:
+    """Compute verdict from evidences using formula seed's rules.
+
+    This is the policy-aware approach: extract verdict rules from the seed's
+    compute section (the VERDICT case operation) and execute them against
+    the evidences.
+
+    Args:
+        evidences: List of evidence dicts with field and judgement
+        formula_seed: Formula Seed with compute section containing VERDICT rules
+
+    Returns:
+        Tuple of (computed_verdict, computed_score)
+    """
+    import re
+
+    compute_ops = formula_seed.get("compute", [])
+    extract_info = formula_seed.get("extract", {})
+
+    # Find the outcome field from seed metadata
+    outcome_field = extract_info.get("outcome_field", "INCIDENT_SEVERITY")
+    none_values = extract_info.get("none_values", ["none", "n/a"])
+
+    # Build namespace by executing compute operations in order
+    namespace: Dict[str, Any] = {}
+
+    # Helper to get field value from evidence (case-insensitive)
+    def get_evidence_field(ev: Dict[str, Any], field_name: str) -> Optional[str]:
+        for key in [field_name, field_name.lower(), field_name.upper()]:
+            if key in ev:
+                return ev[key]
+        # Try field attribute
+        if ev.get("field", "").upper() == field_name.upper():
+            return ev.get("judgement")
+        return None
+
+    # Helper to check if value is "none" (case-insensitive)
+    def is_none_value(value: Any) -> bool:
+        if value is None:
+            return True
+        value_str = str(value).strip().lower()
+        return value_str in [nv.lower() for nv in none_values]
+
+    # Helper to fuzzy match enum values
+    def fuzzy_match(actual: str, expected: str) -> bool:
+        if actual is None or expected is None:
+            return actual == expected
+        a, e = str(actual).lower().strip(), str(expected).lower().strip()
+        return a == e or e in a or a in e
+
+    # Execute each compute operation
+    for op_def in compute_ops:
+        name = op_def.get("name", "")
+        op = op_def.get("op") or op_def.get("operation", "")
+
+        if op == "count":
+            # Count evidences matching conditions
+            where = op_def.get("where", {})
+            count = 0
+            for ev in evidences:
+                matches = True
+                for field_name, expected in where.items():
+                    if field_name in ("field", "equals", "not_equals", "and", "or"):
+                        continue  # Skip meta keys
+                    actual = get_evidence_field(ev, field_name)
+                    if actual is None:
+                        matches = False
+                        break
+                    if isinstance(expected, list):
+                        if not any(fuzzy_match(actual, e) for e in expected):
+                            matches = False
+                            break
+                    elif not fuzzy_match(actual, expected):
+                        matches = False
+                        break
+                if matches:
+                    count += 1
+            namespace[name] = count
+
+        elif op == "sum":
+            # Sum expression over evidences
+            expr = op_def.get("expr", "1")
+            where = op_def.get("where", {})
+            total = 0.0
+
+            # Check if SQL CASE expression
+            is_sql_case = "CASE" in expr.upper()
+
+            for ev in evidences:
+                # Check where condition
+                if where:
+                    matches = True
+                    for field_name, expected in where.items():
+                        if field_name in ("field", "equals", "not_equals", "and", "or"):
+                            continue
+                        actual = get_evidence_field(ev, field_name)
+                        if actual is None:
+                            matches = False
+                            break
+                        if isinstance(expected, list):
+                            if not any(fuzzy_match(actual, e) for e in expected):
+                                matches = False
+                                break
+                        elif not fuzzy_match(actual, expected):
+                            matches = False
+                            break
+                    if not matches:
+                        continue
+
+                if is_sql_case:
+                    # Parse CASE WHEN ... THEN ... END
+                    case_pattern = r"WHEN\s+(\w+)\s*=\s*['\"]([^'\"]+)['\"]\s+THEN\s+(\d+(?:\.\d+)?)"
+                    matches_list = re.findall(case_pattern, expr, re.IGNORECASE)
+                    value_added = False
+                    for field_name, expected_val, then_val in matches_list:
+                        actual = get_evidence_field(ev, field_name)
+                        if actual and fuzzy_match(actual, expected_val):
+                            total += float(then_val)
+                            value_added = True
+                            break
+                    if not value_added:
+                        # Check for ELSE clause
+                        else_match = re.search(r"ELSE\s+(\d+(?:\.\d+)?)", expr, re.IGNORECASE)
+                        if else_match:
+                            total += float(else_match.group(1))
+
+            namespace[name] = total
+
+        elif op == "expr":
+            # Evaluate mathematical expression
+            expr = op_def.get("expr", "0")
+            try:
+                safe_builtins = {"min": min, "max": max, "abs": abs, "round": round}
+                namespace[name] = eval(expr, {"__builtins__": safe_builtins}, namespace)
+            except Exception:
+                namespace[name] = 0
+
+        elif op == "case":
+            # Apply case rules
+            source = op_def.get("source", "")
+            rules = op_def.get("rules", [])
+            source_value = namespace.get(source, 0)
+
+            result = None
+            for rule in rules:
+                if "else" in rule:
+                    result = rule["else"]
+                    break
+
+                when = rule.get("when", "")
+                then = rule.get("then", "")
+
+                # Try to evaluate as expression
+                try:
+                    context = {**namespace, source: source_value}
+                    match = re.match(r"(\w+)\s*([<>=!]+)\s*(\d+(?:\.\d+)?)", when)
+                    if match:
+                        var, op_str, threshold = match.groups()
+                        actual_val = context.get(var, 0)
+                        threshold_val = float(threshold)
+                        if op_str == ">=" and actual_val >= threshold_val:
+                            result = then
+                            break
+                        elif op_str == "<=" and actual_val <= threshold_val:
+                            result = then
+                            break
+                        elif op_str == ">" and actual_val > threshold_val:
+                            result = then
+                            break
+                        elif op_str == "<" and actual_val < threshold_val:
+                            result = then
+                            break
+                        elif op_str in ("==", "=") and actual_val == threshold_val:
+                            result = then
+                            break
+                except Exception:
+                    pass
+
+            namespace[name] = result
+
+    # Get final verdict and score
+    verdict = namespace.get("VERDICT", "Low Risk")
+    score = namespace.get("SCORE", namespace.get("N_INCIDENTS", 0))
+
+    if verdict is None:
+        verdict = "Low Risk"
+
+    return str(verdict), float(score) if isinstance(score, (int, float)) else 0.0
+
+
+def _legacy_g1_verdict(evidences: List[Dict[str, Any]]) -> Tuple[str, float]:
+    """Legacy G1-specific verdict computation (fallback).
 
     Args:
         evidences: List of evidence dicts with field and judgement
@@ -225,12 +421,55 @@ def _compute_verdict_from_evidences(evidences: List[Dict[str, Any]]) -> Tuple[st
     return verdict, score
 
 
-# Rule → Verdict mapping for verdict consistency checks
-RULE_TO_VERDICT = {
-    "CRITICAL": "Critical Risk",
-    "HIGH": "High Risk",
-    "LOW": "Low Risk",
-}
+def _compute_verdict_from_evidences(
+    evidences: List[Dict[str, Any]],
+    formula_seed: Optional[Dict[str, Any]] = None,
+) -> Tuple[str, float]:
+    """Compute verdict from evidences using formula seed's rules.
+
+    If formula_seed is provided, uses its compute section to calculate
+    the verdict (policy-aware). Otherwise, falls back to legacy G1 scoring.
+
+    Args:
+        evidences: List of evidence dicts with field and judgement
+        formula_seed: Optional Formula Seed with compute/verdict rules
+
+    Returns:
+        Tuple of (computed_verdict, computed_score)
+    """
+    if formula_seed and formula_seed.get("compute"):
+        return _compute_verdict_from_seed(evidences, formula_seed)
+    else:
+        return _legacy_g1_verdict(evidences)
+
+
+def extract_verdict_from_rule(triggered_rule: str) -> Optional[str]:
+    """Extract verdict label from triggered_rule string.
+
+    OUTPUT-BASED CONSISTENCY: Instead of re-computing verdict from evidences,
+    we check if method's triggered_rule leads to its claimed verdict.
+
+    Examples:
+        "SCORE >= 5 → Critical Risk" → "Critical Risk"
+        "N_NEGATIVE >= 1 → Not Recommended" → "Not Recommended"
+        "else → Low Risk" → "Low Risk"
+        "N_SEVERE >= 1 (actual: N_SEVERE=0) → Critical Risk" → "Critical Risk"
+
+    Args:
+        triggered_rule: Rule string from method output
+
+    Returns:
+        Verdict label extracted from rule, or None if not parseable
+    """
+    if not triggered_rule:
+        return None
+
+    # Try arrow separator (→ or ->)
+    for sep in ["→", "->"]:
+        if sep in triggered_rule:
+            return triggered_rule.split(sep)[-1].strip()
+
+    return None
 
 
 def compute_score_accuracy(
@@ -323,28 +562,33 @@ def compute_score_accuracy(
 def compute_verdict_consistency_enhanced(
     results: List[Dict[str, Any]],
     policy_id: Optional[str] = None,
+    formula_seed: Optional[Dict[str, Any]] = None,
 ) -> Tuple[Optional[float], Dict[str, Any]]:
-    """Enhanced verdict consistency - checks (evidence + triggered_rule) → verdict.
+    """OUTPUT-BASED verdict consistency - checks triggered_rule → verdict.
+
+    This is an OUTPUT-BASED metric: we check if the method's claimed triggered_rule
+    leads to its claimed verdict. This validates internal consistency without
+    re-computing verdicts (which may use different logic than the method).
 
     For each result:
-    1. Compute verdict from method's claimed evidences (score-based)
-    2. Get verdict implied by method's claimed triggered_rule
-    3. Check if both match method's claimed verdict
+    1. Extract verdict from method's triggered_rule (e.g., "SCORE >= 5 → Critical Risk")
+    2. Compare extracted verdict to method's claimed verdict
+    3. Consistent if they match
 
-    Returns consistent only if:
-    - evidence_verdict == method_verdict, AND
-    - rule_verdict == method_verdict (if rule provided)
+    Note: We no longer re-compute verdict from evidences. The method's internal
+    logic (as expressed in triggered_rule) is the source of truth for consistency.
 
     Args:
-        results: Method outputs with parsed.evidences and parsed.justification
+        results: Method outputs with parsed.justification.triggered_rule
         policy_id: Optional policy ID for verdict normalization
+        formula_seed: Unused (kept for API compatibility)
 
     Returns:
         Tuple of (consistency_rate, details_dict)
     """
     consistent = 0
     total = 0
-    skipped_no_evidence = 0
+    skipped_no_rule = 0
     per_sample = []
 
     for result in results:
@@ -355,61 +599,50 @@ def compute_verdict_consistency_enhanced(
         if not method_verdict:
             continue
 
-        evidences = _extract_evidences(result)
-        if not evidences:
-            skipped_no_evidence += 1
-            continue
-
-        # 1. Compute verdict from evidences
-        computed_verdict, computed_score = _compute_verdict_from_evidences(evidences)
-
-        # 2. Get verdict implied by triggered_rule (if provided)
+        # Get triggered_rule from justification
         parsed = result.get("parsed", {})
         justification = parsed.get("justification", {}) if isinstance(parsed, dict) else {}
         triggered_rule = justification.get("triggered_rule", "") if isinstance(justification, dict) else ""
-        rule_verdict = RULE_TO_VERDICT.get(triggered_rule.upper()) if triggered_rule else None
 
-        # 3. Check consistency
-        evidence_matches = normalize_verdict(method_verdict, policy_id) == normalize_verdict(computed_verdict, policy_id)
-        rule_matches = (rule_verdict is None) or (normalize_verdict(method_verdict, policy_id) == normalize_verdict(rule_verdict, policy_id))
+        if not triggered_rule:
+            skipped_no_rule += 1
+            continue
 
-        # For V0/V1 (condition-based) and V3 (recency-weighted) policies,
-        # use rule-based matching instead of score-based matching.
-        # V2 uses simple point scoring which we can replicate, but:
-        # - V0/V1 use condition logic (e.g., "1+ moderate → High Risk") not point scoring
-        # - V3 uses recency weighting (0.5x for 2-3yr, 0.25x for >3yr) which requires review dates
-        is_non_v2 = policy_id and ("V0" in policy_id or "V1" in policy_id or "V3" in policy_id)
-        if is_non_v2:
-            # For non-V2 policies, trust rule-based consistency if rule was provided
-            # If no rule provided, fall back to evidence-based (best effort)
-            is_consistent = rule_matches if rule_verdict else evidence_matches
-        else:
-            # For V2 policies, require both evidence and rule to match
-            is_consistent = evidence_matches and rule_matches
+        # Extract verdict from triggered_rule string
+        # e.g., "SCORE >= 5 → Critical Risk" → "Critical Risk"
+        rule_verdict = extract_verdict_from_rule(triggered_rule)
+
+        if not rule_verdict:
+            skipped_no_rule += 1
+            continue
 
         total += 1
+
+        # Consistency: rule_verdict should match method_verdict (normalized)
+        method_norm = normalize_verdict(method_verdict, policy_id)
+        rule_norm = normalize_verdict(rule_verdict, policy_id)
+        is_consistent = method_norm == rule_norm
+
         if is_consistent:
             consistent += 1
 
         per_sample.append({
             "business_id": result.get("business_id"),
             "method_verdict": method_verdict,
-            "evidence_verdict": computed_verdict,
-            "evidence_score": computed_score,
-            "rule_verdict": rule_verdict,
+            "method_verdict_normalized": method_norm,
             "triggered_rule": triggered_rule,
-            "evidence_matches": evidence_matches,
-            "rule_matches": rule_matches,
+            "rule_verdict": rule_verdict,
+            "rule_verdict_normalized": rule_norm,
             "consistent": is_consistent,
         })
 
     if total == 0:
-        return None, {"skipped_no_evidence": skipped_no_evidence, "total": 0}
+        return None, {"skipped_no_rule": skipped_no_rule, "total": 0}
 
     return consistent / total, {
         "consistent": consistent,
         "total": total,
-        "skipped_no_evidence": skipped_no_evidence,
+        "skipped_no_rule": skipped_no_rule,
         "per_sample": per_sample,
     }
 
@@ -421,16 +654,19 @@ def compute_evaluation_metrics(
     method: str = "direct",
     reviews_data: Optional[Dict[str, Dict[str, str]]] = None,
     policy_id: Optional[str] = None,
+    formula_seed: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
-    """Compute all evaluation metrics (new simplified system - 6 metrics).
+    """Compute all evaluation metrics (8 metrics total).
 
     Returns separate, interpretable metrics without weighted composites.
 
-    Tier 1: Final Quality
+    Tier 1: Final Quality (ranking + classification)
     - AUPRC: Ordinal ranking quality (>=High, >=Critical)
+    - Macro F1: Classification quality across all classes (handles skewed data)
 
     Tier 2: Evidence Quality
-    - Incident Precision: % claimed incidents that exist in GT
+    - Evidence Precision: % claimed incidents that exist in GT
+    - Evidence Recall: % GT incidents found by method
     - Snippet Validity: % snippets that match actual review text
 
     Tier 3: Reasoning Quality
@@ -445,11 +681,14 @@ def compute_evaluation_metrics(
         method: Method name ("direct", "amos", etc.)
         reviews_data: Optional {business_id: {review_id: text}} for snippet validation
         policy_id: Optional policy ID for verdict normalization
+        formula_seed: Optional Formula Seed for policy-aware verdict computation
 
     Returns:
         {
             "auprc": float,  # 0.0-1.0, ordinal ranking quality
+            "macro_f1": float,  # 0.0-1.0, classification quality (skew-resistant)
             "evidence_precision": float or None,  # 0.0-1.0, % claimed that exist in GT
+            "evidence_recall": float or None,  # 0.0-1.0, % GT incidents found
             "snippet_validity": float or None,  # 0.0-1.0, % snippets that match source
             "judgement_accuracy": float or None,  # 0.0-1.0, field correctness
             "score_accuracy": float or None,  # 0.0-1.0, V2/V3 score correctness
@@ -483,9 +722,13 @@ def compute_evaluation_metrics(
         and "evidences" in r.get("parsed", {})
     ]
 
-    # 1. Compute AUPRC
+    # 1. Compute AUPRC and Macro F1
     y_true = []
+    y_pred = []
     y_scores = []
+
+    # Get policy-aware verdict mapping (G1 uses Risk, G2 uses Recommended, etc.)
+    verdict_mapping = get_verdict_to_ordinal(policy_id) if policy_id else VERDICT_TO_ORDINAL
 
     for result in results:
         if "error" in result:
@@ -497,25 +740,34 @@ def compute_evaluation_metrics(
         if not gt_verdict:
             continue
 
-        gt_ord = VERDICT_TO_ORDINAL.get(gt_verdict)
+        # Normalize GT verdict for lookup (defensive - should already be normalized)
+        gt_verdict_norm = normalize_verdict(gt_verdict, policy_id)
+        gt_ord = verdict_mapping.get(gt_verdict_norm or gt_verdict)
         if gt_ord is None:
             continue
+
+        # Normalize predicted verdict for lookup (handles "HIGH_RISK" -> "High Risk")
+        pred_verdict = normalize_verdict(result.get("verdict"), policy_id)
+        pred_ord = verdict_mapping.get(pred_verdict)
 
         # Get risk score (continuous), fallback to verdict ordinal * 5
         risk_score = result.get("risk_score")
         if risk_score is None:
-            pred_ord = VERDICT_TO_ORDINAL.get(result.get("verdict"))
             risk_score = pred_ord * 5.0 if pred_ord is not None else None
 
-        if risk_score is not None:
+        if risk_score is not None and pred_ord is not None:
             y_true.append(gt_ord)
+            y_pred.append(pred_ord)
             y_scores.append(risk_score)
 
     auprc_metrics = {}
     auprc = 0.0
+    macro_f1 = 0.0
     if len(y_true) >= 2:
         auprc_metrics = compute_ordinal_auprc(np.array(y_true), np.array(y_scores))
         auprc = auprc_metrics.get("ordinal_auprc", 0.0)
+        # Macro F1: average F1 across all classes (handles skewed data)
+        macro_f1 = f1_score(y_true, y_pred, average="macro", zero_division=0)
 
     # 2. Compute Incident Precision, Incident Recall, and Snippet Validity
     incident_details = {"error": "No structured results or GT data"}
@@ -547,12 +799,13 @@ def compute_evaluation_metrics(
 
     # 5. Compute Enhanced Verdict Consistency (with triggered_rule check)
     verdict_consistency, consistency_details = compute_verdict_consistency_enhanced(
-        results, policy_id
+        results, policy_id, formula_seed
     )
 
     return {
-        # Tier 1: Final Quality
+        # Tier 1: Final Quality (ranking + classification)
         "auprc": auprc,
+        "macro_f1": macro_f1,
         # Tier 2: Evidence Quality
         "evidence_precision": evidence_precision,
         "evidence_recall": evidence_recall,

@@ -66,4 +66,7 @@ A restaurant is considered **Definitely Worth Waiting** if any of the following 
 - 50 or more reviews describe waits as 'not worth it'
 - 35 or more reviews say they would never wait again
 
-**Worth Waiting** otherwise
+**Worth Waiting** otherwise, especially when:
+- Wait times are reasonable for the quality
+- Mixed reviews about whether wait is justified
+- Good experience but some timing issues

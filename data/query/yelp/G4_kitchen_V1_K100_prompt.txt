@@ -79,4 +79,7 @@ A restaurant is considered **Excellent** if any of the following is true:
 - 8 or more reviews describe food as inedible
 - 15 or more reviews report doneness issues
 
-**Satisfactory** otherwise
+**Satisfactory** otherwise, especially when:
+- Food is generally good with occasional issues
+- Competent execution without exceptional creativity
+- Some standout dishes, some average

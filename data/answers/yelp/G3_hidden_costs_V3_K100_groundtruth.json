@@ -3,7 +3,7 @@
   "topic": "G3_hidden_costs",
   "domain": "yelp",
   "k": 100,
-  "computed_at": "2026-01-22T20:00:13.698873",
+  "computed_at": "2026-01-23T16:43:11.641816",
   "has_scoring": true,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -12,7 +12,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 241,
         "n_incidents": 30,
         "incidents": [
@@ -363,7 +363,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 246,
         "n_incidents": 36,
         "incidents": [
@@ -769,7 +769,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 175,
         "n_incidents": 24,
         "incidents": [
@@ -1052,7 +1052,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 225,
         "n_incidents": 28,
         "incidents": [
@@ -1385,7 +1385,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 174,
         "n_incidents": 24,
         "incidents": [
@@ -1667,7 +1667,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 144,
         "n_incidents": 21,
         "incidents": [
@@ -1912,7 +1912,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 193,
         "n_incidents": 28,
         "incidents": [
@@ -2234,7 +2234,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 304,
         "n_incidents": 40,
         "incidents": [
@@ -2701,7 +2701,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 142,
         "n_incidents": 20,
         "incidents": [
@@ -2937,7 +2937,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 279,
         "n_incidents": 36,
         "incidents": [
@@ -3361,7 +3361,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 191,
         "n_incidents": 27,
         "incidents": [
@@ -3674,7 +3674,7 @@
       "n_reviews": 16,
       "n_judgments": 16,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "High Risk",
         "score": 56,
         "n_incidents": 8,
         "incidents": [
@@ -3777,7 +3777,7 @@
       "n_reviews": 86,
       "n_judgments": 86,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 144,
         "n_incidents": 22,
         "incidents": [
@@ -4030,7 +4030,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 211,
         "n_incidents": 32,
         "incidents": [
@@ -4393,7 +4393,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 256,
         "n_incidents": 36,
         "incidents": [
@@ -4806,7 +4806,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 235,
         "n_incidents": 33,
         "incidents": [
@@ -5186,7 +5186,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 277,
         "n_incidents": 37,
         "incidents": [
@@ -5618,7 +5618,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 155,
         "n_incidents": 22,
         "incidents": [
@@ -5877,7 +5877,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 189,
         "n_incidents": 26,
         "incidents": [
@@ -6182,7 +6182,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 286,
         "n_incidents": 36,
         "incidents": [
@@ -6602,7 +6602,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 241,
         "n_incidents": 36,
         "incidents": [
@@ -7009,7 +7009,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 174,
         "n_incidents": 23,
         "incidents": [
@@ -7856,7 +7856,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 247,
         "n_incidents": 34,
         "incidents": [
@@ -8248,7 +8248,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 184,
         "n_incidents": 26,
         "incidents": [
@@ -8550,7 +8550,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 286,
         "n_incidents": 40,
         "incidents": [
@@ -9008,7 +9008,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 258,
         "n_incidents": 35,
         "incidents": [
@@ -9416,7 +9416,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "High Risk",
         "score": 91,
         "n_incidents": 13,
         "incidents": [
@@ -9574,7 +9574,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 217,
         "n_incidents": 29,
         "incidents": [
@@ -9915,7 +9915,7 @@
       "n_reviews": 73,
       "n_judgments": 73,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 250,
         "n_incidents": 35,
         "incidents": [
@@ -10313,7 +10313,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 147,
         "n_incidents": 21,
         "incidents": [
@@ -10558,7 +10558,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 182,
         "n_incidents": 25,
         "incidents": [
@@ -10850,7 +10850,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 193,
         "n_incidents": 27,
         "incidents": [
@@ -11164,7 +11164,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 171,
         "n_incidents": 23,
         "incidents": [
@@ -11437,7 +11437,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 137,
         "n_incidents": 19,
         "incidents": [
@@ -11663,7 +11663,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 191,
         "n_incidents": 28,
         "incidents": [
@@ -11987,7 +11987,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 307,
         "n_incidents": 40,
         "incidents": [
@@ -12453,7 +12453,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 193,
         "n_incidents": 28,
         "incidents": [
@@ -13303,7 +13303,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 192,
         "n_incidents": 28,
         "incidents": [
@@ -13626,7 +13626,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 200,
         "n_incidents": 28,
         "incidents": [
@@ -13951,7 +13951,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 201,
         "n_incidents": 24,
         "incidents": [
@@ -14245,7 +14245,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 233,
         "n_incidents": 32,
         "incidents": [
@@ -14615,7 +14615,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 230,
         "n_incidents": 32,
         "incidents": [
@@ -14985,7 +14985,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 245,
         "n_incidents": 35,
         "incidents": [
@@ -15386,7 +15386,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 245,
         "n_incidents": 33,
         "incidents": [
@@ -15771,7 +15771,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 330,
         "n_incidents": 40,
         "incidents": [
@@ -16240,7 +16240,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 137,
         "n_incidents": 18,
         "incidents": [
@@ -16456,7 +16456,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 168,
         "n_incidents": 24,
         "incidents": [
@@ -16735,7 +16735,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 264,
         "n_incidents": 39,
         "incidents": [
@@ -17176,7 +17176,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 217,
         "n_incidents": 28,
         "incidents": [
@@ -17506,7 +17506,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 183,
         "n_incidents": 26,
         "incidents": [
@@ -17805,7 +17805,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 179,
         "n_incidents": 24,
         "incidents": [
@@ -18087,7 +18087,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 233,
         "n_incidents": 31,
         "incidents": [
@@ -18451,7 +18451,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 288,
         "n_incidents": 39,
         "incidents": [
@@ -18904,7 +18904,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 270,
         "n_incidents": 38,
         "incidents": [
@@ -19339,7 +19339,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 204,
         "n_incidents": 27,
         "incidents": [
@@ -19660,7 +19660,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 209,
         "n_incidents": 28,
         "incidents": [
@@ -19986,7 +19986,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 193,
         "n_incidents": 28,
         "incidents": [
@@ -20310,7 +20310,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 202,
         "n_incidents": 28,
         "incidents": [
@@ -20636,7 +20636,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 130,
         "n_incidents": 18,
         "incidents": [
@@ -20851,7 +20851,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 165,
         "n_incidents": 24,
         "incidents": [
@@ -21129,7 +21129,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 226,
         "n_incidents": 32,
         "incidents": [
@@ -21499,7 +21499,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 149,
         "n_incidents": 22,
         "incidents": [
@@ -21753,7 +21753,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 216,
         "n_incidents": 33,
         "incidents": [
@@ -22127,7 +22127,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 179,
         "n_incidents": 24,
         "incidents": [
@@ -22410,7 +22410,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 192,
         "n_incidents": 26,
         "incidents": [
@@ -22712,7 +22712,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 210,
         "n_incidents": 29,
         "incidents": [
@@ -23051,7 +23051,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 214,
         "n_incidents": 29,
         "incidents": [
@@ -23386,7 +23386,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 238,
         "n_incidents": 32,
         "incidents": [
@@ -23760,7 +23760,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 273,
         "n_incidents": 36,
         "incidents": [
@@ -24178,7 +24178,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 251,
         "n_incidents": 36,
         "incidents": [
@@ -24588,7 +24588,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 200,
         "n_incidents": 27,
         "incidents": [
@@ -24906,7 +24906,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 168,
         "n_incidents": 24,
         "incidents": [
@@ -25184,7 +25184,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 241,
         "n_incidents": 33,
         "incidents": [
@@ -25572,7 +25572,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 144,
         "n_incidents": 20,
         "incidents": [
@@ -25809,7 +25809,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 239,
         "n_incidents": 30,
         "incidents": [
@@ -26165,7 +26165,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 226,
         "n_incidents": 28,
         "incidents": [
@@ -26494,7 +26494,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 251,
         "n_incidents": 31,
         "incidents": [
@@ -26854,7 +26854,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 220,
         "n_incidents": 29,
         "incidents": [
@@ -27195,7 +27195,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 213,
         "n_incidents": 29,
         "incidents": [
@@ -27534,7 +27534,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 297,
         "n_incidents": 38,
         "incidents": [
@@ -27972,7 +27972,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 294,
         "n_incidents": 37,
         "incidents": [
@@ -28409,7 +28409,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 278,
         "n_incidents": 43,
         "incidents": [
@@ -28888,7 +28888,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 158,
         "n_incidents": 23,
         "incidents": [
@@ -29155,7 +29155,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 190,
         "n_incidents": 25,
         "incidents": [
@@ -29449,7 +29449,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 187,
         "n_incidents": 24,
         "incidents": [
@@ -29734,7 +29734,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 257,
         "n_incidents": 37,
         "incidents": [
@@ -30156,7 +30156,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 222,
         "n_incidents": 29,
         "incidents": [
@@ -30498,7 +30498,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 130,
         "n_incidents": 18,
         "incidents": [
@@ -30713,7 +30713,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 226,
         "n_incidents": 38,
         "incidents": [
@@ -31130,7 +31130,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 202,
         "n_incidents": 30,
         "incidents": [
@@ -31472,7 +31472,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 219,
         "n_incidents": 28,
         "incidents": [
@@ -31803,7 +31803,7 @@
       "n_reviews": 33,
       "n_judgments": 33,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 133,
         "n_incidents": 17,
         "incidents": [
@@ -32012,7 +32012,7 @@
       "n_reviews": 45,
       "n_judgments": 45,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 122,
         "n_incidents": 19,
         "incidents": [
@@ -32232,7 +32232,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Low Risk",
+        "verdict": "Critical Risk",
         "score": 133,
         "n_incidents": 19,
         "incidents": [
@@ -32456,7 +32456,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 247,
         "n_incidents": 31,
         "incidents": [
@@ -32822,7 +32822,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 259,
         "n_incidents": 37,
         "incidents": [
@@ -33245,7 +33245,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 253,
         "n_incidents": 36,
         "incidents": [
@@ -33657,7 +33657,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 204,
         "n_incidents": 28,
         "incidents": [
@@ -33982,9 +33982,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Risk": 23,
-      "High Risk": 75,
-      "Critical Risk": 2
+      "Low Risk": 0,
+      "High Risk": 2,
+      "Critical Risk": 98
     },
     "missing_judgments": 0
   }

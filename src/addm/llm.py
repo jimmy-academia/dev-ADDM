@@ -52,6 +52,9 @@ class LLMService:
             "request_timeout": 90.0,
             "max_retries": 4,
             "max_concurrent": 32,
+            # Rate limit mitigation: small delay between requests (seconds)
+            # Set to 0.0 to disable, 0.03-0.1 recommended for high-volume runs
+            "request_delay": 0.03,
         }
         self._clients: Dict[str, Any] = {}
         self._mock_responder: Optional[Callable[[List[Dict[str, str]]], str]] = None
@@ -60,7 +63,7 @@ class LLMService:
         for key, value in kwargs.items():
             if value is None:
                 continue
-            if key in {"request_timeout"}:
+            if key in {"request_timeout", "request_delay"}:
                 self._config[key] = float(value)
             elif key in {"max_tokens", "max_retries", "max_concurrent"}:
                 self._config[key] = int(value)
@@ -154,13 +157,21 @@ class LLMService:
         max_tokens = self._config["max_tokens"]
         timeout = self._config["request_timeout"]
         max_retries = self._config["max_retries"]
+        request_delay = self._config.get("request_delay", 0.0)
 
-        start_time = time.perf_counter()
+        # Hard timeout margin beyond SDK timeout (safety net for hung connections)
+        hard_timeout = timeout + 30
 
         for attempt in range(max_retries + 1):
+            # Rate limit mitigation: small delay before first attempt (not retries)
+            # Retries already have exponential backoff
+            if attempt == 0 and request_delay > 0:
+                await asyncio.sleep(request_delay)
+
+            attempt_start = time.perf_counter()  # Reset each attempt (only count successful)
             try:
                 if provider == "mock":
-                    latency_ms = (time.perf_counter() - start_time) * 1000
+                    latency_ms = (time.perf_counter() - attempt_start) * 1000
                     if self._mock_responder:
                         response = self._mock_responder(messages)
                     else:
@@ -188,8 +199,12 @@ class LLMService:
                         kwargs["max_tokens"] = max_tokens
                     if response_format:
                         kwargs["response_format"] = response_format
-                    resp = await client.chat.completions.create(**kwargs)
-                    latency_ms = (time.perf_counter() - start_time) * 1000
+                    # Hard timeout wrapper - catches hung connections SDK timeout misses
+                    resp = await asyncio.wait_for(
+                        client.chat.completions.create(**kwargs),
+                        timeout=hard_timeout,
+                    )
+                    latency_ms = (time.perf_counter() - attempt_start) * 1000
                     response = resp.choices[0].message.content
 
                     # Extract usage from response
@@ -245,8 +260,12 @@ class LLMService:
                     }
                     if payload["system"]:
                         kwargs["system"] = payload["system"]
-                    resp = await client.messages.create(**kwargs)
-                    latency_ms = (time.perf_counter() - start_time) * 1000
+                    # Hard timeout wrapper - catches hung connections SDK timeout misses
+                    resp = await asyncio.wait_for(
+                        client.messages.create(**kwargs),
+                        timeout=hard_timeout,
+                    )
+                    latency_ms = (time.perf_counter() - attempt_start) * 1000
                     response = resp.content[0].text
 
                     # Extract usage from response
@@ -292,13 +311,22 @@ class LLMService:
                     return response, usage
 
                 raise LLMServiceError(f"Unsupported provider: {provider}")
+            except asyncio.TimeoutError:  # Hard timeout fired
+                if attempt >= max_retries:
+                    raise LLMServiceError(
+                        f"Hard timeout after {max_retries + 1} attempts "
+                        f"({hard_timeout}s each)"
+                    )
+                # Fall through to backoff and retry
+                last_exc = asyncio.TimeoutError(f"Attempt {attempt + 1} timed out")
             except Exception as exc:  # pragma: no cover - network or SDK errors
                 if attempt >= max_retries:
                     raise
-                jitter = random.random() * 0.2
-                sleep_for = (2 ** attempt) + jitter
-                await asyncio.sleep(sleep_for)
                 last_exc = exc
+            # Exponential backoff before retry
+            jitter = random.random() * 0.2
+            sleep_for = (2 ** attempt) + jitter
+            await asyncio.sleep(sleep_for)
         raise LLMServiceError(f"LLM request failed: {last_exc}")
 
     def call(self, messages: List[Dict[str, str]]) -> str:

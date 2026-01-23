@@ -61,20 +61,8 @@ from addm.utils.results_manager import ResultsManager, get_results_manager
 from addm.utils.usage import compute_cost
 
 
-# All 72 policies (6 groups × 3 topics × 4 variants)
-ALL_POLICIES = [
-    f"G{g}_{topic}_V{v}"
-    for g, topics in [
-        (1, ["allergy", "dietary", "hygiene"]),
-        (2, ["romance", "business", "group"]),
-        (3, ["price_worth", "hidden_costs", "time_value"]),
-        (4, ["server", "kitchen", "environment"]),
-        (5, ["capacity", "execution", "consistency"]),
-        (6, ["uniqueness", "comparison", "loyalty"]),
-    ]
-    for topic in topics
-    for v in range(4)
-]
+# Import ALL_POLICIES and expand_policies from shared constants
+from addm.tasks.constants import ALL_POLICIES, expand_policies
 
 # Mapping from policy topic to legacy task ID for ground truth comparison
 # Policy naming: G{group}_{topic}_V{version} -> Task: G{group}{variant}
@@ -581,6 +569,7 @@ async def run_experiment(
     phase: Optional[str] = None,
     seed_path: Optional[str] = None,
     run_number: Optional[int] = None,
+    suppress_output: bool = False,
 ) -> Dict[str, Any]:
     """Run experiment evaluation.
 
@@ -725,7 +714,7 @@ async def run_experiment(
             effective_mode = "ondemand"
 
     # Configure output manager
-    output.configure(quiet=not verbose, mode=effective_mode)
+    output.configure(quiet=not verbose, mode=effective_mode, suppress_all=suppress_output)
 
     # Setup loggers
     # Debug logger writes to debug.jsonl (consolidated mode)
@@ -1617,13 +1606,23 @@ def main() -> None:
     """CLI entry point."""
     parser = argparse.ArgumentParser(description="Run experiment evaluation")
 
-    # Task or policy (mutually exclusive, optional - omit to run all 72 policies)
-    group = parser.add_mutually_exclusive_group(required=False)
-    group.add_argument("--task", type=str, help="Legacy task ID (e.g., G1a)")
-    group.add_argument(
+    # Task or policy targeting (mutually exclusive, optional - omit to run all 72 policies)
+    target_group = parser.add_mutually_exclusive_group(required=False)
+    target_group.add_argument("--task", type=str, help="Legacy task ID (e.g., G1a)")
+    target_group.add_argument(
         "--policy",
         type=str,
         help="Policy ID (e.g., G1_allergy_V2) or comma-separated list. Omit to run all 72 policies.",
+    )
+    target_group.add_argument(
+        "--topic",
+        type=str,
+        help="Topic (e.g., G1_allergy) - runs all V0-V3 variants (4 policies)",
+    )
+    target_group.add_argument(
+        "--group",
+        type=str,
+        help="Group (e.g., G1) - runs all topics × variants (12 policies)",
     )
 
     parser.add_argument("--domain", type=str, default="yelp", help="Domain")
@@ -1753,19 +1752,32 @@ def main() -> None:
             output.info(f"Using {len(sample_ids)} verdict samples for {policy_key} K={args.k}")
         # else: multi-policy mode - sample_ids resolved per-policy in the loop
 
-    # Parse policies - support comma-separated list or default to all 72
+    # Parse policies using centralized expand_policies()
     policies = []
-    if args.policy:
-        policies = [p.strip() for p in args.policy.split(",") if p.strip()]
-    elif not args.task:
-        # No --policy and no --task: run all 72 policies
-        policies = ALL_POLICIES.copy()
-        output.info(f"Running all {len(policies)} policies")
+    if not args.task:
+        try:
+            policies = expand_policies(
+                policy=args.policy,
+                topic=args.topic,
+                group=args.group,
+            )
+        except ValueError as e:
+            output.error(str(e))
+            sys.exit(1)
+        if not args.policy and not args.topic and not args.group:
+            output.info(f"Running all {len(policies)} policies")
+        elif args.topic:
+            output.info(f"Running topic {args.topic}: {len(policies)} policies")
+        elif args.group:
+            output.info(f"Running group {args.group}: {len(policies)} policies")
 
     if len(policies) > 1:
-        # Multiple policies - run sequentially (to avoid overwhelming the API)
+        # Multiple policies - run with progress tracking
+        progress_tracker = output.create_multi_policy_progress(policies)
+
         async def run_single_policy_safe(policy: str) -> Dict[str, Any]:
-            """Run a single policy with error handling."""
+            """Run a single policy with error handling and progress tracking."""
+            progress_tracker.start_policy(policy)
             try:
                 # Resolve sample_ids per-policy if using --sample with multiple policies
                 policy_sample_ids = sample_ids
@@ -1776,7 +1788,7 @@ def main() -> None:
                     if ids_str:
                         policy_sample_ids = [s.strip() for s in ids_str.split(",") if s.strip()]
 
-                return await run_experiment(
+                result = await run_experiment(
                     task_id=args.task,
                     policy_id=policy,
                     domain=args.domain,
@@ -1798,37 +1810,25 @@ def main() -> None:
                     phase=args.phase,
                     seed_path=args.seed,
                     run_number=args.run,
+                    suppress_output=True,  # Suppress all output for progress bar
                 )
+                progress_tracker.complete_policy(policy, result)
+                return result
             except Exception as e:
-                return {"error": str(e), "policy_id": policy}
+                result = {"error": str(e), "policy_id": policy}
+                progress_tracker.complete_policy(policy, result)
+                return result
 
         async def run_multiple_policies():
-            tasks = [run_single_policy_safe(policy) for policy in policies]
-            results = await gather_with_concurrency(len(policies), tasks)
+            with progress_tracker:
+                tasks = [run_single_policy_safe(policy) for policy in policies]
+                results = await gather_with_concurrency(len(policies), tasks)
             return dict(zip(policies, results))
 
         run_result = asyncio.run(run_multiple_policies())
 
-        # Print summary for multiple policies
-        if args.phase == "1":
-            output.rule()
-            success_count = sum(1 for r in run_result.values() if isinstance(r, dict) and r.get("phase") == "1")
-            error_count = len(policies) - success_count
-            output.success(f"Phase 1 Batch Complete: {success_count}/{len(policies)} succeeded")
-            rows = []
-            for policy_id, result in run_result.items():
-                if isinstance(result, dict) and result.get("error"):
-                    rows.append([policy_id, "ERROR", result.get("error", "")[:60]])
-                elif isinstance(result, dict) and result.get("phase") == "1":
-                    summary = result.get("seed_summary", {})
-                    rows.append([
-                        policy_id,
-                        "OK",
-                        f"kw={summary.get('keywords', '?')} fld={summary.get('fields', '?')} ops={summary.get('compute_ops', '?')}"
-                    ])
-                else:
-                    rows.append([policy_id, "?", str(result)[:60]])
-            output.print_table("Results", ["Policy", "Status", "Summary"], rows)
+        # Print summary table
+        progress_tracker.print_summary()
     else:
         # Single policy (or task)
         run_result = asyncio.run(

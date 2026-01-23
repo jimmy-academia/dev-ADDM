@@ -3,7 +3,7 @@
   "topic": "G6_comparison",
   "domain": "yelp",
   "k": 100,
-  "computed_at": "2026-01-22T20:00:20.869961",
+  "computed_at": "2026-01-23T16:43:16.082480",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -441,8 +441,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -571,8 +571,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1310,8 +1310,8 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Weaker": 30,
-      "Comparable": 5,
+      "Weaker": 28,
+      "Comparable": 7,
       "Stronger": 65
     },
     "missing_judgments": 0

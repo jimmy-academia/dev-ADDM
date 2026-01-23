@@ -3,7 +3,7 @@
   "topic": "G5_capacity",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-22T19:59:12.515095",
+  "computed_at": "2026-01-23T16:42:46.884711",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -21,13 +21,15 @@
             "review_id": "tH1tfFh3bHlsQ2kO4I_Kdg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "P9YmbRug9f8DY_JPII7Xng",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -47,25 +49,29 @@
             "review_id": "-dHx_X9BdXdU_Ep_j14prg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "r-AeA2mGqs8jtpnHMabCFQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "caxIRGvFDtxUxio5gRaJ5w",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "ZSeQbybC81hXYgy_jK1bMw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -85,19 +91,22 @@
             "review_id": "TBEbQ_OF6TBjGaL265ontw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "Mt9IJcTIkO9IJhjY797K_Q",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "d_PssJ7QJkgzJPwyejPMOQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -117,7 +126,8 @@
             "review_id": "T3NU733w4xH3N10B2UBewg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -163,7 +173,8 @@
             "review_id": "dxUA_c59TqWzA4-9qZJ7qQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -183,7 +194,8 @@
             "review_id": "v3OO3yiKDuUNc3XYpBWj7g",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -203,7 +215,8 @@
             "review_id": "JVTBnLxI28GVbqYP5_tysQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -223,13 +236,15 @@
             "review_id": "2NSirWr3YM8NHZCywEEbcA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "dJc05sBvwXKXv6Eji-oPVA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -262,7 +277,8 @@
             "review_id": "rNoM9zQvVTmqBufEIFE8Cg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -282,7 +298,8 @@
             "review_id": "QFf16bxnfjfuq4fx6qtWoQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -302,13 +319,15 @@
             "review_id": "k4dsuXG3TIf-IciUNjSN3g",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "RC-K4uDMz0eePrvr2zJYbw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -328,13 +347,15 @@
             "review_id": "wFWMMpOavbl44UpoilHlfQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "wlGzYCQkuA2JaGvdWbBcZQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -354,19 +375,22 @@
             "review_id": "3CuTQU_YruHuf3crMEdpVA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "6r7tExWHhCv_OD1Qo_J3dQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "8-CT00P-R2hf2Gg1YOpHdg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -386,7 +410,8 @@
             "review_id": "tSS9TPnRv6sTowCoBLapFw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -406,13 +431,15 @@
             "review_id": "WNHQ2OvkihxzdEMgE5fQlg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "A0Pur0Osy7qr2EjVbkJJUg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -432,7 +459,8 @@
             "review_id": "-EPDAH23nFufrz1QwEqbcA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -452,7 +480,8 @@
             "review_id": "SuHNkUOT7IJmEejML-dCeg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -472,19 +501,22 @@
             "review_id": "c6Uijriax_Yeux--i7D2QQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "-VDs6QlL9VsfEAgPbg24DA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "jcLrMcjbtMAcgwDFJ2-_Vg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -504,7 +536,8 @@
             "review_id": "MRLwPum4AaiAP1Zn6gGTQA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -524,31 +557,36 @@
             "review_id": "P4G9atlsE6zA4ANsPlwizQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "EScoZY_AwCAwV7JhOQakug",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "iClsz0cC47x2Wh336Y60Sg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "9p-9H2byIsC77RukisHlPg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "F93HOMIKNJFSA6zyB9ZdWA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -568,31 +606,36 @@
             "review_id": "iD4aqf6fBY2eE3dGLhY43g",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "E8DXtOnz9KIGVEFb9Fw7JQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "IEdxyyZaTsmsTV3vyV-oQg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "WWAPGh_xRBSkH92KDTwT1w",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "Af4AKb1XtzX2IhXFirQong",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -625,13 +668,15 @@
             "review_id": "xyuydJej9DvvxzQCWEXKkQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "JccP8qegFZgNil1SfYF2sg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -651,25 +696,29 @@
             "review_id": "mofqrY_IT7e4snKjsGNVBQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "luX-ww4a15YwrkfTCK5Kng",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "vzRiQsHcJIBXC-JChvgsQA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "t05jZM52ZDld-AUTcOIvAw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -702,19 +751,22 @@
             "review_id": "UNj4YuE5X9AB8ZnGfBkjMw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "EefNjGo8nLIoCglmbau-vQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "CxqvKAIGVbegzi4eaERiFA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -734,7 +786,8 @@
             "review_id": "cMATz_NczgHQ5WhPcUdLiQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -754,19 +807,22 @@
             "review_id": "jmuLJcKPXhROwlPYpHVYzA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "mbR6G7RrV6XyLqXPDHFZfQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "X8XmvzCwPfQS-A2Ub0swWg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -786,7 +842,8 @@
             "review_id": "Zhs7P1GC2oSQXpCzOHp-cA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -819,19 +876,22 @@
             "review_id": "PQoqnpN7iDNyVrywStzwhQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "zdOb2lBYgoG2nxoH9gng1A",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "z3I9VR-aoBFFPhh-PZUk7A",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -851,7 +911,8 @@
             "review_id": "07ugA8RtcsmagkewQQnnjQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -871,13 +932,15 @@
             "review_id": "AUvnP9OpB4Z1_45PoOXwDA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "0lkMO7fsnAUJtVvsOU3C-g",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -897,43 +960,50 @@
             "review_id": "2SYot6bLdkeSPTAYZefo_g",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "WzkM46ieQZZlaWF9vyYdeQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "ekoZ9VUN11g6DvHhKfWdxg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "RKZCA21QWgw4h5c1nCc-0Q",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "323szbJk9Q7zd6MUUbSV8w",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "ilh2s_6u2W3muFZRgxIukA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "miJMpL4G-U8V9uOkU2EHBA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -953,7 +1023,8 @@
             "review_id": "GQzNKK6AWSdvNV_umKuJ7Q",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -973,25 +1044,29 @@
             "review_id": "1f9I5eHCa48IhR6NRCeHAg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "1PwgfWbdZTRd3Rc3cJ7WaA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "mabXQOeJwP3BXHM8VTTUug",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "OlXyl0cQ6BWlHypYIASZiQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1011,19 +1086,22 @@
             "review_id": "3A5ETZM5k7dF5Bq103x-mQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "kh6jHSeo9U8Xe45ysWFf-Q",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "Tt1GalfslOIZzlD6bqd3sQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1043,31 +1121,36 @@
             "review_id": "68nBDTuO1DaBdWiMabXLvg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "8_J1qa4XM8Zf2nKzH7g1Ew",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "UOWhGtytiVVZ--44QnH47w",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "prYP0QPncfl1U2DQPhvnkw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "rbq4zsbVehFzpZRGN_sekA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1087,13 +1170,15 @@
             "review_id": "9bafpg-w4gWW61TXg0Getw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "_aeokHY3SGPHHxezb_Z3sg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1113,25 +1198,29 @@
             "review_id": "j9aQAbJqXawR2HgHNg25HA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "Gi1S7snrk6jlXlEcC_xPNw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "h_32ud2RKm0v0PzHPB9zSA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "x8bWGBb4ujluaCAdLGGuWg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1151,19 +1240,22 @@
             "review_id": "w3kRZT0HNEVmbPn3g1QAhQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "Uukv_VGK95sC9uw45ww8qw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "DYesyaAjy5_wx4z17q6JyQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1196,31 +1288,36 @@
             "review_id": "Pwzd2JMsxsAIRO2tlpDObg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "TpogXkSA-RF0o9VTfrbZPQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "5JwasW8hh-W3vvLddcSHfg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "vajTfG2CQ8MHB64pR3ZsOA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "WsjA3ZMePX-z26gh5Yh1Jw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1240,25 +1337,29 @@
             "review_id": "8_d-dV-UaUYuGpv13qFCiQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "OgY2ayjVM2ONLu8Lwd3Now",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "wo9BKsjWGgY1pbiQhjj-8A",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "AcGe70jftPM7umKPAsBKSg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1278,19 +1379,22 @@
             "review_id": "fDG5f0wYTpSMdXAhwYeJFA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "vZ-t0zwsv5PEBO9fnXMXJg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "IrHCiyodMdAK4ZFy5HFn9g",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1310,19 +1414,22 @@
             "review_id": "3UeBAd5ChL-quyqV2zUFCQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "Agb4MMrNL_R903eStCdoew",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "77E_ASStdYIr5q2GgeuWBg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1342,7 +1449,8 @@
             "review_id": "KDHj-n9C4SK26inidS-U-A",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1362,19 +1470,22 @@
             "review_id": "Ud_zFRpsmPSgJRpi26xtGA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "VSVVXRwIWaFsq8BiFEqY3Q",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "g22gg5UcXJfBYsmPqmf_7Q",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1394,7 +1505,8 @@
             "review_id": "gh38GnP6W-TvZdaU--SUOA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1414,19 +1526,22 @@
             "review_id": "qLZj2kQryZbyFZ4anThK5A",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "1hLYaX3CSmzXlFskqwzBWw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "RL_1HfJiWlDMOzNGSaPUnw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1446,13 +1561,15 @@
             "review_id": "w5fsNXDhUnGmtWhItW9FHg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "5_0UZBfsU4GD3FeNSVDwiQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1472,7 +1589,8 @@
             "review_id": "VkVbzBkbSBVYhvqbXnu7mQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1492,25 +1610,29 @@
             "review_id": "2TZXowwTTB81WIeAnb0zMA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "VbyBXFnLMj90EPz4cuiy7A",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "1kSM67V7VNMQkh-MUgJZag",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "WnTRUUzz-Doo1S_XYKG5MA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1530,31 +1652,36 @@
             "review_id": "wxToKzS6FZeM_XNCVDAPXQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "3PxyPZUOIM5lxirt7FZyTw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "itYRmu7RICSs0G_EnqgEMg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "vO3-olIoqfvZ2WMa8d0n_Q",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "mHUs4rHL6hQWs2AvLXLE3w",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1574,25 +1701,29 @@
             "review_id": "aX6tWaEeFVYp2ty14X9MLg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "I_ewkPq8dsu5MHjiFOSrjw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "eH21gbOKswWbMXiOxN4fug",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "lBgyVQ5EUP1Y2f_ypteOCA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1612,13 +1743,15 @@
             "review_id": "EMiJI5axCx2EhDjezNcwEw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "z7rvJG-OD6j95MWYmcreeg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1664,13 +1797,15 @@
             "review_id": "jA9Z1nIM4A_-QeYTGC4icg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "2GKTx6nBw4z53JOnxLe65w",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1729,19 +1864,22 @@
             "review_id": "qUMiKlYAZtnlb8itpMfb6A",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "PnrFEaFBsZoEjUze-FrIwg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "vN73bNSnEUX0UsPhbGea5Q",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1761,13 +1899,15 @@
             "review_id": "0s6ngEsSL8Eoqr5RckSTGw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "c4yYyFYbVO123A8aCZwoPA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1787,31 +1927,36 @@
             "review_id": "JECYAyYcWqfwCzAPfjmzIw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "Fwv2DVctKeLMpoU5_dUf5w",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "RF38UdspFYcoNVY0Aufdbg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "CsIcN0B4A-urgwLpMk0CDg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "2NYQPtfqRPiXvSwCH2_cNg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1844,25 +1989,29 @@
             "review_id": "qwPJ6EHKA3R23iahSQ6CoA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "Kz_6W2fyKpnq17Q3WcpFng",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "HjsoS8rLXdczqP7pMe_N8w",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "We-Xm2nwQs0vutN8eM92Hg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1882,7 +2031,8 @@
             "review_id": "ogT2S4g6IbOKEgjfyTE5CA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1902,13 +2052,15 @@
             "review_id": "Qqk8juexk6QmMDF0iD0_yQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "vHScuw24h53SqMiwXfNRBg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1928,7 +2080,8 @@
             "review_id": "kbAfjHkOyXx2TuKzLLyc9g",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1974,7 +2127,8 @@
             "review_id": "Oe1gsaV4Rt-UqKrdgAU-kQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1994,19 +2148,22 @@
             "review_id": "oRUXyBzQT16wZuEJ8I_5xg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "azokJnA7jxDkKZfg9bk86g",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "TUnR-se-dvpTXJ_4wAk-LA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2026,19 +2183,22 @@
             "review_id": "mJO7ytMfrqyQM-_7C7sKbA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "h29mneC455Rp3Lku39-hfA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "y1ZoWbuV_fJWTH_u-m_8dQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2058,13 +2218,15 @@
             "review_id": "k99aGyzL14I6M0YonXLs_Q",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "YaQY2jdr7gtsz3lgwDKesw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2084,19 +2246,22 @@
             "review_id": "WEslRJ__tbvV5gtsWwrTlQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "TVTQysqqYZbvspX2d6v2Hg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "4RRFRpdzAfQVdJJtrlrzNA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2116,19 +2281,22 @@
             "review_id": "QjDm_6Xv6q72C0kb17YUrQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "akbDq9GUQaMqnHSimZzvkg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "tUYU2J6YJHaS8iiOzc7p1A",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2148,25 +2316,29 @@
             "review_id": "oK5jiMHbBCYpNZuvnuUxvg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "bKgDgE6aoH06cVD8t7v_0g",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "F4bkDF8zJk_lLW0ZPpDxjg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "lt58rWOsnR9sNVwhSCTbtQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2186,7 +2358,8 @@
             "review_id": "eExGbk8Jbr-e-qtnBXYq2Q",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2206,55 +2379,64 @@
             "review_id": "96JiNWWZUr7OgF_BL2Gd9Q",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "vgSBC3sHH7O5eI7KOLunHg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "L8BONnobImHdO9CJL5EE2g",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "lCOOtDs6wwWcw0b-9HjyTw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "EmHUDCrXdSHPIFfzF_DK7g",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "Mc2H4y-czfE5za_0ZFLmsQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "YxqLJwDgcL4OoDB1hN-Ikg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "0UL_hDjrrSbA0I5qvi3PWQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "xEn3lMbL2Cs7v7io4QfJZg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2274,7 +2456,8 @@
             "review_id": "VXiGycLYzicA7y01AA70ow",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2294,13 +2477,15 @@
             "review_id": "2cJCAqENOTuBzoSbAKpLMg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "cR0W6iFQtPYkCBFoivbmIA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2320,13 +2505,15 @@
             "review_id": "nMc1BS1jJpFXlcrE-KHOGQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "GSAmHRm4Gw6pwrP_otpRWA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2346,7 +2533,8 @@
             "review_id": "Re_BZaWjabKuDn7Q8Ss4KA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2366,31 +2554,36 @@
             "review_id": "Sx_U-OAa8PRUF6uvEMJaiQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "OhYCHlUBY-3kKLtCiLlVpA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "mPfbf8WrzJiWZdNGZyTenA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "tWS8Xt2twXzM9yQYMKopow",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "4X6bfEgM6Va6yMgniLX1TQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2410,13 +2603,15 @@
             "review_id": "4cm_FqB5UWd3EQxc-i2g-g",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "OIYqSU4A_B_EaZOQs1nybg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2449,13 +2644,15 @@
             "review_id": "lDeII-nmcHoO4cpje7Mv6w",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "hwF5f-Np-SYgNe5Kg3RnVg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2475,19 +2672,22 @@
             "review_id": "RScFN2ydh7LKtNxf-UsysQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "O2-I7OO2Vz_EvfXCIC7JgQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "w0lWZcvOZ3MUpLJ-l0mRUw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2507,19 +2707,22 @@
             "review_id": "77OGXLp0WcBOh6jlANlPMg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "iKn2Tl2mkzhkiupE5HHBbA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "e7eiO4XOiWMWJsuAl_U01w",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2539,25 +2742,29 @@
             "review_id": "ex9f8x7ITJRfOWdXse8zHA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "whx_ZF2nRm1_M4v4aTNFaQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "hxNJ1DEYm18_-J6Gt2t92A",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "fppoSpnV6YeAOS7wOI0Hfw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2577,7 +2784,8 @@
             "review_id": "0JlEapv8VUdLt48D8E8lHw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2597,19 +2805,22 @@
             "review_id": "DYeCRcMPalh4uIjVgNyuog",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "UgRtHz6GMHlNj4hxbWF3YA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "tYVcjD0VGMpObImlEg5oPw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2629,13 +2840,15 @@
             "review_id": "0pSXXFrWbjCWWMcs6cgSzQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "HFHuv75KABMbhpVWQMlYEA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2655,31 +2868,36 @@
             "review_id": "pNi6b5A0VMxQOpLgLWTAdQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "WYcFf7d4YHCL6jYb144kXA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "QgvZDxc1HhhbUcvyU3enOg",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "eIHLM_6rWWPUhVvP1PmcYQ",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "WgDpszOyhlI41KKbzHImcA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -2699,19 +2917,22 @@
             "review_id": "nx_7L8xc7IkvE1scj71naA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "b_c_q7K-eyJxeId5rZKnMw",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           },
           {
             "review_id": "RYimOqaxpPvJNCriwmBKyA",
             "severity_field": "service_degradation",
             "severity_value": "minor",
-            "account_type": "firsthand"
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }

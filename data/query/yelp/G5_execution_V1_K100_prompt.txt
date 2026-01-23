@@ -69,4 +69,7 @@ A restaurant is considered **Excellent** if any of the following is true:
 - 30 or more reviews report broken promises
 - 30 or more reviews describe no issue resolution
 
-**Satisfactory** otherwise
+**Satisfactory** otherwise, especially when:
+- Orders mostly correct with occasional errors
+- Issues acknowledged and addressed
+- Reasonable accommodation of requests

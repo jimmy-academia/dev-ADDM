@@ -3,7 +3,7 @@
   "topic": "G1_hygiene",
   "domain": "yelp",
   "k": 200,
-  "computed_at": "2026-01-22T20:00:13.077868",
+  "computed_at": "2026-01-23T16:43:25.171976",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -311,8 +311,8 @@
       "n_reviews": 143,
       "n_judgments": 143,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_hygiene_V1",
         "n_incidents": 0,
         "incidents": []
@@ -324,8 +324,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_hygiene_V1",
         "n_incidents": 0,
         "incidents": []
@@ -441,8 +441,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_hygiene_V1",
         "n_incidents": 0,
         "incidents": []
@@ -558,8 +558,8 @@
       "n_reviews": 185,
       "n_judgments": 185,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_hygiene_V1",
         "n_incidents": 0,
         "incidents": []
@@ -948,8 +948,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_hygiene_V1",
         "n_incidents": 0,
         "incidents": []
@@ -974,8 +974,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_hygiene_V1",
         "n_incidents": 0,
         "incidents": []
@@ -1234,8 +1234,8 @@
       "n_reviews": 45,
       "n_judgments": 45,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_hygiene_V1",
         "n_incidents": 0,
         "incidents": []
@@ -1311,8 +1311,8 @@
     "total_restaurants": 100,
     "verdict_distribution": {
       "Low Risk": 10,
-      "High Risk": 39,
-      "Critical Risk": 51
+      "High Risk": 46,
+      "Critical Risk": 44
     },
     "missing_judgments": 0
   }

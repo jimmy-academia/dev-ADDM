@@ -3,7 +3,7 @@
   "topic": "G2_romance",
   "domain": "yelp",
   "k": 100,
-  "computed_at": "2026-01-22T20:00:08.595211",
+  "computed_at": "2026-01-23T16:43:09.557575",
   "has_scoring": true,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -27266,7 +27266,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Acceptable",
+        "verdict": "Not Recommended",
         "score": -93,
         "n_incidents": 48,
         "incidents": [
@@ -35631,7 +35631,7 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Acceptable",
+        "verdict": "Not Recommended",
         "score": -61,
         "n_incidents": 45,
         "incidents": [
@@ -71608,8 +71608,8 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Not Recommended": 0,
-      "Acceptable": 36,
+      "Not Recommended": 2,
+      "Acceptable": 34,
       "Recommended": 64
     },
     "missing_judgments": 0

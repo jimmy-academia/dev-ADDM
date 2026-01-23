@@ -72,4 +72,7 @@ A restaurant is considered **Excellent** if any of the following is true:
 - 2 or more reviews complain about rude or unfriendly service
 - 2 or more reviews report frequent service errors
 
-**Satisfactory** otherwise
+**Satisfactory** otherwise, especially when:
+- Service is acceptable but not exceptional
+- Mixed reviews about server quality
+- Some good experiences, some issues

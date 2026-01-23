@@ -8,6 +8,8 @@ from addm.eval.constants import (
     VERDICT_THRESHOLDS,
     EVIDENCE_FIELDS,
     get_evidence_config,
+    POLICY_VERDICTS,
+    get_verdict_to_ordinal,
 )
 from addm.eval.metrics import (
     normalize_verdict,
@@ -18,7 +20,7 @@ from addm.eval.metrics import (
     # New metrics (v2)
     compute_score_accuracy,
     compute_verdict_consistency_enhanced,
-    RULE_TO_VERDICT,
+    extract_verdict_from_rule,
 )
 from addm.eval.intermediate_metrics import (
     compute_intermediate_metrics,
@@ -45,9 +47,12 @@ __all__ = [
     "SEVERITY_BASE_POINTS",
     "MODIFIER_POINTS",
     "VERDICT_THRESHOLDS",
-    "RULE_TO_VERDICT",
     "EVIDENCE_FIELDS",
     "get_evidence_config",
+    "POLICY_VERDICTS",
+    "get_verdict_to_ordinal",
+    # Helper functions
+    "extract_verdict_from_rule",
     # Core metrics
     "normalize_verdict",
     "normalize_judgement",

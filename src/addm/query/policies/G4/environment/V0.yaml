@@ -1,11 +1,19 @@
-policy_id: G4_environment_V0
-version: '1.0'
+# G4_environment_V0: Base Environment Quality Assessment
+# V0 = Base: Simple per-instance reasoning, basic thresholds
+# Owner perspective: Evaluating physical environment quality
+
+policy_id: "G4_environment_V0"
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
 overview:
-  title: Environment Quality Assessment
+  title: "Environment Quality Assessment"
+
   purpose: |
     Help assess the physical environment quality at this restaurant using customer reviews as evidence.
     This is from the perspective of a business owner evaluating ambiance and comfort.
     Assign a quality label: Needs Improvement, Satisfactory, or Excellent.
+
   incident_definition: |
     Consider reviews that mention any of the following:
     - cleanliness of the space
@@ -15,104 +23,113 @@ overview:
     - ambiance and decor fit with concept
 
     Reviews that only discuss food or service without mentioning environment carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
-  - ref: shared:ACCOUNT_TYPE
-  - ref: environment:CLEANLINESS
-  - ref: environment:NOISE_LEVEL
-  - ref: environment:COMFORT
-  - ref: environment:TEMPERATURE
-  - ref: environment:AMBIANCE_FIT
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "environment:CLEANLINESS"
+    - ref: "environment:NOISE_LEVEL"
+    - ref: "environment:COMFORT"
+    - ref: "environment:TEMPERATURE"
+    - ref: "environment:AMBIANCE_FIT"
+
+  # Decision policy -> generates Verdict Rules section
   decision:
-    verdicts:
-    - Needs Improvement
-    - Satisfactory
-    - Excellent
-    ordered: true
+    verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
+    ordered: true  # Higher = better quality
+
     rules:
-    - verdict: Excellent
-      label: EXCELLENT
-      logic: ANY
-      conditions:
-      - text: 50 or more reviews praise excellent atmosphere
-        type: count_threshold
-        filter:
-          ambiance_fit: excellent
-        min_count: 50
-        min_count_by_k:
-          25: 6
-          50: 13
-          100: 25
-      - text: 150 or more reviews describe it as clean
-        type: count_threshold
-        filter:
-          cleanliness: clean
-        min_count: 150
-        min_count_by_k:
-          25: 19
-          50: 38
-          100: 75
-    - verdict: Needs Improvement
-      label: NEEDS_IMPROVEMENT
-      precondition: Excellent does not apply
-      logic: ANY
-      conditions:
-      - text: 20 or more reviews describe cleanliness issues
-        type: count_threshold
-        filter:
-          cleanliness: dirty
-        min_count: 20
-        min_count_by_k:
-          25: 3
-          50: 5
-          100: 10
-      - text: 25 or more reviews report poor ambiance fit
-        type: count_threshold
-        filter:
-          ambiance_fit: poor
-        min_count: 25
-        min_count_by_k:
-          25: 3
-          50: 6
-          100: 13
-      - text: 10 or more reviews complain about deafening noise
-        type: count_threshold
-        filter:
-          noise_level: deafening
-        min_count: 10
-        min_count_by_k:
-          25: 1
-          50: 3
-          100: 5
-    - verdict: Satisfactory
-      label: SATISFACTORY
-      default: true
+      - verdict: "Excellent"
+        label: "EXCELLENT"
+        logic: ANY
+        conditions:
+          - text: "50 or more reviews praise excellent atmosphere"
+            type: count_threshold
+            filter:
+              ambiance_fit: excellent
+            min_count: 50
+            min_count_by_k:
+              25: 6
+              50: 13
+              100: 25
+          - text: "150 or more reviews describe it as clean"
+            type: count_threshold
+            filter:
+              cleanliness: clean
+            min_count: 150
+            min_count_by_k:
+              25: 19
+              50: 38
+              100: 75
+
+      - verdict: "Needs Improvement"
+        label: "NEEDS_IMPROVEMENT"
+        precondition: "Excellent does not apply"
+        logic: ANY
+        conditions:
+          - text: "20 or more reviews describe cleanliness issues"
+            type: count_threshold
+            filter:
+              cleanliness: dirty
+            min_count: 20
+            min_count_by_k:
+              25: 3
+              50: 5
+              100: 10
+          - text: "25 or more reviews report poor ambiance fit"
+            type: count_threshold
+            filter:
+              ambiance_fit: poor
+            min_count: 25
+            min_count_by_k:
+              25: 3
+              50: 6
+              100: 13
+          - text: "10 or more reviews complain about deafening noise"
+            type: count_threshold
+            filter:
+              noise_level: deafening
+            min_count: 10
+            min_count_by_k:
+              25: 1
+              50: 3
+              100: 5
+
+      - verdict: "Satisfactory"
+        label: "SATISFACTORY"
+        default: true
+        especially_when:
+          - "Environment is acceptable but unremarkable"
+          - "Some positive and some negative comments"
+          - "Basic expectations met but not exceeded"
+
+  # Output format
   output:
     verdict:
       type: enum
-      values:
-      - Needs Improvement
-      - Satisfactory
-      - Excellent
+      values: ["Needs Improvement", "Satisfactory", "Excellent"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: Relevant quotes supporting the verdict
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
-      description: Explain how the evidence was used to arrive at the final verdict
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
-      values:
-      - low
-      - medium
-      - high
-      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
-      description: Any other relevant observations or caveats
+      description: "Any other relevant observations or caveats"

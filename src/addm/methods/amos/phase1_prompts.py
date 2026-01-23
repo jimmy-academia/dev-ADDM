@@ -30,8 +30,8 @@ NO point values. Categories are severity levels (mild/moderate/severe or similar
 The agenda specifies verdict rules based on detecting SPECIFIC SIGNALS or QUALITY LEVELS in reviews.
 
 **Pattern 1 - Signal phrases:**
-- "Recommended if impressing a client mentioned"
-- "Not Recommended if embarrassment with client described"
+- "Recommended if <positive_signal> mentioned" (signal names vary by policy type!)
+- "Not Recommended if <negative_signal> described" (read actual signals from agenda!)
 
 **Pattern 2 - Quality assessment (IMPORTANT - this is NOT severity-rule-based!):**
 When the outcome field represents SERVICE QUALITY on a scale from negative to positive:
@@ -52,11 +52,11 @@ The quality values (Excellent, Good, Poor, Absent) ARE the signals to detect.
 Determine:
 - "scoring" if point values are given
 - "severity_rule_based" if counting by severity levels (mild/moderate/severe)
-- "signal_rule_based" if detecting specific signals/phrases (impress_client, embarrassment, etc.)
+- "signal_rule_based" if detecting specific signals/phrases (READ SIGNAL NAMES FROM AGENDA!)
 
 ### 2. Categories OR Signals
 - For SCORING/SEVERITY: What severity categories exist? (mild/moderate/severe or similar)
-- For SIGNAL-BASED: What signals to detect? (impress_client, embarrassment, loud_noise, private_rooms, etc.)
+- For SIGNAL-BASED: What signals to detect? (READ FROM AGENDA's "## Definitions of Terms" - signals are policy-specific!)
 
 ### 3. For SCORING-BASED policies:
 - Extract EXACT point values for each category (can be positive or negative)
@@ -66,9 +66,9 @@ Determine:
 - Extract count threshold rules by severity (e.g., "2+ severe incidents" → "Critical")
 
 ### 5. For SIGNAL-RULE-BASED policies (includes quality assessment!):
-- List ALL positive signals that lead to favorable verdict (impress_client, private_rooms, power_lunch)
-- List ALL negative signals that lead to unfavorable verdict (embarrassment, loud_noise, slow_service)
-- Signals become enum values for extraction
+- List ALL positive signals FROM THE AGENDA that lead to favorable verdict
+- List ALL negative signals FROM THE AGENDA that lead to unfavorable verdict
+- Signals become enum values for extraction - use ONLY signal names defined in the agenda!
 
 **FOR QUALITY ASSESSMENT patterns:**
 If the outcome field has quality values (Absent/Poor/Adequate/Good/Excellent), map them to signals:
@@ -88,10 +88,18 @@ You MUST extract EVERY "### <Term>" as a separate extraction field:
 - Each bullet point under the term becomes an enum value
 - Include the description for each value
 
+IMPORTANT: Only create enum fields from "### <Term>" sections that have this pattern:
+  - **ValueName**: Description of what this value means
+
+Do NOT create enum fields from "### <Term>" sections that just list examples without the **bold** value names.
+For example, "### Incident" sections that say "considered relevant if it discusses: - bullet1 - bullet2"
+are EXPLANATORY (describing what counts), NOT enum field definitions.
+
 Example: If agenda has "### Assurance of Safety" with bullets for "Assurance given", "No assurance", "Unknown",
 then you MUST include an ASSURANCE_CLAIM field with those 3 values.
 
-DO NOT skip any "### <Term>" sections! Each one is needed for proper extraction.
+DO NOT skip any "### <Term>" sections that define enum values! Each one is needed for proper extraction.
+But DO skip sections that are just explanatory text without **bold** value definitions.
 
 ## OUTPUT FORMAT
 
@@ -117,12 +125,12 @@ DO NOT skip any "### <Term>" sections! Each one is needed for proper extraction.
   }},
 
   "signals": {{
-    "// ONLY FOR signal_rule_based policies - list signals to detect": "",
+    "// ONLY FOR signal_rule_based policies - list signals to detect FROM AGENDA": "",
     "positive_signals": [
-      {{"signal": "<signal name, e.g., impress_client>", "description": "<what it means>", "detection_phrases": ["<phrases that indicate this signal>"]}}
+      {{"signal": "<signal name from agenda's Definitions>", "description": "<description from agenda>", "detection_phrases": ["<phrases that indicate this signal>"]}}
     ],
     "negative_signals": [
-      {{"signal": "<signal name, e.g., embarrassment>", "description": "<what it means>", "detection_phrases": ["<phrases that indicate this signal>"]}}
+      {{"signal": "<signal name from agenda's Definitions>", "description": "<description from agenda>", "detection_phrases": ["<phrases that indicate this signal>"]}}
     ],
     "neutral_signal": "<signal name for no strong signal, e.g., neutral>"
   }},
@@ -159,7 +167,9 @@ DO NOT skip any "### <Term>" sections! Each one is needed for proper extraction.
     "field_name": "<what to call the account type field - e.g., ACCOUNT_TYPE, EVIDENCE_SOURCE, REPORTER_TYPE>",
     "types": [
       // Extract ALL account types defined in the agenda - do NOT assume firsthand/secondhand/general
-      // {{"type": "<name from agenda>", "description": "<from agenda>", "counts_for_verdict": <from agenda>}}
+      // For each type, copy the ENTIRE definition text that appears after the colon/bullet marker
+      // Example: "- **Firsthand**: The reviewer or their dining party experienced..." → description = "The reviewer or their dining party experienced..."
+      // {{"type": "<name>", "description": "<FULL definition text after the colon - copy the ENTIRE sentence, not just the type name>", "counts_for_verdict": <from agenda>}}
     ]
   }},
 
@@ -172,9 +182,11 @@ DO NOT skip any "### <Term>" sections! Each one is needed for proper extraction.
     // CRITICAL: List EVERY "### <Term>" section from the Definitions as a field!
     // Each field the agenda defines (Staff Response, Assurance of Safety, etc.) MUST be here.
     // These fields are used by modifiers in the scoring system.
+    // For each value, copy the ENTIRE definition text after the colon
+    // Example: "- **Mild incident**: Discomfort or minor symptoms..." → description = "Discomfort or minor symptoms..."
     {{"name": "<FIELD_NAME from ### section>", "type": "enum", "values": [
-      {{"value": "<value1>", "description": "<description from agenda>"}},
-      {{"value": "<value2>", "description": "<description from agenda>"}}
+      {{"value": "<value1>", "description": "<FULL definition text after the colon - the ENTIRE sentence>"}},
+      {{"value": "<value2>", "description": "<FULL definition text after the colon - the ENTIRE sentence>"}}
     ]}}
   ]
 }}
@@ -184,11 +196,11 @@ CRITICAL:
 1. First determine the policy_type:
    - "scoring" if point values are given
    - "severity_rule_based" if counting by severity levels (mild/moderate/severe)
-   - "signal_rule_based" if detecting specific signals (impress_client, embarrassment, etc.)
+   - "signal_rule_based" if detecting specific signals (signal names vary by policy - READ FROM AGENDA!)
 2. Extract EXACT numbers - don't use template values
 3. For severity_rule_based: verdict rules use severity counts (e.g., "severe_count >= 2")
 4. For signal_rule_based: verdict rules use signal counts (e.g., "N_NEGATIVE >= 1")
-5. For signal_rule_based: MUST fill in the "signals" section with all positive and negative signals
+5. For signal_rule_based: MUST fill in the "signals" section with all positive and negative signals FROM THE AGENDA
 
 Output ONLY the JSON:
 
@@ -325,11 +337,6 @@ Output your plan:
       "rules_from_observations": "<copy observations.verdict_rules.rules>",
       "edge_cases": "<any special handling needed>"
     }}
-  }},
-
-  "search_strategy": {{
-    "early_stop_condition": "<for scoring: 'SCORE >= X', for rule_based: 'N_SEVERE >= Y'>",
-    "priority_logic": "<how to prioritize reviews>"
   }}
 }}
 ```
@@ -411,7 +418,15 @@ Use observations.verdict_rules.rules to build:
 
 **CRITICAL - Signal-Based Policies (READ CAREFULLY):**
 
-If the policy verdict depends on detecting specific SIGNAL TYPES (e.g., "impress_client", "embarrassment", "loud_noise")
+**WARNING: The examples below use PLACEHOLDER signal names. You MUST replace them with ACTUAL signal names
+from YOUR agenda's "## Definitions of Terms" section. Each policy type has DIFFERENT signals:
+- Romance policies: ambiance_quality, noise_level, lighting, privacy, intimacy, etc.
+- Business policies: client_impression, conversation_quality, professionalism, etc.
+- Group policies: accommodation, space_suitability, noise_tolerance, etc.
+- Server policies: attentiveness, friendliness, knowledge, responsiveness, etc.
+DO NOT copy placeholder signals - read YOUR agenda and extract ITS signal definitions!**
+
+If the policy verdict depends on detecting specific SIGNAL TYPES
 rather than severity levels (e.g., "mild", "moderate", "severe"), you MUST follow this EXACT pattern:
 
 **STEP 1 - Add SIGNAL_TYPE to extract.fields (NOT in compute!):**
@@ -420,12 +435,11 @@ rather than severity levels (e.g., "mild", "moderate", "severe"), you MUST follo
   "fields": [
     {{"name": "ACCOUNT_TYPE", "type": "enum", "values": {{...}}}},
     {{"name": "SIGNAL_TYPE", "type": "enum", "values": {{
-      "impress_client": "Reviewer impressed a client during business meal",
-      "embarrassment": "Reviewer was embarrassed with client due to restaurant",
-      "loud_noise": "Too loud for business conversation",
-      "private_available": "Private rooms or secluded seating mentioned",
-      "slow_service": "Slow service negatively impacted business meeting",
-      "neutral": "Business context mentioned but no strong positive/negative signal"
+      "<positive_signal_1_from_agenda>": "<description from agenda's Definitions section>",
+      "<positive_signal_2_from_agenda>": "<description from agenda's Definitions section>",
+      "<negative_signal_1_from_agenda>": "<description from agenda's Definitions section>",
+      "<negative_signal_2_from_agenda>": "<description from agenda's Definitions section>",
+      "neutral": "No strong positive/negative signal detected"
     }}}},
     {{"name": "DESCRIPTION", "type": "string", "description": "Details of incident"}}
   ],
@@ -437,12 +451,12 @@ rather than severity levels (e.g., "mild", "moderate", "severe"), you MUST follo
 **STEP 2 - Count by the ENUM field in compute:**
 ```json
 "compute": [
-  {{"name": "N_POSITIVE", "op": "count", "where": {{"SIGNAL_TYPE": ["impress_client", "private_available"]}}}},
-  {{"name": "N_NEGATIVE", "op": "count", "where": {{"SIGNAL_TYPE": ["embarrassment", "loud_noise", "slow_service"]}}}},
+  {{"name": "N_POSITIVE", "op": "count", "where": {{"SIGNAL_TYPE": ["<positive_signals_from_agenda>"]}}}},
+  {{"name": "N_NEGATIVE", "op": "count", "where": {{"SIGNAL_TYPE": ["<negative_signals_from_agenda>"]}}}},
   {{"name": "VERDICT", "op": "case", "rules": [
-    {{"when": "N_NEGATIVE >= 1", "then": "Not Recommended"}},
-    {{"when": "N_POSITIVE >= 1", "then": "Recommended"}},
-    {{"else": "Acceptable"}}
+    {{"when": "N_NEGATIVE >= 1", "then": "<unfavorable_verdict_from_agenda>"}},
+    {{"when": "N_POSITIVE >= 1", "then": "<favorable_verdict_from_agenda>"}},
+    {{"else": "<default_verdict_from_agenda>"}}
   ]}}
 ]
 ```
@@ -513,49 +527,38 @@ OR use compound conditions in a single case:
 
 This is for policies where verdict depends on detecting specific SIGNALS or QUALITY levels (not incident severity).
 
-**Pattern 1 - Signal phrases:**
-E.g., "Recommended if impressed client", "Not Recommended if embarrassment occurred"
-
-**Pattern 2 - Quality assessment (G4, etc.):**
-E.g., "Excellent if reviews praise attentiveness", "Needs Improvement if service was inattentive"
-Here the SERVICE_QUALITY values (Excellent/Good/Adequate/Poor/Absent) ARE the signals!
+**IMPORTANT:** Signal names are POLICY-SPECIFIC. You MUST read the agenda's "## Definitions of Terms" section
+to extract the actual signal names. Examples vary by policy type:
+- Romance: ambiance, intimacy, noise_level, privacy, romantic_elements
+- Business: client_impression, conversation_quality, professionalism
+- Group: accommodation, space, noise_tolerance, party_friendliness
+- Service: attentiveness, friendliness, knowledge, responsiveness
 
 ### EXTRACTION FIELDS
 1. ACCOUNT_TYPE: enum (Firsthand, Secondhand, Hypothetical)
 2. **SIGNAL_TYPE or SERVICE_QUALITY: enum with ALL signals/quality levels from observations.signals**
-   - Include all positive signals (e.g., Excellent, Good, impress_client, private_available)
-   - Include all negative signals (e.g., Absent, Poor, embarrassment, slow_service)
-   - Include a neutral value (e.g., Adequate, Neutral)
+   - Include all positive signals FROM OBSERVATIONS.SIGNALS.POSITIVE_SIGNALS
+   - Include all negative signals FROM OBSERVATIONS.SIGNALS.NEGATIVE_SIGNALS
+   - Include a neutral value (e.g., "neutral", "adequate")
 3. DESCRIPTION: string for incident details
 
 ### COMPUTE OPERATIONS (REQUIRED!)
 
-**Example 1 - Signal phrases (business recommendation):**
+**Example - Signal detection (use signals from YOUR agenda):**
 ```json
 "compute": [
-  {{"name": "N_POSITIVE", "op": "count", "where": {{"SIGNAL_TYPE": ["impress_client", "private_available"]}}}},
-  {{"name": "N_NEGATIVE", "op": "count", "where": {{"SIGNAL_TYPE": ["embarrassment", "loud_noise", "slow_service"]}}}},
+  {{"name": "N_POSITIVE", "op": "count", "where": {{"SIGNAL_TYPE": ["<positive_signals_from_observations>"]}}}},
+  {{"name": "N_NEGATIVE", "op": "count", "where": {{"SIGNAL_TYPE": ["<negative_signals_from_observations>"]}}}},
   {{"name": "VERDICT", "op": "case", "rules": [
-    {{"when": "N_NEGATIVE >= 1", "then": "Not Recommended"}},
-    {{"when": "N_POSITIVE >= 1", "then": "Recommended"}},
-    {{"else": "Acceptable"}}
+    {{"when": "N_NEGATIVE >= <threshold_from_agenda>", "then": "<unfavorable_verdict>"}},
+    {{"when": "N_POSITIVE >= <threshold_from_agenda>", "then": "<favorable_verdict>"}},
+    {{"else": "<default_verdict>"}}
   ]}}
 ]
 ```
 
-**Example 2 - Quality assessment (server performance):**
-```json
-"compute": [
-  {{"name": "N_POSITIVE", "op": "count", "where": {{"SIGNAL_TYPE": ["<positive signal values from observations>"]}}}},
-  {{"name": "N_NEGATIVE", "op": "count", "where": {{"SIGNAL_TYPE": ["<negative signal values from observations>"]}}}},
-  {{"name": "VERDICT", "op": "case", "rules": [
-    // DERIVE THESE RULES FROM observations.verdict_rules - do NOT invent thresholds!
-  ]}}
-]
-```
-
-**CRITICAL:** Verdict rules MUST come from the agenda (observations.verdict_rules), not invented.
-Extract the EXACT conditions specified in the agenda.
+**CRITICAL:** Verdict rules and signal names MUST come from the agenda (observations), not invented.
+Extract the EXACT conditions and signal names specified in the agenda.
 
 ---
 
@@ -571,27 +574,27 @@ If compute is empty, the seed is INVALID and will fail to produce any verdicts.
 
 ## OUTPUT FORMAT - FOLLOW EXACTLY
 
+**IMPORTANT: This is a SIMPLIFIED schema. Do NOT include filter, search_strategy, expansion_hints, or verdict_metadata.**
+
 ```json
 {{
   "task_name": "<from observations.core_concepts.primary_topic>",
 
   "extraction_guidelines": "<GENERATE THIS dynamically from observations - see instructions below>",
 
-  "filter": {{
-    "keywords": ["<from plan.keyword_strategy - combine all relevant terms>"]
-  }},
-
   "extract": {{
     "fields": [
       // REQUIRED: Account type field with values as DICT (not array!)
+      // Key = type name (e.g., "Firsthand"), Value = FULL description from observations.account_handling.types[].description
       {{"name": "<observations.account_handling.field_name>", "type": "enum", "values": {{
-        "<type1>": "<description1>",
-        "<type2>": "<description2>"
+        "<type_name>": "<FULL description sentence from observations.account_handling.types - e.g., 'The reviewer or their dining party experienced the event directly'>",
+        "<type_name>": "<FULL description sentence - copy the ENTIRE text, not just the name>"
       }}}},
       // REQUIRED: Category/outcome field with values as DICT
+      // Key = category name, Value = FULL description from observations.categories.values[].description
       {{"name": "<observations.categories.field_name>", "type": "enum", "values": {{
-        "<cat1>": "<cat1 description>",
-        "<cat2>": "<cat2 description>"
+        "<cat_name>": "<FULL description from observations.categories.values - copy entire sentence>",
+        "<cat_name>": "<FULL description - preserve all details like 'hives or swelling', 'medication', etc.>"
       }}}},
       // REQUIRED: Description field
       {{"name": "<observations.description_field.name>", "type": "string", "description": "<observations.description_field.purpose>"}},
@@ -604,36 +607,39 @@ If compute is empty, the seed is INVALID and will fail to produce any verdicts.
     "none_values": ["<values that mean no incident>"]  // e.g., ["none", "no incident", "n/a"] - from observations.categories.values
   }},
 
+  // CRITICAL: All enum value descriptions MUST be FULL SENTENCES copied from observations.
+  // WRONG: "Firsthand": "Firsthand" (just repeating the name)
+  // CORRECT: "Firsthand": "The reviewer or their dining party experienced the event directly"
+  // Do NOT shorten. Preserve ALL qualifiers (e.g., "or their dining party", "hives or swelling").
+
   "compute": [
-    // EXACT FORMAT FOR EACH OPERATION:
-    // count: {{"name": "N_INCIDENTS", "op": "count", "where": {{"ACCOUNT_TYPE": "firsthand", "INCIDENT_SEVERITY": ["mild", "moderate", "severe"]}}}}
-    //        CRITICAL: N_INCIDENTS must filter by BOTH account_type AND severity (exclude "none")
-    // sum:   {{"name": "BASE_POINTS", "op": "sum", "expr": "CASE WHEN ... THEN ... ELSE 0 END", "where": {{"<account_field>": "<counting_type>"}}}}
-    // expr:  {{"name": "SCORE", "op": "expr", "expr": "BASE_POINTS + MODIFIER_POINTS"}}
-    // case:  {{"name": "VERDICT", "op": "case", "source": "SCORE", "rules": [{{"when": ">= 8", "then": "Critical"}}, {{"else": "Low"}}]}}
+    // EXACT OPERATION FORMATS (use these, NOT SQL expressions):
+
+    // COUNT operation - counts extractions matching conditions:
+    {{"name": "N_INCIDENTS", "op": "count", "where": {{
+      "ACCOUNT_TYPE": ["firsthand"],
+      "INCIDENT_SEVERITY": ["mild", "moderate", "severe"]
+    }}}},
+    // NOTE: where conditions use ENUM VALUES from extract.fields. Use list for multiple values.
+
+    // SUM operation - use SQL CASE WHEN syntax in expr:
+    {{"name": "BASE_POINTS", "op": "sum", "expr": "CASE WHEN INCIDENT_SEVERITY = 'Severe' THEN 15 WHEN INCIDENT_SEVERITY = 'Moderate' THEN 5 WHEN INCIDENT_SEVERITY = 'Mild' THEN 2 ELSE 0 END", "where": {{"ACCOUNT_TYPE": ["Firsthand"]}}}},
+
+    // FOR SCORING POLICIES: Modifiers can be separate sum operations (cleaner):
+    {{"name": "MOD_ASSURANCE", "op": "sum", "expr": "CASE WHEN ASSURANCE_OF_SAFETY = 'Assurance given' AND INCIDENT_SEVERITY IN ('Mild','Moderate','Severe') THEN 5 ELSE 0 END", "where": {{"ACCOUNT_TYPE": ["Firsthand"]}}}},
+
+    // EXPR operation - combines computed values (supports CASE WHEN if needed):
+    {{"name": "SCORE", "op": "expr", "expr": "BASE_POINTS + MODIFIER_POINTS"}},
+
+    // CASE operation for verdict - applies threshold rules:
+    {{"name": "VERDICT", "op": "case", "source": "SCORE", "rules": [
+      {{"when": ">= 12", "then": "Critical Risk"}},
+      {{"when": ">= 2", "then": "High Risk"}},
+      {{"else": "Low Risk"}}
+    ]}}
   ],
 
-  "output": ["VERDICT", "<SCORE or relevant counts>", "N_INCIDENTS"],
-
-  "search_strategy": {{
-    "priority_keywords": ["<high-signal terms from plan>"],
-    "priority_expr": "len(keyword_hits) * 2 + (1.0 if is_recent else 0.5)",
-    "stopping_condition": "<condition based on policy type>",
-    "early_verdict_expr": "<Python ternary for early stopping>",
-    "use_embeddings_when": "len(keyword_matched) < 5"
-  }},
-
-  "expansion_hints": {{
-    "domain": "<primary_topic>",
-    "expand_on": ["<category names>"]
-  }},
-
-  "verdict_metadata": {{
-    "verdicts": ["<list all possible verdict labels in order from lowest to highest severity>"],
-    "ordered": true,
-    "severe_verdicts": ["<highest severity verdict(s) that should trigger early exit>"],
-    "score_variable": "<SCORE or primary aggregation variable name>"
-  }}
+  "output": ["VERDICT", "SCORE", "N_INCIDENTS"]
 }}
 ```
 
@@ -644,11 +650,12 @@ If compute is empty, the seed is INVALID and will fail to produce any verdicts.
 3. **Field references**: ALL fields used in compute MUST exist in extract.fields
    - If MODIFIER_POINTS uses ASSURANCE_OF_SAFETY, add it to extract.fields!
    - If compute references STAFF_RESPONSE, add it to extract.fields!
-4. **sum operations**: Use {{"op": "sum", "expr": "CASE WHEN...", "where": {{...}}}} format
+   - CRITICAL: Each field name must appear EXACTLY ONCE in extract.fields - do NOT define the same field multiple times!
+4. **sum operations**: Use {{"op": "sum", "expr": "CASE WHEN ... THEN ... END", "where": {{...}}}} - Phase 2 only reads the "expr" key
 5. **case operations**: Use {{"op": "case", "source": "...", "rules": [...]}} format
 6. **expr operations**: Use {{"op": "expr", "expr": "..."}} for combining computed values
 7. **COUNT OPERATIONS - ENUM ONLY**: Count "where" clauses can ONLY reference ENUM fields!
-   - CORRECT: {{"where": {{"SIGNAL_TYPE": "positive"}}}} where SIGNAL_TYPE is type: "enum"
+   - CORRECT: {{"where": {{"SIGNAL_TYPE": ["positive"]}}}} where SIGNAL_TYPE is type: "enum"
    - WRONG: {{"where": {{"DESCRIPTION": "some text"}}}} where DESCRIPTION is type: "string"
    - If you need to count by signal types, define those signals as an ENUM field first!
 8. **VERDICT LABELS**: Use EXACT verdict strings from observations.verdict_rules.verdicts - copy character-for-character!
@@ -665,8 +672,12 @@ If compute is empty, the seed is INVALID and will fail to produce any verdicts.
     - WRONG: extract.fields uses {{"Moderate incident": "..."}}, compute.where uses {{"SEVERITY": ["Moderate"]}}
     - CORRECT: extract.fields uses {{"Moderate": "..."}}, compute.where uses {{"SEVERITY": ["Moderate"]}}
     - Keep enum value keys SHORT and SIMPLE (e.g., "Moderate" not "Moderate incident")
+12. **NO EXTRA SECTIONS**: Do NOT include filter, search_strategy, expansion_hints, or verdict_metadata sections!
+    The simplified schema only needs: task_name, extraction_guidelines, extract, compute, output.
+13. **VERDICT REQUIRED**: The compute section MUST include a VERDICT operation with op="case".
+    This is required for the seed to produce deterministic verdicts.
 
-8. **extraction_guidelines**: MUST be generated from observations to guide precise extraction. Format as a multi-line string:
+14. **extraction_guidelines**: MUST be generated from observations to guide precise extraction. Format as a multi-line string:
 
    Generate guidelines covering these aspects (derive ALL from observations, never hard-code):
 

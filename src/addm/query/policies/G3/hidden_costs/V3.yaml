@@ -76,17 +76,17 @@ normative:
       weight: quarter point value (multiply by 0.25) - policies may have changed
     thresholds:
     - verdict: Critical Risk
-      min_score: 700
+      min_score: 200
       min_score_by_k:
-        25: 88
-        50: 175
-        100: 350
+        25: 25
+        50: 50
+        100: 100
     - verdict: High Risk
-      min_score: 350
+      min_score: 80
       min_score_by_k:
-        25: 44
-        50: 88
-        100: 175
+        25: 10
+        50: 20
+        100: 40
   decision:
     verdicts:
     - Low Risk
@@ -98,13 +98,13 @@ normative:
       label: CRITICAL
       logic: ANY
       conditions:
-      - Total risk score is 700 or higher (after recency weighting)
+      - Total risk score is 200 or higher (after recency weighting)
     - verdict: High Risk
       label: HIGH
       precondition: Critical Risk does not apply
       logic: ANY
       conditions:
-      - Total risk score is 350 or higher (after recency weighting)
+      - Total risk score is 80 or higher (after recency weighting)
     - verdict: Low Risk
       label: LOW
       default: true

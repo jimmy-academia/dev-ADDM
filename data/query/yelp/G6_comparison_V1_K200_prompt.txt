@@ -70,4 +70,7 @@ A restaurant is considered **Stronger** if any of the following is true:
 - 40 or more reviews describe unfavorable comparisons
 - 10 or more reviews describe strongly unfavorable comparison
 
-**Comparable** otherwise
+**Comparable** otherwise, especially when:
+- Similar quality to nearby competitors
+- Trade-offs between restaurants
+- No clear winner in comparisons

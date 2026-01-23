@@ -82,4 +82,7 @@ A restaurant is considered **Critical Risk** if any of the following is true:
 - 1 or more reviews describe staff refusing accommodation
 - 1 or more reviews describe staff being dismissive
 
-**Low Risk** otherwise
+**Low Risk** otherwise, especially when:
+- No dietary incidents are reported
+- Reviews describe knowledgeable staff and successful accommodation
+- Menu clearly labels dietary options

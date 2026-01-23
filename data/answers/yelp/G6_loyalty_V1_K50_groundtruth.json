@@ -3,7 +3,7 @@
   "topic": "G6_loyalty",
   "domain": "yelp",
   "k": 50,
-  "computed_at": "2026-01-22T20:00:10.351139",
+  "computed_at": "2026-01-23T16:43:00.754360",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -1221,8 +1221,8 @@
       "n_reviews": 33,
       "n_judgments": 33,
       "ground_truth": {
-        "verdict": "Low Loyalty",
-        "matched_rule": "LOW_LOYALTY",
+        "verdict": "Moderate Loyalty",
+        "matched_rule": "MODERATE_LOYALTY",
         "policy_id": "G6_loyalty_V1",
         "n_incidents": 0,
         "incidents": []
@@ -1310,8 +1310,8 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Loyalty": 27,
-      "Moderate Loyalty": 6,
+      "Low Loyalty": 26,
+      "Moderate Loyalty": 7,
       "High Loyalty": 67
     },
     "missing_judgments": 0
