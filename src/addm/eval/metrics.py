@@ -577,7 +577,7 @@ def compute_evaluation_metrics(
     Returns:
         {
             "auprc": float,  # 0.0-1.0, ordinal ranking quality
-            "incident_precision": float or None,  # 0.0-1.0, % claimed that exist in GT
+            "evidence_precision": float or None,  # 0.0-1.0, % claimed that exist in GT
             "snippet_validity": float or None,  # 0.0-1.0, % snippets that match source
             "judgement_accuracy": float or None,  # 0.0-1.0, field correctness
             "score_accuracy": float or None,  # 0.0-1.0, V2/V3 score correctness
@@ -645,16 +645,18 @@ def compute_evaluation_metrics(
         auprc_metrics = compute_ordinal_auprc(np.array(y_true), np.array(y_scores))
         auprc = auprc_metrics.get("ordinal_auprc", 0.0)
 
-    # 2. Compute Incident Precision and Snippet Validity
+    # 2. Compute Incident Precision, Incident Recall, and Snippet Validity
     incident_details = {"error": "No structured results or GT data"}
-    incident_precision = None
+    evidence_precision = None
+    evidence_recall = None
     snippet_validity = None
 
     if structured_results and gt_data:
         incident_details = compute_evidence_validity(
             structured_results, gt_data, reviews_data
         )
-        incident_precision = incident_details.get("incident_precision")
+        evidence_precision = incident_details.get("evidence_precision")
+        evidence_recall = incident_details.get("evidence_recall")
         snippet_validity = incident_details.get("snippet_validity")
 
     # 3. Compute Judgement Accuracy (policy-agnostic)
@@ -680,7 +682,8 @@ def compute_evaluation_metrics(
         # Tier 1: Final Quality
         "auprc": auprc,
         # Tier 2: Evidence Quality
-        "incident_precision": incident_precision,
+        "evidence_precision": evidence_precision,
+        "evidence_recall": evidence_recall,
         "snippet_validity": snippet_validity,
         # Tier 3: Reasoning Quality
         "judgement_accuracy": judgement_accuracy,

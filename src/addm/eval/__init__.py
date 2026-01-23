@@ -6,6 +6,8 @@ from addm.eval.constants import (
     SEVERITY_BASE_POINTS,
     MODIFIER_POINTS,
     VERDICT_THRESHOLDS,
+    EVIDENCE_FIELDS,
+    get_evidence_config,
 )
 from addm.eval.metrics import (
     normalize_verdict,
@@ -48,6 +50,8 @@ __all__ = [
     "MODIFIER_POINTS",
     "VERDICT_THRESHOLDS",
     "RULE_TO_VERDICT",
+    "EVIDENCE_FIELDS",
+    "get_evidence_config",
     # Core metrics
     "normalize_verdict",
     "normalize_judgement",
@@ -55,7 +59,7 @@ __all__ = [
     "compute_primitive_accuracy",
     "compute_verdict_consistency",
     "evaluate_results",
-    # New simplified metrics (recommended - 6 metrics)
+    # New simplified metrics (recommended - 7 metrics)
     "compute_evaluation_metrics",
     "compute_score_accuracy",
     "compute_verdict_consistency_enhanced",

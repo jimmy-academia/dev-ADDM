@@ -593,11 +593,39 @@ def compute_gt_from_policy_qualitative(
         k: Dataset K value (for K-specific thresholds)
 
     Returns:
-        Dict with verdict and rule that matched
+        Dict with verdict, rule that matched, and incidents list
     """
     rules = policy.normative.decision.rules
 
+    # Extract evidence from judgments (same as scoring, but without point calculation)
+    # This enables evaluation metrics to work for V0/V1 policies
+    from addm.eval.constants import get_evidence_config
+
+    evidences: List[Dict[str, Any]] = []
+
+    # Get evidence field config for this policy group
+    evidence_config = get_evidence_config(policy.policy_id)
+    evidence_field = evidence_config["field"]
+    evidence_values = evidence_config["evidence_values"]
+
+    for j in judgments:
+        review_id = j.get("review_id", "")
+        field_value = j.get(evidence_field, "").lower().strip()
+
+        # Only include if it's actual evidence (not neutral/"none"/empty)
+        if field_value in evidence_values:
+            evidences.append({
+                "review_id": review_id,
+                "severity_field": evidence_field,  # Keep name for backward compat
+                "severity_value": field_value,     # Keep name for backward compat
+                # Include account_type for reference
+                "account_type": j.get("account_type", "").lower().strip(),
+            })
+
     # Evaluate rules in order (precedence ladder)
+    matched_verdict = None
+    matched_rule = None
+
     for rule in rules:
         if rule.default:
             continue  # Skip default, evaluate it last
@@ -620,25 +648,27 @@ def compute_gt_from_policy_qualitative(
             )
 
         if matched:
-            return {
-                "verdict": rule.verdict,
-                "matched_rule": rule.label,
-                "policy_id": policy.policy_id,
-            }
+            matched_verdict = rule.verdict
+            matched_rule = rule.label
+            break
 
-    # Find default rule
-    for rule in rules:
-        if rule.default:
-            return {
-                "verdict": rule.verdict,
-                "matched_rule": rule.label,
-                "policy_id": policy.policy_id,
-            }
+    # Find default rule if no match
+    if matched_verdict is None:
+        for rule in rules:
+            if rule.default:
+                matched_verdict = rule.verdict
+                matched_rule = rule.label
+                break
+
+    if matched_verdict is None:
+        matched_verdict = "Unknown"
 
     return {
-        "verdict": "Unknown",
-        "matched_rule": None,
+        "verdict": matched_verdict,
+        "matched_rule": matched_rule,
         "policy_id": policy.policy_id,
+        "n_incidents": len(evidences),  # Keep field name for backward compat
+        "incidents": evidences,          # Keep field name for backward compat
     }
 
 

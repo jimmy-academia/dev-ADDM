@@ -78,16 +78,19 @@ def compute_evidence_validity(
 
     Returns:
         Dict with:
-        - incident_precision: |claimed ∩ GT| / |claimed|
+        - evidence_precision: |claimed ∩ GT| / |claimed|
+        - evidence_recall: |claimed ∩ GT| / |GT|
         - snippet_validity: |valid snippets| / |total snippets|
         - samples_with_no_claims: count of samples that claimed no evidence
         - per_sample: detailed breakdown per sample
     """
     total_claimed = 0
     total_matched = 0
+    total_gt_evidence = 0  # For recall calculation
     total_snippets = 0
     valid_snippets = 0
     samples_with_no_claims = 0  # Track samples with no claimed evidence
+    samples_with_no_gt = 0  # Track samples with no GT incidents
     per_sample = []
 
     for result in results:
@@ -102,14 +105,25 @@ def compute_evidence_validity(
         evidences = _extract_evidences(result)
         claimed_review_ids = {e.get("review_id") for e in evidences if e.get("review_id")}
 
+        # Track GT incidents for recall (even if method claimed nothing)
+        n_gt = len(gt_review_ids)
+        if n_gt > 0:
+            total_gt_evidence += n_gt
+        else:
+            samples_with_no_gt += 1
+
         # Track samples with no claims (excluded from precision calculation)
         if not claimed_review_ids:
             samples_with_no_claims += 1
+            # Still compute recall for this sample if GT has incidents
+            sample_recall = 0.0 if n_gt > 0 else None
             per_sample.append({
                 "business_id": biz_id,
                 "claimed_incidents": 0,
+                "gt_incidents": n_gt,
                 "matched_incidents": 0,
-                "incident_precision": None,  # Can't compute precision with no claims
+                "evidence_precision": None,  # Can't compute precision with no claims
+                "evidence_recall": sample_recall,
                 "snippet_valid": 0,
                 "snippet_total": 0,
                 "snippet_validity": None,
@@ -120,6 +134,7 @@ def compute_evidence_validity(
         # Incident matching
         matched = claimed_review_ids & gt_review_ids
         sample_precision = len(matched) / len(claimed_review_ids)
+        sample_recall = len(matched) / n_gt if n_gt > 0 else None
 
         total_claimed += len(claimed_review_ids)
         total_matched += len(matched)
@@ -158,8 +173,10 @@ def compute_evidence_validity(
         per_sample.append({
             "business_id": biz_id,
             "claimed_incidents": len(claimed_review_ids),
+            "gt_incidents": n_gt,
             "matched_incidents": len(matched),
-            "incident_precision": sample_precision,
+            "evidence_precision": sample_precision,
+            "evidence_recall": sample_recall,
             "snippet_valid": sample_snippet_valid,
             "snippet_total": sample_snippet_total,
             "snippet_validity": sample_snippet_validity,
@@ -167,13 +184,16 @@ def compute_evidence_validity(
         })
 
     return {
-        "incident_precision": total_matched / total_claimed if total_claimed > 0 else None,
+        "evidence_precision": total_matched / total_claimed if total_claimed > 0 else None,
+        "evidence_recall": total_matched / total_gt_evidence if total_gt_evidence > 0 else None,
         "total_claimed": total_claimed,
         "total_matched": total_matched,
+        "total_gt_evidence": total_gt_evidence,
         "snippet_validity": valid_snippets / total_snippets if total_snippets > 0 else None,
         "total_snippets": total_snippets,
         "valid_snippets": valid_snippets,
         "samples_with_no_claims": samples_with_no_claims,
+        "samples_with_no_gt": samples_with_no_gt,
         "per_sample": per_sample,
     }
 
@@ -552,7 +572,7 @@ def compute_intermediate_metrics(
     summary = {
         "n_total": len(results),
         "n_structured": len(structured_results),
-        "incident_precision": evidence_validity.get("incident_precision"),
+        "evidence_precision": evidence_validity.get("evidence_precision"),
         "severity_accuracy": classification_accuracy.get("severity_accuracy"),
         "verdict_support_rate": verdict_support.get("verdict_support_rate"),
     }

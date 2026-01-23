@@ -3,7 +3,7 @@
   "topic": "G2_business",
   "domain": "yelp",
   "k": 100,
-  "computed_at": "2026-01-22T14:57:05.238693",
+  "computed_at": "2026-01-22T20:00:09.067951",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -14,7 +14,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "-Tskf8WK17rb3ZfeFuRSWA": {
@@ -25,7 +27,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "ny1N_Py01kVoGOvL9oKjMQ": {
@@ -36,7 +40,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "zljfjg_zTL3ceGi_Vr4OFw": {
@@ -47,7 +53,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "SZU9c8V2GuREDN5KgyHFJw": {
@@ -58,7 +66,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "L5LLN0RafiV1Z9cddzvuCw": {
@@ -69,7 +79,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "Ipt9ga67vVC_2ob3YmVwNA": {
@@ -80,7 +92,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "iSRTaT9WngzB8JJ2YKJUig": {
@@ -91,7 +105,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "oQdGhdjzz_HhTaC4VrtBLQ": {
@@ -102,7 +118,9 @@
       "ground_truth": {
         "verdict": "Acceptable",
         "matched_rule": "ACCEPTABLE",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "8XjxHeV66F4eoIy06rW0pA": {
@@ -113,7 +131,9 @@
       "ground_truth": {
         "verdict": "Not Recommended",
         "matched_rule": "NOT_RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "zwBvdDWFQpYJE1UMDTlSyw": {
@@ -124,7 +144,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "cgd4udcCVzMfhJL_3W03Yw": {
@@ -135,7 +157,9 @@
       "ground_truth": {
         "verdict": "Acceptable",
         "matched_rule": "ACCEPTABLE",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "crjRqGzxe6-MM4ylqlSfmw": {
@@ -146,7 +170,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "EP9K6qXOyHFq_0tp93wh9Q": {
@@ -157,7 +183,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "nIAbuktMEzVjT4P9pG89rQ": {
@@ -168,7 +196,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "S8ZFYEgMejpChID8tzKo9A": {
@@ -179,7 +209,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "99dN-202N0EzRqdaOA_eRQ": {
@@ -190,7 +222,9 @@
       "ground_truth": {
         "verdict": "Not Recommended",
         "matched_rule": "NOT_RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "r2bYRNrtMhv-ED2-cFZp6Q": {
@@ -201,7 +235,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "8Vk_2t7hQI02IhpcRnfAIw": {
@@ -212,7 +248,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "ChlcxTEoWBQJXJ2Xb2vm5g": {
@@ -223,7 +261,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "iNiAJAtsbV5xOQGRtce-NQ": {
@@ -234,7 +274,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "ww3YJXu5c18aGZXWmm00qg": {
@@ -245,7 +287,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "xtWIORPp-HG2LWtz5jQtiA": {
@@ -256,7 +300,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "F7etLf6od7CUnCPknsQ-6Q": {
@@ -267,7 +313,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "8gY3LGFUMIQubovGbSd7Nw": {
@@ -278,7 +326,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "ROcx9FXq206zfI77MGo1Yw": {
@@ -289,7 +339,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "-T1sYi2cqB2oW4GeUXmIBQ": {
@@ -300,7 +352,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "xwk_8nCLpolbdZpKcWicRA": {
@@ -311,7 +365,9 @@
       "ground_truth": {
         "verdict": "Acceptable",
         "matched_rule": "ACCEPTABLE",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "Mm9zXIgMQMzgDt4GShSWrw": {
@@ -322,7 +378,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "IhN-DlnytNvnzCoTIwwfgQ": {
@@ -333,7 +391,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "gjCxTVItFxk46rCZ-YaiFA": {
@@ -344,7 +404,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "5xRmemqmR89BpGoOA25hqA": {
@@ -355,7 +417,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "R8t9g5nvi7VFyS8zsgmj8Q": {
@@ -366,7 +430,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "6a4gLLFSgr-Q6CZXDLzBGQ": {
@@ -377,7 +443,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "6_T2xzR74JqGCTPefAD8Tw": {
@@ -388,7 +456,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "Mzmt8AvZOExG_4h3MMlihg": {
@@ -399,7 +469,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "1bJxvwuMTyXmQGu90WLPhA": {
@@ -410,7 +482,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "GBTPC53ZrG1ZBY3DT8Mbcw": {
@@ -421,7 +495,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "S0dQ8Vks0IR-PZPLoBHKRA": {
@@ -432,7 +508,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "eCikDKFbaeYVNdCD2beX0Q": {
@@ -443,7 +521,9 @@
       "ground_truth": {
         "verdict": "Not Recommended",
         "matched_rule": "NOT_RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "TbjqvdrSBm27arbKbReRfg": {
@@ -454,7 +534,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "yT3Qs8rz82wqhKFlfWr1Lg": {
@@ -465,7 +547,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "ewaaXBGXMGluuTGXOnTkRg": {
@@ -476,7 +560,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "yksAB6aQXfNRrZM0jTxyOA": {
@@ -487,7 +573,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "_1JmbxhyiTXO_CDytQTkgA": {
@@ -498,7 +586,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "MJ9FaB4y2jCyn1CU7Fnj2Q": {
@@ -509,7 +599,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "lVAjWGOqyZOFHMEw5NLt9g": {
@@ -520,7 +612,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "XrikSy0DQ_fhVCaRRBJI-g": {
@@ -531,7 +625,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "jbJTF1zVmZsk4hea8hoeVA": {
@@ -542,7 +638,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "RQTRnBmDXXNWiM1-1LEqWg": {
@@ -553,7 +651,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "gVuzYJvei8rVDCLmhWBZ2Q": {
@@ -564,7 +664,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "kK-pcrXr3CEnWP-ci7XXgw": {
@@ -575,7 +677,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "tV46IhCfHbsx_af-pMupiw": {
@@ -586,7 +690,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "caSFK6m6kbifsD9ZF7bCNw": {
@@ -597,7 +703,9 @@
       "ground_truth": {
         "verdict": "Not Recommended",
         "matched_rule": "NOT_RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "DcBLYSvOuWcNReolRVr12A": {
@@ -608,7 +716,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "6OC8ErU_m06KABnfSXTJEA": {
@@ -619,7 +729,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "gebiRewfieSdtt17PTW6Zg": {
@@ -630,7 +742,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "GeLwhGlX8XsIsH-o3Wdc5w": {
@@ -641,7 +755,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "GmXC3CBu172Bkb0c6RnO7w": {
@@ -652,7 +768,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "QAlWB_JXJNQyg-kqAK_Ciw": {
@@ -663,7 +781,9 @@
       "ground_truth": {
         "verdict": "Acceptable",
         "matched_rule": "ACCEPTABLE",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "Ps7Q7BOKzJO4nDTUhbk43Q": {
@@ -674,7 +794,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "IxlIgLbIbynzJdzeqO860Q": {
@@ -685,7 +807,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "qqtGFnjyZWV--_YqabSb8A": {
@@ -696,7 +820,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "eZCt3doDaA-l4sg_OM67YQ": {
@@ -707,7 +833,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "sf-KdXHB5nxfNjl2uUpI6Q": {
@@ -718,7 +846,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "6ajnOk0GcY9xbb5Ocaw8Gw": {
@@ -729,7 +859,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "ac1AeYqs8Z4_e2X5M3if2A": {
@@ -740,7 +872,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "gKS0fS91JQOOTICdc2ZvFw": {
@@ -751,7 +885,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "73ZXjIfdHJs59XOzKHQ45g": {
@@ -762,7 +898,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "ZfOS7Mz-iGseNxBhlhXm_w": {
@@ -773,7 +911,9 @@
       "ground_truth": {
         "verdict": "Not Recommended",
         "matched_rule": "NOT_RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "unjm4rIGc-ZzRxdzEPnc1g": {
@@ -784,7 +924,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "05ev984NYfimRN0UiFrxaA": {
@@ -795,7 +937,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "CCnuyfb1nd-doEpkj0OoHg": {
@@ -806,7 +950,9 @@
       "ground_truth": {
         "verdict": "Not Recommended",
         "matched_rule": "NOT_RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "ctHjyadbDQAtUFfkcAFEHw": {
@@ -817,7 +963,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "B_q2xoAgTyn6U4YNEc3kSw": {
@@ -828,7 +976,9 @@
       "ground_truth": {
         "verdict": "Not Recommended",
         "matched_rule": "NOT_RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "6LyhttbsQn6a6PDxQDojCw": {
@@ -839,7 +989,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "LIHDIAocngz5Loe04eQ_oA": {
@@ -850,7 +1002,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "DvBdqAA3XleMaOMwBl7g4g": {
@@ -861,7 +1015,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "1vPSY4EA-fTRIZYz1Ruzow": {
@@ -872,7 +1028,9 @@
       "ground_truth": {
         "verdict": "Not Recommended",
         "matched_rule": "NOT_RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "QvB0NRTGDplwnfPZGq8chw": {
@@ -883,7 +1041,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "18eWJFJbXyR9j_5xfcRLYA": {
@@ -894,7 +1054,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "Fc_8eLlcq5yy4DzrEeqEaQ": {
@@ -905,7 +1067,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "HDnaNdHEZpQMYXo-ZHHG9g": {
@@ -916,7 +1080,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "ws7z5fLdaVgwxZ9ex3cKxw": {
@@ -927,7 +1093,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "9PZxjhTIU7OgPIzuGi89Ew": {
@@ -938,7 +1106,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "dsfRniRgfbDjC8os848B6A": {
@@ -949,7 +1119,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "JrG4NINLspXPNhSXg7Q07Q": {
@@ -960,7 +1132,9 @@
       "ground_truth": {
         "verdict": "Not Recommended",
         "matched_rule": "NOT_RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "mbzBcAAR1Hx4G2jWRxJRew": {
@@ -971,7 +1145,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "cM3C8AT3IhOIM4ccBofuSg": {
@@ -982,7 +1158,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "i_FWONQD1ZBqrNE2b-M5Ug": {
@@ -993,7 +1171,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "MfkMUNwur9huBERrx0k5lg": {
@@ -1004,7 +1184,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "TCAaeZi4m_RwUTTbZseRmg": {
@@ -1015,7 +1197,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "CFjQ7Rld0ddZFTi8Ryc5Kw": {
@@ -1026,7 +1210,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "D16LyrKmQ0Cs8NQQkFZD6A": {
@@ -1037,7 +1223,9 @@
       "ground_truth": {
         "verdict": "Not Recommended",
         "matched_rule": "NOT_RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "9z2z_y0JK1F2CC5MAPuzrg": {
@@ -1048,7 +1236,9 @@
       "ground_truth": {
         "verdict": "Not Recommended",
         "matched_rule": "NOT_RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "2CDI713ATuxHfnB5b-sBdw": {
@@ -1059,7 +1249,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "VpeqnfECjFNcYLyDxuc-_w": {
@@ -1070,7 +1262,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "2MAQeAqmD8enCT2ZYqUgIQ": {
@@ -1081,7 +1275,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "fdez0D4ovth2k1IvR0ZbpQ": {
@@ -1092,7 +1288,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "kZ1q0K13tFYG_ZJrVvsJHA": {
@@ -1103,7 +1301,9 @@
       "ground_truth": {
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
-        "policy_id": "G2_business_V1"
+        "policy_id": "G2_business_V1",
+        "n_incidents": 0,
+        "incidents": []
       }
     }
   },

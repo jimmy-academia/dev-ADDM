@@ -553,7 +553,6 @@ async def run_experiment(
     mode: Optional[str] = None,
     batch_id: Optional[str] = None,
     top_k: int = 20,
-    filter_mode: str = "keyword",
     batch_size: int = 10,
     sample_ids: Optional[List[str]] = None,
     phase: Optional[str] = None,
@@ -578,7 +577,7 @@ async def run_experiment(
         token_limit: Token budget for RLM (converts to iterations via ~3000 tokens/iter)
         mode: Explicit mode override ("ondemand" or "batch").
               In benchmark mode, auto-selected based on quota state if not specified.
-        filter_mode: AMOS Stage 1 filter strategy: 'keyword', 'embedding', or 'hybrid'
+        batch_size: AMOS reviews per LLM call
         sample_ids: If provided, only run on these specific business IDs (filters dataset)
         phase: AMOS phase control: '1' (generate seed only), '2' (use seed_path), '1,2' or None (both)
         seed_path: Path to Formula Seed file or directory for --phase 2
@@ -999,7 +998,6 @@ Let's think through this step-by-step:"""
             amos_method = amos_class(
                 policy_id=run_id,
                 max_concurrent=256,
-                filter_mode=filter_mode,
                 batch_size=batch_size,
                 system_prompt=system_prompt,
             )
@@ -1089,20 +1087,10 @@ Let's think through this step-by-step:"""
                     "cost_usd": raw_result.get("cost_usd", 0.0),
                     "latency_ms": raw_result.get("latency_ms", 0.0),
                     "llm_calls": raw_result.get("llm_calls", 0),
-                    # Per-phase/stage usage breakdown (AMOS-specific)
-                    "usage_breakdown": raw_result.get("usage_breakdown", {}),
                     # AMOS-specific metrics
-                    "filter_stats": raw_result.get("filter_stats", {}),
+                    "stats": raw_result.get("stats", {}),
                     "extractions_count": raw_result.get("extractions_count", 0),
                     "phase1_cached": raw_result.get("phase1_cached", False),
-                    # Strategy metrics (new)
-                    "strategy_stats": raw_result.get("strategy_stats", {}),
-                    "adaptive_mode": raw_result.get("adaptive_mode", False),
-                    "stopped_early": raw_result.get("stopped_early", False),
-                    "reviews_skipped": raw_result.get("reviews_skipped", 0),
-                    # Embedding metrics (hybrid mode)
-                    "embedding_tokens": raw_result.get("embedding_tokens", 0),
-                    "embedding_cost_usd": raw_result.get("embedding_cost_usd", 0.0),
                 }
 
             tasks = [process_amos_sample(s) for s in samples]
@@ -1328,12 +1316,10 @@ Let's think through this step-by-step:"""
         if item_logger := get_item_logger():
             # Collect method-specific extra fields
             extra_fields = {}
-            for key in ["filter_stats", "early_exit", "extractions_count", "phase1_cached",
-                        "strategy_stats", "adaptive_mode", "stopped_early", "reviews_skipped",
-                        "embedding_tokens", "embedding_cost_usd", "reviews_retrieved",
-                        "reviews_total", "top_review_indices", "cache_hit_embeddings",
-                        "cache_hit_retrieval", "steps_taken", "max_steps",
-                        "usage_breakdown"]:  # AMOS per-phase breakdown
+            for key in ["stats", "extractions_count", "phase1_cached",
+                        "reviews_retrieved", "reviews_total", "top_review_indices",
+                        "cache_hit_embeddings", "cache_hit_retrieval",
+                        "steps_taken", "max_steps"]:
                 if key in result:
                     extra_fields[key] = result[key]
 
@@ -1426,7 +1412,7 @@ Let's think through this step-by-step:"""
             if intermediate_metrics.get("summary"):
                 summary = intermediate_metrics["summary"]
                 int_rows = []
-                for key in ["n_structured", "incident_precision", "severity_accuracy",
+                for key in ["n_structured", "evidence_precision", "severity_accuracy",
                            "snippet_validity", "verdict_support_rate"]:
                     val = summary.get(key)
                     if val is not None:
@@ -1467,21 +1453,22 @@ Let's think through this step-by-step:"""
             policy_id=run_id,
         )
 
-        # Display new metrics format (6 metrics)
+        # Display new metrics format (7 metrics)
         output.rule()
 
         # Extract details for notes
         details = eval_metrics.get("details", {})
-        incident_details = details.get("incident_details", {})
+        evidence_details = details.get("incident_details", {})  # Key unchanged for backward compat
         judgement_details = details.get("judgement_details", {})
         score_details = details.get("score_details", {})
         consistency_details = details.get("consistency_details", {})
 
         total_samples = len(results)
-        total_claimed = incident_details.get("total_claimed", 0)
-        total_matched = incident_details.get("total_matched", 0)
-        total_snippets = incident_details.get("total_snippets", 0)
-        valid_snippets = incident_details.get("valid_snippets", 0)
+        total_claimed = evidence_details.get("total_claimed", 0)
+        total_matched = evidence_details.get("total_matched", 0)
+        total_gt_evidence = evidence_details.get("total_gt_evidence", 0)
+        total_snippets = evidence_details.get("total_snippets", 0)
+        valid_snippets = evidence_details.get("valid_snippets", 0)
         judgement_total = judgement_details.get("total", 0)
         judgement_correct = judgement_details.get("correct", 0)
         score_total = score_details.get("total", 0)
@@ -1497,8 +1484,10 @@ Let's think through this step-by-step:"""
             # Tier 1: Final Quality
             ["AUPRC", fmt_pct(eval_metrics.get("auprc")), "(ranking quality)"],
             # Tier 2: Evidence Quality
-            ["Incident Precision", fmt_pct(eval_metrics.get("incident_precision")),
+            ["Evidence Precision", fmt_pct(eval_metrics.get("evidence_precision")),
              f"({total_matched}/{total_claimed} claimed exist in GT)" if total_claimed > 0 else "(no claims)"],
+            ["Evidence Recall", fmt_pct(eval_metrics.get("evidence_recall")),
+             f"({total_matched}/{total_gt_evidence} GT evidence found)" if total_gt_evidence > 0 else "(no GT evidence)"],
             ["Snippet Validity", fmt_pct(eval_metrics.get("snippet_validity")),
              f"({valid_snippets}/{total_snippets} quotes match source)" if total_snippets > 0 else "(no snippets)"],
             # Tier 3: Reasoning Quality
@@ -1510,7 +1499,7 @@ Let's think through this step-by-step:"""
             ["Verdict Consistency", fmt_pct(eval_metrics.get("verdict_consistency")),
              f"({consistency_count}/{consistency_total} evidence+rule→verdict)" if consistency_total > 0 else "(no evidence)"],
         ]
-        output.print_table("EVALUATION METRICS (6 total)", ["Metric", "Score", "Notes"], score_rows)
+        output.print_table("EVALUATION METRICS (7 total)", ["Metric", "Score", "Notes"], score_rows)
 
     # Compute aggregated usage from all results
     aggregated_usage = {
@@ -1527,6 +1516,25 @@ Let's think through this step-by-step:"""
     if embedding_tokens > 0:
         aggregated_usage["total_embedding_tokens"] = embedding_tokens
         aggregated_usage["total_embedding_cost_usd"] = embedding_cost
+
+    # Display usage summary
+    output.rule()
+    total_tokens = aggregated_usage["total_tokens"]
+    total_cost = aggregated_usage["total_cost_usd"]
+    total_latency_ms = aggregated_usage["total_latency_ms"]
+    total_llm_calls = aggregated_usage["total_llm_calls"]
+
+    # Format latency as seconds
+    latency_str = f"{total_latency_ms / 1000:.1f}s" if total_latency_ms else "N/A (batch)"
+
+    usage_rows = [
+        ["Tokens", f"{total_tokens:,}", f"({aggregated_usage['total_prompt_tokens']:,} prompt + {aggregated_usage['total_completion_tokens']:,} completion)"],
+        ["Cost", f"${total_cost:.4f}", ""],
+        ["Runtime", latency_str, f"({total_llm_calls} LLM calls)"],
+    ]
+    if embedding_tokens > 0:
+        usage_rows.insert(1, ["Embedding Tokens", f"{embedding_tokens:,}", f"(${embedding_cost:.4f})"])
+    output.print_table("USAGE SUMMARY", ["Metric", "Value", "Details"], usage_rows)
 
     # Save results (output_dir determined earlier)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -1553,12 +1561,13 @@ Let's think through this step-by-step:"""
         "total": total,
         "auprc": auprc_metrics,
         "intermediate_metrics": intermediate_metrics,
-        # New simplified metrics (recommended - 6 metrics)
+        # New simplified metrics (recommended - 7 metrics)
         "evaluation_metrics": {
             # Tier 1: Final Quality
             "auprc": eval_metrics.get("auprc"),
             # Tier 2: Evidence Quality
-            "incident_precision": eval_metrics.get("incident_precision"),
+            "evidence_precision": eval_metrics.get("evidence_precision"),
+            "evidence_recall": eval_metrics.get("evidence_recall"),
             "snippet_validity": eval_metrics.get("snippet_validity"),
             # Tier 3: Reasoning Quality
             "judgement_accuracy": eval_metrics.get("judgement_accuracy"),
@@ -1645,18 +1654,10 @@ def main() -> None:
         help="RAG: Number of reviews to retrieve (default: 20, ~10%% of K=200)",
     )
     parser.add_argument(
-        "--filter-mode",
-        type=str,
-        default="keyword",
-        choices=["keyword", "embedding", "hybrid"],
-        help="AMOS: Stage 1 filter strategy (default: keyword). "
-             "keyword=fast, embedding=better recall, hybrid=both",
-    )
-    parser.add_argument(
         "--batch-size",
         type=int,
         default=10,
-        help="AMOS: Reviews per LLM call in sweep (default: 10). Higher=fewer calls, lower=more parallel.",
+        help="AMOS: Reviews per LLM call (default: 10). Higher=fewer calls, lower=more parallel.",
     )
     parser.add_argument(
         "--phase",
@@ -1754,7 +1755,6 @@ def main() -> None:
                     mode=args.mode,
                     batch_id=args.batch_id,
                     top_k=args.top_k,
-                    filter_mode=args.filter_mode,
                     batch_size=args.batch_size,
                     sample_ids=sample_ids,
                     phase=args.phase,
@@ -1811,7 +1811,6 @@ def main() -> None:
                 mode=args.mode,
                 batch_id=args.batch_id,
                 top_k=args.top_k,
-                filter_mode=args.filter_mode,
                 batch_size=args.batch_size,
                 sample_ids=sample_ids,
                 phase=args.phase,

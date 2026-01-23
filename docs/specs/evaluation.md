@@ -1,6 +1,6 @@
 # Evaluation Metrics
 
-Simplified evaluation system with **6 separate, interpretable metrics** - no weighted composites.
+Simplified evaluation system with **7 separate, interpretable metrics** - no weighted composites.
 
 ## Design Philosophy
 
@@ -9,16 +9,17 @@ The old system used weighted composite scores (Process Score = 35% incident prec
 - A single "Process Score" hid important distinctions
 - Hard to diagnose what went wrong
 
-**New approach:** 6 separate metrics, each measuring one thing clearly.
+**New approach:** 7 separate metrics, each measuring one thing clearly.
 
 ---
 
-## The Six Metrics
+## The Seven Metrics
 
 | Tier | Metric | What It Measures |
 |------|--------|------------------|
 | **Final Quality** | AUPRC | Ranking quality of verdicts |
-| **Evidence Quality** | Incident Precision | Are claimed incidents real? |
+| **Evidence Quality** | Evidence Precision | Are claimed evidences real? |
+| **Evidence Quality** | Evidence Recall | Were GT evidences found? |
 | **Evidence Quality** | Snippet Validity | Are quoted texts real? |
 | **Reasoning Quality** | Judgement Accuracy | Are field values correct? |
 | **Reasoning Quality** | Score Accuracy | Is computed score correct? (V2/V3) |
@@ -57,16 +58,29 @@ result = compute_ordinal_auprc(y_true, y_scores)
 
 ## Tier 2: Evidence Quality
 
-### Incident Precision
+### Evidence Precision
 
-**Purpose:** Are the claimed incidents actually in the ground truth?
+**Purpose:** Are the claimed evidences actually in the ground truth?
 
 **Formula:** `|claimed ∩ GT| / |claimed|` (by review_id)
 
 **Interpretation:**
-- 100% = Every claimed incident exists in GT
+- 100% = Every claimed evidence exists in GT
 - 80% = 20% of claims are fabricated/wrong review IDs
-- N/A = Method made no incident claims (can't compute precision)
+- N/A = Method made no evidence claims (can't compute precision)
+
+**Location:** `src/addm/eval/intermediate_metrics.py::compute_evidence_validity()`
+
+### Evidence Recall
+
+**Purpose:** Did the method find all the evidences in the ground truth?
+
+**Formula:** `|claimed ∩ GT| / |GT|` (by review_id)
+
+**Interpretation:**
+- 100% = Method found every GT evidence
+- 50% = Method missed half of the GT evidences
+- N/A = No GT evidences for this sample
 
 **Location:** `src/addm/eval/intermediate_metrics.py::compute_evidence_validity()`
 
@@ -188,12 +202,13 @@ Used for Verdict Consistency and Score Accuracy validation:
 ## Console Output
 
 ```
-EVALUATION METRICS (6 total)
+EVALUATION METRICS (7 total)
 ┌─────────────────────┬─────────┬────────────────────────────────┐
 │ Metric              │ Score   │ Notes                          │
 ├─────────────────────┼─────────┼────────────────────────────────┤
 │ AUPRC               │ 85.3%   │ (ranking quality)              │
-│ Incident Precision  │ 72.0%   │ (12/15 claimed exist in GT)    │
+│ Evidence Precision  │ 72.0%   │ (12/15 claimed exist in GT)    │
+│ Evidence Recall     │ 60.0%   │ (12/20 GT evidences found)     │
 │ Snippet Validity    │ 95.0%   │ (19/20 quotes match source)    │
 │ Judgement Accuracy  │ 68.5%   │ (field correctness)            │
 │ Score Accuracy      │ 90.0%   │ (9/10 scores match GT)         │
@@ -216,7 +231,8 @@ EVALUATION METRICS (6 total)
 
   "evaluation_metrics": {
     "auprc": 0.853,
-    "incident_precision": 0.72,
+    "evidence_precision": 0.72,
+    "evidence_recall": 0.60,
     "snippet_validity": 0.95,
     "judgement_accuracy": 0.685,
     "score_accuracy": 0.90,
@@ -228,7 +244,8 @@ EVALUATION METRICS (6 total)
 
   "evaluation_metrics_full": {
     "auprc": 0.853,
-    "incident_precision": 0.72,
+    "evidence_precision": 0.72,
+    "evidence_recall": 0.60,
     "snippet_validity": 0.95,
     "judgement_accuracy": 0.685,
     "score_accuracy": 0.90,
@@ -239,9 +256,10 @@ EVALUATION METRICS (6 total)
         "auprc_ge_critical": 0.88,
         "ordinal_auprc": 0.853
       },
-      "incident_details": {
+      "evidence_details": {
         "total_claimed": 15,
         "total_matched": 12,
+        "total_gt_evidence": 20,
         "total_snippets": 20,
         "valid_snippets": 19
       },
@@ -288,7 +306,8 @@ metrics = compute_evaluation_metrics(
 
 # Access individual metrics
 print(f"AUPRC: {metrics['auprc']:.1%}")
-print(f"Incident Precision: {metrics['incident_precision']:.1%}")
+print(f"Evidence Precision: {metrics['evidence_precision']:.1%}")
+print(f"Evidence Recall: {metrics['evidence_recall']:.1%}")
 print(f"Snippet Validity: {metrics['snippet_validity']:.1%}")
 print(f"Judgement Accuracy: {metrics['judgement_accuracy']:.1%}")
 print(f"Score Accuracy: {metrics['score_accuracy']:.1%}")
@@ -318,7 +337,8 @@ consistency, cons_details = compute_verdict_consistency_enhanced(results, policy
 ### Healthy Results
 ```
 AUPRC               85%+    Method ranks restaurants well
-Incident Precision  80%+    Most claims are real incidents
+Evidence Precision  80%+    Most claims are real evidences
+Evidence Recall     60%+    Method finds key evidences (partial OK)
 Snippet Validity    95%+    Quotes are accurate
 Judgement Accuracy  70%+    Classifications are mostly correct
 Score Accuracy      90%+    Point calculations are accurate
@@ -330,7 +350,8 @@ Verdict Consistency 90%+    Internal logic is sound
 | Symptom | Likely Cause | Fix |
 |---------|--------------|-----|
 | Low AUPRC | Wrong verdicts | Check GT accuracy, method prompts |
-| Low Incident Precision | Fabricated incidents | Improve evidence extraction |
+| Low Evidence Precision | Fabricated evidences | Improve evidence extraction |
+| Low Evidence Recall | Missing evidences | Increase retrieval coverage |
 | Low Snippet Validity | Hallucinated quotes | Add source verification |
 | Low Judgement Accuracy | Wrong severity labels | Review classification prompts |
 | Low Score Accuracy | Math errors | Check scoring trace logic |
@@ -344,10 +365,10 @@ Verdict Consistency 90%+    Internal logic is sound
 
 | Old | Replacement |
 |-----|-------------|
-| Process Score | Split into Incident Precision, Judgement Accuracy, Snippet Validity |
+| Process Score | Split into Evidence Precision, Judgement Accuracy, Snippet Validity |
 | Consistency Score | Now Verdict Consistency (enhanced with triggered_rule) |
 | Accuracy | Removed (misleading with class imbalance) |
-| Incident Recall | Removed (partial extraction is fine) |
+| Incident Recall | Renamed to Evidence Recall (now included) |
 
 ### Legacy Support
 
