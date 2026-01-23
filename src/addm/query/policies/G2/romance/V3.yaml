@@ -93,11 +93,11 @@ normative:
         50: 100
         100: 200
     - verdict: Not Recommended
-      max_score: -100
+      max_score: -5
       max_score_by_k:
-        25: -10
-        50: -25
-        100: -50
+        25: -5
+        50: -5
+        100: -5
   decision:
     verdicts:
     - Not Recommended

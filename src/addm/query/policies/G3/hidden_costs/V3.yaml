@@ -76,17 +76,17 @@ normative:
       weight: quarter point value (multiply by 0.25) - policies may have changed
     thresholds:
     - verdict: Critical Risk
-      min_score: 500
+      min_score: 340
       min_score_by_k:
-        25: 60
-        50: 125
-        100: 250
+        25: 85
+        50: 150
+        100: 290
     - verdict: High Risk
-      min_score: 200
+      min_score: 210
       min_score_by_k:
-        25: 25
-        50: 50
-        100: 100
+        25: 65
+        50: 125
+        100: 230
   decision:
     verdicts:
     - Low Risk

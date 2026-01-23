@@ -3,7 +3,7 @@
   "topic": "G3_hidden_costs",
   "domain": "yelp",
   "k": 200,
-  "computed_at": "2026-01-23T17:28:28.246620",
+  "computed_at": "2026-01-23T17:36:25.605190",
   "has_scoring": true,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -2993,7 +2993,7 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 381,
         "n_incidents": 50,
         "incidents": [
@@ -8417,7 +8417,7 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Low Risk",
         "score": 202,
         "n_incidents": 54,
         "incidents": [
@@ -17561,7 +17561,7 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Low Risk",
         "score": 202,
         "n_incidents": 42,
         "incidents": [
@@ -22438,7 +22438,7 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 377,
         "n_incidents": 57,
         "incidents": [
@@ -26189,7 +26189,7 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 425,
         "n_incidents": 63,
         "incidents": [
@@ -28147,7 +28147,7 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Low Risk",
         "score": 202,
         "n_incidents": 58,
         "incidents": [
@@ -39791,7 +39791,7 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 392,
         "n_incidents": 62,
         "incidents": [
@@ -48040,7 +48040,7 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 387,
         "n_incidents": 53,
         "incidents": [
@@ -52049,7 +52049,7 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Low Risk",
         "score": 205,
         "n_incidents": 72,
         "incidents": [
@@ -56978,7 +56978,7 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 404,
         "n_incidents": 60,
         "incidents": [
@@ -62720,7 +62720,7 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Critical Risk",
         "score": 380,
         "n_incidents": 52,
         "incidents": [
@@ -63415,7 +63415,7 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
+        "verdict": "Low Risk",
         "score": 203,
         "n_incidents": 54,
         "incidents": [
@@ -72835,9 +72835,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Risk": 60,
-      "High Risk": 39,
-      "Critical Risk": 1
+      "Low Risk": 65,
+      "High Risk": 27,
+      "Critical Risk": 8
     },
     "missing_judgments": 0
   }

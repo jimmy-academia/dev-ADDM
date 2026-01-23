@@ -75,7 +75,8 @@
       "Bash(.venv/bin/pytest tests/ -v --tb=short --ignore=tests/test_formulas.py)",
       "Bash(for f in /Users/jimmyyeh/Documents/Station/dev-ADDM/data/answers/yelp/G1_dietary_V*_K25_groundtruth.json)",
       "Bash(git checkout:*)",
-      "Bash(for k in 25 50 100)"
+      "Bash(for k in 25 50 100)",
+      "Bash(for k in 25 50 100 200)"
     ]
   }
 }
