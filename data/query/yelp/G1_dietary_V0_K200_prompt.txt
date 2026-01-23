@@ -61,9 +61,9 @@ Staff knowledge about ingredients and dietary accommodations
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- 2 or more severe dietary incidents (restricted food served, person got sick)
-- 2 or more reviews report staff providing incorrect ingredient information
-- 5 or more moderate dietary incidents
+- 1 or more severe dietary incidents (restricted food served, person got sick)
+- 1 or more reviews report staff providing incorrect ingredient information
+- 4 or more moderate dietary incidents
 
 **High Risk** if Critical Risk does not apply, but any of the following is true:
 - 2 or more moderate dietary incidents

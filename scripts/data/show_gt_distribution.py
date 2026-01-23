@@ -4,6 +4,8 @@
 Usage:
     .venv/bin/python scripts/data/show_gt_distribution.py
     .venv/bin/python scripts/data/show_gt_distribution.py --topic G1_allergy
+    .venv/bin/python scripts/data/show_gt_distribution.py --group G1
+    .venv/bin/python scripts/data/show_gt_distribution.py --policy G1_allergy_V2
     .venv/bin/python scripts/data/show_gt_distribution.py --variant V2
     .venv/bin/python scripts/data/show_gt_distribution.py --k 200
     .venv/bin/python scripts/data/show_gt_distribution.py --aggregate
@@ -12,8 +14,19 @@ Usage:
 
 import argparse
 import json
+import sys
 from collections import defaultdict
 from pathlib import Path
+
+# Add src to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
+
+from addm.tasks.constants import (
+    ALL_TOPICS,
+    K_VALUES,
+    expand_topics,
+    get_topic_from_policy_id,
+)
 
 from rich.console import Console
 from rich.table import Table
@@ -21,16 +34,7 @@ from rich.panel import Panel
 
 # Constants
 GT_DIR = Path(__file__).parent.parent.parent / "data" / "answers" / "yelp"
-K_VALUES = [25, 50, 100, 200]
 VARIANTS = ["V0", "V1", "V2", "V3"]
-TOPICS = [
-    "G1_allergy", "G1_dietary", "G1_hygiene",
-    "G2_romance", "G2_business", "G2_group",
-    "G3_price_worth", "G3_hidden_costs", "G3_time_value",
-    "G4_server", "G4_kitchen", "G4_environment",
-    "G5_capacity", "G5_execution", "G5_consistency",
-    "G6_uniqueness", "G6_comparison", "G6_loyalty",
-]
 
 console = Console()
 
@@ -228,32 +232,63 @@ def print_imbalance_report(topics: list[str], variants: list[str], k_values: lis
 
 def main():
     parser = argparse.ArgumentParser(description="Show ground truth verdict distribution")
-    parser.add_argument("--topic", help="Filter to specific topic (e.g., G1_allergy)")
+
+    # Target selection (mutually exclusive)
+    target_group = parser.add_mutually_exclusive_group()
+    target_group.add_argument(
+        "--group",
+        type=str,
+        help="Group ID (e.g., G1) - shows all 3 topics in group",
+    )
+    target_group.add_argument(
+        "--topic",
+        type=str,
+        help="Topic ID (e.g., G1_allergy)",
+    )
+    target_group.add_argument(
+        "--policy",
+        type=str,
+        help="Policy ID (e.g., G1_allergy_V2) - shows just that policy's topic",
+    )
+
+    # Additional filters
     parser.add_argument("--variant", help="Filter to specific variant (e.g., V2)")
     parser.add_argument("--k", type=int, help="Filter to specific K value")
+
+    # Output modes
     parser.add_argument("--aggregate", action="store_true", help="Show aggregate stats only")
     parser.add_argument("--imbalance", action="store_true", help="Show imbalance report only")
+
     args = parser.parse_args()
 
-    # Apply filters
-    topics = [args.topic] if args.topic else TOPICS
+    # Determine topics using expand_topics
+    try:
+        if args.policy:
+            # Extract topic from policy ID
+            topic = get_topic_from_policy_id(args.policy)
+            topics = [topic]
+        else:
+            topics = expand_topics(topic=args.topic, group=args.group)
+    except ValueError as e:
+        console.print(f"[red]Error: {e}[/red]")
+        return
+
+    # Apply variant filter
     variants = [args.variant] if args.variant else VARIANTS
+    if args.variant and args.variant not in VARIANTS:
+        console.print(f"[yellow]Warning: Unknown variant '{args.variant}'[/yellow]")
+
+    # Apply K filter
     k_values = [args.k] if args.k else K_VALUES
+    if args.k and args.k not in K_VALUES:
+        console.print(f"[yellow]Warning: K={args.k} not in standard values {K_VALUES}[/yellow]")
 
-    # Validate
-    for topic in topics:
-        if topic not in TOPICS:
-            console.print(f"[yellow]Warning: Unknown topic '{topic}'[/yellow]")
-    for variant in variants:
-        if variant not in VARIANTS:
-            console.print(f"[yellow]Warning: Unknown variant '{variant}'[/yellow]")
-
+    # Run selected mode
     if args.imbalance:
         print_imbalance_report(topics, variants, k_values)
     elif args.aggregate:
         print_aggregate_stats(topics, variants, k_values)
     else:
-        # Full output - show each topic
         for topic in topics:
             print_topic_summary(topic, variants, k_values)
 

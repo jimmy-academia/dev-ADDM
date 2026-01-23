@@ -107,8 +107,9 @@ normative:
             min_count: 20
             min_count_by_k:
               25: 2
-              50: 5
-              100: 10
+              50: 3
+              100: 5
+              200: 10
           - text: "30 or more reviews describe service as too slow for business meals"
             type: count_threshold
             filter:
@@ -116,8 +117,9 @@ normative:
             min_count: 30
             min_count_by_k:
               25: 4
-              50: 8
-              100: 15
+              50: 5
+              100: 8
+              200: 15
           - text: "15 or more reviews describe atmosphere as too casual or unprofessional"
             type: count_threshold
             filter:
@@ -125,8 +127,9 @@ normative:
             min_count: 15
             min_count_by_k:
               25: 2
-              50: 4
-              100: 8
+              50: 2
+              100: 4
+              200: 8
           # V1 additional conditions
           - text: "40 or more reviews describe negative meeting outcomes"
             type: count_threshold
@@ -135,8 +138,9 @@ normative:
             min_count: 40
             min_count_by_k:
               25: 5
-              50: 10
-              100: 20
+              50: 6
+              100: 10
+              200: 20
 
       - verdict: "Acceptable"
         label: "ACCEPTABLE"

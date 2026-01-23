@@ -89,11 +89,11 @@ normative:
         50: 300
         100: 600
     - verdict: Not Recommended
-      max_score: -50
+      max_score: 50
       max_score_by_k:
-        25: -5
-        50: -15
-        100: -30
+        25: 5
+        50: 10
+        100: 25
   decision:
     verdicts:
     - Not Recommended
@@ -111,7 +111,7 @@ normative:
       precondition: Recommended does not apply
       logic: ANY
       conditions:
-      - Total suitability score is 0 or lower
+      - Total suitability score is 50 or lower
     - verdict: Acceptable
       label: ACCEPTABLE
       default: true
