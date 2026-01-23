@@ -592,6 +592,185 @@ def _fix_n_incidents_logic(compute_ops: List[Dict[str, Any]], seed: Dict[str, An
 
 
 # =============================================================================
+# VERDICT Operation Generation
+# =============================================================================
+
+def _strip_verdict_quotes(compute_ops: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Strip extra quotes from VERDICT rule values.
+
+    LLMs sometimes generate verdict values with extra Python-style quotes like:
+    {"then": "'Critical Risk'"} instead of {"then": "Critical Risk"}
+
+    This function strips those extra quotes to ensure clean verdict values.
+
+    Args:
+        compute_ops: List of compute operation dicts
+
+    Returns:
+        Compute operations with cleaned verdict values
+    """
+    for op in compute_ops:
+        if op.get("name", "").upper() == "VERDICT" and op.get("op") == "case":
+            rules = op.get("rules", [])
+            for rule in rules:
+                # Strip quotes from 'then' values
+                if "then" in rule and isinstance(rule["then"], str):
+                    val = rule["then"]
+                    # Strip surrounding single or double quotes
+                    if (val.startswith("'") and val.endswith("'")) or \
+                       (val.startswith('"') and val.endswith('"')):
+                        rule["then"] = val[1:-1]
+                        logger.debug(f"[seed_transform] Stripped quotes from VERDICT then: {val} -> {rule['then']}")
+                # Strip quotes from 'else' values
+                if "else" in rule and isinstance(rule["else"], str):
+                    val = rule["else"]
+                    if (val.startswith("'") and val.endswith("'")) or \
+                       (val.startswith('"') and val.endswith('"')):
+                        rule["else"] = val[1:-1]
+                        logger.debug(f"[seed_transform] Stripped quotes from VERDICT else: {val} -> {rule['else']}")
+            # Also strip quotes from default_verdict if present
+            if "default_verdict" in op and isinstance(op["default_verdict"], str):
+                val = op["default_verdict"]
+                if (val.startswith("'") and val.endswith("'")) or \
+                   (val.startswith('"') and val.endswith('"')):
+                    op["default_verdict"] = val[1:-1]
+    return compute_ops
+
+
+def _has_verdict_compute(compute_ops: List[Dict[str, Any]]) -> bool:
+    """Check if VERDICT compute operation exists.
+
+    Args:
+        compute_ops: List of compute operation dicts
+
+    Returns:
+        True if VERDICT case operation exists
+    """
+    for op in compute_ops:
+        if op.get("name", "").upper() == "VERDICT" and op.get("op") == "case":
+            return True
+    return False
+
+
+def _parse_early_verdict_expr(expr: str) -> Tuple[List[Dict[str, Any]], Optional[str]]:
+    """Parse early_verdict_expr Python expression into case rules.
+
+    Handles expressions like:
+    "'Critical Risk' if (N_SEVERE >= 1) else ('High Risk' if (N_MODERATE >= 1) else 'Low Risk')"
+
+    Args:
+        expr: Python ternary expression string
+
+    Returns:
+        Tuple of (rules_list, default_verdict)
+    """
+    rules = []
+    default_verdict = None
+
+    # Pattern for nested ternary: 'VERDICT' if CONDITION else REST
+    # We'll parse iteratively, extracting each condition
+    remaining = expr.strip()
+
+    while remaining:
+        # Pattern: 'VERDICT' if (CONDITION) else REST
+        # Or: 'VERDICT' if CONDITION else REST
+        match = re.match(
+            r"['\"]([^'\"]+)['\"]\s+if\s+(?:\()?(.+?)(?:\))?\s+else\s+(.+)",
+            remaining,
+            re.IGNORECASE | re.DOTALL
+        )
+
+        if not match:
+            # Check if remaining is just a verdict string (default case)
+            final_match = re.match(r"['\"]([^'\"]+)['\"]", remaining.strip())
+            if final_match:
+                default_verdict = normalize_verdict_label(final_match.group(1))
+            break
+
+        verdict_str = match.group(1)
+        condition = match.group(2).strip()
+        rest = match.group(3).strip()
+
+        # Normalize verdict label
+        verdict = normalize_verdict_label(verdict_str)
+
+        # Clean up condition - remove surrounding parens if balanced
+        while condition.startswith("(") and condition.endswith(")"):
+            # Check if parens are balanced
+            depth = 0
+            balanced = True
+            for i, c in enumerate(condition):
+                if c == "(":
+                    depth += 1
+                elif c == ")":
+                    depth -= 1
+                if depth == 0 and i < len(condition) - 1:
+                    balanced = False
+                    break
+            if balanced:
+                condition = condition[1:-1].strip()
+            else:
+                break
+
+        rules.append({"when": condition, "then": verdict})
+
+        # Handle nested ternary in rest
+        # Rest might be: ('High Risk' if ... else 'Low Risk')
+        if rest.startswith("(") and rest.endswith(")"):
+            rest = rest[1:-1].strip()
+
+        remaining = rest
+
+    # If no rules were extracted but we have a default, return empty rules with default
+    if not rules and default_verdict:
+        return [], default_verdict
+
+    return rules, default_verdict
+
+
+def _generate_verdict_from_early_expr(seed: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    """Generate VERDICT compute operation from early_verdict_expr.
+
+    If the seed has early_verdict_expr but no VERDICT case operation,
+    this creates one from the expression.
+
+    Args:
+        seed: Formula Seed dict
+
+    Returns:
+        VERDICT compute operation dict, or None if cannot generate
+    """
+    strategy = seed.get("search_strategy", {})
+    early_expr = strategy.get("early_verdict_expr", "")
+
+    if not early_expr:
+        return None
+
+    rules, default_verdict = _parse_early_verdict_expr(early_expr)
+
+    if not rules and not default_verdict:
+        logger.warning(f"Could not parse early_verdict_expr: {early_expr[:100]}...")
+        return None
+
+    # Build VERDICT case operation
+    verdict_op = {
+        "name": "VERDICT",
+        "op": "case",
+        "rules": rules,
+    }
+
+    if default_verdict:
+        verdict_op["default_verdict"] = default_verdict
+
+    logger.info(
+        f"[seed_transform] Generated VERDICT operation from early_verdict_expr: "
+        f"{len(rules)} rules, default={default_verdict}"
+    )
+
+    return verdict_op
+
+
+# =============================================================================
 # Main Transformation Function
 # =============================================================================
 
@@ -681,6 +860,24 @@ def transform_formula_seed(seed: Dict[str, Any]) -> Dict[str, Any]:
 
         # Apply semantic fixes (defensive backup for LLM errors)
         transformed_compute = _fix_n_incidents_logic(transformed_compute, result)
+
+        # ===== GENERATE VERDICT IF MISSING =====
+        # If no VERDICT case operation exists but early_verdict_expr is available,
+        # generate VERDICT from the expression. This is a specification enforcement:
+        # every seed MUST have a deterministic VERDICT compute operation.
+        if not _has_verdict_compute(transformed_compute):
+            verdict_op = _generate_verdict_from_early_expr(result)
+            if verdict_op:
+                transformed_compute.append(verdict_op)
+                logger.info("[seed_transform] Added generated VERDICT operation to compute")
+            else:
+                logger.warning(
+                    "[seed_transform] No VERDICT compute operation and could not generate from "
+                    "early_verdict_expr. Verdict may be undefined."
+                )
+
+        # Strip extra quotes from VERDICT rules (LLM sometimes outputs "'Critical Risk'" instead of "Critical Risk")
+        transformed_compute = _strip_verdict_quotes(transformed_compute)
 
         result["compute"] = transformed_compute
 

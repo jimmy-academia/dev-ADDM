@@ -37,6 +37,106 @@ def _get_effective_min_count(condition: dict, k: int) -> int:
     return condition.get("min_count", 1)
 
 
+def _get_effective_score(threshold, k: int) -> int:
+    """Get the effective min_score or max_score for a threshold based on K value.
+
+    Args:
+        threshold: ScoringThreshold object or dict with min_score/max_score
+        k: The K value (context size)
+
+    Returns:
+        The effective score threshold for this K
+    """
+    # Handle ScoringThreshold objects (dataclass)
+    if hasattr(threshold, 'min_score_by_k'):
+        by_k = threshold.min_score_by_k or {}
+        if k in by_k:
+            return by_k[k]
+        # Also check max_score_by_k
+        max_by_k = threshold.max_score_by_k or {}
+        if k in max_by_k:
+            return max_by_k[k]
+        # Fall back to base score
+        if threshold.min_score is not None:
+            return threshold.min_score
+        if threshold.max_score is not None:
+            return threshold.max_score
+        return 0
+
+    # Handle dicts (for backward compatibility)
+    for field in ["min_score_by_k", "max_score_by_k"]:
+        by_k = threshold.get(field, {})
+        if k in by_k:
+            return by_k[k]
+        if str(k) in by_k:
+            return by_k[str(k)]
+
+    return threshold.get("min_score") or threshold.get("max_score", 0)
+
+
+def _build_score_threshold_map(scoring_thresholds: list, k: int) -> dict:
+    """Build a map of verdict -> K-specific score threshold.
+
+    Args:
+        scoring_thresholds: List of ScoringThreshold objects from scoring.thresholds
+        k: The K value (context size)
+
+    Returns:
+        Dict mapping verdict names to their K-specific thresholds
+        e.g., {"Recommended": 150, "Not Recommended": -150}
+    """
+    result = {}
+    for threshold in scoring_thresholds:
+        # Handle both ScoringThreshold objects and dicts
+        verdict = getattr(threshold, 'verdict', None) or threshold.get('verdict')
+        if verdict:
+            score = _get_effective_score(threshold, k)
+            result[verdict] = score
+    return result
+
+
+def _substitute_score_threshold_for_verdict(text: str, verdict: str, score_map: dict) -> str:
+    """Substitute score threshold numbers in condition text with K-specific values.
+
+    Looks for patterns like "score is X or higher" or "score is X or lower"
+    and replaces X with the K-specific threshold for the given verdict.
+
+    Args:
+        text: Condition text like "Total suitability score is 1200 or higher"
+        verdict: The verdict name this condition belongs to (e.g., "Recommended")
+        score_map: Dict mapping verdict names to K-specific thresholds
+
+    Returns:
+        Text with score thresholds replaced
+    """
+    if not score_map or verdict not in score_map:
+        return text
+
+    k_score = score_map[verdict]
+
+    # Pattern: match "score is NUMBER" or "score >= NUMBER" etc.
+    # Handle both positive and negative numbers, including ranges
+    pattern = r'(score\s+(?:is|=|>=|<=|>|<)\s*)(-?\d+)(\s+or\s+(?:higher|lower|more|above|below))?'
+
+    def replace_with_k_score(match):
+        prefix = match.group(1)
+        suffix = match.group(3) or ""
+        return f"{prefix}{k_score}{suffix}"
+
+    text = re.sub(pattern, replace_with_k_score, text, flags=re.IGNORECASE, count=1)
+
+    # Also handle "between X and Y" patterns for ranges
+    between_pattern = r'(score\s+is\s+between\s+)(\d+)(\s+and\s+)(\d+)'
+    match = re.search(between_pattern, text, re.IGNORECASE)
+    if match:
+        # For "between", the range changes based on thresholds
+        # This is complex - for now just leave it as-is
+        # or use a simple heuristic based on verdict
+        pass
+
+    return text
+
+
 def _substitute_min_count(text: str, min_count: int) -> str:
     """Substitute {min_count} placeholder in text with actual value.
 
@@ -185,15 +285,64 @@ class PromptGenerator:
         )
 
     def _render_verdict_rules(self, policy: PolicyIR) -> str:
-        """Render the Verdict Rules section."""
+        """Render the Verdict Rules section.
+
+        For V2+ policies with scoring, applies K-specific score thresholds
+        to the verdict rules before rendering.
+        """
         template = self.env.get_template("verdict_rules.jinja2")
 
         decision = policy.normative.decision
         output = policy.normative.output
 
+        # Build score threshold map if scoring is defined
+        score_map = {}
+        if policy.normative.scoring and policy.normative.scoring.thresholds:
+            score_map = _build_score_threshold_map(
+                policy.normative.scoring.thresholds, self.k
+            )
+
+        # Pre-process rules to apply K-specific score thresholds
+        # This ensures the rendered text has the correct threshold for K
+        processed_rules = []
+        for rule in decision.rules:
+            # Get the verdict name for this rule
+            verdict_name = rule.verdict if hasattr(rule, 'verdict') else rule.get('verdict', '')
+
+            # Create a mutable copy of the rule
+            if hasattr(rule, '_asdict'):
+                processed_rule = dict(rule._asdict())
+            elif hasattr(rule, '__dict__'):
+                processed_rule = dict(rule.__dict__)
+            else:
+                processed_rule = dict(rule)
+
+            # Process conditions list
+            conditions = getattr(rule, 'conditions', None) or processed_rule.get('conditions', [])
+            if conditions and score_map:
+                new_conditions = []
+                for cond in conditions:
+                    if isinstance(cond, str):
+                        # Apply K-specific score substitution using this rule's verdict
+                        cond = _substitute_score_threshold_for_verdict(cond, verdict_name, score_map)
+                    new_conditions.append(cond)
+                processed_rule['conditions'] = new_conditions
+
+            # Process especially_when list
+            especially_when = getattr(rule, 'especially_when', None) or processed_rule.get('especially_when', [])
+            if especially_when and score_map:
+                new_especially = []
+                for cond in especially_when:
+                    if isinstance(cond, str):
+                        cond = _substitute_score_threshold_for_verdict(cond, verdict_name, score_map)
+                    new_especially.append(cond)
+                processed_rule['especially_when'] = new_especially
+
+            processed_rules.append(processed_rule)
+
         return template.render(
             verdicts=decision.verdicts,
-            rules=decision.rules,
+            rules=processed_rules,
             output_fields=output.fields,  # Pass the fields dict directly
         )
 

@@ -415,6 +415,51 @@ class FormulaSeedInterpreter:
 
         return relevant
 
+    def _filter_to_incidents_only(self) -> int:
+        """Filter extractions to only include actual incidents (outcome != "none").
+
+        SPECIFICATION ENFORCEMENT: Only extractions representing actual incidents
+        should contribute to verdict-affecting counts. This prevents scenarios where
+        e.g., a review mentioning staff knowledge (but no incident) triggers High Risk.
+
+        Updates self._extractions in place and returns the count of filtered-out
+        extractions for observability.
+
+        Returns:
+            Number of extractions filtered out (non-incidents)
+        """
+        outcome_field, none_values = self._get_outcome_field_info()
+        if not outcome_field:
+            # No outcome field defined - can't filter, keep all
+            logger.debug("No outcome field defined in seed - skipping incident filter")
+            return 0
+
+        original_count = len(self._extractions)
+        filtered = []
+
+        for ext in self._extractions:
+            outcome_value = self._get_field_value(ext, outcome_field)
+            if self._is_none_value(outcome_value, none_values):
+                # This extraction has "no incident" outcome - filter it out
+                logger.debug(
+                    f"Filtering out non-incident extraction: review_id={ext.get('review_id')}, "
+                    f"{outcome_field}={outcome_value}"
+                )
+                continue
+            filtered.append(ext)
+
+        self._extractions = filtered
+        filtered_count = original_count - len(filtered)
+
+        if filtered_count > 0:
+            logger.info(
+                f"Incident filter: removed {filtered_count}/{original_count} "
+                f"non-incident extractions (outcome_field={outcome_field}, "
+                f"none_values={none_values})"
+            )
+
+        return filtered_count
+
     def _get_enum_values_for_field(self, field_name: str) -> Optional[List[str]]:
         """Get expected enum values for a field from the Formula Seed.
 
@@ -1100,6 +1145,15 @@ class FormulaSeedInterpreter:
                 if str(source_value) == str(when):
                     return then
 
+        # No rule matched - use default_verdict or default as fallback
+        default_result = op_def.get("default_verdict") or op_def.get("default")
+        if default_result is not None:
+            logger.debug(
+                f"No rule matched, using default: {default_result} "
+                f"(source={source}, value={source_value})"
+            )
+            return default_result
+
         return None
 
     def _is_extraction_field(self, field_name: str) -> bool:
@@ -1713,6 +1767,17 @@ class FormulaSeedInterpreter:
         output.status(f"  [Phase 2] Extracting signals from {len(reviews_to_process)} reviews...")
         await self._extract_signals(reviews_to_process)
 
+        # ===== FILTER TO INCIDENTS ONLY =====
+        # SPECIFICATION ENFORCEMENT: Only extractions with actual incidents
+        # (outcome != "none") should contribute to verdict-affecting counts.
+        # This prevents non-incident extractions from triggering verdicts.
+        n_filtered = self._filter_to_incidents_only()
+        if n_filtered > 0:
+            output.status(
+                f"  [Phase 2] Filtered {n_filtered} non-incident extractions "
+                f"({len(self._extractions)} remaining)"
+            )
+
         # Compute verdict from extractions
         self._execute_compute(business)
 
@@ -1731,6 +1796,7 @@ class FormulaSeedInterpreter:
             "total_reviews": len(reviews),
             "reviews_processed": len(reviews_to_process),
             "extractions_count": extractions_count,
+            "extractions_filtered_non_incident": n_filtered,
             "final_verdict": verdict,
             "wall_clock_ms": self._wall_clock_ms,
             "snippet_validation": self._snippet_validation_stats,
