@@ -1,21 +1,14 @@
-# G6_uniqueness_V3: Uniqueness with Recency & Context
-# V3 = Recency: Adds recency modifiers (uniqueness relatively stable)
-
-policy_id: "G6_uniqueness_V3"
-extends: "G6_uniqueness_V2"
-version: "1.0"
-
-# === OVERVIEW (generates Overview section) ===
+policy_id: G6_uniqueness_V3
+extends: G6_uniqueness_V2
+version: '1.0'
 overview:
-  title: "Uniqueness Assessment"
-
+  title: Uniqueness Assessment
   purpose: |
     Help assess how unique and differentiated this restaurant is using reviews as evidence.
     This is from the perspective of a business owner evaluating competitive positioning.
     Assign a label: Generic, Differentiated, or Highly Unique.
 
     This assessment uses a point-based scoring system with recency weighting.
-
   incident_definition: |
     Consider reviews that mention any of the following:
     - what makes the restaurant special or different
@@ -24,142 +17,126 @@ overview:
     - comparisons to other restaurants
 
     Reviews that don't mention distinctiveness or memorability carry less weight.
-
-# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
 normative:
-  # Terms -> auto-generates Definitions section
   terms:
-    - ref: "shared:ACCOUNT_TYPE"
-    - ref: "uniqueness:UNIQUE_ASPECT"
-    - ref: "uniqueness:DIFFERENTIATION_LEVEL"
-    - ref: "uniqueness:MEMORABILITY"
-    - ref: "uniqueness:SIGNATURE_ITEM"
-
-  # Scoring system -> generates Scoring System section
+  - ref: shared:ACCOUNT_TYPE
+  - ref: uniqueness:UNIQUE_ASPECT
+  - ref: uniqueness:DIFFERENTIATION_LEVEL
+  - ref: uniqueness:MEMORABILITY
+  - ref: uniqueness:SIGNATURE_ITEM
   scoring:
-    # Field mapping: how judgment fields map to severity labels for GT scoring
     field_mapping:
-      severity_field: "differentiation_level"
+      severity_field: differentiation_level
       value_mappings:
-        one_of_a_kind: "One of a kind"
-        unique: "Clearly unique"
-        somewhat_different: "Somewhat different"
-        generic: "Generic/forgettable"
+        one_of_a_kind: One of a kind
+        unique: Clearly unique
+        somewhat_different: Somewhat different
+        generic: Generic/forgettable
       modifier_mappings:
-        - field: "signature_item"
-          value: "true"
-          label: "Signature dish praised"
-        - field: "memorability"
-          value: "unforgettable"
-          label: "Unforgettable experience"
-        - field: "memorability"
-          value: "forgettable"
-          label: "Like a chain"
-
+      - field: signature_item
+        value: 'true'
+        label: Signature dish praised
+      - field: memorability
+        value: unforgettable
+        label: Unforgettable experience
+      - field: memorability
+        value: forgettable
+        label: Like a chain
     description: |
       Calculate a uniqueness score by summing points from relevant reviews,
       with recency weighting. Uniqueness is relatively stable over time,
       so older reviews still carry meaningful weight.
-
     severity_points:
-      - label: "One of a kind"
-        points: 10
-      - label: "Clearly unique"
-        points: 5
-      - label: "Somewhat different"
-        points: 2
-      - label: "Nothing special"
-        points: -2
-      - label: "Generic/forgettable"
-        points: -5
-
+    - label: One of a kind
+      points: 10
+    - label: Clearly unique
+      points: 5
+    - label: Somewhat different
+      points: 2
+    - label: Nothing special
+      points: -2
+    - label: Generic/forgettable
+      points: -5
     modifiers:
-      - label: "Signature dish praised"
-        description: "famous must-try item"
-        points: 5
-      - label: "Destination restaurant"
-        description: "worth traveling for"
-        points: 5
-      - label: "Unforgettable experience"
-        description: "truly memorable"
-        points: 3
-      - label: "Like a chain"
-        description: "described as generic"
-        points: -5
-
+    - label: Signature dish praised
+      description: famous must-try item
+      points: 5
+    - label: Destination restaurant
+      description: worth traveling for
+      points: 5
+    - label: Unforgettable experience
+      description: truly memorable
+      points: 3
+    - label: Like a chain
+      description: described as generic
+      points: -5
     recency_rules:
-      - age: "Within 1 year"
-        weight: "full point value"
-      - age: "1-2 years old"
-        weight: "three-quarter point value (multiply by 0.75)"
-      - age: "Over 2 years old"
-        weight: "half point value (multiply by 0.5) - uniqueness is relatively stable"
-
+    - age: Within 1 year
+      weight: full point value
+    - age: 1-2 years old
+      weight: three-quarter point value (multiply by 0.75)
+    - age: Over 2 years old
+      weight: half point value (multiply by 0.5) - uniqueness is relatively stable
     thresholds:
-      - verdict: "Highly Unique"
-        min_score: 1000
-        min_score_by_k:
-          25: 125
-          50: 250
-          100: 500
-      - verdict: "Generic"
-        max_score: 350
-        max_score_by_k:
-          25: 44
-          50: 88
-          100: 175
-
-  # Decision policy -> generates Verdict Rules section
+    - verdict: Highly Unique
+      min_score: 1000
+      min_score_by_k:
+        25: 125
+        50: 250
+        100: 500
+    - verdict: Generic
+      max_score: 350
+      max_score_by_k:
+        25: 44
+        50: 88
+        100: 175
   decision:
-    verdicts: ["Generic", "Differentiated", "Highly Unique"]
+    verdicts:
+    - Generic
+    - Differentiated
+    - Highly Unique
     ordered: true
-
     rules:
-      - verdict: "Highly Unique"
-        label: "HIGHLY_UNIQUE"
-        logic: ANY
-        conditions:
-          - "Total score is 1000 or higher (after recency weighting)"
-
-      - verdict: "Generic"
-        label: "GENERIC"
-        precondition: "Highly Unique does not apply"
-        logic: ANY
-        conditions:
-          - "Total score is 350 or lower (after recency weighting)"
-
-      - verdict: "Differentiated"
-        label: "DIFFERENTIATED"
-        default: true
-        especially_when:
-          - "Total score is between 351 and 999"
-          - "Consistent uniqueness signals over time"
-
-  # Output format
+    - verdict: Highly Unique
+      label: HIGHLY_UNIQUE
+      logic: ANY
+      conditions:
+      - Total score is 1000 or higher (after recency weighting)
+    - verdict: Generic
+      label: GENERIC
+      precondition: Highly Unique does not apply
+      logic: ANY
+      conditions:
+      - Total score is 350 or lower (after recency weighting)
+    - verdict: Differentiated
+      label: DIFFERENTIATED
+      default: true
   output:
     verdict:
       type: enum
-      values: ["Generic", "Differentiated", "Highly Unique"]
+      values:
+      - Generic
+      - Differentiated
+      - Highly Unique
       required: true
-
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: "Relevant quotes supporting the verdict"
-
+      description: Relevant quotes supporting the verdict
     justification:
       type: string
       required: true
-      description: "Explain how the evidence and recency weighting were used to arrive at the final verdict"
-
+      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
     confidence:
       type: enum
-      values: ["low", "medium", "high"]
-      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
-
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
     other_notes:
       type: string
       optional: true
-      description: "Any other relevant observations or caveats"
+      description: Any other relevant observations or caveats

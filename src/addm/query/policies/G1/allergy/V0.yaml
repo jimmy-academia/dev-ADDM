@@ -1,17 +1,10 @@
-# G1_allergy_V0: Base Allergy Safety Risk Assessment
-# V0 = Base: Simple per-instance reasoning, basic thresholds
-
-policy_id: "G1_allergy_V0"
-version: "1.0"
-
-# === OVERVIEW (generates Overview section) ===
+policy_id: G1_allergy_V0
+version: '1.0'
 overview:
-  title: "Allergy Safety Risk Assessment"
-
+  title: Allergy Safety Risk Assessment
   purpose: |
     Help assess the allergy safety risk for this restaurant using customer reviews as evidence.
     Assign a risk label: Low Risk, High Risk, or Critical Risk.
-
   incident_definition: |
     Only firsthand accounts are treated as confirmed incident evidence. An account is
     considered an incident if it meaningfully discusses any of the following:
@@ -22,83 +15,77 @@ overview:
 
     Ingredient mentions without allergy context (e.g., "peanut sauce is great") are
     NOT considered incidents but ARE considered allergy-relevant.
-
-# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
-  # Terms -> auto-generates Definitions section
   terms:
-    - ref: "shared:ACCOUNT_TYPE"
-    - ref: "allergy:INCIDENT_SEVERITY"
-    - ref: "allergy:ASSURANCE_CLAIM"
-    - ref: "shared:STAFF_RESPONSE"
-
-  # Decision policy -> generates Verdict Rules section
+  - ref: shared:ACCOUNT_TYPE
+  - ref: allergy:INCIDENT_SEVERITY
+  - ref: allergy:ASSURANCE_CLAIM
+  - ref: shared:STAFF_RESPONSE
   decision:
-    verdicts: ["Low Risk", "High Risk", "Critical Risk"]
-    ordered: true  # Higher = worse risk
-
+    verdicts:
+    - Low Risk
+    - High Risk
+    - Critical Risk
+    ordered: true
     rules:
-      - verdict: "Critical Risk"
-        label: "CRITICAL"
-        logic: ANY
-        conditions:
-          - text: "1 or more severe firsthand incidents are reported"
-            type: count_threshold
-            filter:
-              incident_severity: severe
-              account_type: firsthand
-            min_count: 1
-          - text: "2 or more moderate firsthand incidents are reported"
-            type: count_threshold
-            filter:
-              incident_severity: moderate
-              account_type: firsthand
-            min_count: 2
-
-      - verdict: "High Risk"
-        label: "HIGH"
-        precondition: "Critical Risk does not apply"
-        logic: ANY
-        conditions:
-          - text: "1 or more mild or moderate firsthand incidents are reported"
-            type: count_threshold
-            filter:
-              incident_severity: [mild, moderate]
-              account_type: firsthand
-            min_count: 1
-
-      - verdict: "Low Risk"
-        label: "LOW"
-        default: true
-        especially_when:
-          - "No firsthand incidents are reported"
-          - "Allergy-relevant reviews describe consistent accommodation behavior"
-
-  # Output format
+    - verdict: Critical Risk
+      label: CRITICAL
+      logic: ANY
+      conditions:
+      - text: 1 or more severe firsthand incidents are reported
+        type: count_threshold
+        filter:
+          incident_severity: severe
+          account_type: firsthand
+        min_count: 1
+      - text: 2 or more moderate firsthand incidents are reported
+        type: count_threshold
+        filter:
+          incident_severity: moderate
+          account_type: firsthand
+        min_count: 2
+    - verdict: High Risk
+      label: HIGH
+      precondition: Critical Risk does not apply
+      logic: ANY
+      conditions:
+      - text: 1 or more mild or moderate firsthand incidents are reported
+        type: count_threshold
+        filter:
+          incident_severity:
+          - mild
+          - moderate
+          account_type: firsthand
+        min_count: 1
+    - verdict: Low Risk
+      label: LOW
+      default: true
   output:
     verdict:
       type: enum
-      values: ["Low Risk", "High Risk", "Critical Risk"]
+      values:
+      - Low Risk
+      - High Risk
+      - Critical Risk
       required: true
-
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: "Relevant quotes supporting the verdict"
-
+      description: Relevant quotes supporting the verdict
     justification:
       type: string
       required: true
-      description: "Explain how the evidence was used to arrive at the final verdict"
-
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
-      values: ["low", "medium", "high"]
-      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
-
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
     other_notes:
       type: string
       optional: true
-      description: "Any other relevant observations or caveats"
+      description: Any other relevant observations or caveats

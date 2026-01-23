@@ -1,21 +1,14 @@
-# G5_capacity_V3: Capacity Management with Recency & Context
-# V3 = Recency: Adds recency modifiers for staffing changes
-
-policy_id: "G5_capacity_V3"
-extends: "G5_capacity_V2"
-version: "1.0"
-
-# === OVERVIEW (generates Overview section) ===
+policy_id: G5_capacity_V3
+extends: G5_capacity_V2
+version: '1.0'
 overview:
-  title: "Capacity Management Assessment"
-
+  title: Capacity Management Assessment
   purpose: |
     Help assess how well this restaurant handles customer volume using reviews as evidence.
     This is from the perspective of a business owner diagnosing staffing and capacity issues.
     Assign a label: Needs Improvement, Satisfactory, or Excellent.
 
     This assessment uses a point-based scoring system with recency weighting.
-
   incident_definition: |
     Consider reviews that mention any of the following:
     - staffing levels relative to busyness
@@ -24,152 +17,136 @@ overview:
     - peak time handling (weekends, holidays)
 
     Reviews that only discuss food quality without mentioning capacity carry less weight.
-
-# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
 normative:
-  # Terms -> auto-generates Definitions section
   terms:
-    - ref: "shared:ACCOUNT_TYPE"
-    - ref: "capacity:STAFFING_LEVEL"
-    - ref: "capacity:CROWD_LEVEL"
-    - ref: "capacity:SERVICE_DEGRADATION"
-    - ref: "capacity:VOLUME_HANDLING"
-
-  # Scoring system -> generates Scoring System section
+  - ref: shared:ACCOUNT_TYPE
+  - ref: capacity:STAFFING_LEVEL
+  - ref: capacity:CROWD_LEVEL
+  - ref: capacity:SERVICE_DEGRADATION
+  - ref: capacity:VOLUME_HANDLING
   scoring:
-    # Field mapping: how judgment fields map to severity labels for GT scoring
     field_mapping:
-      severity_field: "volume_handling"
+      severity_field: volume_handling
       value_mappings:
-        handled_well: "Excellent peak handling"
-        managed: "Adequate capacity"
-        struggled: "Significant understaffing"
-        collapsed: "Complete breakdown"
+        handled_well: Excellent peak handling
+        managed: Adequate capacity
+        struggled: Significant understaffing
+        collapsed: Complete breakdown
       modifier_mappings:
-        - field: "staffing_level"
-          value: "well_staffed"
-          label: "Well staffed"
-        - field: "service_degradation"
-          value: "none"
-          label: "Smooth peak times"
-        - field: "staffing_level"
-          value: "understaffed"
-          label: "Understaffed"
-        - field: "staffing_level"
-          value: "severely_understaffed"
-          label: "Understaffed"
-        - field: "service_degradation"
-          value: "complete"
-          label: "Service collapsed"
-
+      - field: staffing_level
+        value: well_staffed
+        label: Well staffed
+      - field: service_degradation
+        value: none
+        label: Smooth peak times
+      - field: staffing_level
+        value: understaffed
+        label: Understaffed
+      - field: staffing_level
+        value: severely_understaffed
+        label: Understaffed
+      - field: service_degradation
+        value: complete
+        label: Service collapsed
     description: |
       Calculate a capacity score by summing points from relevant reviews,
       with recency weighting. Staffing levels can change significantly,
       so recent reviews are weighted more heavily.
-
     severity_points:
-      - label: "Excellent peak handling"
-        points: 10
-      - label: "Good volume management"
-        points: 5
-      - label: "Adequate capacity"
-        points: 0
-      - label: "Minor capacity issue"
-        points: -2
-      - label: "Significant understaffing"
-        points: -5
-      - label: "Complete breakdown"
-        points: -10
-
+    - label: Excellent peak handling
+      points: 10
+    - label: Good volume management
+      points: 5
+    - label: Adequate capacity
+      points: 0
+    - label: Minor capacity issue
+      points: -2
+    - label: Significant understaffing
+      points: -5
+    - label: Complete breakdown
+      points: -10
     modifiers:
-      - label: "Well staffed"
-        description: "staffing praised"
-        points: 3
-      - label: "Smooth peak times"
-        description: "busy times handled well"
-        points: 3
-      - label: "Understaffed"
-        description: "not enough staff"
-        points: -5
-      - label: "Service collapsed"
-        description: "service fell apart under volume"
-        points: -5
-
+    - label: Well staffed
+      description: staffing praised
+      points: 3
+    - label: Smooth peak times
+      description: busy times handled well
+      points: 3
+    - label: Understaffed
+      description: not enough staff
+      points: -5
+    - label: Service collapsed
+      description: service fell apart under volume
+      points: -5
     recency_rules:
-      - age: "Within 6 months"
-        weight: "full point value"
-      - age: "6 months to 1 year"
-        weight: "three-quarter point value (multiply by 0.75)"
-      - age: "1-2 years old"
-        weight: "half point value (multiply by 0.5)"
-      - age: "Over 2 years old"
-        weight: "quarter point value (multiply by 0.25) - staffing likely changed"
-
+    - age: Within 6 months
+      weight: full point value
+    - age: 6 months to 1 year
+      weight: three-quarter point value (multiply by 0.75)
+    - age: 1-2 years old
+      weight: half point value (multiply by 0.5)
+    - age: Over 2 years old
+      weight: quarter point value (multiply by 0.25) - staffing likely changed
     thresholds:
-      - verdict: "Excellent"
-        min_score: 1300
-        min_score_by_k:
-          25: 163
-          50: 325
-          100: 650
-      - verdict: "Needs Improvement"
-        max_score: 400
-        max_score_by_k:
-          25: 50
-          50: 100
-          100: 200
-
-  # Decision policy -> generates Verdict Rules section
+    - verdict: Excellent
+      min_score: 1300
+      min_score_by_k:
+        25: 163
+        50: 325
+        100: 650
+    - verdict: Needs Improvement
+      max_score: 400
+      max_score_by_k:
+        25: 50
+        50: 100
+        100: 200
   decision:
-    verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
+    verdicts:
+    - Needs Improvement
+    - Satisfactory
+    - Excellent
     ordered: true
-
     rules:
-      - verdict: "Excellent"
-        label: "EXCELLENT"
-        logic: ANY
-        conditions:
-          - "Total score is 1300 or higher (after recency weighting)"
-
-      - verdict: "Needs Improvement"
-        label: "NEEDS_IMPROVEMENT"
-        precondition: "Excellent does not apply"
-        logic: ANY
-        conditions:
-          - "Total score is 400 or lower (after recency weighting)"
-
-      - verdict: "Satisfactory"
-        label: "SATISFACTORY"
-        default: true
-        especially_when:
-          - "Total score is between 401 and 1299"
-          - "Recent reviews show improvement in capacity handling"
-
-  # Output format
+    - verdict: Excellent
+      label: EXCELLENT
+      logic: ANY
+      conditions:
+      - Total score is 1300 or higher (after recency weighting)
+    - verdict: Needs Improvement
+      label: NEEDS_IMPROVEMENT
+      precondition: Excellent does not apply
+      logic: ANY
+      conditions:
+      - Total score is 400 or lower (after recency weighting)
+    - verdict: Satisfactory
+      label: SATISFACTORY
+      default: true
   output:
     verdict:
       type: enum
-      values: ["Needs Improvement", "Satisfactory", "Excellent"]
+      values:
+      - Needs Improvement
+      - Satisfactory
+      - Excellent
       required: true
-
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: "Relevant quotes supporting the verdict"
-
+      description: Relevant quotes supporting the verdict
     justification:
       type: string
       required: true
-      description: "Explain how the evidence and recency weighting were used to arrive at the final verdict"
-
+      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
     confidence:
       type: enum
-      values: ["low", "medium", "high"]
-      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
-
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
     other_notes:
       type: string
       optional: true
-      description: "Any other relevant observations or caveats"
+      description: Any other relevant observations or caveats

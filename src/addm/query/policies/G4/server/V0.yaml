@@ -1,19 +1,11 @@
-# G4_server_V0: Base Server Performance Assessment
-# V0 = Base: Simple per-instance reasoning, basic thresholds
-# Owner perspective: Evaluating front-of-house staff performance
-
-policy_id: "G4_server_V0"
-version: "1.0"
-
-# === OVERVIEW (generates Overview section) ===
+policy_id: G4_server_V0
+version: '1.0'
 overview:
-  title: "Server Performance Assessment"
-
+  title: Server Performance Assessment
   purpose: |
     Help assess the front-of-house staff performance at this restaurant using customer reviews as evidence.
     This is from the perspective of a business owner evaluating their service team.
     Assign a performance label: Needs Improvement, Satisfactory, or Excellent.
-
   incident_definition: |
     Consider reviews that mention any of the following:
     - server attentiveness and responsiveness
@@ -23,98 +15,89 @@ overview:
     - exceptional servers mentioned by name
 
     Reviews that only discuss food without mentioning service carry less weight.
-
-# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
-  # Terms -> auto-generates Definitions section
   terms:
-    - ref: "shared:ACCOUNT_TYPE"
-    - ref: "server:ATTENTIVENESS"
-    - ref: "server:FRIENDLINESS"
-    - ref: "server:MENU_KNOWLEDGE"
-    - ref: "server:SERVICE_ERRORS"
-
-  # Decision policy -> generates Verdict Rules section
+  - ref: shared:ACCOUNT_TYPE
+  - ref: server:ATTENTIVENESS
+  - ref: server:FRIENDLINESS
+  - ref: server:MENU_KNOWLEDGE
+  - ref: server:SERVICE_ERRORS
   decision:
-    verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
-    ordered: true  # Higher = better performance
-
+    verdicts:
+    - Needs Improvement
+    - Satisfactory
+    - Excellent
+    ordered: true
     rules:
-      - verdict: "Excellent"
-        label: "EXCELLENT"
-        logic: ANY
-        conditions:
-          - text: "2 or more reviews praise server attentiveness and friendliness"
-            type: count_threshold
-            filter:
-              attentiveness: high
-              friendliness: high
-            min_count: 2
-          - text: "2 or more reviews mention servers by name with exceptional praise"
-            type: count_threshold
-            filter:
-              named_positively: true
-            min_count: 2
-          - text: "2 or more reviews describe servers as knowledgeable and helpful"
-            type: count_threshold
-            filter:
-              menu_knowledge: excellent
-            min_count: 2
-
-      - verdict: "Needs Improvement"
-        label: "NEEDS_IMPROVEMENT"
-        precondition: "Excellent does not apply"
-        logic: ANY
-        conditions:
-          - text: "2 or more reviews describe inattentive or absent servers"
-            type: count_threshold
-            filter:
-              attentiveness: low
-            min_count: 2
-          - text: "2 or more reviews complain about rude or unfriendly service"
-            type: count_threshold
-            filter:
-              friendliness: rude
-            min_count: 2
-          - text: "2 or more reviews report frequent service errors"
-            type: count_threshold
-            filter:
-              service_errors: frequent
-            min_count: 2
-
-      - verdict: "Satisfactory"
-        label: "SATISFACTORY"
-        default: true
-        especially_when:
-          - "Service is acceptable but not exceptional"
-          - "Mixed reviews about server quality"
-          - "Some good experiences, some issues"
-
-  # Output format
+    - verdict: Excellent
+      label: EXCELLENT
+      logic: ANY
+      conditions:
+      - text: 2 or more reviews praise server attentiveness and friendliness
+        type: count_threshold
+        filter:
+          attentiveness: high
+          friendliness: high
+        min_count: 2
+      - text: 2 or more reviews mention servers by name with exceptional praise
+        type: count_threshold
+        filter:
+          named_positively: true
+        min_count: 2
+      - text: 2 or more reviews describe servers as knowledgeable and helpful
+        type: count_threshold
+        filter:
+          menu_knowledge: excellent
+        min_count: 2
+    - verdict: Needs Improvement
+      label: NEEDS_IMPROVEMENT
+      precondition: Excellent does not apply
+      logic: ANY
+      conditions:
+      - text: 2 or more reviews describe inattentive or absent servers
+        type: count_threshold
+        filter:
+          attentiveness: low
+        min_count: 2
+      - text: 2 or more reviews complain about rude or unfriendly service
+        type: count_threshold
+        filter:
+          friendliness: rude
+        min_count: 2
+      - text: 2 or more reviews report frequent service errors
+        type: count_threshold
+        filter:
+          service_errors: frequent
+        min_count: 2
+    - verdict: Satisfactory
+      label: SATISFACTORY
+      default: true
   output:
     verdict:
       type: enum
-      values: ["Needs Improvement", "Satisfactory", "Excellent"]
+      values:
+      - Needs Improvement
+      - Satisfactory
+      - Excellent
       required: true
-
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: "Relevant quotes supporting the verdict"
-
+      description: Relevant quotes supporting the verdict
     justification:
       type: string
       required: true
-      description: "Explain how the evidence was used to arrive at the final verdict"
-
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
-      values: ["low", "medium", "high"]
-      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
-
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
     other_notes:
       type: string
       optional: true
-      description: "Any other relevant observations or caveats"
+      description: Any other relevant observations or caveats

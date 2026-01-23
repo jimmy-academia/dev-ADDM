@@ -1,19 +1,12 @@
-# G6_loyalty_V1: Loyalty with Override Triggers
-# V1 = Extended: Multiple conditions per verdict (ANY triggers) for strong loyalty signals
-
-policy_id: "G6_loyalty_V1"
-extends: "G6_loyalty_V0"
-version: "1.0"
-
-# === OVERVIEW (generates Overview section) ===
+policy_id: G6_loyalty_V1
+extends: G6_loyalty_V0
+version: '1.0'
 overview:
-  title: "Customer Loyalty Assessment"
-
+  title: Customer Loyalty Assessment
   purpose: |
     Help assess customer loyalty and retention indicators using reviews as evidence.
     This is from the perspective of a business owner evaluating customer loyalty.
     Assign a label: Low Loyalty, Moderate Loyalty, or High Loyalty.
-
   incident_definition: |
     Consider reviews that mention any of the following:
     - return visits or intention to return
@@ -22,153 +15,139 @@ overview:
     - loyalty despite issues
 
     Reviews from first-time visitors that don't mention return intent carry less weight.
-
-# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
-  # Terms -> auto-generates Definitions section
   terms:
-    - ref: "shared:ACCOUNT_TYPE"
-    - ref: "loyalty:RETURN_INTENT"
-    - ref: "loyalty:RECOMMEND_INTENT"
-    - ref: "loyalty:EMOTIONAL_CONNECTION"
-    - ref: "loyalty:LOYALTY_DRIVER"
-
-  # Decision policy -> generates Verdict Rules section
+  - ref: shared:ACCOUNT_TYPE
+  - ref: loyalty:RETURN_INTENT
+  - ref: loyalty:RECOMMEND_INTENT
+  - ref: loyalty:EMOTIONAL_CONNECTION
+  - ref: loyalty:LOYALTY_DRIVER
   decision:
-    verdicts: ["Low Loyalty", "Moderate Loyalty", "High Loyalty"]
+    verdicts:
+    - Low Loyalty
+    - Moderate Loyalty
+    - High Loyalty
     ordered: true
-
     rules:
-      # V1 includes V0 conditions PLUS additional conditions
-      - verdict: "High Loyalty"
-        label: "HIGH_LOYALTY"
-        logic: ANY
-        conditions:
-          # V0 conditions (same thresholds)
-          - text: "50 or more reviews describe high emotional connection"
-            type: count_threshold
-            filter:
-              emotional_connection: high
-            min_count: 50
-            min_count_by_k:
-              25: 9
-              50: 16
-              100: 30
-          - text: "60 or more reviews strongly recommend"
-            type: count_threshold
-            filter:
-              recommend_intent: strongly_recommend
-            min_count: 60
-            min_count_by_k:
-              25: 11
-              50: 18
-              100: 35
-          - text: "40 or more reviews say they would definitely return"
-            type: count_threshold
-            filter:
-              return_intent: definitely
-            min_count: 40
-            min_count_by_k:
-              25: 8
-              50: 13
-              100: 24
-          # V1 additional conditions
-          - text: "30 or more reviews describe love as loyalty driver"
-            type: count_threshold
-            filter:
-              loyalty_driver: love
-            min_count: 30
-            min_count_by_k:
-              25: 6
-              50: 10
-              100: 18
-          - text: "20 or more reviews describe frequent visits"
-            type: count_threshold
-            filter:
-              loyalty_driver: habit
-            min_count: 20
-            min_count_by_k:
-              25: 5
-              50: 7
-              100: 12
-
-      - verdict: "Low Loyalty"
-        label: "LOW_LOYALTY"
-        precondition: "High Loyalty does not apply"
-        logic: ANY
-        conditions:
-          # V0 conditions (same thresholds)
-          - text: "20 or more reviews say 'will never return'"
-            type: count_threshold
-            filter:
-              return_intent: never
-            min_count: 20
-            min_count_by_k:
-              25: 5
-              50: 7
-              100: 12
-          - text: "40 or more reviews report unlikely to return"
-            type: count_threshold
-            filter:
-              return_intent: unlikely
-            min_count: 40
-            min_count_by_k:
-              25: 7
-              50: 12
-              100: 24
-          - text: "40 or more reviews warn others"
-            type: count_threshold
-            filter:
-              recommend_intent: warn_others
-            min_count: 40
-            min_count_by_k:
-              25: 7
-              50: 12
-              100: 24
-          # V1 additional conditions
-          - text: "30 or more reviews have no emotional connection"
-            type: count_threshold
-            filter:
-              emotional_connection: none
-            min_count: 30
-            min_count_by_k:
-              25: 6
-              50: 10
-              100: 18
-
-      - verdict: "Moderate Loyalty"
-        label: "MODERATE_LOYALTY"
-        default: true
-        especially_when:
-          - "Will return but not enthusiastic"
-          - "Recommendations with caveats"
-          - "No strong emotional connection"
-
-  # Output format
+    - verdict: High Loyalty
+      label: HIGH_LOYALTY
+      logic: ANY
+      conditions:
+      - text: 50 or more reviews describe high emotional connection
+        type: count_threshold
+        filter:
+          emotional_connection: high
+        min_count: 50
+        min_count_by_k:
+          25: 9
+          50: 16
+          100: 30
+      - text: 60 or more reviews strongly recommend
+        type: count_threshold
+        filter:
+          recommend_intent: strongly_recommend
+        min_count: 60
+        min_count_by_k:
+          25: 11
+          50: 18
+          100: 35
+      - text: 40 or more reviews say they would definitely return
+        type: count_threshold
+        filter:
+          return_intent: definitely
+        min_count: 40
+        min_count_by_k:
+          25: 8
+          50: 13
+          100: 24
+      - text: 30 or more reviews describe love as loyalty driver
+        type: count_threshold
+        filter:
+          loyalty_driver: love
+        min_count: 30
+        min_count_by_k:
+          25: 6
+          50: 10
+          100: 18
+      - text: 20 or more reviews describe frequent visits
+        type: count_threshold
+        filter:
+          loyalty_driver: habit
+        min_count: 20
+        min_count_by_k:
+          25: 5
+          50: 7
+          100: 12
+    - verdict: Low Loyalty
+      label: LOW_LOYALTY
+      precondition: High Loyalty does not apply
+      logic: ANY
+      conditions:
+      - text: 20 or more reviews say 'will never return'
+        type: count_threshold
+        filter:
+          return_intent: never
+        min_count: 20
+        min_count_by_k:
+          25: 5
+          50: 7
+          100: 12
+      - text: 40 or more reviews report unlikely to return
+        type: count_threshold
+        filter:
+          return_intent: unlikely
+        min_count: 40
+        min_count_by_k:
+          25: 7
+          50: 12
+          100: 24
+      - text: 40 or more reviews warn others
+        type: count_threshold
+        filter:
+          recommend_intent: warn_others
+        min_count: 40
+        min_count_by_k:
+          25: 7
+          50: 12
+          100: 24
+      - text: 30 or more reviews have no emotional connection
+        type: count_threshold
+        filter:
+          emotional_connection: none
+        min_count: 30
+        min_count_by_k:
+          25: 6
+          50: 10
+          100: 18
+    - verdict: Moderate Loyalty
+      label: MODERATE_LOYALTY
+      default: true
   output:
     verdict:
       type: enum
-      values: ["Low Loyalty", "Moderate Loyalty", "High Loyalty"]
+      values:
+      - Low Loyalty
+      - Moderate Loyalty
+      - High Loyalty
       required: true
-
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: "Relevant quotes supporting the verdict"
-
+      description: Relevant quotes supporting the verdict
     justification:
       type: string
       required: true
-      description: "Explain how the evidence was used to arrive at the final verdict"
-
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
-      values: ["low", "medium", "high"]
-      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
-
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
     other_notes:
       type: string
       optional: true
-      description: "Any other relevant observations or caveats"
+      description: Any other relevant observations or caveats

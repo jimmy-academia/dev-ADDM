@@ -1,20 +1,13 @@
-# G3_hidden_costs_V2: Hidden Costs with Point-Based Scoring
-# V2 = Scoring: Adds point system with numeric thresholds
-
-policy_id: "G3_hidden_costs_V2"
-extends: "G3_hidden_costs_V1"
-version: "1.0"
-
-# === OVERVIEW (generates Overview section) ===
+policy_id: G3_hidden_costs_V2
+extends: G3_hidden_costs_V1
+version: '1.0'
 overview:
-  title: "Hidden Costs Risk Assessment"
-
+  title: Hidden Costs Risk Assessment
   purpose: |
     Help assess the risk of unexpected charges at this restaurant using customer reviews as evidence.
     Assign a risk label: Low Risk, High Risk, or Critical Risk.
 
     This assessment uses a point-based scoring system to quantify risk.
-
   incident_definition: |
     Consider reviews that mention any of the following:
     - unexpected charges on the bill
@@ -24,128 +17,113 @@ overview:
     - fine print charges
 
     Reviews that only discuss food without mentioning billing carry less weight.
-
-# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
 normative:
-  # Terms -> auto-generates Definitions section
   terms:
-    - ref: "shared:ACCOUNT_TYPE"
-    - ref: "hidden_costs:COST_TYPE"
-    - ref: "hidden_costs:DISCLOSURE_LEVEL"
-    - ref: "hidden_costs:IMPACT_SEVERITY"
-    - ref: "hidden_costs:CUSTOMER_REACTION"
-
-  # Scoring system -> generates Scoring System section
+  - ref: shared:ACCOUNT_TYPE
+  - ref: hidden_costs:COST_TYPE
+  - ref: hidden_costs:DISCLOSURE_LEVEL
+  - ref: hidden_costs:IMPACT_SEVERITY
+  - ref: hidden_costs:CUSTOMER_REACTION
   scoring:
-    # Field mapping: how judgment fields map to severity labels for GT scoring
     field_mapping:
-      severity_field: "impact_severity"
+      severity_field: impact_severity
       value_mappings:
-        minor: "Minor hidden cost (<5% impact)"
-        moderate: "Moderate hidden cost (5-15% impact)"
-        significant: "Significant hidden cost (>15% impact)"
+        minor: Minor hidden cost (<5% impact)
+        moderate: Moderate hidden cost (5-15% impact)
+        significant: Significant hidden cost (>15% impact)
       modifier_mappings:
-        - field: "disclosure_level"
-          value: "none"
-          label: "No disclosure"
-        - field: "disclosure_level"
-          value: "fine_print"
-          label: "Fine print only"
-        - field: "customer_reaction"
-          value: "upset"
-          label: "Customer very upset"
-
+      - field: disclosure_level
+        value: none
+        label: No disclosure
+      - field: disclosure_level
+        value: fine_print
+        label: Fine print only
+      - field: customer_reaction
+        value: upset
+        label: Customer very upset
     description: |
       Calculate a risk score by summing points from hidden cost incidents.
       Higher scores indicate greater risk of unexpected charges.
-
     severity_points:
-      - label: "Minor hidden cost (<5% impact)"
-        points: 2
-      - label: "Moderate hidden cost (5-15% impact)"
-        points: 5
-      - label: "Significant hidden cost (>15% impact)"
-        points: 10
-
+    - label: Minor hidden cost (<5% impact)
+      points: 2
+    - label: Moderate hidden cost (5-15% impact)
+      points: 5
+    - label: Significant hidden cost (>15% impact)
+      points: 10
     modifiers:
-      - label: "No disclosure"
-        description: "charge was not disclosed until bill arrived"
-        points: 5
-      - label: "Fine print only"
-        description: "charge mentioned only in small print"
-        points: 3
-      - label: "Multiple hidden charges"
-        description: "more than one type of hidden charge reported"
-        points: 3
-      - label: "Customer very upset"
-        description: "reviewer expressed strong negative reaction"
-        points: 2
-
+    - label: No disclosure
+      description: charge was not disclosed until bill arrived
+      points: 5
+    - label: Fine print only
+      description: charge mentioned only in small print
+      points: 3
+    - label: Multiple hidden charges
+      description: more than one type of hidden charge reported
+      points: 3
+    - label: Customer very upset
+      description: reviewer expressed strong negative reaction
+      points: 2
     thresholds:
-      - verdict: "Critical Risk"
-        min_score: 700
-        min_score_by_k:
-          25: 88
-          50: 175
-          100: 350
-      - verdict: "High Risk"
-        min_score: 350
-        min_score_by_k:
-          25: 44
-          50: 88
-          100: 175
-
-  # Decision policy -> generates Verdict Rules section
+    - verdict: Critical Risk
+      min_score: 700
+      min_score_by_k:
+        25: 88
+        50: 175
+        100: 350
+    - verdict: High Risk
+      min_score: 350
+      min_score_by_k:
+        25: 44
+        50: 88
+        100: 175
   decision:
-    verdicts: ["Low Risk", "High Risk", "Critical Risk"]
+    verdicts:
+    - Low Risk
+    - High Risk
+    - Critical Risk
     ordered: true
-
     rules:
-      - verdict: "Critical Risk"
-        label: "CRITICAL"
-        logic: ANY
-        conditions:
-          - "Total risk score is 700 or higher"
-
-      - verdict: "High Risk"
-        label: "HIGH"
-        precondition: "Critical Risk does not apply"
-        logic: ANY
-        conditions:
-          - "Total risk score is 350 or higher"
-
-      - verdict: "Low Risk"
-        label: "LOW"
-        default: true
-        especially_when:
-          - "No hidden cost incidents reported"
-          - "Total risk score is below 350"
-
-  # Output format
+    - verdict: Critical Risk
+      label: CRITICAL
+      logic: ANY
+      conditions:
+      - Total risk score is 700 or higher
+    - verdict: High Risk
+      label: HIGH
+      precondition: Critical Risk does not apply
+      logic: ANY
+      conditions:
+      - Total risk score is 350 or higher
+    - verdict: Low Risk
+      label: LOW
+      default: true
   output:
     verdict:
       type: enum
-      values: ["Low Risk", "High Risk", "Critical Risk"]
+      values:
+      - Low Risk
+      - High Risk
+      - Critical Risk
       required: true
-
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: "Relevant quotes supporting the verdict"
-
+      description: Relevant quotes supporting the verdict
     justification:
       type: string
       required: true
-      description: "Explain how the evidence was used to arrive at the final verdict"
-
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
-      values: ["low", "medium", "high"]
-      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
-
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
     other_notes:
       type: string
       optional: true
-      description: "Any other relevant observations or caveats"
+      description: Any other relevant observations or caveats

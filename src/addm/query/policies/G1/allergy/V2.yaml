@@ -1,20 +1,13 @@
-# G1_allergy_V2: Allergy Safety with Point-Based Scoring
-# V2 = Scoring: Adds point system with numeric thresholds
-
-policy_id: "G1_allergy_V2"
-extends: "G1_allergy_V1"
-version: "1.0"
-
-# === OVERVIEW (generates Overview section) ===
+policy_id: G1_allergy_V2
+extends: G1_allergy_V1
+version: '1.0'
 overview:
-  title: "Allergy Safety Risk Assessment"
-
+  title: Allergy Safety Risk Assessment
   purpose: |
     Help assess the allergy safety risk for this restaurant using customer reviews as evidence.
     Assign a risk label: Low Risk, High Risk, or Critical Risk.
 
     This assessment uses a point-based scoring system to quantify risk.
-
   incident_definition: |
     Only firsthand accounts are treated as confirmed incident evidence. An account is
     considered an incident if it meaningfully discusses any of the following:
@@ -25,120 +18,105 @@ overview:
 
     Ingredient mentions without allergy context (e.g., "peanut sauce is great") are
     NOT considered incidents but ARE considered allergy-relevant.
-
-# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
 normative:
-  # Terms -> auto-generates Definitions section
   terms:
-    - ref: "shared:ACCOUNT_TYPE"
-    - ref: "allergy:INCIDENT_SEVERITY"
-    - ref: "allergy:ASSURANCE_CLAIM"
-    - ref: "shared:STAFF_RESPONSE"
-
-  # Scoring system -> generates Scoring System section
+  - ref: shared:ACCOUNT_TYPE
+  - ref: allergy:INCIDENT_SEVERITY
+  - ref: allergy:ASSURANCE_CLAIM
+  - ref: shared:STAFF_RESPONSE
   scoring:
-    # Field mapping: how judgment fields map to severity labels for GT scoring
     field_mapping:
-      severity_field: "incident_severity"
+      severity_field: incident_severity
       value_mappings:
-        mild: "Mild incident"
-        moderate: "Moderate incident"
-        severe: "Severe incident"
+        mild: Mild incident
+        moderate: Moderate incident
+        severe: Severe incident
       modifier_mappings:
-        - field: "assurance_claim"
-          value: "true"
-          label: "False assurance"
-        - field: "staff_response"
-          value: "dismissive"
-          label: "Dismissive staff"
-
+      - field: assurance_claim
+        value: 'true'
+        label: False assurance
+      - field: staff_response
+        value: dismissive
+        label: Dismissive staff
     description: |
       Calculate a total risk score by summing points from all firsthand incidents.
-
     severity_points:
-      - label: "Mild incident"
-        points: 2
-      - label: "Moderate incident"
-        points: 5
-      - label: "Severe incident"
-        points: 15
-
+    - label: Mild incident
+      points: 2
+    - label: Moderate incident
+      points: 5
+    - label: Severe incident
+      points: 15
     modifiers:
-      - label: "False assurance"
-        description: "incident after explicit safety guarantee"
-        points: 5
-      - label: "Dismissive staff"
-        description: "staff dismissed allergy concern during incident"
-        points: 3
-      - label: "High-risk cuisine"
-        description: "restaurant is Thai, Vietnamese, or Chinese cuisine"
-        points: 2
-
+    - label: False assurance
+      description: incident after explicit safety guarantee
+      points: 5
+    - label: Dismissive staff
+      description: staff dismissed allergy concern during incident
+      points: 3
+    - label: High-risk cuisine
+      description: restaurant is Thai, Vietnamese, or Chinese cuisine
+      points: 2
     thresholds:
-      - verdict: "Critical Risk"
-        min_score: 8
-        min_score_by_k:
-          25: 12
-          50: 6
-          100: 7
-      - verdict: "High Risk"
-        min_score: 4
-        min_score_by_k:
-          25: 2
-          50: 3
-          100: 3
-
-  # Decision policy -> generates Verdict Rules section
+    - verdict: Critical Risk
+      min_score: 8
+      min_score_by_k:
+        25: 12
+        50: 6
+        100: 7
+    - verdict: High Risk
+      min_score: 4
+      min_score_by_k:
+        25: 2
+        50: 3
+        100: 3
   decision:
-    verdicts: ["Low Risk", "High Risk", "Critical Risk"]
+    verdicts:
+    - Low Risk
+    - High Risk
+    - Critical Risk
     ordered: true
-
     rules:
-      - verdict: "Critical Risk"
-        label: "CRITICAL"
-        logic: ANY
-        conditions:
-          - "Total risk score is 8 or higher"
-
-      - verdict: "High Risk"
-        label: "HIGH"
-        precondition: "Critical Risk does not apply"
-        logic: ANY
-        conditions:
-          - "Total risk score is 4 or higher"
-
-      - verdict: "Low Risk"
-        label: "LOW"
-        default: true
-        especially_when:
-          - "No firsthand incidents are reported"
-          - "Total risk score is below 4"
-
-  # Output format
+    - verdict: Critical Risk
+      label: CRITICAL
+      logic: ANY
+      conditions:
+      - Total risk score is 8 or higher
+    - verdict: High Risk
+      label: HIGH
+      precondition: Critical Risk does not apply
+      logic: ANY
+      conditions:
+      - Total risk score is 4 or higher
+    - verdict: Low Risk
+      label: LOW
+      default: true
   output:
     verdict:
       type: enum
-      values: ["Low Risk", "High Risk", "Critical Risk"]
+      values:
+      - Low Risk
+      - High Risk
+      - Critical Risk
       required: true
-
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: "Relevant quotes supporting the verdict"
-
+      description: Relevant quotes supporting the verdict
     justification:
       type: string
       required: true
-      description: "Explain how the evidence was used to arrive at the final verdict"
-
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
-      values: ["low", "medium", "high"]
-      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
-
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
     other_notes:
       type: string
       optional: true
-      description: "Any other relevant observations or caveats"
+      description: Any other relevant observations or caveats

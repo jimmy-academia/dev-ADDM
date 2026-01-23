@@ -1,19 +1,12 @@
-# G6_uniqueness_V1: Uniqueness with Override Triggers
-# V1 = Extended: Multiple conditions per verdict (ANY triggers) for exceptional/poor uniqueness
-
-policy_id: "G6_uniqueness_V1"
-extends: "G6_uniqueness_V0"
-version: "1.0"
-
-# === OVERVIEW (generates Overview section) ===
+policy_id: G6_uniqueness_V1
+extends: G6_uniqueness_V0
+version: '1.0'
 overview:
-  title: "Uniqueness Assessment"
-
+  title: Uniqueness Assessment
   purpose: |
     Help assess how unique and differentiated this restaurant is using reviews as evidence.
     This is from the perspective of a business owner evaluating competitive positioning.
     Assign a label: Generic, Differentiated, or Highly Unique.
-
   incident_definition: |
     Consider reviews that mention any of the following:
     - what makes the restaurant special or different
@@ -22,137 +15,123 @@ overview:
     - comparisons to other restaurants
 
     Reviews that don't mention distinctiveness or memorability carry less weight.
-
-# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
-  # Terms -> auto-generates Definitions section
   terms:
-    - ref: "shared:ACCOUNT_TYPE"
-    - ref: "uniqueness:UNIQUE_ASPECT"
-    - ref: "uniqueness:DIFFERENTIATION_LEVEL"
-    - ref: "uniqueness:MEMORABILITY"
-    - ref: "uniqueness:SIGNATURE_ITEM"
-
-  # Decision policy -> generates Verdict Rules section
+  - ref: shared:ACCOUNT_TYPE
+  - ref: uniqueness:UNIQUE_ASPECT
+  - ref: uniqueness:DIFFERENTIATION_LEVEL
+  - ref: uniqueness:MEMORABILITY
+  - ref: uniqueness:SIGNATURE_ITEM
   decision:
-    verdicts: ["Generic", "Differentiated", "Highly Unique"]
+    verdicts:
+    - Generic
+    - Differentiated
+    - Highly Unique
     ordered: true
-
     rules:
-      # V1 includes V0 conditions PLUS additional conditions with calibrated thresholds
-      - verdict: "Highly Unique"
-        label: "HIGHLY_UNIQUE"
-        logic: ANY
-        conditions:
-          # Very high thresholds for K=200
-          - text: "30 or more reviews describe it as 'one of a kind'"
-            type: count_threshold
-            filter:
-              differentiation_level: one_of_a_kind
-            min_count: 30
-            min_count_by_k:
-              25: 8
-              50: 12
-              100: 18
-          - text: "100 or more reviews mention signature items"
-            type: count_threshold
-            filter:
-              signature_item: "true"
-            min_count: 100
-            min_count_by_k:
-              25: 20
-              50: 35
-              100: 60
-          - text: "30 or more reviews describe it as unforgettable"
-            type: count_threshold
-            filter:
-              memorability: unforgettable
-            min_count: 30
-            min_count_by_k:
-              25: 8
-              50: 12
-              100: 18
-          # V1 additional conditions
-          - text: "150 or more reviews describe it as memorable"
-            type: count_threshold
-            filter:
-              memorability: memorable
-            min_count: 150
-            min_count_by_k:
-              25: 23
-              50: 45
-              100: 85
-          - text: "100 or more reviews describe it as unique"
-            type: count_threshold
-            filter:
-              differentiation_level: unique
-            min_count: 100
-            min_count_by_k:
-              25: 20
-              50: 35
-              100: 60
-
-      - verdict: "Generic"
-        label: "GENERIC"
-        precondition: "Highly Unique does not apply"
-        logic: ANY
-        conditions:
-          # Lower thresholds to catch more
-          - text: "5 or more reviews describe it as 'nothing special'"
-            type: count_threshold
-            filter:
-              differentiation_level: generic
-            min_count: 5
-          - text: "5 or more reviews mention no distinguishing features"
-            type: count_threshold
-            filter:
-              unique_aspect: none
-            min_count: 5
-          # V1 additional conditions
-          - text: "5 or more reviews describe forgettable experience"
-            type: count_threshold
-            filter:
-              memorability: forgettable
-            min_count: 5
-          - text: "10 or more reviews describe average experience"
-            type: count_threshold
-            filter:
-              memorability: average
-            min_count: 10
-
-      - verdict: "Differentiated"
-        label: "DIFFERENTIATED"
-        default: true
-        especially_when:
-          - "Some unique elements noted"
-          - "Has character but not irreplaceable"
-          - "Memorable aspects mentioned"
-
-  # Output format
+    - verdict: Highly Unique
+      label: HIGHLY_UNIQUE
+      logic: ANY
+      conditions:
+      - text: 30 or more reviews describe it as 'one of a kind'
+        type: count_threshold
+        filter:
+          differentiation_level: one_of_a_kind
+        min_count: 30
+        min_count_by_k:
+          25: 8
+          50: 12
+          100: 18
+      - text: 100 or more reviews mention signature items
+        type: count_threshold
+        filter:
+          signature_item: 'true'
+        min_count: 100
+        min_count_by_k:
+          25: 20
+          50: 35
+          100: 60
+      - text: 30 or more reviews describe it as unforgettable
+        type: count_threshold
+        filter:
+          memorability: unforgettable
+        min_count: 30
+        min_count_by_k:
+          25: 8
+          50: 12
+          100: 18
+      - text: 150 or more reviews describe it as memorable
+        type: count_threshold
+        filter:
+          memorability: memorable
+        min_count: 150
+        min_count_by_k:
+          25: 23
+          50: 45
+          100: 85
+      - text: 100 or more reviews describe it as unique
+        type: count_threshold
+        filter:
+          differentiation_level: unique
+        min_count: 100
+        min_count_by_k:
+          25: 20
+          50: 35
+          100: 60
+    - verdict: Generic
+      label: GENERIC
+      precondition: Highly Unique does not apply
+      logic: ANY
+      conditions:
+      - text: 5 or more reviews describe it as 'nothing special'
+        type: count_threshold
+        filter:
+          differentiation_level: generic
+        min_count: 5
+      - text: 5 or more reviews mention no distinguishing features
+        type: count_threshold
+        filter:
+          unique_aspect: none
+        min_count: 5
+      - text: 5 or more reviews describe forgettable experience
+        type: count_threshold
+        filter:
+          memorability: forgettable
+        min_count: 5
+      - text: 10 or more reviews describe average experience
+        type: count_threshold
+        filter:
+          memorability: average
+        min_count: 10
+    - verdict: Differentiated
+      label: DIFFERENTIATED
+      default: true
   output:
     verdict:
       type: enum
-      values: ["Generic", "Differentiated", "Highly Unique"]
+      values:
+      - Generic
+      - Differentiated
+      - Highly Unique
       required: true
-
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: "Relevant quotes supporting the verdict"
-
+      description: Relevant quotes supporting the verdict
     justification:
       type: string
       required: true
-      description: "Explain how the evidence was used to arrive at the final verdict"
-
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
-      values: ["low", "medium", "high"]
-      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
-
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
     other_notes:
       type: string
       optional: true
-      description: "Any other relevant observations or caveats"
+      description: Any other relevant observations or caveats

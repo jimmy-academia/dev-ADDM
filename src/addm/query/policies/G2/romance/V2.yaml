@@ -1,21 +1,14 @@
-# G2_romance_V2: Romantic Dining with Point-Based Scoring
-# V2 = Scoring: Adds point system with numeric thresholds
-
-policy_id: "G2_romance_V2"
-extends: "G2_romance_V1"
-version: "1.0"
-
-# === OVERVIEW (generates Overview section) ===
+policy_id: G2_romance_V2
+extends: G2_romance_V1
+version: '1.0'
 overview:
-  title: "Romantic Dining Suitability Assessment"
-
+  title: Romantic Dining Suitability Assessment
   purpose: |
     Help assess how suitable this restaurant is for romantic dining (dates, anniversaries, proposals)
     using customer reviews as evidence.
     Assign a suitability label: Not Recommended, Acceptable, or Recommended.
 
     This assessment uses a point-based scoring system to quantify suitability.
-
   incident_definition: |
     Consider reviews that mention any of the following:
     - date nights, anniversaries, romantic occasions, proposals
@@ -24,142 +17,127 @@ overview:
     - overall romantic atmosphere
 
     Reviews that only discuss food without mentioning atmosphere carry less weight.
-
-# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
 normative:
-  # Terms -> auto-generates Definitions section
   terms:
-    - ref: "shared:ACCOUNT_TYPE"
-    - ref: "romance:AMBIANCE_QUALITY"
-    - ref: "romance:NOISE_LEVEL"
-    - ref: "romance:LIGHTING_QUALITY"
-    - ref: "romance:SERVICE_STYLE"
-    - ref: "romance:DATE_OUTCOME"
-
-  # Scoring system -> generates Scoring System section
+  - ref: shared:ACCOUNT_TYPE
+  - ref: romance:AMBIANCE_QUALITY
+  - ref: romance:NOISE_LEVEL
+  - ref: romance:LIGHTING_QUALITY
+  - ref: romance:SERVICE_STYLE
+  - ref: romance:DATE_OUTCOME
   scoring:
-    # Field mapping: how judgment fields map to severity labels for GT scoring
     field_mapping:
-      severity_field: "date_outcome"
+      severity_field: date_outcome
       value_mappings:
-        memorable: "Romantic success (proposal, anniversary)"
-        positive: "Positive date experience"
-        neutral: "Neutral mention"
-        negative: "Date disaster"
+        memorable: Romantic success (proposal, anniversary)
+        positive: Positive date experience
+        neutral: Neutral mention
+        negative: Date disaster
       modifier_mappings:
-        - field: "lighting_quality"
-          value: "candlelit"
-          label: "Candlelit atmosphere"
-        - field: "noise_level"
-          value: "intimate"
-          label: "Private seating"
-        - field: "service_style"
-          value: "rushed"
-          label: "Rushed service"
-        - field: "noise_level"
-          value: "loud"
-          label: "Loud music/crowd"
-
+      - field: lighting_quality
+        value: candlelit
+        label: Candlelit atmosphere
+      - field: noise_level
+        value: intimate
+        label: Private seating
+      - field: service_style
+        value: rushed
+        label: Rushed service
+      - field: noise_level
+        value: loud
+        label: Loud music/crowd
     description: |
       Calculate a romance suitability score by summing points from relevant reviews.
       Positive points indicate romantic suitability, negative points indicate drawbacks.
-
     severity_points:
-      - label: "Romantic success (proposal, anniversary)"
-        points: 15
-      - label: "Positive date experience"
-        points: 5
-      - label: "Neutral mention"
-        points: 0
-      - label: "Minor atmosphere issue"
-        points: -2
-      - label: "Major atmosphere issue"
-        points: -5
-      - label: "Date disaster"
-        points: -15
-
+    - label: Romantic success (proposal, anniversary)
+      points: 15
+    - label: Positive date experience
+      points: 5
+    - label: Neutral mention
+      points: 0
+    - label: Minor atmosphere issue
+      points: -2
+    - label: Major atmosphere issue
+      points: -5
+    - label: Date disaster
+      points: -15
     modifiers:
-      - label: "Candlelit atmosphere"
-        description: "explicitly mentions candles or romantic lighting"
-        points: 3
-      - label: "Private seating"
-        description: "mentions privacy, secluded tables, or booths"
-        points: 3
-      - label: "Live music"
-        description: "romantic live music mentioned"
-        points: 2
-      - label: "Rushed service"
-        description: "service was rushed, couldn't linger"
-        points: -3
-      - label: "Loud music/crowd"
-        description: "noise prevented conversation"
-        points: -5
-
+    - label: Candlelit atmosphere
+      description: explicitly mentions candles or romantic lighting
+      points: 3
+    - label: Private seating
+      description: mentions privacy, secluded tables, or booths
+      points: 3
+    - label: Live music
+      description: romantic live music mentioned
+      points: 2
+    - label: Rushed service
+      description: service was rushed, couldn't linger
+      points: -3
+    - label: Loud music/crowd
+      description: noise prevented conversation
+      points: -5
     thresholds:
-      - verdict: "Recommended"
-        min_score: 400
-        min_score_by_k:
-          25: 50
-          50: 100
-          100: 200
-      - verdict: "Not Recommended"
-        max_score: -500
-        max_score_by_k:
-          25: -63
-          50: -125
-          100: -250
-
-  # Decision policy -> generates Verdict Rules section
+    - verdict: Recommended
+      min_score: 400
+      min_score_by_k:
+        25: 50
+        50: 100
+        100: 200
+    - verdict: Not Recommended
+      max_score: -500
+      max_score_by_k:
+        25: -63
+        50: -125
+        100: -250
   decision:
-    verdicts: ["Not Recommended", "Acceptable", "Recommended"]
+    verdicts:
+    - Not Recommended
+    - Acceptable
+    - Recommended
     ordered: true
-
     rules:
-      - verdict: "Recommended"
-        label: "RECOMMENDED"
-        logic: ANY
-        conditions:
-          - "Total suitability score is 400 or higher"
-
-      - verdict: "Not Recommended"
-        label: "NOT_RECOMMENDED"
-        precondition: "Recommended does not apply"
-        logic: ANY
-        conditions:
-          - "Total suitability score is -500 or lower"
-
-      - verdict: "Acceptable"
-        label: "ACCEPTABLE"
-        default: true
-        especially_when:
-          - "Total suitability score is between -499 and 399"
-          - "Mixed positive and negative indicators"
-
-  # Output format
+    - verdict: Recommended
+      label: RECOMMENDED
+      logic: ANY
+      conditions:
+      - Total suitability score is 400 or higher
+    - verdict: Not Recommended
+      label: NOT_RECOMMENDED
+      precondition: Recommended does not apply
+      logic: ANY
+      conditions:
+      - Total suitability score is -500 or lower
+    - verdict: Acceptable
+      label: ACCEPTABLE
+      default: true
   output:
     verdict:
       type: enum
-      values: ["Not Recommended", "Acceptable", "Recommended"]
+      values:
+      - Not Recommended
+      - Acceptable
+      - Recommended
       required: true
-
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: "Relevant quotes supporting the verdict"
-
+      description: Relevant quotes supporting the verdict
     justification:
       type: string
       required: true
-      description: "Explain how the evidence was used to arrive at the final verdict"
-
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
-      values: ["low", "medium", "high"]
-      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
-
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
     other_notes:
       type: string
       optional: true
-      description: "Any other relevant observations or caveats"
+      description: Any other relevant observations or caveats

@@ -1,21 +1,14 @@
-# G5_consistency_V2: Consistency with Point-Based Scoring
-# V2 = Scoring: Adds point system with numeric thresholds
-
-policy_id: "G5_consistency_V2"
-extends: "G5_consistency_V1"
-version: "1.0"
-
-# === OVERVIEW (generates Overview section) ===
+policy_id: G5_consistency_V2
+extends: G5_consistency_V1
+version: '1.0'
 overview:
-  title: "Consistency Assessment"
-
+  title: Consistency Assessment
   purpose: |
     Help assess the quality consistency at this restaurant using reviews as evidence.
     This is from the perspective of a business owner diagnosing reliability.
     Assign a label: Needs Improvement, Satisfactory, or Excellent.
 
     This assessment uses a point-based scoring system to quantify performance.
-
   incident_definition: |
     Consider reviews that mention any of the following:
     - quality changes over time
@@ -24,138 +17,123 @@ overview:
     - repeat customer observations
 
     Reviews from first-time visitors that don't mention consistency carry less weight.
-
-# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
 normative:
-  # Terms -> auto-generates Definitions section
   terms:
-    - ref: "shared:ACCOUNT_TYPE"
-    - ref: "consistency:QUALITY_TREND"
-    - ref: "consistency:VISIT_COMPARISON"
-    - ref: "consistency:RELIABILITY"
-    - ref: "consistency:VISIT_FREQUENCY"
-
-  # Scoring system -> generates Scoring System section
+  - ref: shared:ACCOUNT_TYPE
+  - ref: consistency:QUALITY_TREND
+  - ref: consistency:VISIT_COMPARISON
+  - ref: consistency:RELIABILITY
+  - ref: consistency:VISIT_FREQUENCY
   scoring:
-    # Field mapping: how judgment fields map to severity labels for GT scoring
     field_mapping:
-      severity_field: "reliability"
+      severity_field: reliability
       value_mappings:
-        always_reliable: "Always excellent"
-        mostly_reliable: "Mostly reliable"
-        hit_or_miss: "Hit or miss"
-        unpredictable: "Completely unpredictable"
+        always_reliable: Always excellent
+        mostly_reliable: Mostly reliable
+        hit_or_miss: Hit or miss
+        unpredictable: Completely unpredictable
       modifier_mappings:
-        - field: "quality_trend"
-          value: "improving"
-          label: "Improving trend"
-        - field: "visit_frequency"
-          value: "regular"
-          label: "Regular customer praise"
-        - field: "visit_frequency"
-          value: "frequent"
-          label: "Regular customer praise"
-        - field: "quality_trend"
-          value: "declining"
-          label: "Declining trend"
-
+      - field: quality_trend
+        value: improving
+        label: Improving trend
+      - field: visit_frequency
+        value: regular
+        label: Regular customer praise
+      - field: visit_frequency
+        value: frequent
+        label: Regular customer praise
+      - field: quality_trend
+        value: declining
+        label: Declining trend
     description: |
       Calculate a consistency score by summing points from relevant reviews.
       Positive points indicate good reliability, negative points indicate inconsistency.
-
     severity_points:
-      - label: "Always excellent"
-        points: 10
-      - label: "Mostly reliable"
-        points: 5
-      - label: "Adequate consistency"
-        points: 0
-      - label: "Some inconsistency"
-        points: -2
-      - label: "Hit or miss"
-        points: -5
-      - label: "Completely unpredictable"
-        points: -10
-
+    - label: Always excellent
+      points: 10
+    - label: Mostly reliable
+      points: 5
+    - label: Adequate consistency
+      points: 0
+    - label: Some inconsistency
+      points: -2
+    - label: Hit or miss
+      points: -5
+    - label: Completely unpredictable
+      points: -10
     modifiers:
-      - label: "Improving trend"
-        description: "quality getting better"
-        points: 3
-      - label: "Regular customer praise"
-        description: "frequent visitor praises consistency"
-        points: 3
-      - label: "Declining trend"
-        description: "quality getting worse"
-        points: -5
-      - label: "Management change decline"
-        description: "quality dropped after ownership/management change"
-        points: -3
-
+    - label: Improving trend
+      description: quality getting better
+      points: 3
+    - label: Regular customer praise
+      description: frequent visitor praises consistency
+      points: 3
+    - label: Declining trend
+      description: quality getting worse
+      points: -5
+    - label: Management change decline
+      description: quality dropped after ownership/management change
+      points: -3
     thresholds:
-      - verdict: "Excellent"
-        min_score: 800
-        min_score_by_k:
-          25: 100
-          50: 200
-          100: 400
-      - verdict: "Needs Improvement"
-        max_score: 0
-        max_score_by_k:
-          25: -100
-          50: -50
-          100: -25
-
-  # Decision policy -> generates Verdict Rules section
+    - verdict: Excellent
+      min_score: 800
+      min_score_by_k:
+        25: 100
+        50: 200
+        100: 400
+    - verdict: Needs Improvement
+      max_score: 0
+      max_score_by_k:
+        25: -100
+        50: -50
+        100: -25
   decision:
-    verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
+    verdicts:
+    - Needs Improvement
+    - Satisfactory
+    - Excellent
     ordered: true
-
     rules:
-      - verdict: "Excellent"
-        label: "EXCELLENT"
-        logic: ANY
-        conditions:
-          - "Total score is 800 or higher"
-
-      - verdict: "Needs Improvement"
-        label: "NEEDS_IMPROVEMENT"
-        precondition: "Excellent does not apply"
-        logic: ANY
-        conditions:
-          - "Total score is 0 or lower"
-
-      - verdict: "Satisfactory"
-        label: "SATISFACTORY"
-        default: true
-        especially_when:
-          - "Total score is between 1 and 799"
-          - "Mixed positive and negative indicators"
-
-  # Output format
+    - verdict: Excellent
+      label: EXCELLENT
+      logic: ANY
+      conditions:
+      - Total score is 800 or higher
+    - verdict: Needs Improvement
+      label: NEEDS_IMPROVEMENT
+      precondition: Excellent does not apply
+      logic: ANY
+      conditions:
+      - Total score is 0 or lower
+    - verdict: Satisfactory
+      label: SATISFACTORY
+      default: true
   output:
     verdict:
       type: enum
-      values: ["Needs Improvement", "Satisfactory", "Excellent"]
+      values:
+      - Needs Improvement
+      - Satisfactory
+      - Excellent
       required: true
-
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: "Relevant quotes supporting the verdict"
-
+      description: Relevant quotes supporting the verdict
     justification:
       type: string
       required: true
-      description: "Explain how the evidence was used to arrive at the final verdict"
-
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
-      values: ["low", "medium", "high"]
-      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
-
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
     other_notes:
       type: string
       optional: true
-      description: "Any other relevant observations or caveats"
+      description: Any other relevant observations or caveats

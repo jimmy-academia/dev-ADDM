@@ -1,19 +1,12 @@
-# G6_comparison_V1: Comparison with Override Triggers
-# V1 = Extended: Multiple conditions per verdict (ANY triggers) for strong competitive signals
-
-policy_id: "G6_comparison_V1"
-extends: "G6_comparison_V0"
-version: "1.0"
-
-# === OVERVIEW (generates Overview section) ===
+policy_id: G6_comparison_V1
+extends: G6_comparison_V0
+version: '1.0'
 overview:
-  title: "Competitive Comparison Assessment"
-
+  title: Competitive Comparison Assessment
   purpose: |
     Help assess how this restaurant compares to competitors using reviews as evidence.
     This is from the perspective of a business owner evaluating competitive position.
     Assign a label: Weaker, Comparable, or Stronger.
-
   incident_definition: |
     Consider reviews that mention any of the following:
     - comparisons to other restaurants
@@ -22,154 +15,140 @@ overview:
     - relative strengths and weaknesses
 
     Reviews that don't mention competitors or comparisons carry less weight.
-
-# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
-  # Terms -> auto-generates Definitions section
   terms:
-    - ref: "shared:ACCOUNT_TYPE"
-    - ref: "comparison:COMPARISON_OUTCOME"
-    - ref: "comparison:COMPARED_ASPECT"
-    - ref: "comparison:PREFERENCE_STATED"
-    - ref: "comparison:SWITCHING_INTENT"
-
-  # Decision policy -> generates Verdict Rules section
+  - ref: shared:ACCOUNT_TYPE
+  - ref: comparison:COMPARISON_OUTCOME
+  - ref: comparison:COMPARED_ASPECT
+  - ref: comparison:PREFERENCE_STATED
+  - ref: comparison:SWITCHING_INTENT
   decision:
-    verdicts: ["Weaker", "Comparable", "Stronger"]
+    verdicts:
+    - Weaker
+    - Comparable
+    - Stronger
     ordered: true
-
     rules:
-      # V1 includes V0 conditions PLUS additional conditions
-      - verdict: "Stronger"
-        label: "STRONGER"
-        logic: ANY
-        conditions:
-          # V0 conditions (same thresholds)
-          - text: "60 or more reviews favorably compare to competitors"
-            type: count_threshold
-            filter:
-              comparison_outcome: favorable
-            min_count: 60
-            min_count_by_k:
-              25: 8
-              50: 15
-              100: 30
-          - text: "5 or more reviews describe customers switching to this place"
-            type: count_threshold
-            filter:
-              switching_intent: switching_to
-            min_count: 5
-            min_count_by_k:
-              25: 1
-              50: 1
-              100: 3
-          - text: "100 or more reviews state preference for this restaurant"
-            type: count_threshold
-            filter:
-              preference_stated: prefer_this
-            min_count: 100
-            min_count_by_k:
-              25: 13
-              50: 25
-              100: 50
-          # V1 additional conditions
-          - text: "20 or more reviews describe strongly favorable comparison"
-            type: count_threshold
-            filter:
-              comparison_outcome: strongly_favorable
-            min_count: 20
-            min_count_by_k:
-              25: 3
-              50: 5
-              100: 10
-          - text: "30 or more reviews cite better overall than competitors"
-            type: count_threshold
-            filter:
-              compared_aspect: overall
-              comparison_outcome: favorable
-            min_count: 30
-            min_count_by_k:
-              25: 4
-              50: 8
-              100: 15
-
-      - verdict: "Weaker"
-        label: "WEAKER"
-        precondition: "Stronger does not apply"
-        logic: ANY
-        conditions:
-          # V0 conditions (same thresholds)
-          - text: "20 or more reviews prefer competitors"
-            type: count_threshold
-            filter:
-              preference_stated: prefer_other
-            min_count: 20
-            min_count_by_k:
-              25: 3
-              50: 5
-              100: 10
-          - text: "30 or more reviews describe customers switching away"
-            type: count_threshold
-            filter:
-              switching_intent: switching_away
-            min_count: 30
-            min_count_by_k:
-              25: 4
-              50: 8
-              100: 15
-          - text: "40 or more reviews describe unfavorable comparisons"
-            type: count_threshold
-            filter:
-              comparison_outcome: unfavorable
-            min_count: 40
-            min_count_by_k:
-              25: 5
-              50: 10
-              100: 20
-          # V1 additional conditions
-          - text: "10 or more reviews describe strongly unfavorable comparison"
-            type: count_threshold
-            filter:
-              comparison_outcome: strongly_unfavorable
-            min_count: 10
-            min_count_by_k:
-              25: 1
-              50: 3
-              100: 5
-
-      - verdict: "Comparable"
-        label: "COMPARABLE"
-        default: true
-        especially_when:
-          - "Similar quality to nearby competitors"
-          - "Trade-offs between restaurants"
-          - "No clear winner in comparisons"
-
-  # Output format
+    - verdict: Stronger
+      label: STRONGER
+      logic: ANY
+      conditions:
+      - text: 60 or more reviews favorably compare to competitors
+        type: count_threshold
+        filter:
+          comparison_outcome: favorable
+        min_count: 60
+        min_count_by_k:
+          25: 8
+          50: 15
+          100: 30
+      - text: 5 or more reviews describe customers switching to this place
+        type: count_threshold
+        filter:
+          switching_intent: switching_to
+        min_count: 5
+        min_count_by_k:
+          25: 1
+          50: 1
+          100: 3
+      - text: 100 or more reviews state preference for this restaurant
+        type: count_threshold
+        filter:
+          preference_stated: prefer_this
+        min_count: 100
+        min_count_by_k:
+          25: 13
+          50: 25
+          100: 50
+      - text: 20 or more reviews describe strongly favorable comparison
+        type: count_threshold
+        filter:
+          comparison_outcome: strongly_favorable
+        min_count: 20
+        min_count_by_k:
+          25: 3
+          50: 5
+          100: 10
+      - text: 30 or more reviews cite better overall than competitors
+        type: count_threshold
+        filter:
+          compared_aspect: overall
+          comparison_outcome: favorable
+        min_count: 30
+        min_count_by_k:
+          25: 4
+          50: 8
+          100: 15
+    - verdict: Weaker
+      label: WEAKER
+      precondition: Stronger does not apply
+      logic: ANY
+      conditions:
+      - text: 20 or more reviews prefer competitors
+        type: count_threshold
+        filter:
+          preference_stated: prefer_other
+        min_count: 20
+        min_count_by_k:
+          25: 3
+          50: 5
+          100: 10
+      - text: 30 or more reviews describe customers switching away
+        type: count_threshold
+        filter:
+          switching_intent: switching_away
+        min_count: 30
+        min_count_by_k:
+          25: 4
+          50: 8
+          100: 15
+      - text: 40 or more reviews describe unfavorable comparisons
+        type: count_threshold
+        filter:
+          comparison_outcome: unfavorable
+        min_count: 40
+        min_count_by_k:
+          25: 5
+          50: 10
+          100: 20
+      - text: 10 or more reviews describe strongly unfavorable comparison
+        type: count_threshold
+        filter:
+          comparison_outcome: strongly_unfavorable
+        min_count: 10
+        min_count_by_k:
+          25: 1
+          50: 3
+          100: 5
+    - verdict: Comparable
+      label: COMPARABLE
+      default: true
   output:
     verdict:
       type: enum
-      values: ["Weaker", "Comparable", "Stronger"]
+      values:
+      - Weaker
+      - Comparable
+      - Stronger
       required: true
-
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: "Relevant quotes supporting the verdict"
-
+      description: Relevant quotes supporting the verdict
     justification:
       type: string
       required: true
-      description: "Explain how the evidence was used to arrive at the final verdict"
-
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
-      values: ["low", "medium", "high"]
-      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
-
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
     other_notes:
       type: string
       optional: true
-      description: "Any other relevant observations or caveats"
+      description: Any other relevant observations or caveats

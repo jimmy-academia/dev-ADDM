@@ -1,19 +1,11 @@
-# G5_capacity_V0: Base Capacity Management Assessment
-# V0 = Base: Simple per-instance reasoning, basic thresholds
-# Owner perspective: Evaluating staffing and volume handling
-
-policy_id: "G5_capacity_V0"
-version: "1.0"
-
-# === OVERVIEW (generates Overview section) ===
+policy_id: G5_capacity_V0
+version: '1.0'
 overview:
-  title: "Capacity Management Assessment"
-
+  title: Capacity Management Assessment
   purpose: |
     Help assess how well this restaurant handles customer volume using reviews as evidence.
     This is from the perspective of a business owner diagnosing staffing and capacity issues.
     Assign a label: Needs Improvement, Satisfactory, or Excellent.
-
   incident_definition: |
     Consider reviews that mention any of the following:
     - staffing levels relative to busyness
@@ -22,112 +14,103 @@ overview:
     - peak time handling (weekends, holidays)
 
     Reviews that only discuss food quality without mentioning capacity carry less weight.
-
-# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
-  # Terms -> auto-generates Definitions section
   terms:
-    - ref: "shared:ACCOUNT_TYPE"
-    - ref: "capacity:STAFFING_LEVEL"
-    - ref: "capacity:CROWD_LEVEL"
-    - ref: "capacity:SERVICE_DEGRADATION"
-    - ref: "capacity:VOLUME_HANDLING"
-
-  # Decision policy -> generates Verdict Rules section
+  - ref: shared:ACCOUNT_TYPE
+  - ref: capacity:STAFFING_LEVEL
+  - ref: capacity:CROWD_LEVEL
+  - ref: capacity:SERVICE_DEGRADATION
+  - ref: capacity:VOLUME_HANDLING
   decision:
-    verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
-    ordered: true  # Higher = better performance
-
+    verdicts:
+    - Needs Improvement
+    - Satisfactory
+    - Excellent
+    ordered: true
     rules:
-      - verdict: "Excellent"
-        label: "EXCELLENT"
-        logic: ANY
-        conditions:
-          - text: "60 or more reviews praise volume handling"
-            type: count_threshold
-            filter:
-              volume_handling: handled_well
-            min_count: 60
-            min_count_by_k:
-              25: 8
-              50: 15
-              100: 30
-          - text: "30 or more reviews observe the restaurant as well-staffed"
-            type: count_threshold
-            filter:
-              staffing_level: well_staffed
-            min_count: 30
-            min_count_by_k:
-              25: 4
-              50: 8
-              100: 15
-
-      - verdict: "Needs Improvement"
-        label: "NEEDS_IMPROVEMENT"
-        precondition: "Excellent does not apply"
-        logic: ANY
-        conditions:
-          - text: "20 or more reviews describe understaffing"
-            type: count_threshold
-            filter:
-              staffing_level: understaffed
-            min_count: 20
-            min_count_by_k:
-              25: 3
-              50: 5
-              100: 10
-          - text: "25 or more reviews describe significant service degradation"
-            type: count_threshold
-            filter:
-              service_degradation: significant
-            min_count: 25
-            min_count_by_k:
-              25: 3
-              50: 6
-              100: 13
-          - text: "25 or more reviews report volume handling struggles"
-            type: count_threshold
-            filter:
-              volume_handling: struggled
-            min_count: 25
-            min_count_by_k:
-              25: 3
-              50: 6
-              100: 13
-
-      - verdict: "Satisfactory"
-        label: "SATISFACTORY"
-        default: true
-        especially_when:
-          - "Handles normal volume adequately"
-          - "Some struggles during peak times but manages"
-          - "Mixed reports on busy-time handling"
-
-  # Output format
+    - verdict: Excellent
+      label: EXCELLENT
+      logic: ANY
+      conditions:
+      - text: 60 or more reviews praise volume handling
+        type: count_threshold
+        filter:
+          volume_handling: handled_well
+        min_count: 60
+        min_count_by_k:
+          25: 8
+          50: 15
+          100: 30
+      - text: 30 or more reviews observe the restaurant as well-staffed
+        type: count_threshold
+        filter:
+          staffing_level: well_staffed
+        min_count: 30
+        min_count_by_k:
+          25: 4
+          50: 8
+          100: 15
+    - verdict: Needs Improvement
+      label: NEEDS_IMPROVEMENT
+      precondition: Excellent does not apply
+      logic: ANY
+      conditions:
+      - text: 20 or more reviews describe understaffing
+        type: count_threshold
+        filter:
+          staffing_level: understaffed
+        min_count: 20
+        min_count_by_k:
+          25: 3
+          50: 5
+          100: 10
+      - text: 25 or more reviews describe significant service degradation
+        type: count_threshold
+        filter:
+          service_degradation: significant
+        min_count: 25
+        min_count_by_k:
+          25: 3
+          50: 6
+          100: 13
+      - text: 25 or more reviews report volume handling struggles
+        type: count_threshold
+        filter:
+          volume_handling: struggled
+        min_count: 25
+        min_count_by_k:
+          25: 3
+          50: 6
+          100: 13
+    - verdict: Satisfactory
+      label: SATISFACTORY
+      default: true
   output:
     verdict:
       type: enum
-      values: ["Needs Improvement", "Satisfactory", "Excellent"]
+      values:
+      - Needs Improvement
+      - Satisfactory
+      - Excellent
       required: true
-
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: "Relevant quotes supporting the verdict"
-
+      description: Relevant quotes supporting the verdict
     justification:
       type: string
       required: true
-      description: "Explain how the evidence was used to arrive at the final verdict"
-
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
-      values: ["low", "medium", "high"]
-      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
-
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
     other_notes:
       type: string
       optional: true
-      description: "Any other relevant observations or caveats"
+      description: Any other relevant observations or caveats

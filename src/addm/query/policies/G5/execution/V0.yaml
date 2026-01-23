@@ -1,19 +1,11 @@
-# G5_execution_V0: Base Execution Quality Assessment
-# V0 = Base: Simple per-instance reasoning, basic thresholds
-# Owner perspective: Evaluating order accuracy and promise keeping
-
-policy_id: "G5_execution_V0"
-version: "1.0"
-
-# === OVERVIEW (generates Overview section) ===
+policy_id: G5_execution_V0
+version: '1.0'
 overview:
-  title: "Execution Quality Assessment"
-
+  title: Execution Quality Assessment
   purpose: |
     Help assess how well this restaurant executes orders and keeps promises using reviews as evidence.
     This is from the perspective of a business owner diagnosing operational issues.
     Assign a label: Needs Improvement, Satisfactory, or Excellent.
-
   incident_definition: |
     Consider reviews that mention any of the following:
     - order accuracy (correct items, modifications)
@@ -22,121 +14,114 @@ overview:
     - menu accuracy and descriptions
 
     Reviews that only discuss ambiance without mentioning order execution carry less weight.
-
-# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
-  # Terms -> auto-generates Definitions section
   terms:
-    - ref: "shared:ACCOUNT_TYPE"
-    - ref: "execution:ORDER_ACCURACY"
-    - ref: "execution:MODIFICATION_HANDLING"
-    - ref: "execution:PROMISE_KEPT"
-    - ref: "execution:ISSUE_RESOLUTION"
-
-  # Decision policy -> generates Verdict Rules section
+  - ref: shared:ACCOUNT_TYPE
+  - ref: execution:ORDER_ACCURACY
+  - ref: execution:MODIFICATION_HANDLING
+  - ref: execution:PROMISE_KEPT
+  - ref: execution:ISSUE_RESOLUTION
   decision:
-    verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
-    ordered: true  # Higher = better performance
-
+    verdicts:
+    - Needs Improvement
+    - Satisfactory
+    - Excellent
+    ordered: true
     rules:
-      - verdict: "Excellent"
-        label: "EXCELLENT"
-        logic: ANY
-        conditions:
-          - text: "170 or more reviews report perfect order accuracy"
-            type: count_threshold
-            filter:
-              order_accuracy: perfect
-            min_count: 170
-            min_count_by_k:
-              25: 21
-              50: 43
-              100: 85
-          - text: "80 or more reviews report successful modification handling"
-            type: count_threshold
-            filter:
-              modification_handling: successful
-            min_count: 80
-            min_count_by_k:
-              25: 10
-              50: 20
-              100: 40
-          - text: "150 or more reviews report promises kept"
-            type: count_threshold
-            filter:
-              promise_kept: kept
-            min_count: 150
-            min_count_by_k:
-              25: 19
-              50: 38
-              100: 75
-
-      - verdict: "Needs Improvement"
-        label: "NEEDS_IMPROVEMENT"
-        precondition: "Excellent does not apply"
-        logic: ANY
-        conditions:
-          - text: "20 or more reviews report significant or multiple order errors"
-            type: count_threshold
-            filter:
-              order_accuracy: [multiple_errors, significant_error]
-            min_count: 20
-            min_count_by_k:
-              25: 5
-              50: 8
-              100: 12
-          - text: "100 or more reviews report modifications being ignored"
-            type: count_threshold
-            filter:
-              modification_handling: ignored
-            min_count: 100
-            min_count_by_k:
-              25: 15
-              50: 28
-              100: 55
-          - text: "30 or more reviews report broken promises"
-            type: count_threshold
-            filter:
-              promise_kept: broken
-            min_count: 30
-            min_count_by_k:
-              25: 6
-              50: 10
-              100: 18
-
-      - verdict: "Satisfactory"
-        label: "SATISFACTORY"
-        default: true
-        especially_when:
-          - "Orders generally correct"
-          - "Occasional issues handled adequately"
-          - "Most promises kept"
-
-  # Output format
+    - verdict: Excellent
+      label: EXCELLENT
+      logic: ANY
+      conditions:
+      - text: 170 or more reviews report perfect order accuracy
+        type: count_threshold
+        filter:
+          order_accuracy: perfect
+        min_count: 170
+        min_count_by_k:
+          25: 21
+          50: 43
+          100: 85
+      - text: 80 or more reviews report successful modification handling
+        type: count_threshold
+        filter:
+          modification_handling: successful
+        min_count: 80
+        min_count_by_k:
+          25: 10
+          50: 20
+          100: 40
+      - text: 150 or more reviews report promises kept
+        type: count_threshold
+        filter:
+          promise_kept: kept
+        min_count: 150
+        min_count_by_k:
+          25: 19
+          50: 38
+          100: 75
+    - verdict: Needs Improvement
+      label: NEEDS_IMPROVEMENT
+      precondition: Excellent does not apply
+      logic: ANY
+      conditions:
+      - text: 20 or more reviews report significant or multiple order errors
+        type: count_threshold
+        filter:
+          order_accuracy:
+          - multiple_errors
+          - significant_error
+        min_count: 20
+        min_count_by_k:
+          25: 5
+          50: 8
+          100: 12
+      - text: 100 or more reviews report modifications being ignored
+        type: count_threshold
+        filter:
+          modification_handling: ignored
+        min_count: 100
+        min_count_by_k:
+          25: 15
+          50: 28
+          100: 55
+      - text: 30 or more reviews report broken promises
+        type: count_threshold
+        filter:
+          promise_kept: broken
+        min_count: 30
+        min_count_by_k:
+          25: 6
+          50: 10
+          100: 18
+    - verdict: Satisfactory
+      label: SATISFACTORY
+      default: true
   output:
     verdict:
       type: enum
-      values: ["Needs Improvement", "Satisfactory", "Excellent"]
+      values:
+      - Needs Improvement
+      - Satisfactory
+      - Excellent
       required: true
-
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: "Relevant quotes supporting the verdict"
-
+      description: Relevant quotes supporting the verdict
     justification:
       type: string
       required: true
-      description: "Explain how the evidence was used to arrive at the final verdict"
-
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
-      values: ["low", "medium", "high"]
-      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
-
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
     other_notes:
       type: string
       optional: true
-      description: "Any other relevant observations or caveats"
+      description: Any other relevant observations or caveats

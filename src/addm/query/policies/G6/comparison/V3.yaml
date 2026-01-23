@@ -1,21 +1,14 @@
-# G6_comparison_V3: Comparison with Recency & Context
-# V3 = Recency: Adds recency modifiers for competitive landscape changes
-
-policy_id: "G6_comparison_V3"
-extends: "G6_comparison_V2"
-version: "1.0"
-
-# === OVERVIEW (generates Overview section) ===
+policy_id: G6_comparison_V3
+extends: G6_comparison_V2
+version: '1.0'
 overview:
-  title: "Competitive Comparison Assessment"
-
+  title: Competitive Comparison Assessment
   purpose: |
     Help assess how this restaurant compares to competitors using reviews as evidence.
     This is from the perspective of a business owner evaluating competitive position.
     Assign a label: Weaker, Comparable, or Stronger.
 
     This assessment uses a point-based scoring system with recency weighting.
-
   incident_definition: |
     Consider reviews that mention any of the following:
     - comparisons to other restaurants
@@ -24,146 +17,130 @@ overview:
     - relative strengths and weaknesses
 
     Reviews that don't mention competitors or comparisons carry less weight.
-
-# === NORMATIVE (generates Definitions + Scoring + Verdict Rules) ===
 normative:
-  # Terms -> auto-generates Definitions section
   terms:
-    - ref: "shared:ACCOUNT_TYPE"
-    - ref: "comparison:COMPARISON_OUTCOME"
-    - ref: "comparison:COMPARED_ASPECT"
-    - ref: "comparison:PREFERENCE_STATED"
-    - ref: "comparison:SWITCHING_INTENT"
-
-  # Scoring system -> generates Scoring System section
+  - ref: shared:ACCOUNT_TYPE
+  - ref: comparison:COMPARISON_OUTCOME
+  - ref: comparison:COMPARED_ASPECT
+  - ref: comparison:PREFERENCE_STATED
+  - ref: comparison:SWITCHING_INTENT
   scoring:
-    # Field mapping: how judgment fields map to severity labels for GT scoring
     field_mapping:
-      severity_field: "comparison_outcome"
+      severity_field: comparison_outcome
       value_mappings:
-        favorable: "Better than competitor"
-        neutral: "Comparable"
-        unfavorable: "Worse than competitor"
+        favorable: Better than competitor
+        neutral: Comparable
+        unfavorable: Worse than competitor
       modifier_mappings:
-        - field: "switching_intent"
-          value: "switching_to"
-          label: "Customer switched here"
-        - field: "preference_stated"
-          value: "prefer_this"
-          label: "Recommended over competitor"
-        - field: "switching_intent"
-          value: "switching_away"
-          label: "Customer switched away"
-        - field: "preference_stated"
-          value: "prefer_other"
-          label: "Warned to go elsewhere"
-
+      - field: switching_intent
+        value: switching_to
+        label: Customer switched here
+      - field: preference_stated
+        value: prefer_this
+        label: Recommended over competitor
+      - field: switching_intent
+        value: switching_away
+        label: Customer switched away
+      - field: preference_stated
+        value: prefer_other
+        label: Warned to go elsewhere
     description: |
       Calculate a competitive position score by summing points from relevant reviews,
       with recency weighting. Competition can change as restaurants improve or decline,
       so recent reviews are weighted more heavily.
-
     severity_points:
-      - label: "Best in area"
-        points: 10
-      - label: "Better than competitor"
-        points: 5
-      - label: "Comparable"
-        points: 0
-      - label: "Worse than competitor"
-        points: -5
-      - label: "Much worse"
-        points: -10
-
+    - label: Best in area
+      points: 10
+    - label: Better than competitor
+      points: 5
+    - label: Comparable
+      points: 0
+    - label: Worse than competitor
+      points: -5
+    - label: Much worse
+      points: -10
     modifiers:
-      - label: "Customer switched here"
-        description: "won customer from competitor"
-        points: 5
-      - label: "Recommended over competitor"
-        description: "explicitly preferred"
-        points: 3
-      - label: "Customer switched away"
-        description: "lost customer to competitor"
-        points: -5
-      - label: "Warned to go elsewhere"
-        description: "told to go to competitor instead"
-        points: -3
-
+    - label: Customer switched here
+      description: won customer from competitor
+      points: 5
+    - label: Recommended over competitor
+      description: explicitly preferred
+      points: 3
+    - label: Customer switched away
+      description: lost customer to competitor
+      points: -5
+    - label: Warned to go elsewhere
+      description: told to go to competitor instead
+      points: -3
     recency_rules:
-      - age: "Within 6 months"
-        weight: "full point value"
-      - age: "6 months to 1 year"
-        weight: "three-quarter point value (multiply by 0.75)"
-      - age: "1-2 years old"
-        weight: "half point value (multiply by 0.5)"
-      - age: "Over 2 years old"
-        weight: "quarter point value (multiply by 0.25) - competitive landscape may have changed"
-
+    - age: Within 6 months
+      weight: full point value
+    - age: 6 months to 1 year
+      weight: three-quarter point value (multiply by 0.75)
+    - age: 1-2 years old
+      weight: half point value (multiply by 0.5)
+    - age: Over 2 years old
+      weight: quarter point value (multiply by 0.25) - competitive landscape may have changed
     thresholds:
-      - verdict: "Stronger"
-        min_score: 500
-        min_score_by_k:
-          25: 63
-          50: 125
-          100: 250
-      - verdict: "Weaker"
-        max_score: -200
-        max_score_by_k:
-          25: -25
-          50: -50
-          100: -100
-
-  # Decision policy -> generates Verdict Rules section
+    - verdict: Stronger
+      min_score: 500
+      min_score_by_k:
+        25: 63
+        50: 125
+        100: 250
+    - verdict: Weaker
+      max_score: -200
+      max_score_by_k:
+        25: -25
+        50: -50
+        100: -100
   decision:
-    verdicts: ["Weaker", "Comparable", "Stronger"]
+    verdicts:
+    - Weaker
+    - Comparable
+    - Stronger
     ordered: true
-
     rules:
-      - verdict: "Stronger"
-        label: "STRONGER"
-        logic: ANY
-        conditions:
-          - "Total score is 500 or higher (after recency weighting)"
-
-      - verdict: "Weaker"
-        label: "WEAKER"
-        precondition: "Stronger does not apply"
-        logic: ANY
-        conditions:
-          - "Total score is -200 or lower (after recency weighting)"
-
-      - verdict: "Comparable"
-        label: "COMPARABLE"
-        default: true
-        especially_when:
-          - "Total score is between -199 and 499"
-          - "Recent reviews show stable competitive position"
-
-  # Output format
+    - verdict: Stronger
+      label: STRONGER
+      logic: ANY
+      conditions:
+      - Total score is 500 or higher (after recency weighting)
+    - verdict: Weaker
+      label: WEAKER
+      precondition: Stronger does not apply
+      logic: ANY
+      conditions:
+      - Total score is -200 or lower (after recency weighting)
+    - verdict: Comparable
+      label: COMPARABLE
+      default: true
   output:
     verdict:
       type: enum
-      values: ["Weaker", "Comparable", "Stronger"]
+      values:
+      - Weaker
+      - Comparable
+      - Stronger
       required: true
-
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: "Relevant quotes supporting the verdict"
-
+      description: Relevant quotes supporting the verdict
     justification:
       type: string
       required: true
-      description: "Explain how the evidence and recency weighting were used to arrive at the final verdict"
-
+      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
     confidence:
       type: enum
-      values: ["low", "medium", "high"]
-      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
-
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
     other_notes:
       type: string
       optional: true
-      description: "Any other relevant observations or caveats"
+      description: Any other relevant observations or caveats
