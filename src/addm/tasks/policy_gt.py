@@ -11,6 +11,7 @@ Two-step flow:
 import hashlib
 import json
 from collections import defaultdict
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -368,6 +369,68 @@ def determine_verdict(
     return default_verdict
 
 
+def compute_recency_weight(review_date_str: Optional[str], scoring: ScoringSystem) -> float:
+    """
+    Compute recency weight for V3 scoring based on review age.
+
+    Args:
+        review_date_str: Review date string (e.g., "2019-12-15 19:02:50")
+        scoring: ScoringSystem with recency_rules
+
+    Returns:
+        Weight multiplier (1.0, 0.5, or 0.25)
+    """
+    if not scoring.recency_rules or not review_date_str:
+        return 1.0
+
+    try:
+        # Parse review date
+        review_date = datetime.strptime(review_date_str[:10], "%Y-%m-%d")
+        # Use a fixed reference date for reproducibility (latest data is ~2022)
+        reference_date = datetime(2022, 1, 1)
+        age_years = (reference_date - review_date).days / 365.25
+
+        # Parse recency rules to determine weight
+        # Rules are ordered by recency (most recent first)
+        for rule in scoring.recency_rules:
+            age_text = rule.age.lower()
+            weight_text = rule.weight.lower()
+
+            # Parse age condition
+            if "within" in age_text:
+                # "Within 1 year" or "Within 2 years"
+                if "1 year" in age_text and age_years <= 1:
+                    return _parse_weight(weight_text)
+                elif "2 year" in age_text and age_years <= 2:
+                    return _parse_weight(weight_text)
+            elif "1-2" in age_text or "1 to 2" in age_text:
+                if 1 < age_years <= 2:
+                    return _parse_weight(weight_text)
+            elif "2-3" in age_text or "2 to 3" in age_text:
+                if 2 < age_years <= 3:
+                    return _parse_weight(weight_text)
+            elif "over" in age_text:
+                # "Over 2 years" or "Over 3 years"
+                if "2 year" in age_text and age_years > 2:
+                    return _parse_weight(weight_text)
+                elif "3 year" in age_text and age_years > 3:
+                    return _parse_weight(weight_text)
+
+        return 1.0  # Default: full weight
+    except (ValueError, AttributeError):
+        return 1.0  # If date parsing fails, use full weight
+
+
+def _parse_weight(weight_text: str) -> float:
+    """Parse weight from human-readable text."""
+    if "quarter" in weight_text or "0.25" in weight_text:
+        return 0.25
+    elif "half" in weight_text or "0.5" in weight_text:
+        return 0.5
+    else:
+        return 1.0  # "full" or default
+
+
 def compute_gt_from_policy_scoring(
     judgments: List[Dict[str, Any]],
     policy: PolicyIR,
@@ -474,7 +537,11 @@ def compute_gt_from_policy_scoring(
                 if mod_pts > 0:
                     applied_modifiers.append("Dismissive staff")
 
-        total_score += points
+        # Apply V3 recency weighting if policy has recency_rules
+        recency_weight = compute_recency_weight(j.get("_review_date"), scoring)
+        weighted_points = int(points * recency_weight)
+
+        total_score += weighted_points
         incidents.append({
             "review_id": j.get("review_id", ""),
             "severity_field": severity_field,
@@ -483,6 +550,8 @@ def compute_gt_from_policy_scoring(
             "base_points": get_severity_points(severity_label, scoring),
             "modifiers": applied_modifiers,
             "total_points": points,
+            "recency_weight": recency_weight,
+            "weighted_points": weighted_points,
         })
 
     # Cuisine modifier (restaurant-level, not per-incident)

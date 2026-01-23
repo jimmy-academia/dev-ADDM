@@ -36,6 +36,28 @@ from rich.panel import Panel
 GT_DIR = Path(__file__).parent.parent.parent / "data" / "answers" / "yelp"
 VARIANTS = ["V0", "V1", "V2", "V3"]
 
+# Verdict order: worst → best (for coloring: red, yellow, green)
+VERDICT_ORDER = {
+    "G1_allergy": ["Critical Risk", "High Risk", "Low Risk"],
+    "G1_dietary": ["Critical Risk", "High Risk", "Low Risk"],
+    "G1_hygiene": ["Critical Risk", "High Risk", "Low Risk"],
+    "G2_romance": ["Not Recommended", "Acceptable", "Recommended"],
+    "G2_business": ["Not Recommended", "Acceptable", "Recommended"],
+    "G2_group": ["Not Recommended", "Acceptable", "Recommended"],
+    "G3_price_worth": ["Poor Value", "Fair Value", "Good Value"],
+    "G3_hidden_costs": ["Critical Risk", "High Risk", "Low Risk"],
+    "G3_time_value": ["Not Worth Waiting", "Worth Waiting", "Definitely Worth Waiting"],
+    "G4_server": ["Needs Improvement", "Satisfactory", "Excellent"],
+    "G4_kitchen": ["Needs Improvement", "Satisfactory", "Excellent"],
+    "G4_environment": ["Needs Improvement", "Satisfactory", "Excellent"],
+    "G5_capacity": ["Needs Improvement", "Satisfactory", "Excellent"],
+    "G5_execution": ["Needs Improvement", "Satisfactory", "Excellent"],
+    "G5_consistency": ["Needs Improvement", "Satisfactory", "Excellent"],
+    "G6_uniqueness": ["Generic", "Differentiated", "Highly Unique"],
+    "G6_comparison": ["Weaker", "Comparable", "Stronger"],
+    "G6_loyalty": ["Low Loyalty", "Moderate Loyalty", "High Loyalty"],
+}
+
 console = Console()
 
 
@@ -58,7 +80,12 @@ def get_verdict_distribution(gt_data: dict) -> dict[str, int]:
 
 
 def get_all_verdicts_for_topic(topic: str, variants: list[str], k_values: list[int]) -> list[str]:
-    """Get all unique verdicts for a topic across all variants and K values."""
+    """Get all unique verdicts for a topic, in policy-defined order (worst → best)."""
+    # Use predefined order if available
+    if topic in VERDICT_ORDER:
+        return VERDICT_ORDER[topic]
+
+    # Fallback: collect from data and sort alphabetically
     verdicts = set()
     for variant in variants:
         policy_id = f"{topic}_{variant}"
@@ -70,20 +97,23 @@ def get_all_verdicts_for_topic(topic: str, variants: list[str], k_values: list[i
     return sorted(verdicts)
 
 
-def get_verdict_color(verdict: str) -> str:
-    """Get color based on verdict type."""
-    verdict_lower = verdict.lower()
-    if any(x in verdict_lower for x in ["low", "excellent", "good", "recommend", "high loyalty", "unique", "worth", "stronger"]):
-        return "green"
-    elif any(x in verdict_lower for x in ["critical", "terrible", "poor", "not worth", "weaker"]):
-        return "red"
-    elif any(x in verdict_lower for x in ["high risk", "needs"]):
-        return "yellow"
-    else:
+def get_verdict_color(verdict: str, all_verdicts: list[str]) -> str:
+    """Get color based on verdict position. First=worst(red), last=best(green)."""
+    if verdict not in all_verdicts:
         return "cyan"
+    idx = all_verdicts.index(verdict)
+    n = len(all_verdicts)
+    if n == 1:
+        return "cyan"
+    elif idx == 0:
+        return "red"    # First = worst
+    elif idx == n - 1:
+        return "green"  # Last = best
+    else:
+        return "yellow" # Middle
 
 
-def format_cell(count: int, total: int, verdict: str) -> str:
+def format_cell(count: int, total: int, verdict: str, all_verdicts: list[str]) -> str:
     """Format a cell value with percentage and coloring."""
     if total == 0:
         return "[dim]-[/dim]"
@@ -94,7 +124,7 @@ def format_cell(count: int, total: int, verdict: str) -> str:
         # Highlight 0% cells with background
         return "[on red3][bold white]0[/bold white][/on red3]"
 
-    color = get_verdict_color(verdict)
+    color = get_verdict_color(verdict, all_verdicts)
     return f"[{color}]{count}[/] [dim]({pct:.0f}%)[/dim]"
 
 
@@ -114,7 +144,7 @@ def print_topic_summary(topic: str, variants: list[str], k_values: list[int]):
 
     # Add verdict columns
     for verdict in all_verdicts:
-        color = get_verdict_color(verdict)
+        color = get_verdict_color(verdict, all_verdicts)
         table.add_column(verdict, justify="center", style=color, min_width=8)
 
     for variant in variants:
@@ -139,7 +169,7 @@ def print_topic_summary(topic: str, variants: list[str], k_values: list[int]):
 
                 for verdict in all_verdicts:
                     count = dist.get(verdict, 0)
-                    row.append(format_cell(count, total, verdict))
+                    row.append(format_cell(count, total, verdict, all_verdicts))
 
             table.add_row(*row)
             first_row = False
@@ -181,8 +211,7 @@ def print_aggregate_stats(topics: list[str], variants: list[str], k_values: list
         for verdict, count in sorted(all_verdicts.items(), key=lambda x: -x[1]):
             pct = count / total_restaurants * 100 if total_restaurants > 0 else 0
             bar_len = int(pct / 100 * 25)
-            color = get_verdict_color(verdict)
-            bar = f"[{color}]{'█' * bar_len}[/][dim]{'░' * (25 - bar_len)}[/dim]"
+            bar = f"[cyan]{'█' * bar_len}[/][dim]{'░' * (25 - bar_len)}[/dim]"
             table.add_row(verdict, str(count), f"{pct:.1f}%", bar)
 
         console.print(table)

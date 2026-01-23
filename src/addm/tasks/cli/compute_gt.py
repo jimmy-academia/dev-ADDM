@@ -226,7 +226,10 @@ def main_policy(args: argparse.Namespace) -> None:
                 for review in reviews:
                     review_id = review.get("review_id", "")
                     if review_id in all_judgments:
-                        restaurant_judgments.append(all_judgments[review_id])
+                        # Include review date for V3 recency weighting
+                        judgment = all_judgments[review_id].copy()
+                        judgment["_review_date"] = review.get("date")
+                        restaurant_judgments.append(judgment)
                     else:
                         missing_judgments += 1
 

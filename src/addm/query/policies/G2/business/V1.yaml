@@ -120,17 +120,7 @@ normative:
               50: 5
               100: 8
               200: 15
-          - text: "15 or more reviews describe atmosphere as too casual or unprofessional"
-            type: count_threshold
-            filter:
-              professionalism: unprofessional
-            min_count: 15
-            min_count_by_k:
-              25: 2
-              50: 2
-              100: 4
-              200: 8
-          # V1 additional conditions
+          # V1 additional condition - negative meeting outcomes
           - text: "40 or more reviews describe negative meeting outcomes"
             type: count_threshold
             filter:
@@ -138,7 +128,7 @@ normative:
             min_count: 40
             min_count_by_k:
               25: 5
-              50: 6
+              50: 4
               100: 10
               200: 20
 

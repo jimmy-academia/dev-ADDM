@@ -3,7 +3,7 @@
   "topic": "G1_allergy",
   "domain": "yelp",
   "k": 200,
-  "computed_at": "2026-01-23T17:15:03.173338",
+  "computed_at": "2026-01-23T17:28:22.534636",
   "has_scoring": true,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -219,7 +219,9 @@
             "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
-            "total_points": 2
+            "total_points": 2,
+            "recency_weight": 1.0,
+            "weighted_points": 2
           }
         ],
         "cuisine_modifier": true,
@@ -313,7 +315,9 @@
             "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
-            "total_points": 2
+            "total_points": 2,
+            "recency_weight": 1.0,
+            "weighted_points": 2
           },
           {
             "review_id": "ewwb5e81Eryht-AZ7TBeHQ",
@@ -322,7 +326,9 @@
             "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
-            "total_points": 2
+            "total_points": 2,
+            "recency_weight": 1.0,
+            "weighted_points": 2
           }
         ],
         "cuisine_modifier": false,
@@ -360,7 +366,9 @@
             "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
-            "total_points": 2
+            "total_points": 2,
+            "recency_weight": 1.0,
+            "weighted_points": 2
           }
         ],
         "cuisine_modifier": false,
@@ -384,7 +392,9 @@
             "severity_label": "Severe incident",
             "base_points": 15,
             "modifiers": [],
-            "total_points": 15
+            "total_points": 15,
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": false,
@@ -688,7 +698,9 @@
             "severity_label": "Moderate incident",
             "base_points": 5,
             "modifiers": [],
-            "total_points": 5
+            "total_points": 5,
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -726,7 +738,9 @@
             "severity_label": "Severe incident",
             "base_points": 15,
             "modifiers": [],
-            "total_points": 15
+            "total_points": 15,
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": true,
@@ -876,7 +890,9 @@
             "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
-            "total_points": 2
+            "total_points": 2,
+            "recency_weight": 1.0,
+            "weighted_points": 2
           },
           {
             "review_id": "oUxqbtB8e7M4gZ4T1XFpfg",
@@ -885,7 +901,9 @@
             "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
-            "total_points": 2
+            "total_points": 2,
+            "recency_weight": 1.0,
+            "weighted_points": 2
           },
           {
             "review_id": "h_1a2bsJ1bIiJ6SVubro2g",
@@ -894,7 +912,9 @@
             "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
-            "total_points": 2
+            "total_points": 2,
+            "recency_weight": 1.0,
+            "weighted_points": 2
           }
         ],
         "cuisine_modifier": false,
@@ -1018,7 +1038,9 @@
             "modifiers": [
               "Dismissive staff"
             ],
-            "total_points": 8
+            "total_points": 8,
+            "recency_weight": 1.0,
+            "weighted_points": 8
           },
           {
             "review_id": "JTeR9wzcNH5dzClfgtCOmA",
@@ -1029,7 +1051,9 @@
             "modifiers": [
               "Dismissive staff"
             ],
-            "total_points": 8
+            "total_points": 8,
+            "recency_weight": 1.0,
+            "weighted_points": 8
           },
           {
             "review_id": "tbm6wNuN89MQGl4B2h5qrQ",
@@ -1040,7 +1064,9 @@
             "modifiers": [
               "Dismissive staff"
             ],
-            "total_points": 8
+            "total_points": 8,
+            "recency_weight": 1.0,
+            "weighted_points": 8
           }
         ],
         "cuisine_modifier": false,
@@ -1148,7 +1174,9 @@
             "severity_label": "Moderate incident",
             "base_points": 5,
             "modifiers": [],
-            "total_points": 5
+            "total_points": 5,
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -1200,7 +1228,9 @@
             "severity_label": "Severe incident",
             "base_points": 15,
             "modifiers": [],
-            "total_points": 15
+            "total_points": 15,
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": true,
@@ -1240,7 +1270,9 @@
             "modifiers": [
               "Dismissive staff"
             ],
-            "total_points": 5
+            "total_points": 5,
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -1392,7 +1424,9 @@
             "modifiers": [
               "False assurance"
             ],
-            "total_points": 7
+            "total_points": 7,
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "0yjLIr7eXEwCZYajfTGw4g",
@@ -1401,7 +1435,9 @@
             "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
-            "total_points": 2
+            "total_points": 2,
+            "recency_weight": 1.0,
+            "weighted_points": 2
           }
         ],
         "cuisine_modifier": false,
@@ -1427,7 +1463,9 @@
             "modifiers": [
               "False assurance"
             ],
-            "total_points": 10
+            "total_points": 10,
+            "recency_weight": 1.0,
+            "weighted_points": 10
           }
         ],
         "cuisine_modifier": false,
@@ -1493,7 +1531,9 @@
             "severity_label": "Moderate incident",
             "base_points": 5,
             "modifiers": [],
-            "total_points": 5
+            "total_points": 5,
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -1615,7 +1655,9 @@
             "severity_label": "Severe incident",
             "base_points": 15,
             "modifiers": [],
-            "total_points": 15
+            "total_points": 15,
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": true,
