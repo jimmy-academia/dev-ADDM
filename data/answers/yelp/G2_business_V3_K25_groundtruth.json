@@ -3,7 +3,7 @@
   "topic": "G2_business",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-23T16:42:44.886980",
+  "computed_at": "2026-01-23T17:17:50.971357",
   "has_scoring": true,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -558,7 +558,7 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
+        "verdict": "Not Recommended",
         "score": 68,
         "n_incidents": 11,
         "incidents": [
@@ -4934,7 +4934,7 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
+        "verdict": "Not Recommended",
         "score": 66,
         "n_incidents": 13,
         "incidents": [
@@ -9246,7 +9246,7 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
+        "verdict": "Not Recommended",
         "score": 69,
         "n_incidents": 7,
         "incidents": [
@@ -10106,7 +10106,7 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
+        "verdict": "Not Recommended",
         "score": 67,
         "n_incidents": 21,
         "incidents": [
@@ -18856,8 +18856,8 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Not Recommended": 1,
-      "Acceptable": 28,
+      "Not Recommended": 5,
+      "Acceptable": 24,
       "Recommended": 71
     },
     "missing_judgments": 0
