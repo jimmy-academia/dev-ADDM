@@ -67,7 +67,4 @@ A restaurant is considered **Excellent** if any of the following is true:
 - 50 or more reviews describe it as hit or miss
 - 15 or more reviews describe it as unpredictable
 
-**Satisfactory** otherwise, especially when:
-- Generally consistent with occasional variation
-- Most visits are good
-- Mixed reviews on reliability
+**Satisfactory** otherwise

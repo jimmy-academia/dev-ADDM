@@ -92,6 +92,4 @@ A restaurant is considered **Excellent** if any of the following is true:
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
 - Total score is -100 or lower (after recency weighting)
 
-**Satisfactory** otherwise, especially when:
-- Total score is between -99 and 499
-- Recent reviews show improvement in execution
+**Satisfactory** otherwise

@@ -87,6 +87,4 @@ A restaurant is considered **High Loyalty** if any of the following is true:
 **Low Loyalty** if High Loyalty does not apply, but any of the following is true:
 - Total score is -100 or lower
 
-**Moderate Loyalty** otherwise, especially when:
-- Total score is between 101 and 1399
-- Mixed loyalty signals
+**Moderate Loyalty** otherwise

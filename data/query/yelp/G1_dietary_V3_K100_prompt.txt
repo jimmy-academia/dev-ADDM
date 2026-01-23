@@ -93,12 +93,9 @@ Recency weighting:
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- Total risk score is 8 or higher (after recency weighting)
+- Total risk score is 7 or higher (after recency weighting)
 
 **High Risk** if Critical Risk does not apply, but any of the following is true:
-- Total risk score is 4 or higher (after recency weighting)
+- Total risk score is 3 or higher (after recency weighting)
 
-**Low Risk** otherwise, especially when:
-- No dietary incidents are reported
-- Total risk score is below 4
-- Only old incidents (>3 years) exist AND 3+ recent reviews show improved accommodation
+**Low Risk** otherwise

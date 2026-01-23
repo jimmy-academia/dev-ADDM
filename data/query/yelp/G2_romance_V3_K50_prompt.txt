@@ -95,12 +95,9 @@ Recency weighting:
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- Total suitability score is 400 or higher (after recency weighting)
+- Total suitability score is 100 or higher (after recency weighting)
 
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- Total suitability score is -500 or lower (after recency weighting)
+- Total suitability score is -125 or lower (after recency weighting)
 
-**Acceptable** otherwise, especially when:
-- Total suitability score is between -499 and 399
-- Recent reviews show improvement in romantic atmosphere
-- Mixed reviews but no strong negative signals
+**Acceptable** otherwise

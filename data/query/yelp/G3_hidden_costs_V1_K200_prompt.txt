@@ -69,7 +69,4 @@ A restaurant is considered **Critical Risk** if any of the following is true:
 - 20 or more reviews describe feeling upset about charges
 - 3 or more reviews mention undisclosed corkage or split fee
 
-**Low Risk** otherwise, especially when:
-- No mentions of hidden charges
-- Fees are clearly disclosed upfront
-- Transparent pricing praised
+**Low Risk** otherwise

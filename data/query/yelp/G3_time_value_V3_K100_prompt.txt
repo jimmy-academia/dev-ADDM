@@ -89,11 +89,9 @@ Recency weighting:
 ## Verdict Rules
 
 A restaurant is considered **Definitely Worth Waiting** if any of the following is true:
-- Total time-value score is 1400 or higher (after recency weighting)
+- Total time-value score is 700 or higher (after recency weighting)
 
 **Not Worth Waiting** if Definitely Worth Waiting does not apply, but any of the following is true:
-- Total time-value score is 500 or lower (after recency weighting)
+- Total time-value score is 250 or lower (after recency weighting)
 
-**Worth Waiting** otherwise, especially when:
-- Total time-value score is between 501 and 1399
-- Recent reviews show improved wait times
+**Worth Waiting** otherwise

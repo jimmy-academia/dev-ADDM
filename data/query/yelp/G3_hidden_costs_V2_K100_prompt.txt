@@ -78,11 +78,9 @@ Additional modifiers:
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- Total risk score is 700 or higher
-
-**High Risk** if Critical Risk does not apply, but any of the following is true:
 - Total risk score is 350 or higher
 
-**Low Risk** otherwise, especially when:
-- No hidden cost incidents reported
-- Total risk score is below 350
+**High Risk** if Critical Risk does not apply, but any of the following is true:
+- Total risk score is 175 or higher
+
+**Low Risk** otherwise

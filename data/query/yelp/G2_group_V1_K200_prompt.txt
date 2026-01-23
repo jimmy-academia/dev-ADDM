@@ -85,7 +85,4 @@ A restaurant is considered **Recommended** if any of the following is true:
 - 10 or more reviews report refused check splitting for groups
 - 10 or more reviews describe disaster group outcomes
 
-**Acceptable** otherwise, especially when:
-- Handles groups adequately but not exceptionally
-- Suitable for medium groups but struggles with large ones
-- Mixed experiences reported
+**Acceptable** otherwise

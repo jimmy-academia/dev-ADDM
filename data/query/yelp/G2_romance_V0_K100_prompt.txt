@@ -68,7 +68,4 @@ A restaurant is considered **Recommended** if any of the following is true:
 - 15 or more reviews describe harsh lighting or unromantic atmosphere
 - 50 or more reviews describe negative date experiences
 
-**Acceptable** otherwise, especially when:
-- Mixed reviews about romantic suitability
-- Atmosphere is neutral - neither romantic nor anti-romantic
-- Food is good but ambiance is not particularly romantic
+**Acceptable** otherwise

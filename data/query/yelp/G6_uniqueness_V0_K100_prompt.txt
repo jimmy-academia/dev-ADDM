@@ -68,7 +68,4 @@ A restaurant is considered **Highly Unique** if any of the following is true:
 - 2 or more reviews mention no distinguishing features
 - 2 or more reviews describe it as easily confused with competitors
 
-**Differentiated** otherwise, especially when:
-- Has some unique elements
-- Memorable but not irreplaceable
-- Some signature items
+**Differentiated** otherwise

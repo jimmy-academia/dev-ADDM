@@ -89,11 +89,9 @@ Recency weighting:
 ## Verdict Rules
 
 A restaurant is considered **High Loyalty** if any of the following is true:
-- Total score is 1400 or higher (after recency weighting)
+- Total score is 350 or higher (after recency weighting)
 
 **Low Loyalty** if High Loyalty does not apply, but any of the following is true:
-- Total score is 100 or lower (after recency weighting)
+- Total score is 0 or lower (after recency weighting)
 
-**Moderate Loyalty** otherwise, especially when:
-- Total score is between 101 and 1399
-- Recent reviews show stable or improving loyalty
+**Moderate Loyalty** otherwise

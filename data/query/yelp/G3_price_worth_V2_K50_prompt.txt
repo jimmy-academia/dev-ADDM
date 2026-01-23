@@ -83,10 +83,9 @@ Additional modifiers:
 ## Verdict Rules
 
 A restaurant is considered **Good Value** if any of the following is true:
-- Total value score is 350 or higher
+- Total value score is 88 or higher
 
 **Poor Value** if Good Value does not apply, but any of the following is true:
-- Total value score is -100 or lower
+- Total value score is -25 or lower
 
-**Fair Value** otherwise, especially when:
-- Total value score is between -99 and 349
+**Fair Value** otherwise

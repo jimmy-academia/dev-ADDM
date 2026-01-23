@@ -93,11 +93,9 @@ Additional modifiers:
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- Total quality score is 900 or higher
+- Total quality score is 450 or higher
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- Total quality score is 200 or lower
+- Total quality score is 100 or lower
 
-**Satisfactory** otherwise, especially when:
-- Total quality score is between 201 and 899
-- Mixed positive and negative indicators
+**Satisfactory** otherwise

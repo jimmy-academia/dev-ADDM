@@ -72,7 +72,4 @@ A restaurant is considered **Good Value** if any of the following is true:
 - 5 or more reviews describe price as ripoff
 - 5 or more reviews describe portion as tiny
 
-**Fair Value** otherwise, especially when:
-- Prices match quality and expectations
-- Standard for the cuisine or neighborhood
-- Some dishes are good value, others less so
+**Fair Value** otherwise

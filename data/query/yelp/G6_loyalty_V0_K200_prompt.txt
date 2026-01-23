@@ -70,7 +70,4 @@ A restaurant is considered **High Loyalty** if any of the following is true:
 - 40 or more reviews report unlikely to return
 - 40 or more reviews warn others
 
-**Moderate Loyalty** otherwise, especially when:
-- Mixed signals on return intent
-- Conditional recommendations
-- Some repeat customers mentioned
+**Moderate Loyalty** otherwise

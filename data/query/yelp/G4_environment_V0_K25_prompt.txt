@@ -77,7 +77,4 @@ A restaurant is considered **Excellent** if any of the following is true:
 - 25 or more reviews report poor ambiance fit
 - 10 or more reviews complain about deafening noise
 
-**Satisfactory** otherwise, especially when:
-- Environment is acceptable but unremarkable
-- Some positive and some negative comments
-- Basic expectations met but not exceeded
+**Satisfactory** otherwise

@@ -90,11 +90,9 @@ Recency weighting:
 ## Verdict Rules
 
 A restaurant is considered **Good Value** if any of the following is true:
-- Total value score is 350 or higher (after recency weighting)
+- Total value score is 175 or higher (after recency weighting)
 
 **Poor Value** if Good Value does not apply, but any of the following is true:
-- Total value score is -100 or lower (after recency weighting)
+- Total value score is -50 or lower (after recency weighting)
 
-**Fair Value** otherwise, especially when:
-- Total value score is between -99 and 349
-- Mixed reviews with recent ones showing improvement
+**Fair Value** otherwise

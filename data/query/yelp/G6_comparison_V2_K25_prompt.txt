@@ -84,6 +84,4 @@ A restaurant is considered **Stronger** if any of the following is true:
 **Weaker** if Stronger does not apply, but any of the following is true:
 - Total score is -25 or lower
 
-**Comparable** otherwise, especially when:
-- Total score is between -199 and 499
-- Mixed competitive signals
+**Comparable** otherwise

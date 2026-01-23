@@ -69,7 +69,4 @@ A restaurant is considered **Definitely Worth Waiting** if any of the following 
 - 10 or more reviews describe excessive wait duration
 - 20 or more reviews say it was barely worth the wait
 
-**Worth Waiting** otherwise, especially when:
-- Reasonable waits for good food
-- Some timing issues but overall positive
-- Wait acceptable for the type of restaurant
+**Worth Waiting** otherwise

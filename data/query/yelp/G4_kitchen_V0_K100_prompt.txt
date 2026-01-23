@@ -69,7 +69,4 @@ A restaurant is considered **Excellent** if any of the following is true:
 - 30 or more reviews report inconsistent food quality
 - 25 or more reviews report major food quality issues
 
-**Satisfactory** otherwise, especially when:
-- Food quality is acceptable but not exceptional
-- Some good dishes, some less impressive
-- Occasional issues but generally competent
+**Satisfactory** otherwise

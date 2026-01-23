@@ -103,6 +103,4 @@ A restaurant is considered **Recommended** if any of the following is true:
 **Not Recommended** if Recommended does not apply, but any of the following is true:
 - Total suitability score is 600 or lower
 
-**Acceptable** otherwise, especially when:
-- Total suitability score is between 601 and 1999
-- Mixed positive and negative indicators
+**Acceptable** otherwise

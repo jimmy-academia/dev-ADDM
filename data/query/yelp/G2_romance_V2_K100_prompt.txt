@@ -90,11 +90,9 @@ Additional modifiers:
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- Total suitability score is 400 or higher
+- Total suitability score is 200 or higher
 
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- Total suitability score is -500 or lower
+- Total suitability score is -250 or lower
 
-**Acceptable** otherwise, especially when:
-- Total suitability score is between -499 and 399
-- Mixed positive and negative indicators
+**Acceptable** otherwise

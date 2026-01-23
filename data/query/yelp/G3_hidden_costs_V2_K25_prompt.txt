@@ -83,6 +83,4 @@ A restaurant is considered **Critical Risk** if any of the following is true:
 **High Risk** if Critical Risk does not apply, but any of the following is true:
 - Total risk score is 44 or higher
 
-**Low Risk** otherwise, especially when:
-- No hidden cost incidents reported
-- Total risk score is below 350
+**Low Risk** otherwise

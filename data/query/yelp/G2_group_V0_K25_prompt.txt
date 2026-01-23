@@ -75,7 +75,4 @@ A restaurant is considered **Recommended** if any of the following is true:
 - 15 or more complaints about long waits despite reservations
 - 10 or more reviews report refused check splitting for groups
 
-**Acceptable** otherwise, especially when:
-- Can accommodate groups with advance notice
-- Mixed reviews about group experiences
-- Suitable for small groups but not large parties
+**Acceptable** otherwise

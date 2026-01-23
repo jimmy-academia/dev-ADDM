@@ -86,6 +86,4 @@ A restaurant is considered **Excellent** if any of the following is true:
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
 - Total score is 0 or lower
 
-**Satisfactory** otherwise, especially when:
-- Total score is between 1 and 799
-- Mixed positive and negative indicators
+**Satisfactory** otherwise
