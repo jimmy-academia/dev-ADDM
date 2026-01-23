@@ -48,7 +48,7 @@ normative:
               impact_severity: significant
             min_count: 5
             min_count_by_k:
-              25: 1
+              25: 2
               50: 2
               100: 3
           - text: "10 or more reviews report moderate billing impact"
@@ -57,7 +57,7 @@ normative:
               impact_severity: moderate
             min_count: 10
             min_count_by_k:
-              25: 3
+              25: 4
               50: 5
               100: 7
 
