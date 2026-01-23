@@ -81,6 +81,18 @@ If the outcome field has quality values (Absent/Poor/Adequate/Good/Excellent), m
 - For SEVERITY-RULE: count conditions by severity
 - For SIGNAL-RULE: presence of positive/negative signals
 
+### 7. ALL Definition Fields (CRITICAL!)
+The agenda has a "## Definitions of Terms" section with multiple "### <Term>" subsections.
+You MUST extract EVERY "### <Term>" as a separate extraction field:
+- Each "### <Term>" becomes a field (e.g., "### Staff Response" → STAFF_RESPONSE field)
+- Each bullet point under the term becomes an enum value
+- Include the description for each value
+
+Example: If agenda has "### Assurance of Safety" with bullets for "Assurance given", "No assurance", "Unknown",
+then you MUST include an ASSURANCE_CLAIM field with those 3 values.
+
+DO NOT skip any "### <Term>" sections! Each one is needed for proper extraction.
+
 ## OUTPUT FORMAT
 
 ```json
@@ -157,8 +169,13 @@ If the outcome field has quality values (Absent/Poor/Adequate/Good/Excellent), m
   }},
 
   "extraction_fields": [
-    // List other domain-specific fields from agenda (severity categories, modifiers, etc.)
-    {{"name": "<field mentioned in agenda>", "values": ["<possible values>"]}}
+    // CRITICAL: List EVERY "### <Term>" section from the Definitions as a field!
+    // Each field the agenda defines (Staff Response, Assurance of Safety, etc.) MUST be here.
+    // These fields are used by modifiers in the scoring system.
+    {{"name": "<FIELD_NAME from ### section>", "type": "enum", "values": [
+      {{"value": "<value1>", "description": "<description from agenda>"}},
+      {{"value": "<value2>", "description": "<description from agenda>"}}
+    ]}}
   ]
 }}
 ```
@@ -578,8 +595,9 @@ If compute is empty, the seed is INVALID and will fail to produce any verdicts.
       }}}},
       // REQUIRED: Description field
       {{"name": "<observations.description_field.name>", "type": "string", "description": "<observations.description_field.purpose>"}},
-      // REQUIRED: Include ALL modifier-related fields from observations.extraction_fields
-      // Each field referenced in MODIFIER_POINTS MUST be defined here!
+      // REQUIRED: Include ALL fields from observations.extraction_fields
+      // EVERY "### <Term>" field from the agenda MUST be here (Staff Response, Assurance, etc.)
+      // Each field referenced in MODIFIER_POINTS scoring MUST be defined here!
     ],
     // REQUIRED METADATA - tells phase2 which field represents the outcome and what means "no incident"
     "outcome_field": "<observations.categories.field_name>",  // e.g., "INCIDENT_SEVERITY", "QUALITY_LEVEL", "OUTCOME"
