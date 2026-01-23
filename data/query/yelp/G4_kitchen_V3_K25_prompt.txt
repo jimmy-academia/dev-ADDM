@@ -97,10 +97,10 @@ Recency weighting:
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- Total performance score is 1400 or higher (after recency weighting)
+- Total performance score is 175 or higher (after recency weighting)
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- Total performance score is 500 or lower (after recency weighting)
+- Total performance score is 63 or lower (after recency weighting)
 
 **Satisfactory** otherwise, especially when:
 - Total performance score is between 501 and 1399

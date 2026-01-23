@@ -79,10 +79,10 @@ Additional modifiers:
 ## Verdict Rules
 
 A restaurant is considered **Stronger** if any of the following is true:
-- Total score is 500 or higher
+- Total score is 63 or higher
 
 **Weaker** if Stronger does not apply, but any of the following is true:
-- Total score is -200 or lower
+- Total score is -25 or lower
 
 **Comparable** otherwise, especially when:
 - Total score is between -199 and 499

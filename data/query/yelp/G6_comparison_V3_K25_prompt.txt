@@ -86,10 +86,10 @@ Recency weighting:
 ## Verdict Rules
 
 A restaurant is considered **Stronger** if any of the following is true:
-- Total score is 500 or higher (after recency weighting)
+- Total score is 63 or higher (after recency weighting)
 
 **Weaker** if Stronger does not apply, but any of the following is true:
-- Total score is -200 or lower (after recency weighting)
+- Total score is -25 or lower (after recency weighting)
 
 **Comparable** otherwise, especially when:
 - Total score is between -199 and 499

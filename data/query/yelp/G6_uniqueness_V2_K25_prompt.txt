@@ -80,10 +80,10 @@ Additional modifiers:
 ## Verdict Rules
 
 A restaurant is considered **Highly Unique** if any of the following is true:
-- Total score is 1000 or higher
+- Total score is 125 or higher
 
 **Generic** if Highly Unique does not apply, but any of the following is true:
-- Total score is 350 or lower
+- Total score is 44 or lower
 
 **Differentiated** otherwise, especially when:
 - Total score is between 351 and 999
