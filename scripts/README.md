@@ -6,32 +6,13 @@ Utility scripts for data acquisition, processing, and pipeline execution.
 
 ```
 scripts/
-├── data/                    # Data preparation scripts
+├── data/                        # Data preparation scripts
 │   ├── build_dataset.py
 │   ├── build_topic_selection.py
 │   ├── select_topic_restaurants.py
 │   ├── create_restaurant_ids.py
 │   └── download_amazon.sh
-├── utils/                   # Utility scripts
-│   ├── verify_formulas.py
-│   └── test_allergy_query.py
-├── run_g1_allergy.sh        # G1_allergy extraction pipeline
-└── manual_review.txt        # Reference doc
-```
-
-## Pipeline Scripts
-
-| Script | Description |
-|--------|-------------|
-| `run_g1_allergy.sh` | Run G1_allergy GT extraction (waits for batches) |
-
-### Running the Pipeline
-
-```bash
-# Run G1_allergy extraction (Ctrl+C to stop, re-run to resume)
-./scripts/run_g1_allergy.sh
-
-# Logs saved to: results/logs/extraction/g1_allergy.log
+└── select_diverse_samples.py    # Sample selection utility
 ```
 
 ## Data Scripts (`data/`)
@@ -44,13 +25,6 @@ scripts/
 | `create_restaurant_ids.py` | Generate restaurant ID mappings |
 | `download_amazon.sh` | Download Amazon Reviews 2023 dataset |
 
-## Utility Scripts (`utils/`)
-
-| Script | Description |
-|--------|-------------|
-| `verify_formulas.py` | Verify all 72 formula modules |
-| `test_allergy_query.py` | Test allergy query generation |
-
 ## Quick Start
 
 ```bash
@@ -58,9 +32,6 @@ scripts/
 .venv/bin/python scripts/data/build_topic_selection.py --data yelp
 .venv/bin/python scripts/data/select_topic_restaurants.py --data yelp
 .venv/bin/python scripts/data/build_dataset.py --data yelp
-
-# Run G1_allergy extraction
-./scripts/run_g1_allergy.sh
 ```
 
 ## Usage Examples

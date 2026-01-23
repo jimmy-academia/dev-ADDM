@@ -1,32 +1,27 @@
 """Phase 2: Formula Seed Interpreter.
 
-Executes the Formula Seed against restaurant data with two-stage retrieval:
-
-Stage 1 (Quick Scan):
-- Filter reviews using filter_mode (keyword, embedding, or hybrid)
+Executes the Formula Seed against restaurant data:
+- Process ALL reviews via per-review LLM calls (guaranteed coverage)
 - Extract signals via LLM
-- Compute verdict and check for early exit (severe evidence found)
-
-Stage 2 (Thorough Sweep):
-- Process ALL remaining reviews not matched in Stage 1
-- Recompute final verdict with complete evidence
+- Compute verdict from extractions
 """
 
 import asyncio
 import json
 import logging
 import re
+import time
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple, TYPE_CHECKING
 
 from addm.llm import LLMService
-from addm.methods.amos.config import AMOSConfig, FilterMode
+from addm.methods.amos.config import AMOSConfig
 from addm.methods.amos.search.executor import SafeExpressionExecutor
-from addm.methods.amos.search.embeddings import HybridRetriever
 from addm.methods.amos.seed_transform import transform_formula_seed
 from addm.methods.amos.phase2_prompts import (
     SEVERITY_NORMALIZATION_MAP as _SEVERITY_NORMALIZATION_MAP,
     normalize_enum_value as _normalize_enum_value,
+    validate_enum_strict as _validate_enum_strict,
     build_extraction_prompt as _build_extraction_prompt,
     parse_extraction_response as _parse_extraction_response,
     build_batch_extraction_prompt as _build_batch_extraction_prompt,
@@ -35,6 +30,7 @@ from addm.methods.amos.phase2_prompts import (
 from addm.utils.async_utils import gather_with_concurrency
 from addm.utils.debug_logger import get_debug_logger
 from addm.utils.output import output
+from addm.utils.text_validation import validate_multi_span_snippet
 
 logger = logging.getLogger(__name__)
 
@@ -42,14 +38,11 @@ logger = logging.getLogger(__name__)
 class FormulaSeedInterpreter:
     """Executes Formula Seed against restaurant data.
 
-    Supports two execution modes:
-    - Parallel (default): Process all filtered reviews in parallel for minimum latency
-    - Adaptive: Batch processing with early stopping to save tokens
+    Processes ALL reviews via per-review LLM calls for extraction,
+    then computes verdict from aggregated extractions.
 
-    The search strategy (generated in Phase 1) guides:
-    - Review prioritization (high-value reviews first)
-    - Early stopping conditions (when verdict is determinable)
-    - Hybrid embedding retrieval (when keywords miss important reviews)
+    Uses per-review extraction (not batched) to guarantee 100% review coverage
+    and eliminate silent dropouts from batch response parsing.
     """
 
     def __init__(
@@ -65,7 +58,7 @@ class FormulaSeedInterpreter:
             seed: Formula Seed specification
             llm: LLM service for extraction calls
             max_concurrent: Max concurrent LLM calls for extraction
-            config: AMOS configuration (controls adaptive mode, hybrid retrieval, etc.)
+            config: AMOS configuration
         """
         # Transform seed to ensure phase2-compatible format
         # (handles LLM-generated SQL expressions → op/expr/where format)
@@ -74,37 +67,18 @@ class FormulaSeedInterpreter:
         self.max_concurrent = max_concurrent
         self.config = config or AMOSConfig()
 
-        # Search strategy from Formula Seed
-        self.strategy = seed.get("search_strategy", {})
-
         # Expression executor for LLM-generated expressions
         self._executor = SafeExpressionExecutor()
 
-        # Hybrid retriever (initialized lazily)
-        self._retriever: Optional[HybridRetriever] = None
-
-        # Usage tracking (total and per-stage)
+        # Usage tracking
         self._usage_records: List[Dict[str, Any]] = []
-        self._stage1_usage: List[Dict[str, Any]] = []
-        self._stage2_usage: List[Dict[str, Any]] = []
         self._extractions: List[Dict[str, Any]] = []
 
         # Computed values namespace
         self._namespace: Dict[str, Any] = {}
 
-        # Early stopping state
-        self._early_verdict: Optional[str] = None
-        self._stopped_early: bool = False
-        self._reviews_skipped: int = 0
-
         # Total reviews count (set during execute)
         self._total_reviews: int = 0
-
-        # Keyword match tracking per review
-        self._keyword_hits_map: Dict[str, List[str]] = {}
-
-        # Thorough sweep state
-        self._sweep_early_stopped: bool = False
 
         # Snippet validation stats
         self._snippet_validation_stats: Dict[str, int] = {
@@ -114,11 +88,19 @@ class FormulaSeedInterpreter:
             "rejected_quote_not_found": 0,
         }
 
+        # Enum validation stats (specification enforcement)
+        self._enum_validation_stats: Dict[str, Any] = {
+            "total_validated": 0,
+            "valid": 0,
+            "rejected": 0,
+            "rejection_details": [],  # List of {field, value, expected, error}
+        }
+
         # Current sample ID for debug logging
         self._current_sample_id: str = ""
 
-        # Current stage for usage tracking (1 or 2)
-        self._current_stage: int = 1
+        # Wall-clock timing (set during execute)
+        self._wall_clock_ms: float = 0.0
 
     def _validate_and_store_snippet(
         self,
@@ -127,6 +109,9 @@ class FormulaSeedInterpreter:
         review_text: str,
     ) -> Dict[str, Any]:
         """Validate that the supporting quote exists in the review text.
+
+        Uses multi-span validation to handle LLM quotes that combine non-adjacent
+        sentences. Requires 80% of segments to exist in monotonic order.
 
         Args:
             extraction: Extraction result dict
@@ -146,31 +131,17 @@ class FormulaSeedInterpreter:
             logger.debug(f"Rejection: no quote provided for {extraction.get('review_id')}")
             return extraction
 
-        # Normalize both texts for comparison (lowercase, collapse whitespace)
-        quote_normalized = " ".join(quote.lower().split())
-        review_normalized = " ".join(review_text.lower().split())
+        # Use multi-span validation (handles combined non-adjacent sentences)
+        validation = validate_multi_span_snippet(quote, review_text)
 
-        # Check if normalized quote exists in normalized review
-        # Use fuzzy matching: allow for minor differences (punctuation, etc.)
-        if quote_normalized in review_normalized:
-            # Quote found - valid extraction
+        if validation["valid"]:
             extraction["_snippet"] = quote
             extraction["_snippet_validated"] = True
+            extraction["_snippet_match_type"] = validation["match_type"]
+            if validation["match_type"] in ("multi_span", "word_overlap"):
+                extraction["_snippet_match_quality"] = f"{validation['match_ratio']:.0%}"
             self._snippet_validation_stats["valid_quotes"] += 1
             return extraction
-
-        # Try partial matching (at least 80% of quote words must be in review)
-        quote_words = set(quote_normalized.split())
-        if len(quote_words) >= 3:
-            review_words = set(review_normalized.split())
-            overlap = len(quote_words & review_words) / len(quote_words)
-            if overlap >= 0.8:
-                # Close enough match
-                extraction["_snippet"] = quote
-                extraction["_snippet_validated"] = True
-                extraction["_snippet_match_quality"] = f"{overlap:.0%}"
-                self._snippet_validation_stats["valid_quotes"] += 1
-                return extraction
 
         # Quote not found - reject extraction
         extraction["is_relevant"] = False
@@ -179,49 +150,71 @@ class FormulaSeedInterpreter:
         self._snippet_validation_stats["rejected_quote_not_found"] += 1
         logger.debug(
             f"Rejection: quote not found in review {extraction.get('review_id')}: "
-            f"'{quote[:50]}...'"
+            f"'{quote[:50]}...' (match_type={validation['match_type']}, "
+            f"ratio={validation['match_ratio']:.0%})"
         )
         return extraction
 
-    def _filter_reviews(self, reviews: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        """Filter reviews by keywords (Python, no LLM).
+    def _validate_enum_fields(self, extraction: Dict[str, Any]) -> Dict[str, Any]:
+        """Validate enum fields in extraction against expected values.
 
-        Also tracks which keywords matched for each review (used for prioritization).
+        Rejects extractions with invalid enum values rather than silently normalizing.
+        This enforces the specification: outputs must use defined enum values.
 
         Args:
-            reviews: List of review dicts with 'text' field
+            extraction: Extraction dict with field values
 
         Returns:
-            List of reviews that contain at least one keyword
+            Extraction with validation errors added if any fields invalid
         """
-        keywords = self.seed.get("filter", {}).get("keywords", [])
-        if not keywords:
-            # No filtering - all reviews pass but no keyword hits
-            for review in reviews:
-                review_id = review.get("review_id", "")
-                self._keyword_hits_map[review_id] = []
-            return reviews
+        if not extraction.get("is_relevant", False):
+            return extraction
 
-        # Build regex pattern for keywords (case-insensitive, word boundaries)
-        patterns = [(kw, re.compile(r"\b" + re.escape(kw) + r"\b", re.IGNORECASE)) for kw in keywords]
+        fields = self.seed.get("extract", {}).get("fields", [])
+        validation_errors = extraction.get("_validation_errors", [])
 
-        filtered = []
-        for review in reviews:
-            text = review.get("text", "")
-            review_id = review.get("review_id", "")
-            hits = []
+        for field in fields:
+            field_name = field.get("name", "")
+            field_type = field.get("type", "")
+            values = field.get("values", {})
 
-            # Check all keywords and track hits
-            for kw, pattern in patterns:
-                if pattern.search(text):
-                    hits.append(kw)
+            if field_type != "enum" or not values:
+                continue
 
-            self._keyword_hits_map[review_id] = hits
+            # Get the actual value from extraction (case-insensitive lookup)
+            actual = self._get_field_value(extraction, field_name)
+            if actual is None:
+                continue
 
-            if hits:  # At least one keyword matched
-                filtered.append(review)
+            expected_values = list(values.keys())
+            is_valid, error_msg, normalized = _validate_enum_strict(
+                actual, expected_values, field_name
+            )
 
-        return filtered
+            self._enum_validation_stats["total_validated"] += 1
+
+            if is_valid:
+                self._enum_validation_stats["valid"] += 1
+                # Store the normalized value back
+                extraction[field_name.lower()] = normalized
+            else:
+                self._enum_validation_stats["rejected"] += 1
+                self._enum_validation_stats["rejection_details"].append({
+                    "review_id": extraction.get("review_id", "unknown"),
+                    "field": field_name,
+                    "value": actual,
+                    "expected": expected_values,
+                    "error": error_msg,
+                })
+                validation_errors.append(error_msg)
+                logger.debug(f"Enum validation failed: {error_msg}")
+
+        if validation_errors:
+            extraction["_validation_errors"] = validation_errors
+            # Don't mark as non-relevant, just track the errors
+            # The extraction can still be used but with known issues
+
+        return extraction
 
     async def _extract_single_review(
         self,
@@ -257,14 +250,10 @@ class FormulaSeedInterpreter:
 
         response, usage = await self.llm.call_async_with_usage(
             messages,
-            context={"phase": "phase2_extract", "review_id": review_id, "stage": self._current_stage},
+            context={"phase": "phase2_extract", "review_id": review_id},
         )
 
         self._usage_records.append(usage)
-        if self._current_stage == 1:
-            self._stage1_usage.append(usage)
-        else:
-            self._stage2_usage.append(usage)
 
         # Debug log the LLM call
         if debug_logger := get_debug_logger():
@@ -285,6 +274,10 @@ class FormulaSeedInterpreter:
         if extraction.get("is_relevant", False):
             quote = extraction.get("supporting_quote", "")
             extraction = self._validate_and_store_snippet(extraction, quote, review_text)
+
+        # Validate enum fields (specification enforcement)
+        if extraction.get("is_relevant", False):
+            extraction = self._validate_enum_fields(extraction)
 
         # Populate temporal fields from review metadata
         if any(f.get("name") in temporal_field_names for f in fields):
@@ -357,13 +350,9 @@ class FormulaSeedInterpreter:
 
             response, usage = await self.llm.call_async_with_usage(
                 messages,
-                context={"phase": "phase2_batch_extract", "batch_idx": i // batch_size, "stage": self._current_stage},
+                context={"phase": "phase2_batch_extract", "batch_idx": i // batch_size},
             )
             self._usage_records.append(usage)
-            if self._current_stage == 1:
-                self._stage1_usage.append(usage)
-            else:
-                self._stage2_usage.append(usage)
 
             # Debug log the LLM call
             if debug_logger := get_debug_logger():
@@ -391,12 +380,19 @@ class FormulaSeedInterpreter:
                     quote = extraction.get("supporting_quote", "")
                     extraction = self._validate_and_store_snippet(extraction, quote, review_text)
 
+                # Validate enum fields (specification enforcement)
+                if extraction.get("is_relevant", False):
+                    extraction = self._validate_enum_fields(extraction)
+
                 all_results.append(extraction)
 
         return all_results
 
     async def _extract_signals(self, reviews: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        """Extract signals from all reviews via batched LLM calls.
+        """Extract signals from all reviews via per-review LLM calls.
+
+        Uses per-review extraction for reliability (no silent dropouts from batch
+        parsing). Each review gets its own LLM call, guaranteeing 100% coverage.
 
         Args:
             reviews: List of filtered reviews
@@ -408,279 +404,16 @@ class FormulaSeedInterpreter:
         if not fields or not reviews:
             return []
 
-        # Use BATCHED extraction for efficiency
-        batch_size = self.config.sweep_batch_size
-        results = await self._extract_batch_reviews(reviews, fields, batch_size=batch_size)
+        # Use PER-REVIEW extraction for reliability (no silent dropouts)
+        # Trade-off: More LLM calls, but guaranteed coverage
+        tasks = [self._extract_single_review(r, fields) for r in reviews]
+        results = await gather_with_concurrency(self.max_concurrent, tasks)
 
         # Filter to only relevant extractions
         relevant = [r for r in results if r.get("is_relevant", False)]
         self._extractions = relevant
 
         return relevant
-
-    # =========================================================================
-    # Search Strategy Methods (for adaptive mode)
-    # =========================================================================
-
-    def _is_recent(self, review: Dict[str, Any], threshold_years: float = 2.0) -> bool:
-        """Check if a review is recent (within threshold years).
-
-        Args:
-            review: Review dict with optional 'date' field
-            threshold_years: Years threshold for "recent" (default: 2.0)
-
-        Returns:
-            True if review is recent or has no date
-        """
-        review_date = review.get("date")
-        if not review_date:
-            return False  # Assume not recent if no date
-
-        try:
-            if isinstance(review_date, str):
-                review_date_dt = datetime.fromisoformat(review_date.replace("Z", "+00:00"))
-            else:
-                review_date_dt = review_date
-
-            age_years = (datetime.now() - review_date_dt).days / 365.25
-            return age_years < threshold_years
-        except (ValueError, TypeError):
-            return False
-
-    def _compute_review_priority(self, review: Dict[str, Any]) -> float:
-        """Compute priority score for a review using LLM-generated expression.
-
-        Higher priority = process first (in adaptive mode).
-
-        Args:
-            review: Review dict
-
-        Returns:
-            Priority score (higher = more important)
-        """
-        expr = self.strategy.get("priority_expr", "1.0")
-        review_id = review.get("review_id", "")
-
-        # Get keyword hits for this review
-        keyword_hits = self._keyword_hits_map.get(review_id, [])
-
-        # Check for priority keywords
-        priority_keywords = self.strategy.get("priority_keywords", [])
-        priority_hits = [kw for kw in keyword_hits if kw in priority_keywords]
-
-        context = {
-            "keyword_hits": keyword_hits,
-            "priority_hits": priority_hits,
-            "is_recent": self._is_recent(review),
-            "embedding_sim": review.get("_embedding_sim", 0.0),
-        }
-
-        priority = self._executor.execute_float(expr, context, default=1.0)
-
-        # Boost priority for priority keyword matches
-        priority += len(priority_hits) * 3.0
-
-        return priority
-
-    def _sort_reviews_by_priority(self, reviews: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        """Sort reviews by priority (highest first).
-
-        Args:
-            reviews: List of reviews
-
-        Returns:
-            Sorted list of reviews (highest priority first)
-        """
-        # Compute priorities
-        priorities = [(self._compute_review_priority(r), i, r) for i, r in enumerate(reviews)]
-
-        # Sort by priority descending (stable sort by original index for ties)
-        priorities.sort(key=lambda x: (-x[0], x[1]))
-
-        return [r for _, _, r in priorities]
-
-    def _check_stopping_condition(self, remaining: int) -> Tuple[bool, Optional[str]]:
-        """Check if we can stop early using LLM-generated condition.
-
-        Args:
-            remaining: Number of reviews remaining to process
-
-        Returns:
-            Tuple of (can_stop, early_verdict)
-            - can_stop: True if we can stop processing
-            - early_verdict: The verdict if determinable, else None
-        """
-        stopping_expr = self.strategy.get("stopping_condition", "False")
-
-        # Get current score from namespace (try common names)
-        score = self._namespace.get("SCORE", 0)
-        if score == 0:
-            score = self._namespace.get("FINAL_RISK_SCORE", 0)
-        if score == 0:
-            score = self._namespace.get("RISK_SCORE", 0)
-
-        # Build context with both lowercase and uppercase versions for flexibility
-        context = {
-            "extractions": self._extractions,
-            "score": score,
-            "SCORE": score,  # Uppercase for expressions using SCORE
-            "remaining": remaining,
-            "namespace": self._namespace,
-            # Also expose all namespace values directly for convenience
-            **{k: v for k, v in self._namespace.items()},
-        }
-
-        can_stop = self._executor.execute_bool(stopping_expr, context, default=False)
-
-        if can_stop:
-            # Try to compute early verdict
-            verdict_expr = self.strategy.get("early_verdict_expr", "None")
-            verdict = self._executor.execute_str(verdict_expr, context, default=None)
-            return True, verdict
-
-        return False, None
-
-    async def _extract_adaptive(self, reviews: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        """Extract signals with adaptive batch processing and early stopping.
-
-        Processes reviews in batches by priority, checking stopping condition
-        after each batch. Saves tokens by not processing remaining reviews
-        when verdict is determinable.
-
-        Args:
-            reviews: List of filtered reviews (will be sorted by priority)
-
-        Returns:
-            List of extraction results (only relevant ones)
-        """
-        fields = self.seed.get("extract", {}).get("fields", [])
-        if not fields or not reviews:
-            return []
-
-        # Sort reviews by priority (high-value first)
-        sorted_reviews = self._sort_reviews_by_priority(reviews)
-        batch_size = self.config.batch_size
-
-        all_extractions = []
-        processed = 0
-
-        for i in range(0, len(sorted_reviews), batch_size):
-            batch = sorted_reviews[i : i + batch_size]
-
-            # Extract this batch in parallel
-            tasks = [self._extract_single_review(r, fields) for r in batch]
-            results = await gather_with_concurrency(self.max_concurrent, tasks)
-
-            # Filter to relevant extractions
-            relevant = [r for r in results if r.get("is_relevant", False)]
-            all_extractions.extend(relevant)
-            processed += len(batch)
-
-            # Update internal state for stopping check
-            self._extractions = all_extractions
-
-            # Recompute namespace values for stopping check
-            # (simplified - only run compute ops that don't depend on full extractions)
-            self._execute_compute_partial()
-
-            # Check stopping condition
-            remaining = len(sorted_reviews) - processed
-            can_stop, verdict = self._check_stopping_condition(remaining)
-
-            if can_stop:
-                self._early_verdict = verdict
-                self._stopped_early = True
-                self._reviews_skipped = remaining
-                logger.debug(
-                    f"Early stopping: processed={processed}, skipped={remaining}, "
-                    f"verdict={verdict}"
-                )
-                break
-
-        return all_extractions
-
-    def _execute_compute_partial(self) -> None:
-        """Execute compute operations for intermediate stopping checks.
-
-        Only computes count and simple sum operations (not case verdicts).
-        """
-        for op_def in self.seed.get("compute", []):
-            name = op_def.get("name", "")
-            # Support both canonical 'op' and legacy 'operation' keys
-            op = op_def.get("op") or op_def.get("operation", "")
-
-            # Only run simple aggregations, not verdict computation
-            if op == "count":
-                self._namespace[name] = self._compute_count(op_def)
-            elif op == "sum":
-                self._namespace[name] = self._compute_sum(op_def)
-            elif op == "expr":
-                self._namespace[name] = self._compute_expr(op_def)
-
-    def _should_early_exit(self) -> bool:
-        """Check if Quick Scan found sufficient severe evidence for early exit.
-
-        Uses Formula Seed's verdict_metadata to determine severity if available.
-        Falls back to stopping_condition from search_strategy.
-        Policy-agnostic: works for G1-G6 with different verdict labels.
-
-        Returns:
-            True if early exit is warranted (severe evidence found)
-        """
-        # Get verdict metadata from Formula Seed (generated in Phase 1)
-        metadata = self.seed.get("verdict_metadata", {})
-        severe_verdicts = metadata.get("severe_verdicts", [])
-
-        # If severe_verdicts defined, check if current verdict is severe
-        if severe_verdicts:
-            verdict = self._namespace.get("VERDICT")
-            return verdict in severe_verdicts
-
-        # Fall back to existing stopping_condition logic from search_strategy
-        stopping_expr = self.strategy.get("stopping_condition", "False")
-        context = {
-            "namespace": self._namespace,
-            **self._namespace,
-        }
-        return self._executor.execute_bool(stopping_expr, context, default=False)
-
-    async def _sweep_remaining_reviews(
-        self,
-        unprocessed: List[Dict[str, Any]],
-    ) -> None:
-        """Thorough sweep of remaining reviews not matched by keywords.
-
-        Uses BATCHED extraction to minimize LLM calls:
-        - 50 reviews with batch_size=10 = 5 LLM calls (vs 50 with single-review)
-
-        Args:
-            unprocessed: List of reviews that weren't matched by keyword filter
-        """
-        if not unprocessed:
-            return
-
-        fields = self.seed.get("extract", {}).get("fields", [])
-        if not fields:
-            return
-
-        # Limit sweep size
-        max_reviews = self.config.max_sweep_reviews
-        if len(unprocessed) > max_reviews:
-            # Prioritize by recency (sort by date descending)
-            unprocessed = sorted(
-                unprocessed,
-                key=lambda r: r.get("date", ""),
-                reverse=True
-            )[:max_reviews]
-
-        # Use BATCHED extraction for efficiency (configurable reviews per LLM call)
-        batch_size = self.config.sweep_batch_size
-        results = await self._extract_batch_reviews(unprocessed, fields, batch_size=batch_size)
-
-        # Add relevant extractions
-        for r in results:
-            if r.get("is_relevant", False):
-                self._extractions.append(r)
 
     def _get_enum_values_for_field(self, field_name: str) -> Optional[List[str]]:
         """Get expected enum values for a field from the Formula Seed.
@@ -824,6 +557,47 @@ class FormulaSeedInterpreter:
                 return extraction[key]
         return None
 
+    def _fuzzy_enum_match(self, actual: str, expected: str) -> bool:
+        """Fuzzy match enum values to handle label inconsistencies.
+
+        Handles cases like:
+        - "moderate incident" vs "Moderate"
+        - "Severe incident" vs "Severe"
+        - "no reaction" vs "No reaction"
+
+        Args:
+            actual: The actual value from extraction
+            expected: The expected value from compute.where
+
+        Returns:
+            True if values match (fuzzy)
+        """
+        if actual is None or expected is None:
+            return actual == expected
+
+        a, e = str(actual).lower().strip(), str(expected).lower().strip()
+
+        # Exact match
+        if a == e:
+            return True
+
+        # Partial containment (either direction)
+        if e in a or a in e:
+            return True
+
+        # Strip common suffixes and compare
+        suffixes = [' incident', ' reaction', ' risk', ' level', ' quality']
+        a_stripped = a
+        e_stripped = e
+        for suffix in suffixes:
+            a_stripped = a_stripped.replace(suffix, '')
+            e_stripped = e_stripped.replace(suffix, '')
+
+        if a_stripped == e_stripped:
+            return True
+
+        return False
+
     def _matches_condition(self, extraction: Dict[str, Any], condition: Dict[str, Any]) -> bool:
         """Check if an extraction matches a where condition.
 
@@ -836,6 +610,7 @@ class FormulaSeedInterpreter:
         - not_equals: {"field": "X", "not_equals": "Y"}
 
         Applies enum value normalization for enum fields (e.g., "no reaction" -> "none").
+        Uses fuzzy matching for string comparisons to handle label inconsistencies.
 
         Args:
             extraction: Single extraction result
@@ -854,19 +629,19 @@ class FormulaSeedInterpreter:
             if "equals" in condition:
                 expected = condition["equals"]
                 if isinstance(expected, list):
-                    # Case-insensitive list matching for strings
+                    # Fuzzy list matching for strings
                     if isinstance(actual, str):
                         if not any(
-                            actual.lower() == e.lower() if isinstance(e, str) else actual == e
+                            self._fuzzy_enum_match(actual, e) if isinstance(e, str) else actual == e
                             for e in expected
                         ):
                             return False
                     elif actual not in expected:
                         return False
                 else:
-                    # Case-insensitive comparison for strings
+                    # Fuzzy comparison for strings
                     if isinstance(actual, str) and isinstance(expected, str):
-                        if actual.lower() != expected.lower():
+                        if not self._fuzzy_enum_match(actual, expected):
                             return False
                     elif actual != expected:
                         return False
@@ -874,19 +649,19 @@ class FormulaSeedInterpreter:
             if "not_equals" in condition:
                 not_expected = condition["not_equals"]
                 if isinstance(not_expected, list):
-                    # Case-insensitive list matching for strings
+                    # Fuzzy list matching for strings (negated)
                     if isinstance(actual, str):
                         if any(
-                            actual.lower() == e.lower() if isinstance(e, str) else actual == e
+                            self._fuzzy_enum_match(actual, e) if isinstance(e, str) else actual == e
                             for e in not_expected
                         ):
                             return False
                     elif actual in not_expected:
                         return False
                 else:
-                    # Case-insensitive comparison for strings
+                    # Fuzzy comparison for strings (negated)
                     if isinstance(actual, str) and isinstance(not_expected, str):
-                        if actual.lower() == not_expected.lower():
+                        if self._fuzzy_enum_match(actual, not_expected):
                             return False
                     elif actual == not_expected:
                         return False
@@ -918,14 +693,14 @@ class FormulaSeedInterpreter:
             # Normalize actual value for enum fields
             actual = self._normalize_actual_value(field, actual)
 
-            # Case-insensitive comparison for string values
+            # Fuzzy comparison for string values (handles enum label mismatches)
             if isinstance(actual, str) and isinstance(expected, str):
-                matches = actual.lower() == expected.lower()
+                matches = self._fuzzy_enum_match(actual, expected)
             elif isinstance(expected, list):
-                # Match any in list (case-insensitive for strings)
+                # Match any in list (fuzzy for strings)
                 if isinstance(actual, str):
                     matches = any(
-                        actual.lower() == e.lower() if isinstance(e, str) else actual == e
+                        self._fuzzy_enum_match(actual, e) if isinstance(e, str) else actual == e
                         for e in expected
                     )
                 else:
@@ -948,7 +723,7 @@ class FormulaSeedInterpreter:
 
         Handles conditions like: {"field": "SEVERITY", "equals": "severe"}
         Applies enum value normalization for enum fields.
-        Uses case-insensitive comparison for string values.
+        Uses fuzzy matching for string values to handle label inconsistencies.
 
         Args:
             extraction: Single extraction result
@@ -964,17 +739,17 @@ class FormulaSeedInterpreter:
             # Normalize actual value for enum fields
             actual = self._normalize_actual_value(field, actual)
 
-            # Case-insensitive comparison for strings
+            # Fuzzy comparison for strings (handles enum label mismatches)
             if isinstance(expected, list):
                 if isinstance(actual, str):
                     return any(
-                        actual.lower() == e.lower() if isinstance(e, str) else actual == e
+                        self._fuzzy_enum_match(actual, e) if isinstance(e, str) else actual == e
                         for e in expected
                     )
                 return actual in expected
 
             if isinstance(actual, str) and isinstance(expected, str):
-                return actual.lower() == expected.lower()
+                return self._fuzzy_enum_match(actual, expected)
             return actual == expected
 
         # Fall back to simple matching if not in field/equals format
@@ -1064,9 +839,8 @@ class FormulaSeedInterpreter:
             if actual_value is None:
                 actual_value = ""
 
-            # Compare (case-insensitive, exact match for strings)
-            # Use exact matching to avoid "Mild incident" matching when looking for "mild"
-            if str(actual_value).lower().strip() == value.lower().strip():
+            # Use fuzzy matching to handle label inconsistencies (e.g., "Severe incident" vs "Severe")
+            if self._fuzzy_enum_match(str(actual_value), value):
                 logger.debug(f"[CASE DEBUG] MATCH! returning {then_value}")
                 return float(then_value)
 
@@ -1461,12 +1235,38 @@ class FormulaSeedInterpreter:
         # Build justification from computed values
         justification = self._build_justification(evidences)
 
+        # Export computed values for specification verification
+        # This makes the deterministic computation transparent
+        computed_values = self._get_computed_values_export()
+
         return {
             "verdict": self._namespace.get("VERDICT"),
             "evidences": evidences,
             "justification": justification,
+            "computed_values": computed_values,
+            "validation_stats": {
+                "enum_validation": self._enum_validation_stats,
+                "snippet_validation": self._snippet_validation_stats,
+            },
             "other_notes": None,
         }
+
+    def _get_computed_values_export(self) -> Dict[str, Any]:
+        """Export computed namespace values for transparency.
+
+        Returns all computed values (N_*, SCORE, VERDICT, etc.) so that
+        the deterministic computation can be verified.
+
+        Returns:
+            Dict of computed values from namespace
+        """
+        export = {}
+        for key, value in self._namespace.items():
+            # Export all computed values (N_*, SCORE, VERDICT, etc.)
+            # Skip internal/temporary values starting with underscore
+            if not key.startswith("_"):
+                export[key] = value
+        return export
 
     def _build_justification(self, evidences: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Build justification section from computed values.
@@ -1602,12 +1402,15 @@ class FormulaSeedInterpreter:
     def _get_triggered_rule_scoring(self, score: float, verdict: str) -> str:
         """Get triggered rule description for scoring-based policies.
 
+        SPECIFICATION ENFORCEMENT: Actually evaluates each rule condition
+        against computed namespace values, not just text-matching the verdict.
+
         Args:
             score: The computed score
             verdict: The verdict
 
         Returns:
-            Rule description string
+            Rule description string with actual computed values
         """
         # Find the case operation that produces VERDICT
         for op in self.seed.get("compute", []):
@@ -1615,21 +1418,48 @@ class FormulaSeedInterpreter:
                 for rule in op.get("rules", []):
                     when = rule.get("when", "")
                     then = rule.get("then", "")
-                    if then == verdict:
-                        return f"{when} → {verdict}"
+                    else_rule = rule.get("else")
+
+                    # Handle else clause (no condition to evaluate)
+                    # else_rule IS the verdict value (e.g., {"else": "Low Risk"})
+                    if else_rule is not None:
+                        if str(else_rule).lower() == verdict.lower():
+                            return f"else → {verdict}"
+                        continue  # else clause doesn't match this verdict
+
+                    # Case-insensitive verdict comparison
+                    if str(then).lower() != verdict.lower() or not when:
+                        continue
+
+                    # Actually evaluate the condition to verify it's true
+                    condition_true = self._evaluate_rule_condition(when)
+                    if condition_true:
+                        actual_values = self._extract_variables_from_condition(when)
+                        actual_str = ", ".join(f"{k}={v}" for k, v in actual_values.items())
+                        return f"{when} (actual: {actual_str}) → {verdict}"
+
+                # No rule verified - return default (may happen if seed format differs)
+                logger.debug(
+                    f"No scoring rule matched for verdict '{verdict}'. "
+                    f"Score: {score}, Namespace: {self._namespace}"
+                )
 
         # Default description
-        return f"score = {score} → {verdict}"
+        return f"SCORE = {score} → {verdict}"
 
     def _get_triggered_rule_count(self, count: int, verdict: str) -> str:
         """Get triggered rule description for count-based policies.
+
+        SPECIFICATION ENFORCEMENT: Actually evaluates each rule condition
+        against computed namespace values, reporting which rule ACTUALLY
+        triggered (not just text-matching the verdict).
 
         Args:
             count: The incident count
             verdict: The verdict
 
         Returns:
-            Rule description string
+            Rule description string with actual computed values
         """
         # Find the case operation that produces VERDICT
         for op in self.seed.get("compute", []):
@@ -1637,11 +1467,102 @@ class FormulaSeedInterpreter:
                 for rule in op.get("rules", []):
                     when = rule.get("when", "")
                     then = rule.get("then", "")
-                    if then == verdict:
-                        return f"{when} → {verdict}"
+                    else_rule = rule.get("else")
+
+                    # Handle else clause (no condition to evaluate)
+                    # else_rule IS the verdict value (e.g., {"else": "Low Risk"})
+                    if else_rule is not None:
+                        if str(else_rule).lower() == verdict.lower():
+                            return f"else → {verdict}"
+                        continue  # else clause doesn't match this verdict
+
+                    # Case-insensitive verdict comparison
+                    if str(then).lower() != verdict.lower() or not when:
+                        continue
+
+                    # Actually evaluate the condition to verify it's true
+                    condition_true = self._evaluate_rule_condition(when)
+                    if condition_true:
+                        # Include actual computed value in the output
+                        actual_values = self._extract_variables_from_condition(when)
+                        actual_str = ", ".join(f"{k}={v}" for k, v in actual_values.items())
+                        return f"{when} (actual: {actual_str}) → {verdict}"
+
+                # No rule matched - return default (may happen if seed format differs)
+                logger.debug(
+                    f"No count rule matched for verdict '{verdict}'. "
+                    f"Namespace: {self._namespace}"
+                )
 
         # Default description
-        return f"count = {count} → {verdict}"
+        return f"N_INCIDENTS = {count} → {verdict}"
+
+    def _evaluate_rule_condition(self, condition: str) -> bool:
+        """Evaluate a rule condition string against the namespace.
+
+        Handles conditions like:
+        - "N_SEVERE_FIRSTHAND >= 1"
+        - "N_MODERATE_FIRSTHAND >= 2"
+        - "SCORE >= 15"
+        - "N_SEVERE >= 1 or N_MODERATE_FIRSTHAND >= 2" (compound)
+
+        Args:
+            condition: Condition string from rule's "when" field
+
+        Returns:
+            True if condition evaluates to True
+        """
+        if not condition:
+            return False
+
+        # Use SafeExpressionExecutor for robust evaluation of compound expressions
+        try:
+            result = self._executor.execute_bool(condition, self._namespace, default=None)
+            if result is not None:
+                return result
+        except Exception:
+            pass
+
+        # Fallback: Parse simple condition VAR OP VALUE
+        pattern = r"(\w+)\s*(>=|<=|>|<|==|=)\s*(\d+(?:\.\d+)?)"
+        match = re.match(pattern, condition.strip())
+        if not match:
+            return False
+
+        var_name, op, threshold_str = match.groups()
+        threshold = float(threshold_str)
+        actual = self._namespace.get(var_name, 0)
+
+        if op in (">=",):
+            return actual >= threshold
+        elif op in ("<=",):
+            return actual <= threshold
+        elif op in (">",):
+            return actual > threshold
+        elif op in ("<",):
+            return actual < threshold
+        elif op in ("==", "="):
+            return actual == threshold
+
+        return False
+
+    def _extract_variables_from_condition(self, condition: str) -> Dict[str, Any]:
+        """Extract variable names from condition and return their actual values.
+
+        Args:
+            condition: Condition string like "N_SEVERE_FIRSTHAND >= 1"
+
+        Returns:
+            Dict of {variable_name: actual_value}
+        """
+        result = {}
+        # Find all variable references (word characters that look like variable names)
+        var_pattern = r"\b([A-Z][A-Z0-9_]*)\b"
+        matches = re.findall(var_pattern, condition)
+        for var_name in matches:
+            if var_name in self._namespace:
+                result[var_name] = self._namespace[var_name]
+        return result
 
     def _generate_reasoning(
         self, score: float, verdict: str, n_incidents: int, is_scoring_based: bool
@@ -1686,12 +1607,10 @@ class FormulaSeedInterpreter:
         """Get AMOS-specific debug metadata (separate from standard output).
 
         Returns:
-            Dict with extractions_count, stopped_early, reviews_skipped, namespace
+            Dict with extractions_count, namespace
         """
         return {
             "extractions_count": len(self._extractions),
-            "stopped_early": self._stopped_early,
-            "reviews_skipped": self._reviews_skipped,
             "namespace": self._namespace,
         }
 
@@ -1700,7 +1619,7 @@ class FormulaSeedInterpreter:
 
         Returns:
             Dict with prompt_tokens, completion_tokens, total_tokens,
-            cost_usd, latency_ms, llm_calls, strategy metrics, and per-stage breakdown
+            cost_usd, wall_clock_ms, llm_calls
         """
         if not self._usage_records:
             metrics = {
@@ -1708,128 +1627,24 @@ class FormulaSeedInterpreter:
                 "completion_tokens": 0,
                 "total_tokens": 0,
                 "cost_usd": 0.0,
-                "latency_ms": 0.0,
+                "wall_clock_ms": 0.0,
                 "llm_calls": 0,
             }
         else:
             prompt_tokens = sum(u.get("prompt_tokens", 0) for u in self._usage_records)
             completion_tokens = sum(u.get("completion_tokens", 0) for u in self._usage_records)
             cost_usd = sum(u.get("cost_usd", 0.0) for u in self._usage_records)
-            latency_ms = sum(u.get("latency_ms", 0.0) for u in self._usage_records)
 
             metrics = {
                 "prompt_tokens": prompt_tokens,
                 "completion_tokens": completion_tokens,
                 "total_tokens": prompt_tokens + completion_tokens,
                 "cost_usd": cost_usd,
-                "latency_ms": latency_ms,
+                "wall_clock_ms": self._wall_clock_ms,
                 "llm_calls": len(self._usage_records),
             }
 
-        # Add per-stage breakdown
-        metrics["stage1"] = {
-            "prompt_tokens": sum(u.get("prompt_tokens", 0) for u in self._stage1_usage),
-            "completion_tokens": sum(u.get("completion_tokens", 0) for u in self._stage1_usage),
-            "cost_usd": sum(u.get("cost_usd", 0.0) for u in self._stage1_usage),
-            "latency_ms": sum(u.get("latency_ms", 0.0) for u in self._stage1_usage),
-            "llm_calls": len(self._stage1_usage),
-        }
-        metrics["stage2"] = {
-            "prompt_tokens": sum(u.get("prompt_tokens", 0) for u in self._stage2_usage),
-            "completion_tokens": sum(u.get("completion_tokens", 0) for u in self._stage2_usage),
-            "cost_usd": sum(u.get("cost_usd", 0.0) for u in self._stage2_usage),
-            "latency_ms": sum(u.get("latency_ms", 0.0) for u in self._stage2_usage),
-            "llm_calls": len(self._stage2_usage),
-        }
-
-        # Add strategy metrics
-        metrics["strategy_metrics"] = {
-            "filter_mode": self.config.filter_mode.value,
-            "early_exit": self._stopped_early,
-            "sweep_early_stopped": self._sweep_early_stopped,
-        }
-
-        # Add embedding metrics if retriever was used
-        if self._retriever:
-            retriever_metrics = self._retriever.get_metrics()
-            metrics["embedding_tokens"] = retriever_metrics.get("embedding_tokens", 0)
-            metrics["embedding_cost_usd"] = retriever_metrics.get("embedding_cost_usd", 0.0)
-            metrics["cost_usd"] += retriever_metrics.get("embedding_cost_usd", 0.0)
-
         return metrics
-
-    async def _filter_by_mode(
-        self,
-        reviews: List[Dict[str, Any]],
-        query: str,
-        sample_id: str,
-    ) -> List[Dict[str, Any]]:
-        """Filter reviews for Stage 1 based on filter_mode.
-
-        Args:
-            reviews: All reviews to filter
-            query: The agenda/query text (for embedding-based filtering)
-            sample_id: Sample ID for embedding cache
-
-        Returns:
-            List of filtered reviews for Stage 1 extraction
-        """
-        from pathlib import Path
-
-        if self.config.filter_mode == FilterMode.KEYWORD:
-            # Keyword-only filtering
-            return self._filter_reviews(reviews)
-
-        elif self.config.filter_mode == FilterMode.EMBEDDING:
-            # Embedding-only filtering (no keyword pre-filter)
-            cache_path = None
-            if self.config.embedding_cache_path:
-                cache_path = Path(self.config.embedding_cache_path)
-
-            self._retriever = HybridRetriever(
-                cache_path=cache_path,
-                embedding_model=self.config.embedding_model,
-            )
-
-            # Get top-k by embedding similarity (no keyword filter)
-            return await self._retriever.retrieve_by_embedding(
-                all_reviews=reviews,
-                query=query,
-                sample_id=sample_id,
-                top_k=min(20, len(reviews)),  # Top 20 or all if fewer
-            )
-
-        elif self.config.filter_mode == FilterMode.HYBRID:
-            # Keyword + embedding: union of both
-            keyword_filtered = self._filter_reviews(reviews)
-
-            cache_path = None
-            if self.config.embedding_cache_path:
-                cache_path = Path(self.config.embedding_cache_path)
-
-            self._retriever = HybridRetriever(
-                cache_path=cache_path,
-                embedding_model=self.config.embedding_model,
-            )
-
-            # Get embedding matches not already in keyword set
-            keyword_ids = {r.get("review_id") for r in keyword_filtered}
-            remaining = [r for r in reviews if r.get("review_id") not in keyword_ids]
-
-            if remaining:
-                embedding_filtered = await self._retriever.retrieve_by_embedding(
-                    all_reviews=remaining,
-                    query=query,
-                    sample_id=sample_id,
-                    top_k=min(10, len(remaining)),  # Add top 10 from embedding
-                )
-                return keyword_filtered + embedding_filtered
-
-            return keyword_filtered
-
-        else:
-            # Fallback to keyword
-            return self._filter_reviews(reviews)
 
     async def execute(
         self,
@@ -1838,22 +1653,24 @@ class FormulaSeedInterpreter:
         query: str = "",
         sample_id: str = "",
     ) -> Dict[str, Any]:
-        """Execute Formula Seed against restaurant data with two-stage retrieval.
+        """Execute Formula Seed against restaurant data.
 
-        Stage 1 (Quick Scan): Filter using filter_mode, extract, check early exit
-        Stage 2 (Thorough Sweep): Process ALL remaining reviews (always on)
+        Processes ALL reviews via per-review LLM calls, extracts signals,
+        then computes verdict from aggregated extractions.
 
         Args:
             reviews: List of review dicts with 'text' and 'review_id' fields
             business: Restaurant business info dict
-            query: The agenda/query text (for embedding-based filtering)
-            sample_id: Sample ID for caching (for embedding cache)
+            query: The agenda/query text (unused, kept for API compatibility)
+            sample_id: Sample ID for caching
 
         Returns:
             Dict with output values and observability data
         """
+        start_time = time.perf_counter()
+
         self._total_reviews = len(reviews)
-        self._current_sample_id = sample_id  # Store for debug logging
+        self._current_sample_id = sample_id
 
         # Verbose output: Starting Phase 2
         biz_name = business.get("name", sample_id[:12])
@@ -1866,6 +1683,7 @@ class FormulaSeedInterpreter:
                 f"Seed marked for ABSTAIN due to validation failure: "
                 f"{self.seed.get('_abstain_reason', 'unknown')}"
             )
+            self._wall_clock_ms = (time.perf_counter() - start_time) * 1000
             return {
                 "VERDICT": "ABSTAIN",
                 "_abstain": True,
@@ -1873,103 +1691,48 @@ class FormulaSeedInterpreter:
                 "_abstain_warnings": self.seed.get("_abstain_warnings", []),
                 "_extractions": [],
                 "_namespace": {"VERDICT": "ABSTAIN"},
-                "_filter_stats": {
-                    "filter_mode": self.config.filter_mode.value,
+                "_stats": {
                     "total_reviews": len(reviews),
                     "abstained": True,
                     "abstain_reason": self.seed.get("_abstain_reason", []),
+                    "wall_clock_ms": self._wall_clock_ms,
                 },
             }
 
-        # ===== STAGE 1: QUICK SCAN =====
-        output.status(f"  [Stage 1] Filtering ({self.config.filter_mode.value})...")
+        # ===== EXTRACT SIGNALS FROM ALL REVIEWS =====
+        # Limit to max_reviews if configured
+        reviews_to_process = reviews
+        if len(reviews) > self.config.max_reviews:
+            # Prioritize by recency (sort by date descending)
+            reviews_to_process = sorted(
+                reviews,
+                key=lambda r: r.get("date", ""),
+                reverse=True
+            )[:self.config.max_reviews]
 
-        # Filter reviews based on filter_mode
-        filtered = await self._filter_by_mode(reviews, query, sample_id)
-        output.status(f"  [Stage 1] {len(filtered)}/{len(reviews)} reviews matched filter")
+        output.status(f"  [Phase 2] Extracting signals from {len(reviews_to_process)} reviews...")
+        await self._extract_signals(reviews_to_process)
 
-        # Extract signals from filtered reviews
-        output.status(f"  [Stage 1] Extracting signals from {len(filtered)} reviews...")
-        await self._extract_signals(filtered)
-
-        # Compute verdict from Stage 1 extractions
+        # Compute verdict from extractions
         self._execute_compute(business)
 
-        # Capture Stage 1 results for stats
-        stage1_verdict = self._namespace.get("VERDICT")
-        stage1_extractions = len(self._extractions)
-        output.status(f"  [Stage 1] {stage1_extractions} relevant extractions -> verdict={stage1_verdict}")
+        # Capture results
+        verdict = self._namespace.get("VERDICT")
+        extractions_count = len(self._extractions)
+        output.status(f"  [Phase 2] {extractions_count} relevant extractions -> verdict={verdict}")
 
-        # Check early exit (severe evidence found in Stage 1)
-        if self._should_early_exit():
-            output.status(f"  [Stage 1] Early exit: verdict='{stage1_verdict}' (severe evidence)")
-            logger.debug(f"Early exit: Stage 1 verdict '{stage1_verdict}' is severe")
-            result = self._get_output()
-            result["_filter_stats"] = {
-                "filter_mode": self.config.filter_mode.value,
-                "total_reviews": len(reviews),
-                "stage1_filtered": len(filtered),
-                "stage1_extractions": stage1_extractions,
-                "stage1_verdict": stage1_verdict,
-                "early_exit": True,
-                "sweep_performed": False,
-                "final_extractions": len(self._extractions),
-                "final_verdict": stage1_verdict,
-                "verdict_flipped": False,
-                "snippet_validation": self._snippet_validation_stats,
-            }
-            return result
-
-        # ===== STAGE 2: THOROUGH SWEEP (always on) =====
-        filtered_ids = {r.get("review_id") for r in filtered}
-        unprocessed = [r for r in reviews if r.get("review_id") not in filtered_ids]
-
-        sweep_performed = False
-        sweep_reviews_processed = 0
-        stage2_extractions_added = 0
-
-        if unprocessed:
-            sweep_performed = True
-            sweep_reviews_processed = min(len(unprocessed), self.config.max_sweep_reviews)
-
-            output.status(f"  [Stage 2] Sweeping {sweep_reviews_processed}/{len(unprocessed)} remaining reviews...")
-            logger.debug(
-                f"Stage 2 sweep: {len(unprocessed)} unprocessed reviews, "
-                f"processing up to {self.config.max_sweep_reviews}"
-            )
-
-            # Track Stage 2 extractions separately for verdict stabilization
-            stage1_extraction_count = len(self._extractions)
-            self._current_stage = 2  # Switch to Stage 2 for usage tracking
-            await self._sweep_remaining_reviews(unprocessed)
-            stage2_extractions_added = len(self._extractions) - stage1_extraction_count
-
-            # Recompute verdict with all extractions
-            self._execute_compute(business)
-
-            final_verdict = self._namespace.get("VERDICT")
-            verdict_changed = "CHANGED" if stage1_verdict != final_verdict else "unchanged"
-            output.status(f"  [Stage 2] +{stage2_extractions_added} extractions -> verdict={final_verdict} ({verdict_changed})")
-        else:
-            output.status(f"  [Stage 2] No remaining reviews to sweep")
+        # Track wall-clock time
+        self._wall_clock_ms = (time.perf_counter() - start_time) * 1000
 
         # Return final output
         result = self._get_output()
 
-        result["_filter_stats"] = {
-            "filter_mode": self.config.filter_mode.value,
+        result["_stats"] = {
             "total_reviews": len(reviews),
-            "stage1_filtered": len(filtered),
-            "stage1_extractions": stage1_extractions,
-            "stage1_verdict": stage1_verdict,
-            "early_exit": False,
-            "sweep_performed": sweep_performed,
-            "sweep_reviews_processed": sweep_reviews_processed,
-            "sweep_early_stopped": self._sweep_early_stopped,
-            "stage2_extractions_added": stage2_extractions_added,
-            "final_extractions": len(self._extractions),
-            "final_verdict": self._namespace.get("VERDICT"),
-            "verdict_flipped": stage1_verdict != self._namespace.get("VERDICT"),
+            "reviews_processed": len(reviews_to_process),
+            "extractions_count": extractions_count,
+            "final_verdict": verdict,
+            "wall_clock_ms": self._wall_clock_ms,
             "snippet_validation": self._snippet_validation_stats,
         }
 

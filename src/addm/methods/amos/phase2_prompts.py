@@ -5,7 +5,7 @@ Separated from logic for maintainability and easier prompt iteration.
 """
 
 import json
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 
 # =============================================================================
@@ -100,6 +100,44 @@ def normalize_enum_value(value: Any, expected_values: List[str]) -> Any:
                 return "mild"
 
     return value
+
+
+def validate_enum_strict(
+    value: Any,
+    expected_values: List[str],
+    field_name: str,
+) -> Tuple[bool, str, Any]:
+    """Strictly validate an enum value after normalization.
+
+    Unlike normalize_enum_value which tries to recover bad values,
+    this function rejects values that don't match expected enums.
+
+    Args:
+        value: The value to validate (already normalized)
+        expected_values: List of valid enum values
+        field_name: Name of the field (for error messages)
+
+    Returns:
+        Tuple of (is_valid, error_message, normalized_value)
+        - is_valid: True if value matches an expected enum
+        - error_message: Empty if valid, otherwise describes the rejection
+        - normalized_value: The normalized value (even if invalid)
+    """
+    if value is None:
+        return True, "", None
+
+    # First normalize
+    normalized = normalize_enum_value(value, expected_values)
+
+    # Check if normalized value is in expected values (case-insensitive)
+    expected_lower = {v.lower(): v for v in expected_values}
+    normalized_lower = str(normalized).lower().strip()
+
+    if normalized_lower in expected_lower:
+        return True, "", expected_lower[normalized_lower]
+
+    # Value doesn't match any expected enum - reject
+    return False, f"invalid_{field_name}:{value}->'{normalized}'_not_in_{expected_values}", normalized
 
 
 # =============================================================================
@@ -345,14 +383,17 @@ Output ONLY the JSON array:"""
 def parse_batch_extraction_response(response: str, review_ids: List[str]) -> List[Dict[str, Any]]:
     """Parse batch extraction response to list of extractions.
 
+    Validates review_ids against expected input and marks invalid ones.
+
     Args:
         response: LLM response (should be JSON array)
         review_ids: Expected review IDs for validation
 
     Returns:
-        List of extraction dicts
+        List of extraction dicts with _validation_errors for invalid entries
     """
     response = response.strip()
+    valid_review_ids = set(review_ids)
 
     # Handle markdown code blocks
     if "```json" in response:
@@ -375,7 +416,17 @@ def parse_batch_extraction_response(response: str, review_ids: List[str]) -> Lis
     try:
         results = json.loads(response)
         if isinstance(results, list):
-            return results
+            # Validate review_ids against expected input
+            validated = []
+            for r in results:
+                rid = r.get("review_id", "")
+                if rid and rid not in valid_review_ids:
+                    # Mark as rejected with invalid review_id
+                    r["_validation_errors"] = r.get("_validation_errors", [])
+                    r["_validation_errors"].append(f"invalid_review_id:{rid}")
+                    r["is_relevant"] = False  # Force non-relevant for invalid IDs
+                validated.append(r)
+            return validated
     except json.JSONDecodeError:
         pass
 

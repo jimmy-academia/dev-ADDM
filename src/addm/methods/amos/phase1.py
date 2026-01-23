@@ -189,6 +189,75 @@ def _validate_expression(expr: str, field_name: str) -> Optional[str]:
     return None
 
 
+def _validate_enum_consistency(seed: Dict[str, Any]) -> List[str]:
+    """Validate that compute.where values match extract.fields enum values.
+
+    Catches mismatches like compute using "Moderate" when extract defines "Moderate incident".
+    This is a warning-level validation (returns warnings, not blocking errors).
+
+    Args:
+        seed: Formula Seed dict
+
+    Returns:
+        List of warning messages about enum inconsistencies
+    """
+    warnings = []
+
+    # Build map of field -> valid enum values (lowercased for comparison)
+    enum_values: Dict[str, set] = {}
+    for field in seed.get("extract", {}).get("fields", []):
+        if field.get("type") == "enum":
+            name = field.get("name", "")
+            values = field.get("values", {})
+            if isinstance(values, dict):
+                # Store both original and lowercase for matching
+                enum_values[name.upper()] = set(v.lower() for v in values.keys())
+
+    # Check compute.where conditions
+    for op in seed.get("compute", []):
+        op_name = op.get("name", "unknown")
+        where = op.get("where", {})
+
+        if not isinstance(where, dict):
+            continue
+
+        for field, expected in where.items():
+            # Skip logical operators and field/equals keys
+            if field in ("and", "or", "field", "equals", "not_equals"):
+                continue
+
+            field_upper = field.upper()
+            if field_upper not in enum_values:
+                continue  # Not an enum field or unknown field
+
+            valid_values = enum_values[field_upper]
+
+            # Check each expected value
+            expected_list = expected if isinstance(expected, list) else [expected]
+            for e in expected_list:
+                if not isinstance(e, str):
+                    continue
+                e_lower = e.lower()
+                # Check if value exists exactly or is a substring/superstring of valid values
+                exact_match = e_lower in valid_values
+                partial_match = any(e_lower in v or v in e_lower for v in valid_values)
+
+                if not exact_match and partial_match:
+                    # This is a potential mismatch that fuzzy matching will handle,
+                    # but we should warn about it
+                    warnings.append(
+                        f"compute.{op_name}: where value '{e}' is a partial match for {field} "
+                        f"enum values: {sorted(valid_values)}. Consider using exact enum keys."
+                    )
+                elif not exact_match and not partial_match:
+                    warnings.append(
+                        f"compute.{op_name}: where value '{e}' not found in {field} "
+                        f"enum values: {sorted(valid_values)}"
+                    )
+
+    return warnings
+
+
 def _validate_formula_seed(seed: Dict[str, Any]) -> List[str]:
     """Validate Formula Seed structure, expressions, and field references.
 
@@ -251,6 +320,11 @@ def _validate_formula_seed(seed: Dict[str, Any]) -> List[str]:
     # Validate field references in compute operations
     field_errors = _validate_field_references(seed)
     errors.extend(field_errors)
+
+    # Validate enum consistency (warnings, not blocking errors)
+    enum_warnings = _validate_enum_consistency(seed)
+    for warning in enum_warnings:
+        logger.warning(f"Enum consistency warning: {warning}")
 
     return errors
 
@@ -520,8 +594,9 @@ async def generate_formula_seed(
     Returns:
         Tuple of (formula_seed, usage_dict)
         - formula_seed: The generated Formula Seed specification
-        - usage_dict: Token/cost usage from all LLM calls
+        - usage_dict: Token/cost usage from all LLM calls (includes wall_clock_ms)
     """
+    start_time = time.perf_counter()
     all_usages = []
 
     # Step 1: OBSERVE
@@ -619,6 +694,10 @@ async def generate_formula_seed(
     # Return seed
     # =========================================================================
     total_usage = _accumulate_usage(all_usages)
+
+    # Add wall-clock timing
+    wall_clock_ms = (time.perf_counter() - start_time) * 1000
+    total_usage["wall_clock_ms"] = wall_clock_ms
 
     # Remove intermediate results before returning
     seed_clean = {k: v for k, v in seed.items() if not k.startswith("_")}

@@ -18,15 +18,14 @@ The framework is organized into five layers:
 1. CLI parses arguments and configures services (including OutputManager).
 2. Dataset loader builds `Dataset` and `Sample` objects.
 3. Method runner executes per-sample calls (async or sequential).
-4. Usage tracked per-call (UsageTracker), results logged (ResultLogger).
+4. Usage tracked per-call (UsageTracker), results logged to item_logs/.
 5. Results and metrics persisted to `results/` as single JSON file.
 
 ## Output System
 
-Three independent components handle output:
+Two independent components handle output:
 
 - **OutputManager** (`src/addm/utils/output.py`): Rich-formatted console display
-- **ResultLogger** (`src/addm/utils/logging.py`): Experiment result capture to files
 - **UsageTracker** (`src/addm/utils/usage.py`): Token/cost tracking with pricing model
 
 See [Output System Spec](specs/output_system.md) for details.
@@ -69,9 +68,7 @@ scripts/
 │   ├── build_topic_selection.py
 │   ├── select_topic_restaurants.py
 │   └── download_amazon.sh
-├── utils/              # Utility scripts
-├── run_g1_allergy.sh   # G1_allergy extraction pipeline
-└── manual_review.txt   # Reference doc
+└── select_diverse_samples.py  # Sample selection utility
 
 src/addm/
 ├── methods/            # LLM methods (direct, rlm, rag, amos)

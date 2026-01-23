@@ -71,7 +71,8 @@
       "Bash(if grep -q \"min_score_by_k\" \"$f\")",
       "Bash(then)",
       "Bash(else)",
-      "Bash(fi)"
+      "Bash(fi)",
+      "Bash(.venv/bin/pytest tests/ -v --tb=short --ignore=tests/test_formulas.py)"
     ]
   }
 }

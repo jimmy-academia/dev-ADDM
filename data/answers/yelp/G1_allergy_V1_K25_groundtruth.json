@@ -3,7 +3,7 @@
   "topic": "G1_allergy",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-22T19:59:08.897382",
+  "computed_at": "2026-01-22T20:48:48.542708",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -389,18 +389,11 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "Low Risk",
+        "matched_rule": "LOW",
         "policy_id": "G1_allergy_V1",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "a-ptEPsf-ea_7tpK2yoimw",
-            "severity_field": "incident_severity",
-            "severity_value": "severe",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "gjCxTVItFxk46rCZ-YaiFA": {
@@ -1162,15 +1155,15 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_allergy_V1",
         "n_incidents": 1,
         "incidents": [
           {
             "review_id": "IJbGk6P30mvrqcmE0Q1cTA",
             "severity_field": "incident_severity",
-            "severity_value": "moderate",
+            "severity_value": "mild",
             "account_type": "firsthand"
           }
         ]
@@ -1349,9 +1342,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Risk": 91,
-      "High Risk": 6,
-      "Critical Risk": 3
+      "Low Risk": 92,
+      "High Risk": 7,
+      "Critical Risk": 1
     },
     "missing_judgments": 0
   }

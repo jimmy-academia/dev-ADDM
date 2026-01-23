@@ -581,6 +581,7 @@ def compute_gt_from_policy_qualitative(
     judgments: List[Dict[str, Any]],
     policy: PolicyIR,
     restaurant_meta: Dict[str, Any],
+    overrides: Optional[Dict[str, Dict[str, Any]]] = None,
     k: int = 200,
 ) -> Dict[str, Any]:
     """
@@ -590,11 +591,16 @@ def compute_gt_from_policy_qualitative(
         judgments: List of aggregated L0 judgments
         policy: PolicyIR with decision rules
         restaurant_meta: Restaurant metadata
+        overrides: Optional dict of review_id -> override spec (from load_overrides)
         k: Dataset K value (for K-specific thresholds)
 
     Returns:
         Dict with verdict, rule that matched, and incidents list
     """
+    # Apply overrides before processing
+    overrides = overrides or {}
+    judgments = [apply_overrides(j, overrides) for j in judgments]
+
     rules = policy.normative.decision.rules
 
     # Extract evidence from judgments (same as scoring, but without point calculation)
@@ -614,12 +620,22 @@ def compute_gt_from_policy_qualitative(
 
         # Only include if it's actual evidence (not neutral/"none"/empty)
         if field_value in evidence_values:
+            # Build modifiers list from assurance_claim and staff_response
+            modifiers = []
+            assurance = j.get("assurance_claim", "false").lower().strip()
+            if assurance == "true":
+                modifiers.append("False assurance")
+            staff_response = j.get("staff_response", "none").lower().strip()
+            if staff_response == "dismissive":
+                modifiers.append("Dismissive staff")
+
             evidences.append({
                 "review_id": review_id,
                 "severity_field": evidence_field,  # Keep name for backward compat
                 "severity_value": field_value,     # Keep name for backward compat
                 # Include account_type for reference
                 "account_type": j.get("account_type", "").lower().strip(),
+                "modifiers": modifiers,
             })
 
     # Evaluate rules in order (precedence ladder)
@@ -702,7 +718,7 @@ def compute_gt_from_policy(
     if policy.normative.scoring:
         return compute_gt_from_policy_scoring(judgments, policy, restaurant_meta, overrides, k)
     else:
-        return compute_gt_from_policy_qualitative(judgments, policy, restaurant_meta, k)
+        return compute_gt_from_policy_qualitative(judgments, policy, restaurant_meta, overrides, k)
 
 
 def load_policy(policy_id: str) -> PolicyIR:

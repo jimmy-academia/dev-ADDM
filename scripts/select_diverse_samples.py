@@ -11,8 +11,11 @@ Usage:
     # Output comma-separated IDs (for --sample-ids flag)
     .venv/bin/python scripts/select_diverse_samples.py --policy G1_allergy_V2 --k 50 --n 5 --format ids
 
-    # Select for all policies and save to file
-    .venv/bin/python scripts/select_diverse_samples.py --all --k 50 --n 5 --output samples.json
+    # Select for all policies at a specific K
+    .venv/bin/python scripts/select_diverse_samples.py --policy all --k 50 --n 5 --output samples.json
+
+    # Select for all policies and all K values
+    .venv/bin/python scripts/select_diverse_samples.py --policy all --k all --output data/answers/yelp/verdict_sample_ids.json
 """
 
 import argparse
@@ -168,20 +171,12 @@ def main():
         description="Select diverse samples from ground truth"
     )
     parser.add_argument(
-        "--policy", type=str,
-        help="Policy ID (e.g., G1_allergy_V2)"
+        "--policy", type=str, required=True,
+        help="Policy ID (e.g., G1_allergy_V2) or 'all' for all 72 policies"
     )
     parser.add_argument(
-        "--all", action="store_true",
-        help="Select for all 72 policies"
-    )
-    parser.add_argument(
-        "--k", type=int, default=50,
-        help="Context size (default: 50). Use --all-k for all K values."
-    )
-    parser.add_argument(
-        "--all-k", action="store_true",
-        help="Generate for all K values (25, 50, 100, 200). Requires --all and --output."
+        "--k", type=str, default="50",
+        help="Context size (25, 50, 100, 200) or 'all' for all K values"
     )
     parser.add_argument(
         "--n", type=int, default=5,
@@ -197,18 +192,25 @@ def main():
     )
     parser.add_argument(
         "--output", type=str,
-        help="Output file path (for --all with json format)"
+        help="Output file path (required when --policy all or --k all)"
     )
 
     args = parser.parse_args()
 
-    if args.all:
-        if args.all_k:
-            # Generate for all K values in verdict_sample_ids.json format
-            if not args.output:
-                print("Error: --all-k requires --output")
-                sys.exit(1)
+    # Parse --k value
+    all_k = args.k.lower() == "all"
+    k_value = None if all_k else int(args.k)
 
+    # Parse --policy value
+    all_policies = args.policy.lower() == "all"
+
+    if all_policies:
+        if not args.output:
+            print("Error: --output is required when --policy all")
+            sys.exit(1)
+
+        if all_k:
+            # Generate for all K values in verdict_sample_ids.json format
             k_values = [25, 50, 100, 200]
             combined = {}
 
@@ -227,44 +229,23 @@ def main():
             print(f"Saved {len(combined)} policies × {len(k_values)} K values to {args.output}")
             return
 
-        results = select_for_all_policies(args.k, args.n, args.seed)
+        # All policies, single K
+        results = select_for_all_policies(k_value, args.n, args.seed)
 
-        if args.output:
-            with open(args.output, "w") as f:
-                json.dump(results, f, indent=2)
-            print(f"Saved results to {args.output}")
-        else:
-            # Print summary
-            print(f"Diverse samples for all 72 policies (K={args.k}, n={args.n})")
-            print("=" * 70)
-
-            total_with_gt = 0
-            total_missing_gt = 0
-
-            for policy_id, info in results.items():
-                if "error" in info:
-                    print(f"{policy_id}: ❌ {info['error']}")
-                    total_missing_gt += 1
-                else:
-                    counts = info["counts"]
-                    # Dynamic display based on actual verdicts
-                    counts_str = " ".join(f"{v[:3]}={c}" for v, c in counts.items())
-                    print(f"{policy_id}: ✓ {counts_str}")
-                    total_with_gt += 1
-
-            print("=" * 70)
-            print(f"Total: {total_with_gt} with GT, {total_missing_gt} missing GT")
-
+        with open(args.output, "w") as f:
+            json.dump(results, f, indent=2)
+        print(f"Saved results to {args.output}")
         return
 
-    if not args.policy:
-        parser.error("Either --policy or --all is required")
-
     # Single policy mode
-    gt_data = load_ground_truth(args.policy, args.k)
+    if all_k:
+        print("Error: --k all requires --policy all")
+        sys.exit(1)
+
+    gt_data = load_ground_truth(args.policy, k_value)
     if gt_data is None:
-        print(f"Error: Ground truth not found for {args.policy} K={args.k}")
-        print(f"Run: .venv/bin/python -m addm.tasks.cli.compute_gt --policy {args.policy} --k {args.k}")
+        print(f"Error: Ground truth not found for {args.policy} K={k_value}")
+        print(f"Run: .venv/bin/python -m addm.tasks.cli.compute_gt --policy {args.policy} --k {k_value}")
         sys.exit(1)
 
     sample_ids, counts = select_diverse_samples(gt_data, n=args.n, seed=args.seed)
@@ -283,7 +264,7 @@ def main():
 
         output = {
             "policy_id": args.policy,
-            "k": args.k,
+            "k": k_value,
             "n": args.n,
             "sample_ids": sample_ids,
             "counts": counts,
@@ -293,7 +274,7 @@ def main():
         print(json.dumps(output, indent=2))
 
     else:  # table format
-        print(f"Diverse samples for {args.policy} K={args.k}")
+        print(f"Diverse samples for {args.policy} K={k_value}")
         print("=" * 70)
 
         by_verdict = categorize_by_verdict(gt_data)

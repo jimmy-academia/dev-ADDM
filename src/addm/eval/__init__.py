@@ -13,9 +13,6 @@ from addm.eval.metrics import (
     normalize_verdict,
     normalize_judgement,
     compute_ordinal_auprc,
-    compute_primitive_accuracy,
-    compute_verdict_consistency,
-    evaluate_results,
     # New simplified metrics entry point
     compute_evaluation_metrics,
     # New metrics (v2)
@@ -26,8 +23,7 @@ from addm.eval.metrics import (
 from addm.eval.intermediate_metrics import (
     compute_intermediate_metrics,
     compute_evidence_validity,
-    compute_classification_accuracy,  # Deprecated, use compute_judgement_accuracy
-    compute_judgement_accuracy,       # New policy-agnostic version
+    compute_judgement_accuracy,
     compute_verdict_support,
     load_gt_with_incidents,
     build_reviews_data,
@@ -56,9 +52,6 @@ __all__ = [
     "normalize_verdict",
     "normalize_judgement",
     "compute_ordinal_auprc",
-    "compute_primitive_accuracy",
-    "compute_verdict_consistency",
-    "evaluate_results",
     # New simplified metrics (recommended - 7 metrics)
     "compute_evaluation_metrics",
     "compute_score_accuracy",
@@ -66,8 +59,7 @@ __all__ = [
     # Intermediate metrics
     "compute_intermediate_metrics",
     "compute_evidence_validity",
-    "compute_classification_accuracy",  # Deprecated
-    "compute_judgement_accuracy",       # New
+    "compute_judgement_accuracy",
     "compute_verdict_support",
     "load_gt_with_incidents",
     "build_reviews_data",

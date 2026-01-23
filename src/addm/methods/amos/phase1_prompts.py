@@ -633,15 +633,20 @@ If compute is empty, the seed is INVALID and will fail to produce any verdicts.
    - CORRECT: {{"where": {{"SIGNAL_TYPE": "positive"}}}} where SIGNAL_TYPE is type: "enum"
    - WRONG: {{"where": {{"DESCRIPTION": "some text"}}}} where DESCRIPTION is type: "string"
    - If you need to count by signal types, define those signals as an ENUM field first!
-7. **VERDICT LABELS**: Use EXACT verdict strings from observations.verdict_rules.verdicts - copy character-for-character!
+8. **VERDICT LABELS**: Use EXACT verdict strings from observations.verdict_rules.verdicts - copy character-for-character!
    - If observations say "Critical Risk", use "Critical Risk" NOT "Critical"
    - If observations say "Low Risk", use "Low Risk" NOT "Low"
-8. **outcome_field (REQUIRED)**: MUST set extract.outcome_field to the category field name that represents the outcome
+9. **outcome_field (REQUIRED)**: MUST set extract.outcome_field to the category field name that represents the outcome
    - This is the field phase2 uses to determine if an extraction represents an actual incident
    - Example: for allergy → "INCIDENT_SEVERITY", for romance → "AMBIANCE_QUALITY", for service → "SERVICE_OUTCOME"
-9. **none_values (REQUIRED)**: MUST set extract.none_values to the list of values that mean "no incident"
+10. **none_values (REQUIRED)**: MUST set extract.none_values to the list of values that mean "no incident"
    - Derive from observations.categories.values - find values meaning absence/none/not applicable
    - Example: ["none", "not applicable", "no incident"]
+11. **ENUM CONSISTENCY (CRITICAL)**: The `where` conditions in compute operations MUST use values that match
+    what the LLM extraction will return. Use SHORT LABELS that match the extract.fields enum keys:
+    - WRONG: extract.fields uses {{"Moderate incident": "..."}}, compute.where uses {{"SEVERITY": ["Moderate"]}}
+    - CORRECT: extract.fields uses {{"Moderate": "..."}}, compute.where uses {{"SEVERITY": ["Moderate"]}}
+    - Keep enum value keys SHORT and SIMPLE (e.g., "Moderate" not "Moderate incident")
 
 8. **extraction_guidelines**: MUST be generated from observations to guide precise extraction. Format as a multi-line string:
 

@@ -4,24 +4,6 @@ Research benchmark: 72 policy evaluation tasks across restaurant reviews (Yelp).
 
 ---
 
-## ⚠️ MULTI-AGENT COORDINATION (2026-01-22)
-
-**3 Claude agents currently active.**
-
-| Agent | Working On | Status |
-|-------|------------|--------|
-| Agent 1 | G1 policies | Active |
-| Agent 2 | G6 policies | Active |
-| Agent 3 | This session | Active |
-
-**Files at risk of conflict:**
-- `src/addm/methods/amos/phase2.py` - uncommitted changes
-- `src/addm/tasks/cli/run_experiment.py` - uncommitted changes
-
-**BEFORE editing AMOS**: Update this table with what you're working on. ASK the user if unsure.
-
----
-
 ## Critical Rules
 
 - **Python**: Always use `.venv/bin/python`

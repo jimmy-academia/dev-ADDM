@@ -92,6 +92,17 @@
       },
       "reason": "No allergy mentioned. \"Made me sick. Don't know why. Food just tasted off to me. Maybe it was me.\" - vague food quality issue, no allergy mentioned",
       "business_id": "18eWJFJbXyR9j_5xfcRLYA"
+    },
+    {
+      "review_id": "IJbGk6P30mvrqcmE0Q1cTA",
+      "business_id": "JrG4NINLspXPNhSXg7Q07Q",
+      "original": {
+        "incident_severity": "moderate"
+      },
+      "corrected": {
+        "incident_severity": "mild"
+      },
+      "reason": "Per definition: no visible symptoms (hives/swelling) or medication mentioned. 'Super sick' and 'sick all night' without these specific indicators = mild, not moderate."
     }
   ],
   "G1_dietary": [

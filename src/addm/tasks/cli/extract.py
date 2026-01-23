@@ -66,8 +66,6 @@ def _print_batch_submitted(identifier: str, topic: str = None) -> None:
     output.info("To check status, re-run this command (it will poll and process when ready).")
     if topic:
         output.console.print(f"  [dim].venv/bin/python -m addm.tasks.cli.extract --topic {topic}[/dim]")
-    output.info("Or use the wrapper script:")
-    output.console.print(f"  [dim]./scripts/run_g1_allergy.sh[/dim]")
 
 
 def _get_manifest_path(domain: str, manifest_id: str) -> Path:

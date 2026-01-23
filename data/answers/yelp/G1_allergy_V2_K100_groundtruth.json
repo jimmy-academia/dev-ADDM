@@ -3,7 +3,7 @@
   "topic": "G1_allergy",
   "domain": "yelp",
   "k": 100,
-  "computed_at": "2026-01-22T20:00:04.511720",
+  "computed_at": "2026-01-22T20:49:03.539977",
   "has_scoring": true,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -1310,19 +1310,19 @@
       "n_judgments": 100,
       "ground_truth": {
         "verdict": "Critical Risk",
-        "score": 10,
+        "score": 7,
         "n_incidents": 1,
         "incidents": [
           {
             "review_id": "IJbGk6P30mvrqcmE0Q1cTA",
             "severity_field": "incident_severity",
-            "severity_value": "moderate",
-            "severity_label": "Moderate incident",
-            "base_points": 5,
+            "severity_value": "mild",
+            "severity_label": "Mild incident",
+            "base_points": 2,
             "modifiers": [
               "False assurance"
             ],
-            "total_points": 10
+            "total_points": 7
           }
         ],
         "cuisine_modifier": false,

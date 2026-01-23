@@ -2,9 +2,17 @@
 CLI: Run experiment evaluation (all methods: direct, rlm, rag, amos).
 
 Usage:
-    # Policy-based run (benchmark mode by default, quota-controlled)
+    # Run ALL 72 policies (omit --policy)
+    .venv/bin/python -m addm.tasks.cli.run_experiment --k 25 --method amos --dev
+
+    # Run ALL 72 policies with verdict samples
+    .venv/bin/python -m addm.tasks.cli.run_experiment --k 25 --method amos --dev --sample
+
+    # Single policy
     .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100
-    .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1/allergy/V2 -n 100
+
+    # Multiple policies (comma-separated)
+    .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V0,G1_allergy_V1 --dev
 
     # Dev mode (saves to results/dev/, no quota)
     .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --dev
@@ -52,6 +60,21 @@ from addm.utils.output import output
 from addm.utils.results_manager import ResultsManager, get_results_manager
 from addm.utils.usage import compute_cost
 
+
+# All 72 policies (6 groups × 3 topics × 4 variants)
+ALL_POLICIES = [
+    f"G{g}_{topic}_V{v}"
+    for g, topics in [
+        (1, ["allergy", "dietary", "hygiene"]),
+        (2, ["romance", "business", "group"]),
+        (3, ["price_worth", "hidden_costs", "time_value"]),
+        (4, ["server", "kitchen", "environment"]),
+        (5, ["capacity", "execution", "consistency"]),
+        (6, ["uniqueness", "comparison", "loyalty"]),
+    ]
+    for topic in topics
+    for v in range(4)
+]
 
 # Mapping from policy topic to legacy task ID for ground truth comparison
 # Policy naming: G{group}_{topic}_V{version} -> Task: G{group}{variant}
@@ -1408,21 +1431,6 @@ Let's think through this step-by-step:"""
                 results, gt_data, reviews_data
             )
 
-            # Display summary
-            if intermediate_metrics.get("summary"):
-                summary = intermediate_metrics["summary"]
-                int_rows = []
-                for key in ["n_structured", "evidence_precision", "severity_accuracy",
-                           "snippet_validity", "verdict_support_rate"]:
-                    val = summary.get(key)
-                    if val is not None:
-                        if isinstance(val, float):
-                            int_rows.append([key, f"{val:.3f}"])
-                        else:
-                            int_rows.append([key, str(val)])
-                if int_rows:
-                    output.print_table("Intermediate Metrics", ["Metric", "Value"], int_rows)
-
     # Compute evaluation metrics (new simplified system)
     eval_metrics = {}
     unified_metrics = {}  # Keep for backward compat in results.json
@@ -1505,7 +1513,7 @@ Let's think through this step-by-step:"""
     aggregated_usage = {
         "total_prompt_tokens": sum(r.get("prompt_tokens", 0) for r in results if "error" not in r),
         "total_completion_tokens": sum(r.get("completion_tokens", 0) for r in results if "error" not in r),
-        "total_tokens": sum(r.get("total_tokens", 0) for r in results if "error" not in r),
+        "total_tokens": sum(r.get("prompt_tokens", 0) + r.get("completion_tokens", 0) for r in results if "error" not in r),
         "total_cost_usd": sum(r.get("cost_usd", 0.0) for r in results if "error" not in r),
         "total_latency_ms": sum(r.get("latency_ms", 0.0) for r in results if "error" not in r and r.get("latency_ms")),
         "total_llm_calls": sum(r.get("llm_calls", 1) for r in results if "error" not in r),
@@ -1609,13 +1617,13 @@ def main() -> None:
     """CLI entry point."""
     parser = argparse.ArgumentParser(description="Run experiment evaluation")
 
-    # Task or policy (mutually exclusive, one required)
-    group = parser.add_mutually_exclusive_group(required=True)
+    # Task or policy (mutually exclusive, optional - omit to run all 72 policies)
+    group = parser.add_mutually_exclusive_group(required=False)
     group.add_argument("--task", type=str, help="Legacy task ID (e.g., G1a)")
     group.add_argument(
         "--policy",
         type=str,
-        help="Policy ID (e.g., G1_allergy_V2 or G1/allergy/V2)",
+        help="Policy ID (e.g., G1_allergy_V2) or comma-separated list. Omit to run all 72 policies.",
     )
 
     parser.add_argument("--domain", type=str, default="yelp", help="Domain")
@@ -1705,6 +1713,7 @@ def main() -> None:
 
     # Parse sample_ids from comma-separated string or load from --sample
     sample_ids = None
+    all_sample_ids_data = None  # For multi-policy --sample mode
     if args.sample_ids:
         sample_ids = [s.strip() for s in args.sample_ids.split(",") if s.strip()]
     elif args.sample:
@@ -1715,29 +1724,58 @@ def main() -> None:
             output.info("Generate with: .venv/bin/python scripts/select_diverse_samples.py --all --k <K> --output ...")
             sys.exit(1)
         with open(sample_ids_file) as f:
-            all_sample_ids = json.load(f)
-        policy_key = args.policy.replace("/", "_") if args.policy else args.task
-        k_key = f"K{args.k}"
-        if policy_key not in all_sample_ids:
-            output.error(f"Policy {policy_key} not found in verdict samples")
-            sys.exit(1)
-        ids_str = all_sample_ids[policy_key].get(k_key, "")
-        if not ids_str:
-            output.error(f"No sample IDs for {policy_key} K={args.k}")
-            sys.exit(1)
-        sample_ids = [s.strip() for s in ids_str.split(",") if s.strip()]
-        output.info(f"Using {len(sample_ids)} verdict samples for {policy_key} K={args.k}")
+            all_sample_ids_data = json.load(f)
 
-    # Parse policies - support comma-separated list for parallel execution
+        # For single policy, resolve sample_ids now; for multi-policy, resolve per-policy later
+        if args.policy and "," not in args.policy:
+            policy_key = args.policy.replace("/", "_")
+            k_key = f"K{args.k}"
+            if policy_key not in all_sample_ids_data:
+                output.error(f"Policy {policy_key} not found in verdict samples")
+                sys.exit(1)
+            ids_str = all_sample_ids_data[policy_key].get(k_key, "")
+            if not ids_str:
+                output.error(f"No sample IDs for {policy_key} K={args.k}")
+                sys.exit(1)
+            sample_ids = [s.strip() for s in ids_str.split(",") if s.strip()]
+            output.info(f"Using {len(sample_ids)} verdict samples for {policy_key} K={args.k}")
+        elif args.task:
+            policy_key = args.task
+            k_key = f"K{args.k}"
+            if policy_key not in all_sample_ids_data:
+                output.error(f"Task {policy_key} not found in verdict samples")
+                sys.exit(1)
+            ids_str = all_sample_ids_data[policy_key].get(k_key, "")
+            if not ids_str:
+                output.error(f"No sample IDs for {policy_key} K={args.k}")
+                sys.exit(1)
+            sample_ids = [s.strip() for s in ids_str.split(",") if s.strip()]
+            output.info(f"Using {len(sample_ids)} verdict samples for {policy_key} K={args.k}")
+        # else: multi-policy mode - sample_ids resolved per-policy in the loop
+
+    # Parse policies - support comma-separated list or default to all 72
     policies = []
     if args.policy:
         policies = [p.strip() for p in args.policy.split(",") if p.strip()]
+    elif not args.task:
+        # No --policy and no --task: run all 72 policies
+        policies = ALL_POLICIES.copy()
+        output.info(f"Running all {len(policies)} policies")
 
     if len(policies) > 1:
-        # Multiple policies - run in parallel
+        # Multiple policies - run sequentially (to avoid overwhelming the API)
         async def run_single_policy_safe(policy: str) -> Dict[str, Any]:
             """Run a single policy with error handling."""
             try:
+                # Resolve sample_ids per-policy if using --sample with multiple policies
+                policy_sample_ids = sample_ids
+                if all_sample_ids_data and not sample_ids:
+                    policy_key = policy.replace("/", "_")
+                    k_key = f"K{args.k}"
+                    ids_str = all_sample_ids_data.get(policy_key, {}).get(k_key, "")
+                    if ids_str:
+                        policy_sample_ids = [s.strip() for s in ids_str.split(",") if s.strip()]
+
                 return await run_experiment(
                     task_id=args.task,
                     policy_id=policy,
@@ -1756,7 +1794,7 @@ def main() -> None:
                     batch_id=args.batch_id,
                     top_k=args.top_k,
                     batch_size=args.batch_size,
-                    sample_ids=sample_ids,
+                    sample_ids=policy_sample_ids,
                     phase=args.phase,
                     seed_path=args.seed,
                     run_number=args.run,

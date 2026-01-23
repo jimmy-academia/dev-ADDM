@@ -62,8 +62,8 @@
 | `--dev` | run_experiment | Dev mode (saves to results/dev/, no quota) |
 | `--force` | run_experiment | Override benchmark quota |
 | `--method` | run_experiment | Method (direct/cot/react/rlm/rag/amos) |
-| `--filter-mode` | run_experiment | AMOS: Stage 1 filter (keyword/embedding/hybrid) |
 | `--phase` | run_experiment | AMOS phase: '1' (seed only), '2' (use seed), '1,2' or omit (both) |
+| `--batch-size` | run_experiment | AMOS: Reviews per LLM call (default: 10) |
 | `--seed` | run_experiment | Path to Formula Seed file/dir for --phase 2 |
 | `--models` | extract | Custom model config (e.g., "gpt-5-nano:3,gpt-5-mini:1") |
 | `--k` | all | Context size (25/50/100/200) |

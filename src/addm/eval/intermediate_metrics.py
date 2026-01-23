@@ -19,6 +19,7 @@ from addm.eval.constants import (
     MODIFIER_POINTS,
     VERDICT_THRESHOLDS,
 )
+from addm.utils.text_validation import validate_multi_span_snippet
 
 
 def _extract_evidences(result: Dict[str, Any]) -> List[Dict[str, Any]]:
@@ -35,27 +36,6 @@ def _extract_justification(result: Dict[str, Any]) -> Dict[str, Any]:
     if isinstance(parsed, dict):
         return parsed.get("justification", {})
     return {}
-
-
-def _get_reviews_from_context(context_str: str) -> Dict[str, str]:
-    """Extract review_id -> text mapping from context JSON.
-
-    Args:
-        context_str: JSON string of restaurant data
-
-    Returns:
-        Dict mapping review_id to review text
-    """
-    try:
-        data = json.loads(context_str)
-        reviews = data.get("reviews", [])
-        return {
-            r.get("review_id", ""): r.get("text", "")
-            for r in reviews
-            if r.get("review_id")
-        }
-    except (json.JSONDecodeError, TypeError):
-        return {}
 
 
 def compute_evidence_validity(
@@ -151,15 +131,10 @@ def compute_evidence_validity(
                 if snippet and review_id:
                     sample_snippet_total += 1
                     review_text = reviews.get(review_id, "")
-                    # Check if snippet is substring of review
-                    if snippet in review_text:
+                    # Use multi-span validation (handles combined non-adjacent sentences)
+                    validation = validate_multi_span_snippet(snippet, review_text)
+                    if validation["valid"]:
                         sample_snippet_valid += 1
-                    elif review_text:
-                        # Try fuzzy match (allow minor whitespace differences)
-                        normalized_snippet = " ".join(snippet.split())
-                        normalized_review = " ".join(review_text.split())
-                        if normalized_snippet in normalized_review:
-                            sample_snippet_valid += 1
 
             total_snippets += sample_snippet_total
             valid_snippets += sample_snippet_valid
@@ -213,9 +188,9 @@ def _fields_equivalent(method_field: str, gt_field: str) -> bool:
     Returns:
         True if fields are equivalent
     """
-    # Normalize both to lowercase for comparison
-    method_lower = method_field.lower().replace("_", "")
-    gt_lower = gt_field.lower().replace("_", "")
+    # Normalize both to lowercase for comparison (remove underscores AND spaces)
+    method_lower = method_field.lower().replace("_", "").replace(" ", "")
+    gt_lower = gt_field.lower().replace("_", "").replace(" ", "")
 
     # Exact match after normalization
     if method_lower == gt_lower:
@@ -259,13 +234,16 @@ def compute_judgement_accuracy(
     This is policy-agnostic: works for G1 allergy (severity_field=incident_severity),
     G2 romance (severity_field=date_outcome), G4 server (severity_field=attentiveness), etc.
 
+    IMPORTANT: Total is based on GT incidents (fixed denominator), not method claims.
+    This ensures accuracy=0% when method fails, not N/A.
+
     Args:
         results: Method outputs with parsed.evidences
         gt_data: GT data by business_id with incidents array
 
     Returns:
         Tuple of (accuracy, details_dict)
-        - accuracy: float 0.0-1.0 or None if no matches
+        - accuracy: float 0.0-1.0 or None if no GT incidents
         - details: breakdown with correct, total, per_field stats
     """
     correct = 0
@@ -280,20 +258,25 @@ def compute_judgement_accuracy(
         gt = gt_data.get(biz_id, {})
         gt_incidents = gt.get("incidents", [])
 
-        # Build GT lookup by review_id
-        gt_by_review = {
-            inc.get("review_id"): inc
-            for inc in gt_incidents
-            if inc.get("review_id")
-        }
-
+        # Build method's evidence lookup by review_id -> {field -> evidence}
+        # AMOS outputs multiple evidences per review_id (one per field),
+        # so we need to store them by field to look up the correct one
         evidences = _extract_evidences(result)
-        for evidence in evidences:
-            review_id = evidence.get("review_id")
-            if not review_id or review_id not in gt_by_review:
-                continue  # Not a valid match
+        method_by_review: Dict[str, Dict[str, Dict[str, Any]]] = {}
+        for e in evidences:
+            review_id = e.get("review_id")
+            if review_id:
+                if review_id not in method_by_review:
+                    method_by_review[review_id] = {}
+                field = e.get("field", "").upper()
+                method_by_review[review_id][field] = e
 
-            gt_incident = gt_by_review[review_id]
+        # For each GT incident, check if method correctly classified it
+        # Total is based on GT (fixed denominator)
+        for gt_incident in gt_incidents:
+            review_id = gt_incident.get("review_id")
+            if not review_id:
+                continue
 
             # Get GT's severity field and value (policy-agnostic)
             gt_severity_field = gt_incident.get("severity_field", "").upper()
@@ -305,60 +288,105 @@ def compute_judgement_accuracy(
             if not gt_severity_value:
                 gt_severity_value = gt_incident.get("severity", "").lower()
 
-            # Get method's field and judgement
-            method_field = evidence.get("field", "").upper()
-            method_judgement = evidence.get("judgement", "").lower()
-
             # Track per-field stats
-            if method_field not in per_field:
-                per_field[method_field] = {"correct": 0, "total": 0}
+            if gt_severity_field not in per_field:
+                per_field[gt_severity_field] = {"correct": 0, "total": 0}
 
-            # Check if fields match (or are equivalent)
-            if method_field == gt_severity_field or _fields_equivalent(method_field, gt_severity_field):
-                total += 1
-                per_field[method_field]["total"] += 1
+            total += 1
+            per_field[gt_severity_field]["total"] += 1
 
-                # Normalize method judgement to extract core value
-                # For severity, check against known severity values
-                severity_values = list(SEVERITY_BASE_POINTS.keys())
-                normalized_judgement = normalize_judgement(method_judgement, severity_values)
+            # Check if method found this incident
+            if review_id not in method_by_review:
+                continue  # Method missed this GT incident
 
-                # If we got a match from severity normalization, use it
-                if normalized_judgement:
-                    method_value = normalized_judgement
-                else:
-                    # Otherwise use raw lowercase value (for non-severity fields)
-                    method_value = method_judgement.strip()
+            # Find the evidence with matching field (method stores multiple fields per review)
+            method_fields = method_by_review[review_id]
+            method_evidence = None
 
-                if _values_equivalent(method_value, gt_severity_value):
-                    correct += 1
-                    per_field[method_field]["correct"] += 1
+            # First try exact field match
+            if gt_severity_field in method_fields:
+                method_evidence = method_fields[gt_severity_field]
+            else:
+                # Try equivalent field matching
+                for field, evidence in method_fields.items():
+                    if _fields_equivalent(field, gt_severity_field):
+                        method_evidence = evidence
+                        break
 
-            # Also check modifiers if present in both
-            gt_modifiers = set(gt_incident.get("modifiers", []))
-            if method_field in ("ASSURANCE_CLAIM", "ASSURANCE_OF_SAFETY"):
-                has_false_assurance = "False assurance" in gt_modifiers
+            if method_evidence is None:
+                continue  # Method didn't classify this field
+
+            method_field = method_evidence.get("field", "").upper()
+            method_judgement = method_evidence.get("judgement", "").lower()
+
+            # Normalize method judgement to extract core value
+            severity_values = list(SEVERITY_BASE_POINTS.keys())
+            normalized_judgement = normalize_judgement(method_judgement, severity_values)
+
+            # If we got a match from severity normalization, use it
+            if normalized_judgement:
+                method_value = normalized_judgement
+            else:
+                # Otherwise use raw lowercase value (for non-severity fields)
+                method_value = method_judgement.strip()
+
+            if _values_equivalent(method_value, gt_severity_value):
+                correct += 1
+                per_field[gt_severity_field]["correct"] += 1
+
+        # Check modifiers separately (only if GT has modifiers defined)
+        for gt_incident in gt_incidents:
+            review_id = gt_incident.get("review_id")
+            gt_modifiers = gt_incident.get("modifiers")
+            if not review_id or gt_modifiers is None:
+                continue
+
+            if review_id not in method_by_review:
+                continue
+
+            method_fields = method_by_review[review_id]
+            gt_modifiers_set = set(gt_modifiers)
+
+            # Check for assurance field (may be under different names)
+            assurance_evidence = None
+            for field_name in ("ASSURANCE_CLAIM", "ASSURANCE_OF_SAFETY"):
+                if field_name in method_fields:
+                    assurance_evidence = method_fields[field_name]
+                    break
+
+            if assurance_evidence:
+                method_field = assurance_evidence.get("field", "").upper()
+                method_judgement = assurance_evidence.get("judgement", "").lower()
+                has_false_assurance = "False assurance" in gt_modifiers_set
                 assurance_positive = ["true", "yes", "detected", "false assurance", "no assurance"]
                 method_detected = normalize_judgement(method_judgement, assurance_positive) is not None
 
+                if method_field not in per_field:
+                    per_field[method_field] = {"correct": 0, "total": 0}
                 total += 1
-                per_field[method_field]["total"] = per_field.get(method_field, {}).get("total", 0) + 1
+                per_field[method_field]["total"] += 1
 
                 if method_detected == has_false_assurance:
                     correct += 1
-                    per_field[method_field]["correct"] = per_field.get(method_field, {}).get("correct", 0) + 1
+                    per_field[method_field]["correct"] += 1
 
-            elif method_field == "STAFF_RESPONSE":
-                has_dismissive = "Dismissive staff" in gt_modifiers
+            # Check for staff response field
+            staff_evidence = method_fields.get("STAFF_RESPONSE")
+            if staff_evidence:
+                method_field = "STAFF_RESPONSE"
+                method_judgement = staff_evidence.get("judgement", "").lower()
+                has_dismissive = "Dismissive staff" in gt_modifiers_set
                 staff_negative = ["dismissive", "negative", "bad", "rude", "unhelpful"]
                 method_detected = normalize_judgement(method_judgement, staff_negative) is not None
 
+                if method_field not in per_field:
+                    per_field[method_field] = {"correct": 0, "total": 0}
                 total += 1
-                per_field[method_field]["total"] = per_field.get(method_field, {}).get("total", 0) + 1
+                per_field[method_field]["total"] += 1
 
                 if method_detected == has_dismissive:
                     correct += 1
-                    per_field[method_field]["correct"] = per_field.get(method_field, {}).get("correct", 0) + 1
+                    per_field[method_field]["correct"] += 1
 
     # Compute per-field accuracy
     for field_stats in per_field.values():
@@ -374,30 +402,6 @@ def compute_judgement_accuracy(
         "correct": correct,
         "total": total,
         "per_field": per_field,
-    }
-
-
-# Keep old function name as alias for backward compatibility
-def compute_classification_accuracy(
-    results: List[Dict[str, Any]],
-    gt_data: Dict[str, Dict[str, Any]],
-) -> Dict[str, Any]:
-    """DEPRECATED: Use compute_judgement_accuracy() instead.
-
-    This wrapper maintains backward compatibility with code that expects
-    the old return format.
-    """
-    accuracy, details = compute_judgement_accuracy(results, gt_data)
-
-    # Convert to old format for backward compatibility
-    return {
-        "severity_accuracy": accuracy,
-        "severity_correct": details.get("correct", 0),
-        "severity_total": details.get("total", 0),
-        "modifier_accuracy": None,  # Old function tracked separately
-        "modifier_correct": 0,
-        "modifier_total": 0,
-        "per_field": details.get("per_field", {}),
     }
 
 
@@ -561,7 +565,7 @@ def compute_intermediate_metrics(
     evidence_validity = compute_evidence_validity(
         structured_results, gt_data, reviews_data
     )
-    classification_accuracy = compute_classification_accuracy(
+    judgement_accuracy, judgement_details = compute_judgement_accuracy(
         structured_results, gt_data
     )
     verdict_support = compute_verdict_support(
@@ -573,7 +577,7 @@ def compute_intermediate_metrics(
         "n_total": len(results),
         "n_structured": len(structured_results),
         "evidence_precision": evidence_validity.get("evidence_precision"),
-        "severity_accuracy": classification_accuracy.get("severity_accuracy"),
+        "judgement_accuracy": judgement_accuracy,
         "verdict_support_rate": verdict_support.get("verdict_support_rate"),
     }
 
@@ -583,7 +587,8 @@ def compute_intermediate_metrics(
 
     return {
         "evidence_validity": evidence_validity,
-        "classification_accuracy": classification_accuracy,
+        "judgement_accuracy": judgement_accuracy,
+        "judgement_details": judgement_details,
         "verdict_support": verdict_support,
         "summary": summary,
     }

@@ -3,7 +3,7 @@
   "topic": "G1_allergy",
   "domain": "yelp",
   "k": 200,
-  "computed_at": "2026-01-22T20:00:11.346550",
+  "computed_at": "2026-01-22T20:49:12.132544",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -51,18 +51,11 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "Low Risk",
+        "matched_rule": "LOW",
         "policy_id": "G1_allergy_V1",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "nUnKst735eNhs3E2hNj6tA",
-            "severity_field": "incident_severity",
-            "severity_value": "moderate",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "SZU9c8V2GuREDN5KgyHFJw": {
@@ -430,18 +423,11 @@
       "n_reviews": 73,
       "n_judgments": 73,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "Low Risk",
+        "matched_rule": "LOW",
         "policy_id": "G1_allergy_V1",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "a-ptEPsf-ea_7tpK2yoimw",
-            "severity_field": "incident_severity",
-            "severity_value": "severe",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "gjCxTVItFxk46rCZ-YaiFA": {
@@ -450,18 +436,11 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Low Risk",
+        "matched_rule": "LOW",
         "policy_id": "G1_allergy_V1",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "roT4J43wWrc5gxQCWJ5fzQ",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "5xRmemqmR89BpGoOA25hqA": {
@@ -731,18 +710,11 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Low Risk",
+        "matched_rule": "LOW",
         "policy_id": "G1_allergy_V1",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "nMYIG1gx9oam2TLS06_7MQ",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "kK-pcrXr3CEnWP-ci7XXgw": {
@@ -1029,18 +1001,11 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Low Risk",
+        "matched_rule": "LOW",
         "policy_id": "G1_allergy_V1",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "vJuBSCJrACzOCv6Ek8kh6g",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "unjm4rIGc-ZzRxdzEPnc1g": {
@@ -1131,15 +1096,8 @@
         "verdict": "High Risk",
         "matched_rule": "HIGH",
         "policy_id": "G1_allergy_V1",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "SIbNMTMFG58czcgjXVDj7Q",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "LIHDIAocngz5Loe04eQ_oA": {
@@ -1207,18 +1165,11 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Low Risk",
+        "matched_rule": "LOW",
         "policy_id": "G1_allergy_V1",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "F2cdx4hR4UrJmGMzwprAUA",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "Fc_8eLlcq5yy4DzrEeqEaQ": {
@@ -1292,15 +1243,15 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_allergy_V1",
         "n_incidents": 2,
         "incidents": [
           {
             "review_id": "IJbGk6P30mvrqcmE0Q1cTA",
             "severity_field": "incident_severity",
-            "severity_value": "moderate",
+            "severity_value": "mild",
             "account_type": "firsthand"
           },
           {
@@ -1338,18 +1289,11 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Low Risk",
+        "matched_rule": "LOW",
         "policy_id": "G1_allergy_V1",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "fenfMbiHzRvK0PSM06w5ZQ",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "i_FWONQD1ZBqrNE2b-M5Ug": {
@@ -1513,9 +1457,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Risk": 71,
-      "High Risk": 17,
-      "Critical Risk": 12
+      "Low Risk": 78,
+      "High Risk": 13,
+      "Critical Risk": 9
     },
     "missing_judgments": 0
   }

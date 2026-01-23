@@ -3,7 +3,7 @@
   "topic": "G1_allergy",
   "domain": "yelp",
   "k": 50,
-  "computed_at": "2026-01-22T19:59:49.375697",
+  "computed_at": "2026-01-22T20:48:54.091720",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -272,8 +272,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_allergy_V0",
         "n_incidents": 1,
         "incidents": [
@@ -305,8 +305,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_allergy_V0",
         "n_incidents": 1,
         "incidents": [
@@ -403,18 +403,11 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Critical Risk",
-        "matched_rule": "CRITICAL",
+        "verdict": "Low Risk",
+        "matched_rule": "LOW",
         "policy_id": "G1_allergy_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "a-ptEPsf-ea_7tpK2yoimw",
-            "severity_field": "incident_severity",
-            "severity_value": "severe",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "gjCxTVItFxk46rCZ-YaiFA": {
@@ -426,15 +419,8 @@
         "verdict": "Low Risk",
         "matched_rule": "LOW",
         "policy_id": "G1_allergy_V0",
-        "n_incidents": 1,
-        "incidents": [
-          {
-            "review_id": "roT4J43wWrc5gxQCWJ5fzQ",
-            "severity_field": "incident_severity",
-            "severity_value": "mild",
-            "account_type": "firsthand"
-          }
-        ]
+        "n_incidents": 0,
+        "incidents": []
       }
     },
     "5xRmemqmR89BpGoOA25hqA": {
@@ -723,8 +709,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "High Risk",
-        "matched_rule": "HIGH",
+        "verdict": "Low Risk",
+        "matched_rule": "LOW",
         "policy_id": "G1_allergy_V0",
         "n_incidents": 0,
         "incidents": []
@@ -775,8 +761,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "matched_rule": "LOW",
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
         "policy_id": "G1_allergy_V0",
         "n_incidents": 2,
         "incidents": [
@@ -1211,7 +1197,7 @@
           {
             "review_id": "IJbGk6P30mvrqcmE0Q1cTA",
             "severity_field": "incident_severity",
-            "severity_value": "moderate",
+            "severity_value": "mild",
             "account_type": "firsthand"
           }
         ]
@@ -1397,9 +1383,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Risk": 94,
-      "High Risk": 3,
-      "Critical Risk": 3
+      "Low Risk": 93,
+      "High Risk": 5,
+      "Critical Risk": 2
     },
     "missing_judgments": 0
   }
