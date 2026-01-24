@@ -92,9 +92,17 @@ def validate_policy_yaml(yaml_data: Dict[str, Any]) -> None:
             continue
 
         # Validate conditions
+        # For scoring policies, rules may have "condition" (singular) with score expression
+        # For count policies, rules have "conditions" (plural) with field/values
+        condition_singular = rule.get("condition", "")  # e.g., "score >= 12"
         conditions = rule.get("conditions", [])
-        if not conditions and not rule.get("default"):
+
+        if not conditions and not condition_singular and not rule.get("default"):
             errors.append(f"Rule {i} ('{verdict}') has no conditions and is not default")
+
+        # If this is a score-based condition, skip field validation (no field references)
+        if condition_singular and "score" in condition_singular.lower():
+            continue
 
         for j, cond in enumerate(conditions):
             field = cond.get("field")
@@ -227,11 +235,19 @@ def _build_extract_fields(
             logger.debug(f"Skipping term '{name}' - duplicates existing field")
             continue
 
+        # Build case-insensitive description lookup
+        # This handles mismatches like values=["mild"] with descriptions={"Mild": "..."}
+        desc_lookup = {}
+        for k, v_desc in descriptions.items():
+            desc_lookup[str(k).lower()] = v_desc
+
         # Build values dict (convert to strings for YAML bool handling)
         values_dict = {}
         for v in values:
             v_str = str(v)
-            desc = descriptions.get(v, descriptions.get(v_str, f"Indicates {v_str}"))
+            v_lower = v_str.lower()
+            # Try case-insensitive lookup first, fall back to generic description
+            desc = desc_lookup.get(v_lower, f"Indicates {v_str}")
             values_dict[v_str] = desc
 
         fields.append({
@@ -305,11 +321,113 @@ def _determine_outcome_field(terms: List[Dict[str, Any]]) -> tuple:
     return outcome_field, none_values
 
 
+def _build_scoring_compute(
+    rules: List[Dict[str, Any]],
+    scoring_config: Dict[str, Any],
+    account_field: str,
+    counting_account_type: str,
+) -> List[Dict[str, Any]]:
+    """Build compute operations for scoring policies using SUM.
+
+    This generates proper SUM-based scoring operations instead of converting
+    to count-based, preserving the original threshold semantics.
+
+    Args:
+        rules: List of verdict rules (may have "condition: score >= X")
+        scoring_config: Scoring configuration from PolicyYAML (base_points, modifiers, etc.)
+        account_field: Name of account type field
+        counting_account_type: Account type that counts for verdicts
+
+    Returns:
+        List of compute operations for Formula Seed
+    """
+    import re
+
+    compute = []
+
+    outcome_field = scoring_config.get("outcome_field", "INCIDENT_SEVERITY")
+    base_points = scoring_config.get("base_points", {})
+    modifiers = scoring_config.get("modifiers", [])
+
+    # 1. BASE_POINTS: Sum severity points using CASE expression
+    if base_points:
+        case_parts = [f"WHEN {outcome_field}='{v}' THEN {pts}" for v, pts in base_points.items()]
+        compute.append({
+            "name": "BASE_POINTS",
+            "op": "sum",
+            "expr": f"CASE {' '.join(case_parts)} ELSE 0 END",
+            "where": {account_field: [counting_account_type]},
+        })
+
+    # 2. MODIFIER operations (one per modifier)
+    modifier_names = []
+    for mod in modifiers:
+        field = mod.get("field", "")
+        value = mod.get("value", "")
+        points = mod.get("points", 0)
+        if field and value:
+            name = f"MOD_{field.upper()}"
+            modifier_names.append(name)
+            compute.append({
+                "name": name,
+                "op": "sum",
+                "expr": f"CASE WHEN {field}='{value}' THEN {points} ELSE 0 END",
+                "where": {account_field: [counting_account_type]},
+            })
+
+    # 3. SCORE = BASE_POINTS + modifiers
+    if base_points:
+        expr = "BASE_POINTS"
+        if modifier_names:
+            expr += "".join(f" + {m}" for m in modifier_names)
+        compute.append({
+            "name": "SCORE",
+            "op": "expr",
+            "expr": expr,
+        })
+
+    # 4. VERDICT case on SCORE with original thresholds
+    verdict_rules = []
+    for rule in rules:
+        verdict = rule.get("verdict", "")
+
+        if rule.get("default"):
+            verdict_rules.append({"else": verdict})
+        elif "condition" in rule:
+            # Parse "score >= X" -> {"when": ">= X", "then": verdict}
+            cond = rule["condition"]
+            # Match patterns like "score >= 12", "score >= 2", "score <= -5"
+            match = re.search(r'score\s*([><=]+)\s*(-?\d+)', cond.lower())
+            if match:
+                op = match.group(1)
+                threshold = match.group(2)
+                verdict_rules.append({
+                    "when": f"SCORE {op} {threshold}",
+                    "then": verdict,
+                })
+            else:
+                logger.warning(f"Could not parse score condition: {cond}")
+        elif "conditions" in rule:
+            # Fall back to count-based logic for rules with explicit conditions
+            # This shouldn't happen for pure scoring policies but handles edge cases
+            logger.warning(f"Scoring policy has count-based conditions, skipping: {rule}")
+
+    compute.append({
+        "name": "VERDICT",
+        "op": "case",
+        "source": "SCORE",
+        "rules": verdict_rules,
+    })
+
+    return compute
+
+
 def _build_compute_operations(
     rules: List[Dict[str, Any]],
     policy_type: str,
     account_field: str = "ACCOUNT_TYPE",
     counting_account_type: str = "Firsthand",
+    scoring_config: Optional[Dict[str, Any]] = None,
 ) -> List[Dict[str, Any]]:
     """Build compute operations from rules.
 
@@ -317,62 +435,40 @@ def _build_compute_operations(
     - Creates count operations for each unique field+values combination
     - Builds VERDICT case operation with proper conditions
 
-    For scoring policies:
-    - Creates sum operations for point calculations
-    - Builds SCORE computation and VERDICT thresholds
+    For scoring policies with score-based conditions:
+    - Routes to _build_scoring_compute for SUM-based operations
+    - Preserves original score thresholds (no conversion to counts)
 
     Args:
         rules: List of verdict rules from PolicyYAML
         policy_type: "count_rule_based" or "scoring"
         account_field: Name of account type field
         counting_account_type: Account type that counts for verdicts
+        scoring_config: Optional scoring configuration for scoring policies
 
     Returns:
         List of compute operations for Formula Seed
     """
+    # Check if this is a scoring policy with score-based conditions
+    # These should use SUM operations, not COUNT
+    has_score_conditions = any(
+        "condition" in r and "score" in r.get("condition", "").lower()
+        for r in rules if not r.get("default")
+    )
+
+    if policy_type == "scoring" and has_score_conditions and scoring_config:
+        # Route to dedicated scoring compute builder
+        logger.info("Using SUM-based scoring operations (score conditions detected)")
+        return _build_scoring_compute(
+            rules=rules,
+            scoring_config=scoring_config,
+            account_field=account_field,
+            counting_account_type=counting_account_type,
+        )
+
+    # Otherwise use count-based logic (for count_rule_based or scoring without score conditions)
     compute = []
     count_vars = {}  # Track count variable names to avoid duplicates
-
-    # For scoring policies, check if this is a risk-based policy (all verdicts are risk levels)
-    # vs a signal-based policy (has positive/negative recommendations)
-    is_risk_based = False
-    if policy_type == "scoring":
-        verdicts = [r.get("verdict", "").lower() for r in rules if not r.get("default")]
-        # Risk-based if all non-default verdicts contain "risk" or are severity levels
-        risk_keywords = {"risk", "critical", "high", "low", "severe", "moderate", "mild"}
-        is_risk_based = all(any(kw in v for kw in risk_keywords) for v in verdicts if v)
-
-        if not is_risk_based:
-            # For non-risk scoring policies, apply moderate threshold scaling.
-            # The goal is to prevent over-triggering while keeping verdicts achievable.
-            #
-            # With K=25 and filtering, expect 10-30 relevant extractions.
-            # Target: ~20-30% of extractions needed for non-default verdict = 5-10.
-            negative_keywords = {"poor", "bad", "low", "overpriced", "terrible", "worst", "negative", "needs", "generic"}
-            positive_keywords = {"good", "excellent", "great", "best", "positive", "high", "recommended", "unique", "highly"}
-
-            for rule in rules:
-                if rule.get("default"):
-                    continue  # Don't modify default rules
-
-                verdict = rule.get("verdict", "").lower()
-                is_negative = any(kw in verdict for kw in negative_keywords)
-                is_positive = any(kw in verdict for kw in positive_keywords)
-
-                for cond in rule.get("conditions", []):
-                    if "min_count" in cond:
-                        # Moderate scaling: 2x with reasonable floors
-                        if is_negative:
-                            # Negative verdicts need stronger evidence
-                            cond["min_count"] = max(6, cond["min_count"] * 2)
-                        elif is_positive:
-                            # Positive verdicts: moderate threshold
-                            cond["min_count"] = max(5, cond["min_count"] * 2)
-                        else:
-                            # Neutral verdicts: slightly lower
-                            cond["min_count"] = max(4, cond["min_count"] * 2)
-
-            logger.debug(f"Scoring policy: applied moderate threshold scaling")
 
     if policy_type in ("count_rule_based", "scoring"):
         # Extract all unique field+values combinations and create count ops
@@ -613,12 +709,16 @@ def compile_yaml_to_seed(
     extract_fields = _build_extract_fields(terms, account_handling)
     outcome_field, none_values = _determine_outcome_field(terms)
 
+    # Get scoring config for scoring policies
+    scoring_config = yaml_data.get("scoring", {})
+
     # Build compute section
     compute_ops = _build_compute_operations(
         rules=rules,
         policy_type=policy_type,
         account_field=account_field,
         counting_account_type=counting_account_type,
+        scoring_config=scoring_config,
     )
 
     # Build extraction guidelines from terms and rules
@@ -626,10 +726,15 @@ def compile_yaml_to_seed(
 
     # Build output list
     output_fields = ["VERDICT"]
-    # Add count variables to output for transparency
+    # Add computed variables to output for transparency
     for op in compute_ops:
-        if op.get("op") == "count":
-            output_fields.append(op.get("name", ""))
+        op_type = op.get("op")
+        op_name = op.get("name", "")
+        if op_type == "count":
+            output_fields.append(op_name)
+        elif op_type in ("sum", "expr") and op_name:
+            # Include SCORE, BASE_POINTS, modifiers for scoring policies
+            output_fields.append(op_name)
 
     # Assemble Formula Seed
     seed = {

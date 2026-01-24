@@ -11,20 +11,16 @@ from typing import Optional
 class Phase1Approach(Enum):
     """Approach for Phase 1 Formula Seed generation.
 
-    PLAN_AND_ACT: Fixed 3-step pipeline (OBSERVE → PLAN → ACT)
-                  LLM generates Formula Seed directly. More flexible but error-prone.
-
-    HYBRID: NL → PolicyYAML → deterministic compiler
-            LLM generates simple YAML in one shot, compiler ensures correct operations.
-
     PARTS: Part-by-part extraction (recommended)
            Extracts each query section separately (terms, scoring, verdicts).
            Most reliable - each LLM call is focused on one specific task.
+
+    HYBRID: NL → PolicyYAML → deterministic compiler
+            LLM generates simple YAML in one shot, compiler ensures correct operations.
     """
 
-    PLAN_AND_ACT = "plan_and_act"
-    HYBRID = "hybrid"
     PARTS = "parts"
+    HYBRID = "hybrid"
 
 
 @dataclass

@@ -3,13 +3,10 @@
 LLM reads agenda/query and produces a Formula Seed (executable JSON specification).
 
 Two approaches available (configured via AMOSConfig.phase1_approach):
-1. PLAN_AND_ACT (legacy): OBSERVE → PLAN → ACT pipeline, LLM generates seed directly
-2. HYBRID (recommended): NL → PolicyYAML → deterministic compiler
+1. PARTS (recommended): Part-by-part extraction (terms → scoring → verdicts)
+2. HYBRID: Single-shot NL → PolicyYAML → deterministic compiler
 
-The HYBRID approach splits the work:
-- LLM is good at: understanding NL, producing structured YAML
-- LLM is bad at: complex count operations, enum filtering logic
-- Solution: LLM does understanding, compiler does precision
+Legacy Plan-and-Act approach is in backup/phase1_backup.py.
 
 All approaches include validation after generation.
 """
@@ -30,292 +27,14 @@ from addm.utils.debug_logger import get_debug_logger
 from addm.utils.output import output
 
 from .phase1_prompts import (
-    OBSERVE_PROMPT,
-    PLAN_PROMPT,
-    ACT_PROMPT,
-    FIX_PROMPT,
+    TEXT2YAML_PROMPT,
+    EXTRACT_TERMS_PROMPT,
+    EXTRACT_SCORING_PROMPT,
+    EXTRACT_VERDICTS_PROMPT,
 )
 from .seed_compiler import compile_yaml_to_seed, validate_policy_yaml, PolicyYAMLValidationError
 
 logger = logging.getLogger(__name__)
-
-# Maximum attempts to fix structural errors
-MAX_FIX_ATTEMPTS = 3
-
-
-# =============================================================================
-# TEXT2YAML Prompt for Hybrid Approach
-# =============================================================================
-
-TEXT2YAML_PROMPT = '''You are a policy specification expert. Analyze this query and generate a PolicyYAML specification.
-
-## QUERY/AGENDA
-
-{agenda}
-
-## YOUR TASK
-
-Read the query carefully and produce a PolicyYAML that captures:
-1. What fields/signals to extract from reviews
-2. What values each field can have
-3. What verdict rules determine the outcome
-
-## OUTPUT FORMAT (YAML)
-
-```yaml
-policy_type: count_rule_based  # use "count_rule_based" for counting occurrences, "scoring" for point systems
-
-task_name: "<brief description of what this policy evaluates>"
-
-terms:
-  - name: <FIELD_NAME_IN_CAPS>
-    values: [<value1>, <value2>, ...]  # all possible values for this field
-    descriptions:
-      <value1>: "<what this value means>"
-      <value2>: "<what this value means>"
-
-verdicts: [<verdict1>, <verdict2>, <verdict3>]  # exactly the verdicts from the query
-
-rules:
-  # Non-default rules: checked in order
-  - verdict: <verdict_label>
-    logic: ANY  # ANY = at least one condition; ALL = all conditions must be true
-    conditions:
-      - field: <FIELD_NAME>
-        values: [<value1>, <value2>]  # which values count toward this verdict
-        min_count: <N>  # how many needed (extract from query, e.g., "2 or more" → 2)
-
-  # Default rule: applied when no other rules match
-  - verdict: <default_verdict>
-    default: true
-```
-
-## CRITICAL RULES
-
-1. **FIELD NAMES**: Use UPPERCASE_WITH_UNDERSCORES (e.g., PRICE_PERCEPTION, INCIDENT_SEVERITY)
-
-2. **VALUES**: List ALL possible values for each field. These become enum options for extraction.
-
-3. **VERDICTS**: Use EXACT verdict labels from the query. Copy them character-for-character.
-
-4. **THRESHOLDS**: Extract exact numbers from the query:
-   - "2 or more" → min_count: 2
-   - "at least 10" → min_count: 10
-   - "multiple" → min_count: 2 (standard interpretation)
-
-5. **RULE ORDER**: More specific rules first, default rule last.
-
-6. **DEFAULT RULE**: Exactly ONE rule must have `default: true`
-
-7. **CONDITION VALUES**: The `values` in a condition specify WHICH enum values to count.
-   Example: To count "positive reviews", use values that indicate positive sentiment.
-
-## EXAMPLE
-
-For query: "Recommend restaurants with good value. Recommend if 10+ reviews say it's a bargain or good value. Not Recommended if 5+ say it's overpriced or a ripoff. Otherwise Neutral."
-
-```yaml
-policy_type: count_rule_based
-
-task_name: "Evaluate restaurant value for money"
-
-terms:
-  - name: PRICE_PERCEPTION
-    values: [bargain, good_value, fair, overpriced, ripoff]
-    descriptions:
-      bargain: "Exceptional value, prices much lower than expected for quality"
-      good_value: "Good value for money, reasonable prices"
-      fair: "Average value, neither good nor bad deal"
-      overpriced: "Prices higher than expected for quality"
-      ripoff: "Extremely overpriced, poor value"
-
-verdicts: [Recommend, Not Recommended, Neutral]
-
-rules:
-  - verdict: Recommend
-    logic: ANY
-    conditions:
-      - field: PRICE_PERCEPTION
-        values: [bargain, good_value]
-        min_count: 10
-
-  - verdict: Not Recommended
-    logic: ANY
-    conditions:
-      - field: PRICE_PERCEPTION
-        values: [overpriced, ripoff]
-        min_count: 5
-
-  - verdict: Neutral
-    default: true
-```
-
-## NOW GENERATE
-
-Analyze the query above and output ONLY the PolicyYAML (no explanation before or after):
-
-```yaml
-'''
-
-
-# =============================================================================
-# Part-by-Part Prompts for Structured Extraction
-# =============================================================================
-
-EXTRACT_TERMS_PROMPT = '''You are extracting term definitions from a policy query.
-
-## QUERY SECTION
-
-{section}
-
-## YOUR TASK
-
-Extract ALL terms/fields defined in this section. Each term has:
-- A name (convert to UPPERCASE_WITH_UNDERSCORES)
-- Possible values (the options/categories)
-- Descriptions for each value
-
-## OUTPUT FORMAT (YAML)
-
-```yaml
-terms:
-  - name: FIELD_NAME
-    values: [value1, value2, value3]
-    descriptions:
-      value1: "description of what this value means"
-      value2: "description of what this value means"
-```
-
-## RULES
-
-1. Use UPPERCASE_WITH_UNDERSCORES for field names (e.g., PRICE_PERCEPTION, INCIDENT_SEVERITY)
-2. Use lowercase_with_underscores for values (e.g., good_value, very_poor)
-3. Include ALL values mentioned, even neutral ones
-4. Copy descriptions verbatim when possible
-
-Output ONLY the YAML, no explanation:
-
-```yaml
-'''
-
-EXTRACT_SCORING_PROMPT = '''You are extracting a scoring system from a policy query.
-
-## QUERY SECTION
-
-{section}
-
-## AVAILABLE TERMS AND VALUES (USE ONLY THESE)
-
-{terms_summary}
-
-## YOUR TASK
-
-Extract the scoring rules using ONLY the field names and values listed above.
-
-1. Base points: What points are assigned for each value of the outcome field
-2. Modifiers: Additional points for other field values
-
-CRITICAL: The outcome_field MUST be one of the Available Terms above.
-CRITICAL: base_points keys MUST use EXACT values from that term's value list.
-CRITICAL: modifier field/value pairs MUST use EXACT terms and values from above.
-
-## OUTPUT FORMAT (YAML)
-
-```yaml
-policy_type: scoring
-
-scoring:
-  outcome_field: FIELD_NAME  # MUST be from Available Terms
-  base_points:  # Keys MUST be exact values from that field
-    value1: 10
-    value2: 5
-    value3: 0
-    value4: -5
-  modifiers:
-    - field: OTHER_FIELD  # MUST be from Available Terms
-      value: some_value   # MUST be from that field's values
-      points: 3
-```
-
-## RULES
-
-1. Extract EXACT point values from the query (e.g., "+10 points", "-5 points")
-2. outcome_field: Pick the MAIN outcome field from Available Terms (usually has severity-like values)
-3. base_points: Map the outcome field's VALUES to points
-4. modifiers: Use OTHER field+value pairs from Available Terms
-5. If no scoring system exists, output: `policy_type: count_rule_based`
-
-Output ONLY the YAML, no explanation:
-
-```yaml
-'''
-
-EXTRACT_VERDICTS_PROMPT = '''You are extracting verdict rules from a policy query.
-
-## QUERY SECTION
-
-{section}
-
-## AVAILABLE TERMS (use ONLY these field names)
-
-{context}
-
-## YOUR TASK
-
-Extract the verdict rules that determine the final outcome.
-
-CRITICAL: You may ONLY use field names listed in "Available Terms" above.
-Do NOT invent new field names.
-
-## OUTPUT FORMAT (YAML)
-
-For SCORING policies (point-based):
-```yaml
-verdicts: [Verdict1, Verdict2, Verdict3]
-
-rules:
-  - verdict: Verdict1
-    condition: score >= 44
-  - verdict: Verdict2
-    condition: score <= -13
-  - verdict: Verdict3
-    default: true
-```
-
-For COUNT-BASED policies:
-```yaml
-verdicts: [Verdict1, Verdict2, Verdict3]
-
-rules:
-  - verdict: Verdict1
-    logic: ANY
-    conditions:
-      - field: FIELD_NAME
-        values: [value1, value2]
-        min_count: 10
-  - verdict: Verdict2
-    logic: ALL
-    conditions:
-      - field: FIELD_NAME
-        values: [value3]
-        min_count: 5
-  - verdict: Verdict3
-    default: true
-```
-
-## RULES
-
-1. Use EXACT verdict labels from the query (copy character-for-character)
-2. Extract EXACT threshold numbers (e.g., "44 or higher" → >= 44)
-3. For count-based: min_count is how many reviews needed
-4. Exactly ONE rule must have `default: true`
-5. Default rule should be the "neutral" or "middle" verdict
-6. ONLY use field names from "Available Terms" - NEVER invent new names
-
-Output ONLY the YAML, no explanation:
-
-```yaml
-'''
 
 
 # =============================================================================
@@ -868,13 +587,8 @@ def _combine_parts_to_yaml(
     rules = verdicts_data.get("rules", [])
 
     if policy_type == "scoring":
-        # For scoring policies, convert score-based conditions to count-based
-        # The rules might have "condition: score >= X" format
-        # Convert to conditions with the outcome field
-        scoring_info = scoring.get("scoring", {}) if scoring else {}
-        outcome_field = scoring_info.get("outcome_field", "INCIDENT_SEVERITY")
-        base_points = scoring_info.get("base_points", {})
-
+        # For scoring policies, PRESERVE score-based conditions
+        # Don't convert to counts - let seed_compiler generate proper SUM operations
         processed_rules = []
         for rule in rules:
             new_rule = {"verdict": rule.get("verdict", "")}
@@ -882,51 +596,16 @@ def _combine_parts_to_yaml(
             if rule.get("default"):
                 new_rule["default"] = True
             elif "condition" in rule:
-                # Score-based condition: "score >= 44" or "score <= -13"
-                cond = rule.get("condition", "")
-
-                # Parse threshold
-                threshold = None
-                is_positive = ">=" in cond
-                match = re.search(r'(-?\d+)', cond)
-                if match:
-                    threshold = int(match.group(1))
-
-                if threshold is not None:
-                    # Determine which values contribute positively/negatively
-                    if is_positive:
-                        # Positive threshold: count values with positive points
-                        positive_values = [v for v, pts in base_points.items() if pts > 0]
-                        if positive_values:
-                            # Estimate min_count from threshold and average points
-                            avg_pts = sum(base_points[v] for v in positive_values) / len(positive_values)
-                            min_count = max(2, int(threshold / avg_pts)) if avg_pts > 0 else 5
-                            new_rule["logic"] = "ANY"
-                            new_rule["conditions"] = [{
-                                "field": outcome_field,
-                                "values": positive_values,
-                                "min_count": min_count,
-                            }]
-                    else:
-                        # Negative threshold: count values with negative points
-                        negative_values = [v for v, pts in base_points.items() if pts < 0]
-                        if negative_values:
-                            # Estimate min_count from threshold and average points
-                            avg_pts = abs(sum(base_points[v] for v in negative_values) / len(negative_values))
-                            min_count = max(2, int(abs(threshold) / avg_pts)) if avg_pts > 0 else 3
-                            new_rule["logic"] = "ANY"
-                            new_rule["conditions"] = [{
-                                "field": outcome_field,
-                                "values": negative_values,
-                                "min_count": min_count,
-                            }]
+                # Preserve score-based condition: "score >= X"
+                # This will be handled by _build_scoring_compute in seed_compiler
+                new_rule["condition"] = rule.get("condition")
             elif "conditions" in rule:
                 # Already has conditions list, use as-is
                 new_rule["logic"] = rule.get("logic", "ANY")
                 new_rule["conditions"] = rule.get("conditions", [])
 
-            # Only add rule if it has conditions or is default
-            if new_rule.get("default") or new_rule.get("conditions"):
+            # Only add rule if it has condition, conditions, or is default
+            if new_rule.get("default") or new_rule.get("condition") or new_rule.get("conditions"):
                 processed_rules.append(new_rule)
             else:
                 logger.warning(f"Skipping rule without conditions: {rule}")
@@ -1493,157 +1172,6 @@ def _validate_field_references(seed: Dict[str, Any]) -> List[str]:
 
 
 # =============================================================================
-# Plan-and-Act Pipeline Steps (Legacy Approach)
-# =============================================================================
-
-async def _observe(
-    agenda: str,
-    llm: LLMService,
-    policy_id: str,
-) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    """Step 1: OBSERVE - Extract concepts from query without domain hints.
-
-    Args:
-        agenda: The task agenda/query prompt
-        llm: LLM service for API calls
-        policy_id: Policy identifier for context
-
-    Returns:
-        Tuple of (observations, usage)
-    """
-    output.status(f"[Phase 1] Step 1/3: OBSERVE - Analyzing query...")
-
-    prompt = OBSERVE_PROMPT.format(agenda=agenda)
-    messages = [{"role": "user", "content": prompt}]
-
-    start_time = time.time()
-    response, usage = await llm.call_async_with_usage(
-        messages,
-        context={"phase": "phase1_plan_act", "step": "observe", "policy_id": policy_id},
-        response_format={"type": "json_object"},
-    )
-    latency_ms = (time.time() - start_time) * 1000
-    usage["latency_ms"] = latency_ms
-
-    # Log to debug file immediately
-    if debug_logger := get_debug_logger():
-        debug_logger.log_llm_call(
-            sample_id=policy_id,
-            phase="phase1_observe",
-            prompt=prompt,
-            response=response,
-            model=llm._config.get("model", "unknown"),
-            latency_ms=latency_ms,
-        )
-
-    try:
-        observations = _extract_json_from_response(response)
-    except json.JSONDecodeError as e:
-        logger.warning(f"OBSERVE JSON parse failed: {e}")
-        raise ValueError(f"Failed to parse OBSERVE response: {e}")
-
-    return observations, usage
-
-
-async def _plan(
-    observations: Dict[str, Any],
-    llm: LLMService,
-    policy_id: str,
-) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    """Step 2: PLAN - Create keyword and field strategy based on observations.
-
-    Args:
-        observations: Output from OBSERVE step
-        llm: LLM service for API calls
-        policy_id: Policy identifier for context
-
-    Returns:
-        Tuple of (plan, usage)
-    """
-    output.status(f"[Phase 1] Step 2/3: PLAN - Building search strategy...")
-
-    prompt = PLAN_PROMPT.format(observations=json.dumps(observations, indent=2))
-    messages = [{"role": "user", "content": prompt}]
-
-    start_time = time.time()
-    response, usage = await llm.call_async_with_usage(
-        messages,
-        context={"phase": "phase1_plan_act", "step": "plan", "policy_id": policy_id},
-        response_format={"type": "json_object"},
-    )
-    latency_ms = (time.time() - start_time) * 1000
-    usage["latency_ms"] = latency_ms
-
-    # Log to debug file immediately
-    if debug_logger := get_debug_logger():
-        debug_logger.log_llm_call(
-            sample_id=policy_id,
-            phase="phase1_plan",
-            prompt=prompt,
-            response=response,
-            model=llm._config.get("model", "unknown"),
-            latency_ms=latency_ms,
-        )
-
-    try:
-        plan = _extract_json_from_response(response)
-    except json.JSONDecodeError as e:
-        logger.warning(f"PLAN JSON parse failed: {e}")
-        raise ValueError(f"Failed to parse PLAN response: {e}")
-
-    return plan, usage
-
-
-async def _act(
-    observations: Dict[str, Any],
-    plan: Dict[str, Any],
-    llm: LLMService,
-    policy_id: str,
-) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    """Step 3: ACT - Generate Formula Seed following the plan.
-
-    Args:
-        observations: Output from OBSERVE step
-        plan: Output from PLAN step
-        llm: LLM service for API calls
-        policy_id: Policy identifier for context
-
-    Returns:
-        Tuple of (formula_seed, usage)
-    """
-    output.status(f"[Phase 1] Step 3/3: ACT - Generating Formula Seed...")
-
-    prompt = ACT_PROMPT.format(
-        observations=json.dumps(observations, indent=2),
-        plan=json.dumps(plan, indent=2),
-    )
-    messages = [{"role": "user", "content": prompt}]
-
-    start_time = time.time()
-    response, usage = await llm.call_async_with_usage(
-        messages,
-        context={"phase": "phase1_plan_act", "step": "act", "policy_id": policy_id},
-        response_format={"type": "json_object"},
-    )
-    latency_ms = (time.time() - start_time) * 1000
-    usage["latency_ms"] = latency_ms
-
-    # Log to debug file immediately
-    if debug_logger := get_debug_logger():
-        debug_logger.log_llm_call(
-            sample_id=policy_id,
-            phase="phase1_act",
-            prompt=prompt,
-            response=response,
-            model=llm._config.get("model", "unknown"),
-            latency_ms=latency_ms,
-        )
-
-    seed = _extract_json_from_response(response)
-    return seed, usage
-
-
-# =============================================================================
 # Hybrid Approach: Text → YAML → Compiled Seed
 # =============================================================================
 
@@ -1793,156 +1321,8 @@ async def generate_formula_seed_hybrid(
 
 
 # =============================================================================
-# Main Entry Points
+# Main Entry Point
 # =============================================================================
-
-async def generate_formula_seed(
-    agenda: str,
-    policy_id: str,
-    llm: LLMService,
-    progress_callback: Optional[ProgressCallback] = None,
-) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    """Generate Formula Seed from agenda prompt using Plan-and-Act approach.
-
-    Phase 1 of AMOS: LLM reads agenda and produces executable specification.
-    Seeds are generated fresh each run and saved to run directory (not globally cached).
-
-    Uses a fixed 3-step pipeline: OBSERVE → PLAN → ACT.
-    No domain-specific hints - keywords are discovered from the agenda text.
-
-    Args:
-        agenda: The task agenda/query prompt
-        policy_id: Policy identifier (e.g., "G1_allergy_V2")
-        llm: LLM service for API calls
-        progress_callback: Optional callback for progress updates.
-            Signature: callback(phase: int, step: str, progress: float, detail: str)
-
-    Returns:
-        Tuple of (formula_seed, usage_dict)
-        - formula_seed: The generated Formula Seed specification
-        - usage_dict: Token/cost usage from all LLM calls (includes wall_clock_ms)
-    """
-    start_time = time.perf_counter()
-    all_usages = []
-
-    def report(step: str, progress: float, detail: str = "") -> None:
-        if progress_callback:
-            progress_callback(1, step, progress, detail)
-
-    # Step 1: OBSERVE
-    report("OBSERVE", 10, "analyzing query")
-    logger.info(f"Phase 1: Step 1/3 OBSERVE for {policy_id}")
-    observations, usage1 = await _observe(agenda, llm, policy_id)
-    all_usages.append(usage1)
-    logger.debug(f"Observed primary topic: {observations.get('core_concepts', {}).get('primary_topic', 'unknown')}")
-    report("OBSERVE", 25, "complete")
-
-    # Step 2: PLAN
-    report("PLAN", 30, "building strategy")
-    logger.info(f"Phase 1: Step 2/3 PLAN for {policy_id}")
-    plan, usage2 = await _plan(observations, llm, policy_id)
-    all_usages.append(usage2)
-    report("PLAN", 45, "complete")
-
-    # Step 3: ACT
-    report("ACT", 50, "generating seed")
-    logger.info(f"Phase 1: Step 3/3 ACT for {policy_id}")
-    seed, usage3 = await _act(observations, plan, llm, policy_id)
-    all_usages.append(usage3)
-    report("ACT", 70, "complete")
-
-    # Store intermediates
-    intermediates = {
-        "observations": observations,
-        "plan": plan,
-    }
-    seed["_approach"] = "plan_and_act"
-    seed["_intermediates"] = intermediates
-
-    # =========================================================================
-    # Validation and Fix Loop
-    # =========================================================================
-    report("VALIDATE", 75, "checking seed")
-    errors = _validate_formula_seed(seed)
-
-    if errors:
-        output.status(f"[Phase 1] Structural validation: {len(errors)} errors")
-    else:
-        output.status(f"[Phase 1] Structural validation: passed")
-        report("VALIDATE", 95, "passed")
-
-    fix_attempt = 0
-    while errors and fix_attempt < MAX_FIX_ATTEMPTS:
-        fix_attempt += 1
-        report("FIX", 80 + fix_attempt * 5, f"attempt {fix_attempt}/{MAX_FIX_ATTEMPTS}")
-        output.status(f"[Phase 1] Validation: {len(errors)} errors, fixing (attempt {fix_attempt}/{MAX_FIX_ATTEMPTS})...")
-        logger.info(f"Formula Seed has {len(errors)} errors, attempting fix {fix_attempt}/{MAX_FIX_ATTEMPTS}")
-        logger.debug(f"Errors: {errors}")
-
-        # Build fix prompt
-        seed_for_fix = {k: v for k, v in seed.items() if not k.startswith("_")}
-        fix_prompt = FIX_PROMPT.format(
-            errors="\n".join(f"- {e}" for e in errors),
-            seed_json=json.dumps(seed_for_fix, indent=2),
-        )
-
-        fix_messages = [
-            {"role": "user", "content": f"Fix this Formula Seed:\n\n{fix_prompt}"},
-        ]
-
-        start_time = time.time()
-        fix_response, fix_usage = await llm.call_async_with_usage(
-            fix_messages,
-            context={"phase": "phase1_fix", "policy_id": policy_id, "attempt": fix_attempt},
-        )
-        fix_usage["latency_ms"] = (time.time() - start_time) * 1000
-        all_usages.append(fix_usage)
-
-        # Log fix attempt to debug file
-        if debug_logger := get_debug_logger():
-            debug_logger.log_llm_call(
-                sample_id=policy_id,
-                phase="phase1_fix",
-                prompt=fix_prompt,
-                response=fix_response,
-                model=llm._config.get("model", "unknown"),
-                latency_ms=fix_usage["latency_ms"],
-                metadata={"attempt": fix_attempt, "errors": errors},
-            )
-
-        try:
-            fixed_seed = _extract_json_from_response(fix_response)
-            fixed_seed["_approach"] = "plan_and_act"
-            fixed_seed["_intermediates"] = intermediates
-            seed = fixed_seed
-            errors = _validate_formula_seed(seed)
-        except json.JSONDecodeError as e:
-            logger.warning(f"Fix attempt {fix_attempt} failed to parse: {e}")
-
-    if errors:
-        raise ValueError(
-            f"Formula Seed validation failed after {MAX_FIX_ATTEMPTS} fix attempts. "
-            f"Errors: {errors}"
-        )
-
-    if fix_attempt > 0:
-        output.status(f"[Phase 1] Formula Seed fixed after {fix_attempt} attempt(s)")
-        logger.info(f"Formula Seed fixed after {fix_attempt} attempt(s)")
-
-    # =========================================================================
-    # Return seed
-    # =========================================================================
-    total_usage = _accumulate_usage(all_usages)
-
-    # Add wall-clock timing
-    wall_clock_ms = (time.perf_counter() - start_time) * 1000
-    total_usage["wall_clock_ms"] = wall_clock_ms
-
-    # Remove intermediate results before returning
-    seed_clean = {k: v for k, v in seed.items() if not k.startswith("_")}
-
-    return seed_clean, total_usage
-
 
 async def generate_formula_seed_with_config(
     agenda: str,
@@ -1956,7 +1336,6 @@ async def generate_formula_seed_with_config(
     Selects between approaches based on config.phase1_approach:
     - PARTS: Part-by-part extraction (recommended) - extracts terms, scoring, verdicts separately
     - HYBRID: NL → PolicyYAML → deterministic compiler - single-shot YAML generation
-    - PLAN_AND_ACT: Legacy 3-step pipeline (OBSERVE → PLAN → ACT)
 
     Args:
         agenda: The task agenda/query prompt
@@ -1985,10 +1364,8 @@ async def generate_formula_seed_with_config(
             progress_callback=progress_callback,
         )
     else:
-        # PLAN_AND_ACT
-        return await generate_formula_seed(
-            agenda=agenda,
-            policy_id=policy_id,
-            llm=llm,
-            progress_callback=progress_callback,
+        # PLAN_AND_ACT is deprecated - use PARTS instead
+        raise ValueError(
+            f"Phase1Approach.PLAN_AND_ACT is deprecated. "
+            f"Use Phase1Approach.PARTS (recommended) or Phase1Approach.HYBRID instead."
         )

@@ -13,7 +13,7 @@ from addm.data.types import Sample
 from addm.llm import LLMService
 from addm.methods.base import Method
 from addm.methods.amos.config import AMOSConfig
-from addm.methods.amos.phase1 import generate_formula_seed, generate_formula_seed_with_config
+from addm.methods.amos.phase1 import generate_formula_seed_with_config
 from addm.methods.amos.phase2 import FormulaSeedInterpreter
 from addm.utils.output import output
 
@@ -270,7 +270,6 @@ __all__ = [
     "AMOSMethod",
     "AMOSConfig",
     # Phase 1 (Formula Seed generation)
-    "generate_formula_seed",
     "generate_formula_seed_with_config",
     # Phase 2 (Formula Seed interpreter)
     "FormulaSeedInterpreter",
