@@ -263,7 +263,15 @@ def _determine_outcome_field(terms: List[Dict[str, Any]]) -> tuple:
     """
     # Look for common outcome field patterns
     outcome_keywords = {"severity", "quality", "outcome", "level", "perception", "rating"}
-    none_indicators = {"none", "n/a", "neutral", "no ", "absent", "not "}
+    # None indicators to catch patterns that mean "no incident/signal to report":
+    # - Explicit none: none, n/a, absent
+    # - Negation prefix: no_, not_
+    # - Note: DON'T include neutral signals like "average", "fair" as these are legitimate
+    none_indicators = {
+        "none", "n/a", "absent", "unknown",
+        "no ", "no_", "no-", "not ", "not_",
+        "nothing_special", "generic_forgettable",  # Specific values that mean "nothing noteworthy"
+    }
 
     outcome_field = None
     none_values = []
@@ -325,12 +333,48 @@ def _build_compute_operations(
     compute = []
     count_vars = {}  # Track count variable names to avoid duplicates
 
+    # For scoring policies, check if this is a risk-based policy (all verdicts are risk levels)
+    # vs a signal-based policy (has positive/negative recommendations)
+    is_risk_based = False
     if policy_type == "scoring":
-        # Build scoring operations (TODO: implement full scoring support)
-        logger.warning("Scoring policy type not fully implemented, falling back to count-based")
-        policy_type = "count_rule_based"
+        verdicts = [r.get("verdict", "").lower() for r in rules if not r.get("default")]
+        # Risk-based if all non-default verdicts contain "risk" or are severity levels
+        risk_keywords = {"risk", "critical", "high", "low", "severe", "moderate", "mild"}
+        is_risk_based = all(any(kw in v for kw in risk_keywords) for v in verdicts if v)
 
-    if policy_type == "count_rule_based":
+        if not is_risk_based:
+            # For non-risk scoring policies, apply moderate threshold scaling.
+            # The goal is to prevent over-triggering while keeping verdicts achievable.
+            #
+            # With K=25 and filtering, expect 10-30 relevant extractions.
+            # Target: ~20-30% of extractions needed for non-default verdict = 5-10.
+            negative_keywords = {"poor", "bad", "low", "overpriced", "terrible", "worst", "negative", "needs", "generic"}
+            positive_keywords = {"good", "excellent", "great", "best", "positive", "high", "recommended", "unique", "highly"}
+
+            for rule in rules:
+                if rule.get("default"):
+                    continue  # Don't modify default rules
+
+                verdict = rule.get("verdict", "").lower()
+                is_negative = any(kw in verdict for kw in negative_keywords)
+                is_positive = any(kw in verdict for kw in positive_keywords)
+
+                for cond in rule.get("conditions", []):
+                    if "min_count" in cond:
+                        # Moderate scaling: 2x with reasonable floors
+                        if is_negative:
+                            # Negative verdicts need stronger evidence
+                            cond["min_count"] = max(6, cond["min_count"] * 2)
+                        elif is_positive:
+                            # Positive verdicts: moderate threshold
+                            cond["min_count"] = max(5, cond["min_count"] * 2)
+                        else:
+                            # Neutral verdicts: slightly lower
+                            cond["min_count"] = max(4, cond["min_count"] * 2)
+
+            logger.debug(f"Scoring policy: applied moderate threshold scaling")
+
+    if policy_type in ("count_rule_based", "scoring"):
         # Extract all unique field+values combinations and create count ops
         for rule in rules:
             if rule.get("default"):
@@ -395,6 +439,12 @@ def _build_compute_operations(
                 if not field or not values:
                     continue
 
+                # Skip ACCOUNT_TYPE-only conditions - they measure evidence quantity,
+                # not content, and shouldn't alone determine verdicts
+                if field.upper() == account_field.upper():
+                    logger.debug(f"Skipping account-type-only condition: {field}={values}")
+                    continue
+
                 key = (field.upper(), tuple(sorted(str(v).lower() for v in values)))
                 count_var = count_vars.get(key)
                 if count_var:
@@ -407,14 +457,104 @@ def _build_compute_operations(
             if logic == "ALL":
                 when_expr = " and ".join(cond_exprs)
             else:  # ANY
+                # For OR rules, filter out conditions with threshold = 1 if there are
+                # other stronger conditions. This prevents overly permissive rules like
+                # "SEVERE >= 1 OR MILD >= 1" which triggers on any incident.
+                strong_conds = [c for c in cond_exprs if not c.endswith(">= 1")]
+                weak_conds = [c for c in cond_exprs if c.endswith(">= 1")]
+
+                # If we have both strong and weak conditions, only keep strong ones
+                # for non-default verdicts (keeps rules meaningful)
+                if strong_conds and weak_conds:
+                    logger.debug(
+                        f"Filtering weak OR conditions for {verdict}: "
+                        f"keeping {strong_conds}, dropping {weak_conds}"
+                    )
+                    cond_exprs = strong_conds
+
                 when_expr = " or ".join(cond_exprs)
 
             verdict_rules.append({
                 "when": when_expr,
                 "then": verdict,
+                "_verdict_type": "negative" if any(kw in verdict.lower() for kw in {"poor", "bad", "low", "negative", "terrible"}) else "positive" if any(kw in verdict.lower() for kw in {"good", "excellent", "great", "positive"}) else "neutral",
             })
 
+        # Post-process verdict rules for consistency:
+        # 1. Detect if default is an extreme verdict (should be middle/neutral)
+        # 2. For 3-verdict policies, ensure middle verdict is the default
+        # 3. Sort non-default rules appropriately
         if verdict_rules:
+            # Separate default from non-default rules
+            default_rules = [r for r in verdict_rules if "else" in r]
+            non_default_rules = [r for r in verdict_rules if "else" not in r]
+
+            # Get all verdict labels
+            all_verdicts = [r.get("then") for r in non_default_rules]
+            all_verdicts += [r.get("else") for r in default_rules]
+
+            # Detect extreme verdicts (these shouldn't be defaults)
+            extreme_positive = {"excellent", "highly unique", "great", "best", "recommended", "outstanding"}
+            extreme_negative = {"generic", "poor", "terrible", "worst", "needs improvement", "not recommended"}
+
+            # Check if current default is extreme
+            current_default = default_rules[0].get("else", "") if default_rules else ""
+            current_default_lower = current_default.lower()
+            default_is_extreme = (
+                any(kw in current_default_lower for kw in extreme_negative) or
+                any(kw in current_default_lower for kw in extreme_positive)
+            )
+
+            # If default is extreme and there's a neutral verdict available, swap
+            if default_is_extreme and len(all_verdicts) == 3:
+                # Find the middle verdict (not extreme positive or negative)
+                middle_verdict = None
+                for v in all_verdicts:
+                    v_lower = v.lower() if v else ""
+                    is_extreme = (
+                        any(kw in v_lower for kw in extreme_negative) or
+                        any(kw in v_lower for kw in extreme_positive)
+                    )
+                    if not is_extreme:
+                        middle_verdict = v
+                        break
+
+                if middle_verdict:
+                    # Swap: make middle the default, move old default to a rule
+                    logger.info(
+                        f"Swapping default verdict: '{current_default}' → '{middle_verdict}' "
+                        f"(extreme default detected)"
+                    )
+                    # Find the rule for middle verdict and remove it
+                    new_non_default = []
+                    for r in non_default_rules:
+                        if r.get("then") == middle_verdict:
+                            # Convert old default to this rule
+                            new_non_default.append({
+                                "when": r.get("when"),
+                                "then": current_default,
+                                "_verdict_type": r.get("_verdict_type", "neutral"),
+                            })
+                        else:
+                            new_non_default.append(r)
+                    non_default_rules = new_non_default
+                    default_rules = [{"else": middle_verdict}]
+
+            # Sort non-default: positive verdicts first, then negative, then neutral
+            def rule_sort_key(r):
+                vtype = r.get("_verdict_type", "neutral")
+                if vtype == "positive":
+                    return 0
+                elif vtype == "negative":
+                    return 2
+                else:
+                    return 1
+
+            non_default_rules.sort(key=rule_sort_key)
+
+            # Rebuild rules list with proper ordering
+            verdict_rules = non_default_rules + default_rules
+
             compute.append({
                 "name": "VERDICT",
                 "op": "case",
