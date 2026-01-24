@@ -837,6 +837,9 @@ class FormulaSeedInterpreter:
     def _compute_count(self, op_def: Dict[str, Any]) -> int:
         """Compute count aggregation.
 
+        Handles multi-field conditions by checking all fields within each
+        extraction (each extraction represents one review with all fields).
+
         Args:
             op_def: Operation definition with 'where' condition
 
@@ -848,6 +851,8 @@ class FormulaSeedInterpreter:
         if not where:
             return len(self._extractions)
 
+        # Use direct matching on each extraction
+        # Each extraction has fields directly: {ACCOUNT_TYPE: ..., DATE_OUTCOME: ..., ...}
         return sum(1 for e in self._extractions if self._matches_condition(e, where))
 
     def _eval_sql_case_expr(self, expr: str, extraction: Dict[str, Any]) -> float:

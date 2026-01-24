@@ -159,6 +159,166 @@ Analyze the query above and output ONLY the PolicyYAML (no explanation before or
 
 
 # =============================================================================
+# Part-by-Part Prompts for Structured Extraction
+# =============================================================================
+
+EXTRACT_TERMS_PROMPT = '''You are extracting term definitions from a policy query.
+
+## QUERY SECTION
+
+{section}
+
+## YOUR TASK
+
+Extract ALL terms/fields defined in this section. Each term has:
+- A name (convert to UPPERCASE_WITH_UNDERSCORES)
+- Possible values (the options/categories)
+- Descriptions for each value
+
+## OUTPUT FORMAT (YAML)
+
+```yaml
+terms:
+  - name: FIELD_NAME
+    values: [value1, value2, value3]
+    descriptions:
+      value1: "description of what this value means"
+      value2: "description of what this value means"
+```
+
+## RULES
+
+1. Use UPPERCASE_WITH_UNDERSCORES for field names (e.g., PRICE_PERCEPTION, INCIDENT_SEVERITY)
+2. Use lowercase_with_underscores for values (e.g., good_value, very_poor)
+3. Include ALL values mentioned, even neutral ones
+4. Copy descriptions verbatim when possible
+
+Output ONLY the YAML, no explanation:
+
+```yaml
+'''
+
+EXTRACT_SCORING_PROMPT = '''You are extracting a scoring system from a policy query.
+
+## QUERY SECTION
+
+{section}
+
+## AVAILABLE TERMS AND VALUES (USE ONLY THESE)
+
+{terms_summary}
+
+## YOUR TASK
+
+Extract the scoring rules using ONLY the field names and values listed above.
+
+1. Base points: What points are assigned for each value of the outcome field
+2. Modifiers: Additional points for other field values
+
+CRITICAL: The outcome_field MUST be one of the Available Terms above.
+CRITICAL: base_points keys MUST use EXACT values from that term's value list.
+CRITICAL: modifier field/value pairs MUST use EXACT terms and values from above.
+
+## OUTPUT FORMAT (YAML)
+
+```yaml
+policy_type: scoring
+
+scoring:
+  outcome_field: FIELD_NAME  # MUST be from Available Terms
+  base_points:  # Keys MUST be exact values from that field
+    value1: 10
+    value2: 5
+    value3: 0
+    value4: -5
+  modifiers:
+    - field: OTHER_FIELD  # MUST be from Available Terms
+      value: some_value   # MUST be from that field's values
+      points: 3
+```
+
+## RULES
+
+1. Extract EXACT point values from the query (e.g., "+10 points", "-5 points")
+2. outcome_field: Pick the MAIN outcome field from Available Terms (usually has severity-like values)
+3. base_points: Map the outcome field's VALUES to points
+4. modifiers: Use OTHER field+value pairs from Available Terms
+5. If no scoring system exists, output: `policy_type: count_rule_based`
+
+Output ONLY the YAML, no explanation:
+
+```yaml
+'''
+
+EXTRACT_VERDICTS_PROMPT = '''You are extracting verdict rules from a policy query.
+
+## QUERY SECTION
+
+{section}
+
+## AVAILABLE TERMS (use ONLY these field names)
+
+{context}
+
+## YOUR TASK
+
+Extract the verdict rules that determine the final outcome.
+
+CRITICAL: You may ONLY use field names listed in "Available Terms" above.
+Do NOT invent new field names.
+
+## OUTPUT FORMAT (YAML)
+
+For SCORING policies (point-based):
+```yaml
+verdicts: [Verdict1, Verdict2, Verdict3]
+
+rules:
+  - verdict: Verdict1
+    condition: score >= 44
+  - verdict: Verdict2
+    condition: score <= -13
+  - verdict: Verdict3
+    default: true
+```
+
+For COUNT-BASED policies:
+```yaml
+verdicts: [Verdict1, Verdict2, Verdict3]
+
+rules:
+  - verdict: Verdict1
+    logic: ANY
+    conditions:
+      - field: FIELD_NAME
+        values: [value1, value2]
+        min_count: 10
+  - verdict: Verdict2
+    logic: ALL
+    conditions:
+      - field: FIELD_NAME
+        values: [value3]
+        min_count: 5
+  - verdict: Verdict3
+    default: true
+```
+
+## RULES
+
+1. Use EXACT verdict labels from the query (copy character-for-character)
+2. Extract EXACT threshold numbers (e.g., "44 or higher" → >= 44)
+3. For count-based: min_count is how many reviews needed
+4. Exactly ONE rule must have `default: true`
+5. Default rule should be the "neutral" or "middle" verdict
+6. ONLY use field names from "Available Terms" - NEVER invent new names
+
+Output ONLY the YAML, no explanation:
+
+```yaml
+'''
+
+
+# =============================================================================
 # JSON/YAML Extraction and Usage Accumulation
 # =============================================================================
 
@@ -297,6 +457,25 @@ def _parse_yaml_safely(yaml_str: str) -> Dict[str, Any]:
         # Fix unquoted strings that look like numbers
         fixed = re.sub(r":\s*(\d+\.\d+)(?=\s*$)", r': "\1"', fixed, flags=re.MULTILINE)
 
+        # Fix single quotes inside single-quoted strings by converting to double quotes
+        # Pattern: 'text with 'inner' quote' -> "text with 'inner' quote"
+        def fix_single_quotes(line):
+            # If line has a value after colon, try to fix quote issues
+            if ':' in line:
+                key, _, value = line.partition(':')
+                value = value.strip()
+                # If value starts with single quote but has issues, use double quotes
+                if value.startswith("'") and value.count("'") > 2:
+                    # Extract content and re-quote with double quotes
+                    content = value[1:-1] if value.endswith("'") else value[1:]
+                    # Escape any double quotes in content
+                    content = content.replace('"', '\\"')
+                    return f'{key}: "{content}"'
+            return line
+
+        fixed_lines = [fix_single_quotes(line) for line in fixed.split('\n')]
+        fixed = '\n'.join(fixed_lines)
+
         try:
             data = yaml.safe_load(fixed)
             if isinstance(data, dict):
@@ -304,7 +483,624 @@ def _parse_yaml_safely(yaml_str: str) -> Dict[str, Any]:
         except yaml.YAMLError:
             pass
 
+        # Try even more aggressive fixing - remove problematic value content entirely
+        # Just keep the key with a placeholder
+        lines_simplified = []
+        for line in yaml_str.split('\n'):
+            if ':' in line and "'" in line:
+                key = line.split(':')[0]
+                # Keep just the key with a generic value
+                lines_simplified.append(f'{key}: "value"')
+            else:
+                lines_simplified.append(line)
+
+        try:
+            data = yaml.safe_load('\n'.join(lines_simplified))
+            if isinstance(data, dict):
+                logger.warning("Used simplified YAML parsing, some descriptions may be lost")
+                return data
+        except yaml.YAMLError:
+            pass
+
         raise ValueError(f"YAML parse error: {e}")
+
+
+# =============================================================================
+# Part-by-Part Query Parsing and Extraction
+# =============================================================================
+
+def _parse_query_sections(query: str) -> Dict[str, str]:
+    """Parse query into sections based on markdown headers.
+
+    Args:
+        query: The full query/agenda text
+
+    Returns:
+        Dict mapping section names to their content
+    """
+    sections = {}
+
+    # Split by ## headers
+    parts = re.split(r'\n##\s+', query)
+
+    # First part is the header/intro
+    if parts:
+        sections["header"] = parts[0].strip()
+
+    # Process remaining sections
+    for part in parts[1:]:
+        lines = part.split('\n', 1)
+        if lines:
+            section_name = lines[0].strip().lower()
+            section_content = lines[1].strip() if len(lines) > 1 else ""
+
+            # Normalize section names
+            if "definition" in section_name or "term" in section_name:
+                sections["terms"] = section_content
+            elif "scoring" in section_name or "point" in section_name:
+                sections["scoring"] = section_content
+            elif "verdict" in section_name or "rule" in section_name:
+                sections["verdicts"] = section_content
+            else:
+                # Store with original name
+                sections[section_name] = section_content
+
+    return sections
+
+
+async def _extract_terms_from_section(
+    section: str,
+    llm: LLMService,
+    policy_id: str,
+) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    """Extract terms/field definitions from the Definitions section.
+
+    Args:
+        section: The "Definitions of Terms" section content
+        llm: LLM service for API calls
+        policy_id: Policy identifier
+
+    Returns:
+        Tuple of (terms_list, usage)
+    """
+    prompt = EXTRACT_TERMS_PROMPT.format(section=section)
+    messages = [{"role": "user", "content": prompt}]
+
+    start_time = time.time()
+    response, usage = await llm.call_async_with_usage(
+        messages,
+        context={"phase": "phase1_parts", "step": "extract_terms", "policy_id": policy_id},
+    )
+    usage["latency_ms"] = (time.time() - start_time) * 1000
+
+    # Log to debug file
+    if debug_logger := get_debug_logger():
+        debug_logger.log_llm_call(
+            sample_id=policy_id,
+            phase="phase1_extract_terms",
+            prompt=prompt,
+            response=response,
+            model=llm._config.get("model", "unknown"),
+            latency_ms=usage["latency_ms"],
+        )
+
+    # Parse YAML response
+    yaml_str = _extract_yaml_from_response(response)
+    try:
+        data = _parse_yaml_safely(yaml_str)
+    except ValueError as e:
+        logger.error(f"YAML parse failed for terms extraction")
+        logger.debug(f"Raw response:\n{response[:1000]}")
+        logger.debug(f"Extracted YAML:\n{yaml_str[:1000]}")
+        raise ValueError(f"Failed to parse terms YAML: {e}")
+
+    terms = data.get("terms", [])
+    if not terms:
+        logger.warning(f"No terms found in response. Data: {data}")
+        raise ValueError("No terms extracted from section")
+
+    logger.info(f"Extracted {len(terms)} terms from definitions section")
+    return terms, usage
+
+
+async def _extract_scoring_from_section(
+    section: str,
+    terms: List[Dict[str, Any]],
+    llm: LLMService,
+    policy_id: str,
+) -> Tuple[Optional[Dict[str, Any]], Dict[str, Any]]:
+    """Extract scoring system from the Scoring section.
+
+    Args:
+        section: The "Scoring System" section content
+        terms: Previously extracted terms (for context)
+        llm: LLM service for API calls
+        policy_id: Policy identifier
+
+    Returns:
+        Tuple of (scoring_dict or None, usage)
+    """
+    # Build terms summary with explicit values
+    terms_parts = []
+    for t in terms:
+        name = t.get('name', 'UNKNOWN')
+        values = t.get('values', [])
+        terms_parts.append(f"- {name}:")
+        if isinstance(values, dict):
+            for v in values.keys():
+                terms_parts.append(f"    * {v}")
+        elif isinstance(values, list):
+            for v in values:
+                terms_parts.append(f"    * {v}")
+    terms_summary = "\n".join(terms_parts)
+
+    prompt = EXTRACT_SCORING_PROMPT.format(
+        section=section,
+        terms_summary=terms_summary,
+    )
+    messages = [{"role": "user", "content": prompt}]
+
+    start_time = time.time()
+    response, usage = await llm.call_async_with_usage(
+        messages,
+        context={"phase": "phase1_parts", "step": "extract_scoring", "policy_id": policy_id},
+    )
+    usage["latency_ms"] = (time.time() - start_time) * 1000
+
+    # Log to debug file
+    if debug_logger := get_debug_logger():
+        debug_logger.log_llm_call(
+            sample_id=policy_id,
+            phase="phase1_extract_scoring",
+            prompt=prompt,
+            response=response,
+            model=llm._config.get("model", "unknown"),
+            latency_ms=usage["latency_ms"],
+        )
+
+    # Parse YAML response
+    yaml_str = _extract_yaml_from_response(response)
+    data = _parse_yaml_safely(yaml_str)
+
+    policy_type = data.get("policy_type", "count_rule_based")
+
+    if policy_type == "scoring":
+        scoring = data.get("scoring", {})
+        logger.info(f"Extracted scoring system: {len(scoring.get('modifiers', []))} modifiers")
+        return {"policy_type": "scoring", "scoring": scoring}, usage
+    else:
+        logger.info("No scoring system found, using count_rule_based")
+        return {"policy_type": "count_rule_based"}, usage
+
+
+async def _extract_verdicts_from_section(
+    section: str,
+    terms: List[Dict[str, Any]],
+    scoring: Optional[Dict[str, Any]],
+    llm: LLMService,
+    policy_id: str,
+) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    """Extract verdict rules from the Verdict Rules section.
+
+    Args:
+        section: The "Verdict Rules" section content
+        terms: Previously extracted terms
+        scoring: Previously extracted scoring (or None)
+        llm: LLM service for API calls
+        policy_id: Policy identifier
+
+    Returns:
+        Tuple of (verdicts_dict, usage)
+    """
+    # Build context from terms and scoring with explicit values
+    context_parts = ["## Available Terms and Values (USE ONLY THESE):"]
+    for t in terms:
+        name = t.get('name', 'UNKNOWN')
+        values = t.get('values', [])
+        context_parts.append(f"- {name}:")
+        if isinstance(values, dict):
+            for v in values.keys():
+                context_parts.append(f"    * {v}")
+        elif isinstance(values, list):
+            for v in values:
+                context_parts.append(f"    * {v}")
+
+    if scoring and scoring.get("policy_type") == "scoring":
+        context_parts.append("\n## Scoring:")
+        context_parts.append(f"- Policy type: scoring")
+        s = scoring.get("scoring", {})
+        context_parts.append(f"- Outcome field: {s.get('outcome_field', 'unknown')}")
+        context_parts.append(f"- Base points: {s.get('base_points', {})}")
+    else:
+        context_parts.append("\n## Policy type: count_rule_based")
+
+    context = "\n".join(context_parts)
+
+    prompt = EXTRACT_VERDICTS_PROMPT.format(
+        section=section,
+        context=context,
+    )
+    messages = [{"role": "user", "content": prompt}]
+
+    start_time = time.time()
+    response, usage = await llm.call_async_with_usage(
+        messages,
+        context={"phase": "phase1_parts", "step": "extract_verdicts", "policy_id": policy_id},
+    )
+    usage["latency_ms"] = (time.time() - start_time) * 1000
+
+    # Log to debug file
+    if debug_logger := get_debug_logger():
+        debug_logger.log_llm_call(
+            sample_id=policy_id,
+            phase="phase1_extract_verdicts",
+            prompt=prompt,
+            response=response,
+            model=llm._config.get("model", "unknown"),
+            latency_ms=usage["latency_ms"],
+        )
+
+    # Parse YAML response
+    yaml_str = _extract_yaml_from_response(response)
+    data = _parse_yaml_safely(yaml_str)
+
+    verdicts = data.get("verdicts", [])
+    rules = data.get("rules", [])
+
+    if not verdicts:
+        raise ValueError("No verdicts extracted from section")
+    if not rules:
+        raise ValueError("No rules extracted from section")
+
+    # Build lookup tables for validation
+    valid_fields = {t.get("name", "").upper() for t in terms if t.get("name")}
+    valid_fields.add("ACCOUNT_TYPE")  # Always valid
+
+    # Build field -> valid values mapping
+    field_values = {"ACCOUNT_TYPE": {"firsthand", "secondhand", "general"}}
+    for t in terms:
+        name = t.get("name", "").upper()
+        values = t.get("values", [])
+        if isinstance(values, dict):
+            field_values[name] = {str(v).lower() for v in values.keys()}
+        elif isinstance(values, list):
+            field_values[name] = {str(v).lower() for v in values}
+
+    repaired_rules = []
+    for rule in rules:
+        if rule.get("default"):
+            repaired_rules.append(rule)
+            continue
+
+        # For scoring policies, rules may have "condition: score >= X" format
+        if "condition" in rule and "conditions" not in rule:
+            repaired_rules.append(rule)
+            continue
+
+        # Validate conditions: field references and values
+        conditions = rule.get("conditions", [])
+        valid_conditions = []
+        for cond in conditions:
+            field = cond.get("field", "").upper()
+
+            # Validate/repair field name
+            actual_field = None
+            if field in valid_fields:
+                actual_field = field
+            else:
+                for vf in valid_fields:
+                    if field in vf or vf in field:
+                        actual_field = vf
+                        logger.warning(f"Repaired field reference: {field} -> {vf}")
+                        break
+
+            if not actual_field:
+                logger.warning(f"Dropping condition with unknown field: {field}")
+                continue
+
+            # Validate/repair values
+            cond_values = cond.get("values", [])
+            allowed_values = field_values.get(actual_field, set())
+            repaired_values = []
+            for v in cond_values:
+                v_lower = str(v).lower()
+                if v_lower in allowed_values:
+                    repaired_values.append(v)
+                else:
+                    # Try fuzzy match
+                    matched = False
+                    for av in allowed_values:
+                        # Check if v is contained in av or vice versa
+                        if v_lower in av or av in v_lower:
+                            repaired_values.append(av)
+                            logger.warning(f"Repaired value: {v} -> {av}")
+                            matched = True
+                            break
+                    if not matched:
+                        logger.warning(f"Dropping value {v} not in {actual_field} values: {allowed_values}")
+
+            if repaired_values:
+                new_cond = dict(cond)
+                new_cond["field"] = actual_field
+                new_cond["values"] = repaired_values
+                valid_conditions.append(new_cond)
+
+        if valid_conditions:
+            new_rule = {k: v for k, v in rule.items() if k != "conditions"}
+            new_rule["conditions"] = valid_conditions
+            repaired_rules.append(new_rule)
+        else:
+            # No valid conditions - convert to default if it's the last verdict
+            if rule.get("verdict") == verdicts[-1]:
+                repaired_rules.append({"verdict": rule.get("verdict"), "default": True})
+                logger.warning(f"Converted rule to default: {rule.get('verdict')}")
+
+    # Ensure at least one default rule exists
+    has_default = any(r.get("default") for r in repaired_rules)
+    if not has_default and verdicts:
+        repaired_rules.append({"verdict": verdicts[-1], "default": True})
+        logger.warning(f"Added missing default rule for: {verdicts[-1]}")
+
+    logger.info(f"Extracted {len(verdicts)} verdicts and {len(repaired_rules)} rules (after repair)")
+    return {"verdicts": verdicts, "rules": repaired_rules}, usage
+
+
+def _combine_parts_to_yaml(
+    terms: List[Dict[str, Any]],
+    scoring: Optional[Dict[str, Any]],
+    verdicts_data: Dict[str, Any],
+    task_name: str,
+) -> Dict[str, Any]:
+    """Combine extracted parts into a complete PolicyYAML structure.
+
+    Args:
+        terms: List of term definitions
+        scoring: Scoring configuration or None
+        verdicts_data: Verdicts and rules
+        task_name: Description of the policy task
+
+    Returns:
+        Complete PolicyYAML dict
+    """
+    policy_type = scoring.get("policy_type", "count_rule_based") if scoring else "count_rule_based"
+
+    # Process rules based on policy type
+    rules = verdicts_data.get("rules", [])
+
+    if policy_type == "scoring":
+        # For scoring policies, convert score-based conditions to count-based
+        # The rules might have "condition: score >= X" format
+        # Convert to conditions with the outcome field
+        scoring_info = scoring.get("scoring", {}) if scoring else {}
+        outcome_field = scoring_info.get("outcome_field", "INCIDENT_SEVERITY")
+        base_points = scoring_info.get("base_points", {})
+
+        processed_rules = []
+        for rule in rules:
+            new_rule = {"verdict": rule.get("verdict", "")}
+
+            if rule.get("default"):
+                new_rule["default"] = True
+            elif "condition" in rule:
+                # Score-based condition: "score >= 44" or "score <= -13"
+                cond = rule.get("condition", "")
+
+                # Parse threshold
+                threshold = None
+                is_positive = ">=" in cond
+                match = re.search(r'(-?\d+)', cond)
+                if match:
+                    threshold = int(match.group(1))
+
+                if threshold is not None:
+                    # Determine which values contribute positively/negatively
+                    if is_positive:
+                        # Positive threshold: count values with positive points
+                        positive_values = [v for v, pts in base_points.items() if pts > 0]
+                        if positive_values:
+                            # Estimate min_count from threshold and average points
+                            avg_pts = sum(base_points[v] for v in positive_values) / len(positive_values)
+                            min_count = max(2, int(threshold / avg_pts)) if avg_pts > 0 else 5
+                            new_rule["logic"] = "ANY"
+                            new_rule["conditions"] = [{
+                                "field": outcome_field,
+                                "values": positive_values,
+                                "min_count": min_count,
+                            }]
+                    else:
+                        # Negative threshold: count values with negative points
+                        negative_values = [v for v, pts in base_points.items() if pts < 0]
+                        if negative_values:
+                            # Estimate min_count from threshold and average points
+                            avg_pts = abs(sum(base_points[v] for v in negative_values) / len(negative_values))
+                            min_count = max(2, int(abs(threshold) / avg_pts)) if avg_pts > 0 else 3
+                            new_rule["logic"] = "ANY"
+                            new_rule["conditions"] = [{
+                                "field": outcome_field,
+                                "values": negative_values,
+                                "min_count": min_count,
+                            }]
+            elif "conditions" in rule:
+                # Already has conditions list, use as-is
+                new_rule["logic"] = rule.get("logic", "ANY")
+                new_rule["conditions"] = rule.get("conditions", [])
+
+            # Only add rule if it has conditions or is default
+            if new_rule.get("default") or new_rule.get("conditions"):
+                processed_rules.append(new_rule)
+            else:
+                logger.warning(f"Skipping rule without conditions: {rule}")
+
+        rules = processed_rules
+
+    # Filter terms that have no values
+    filtered_terms = [t for t in terms if t.get("values")]
+
+    yaml_data = {
+        "policy_type": policy_type,
+        "task_name": task_name,
+        "terms": filtered_terms,
+        "verdicts": verdicts_data.get("verdicts", []),
+        "rules": rules,
+    }
+
+    # Add scoring details if present
+    if scoring and scoring.get("policy_type") == "scoring":
+        yaml_data["scoring"] = scoring.get("scoring", {})
+
+    return yaml_data
+
+
+async def generate_formula_seed_parts(
+    agenda: str,
+    policy_id: str,
+    llm: LLMService,
+    progress_callback: Optional[ProgressCallback] = None,
+) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    """Generate Formula Seed using part-by-part extraction.
+
+    This approach extracts each query section separately:
+    1. Terms/Definitions → field definitions
+    2. Scoring System → point values (if present)
+    3. Verdict Rules → thresholds and conditions
+
+    Benefits over single-shot:
+    - Each LLM call is simpler and more focused
+    - Validation at each step catches errors early
+    - Reduced variance because sub-tasks are well-defined
+
+    Args:
+        agenda: The task agenda/query prompt
+        policy_id: Policy identifier (e.g., "G1_allergy_V2")
+        llm: LLM service for API calls
+        progress_callback: Optional callback for progress updates
+
+    Returns:
+        Tuple of (formula_seed, usage_dict)
+    """
+    start_time = time.perf_counter()
+    all_usages = []
+
+    def report(step: str, progress: float, detail: str = "") -> None:
+        if progress_callback:
+            progress_callback(1, step, progress, detail)
+
+    # Step 0: Parse query into sections
+    report("PARSE", 5, "parsing query sections")
+    output.status(f"[Phase 1 Parts] Parsing query sections...")
+
+    sections = _parse_query_sections(agenda)
+    logger.info(f"Parsed query into sections: {list(sections.keys())}")
+
+    # Extract task name from header
+    header = sections.get("header", "")
+    task_name_match = re.search(r'^#\s*(.+?)(?:\n|$)', header)
+    task_name = task_name_match.group(1).strip() if task_name_match else policy_id
+
+    # Step 1: Extract terms
+    report("TERMS", 10, "extracting terms")
+    output.status(f"[Phase 1 Parts] Step 1/3: Extracting terms...")
+
+    terms_section = sections.get("terms", "")
+    if not terms_section:
+        # Fall back to using full header + any definition content
+        terms_section = header
+        logger.warning("No explicit terms section found, using header")
+
+    terms, usage1 = await _extract_terms_from_section(terms_section, llm, policy_id)
+    all_usages.append(usage1)
+    output.status(f"[Phase 1 Parts] Extracted {len(terms)} terms")
+    report("TERMS", 30, f"{len(terms)} terms")
+
+    # Step 2: Extract scoring (if present)
+    report("SCORING", 35, "checking for scoring")
+    output.status(f"[Phase 1 Parts] Step 2/3: Checking for scoring system...")
+
+    scoring_section = sections.get("scoring", "")
+    if scoring_section:
+        scoring, usage2 = await _extract_scoring_from_section(scoring_section, terms, llm, policy_id)
+        all_usages.append(usage2)
+        is_scoring = scoring.get("policy_type") == "scoring"
+        output.status(f"[Phase 1 Parts] Scoring: {'yes' if is_scoring else 'no'}")
+    else:
+        scoring = {"policy_type": "count_rule_based"}
+        output.status(f"[Phase 1 Parts] No scoring section found")
+    report("SCORING", 50, scoring.get("policy_type", "unknown"))
+
+    # Step 3: Extract verdicts and rules
+    report("VERDICTS", 55, "extracting verdicts")
+    output.status(f"[Phase 1 Parts] Step 3/3: Extracting verdict rules...")
+
+    verdicts_section = sections.get("verdicts", "")
+    if not verdicts_section:
+        # Look for any rules in header
+        verdicts_section = header
+        logger.warning("No explicit verdicts section found, using header")
+
+    verdicts_data, usage3 = await _extract_verdicts_from_section(
+        verdicts_section, terms, scoring, llm, policy_id
+    )
+    all_usages.append(usage3)
+    output.status(f"[Phase 1 Parts] Extracted {len(verdicts_data.get('verdicts', []))} verdicts")
+    report("VERDICTS", 70, f"{len(verdicts_data.get('rules', []))} rules")
+
+    # Step 4: Combine parts
+    report("COMBINE", 75, "combining parts")
+    output.status(f"[Phase 1 Parts] Combining extracted parts...")
+
+    yaml_data = _combine_parts_to_yaml(terms, scoring, verdicts_data, task_name)
+    logger.info(f"Combined PolicyYAML: {yaml_data.get('policy_type')}, {len(yaml_data.get('terms', []))} terms")
+
+    # Step 5: Validate PolicyYAML
+    report("VALIDATE_YAML", 80, "validating yaml")
+    try:
+        validate_policy_yaml(yaml_data)
+        output.status(f"[Phase 1 Parts] PolicyYAML validation: passed")
+    except PolicyYAMLValidationError as e:
+        logger.warning(f"PolicyYAML validation failed: {e}")
+        output.warn(f"[Phase 1 Parts] PolicyYAML validation failed: {e}")
+        raise ValueError(f"PolicyYAML validation failed: {e}")
+    report("VALIDATE_YAML", 85, "passed")
+
+    # Step 6: Compile to Formula Seed
+    report("COMPILE", 88, "compiling seed")
+    output.status(f"[Phase 1 Parts] Compiling to Formula Seed...")
+
+    try:
+        seed = compile_yaml_to_seed(yaml_data, validate=False)
+    except Exception as e:
+        logger.error(f"Seed compilation failed: {e}")
+        raise ValueError(f"Failed to compile PolicyYAML to seed: {e}")
+
+    seed["_approach"] = "parts"
+    seed["_policy_yaml"] = yaml_data
+    report("COMPILE", 92, "complete")
+
+    # Step 7: Validate Formula Seed
+    report("VALIDATE_SEED", 94, "validating seed")
+    errors = _validate_formula_seed(seed)
+
+    if errors:
+        output.warn(f"[Phase 1 Parts] Seed validation: {len(errors)} errors")
+        logger.warning(f"Compiled seed has validation errors: {errors}")
+        raise ValueError(f"Compiled seed validation failed: {errors}")
+    else:
+        output.status(f"[Phase 1 Parts] Seed validation: passed")
+    report("VALIDATE_SEED", 98, "passed")
+
+    # Return seed
+    total_usage = _accumulate_usage(all_usages)
+    wall_clock_ms = (time.perf_counter() - start_time) * 1000
+    total_usage["wall_clock_ms"] = wall_clock_ms
+
+    # Keep _policy_yaml for saving
+    seed_clean = {k: v for k, v in seed.items() if not k.startswith("_") or k == "_policy_yaml"}
+
+    n_terms = len(yaml_data.get("terms", []))
+    n_rules = len(yaml_data.get("rules", []))
+    output.status(f"[Phase 1 Parts] Complete: {n_terms} terms, {n_rules} rules")
+
+    return seed_clean, total_usage
 
 
 def _accumulate_usage(usages: List[Dict[str, Any]]) -> Dict[str, Any]:
@@ -1158,8 +1954,9 @@ async def generate_formula_seed_with_config(
     """Generate Formula Seed using settings from AMOSConfig.
 
     Selects between approaches based on config.phase1_approach:
+    - PARTS: Part-by-part extraction (recommended) - extracts terms, scoring, verdicts separately
+    - HYBRID: NL → PolicyYAML → deterministic compiler - single-shot YAML generation
     - PLAN_AND_ACT: Legacy 3-step pipeline (OBSERVE → PLAN → ACT)
-    - HYBRID: NL → PolicyYAML → deterministic compiler (recommended)
 
     Args:
         agenda: The task agenda/query prompt
@@ -1173,7 +1970,14 @@ async def generate_formula_seed_with_config(
     """
     from .config import Phase1Approach
 
-    if config.phase1_approach == Phase1Approach.HYBRID:
+    if config.phase1_approach == Phase1Approach.PARTS:
+        return await generate_formula_seed_parts(
+            agenda=agenda,
+            policy_id=policy_id,
+            llm=llm,
+            progress_callback=progress_callback,
+        )
+    elif config.phase1_approach == Phase1Approach.HYBRID:
         return await generate_formula_seed_hybrid(
             agenda=agenda,
             policy_id=policy_id,
@@ -1181,7 +1985,7 @@ async def generate_formula_seed_with_config(
             progress_callback=progress_callback,
         )
     else:
-        # Default: PLAN_AND_ACT
+        # PLAN_AND_ACT
         return await generate_formula_seed(
             agenda=agenda,
             policy_id=policy_id,
