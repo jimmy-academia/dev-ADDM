@@ -61,17 +61,17 @@ Primary reason for loyalty
 ## Verdict Rules
 
 A restaurant is considered **High Loyalty** if any of the following is true:
-- 50 or more reviews describe high emotional connection
-- 60 or more reviews strongly recommend
-- 40 or more reviews say they would definitely return
-- 30 or more reviews describe love as loyalty driver
-- 20 or more reviews describe frequent visits
+- 9 or more reviews describe high emotional connection
+- 11 or more reviews strongly recommend
+- 8 or more reviews say they would definitely return
+- 6 or more reviews describe love as loyalty driver
+- 5 or more reviews describe frequent visits
 
 **Low Loyalty** if High Loyalty does not apply, but any of the following is true:
-- 20 or more reviews say 'will never return'
-- 40 or more reviews report unlikely to return
-- 40 or more reviews warn others
-- 30 or more reviews have no emotional connection
+- 5 or more reviews say 'will never return'
+- 7 or more reviews report unlikely to return
+- 7 or more reviews warn others
+- 6 or more reviews have no emotional connection
 
 **Moderate Loyalty** otherwise, especially when:
 - Will return but not enthusiastic

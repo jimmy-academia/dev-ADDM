@@ -44,43 +44,50 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - text: "2 or more reviews praise server attentiveness and friendliness"
+          - text: "40 or more reviews praise server attentiveness and friendliness"
             type: count_threshold
             filter:
-              attentiveness: high
-              friendliness: high
-            min_count: 2
-          - text: "2 or more reviews mention servers by name with exceptional praise"
+              attentiveness: excellent
+              friendliness: warm
+            min_count: 40
+            min_count_by_k:
+              25: 6
+              50: 12
+              100: 22
+          - text: "35 or more reviews mention servers by name with exceptional praise"
             type: count_threshold
             filter:
-              named_positively: true
-            min_count: 2
-          - text: "2 or more reviews describe servers as knowledgeable and helpful"
-            type: count_threshold
-            filter:
-              menu_knowledge: excellent
-            min_count: 2
+              named_positively: "true"
+              attentiveness: excellent
+            min_count: 35
+            min_count_by_k:
+              25: 5
+              50: 10
+              100: 18
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - text: "2 or more reviews describe inattentive or absent servers"
+          - text: "35 or more reviews describe inattentive or absent servers"
             type: count_threshold
             filter:
-              attentiveness: low
-            min_count: 2
-          - text: "2 or more reviews complain about rude or unfriendly service"
+              attentiveness: poor
+            min_count: 35
+            min_count_by_k:
+              25: 9
+              50: 14
+              100: 24
+          - text: "20 or more reviews complain about rude service"
             type: count_threshold
             filter:
               friendliness: rude
-            min_count: 2
-          - text: "2 or more reviews report frequent service errors"
-            type: count_threshold
-            filter:
-              service_errors: frequent
-            min_count: 2
+            min_count: 20
+            min_count_by_k:
+              25: 6
+              50: 9
+              100: 15
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

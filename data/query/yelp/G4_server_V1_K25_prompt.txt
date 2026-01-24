@@ -69,18 +69,12 @@ Whether server was named positively
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- 150 or more reviews praise server attentiveness and friendliness
-- 80 or more reviews mention servers by name with exceptional praise
-- 100 or more reviews describe servers as knowledgeable
-- 80 or more reviews describe excellent attentiveness
-- 60 or more reviews describe exceptionally warm service
+- 6 or more reviews praise excellent attentiveness and warmth together
+- 5 or more reviews mention servers by name with exceptional praise
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- 5 or more reviews describe inattentive servers
-- 3 or more reviews complain about rude service
-- 10 or more reviews report significant service errors
-- 3 or more reviews describe absent servers
-- 2 or more reviews describe severe service errors
+- 9 or more reviews describe inattentive servers
+- 6 or more reviews complain about rude service
 
 **Satisfactory** otherwise, especially when:
 - Service is professional and adequate

@@ -45,57 +45,57 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - text: "50 or more reviews praise excellent atmosphere"
+          - text: "100 or more reviews praise excellent atmosphere"
             type: count_threshold
             filter:
               ambiance_fit: excellent
-            min_count: 50
+            min_count: 100
             min_count_by_k:
-              25: 6
-              50: 13
-              100: 25
-          - text: "150 or more reviews describe it as clean"
+              25: 15
+              50: 28
+              100: 55
+          - text: "190 or more reviews describe it as spotless"
             type: count_threshold
             filter:
-              cleanliness: clean
-            min_count: 150
+              cleanliness: spotless
+            min_count: 190
             min_count_by_k:
-              25: 19
-              50: 38
-              100: 75
+              25: 24
+              50: 48
+              100: 95
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - text: "20 or more reviews describe cleanliness issues"
+          - text: "25 or more reviews describe cleanliness issues"
             type: count_threshold
             filter:
               cleanliness: dirty
-            min_count: 20
+            min_count: 25
             min_count_by_k:
-              25: 3
-              50: 5
-              100: 10
+              25: 5
+              50: 8
+              100: 15
           - text: "25 or more reviews report poor ambiance fit"
             type: count_threshold
             filter:
               ambiance_fit: poor
             min_count: 25
             min_count_by_k:
-              25: 3
-              50: 6
-              100: 13
-          - text: "10 or more reviews complain about deafening noise"
+              25: 5
+              50: 8
+              100: 15
+          - text: "15 or more reviews complain about deafening noise"
             type: count_threshold
             filter:
               noise_level: deafening
-            min_count: 10
+            min_count: 15
             min_count_by_k:
-              25: 1
-              50: 3
-              100: 5
+              25: 3
+              50: 5
+              100: 9
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

@@ -44,57 +44,48 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - text: "50 or more reviews praise excellent chef skill"
+          - text: "100 or more reviews praise excellent chef skill"
             type: count_threshold
             filter:
               chef_skill: excellent
-            min_count: 50
+            min_count: 100
             min_count_by_k:
-              25: 6
-              50: 13
-              100: 25
-          - text: "120 or more reviews report consistent food quality"
+              25: 15
+              50: 28
+              100: 55
+          - text: "180 or more reviews report consistent food quality"
             type: count_threshold
             filter:
               consistency: consistent
-            min_count: 120
+            min_count: 180
             min_count_by_k:
-              25: 15
-              50: 30
-              100: 60
+              25: 23
+              50: 45
+              100: 90
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - text: "20 or more reviews report poor chef skill"
+          - text: "40 or more reviews report poor chef skill"
             type: count_threshold
             filter:
               chef_skill: poor
-            min_count: 20
+            min_count: 40
             min_count_by_k:
-              25: 3
-              50: 5
-              100: 10
-          - text: "30 or more reviews report inconsistent food quality"
+              25: 10
+              50: 16
+              100: 28
+          - text: "45 or more reviews report inconsistent food quality"
             type: count_threshold
             filter:
               consistency: inconsistent
-            min_count: 30
+            min_count: 45
             min_count_by_k:
-              25: 4
-              50: 8
-              100: 15
-          - text: "25 or more reviews report major food quality issues"
-            type: count_threshold
-            filter:
-              issue_severity: major
-            min_count: 25
-            min_count_by_k:
-              25: 3
-              50: 6
-              100: 13
+              25: 10
+              50: 18
+              100: 32
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

@@ -3,7 +3,7 @@
   "topic": "G4_server",
   "domain": "yelp",
   "k": 200,
-  "computed_at": "2026-01-23T17:28:30.117866",
+  "computed_at": "2026-01-23T19:35:29.942255",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -12,8 +12,8 @@
       "n_reviews": 125,
       "n_judgments": 125,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 88,
         "incidents": [
@@ -1594,8 +1594,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 124,
         "incidents": [
@@ -3561,8 +3561,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 86,
         "incidents": [
@@ -5094,8 +5094,8 @@
       "n_reviews": 123,
       "n_judgments": 123,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 84,
         "incidents": [
@@ -5696,8 +5696,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V0",
         "n_incidents": 114,
         "incidents": [
@@ -6508,8 +6508,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 53,
         "incidents": [
@@ -7705,8 +7705,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 59,
         "incidents": [
@@ -8167,8 +8167,8 @@
       "n_reviews": 86,
       "n_judgments": 86,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 50,
         "incidents": [
@@ -8531,8 +8531,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 107,
         "incidents": [
@@ -10197,8 +10197,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 128,
         "incidents": [
@@ -11814,8 +11814,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 59,
         "incidents": [
@@ -12241,8 +12241,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 105,
         "incidents": [
@@ -15013,8 +15013,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 109,
         "incidents": [
@@ -15790,8 +15790,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V0",
         "n_incidents": 123,
         "incidents": [
@@ -16665,8 +16665,8 @@
       "n_reviews": 143,
       "n_judgments": 143,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 90,
         "incidents": [
@@ -17309,8 +17309,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 86,
         "incidents": [
@@ -17925,8 +17925,8 @@
       "n_reviews": 166,
       "n_judgments": 166,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 104,
         "incidents": [
@@ -19241,8 +19241,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 54,
         "incidents": [
@@ -19633,8 +19633,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 126,
         "incidents": [
@@ -20529,8 +20529,8 @@
       "n_reviews": 73,
       "n_judgments": 73,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 53,
         "incidents": [
@@ -20914,8 +20914,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 106,
         "incidents": [
@@ -22230,8 +22230,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 95,
         "incidents": [
@@ -22909,8 +22909,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 123,
         "incidents": [
@@ -23784,8 +23784,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 133,
         "incidents": [
@@ -24729,8 +24729,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V0",
         "n_incidents": 119,
         "incidents": [
@@ -26591,8 +26591,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 130,
         "incidents": [
@@ -28537,8 +28537,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 67,
         "incidents": [
@@ -29020,8 +29020,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 114,
         "incidents": [
@@ -29832,8 +29832,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V0",
         "n_incidents": 143,
         "incidents": [
@@ -32471,8 +32471,8 @@
       "n_reviews": 199,
       "n_judgments": 199,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 71,
         "incidents": [
@@ -33570,8 +33570,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V0",
         "n_incidents": 130,
         "incidents": [
@@ -36468,8 +36468,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 102,
         "incidents": [
@@ -38890,8 +38890,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 109,
         "incidents": [
@@ -40283,8 +40283,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 102,
         "incidents": [
@@ -41382,8 +41382,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V0",
         "n_incidents": 114,
         "incidents": [
@@ -42194,8 +42194,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 101,
         "incidents": [
@@ -44133,8 +44133,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 87,
         "incidents": [
@@ -44756,8 +44756,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 126,
         "incidents": [
@@ -45652,8 +45652,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 127,
         "incidents": [
@@ -46555,8 +46555,8 @@
       "n_reviews": 148,
       "n_judgments": 148,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 72,
         "incidents": [
@@ -47472,8 +47472,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 117,
         "incidents": [
@@ -51847,8 +51847,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V0",
         "n_incidents": 119,
         "incidents": [
@@ -53821,8 +53821,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 138,
         "incidents": [
@@ -56376,8 +56376,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V0",
         "n_incidents": 116,
         "incidents": [
@@ -57202,8 +57202,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 122,
         "incidents": [
@@ -60254,8 +60254,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 62,
         "incidents": [
@@ -61381,8 +61381,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 106,
         "incidents": [
@@ -62137,8 +62137,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 52,
         "incidents": [
@@ -62515,8 +62515,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V0",
         "n_incidents": 116,
         "incidents": [
@@ -63341,8 +63341,8 @@
       "n_reviews": 132,
       "n_judgments": 132,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 82,
         "incidents": [
@@ -63929,8 +63929,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 103,
         "incidents": [
@@ -66316,8 +66316,8 @@
       "n_reviews": 173,
       "n_judgments": 173,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 110,
         "incidents": [
@@ -67100,8 +67100,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V0",
         "n_incidents": 114,
         "incidents": [
@@ -67912,8 +67912,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 104,
         "incidents": [
@@ -68654,8 +68654,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 90,
         "incidents": [
@@ -70145,8 +70145,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V0",
         "n_incidents": 100,
         "incidents": [
@@ -72112,8 +72112,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Needs Improvement",
+        "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V0",
         "n_incidents": 142,
         "incidents": [
@@ -74212,8 +74212,8 @@
       "n_reviews": 146,
       "n_judgments": 146,
       "ground_truth": {
-        "verdict": "Excellent",
-        "matched_rule": "EXCELLENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 105,
         "incidents": [
@@ -74961,8 +74961,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Needs Improvement",
-        "matched_rule": "NEEDS_IMPROVEMENT",
+        "verdict": "Satisfactory",
+        "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V0",
         "n_incidents": 110,
         "incidents": [
@@ -75743,9 +75743,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Needs Improvement": 30,
-      "Satisfactory": 7,
-      "Excellent": 63
+      "Needs Improvement": 25,
+      "Satisfactory": 54,
+      "Excellent": 21
     },
     "missing_judgments": 0
   }

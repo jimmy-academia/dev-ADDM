@@ -59,13 +59,13 @@ How well they handled customer volume
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- 60 or more reviews praise volume handling
-- 30 or more reviews observe the restaurant as well-staffed
+- 30 or more reviews praise volume handling
+- 15 or more reviews observe the restaurant as well-staffed
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- 20 or more reviews describe understaffing
-- 25 or more reviews describe significant service degradation
-- 25 or more reviews report volume handling struggles
+- 10 or more reviews describe understaffing
+- 13 or more reviews describe significant service degradation
+- 13 or more reviews report volume handling struggles
 
 **Satisfactory** otherwise, especially when:
 - Handles normal volume adequately

@@ -44,44 +44,37 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          # V0 conditions (same thresholds)
-          - text: "60 or more reviews praise volume handling"
+          # V0 conditions (combined filters for selectivity)
+          - text: "Reviews praise volume handling during busy periods"
             type: count_threshold
             filter:
               volume_handling: handled_well
-            min_count: 60
+              crowd_level: busy
+            min_count: 50
             min_count_by_k:
               25: 8
-              50: 15
-              100: 30
-          - text: "30 or more reviews observe the restaurant as well-staffed"
+              50: 14
+              100: 25
+          - text: "Reviews show well-staffed with no service degradation"
             type: count_threshold
             filter:
               staffing_level: well_staffed
-            min_count: 30
+              service_degradation: none
+            min_count: 40
             min_count_by_k:
-              25: 4
-              50: 8
-              100: 15
-          # V1 additional conditions
-          - text: "5 or more reviews praise handling when packed"
+              25: 6
+              50: 10
+              100: 18
+          # V1 additional: handles packed conditions exceptionally
+          - text: "Reviews praise handling when packed"
             type: count_threshold
             filter:
               volume_handling: handled_well
               crowd_level: packed
-            min_count: 5
-            min_count_by_k:
-              25: 1
-              50: 1
-              100: 3
-          - text: "20 or more reviews praise smoothly run operations"
-            type: count_threshold
-            filter:
-              volume_handling: smooth
             min_count: 20
             min_count_by_k:
-              25: 3
-              50: 5
+              25: 4
+              50: 6
               100: 10
 
       - verdict: "Needs Improvement"
@@ -89,53 +82,53 @@ normative:
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          # V0 conditions (same thresholds)
-          - text: "20 or more reviews describe understaffing"
+          # V0 conditions (calibrated thresholds)
+          - text: "40 or more reviews describe understaffing"
             type: count_threshold
             filter:
               staffing_level: understaffed
-            min_count: 20
+            min_count: 40
             min_count_by_k:
-              25: 3
-              50: 5
-              100: 10
-          - text: "25 or more reviews describe significant service degradation"
+              25: 4
+              50: 8
+              100: 14
+          - text: "50 or more reviews describe significant service degradation"
             type: count_threshold
             filter:
               service_degradation: significant
-            min_count: 25
+            min_count: 50
             min_count_by_k:
-              25: 3
-              50: 6
-              100: 13
-          - text: "25 or more reviews report volume handling struggles"
+              25: 4
+              50: 8
+              100: 16
+          - text: "50 or more reviews report volume handling struggles"
             type: count_threshold
             filter:
               volume_handling: struggled
-            min_count: 25
+            min_count: 50
             min_count_by_k:
-              25: 3
-              50: 6
-              100: 13
-          # V1 additional conditions
-          - text: "5 or more reviews describe severely understaffed situation"
+              25: 4
+              50: 8
+              100: 16
+          # V1 additional conditions (calibrated thresholds)
+          - text: "15 or more reviews describe severely understaffed situation"
             type: count_threshold
             filter:
               staffing_level: severely_understaffed
-            min_count: 5
+            min_count: 15
             min_count_by_k:
-              25: 1
-              50: 1
-              100: 3
-          - text: "10 or more reviews describe complete service degradation"
+              25: 2
+              50: 4
+              100: 6
+          - text: "25 or more reviews describe complete service degradation"
             type: count_threshold
             filter:
               service_degradation: complete
-            min_count: 10
+            min_count: 25
             min_count_by_k:
-              25: 1
-              50: 3
-              100: 5
+              25: 3
+              50: 5
+              100: 9
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

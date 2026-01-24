@@ -58,7 +58,7 @@ A restaurant is considered **Critical Risk** if any of the following is true:
 
 **High Risk** if Critical Risk does not apply, but any of the following is true:
 - 1 or more moderate firsthand incidents are reported
-- 2 or more reviews describe staff as refusing or being dismissive about allergy concerns
+- 1 or more reviews describe staff as refusing or being dismissive about allergy concerns
 - 1 or more reviews report a mild incident after an explicit assurance of safety
 
 **Low Risk** otherwise, especially when:

@@ -67,17 +67,16 @@ How the business meal/meeting went
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- 100 or more reviews describe successful business meals or client meetings
-- 20 or more reviews describe it as professional, quiet, or suitable for meetings
-- 30 or more reviews describe efficient service that respects busy schedules
-- 5 or more reviews describe excellent conversation suitability
-- 5 or more reviews describe high privacy level
+- 50 or more reviews describe successful business meals or client meetings
+- 10 or more reviews describe it as professional, quiet, or suitable for meetings
+- 15 or more reviews describe efficient service that respects busy schedules
+- 3 or more reviews describe excellent conversation suitability
+- 3 or more reviews describe high privacy level
 
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- 20 or more reviews describe it as too loud for conversation
-- 30 or more reviews describe service as too slow for business meals
-- 15 or more reviews describe atmosphere as too casual or unprofessional
-- 40 or more reviews describe negative meeting outcomes
+- 5 or more reviews describe it as too loud for conversation
+- 8 or more reviews describe service as too slow for business meals
+- 10 or more reviews describe negative meeting outcomes
 
 **Acceptable** otherwise, especially when:
 - Suitable for internal team lunches but not client entertainment

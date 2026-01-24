@@ -43,66 +43,66 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - text: "170 or more reviews report perfect order accuracy"
+          - text: "190 or more reviews report perfect order accuracy"
             type: count_threshold
             filter:
               order_accuracy: perfect
-            min_count: 170
+            min_count: 190
             min_count_by_k:
-              25: 21
-              50: 43
-              100: 85
-          - text: "80 or more reviews report successful modification handling"
+              25: 24
+              50: 48
+              100: 95
+          - text: "100 or more reviews report successful modification handling"
             type: count_threshold
             filter:
               modification_handling: successful
-            min_count: 80
+            min_count: 100
             min_count_by_k:
-              25: 10
-              50: 20
-              100: 40
-          - text: "150 or more reviews report promises kept"
+              25: 15
+              50: 28
+              100: 55
+          - text: "180 or more reviews report promises kept"
             type: count_threshold
             filter:
               promise_kept: kept
-            min_count: 150
+            min_count: 180
             min_count_by_k:
-              25: 19
-              50: 38
-              100: 75
+              25: 23
+              50: 45
+              100: 90
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - text: "20 or more reviews report significant or multiple order errors"
+          - text: "35 or more reviews report significant or multiple order errors"
             type: count_threshold
             filter:
               order_accuracy: [multiple_errors, significant_error]
-            min_count: 20
+            min_count: 35
             min_count_by_k:
-              25: 5
-              50: 8
-              100: 12
-          - text: "100 or more reviews report modifications being ignored"
+              25: 8
+              50: 14
+              100: 24
+          - text: "120 or more reviews report modifications being ignored"
             type: count_threshold
             filter:
               modification_handling: ignored
-            min_count: 100
+            min_count: 120
             min_count_by_k:
-              25: 15
-              50: 28
-              100: 55
-          - text: "30 or more reviews report broken promises"
+              25: 18
+              50: 34
+              100: 68
+          - text: "45 or more reviews report broken promises"
             type: count_threshold
             filter:
               promise_kept: broken
-            min_count: 30
+            min_count: 45
             min_count_by_k:
-              25: 6
-              50: 10
-              100: 18
+              25: 10
+              50: 16
+              100: 28
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

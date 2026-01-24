@@ -63,14 +63,12 @@ Errors made by the server
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- 2 or more reviews praise server attentiveness and friendliness
-- 2 or more reviews mention servers by name with exceptional praise
-- 2 or more reviews describe servers as knowledgeable and helpful
+- 22 or more reviews praise server attentiveness and friendliness
+- 18 or more reviews mention servers by name with exceptional praise
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- 2 or more reviews describe inattentive or absent servers
-- 2 or more reviews complain about rude or unfriendly service
-- 2 or more reviews report frequent service errors
+- 24 or more reviews describe inattentive or absent servers
+- 15 or more reviews complain about rude service
 
 **Satisfactory** otherwise, especially when:
 - Service is acceptable but not exceptional

@@ -39,86 +39,102 @@ normative:
     ordered: true
 
     rules:
-      # V1 includes V0 conditions PLUS additional conditions with calibrated thresholds
+      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Highly Unique"
         label: "HIGHLY_UNIQUE"
         logic: ANY
         conditions:
-          # Very high thresholds for K=200
-          - text: "30 or more reviews describe it as 'one of a kind'"
+          # Calibrated thresholds (~5-15% Highly Unique)
+          - text: "45 or more reviews describe it as 'one of a kind'"
             type: count_threshold
             filter:
               differentiation_level: one_of_a_kind
-            min_count: 30
+            min_count: 45
             min_count_by_k:
-              25: 8
-              50: 12
+              25: 4
+              50: 8
               100: 18
-          - text: "100 or more reviews mention signature items"
+          - text: "150 or more reviews mention signature items"
             type: count_threshold
             filter:
               signature_item: "true"
-            min_count: 100
+            min_count: 150
             min_count_by_k:
-              25: 20
-              50: 35
-              100: 60
-          - text: "30 or more reviews describe it as unforgettable"
+              25: 18
+              50: 38
+              100: 78
+          - text: "45 or more reviews describe it as unforgettable"
             type: count_threshold
             filter:
               memorability: unforgettable
-            min_count: 30
+            min_count: 45
             min_count_by_k:
-              25: 8
-              50: 12
+              25: 4
+              50: 8
               100: 18
           # V1 additional conditions
-          - text: "150 or more reviews describe it as memorable"
+          - text: "175 or more reviews describe it as memorable"
             type: count_threshold
             filter:
               memorability: memorable
-            min_count: 150
+            min_count: 175
             min_count_by_k:
-              25: 23
-              50: 45
-              100: 85
-          - text: "100 or more reviews describe it as unique"
+              25: 22
+              50: 44
+              100: 90
+          - text: "160 or more reviews describe it as unique"
             type: count_threshold
             filter:
               differentiation_level: unique
-            min_count: 100
+            min_count: 160
             min_count_by_k:
-              25: 20
-              50: 35
-              100: 60
+              25: 21
+              50: 42
+              100: 85
 
       - verdict: "Generic"
         label: "GENERIC"
         precondition: "Highly Unique does not apply"
         logic: ANY
         conditions:
-          # Lower thresholds to catch more
-          - text: "5 or more reviews describe it as 'nothing special'"
+          # Raise Generic thresholds to get more Differentiated
+          - text: "40 or more reviews describe it as 'nothing special'"
             type: count_threshold
             filter:
               differentiation_level: generic
-            min_count: 5
-          - text: "5 or more reviews mention no distinguishing features"
+            min_count: 40
+            min_count_by_k:
+              25: 8
+              50: 14
+              100: 26
+          - text: "40 or more reviews mention no distinguishing features"
             type: count_threshold
             filter:
               unique_aspect: none
-            min_count: 5
+            min_count: 40
+            min_count_by_k:
+              25: 8
+              50: 14
+              100: 26
           # V1 additional conditions
-          - text: "5 or more reviews describe forgettable experience"
+          - text: "35 or more reviews describe forgettable experience"
             type: count_threshold
             filter:
               memorability: forgettable
-            min_count: 5
-          - text: "10 or more reviews describe average experience"
+            min_count: 35
+            min_count_by_k:
+              25: 7
+              50: 12
+              100: 24
+          - text: "50 or more reviews describe average experience"
             type: count_threshold
             filter:
               memorability: average
-            min_count: 10
+            min_count: 50
+            min_count_by_k:
+              25: 10
+              50: 18
+              100: 34
 
       - verdict: "Differentiated"
         label: "DIFFERENTIATED"

@@ -67,17 +67,17 @@ How the date/romantic occasion went
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- 20 or more reviews describe excellent romantic ambiance
-- 100 or more reviews mention successful dates, proposals, or anniversaries
-- 15 or more reviews describe it as quiet, intimate, or romantic
-- 5 or more reviews describe a memorable date outcome
-- 5 or more reviews describe romantic service style
+- 14 or more reviews describe excellent romantic ambiance
+- 58 or more reviews mention successful dates, proposals, or anniversaries
+- 12 or more reviews describe it as quiet, intimate, or romantic
+- 4 or more reviews describe a memorable date outcome
+- 4 or more reviews describe romantic service style
 
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- 20 or more reviews describe loud noise preventing conversation
-- 15 or more reviews describe harsh lighting or unromantic atmosphere
-- 50 or more reviews describe negative date experiences
-- 10 or more reviews describe rushed service style
+- 13 or more reviews describe loud noise preventing conversation
+- 10 or more reviews describe harsh lighting or unromantic atmosphere
+- 28 or more reviews describe negative date experiences
+- 7 or more reviews describe rushed service style
 
 **Acceptable** otherwise, especially when:
 - Atmosphere is pleasant but not particularly romantic

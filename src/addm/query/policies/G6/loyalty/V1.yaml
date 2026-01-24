@@ -44,97 +44,97 @@ normative:
         label: "HIGH_LOYALTY"
         logic: ANY
         conditions:
-          # V0 conditions (same thresholds)
-          - text: "50 or more reviews describe high emotional connection"
+          # V0 conditions (further raised thresholds)
+          - text: "90 or more reviews describe high emotional connection"
             type: count_threshold
             filter:
               emotional_connection: high
-            min_count: 50
+            min_count: 90
             min_count_by_k:
-              25: 9
-              50: 16
-              100: 30
-          - text: "60 or more reviews strongly recommend"
+              25: 15
+              50: 28
+              100: 55
+          - text: "110 or more reviews strongly recommend"
             type: count_threshold
             filter:
               recommend_intent: strongly_recommend
-            min_count: 60
+            min_count: 110
             min_count_by_k:
-              25: 11
-              50: 18
-              100: 35
-          - text: "40 or more reviews say they would definitely return"
+              25: 18
+              50: 32
+              100: 62
+          - text: "90 or more reviews say they would definitely return"
             type: count_threshold
             filter:
               return_intent: definitely
-            min_count: 40
+            min_count: 90
             min_count_by_k:
-              25: 8
-              50: 13
-              100: 24
-          # V1 additional conditions
-          - text: "30 or more reviews describe love as loyalty driver"
+              25: 15
+              50: 28
+              100: 55
+          # V1 additional conditions (further raised thresholds)
+          - text: "65 or more reviews describe love as loyalty driver"
             type: count_threshold
             filter:
               loyalty_driver: love
-            min_count: 30
+            min_count: 65
             min_count_by_k:
-              25: 6
-              50: 10
-              100: 18
-          - text: "20 or more reviews describe frequent visits"
+              25: 12
+              50: 22
+              100: 42
+          - text: "55 or more reviews describe frequent visits"
             type: count_threshold
             filter:
               loyalty_driver: habit
-            min_count: 20
+            min_count: 55
             min_count_by_k:
-              25: 5
-              50: 7
-              100: 12
+              25: 10
+              50: 18
+              100: 35
 
       - verdict: "Low Loyalty"
         label: "LOW_LOYALTY"
         precondition: "High Loyalty does not apply"
         logic: ANY
         conditions:
-          # V0 conditions (same thresholds)
-          - text: "20 or more reviews say 'will never return'"
+          # V0 conditions (raised thresholds)
+          - text: "30 or more reviews say 'will never return'"
             type: count_threshold
             filter:
               return_intent: never
-            min_count: 20
+            min_count: 30
             min_count_by_k:
-              25: 5
-              50: 7
-              100: 12
-          - text: "40 or more reviews report unlikely to return"
+              25: 7
+              50: 12
+              100: 20
+          - text: "55 or more reviews report unlikely to return"
             type: count_threshold
             filter:
               return_intent: unlikely
-            min_count: 40
+            min_count: 55
             min_count_by_k:
-              25: 7
-              50: 12
-              100: 24
-          - text: "40 or more reviews warn others"
+              25: 10
+              50: 18
+              100: 34
+          - text: "55 or more reviews warn others"
             type: count_threshold
             filter:
               recommend_intent: warn_others
-            min_count: 40
+            min_count: 55
             min_count_by_k:
-              25: 7
-              50: 12
-              100: 24
-          # V1 additional conditions
-          - text: "30 or more reviews have no emotional connection"
+              25: 10
+              50: 18
+              100: 34
+          # V1 additional conditions (raised thresholds)
+          - text: "45 or more reviews have no emotional connection"
             type: count_threshold
             filter:
               emotional_connection: none
-            min_count: 30
+            min_count: 45
             min_count_by_k:
-              25: 6
-              50: 10
-              100: 18
+              25: 9
+              50: 16
+              100: 28
 
       - verdict: "Moderate Loyalty"
         label: "MODERATE_LOYALTY"

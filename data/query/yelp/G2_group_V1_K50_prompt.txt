@@ -74,16 +74,16 @@ Overall success of the group dining experience
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- 5 or more reviews describe successful large group events
-- 20 or more reviews mention private rooms or dedicated group areas positively
-- 70 or more reviews praise the handling of groups
-- 5 or more reviews describe exceptional family friendliness
+- 2 or more reviews describe successful large group events
+- 5 or more reviews mention private rooms or dedicated group areas positively
+- 18 or more reviews praise the handling of groups
+- 2 or more reviews describe exceptional family friendliness
 
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- 30 or more reviews describe groups being turned away or poorly handled
-- 15 or more complaints about long waits despite reservations
-- 10 or more reviews report refused check splitting for groups
-- 10 or more reviews describe disaster group outcomes
+- 8 or more reviews describe groups being turned away or poorly handled
+- 4 or more complaints about long waits despite reservations
+- 3 or more reviews report refused check splitting for groups
+- 3 or more reviews describe disaster group outcomes
 
 **Acceptable** otherwise, especially when:
 - Handles groups adequately but not exceptionally

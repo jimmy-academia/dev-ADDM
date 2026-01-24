@@ -46,87 +46,50 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          # Conditions with very high thresholds for K=200
-          - text: "150 or more reviews praise server attentiveness and friendliness"
-            type: count_threshold
-            filter:
-              attentiveness: good
-              friendliness: friendly
-            min_count: 150
-            min_count_by_k:
-              25: 19
-              50: 38
-              100: 75
-          - text: "80 or more reviews mention servers by name with exceptional praise"
-            type: count_threshold
-            filter:
-              named_positively: "true"
-            min_count: 80
-            min_count_by_k:
-              25: 10
-              50: 20
-              100: 40
-          - text: "100 or more reviews describe servers as knowledgeable"
-            type: count_threshold
-            filter:
-              menu_knowledge: excellent
-            min_count: 100
-            min_count_by_k:
-              25: 13
-              50: 25
-              100: 50
-          # V1 additional conditions
-          - text: "80 or more reviews describe excellent attentiveness"
+          - text: "40 or more reviews praise excellent attentiveness and warmth together"
             type: count_threshold
             filter:
               attentiveness: excellent
-            min_count: 80
+              friendliness: warm
+            min_count: 40
             min_count_by_k:
-              25: 10
-              50: 20
-              100: 40
-          - text: "60 or more reviews describe exceptionally warm service"
+              25: 6
+              50: 12
+              100: 22
+          - text: "35 or more reviews mention servers by name with exceptional praise"
             type: count_threshold
             filter:
-              friendliness: warm
-            min_count: 60
+              named_positively: "true"
+              attentiveness: excellent
+            min_count: 35
             min_count_by_k:
-              25: 8
-              50: 15
-              100: 30
+              25: 5
+              50: 10
+              100: 18
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          # Negative conditions with lower thresholds to catch more
-          - text: "5 or more reviews describe inattentive servers"
+          - text: "35 or more reviews describe inattentive servers"
             type: count_threshold
             filter:
               attentiveness: poor
-            min_count: 5
-          - text: "3 or more reviews complain about rude service"
+            min_count: 35
+            min_count_by_k:
+              25: 9
+              50: 14
+              100: 24
+          - text: "20 or more reviews complain about rude service"
             type: count_threshold
             filter:
               friendliness: rude
-            min_count: 3
-          - text: "10 or more reviews report significant service errors"
-            type: count_threshold
-            filter:
-              service_errors: significant
-            min_count: 10
-          # V1 additional conditions
-          - text: "3 or more reviews describe absent servers"
-            type: count_threshold
-            filter:
-              attentiveness: absent
-            min_count: 3
-          - text: "2 or more reviews describe severe service errors"
-            type: count_threshold
-            filter:
-              service_errors: severe
-            min_count: 2
+            min_count: 20
+            min_count_by_k:
+              25: 6
+              50: 9
+              100: 15
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

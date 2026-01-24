@@ -187,11 +187,11 @@ def _make_threshold_explicit(text: str, min_count: int) -> str:
         if re.match(pattern, text, re.IGNORECASE):
             return re.sub(pattern, replacement, text, count=1, flags=re.IGNORECASE)
 
-    # If no vague quantifier found but min_count is provided,
-    # check if text already has an explicit number at the start
-    if re.match(r"^\d+\s+", text):
-        # Already has explicit number, leave as-is
-        return text
+    # If text starts with an explicit number, replace it with K-specific threshold
+    # e.g., "5 or more reviews report..." + min_count=2 -> "2 or more reviews report..."
+    match = re.match(r"^(\d+)\s+(or\s+more\s+)?(.*)$", text, re.IGNORECASE)
+    if match:
+        return f"{min_count} or more {match.group(3)}"
 
     # No vague quantifier and no explicit number - don't modify
     return text

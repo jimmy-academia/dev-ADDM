@@ -95,13 +95,13 @@ normative:
       weight: quarter point value (multiply by 0.25) - staff likely changed
     thresholds:
     - verdict: Excellent
-      min_score: 1200
+      min_score: 600
       min_score_by_k:
         25: 150
         50: 300
         100: 600
     - verdict: Needs Improvement
-      max_score: 500
+      max_score: 250
       max_score_by_k:
         25: 63
         50: 125

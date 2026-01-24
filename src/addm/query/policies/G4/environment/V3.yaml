@@ -103,13 +103,13 @@ normative:
       weight: quarter point value (multiply by 0.25) - unless describing permanent fixtures
     thresholds:
     - verdict: Excellent
-      min_score: 900
+      min_score: 450
       min_score_by_k:
         25: 113
         50: 225
         100: 450
     - verdict: Needs Improvement
-      max_score: 200
+      max_score: 100
       max_score_by_k:
         25: 25
         50: 50

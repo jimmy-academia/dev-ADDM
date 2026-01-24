@@ -58,14 +58,14 @@ How well problems were resolved
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- 170 or more reviews report perfect order accuracy
-- 80 or more reviews report successful modification handling
-- 150 or more reviews report promises kept
+- 43 or more reviews report perfect order accuracy
+- 20 or more reviews report successful modification handling
+- 38 or more reviews report promises kept
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- 20 or more reviews report significant or multiple order errors
-- 100 or more reviews report modifications being ignored
-- 30 or more reviews report broken promises
+- 8 or more reviews report significant or multiple order errors
+- 28 or more reviews report modifications being ignored
+- 10 or more reviews report broken promises
 
 **Satisfactory** otherwise, especially when:
 - Orders generally correct

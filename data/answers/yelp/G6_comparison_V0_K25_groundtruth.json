@@ -3,7 +3,7 @@
   "topic": "G6_comparison",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-23T16:42:47.914170",
+  "computed_at": "2026-01-23T20:15:47.549567",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -12,8 +12,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -25,8 +25,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -38,8 +38,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -64,8 +64,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -77,8 +77,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -90,8 +90,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -103,8 +103,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -116,8 +116,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -129,8 +129,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Weaker",
+        "matched_rule": "WEAKER",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -142,8 +142,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -168,8 +168,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -181,8 +181,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -194,8 +194,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -207,8 +207,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -233,8 +233,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -246,8 +246,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -259,8 +259,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -298,8 +298,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -311,8 +311,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -324,8 +324,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -337,8 +337,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -363,8 +363,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -389,8 +389,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -402,8 +402,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -415,8 +415,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -428,8 +428,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -441,8 +441,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -454,8 +454,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -493,8 +493,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -519,8 +519,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -532,8 +532,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -558,8 +558,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Weaker",
+        "matched_rule": "WEAKER",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -571,8 +571,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -584,8 +584,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -597,8 +597,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -636,8 +636,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -649,8 +649,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -662,8 +662,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Weaker",
+        "matched_rule": "WEAKER",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -675,8 +675,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -688,8 +688,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -701,8 +701,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -714,8 +714,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -727,8 +727,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -740,8 +740,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -753,8 +753,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -766,8 +766,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -779,8 +779,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -805,8 +805,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -857,8 +857,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -870,8 +870,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -896,8 +896,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -909,8 +909,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -935,8 +935,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Weaker",
+        "matched_rule": "WEAKER",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -948,8 +948,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -974,8 +974,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -987,8 +987,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1026,8 +1026,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1052,8 +1052,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1065,8 +1065,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1078,8 +1078,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Weaker",
+        "matched_rule": "WEAKER",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1104,8 +1104,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1117,8 +1117,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1130,8 +1130,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1156,8 +1156,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1169,8 +1169,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1182,8 +1182,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1195,8 +1195,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1208,8 +1208,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1221,8 +1221,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1247,8 +1247,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1260,8 +1260,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Weaker",
-        "matched_rule": "WEAKER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1273,8 +1273,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1286,8 +1286,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1299,8 +1299,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Stronger",
-        "matched_rule": "STRONGER",
+        "verdict": "Comparable",
+        "matched_rule": "COMPARABLE",
         "policy_id": "G6_comparison_V0",
         "n_incidents": 0,
         "incidents": []
@@ -1310,9 +1310,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Weaker": 33,
-      "Comparable": 3,
-      "Stronger": 64
+      "Weaker": 20,
+      "Comparable": 72,
+      "Stronger": 8
     },
     "missing_judgments": 0
   }

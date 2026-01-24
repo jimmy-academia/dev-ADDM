@@ -47,97 +47,48 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          # V0 conditions (same thresholds)
-          - text: "50 or more reviews praise excellent chef skill"
+          - text: "100 or more reviews praise excellent chef skill"
             type: count_threshold
             filter:
               chef_skill: excellent
-            min_count: 50
+            min_count: 100
             min_count_by_k:
-              25: 12
-              50: 18
-              100: 32
-          - text: "120 or more reviews report consistent food quality"
+              25: 15
+              50: 28
+              100: 55
+          - text: "180 or more reviews report consistent food quality"
             type: count_threshold
             filter:
               consistency: consistent
-            min_count: 120
+            min_count: 180
             min_count_by_k:
-              25: 22
-              50: 40
-              100: 70
-          # V1 additional conditions
-          - text: "30 or more reviews describe masterful chef skill"
-            type: count_threshold
-            filter:
-              chef_skill: masterful
-            min_count: 30
-            min_count_by_k:
-              25: 10
-              50: 14
-              100: 20
-          - text: "80 or more reviews report good chef skill"
-            type: count_threshold
-            filter:
-              chef_skill: good
-            min_count: 80
-            min_count_by_k:
-              25: 18
-              50: 28
-              100: 50
+              25: 23
+              50: 45
+              100: 90
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          # V0 conditions (same thresholds)
-          - text: "20 or more reviews report poor chef skill"
+          - text: "40 or more reviews report poor chef skill"
             type: count_threshold
             filter:
               chef_skill: poor
-            min_count: 20
+            min_count: 40
             min_count_by_k:
-              25: 3
-              50: 5
-              100: 10
-          - text: "30 or more reviews report inconsistent food quality"
+              25: 10
+              50: 16
+              100: 28
+          - text: "45 or more reviews report inconsistent food quality"
             type: count_threshold
             filter:
               consistency: inconsistent
-            min_count: 30
+            min_count: 45
             min_count_by_k:
-              25: 4
-              50: 8
-              100: 15
-          - text: "25 or more reviews report major food quality issues"
-            type: count_threshold
-            filter:
-              issue_severity: major
-            min_count: 25
-            min_count_by_k:
-              25: 3
-              50: 6
-              100: 13
-          # V1 additional conditions
-          - text: "8 or more reviews describe food as inedible"
-            type: count_threshold
-            filter:
-              issue_severity: inedible
-            min_count: 8
-            min_count_by_k:
-              25: 1
-              50: 2
-              100: 4
-          - text: "15 or more reviews report doneness issues"
-            type: count_threshold
-            filter:
-              food_issue_type: doneness
-            min_count: 15
-            min_count_by_k:
-              25: 2
-              50: 4
-              100: 8
+              25: 10
+              50: 18
+              100: 32
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

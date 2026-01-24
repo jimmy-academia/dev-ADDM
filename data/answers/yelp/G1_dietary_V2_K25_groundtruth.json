@@ -3,7 +3,7 @@
   "topic": "G1_dietary",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-23T16:42:44.573939",
+  "computed_at": "2026-01-23T19:09:46.969916",
   "has_scoring": true,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -236,7 +236,9 @@
               "False assurance",
               "Dismissive staff"
             ],
-            "total_points": 10
+            "total_points": 10,
+            "recency_weight": 1.0,
+            "weighted_points": 10
           }
         ],
         "cuisine_modifier": false,
@@ -330,7 +332,9 @@
             "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
-            "total_points": 2
+            "total_points": 2,
+            "recency_weight": 1.0,
+            "weighted_points": 2
           }
         ],
         "cuisine_modifier": false,
@@ -466,7 +470,9 @@
             "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
-            "total_points": 2
+            "total_points": 2,
+            "recency_weight": 1.0,
+            "weighted_points": 2
           }
         ],
         "cuisine_modifier": false,
@@ -674,7 +680,9 @@
             "modifiers": [
               "Dismissive staff"
             ],
-            "total_points": 5
+            "total_points": 5,
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -966,7 +974,9 @@
             "modifiers": [
               "Dismissive staff"
             ],
-            "total_points": 8
+            "total_points": 8,
+            "recency_weight": 1.0,
+            "weighted_points": 8
           },
           {
             "review_id": "JTeR9wzcNH5dzClfgtCOmA",
@@ -977,7 +987,9 @@
             "modifiers": [
               "Dismissive staff"
             ],
-            "total_points": 8
+            "total_points": 8,
+            "recency_weight": 1.0,
+            "weighted_points": 8
           },
           {
             "review_id": "SQfvXDKum2-19jC4yhxjeQ",
@@ -988,7 +1000,9 @@
             "modifiers": [
               "Dismissive staff"
             ],
-            "total_points": 5
+            "total_points": 5,
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "tbm6wNuN89MQGl4B2h5qrQ",
@@ -999,7 +1013,9 @@
             "modifiers": [
               "Dismissive staff"
             ],
-            "total_points": 8
+            "total_points": 8,
+            "recency_weight": 1.0,
+            "weighted_points": 8
           }
         ],
         "cuisine_modifier": false,
@@ -1051,7 +1067,9 @@
             "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
-            "total_points": 2
+            "total_points": 2,
+            "recency_weight": 1.0,
+            "weighted_points": 2
           }
         ],
         "cuisine_modifier": false,
@@ -1327,7 +1345,9 @@
             "severity_label": "Moderate incident",
             "base_points": 5,
             "modifiers": [],
-            "total_points": 5
+            "total_points": 5,
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -1479,7 +1499,9 @@
             "modifiers": [
               "Dismissive staff"
             ],
-            "total_points": 5
+            "total_points": 5,
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,

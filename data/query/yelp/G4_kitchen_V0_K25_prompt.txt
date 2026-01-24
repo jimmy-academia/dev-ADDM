@@ -61,13 +61,12 @@ Perceived skill level of kitchen
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- 50 or more reviews praise excellent chef skill
-- 120 or more reviews report consistent food quality
+- 15 or more reviews praise excellent chef skill
+- 23 or more reviews report consistent food quality
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- 20 or more reviews report poor chef skill
-- 30 or more reviews report inconsistent food quality
-- 25 or more reviews report major food quality issues
+- 10 or more reviews report poor chef skill
+- 10 or more reviews report inconsistent food quality
 
 **Satisfactory** otherwise, especially when:
 - Food quality is acceptable but not exceptional

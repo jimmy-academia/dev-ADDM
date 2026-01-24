@@ -3,7 +3,7 @@
   "topic": "G6_uniqueness",
   "domain": "yelp",
   "k": 200,
-  "computed_at": "2026-01-23T17:28:35.733812",
+  "computed_at": "2026-01-23T19:35:34.737705",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -2028,8 +2028,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 178,
         "incidents": [
@@ -3288,8 +3288,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 150,
         "incidents": [
@@ -4352,8 +4352,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 169,
         "incidents": [
@@ -6823,8 +6823,8 @@
       "n_reviews": 123,
       "n_judgments": 123,
       "ground_truth": {
-        "verdict": "Generic",
-        "matched_rule": "GENERIC",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 103,
         "incidents": [
@@ -7558,8 +7558,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 175,
         "incidents": [
@@ -10071,8 +10071,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 169,
         "incidents": [
@@ -13228,8 +13228,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 151,
         "incidents": [
@@ -14299,8 +14299,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 172,
         "incidents": [
@@ -15517,8 +15517,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 175,
         "incidents": [
@@ -16756,8 +16756,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 163,
         "incidents": [
@@ -19031,8 +19031,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 171,
         "incidents": [
@@ -20242,8 +20242,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 174,
         "incidents": [
@@ -22769,8 +22769,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 176,
         "incidents": [
@@ -24015,8 +24015,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 158,
         "incidents": [
@@ -25135,8 +25135,8 @@
       "n_reviews": 143,
       "n_judgments": 143,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 126,
         "incidents": [
@@ -26031,8 +26031,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 172,
         "incidents": [
@@ -27249,8 +27249,8 @@
       "n_reviews": 166,
       "n_judgments": 166,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 150,
         "incidents": [
@@ -30238,8 +30238,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 162,
         "incidents": [
@@ -31386,8 +31386,8 @@
       "n_reviews": 73,
       "n_judgments": 73,
       "ground_truth": {
-        "verdict": "Generic",
-        "matched_rule": "GENERIC",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 60,
         "incidents": [
@@ -31820,8 +31820,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 176,
         "incidents": [
@@ -33066,8 +33066,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 175,
         "incidents": [
@@ -34305,8 +34305,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 163,
         "incidents": [
@@ -35460,8 +35460,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 169,
         "incidents": [
@@ -36657,8 +36657,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 165,
         "incidents": [
@@ -37826,8 +37826,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 169,
         "incidents": [
@@ -39023,8 +39023,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 171,
         "incidents": [
@@ -45155,8 +45155,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 166,
         "incidents": [
@@ -46331,8 +46331,8 @@
       "n_reviews": 185,
       "n_judgments": 185,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 144,
         "incidents": [
@@ -47353,8 +47353,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 171,
         "incidents": [
@@ -50685,8 +50685,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 171,
         "incidents": [
@@ -51896,8 +51896,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 165,
         "incidents": [
@@ -53065,8 +53065,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 172,
         "incidents": [
@@ -55564,8 +55564,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 163,
         "incidents": [
@@ -57979,8 +57979,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 171,
         "incidents": [
@@ -59190,8 +59190,8 @@
       "n_reviews": 195,
       "n_judgments": 195,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 146,
         "incidents": [
@@ -61451,8 +61451,8 @@
       "n_reviews": 140,
       "n_judgments": 140,
       "ground_truth": {
-        "verdict": "Generic",
-        "matched_rule": "GENERIC",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 120,
         "incidents": [
@@ -62305,8 +62305,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 170,
         "incidents": [
@@ -64804,8 +64804,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 178,
         "incidents": [
@@ -66064,8 +66064,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 173,
         "incidents": [
@@ -67289,8 +67289,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 171,
         "incidents": [
@@ -74520,8 +74520,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 171,
         "incidents": [
@@ -75731,8 +75731,8 @@
       "n_reviews": 172,
       "n_judgments": 172,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 145,
         "incidents": [
@@ -78069,8 +78069,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 176,
         "incidents": [
@@ -79315,8 +79315,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 176,
         "incidents": [
@@ -81814,8 +81814,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 175,
         "incidents": [
@@ -83053,8 +83053,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 178,
         "incidents": [
@@ -84313,8 +84313,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 160,
         "incidents": [
@@ -85447,8 +85447,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 175,
         "incidents": [
@@ -86686,8 +86686,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 173,
         "incidents": [
@@ -87911,8 +87911,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 181,
         "incidents": [
@@ -90487,8 +90487,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 176,
         "incidents": [
@@ -91733,8 +91733,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 166,
         "incidents": [
@@ -92909,8 +92909,8 @@
       "n_reviews": 100,
       "n_judgments": 100,
       "ground_truth": {
-        "verdict": "Generic",
-        "matched_rule": "GENERIC",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 82,
         "incidents": [
@@ -93497,8 +93497,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 166,
         "incidents": [
@@ -94673,8 +94673,8 @@
       "n_reviews": 132,
       "n_judgments": 132,
       "ground_truth": {
-        "verdict": "Generic",
-        "matched_rule": "GENERIC",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 114,
         "incidents": [
@@ -95485,8 +95485,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 166,
         "incidents": [
@@ -96661,8 +96661,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 177,
         "incidents": [
@@ -97914,8 +97914,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 163,
         "incidents": [
@@ -99069,8 +99069,8 @@
       "n_reviews": 173,
       "n_judgments": 173,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 151,
         "incidents": [
@@ -100140,8 +100140,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 156,
         "incidents": [
@@ -101246,8 +101246,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 170,
         "incidents": [
@@ -103752,8 +103752,8 @@
       "n_reviews": 165,
       "n_judgments": 165,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 144,
         "incidents": [
@@ -104774,8 +104774,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 162,
         "incidents": [
@@ -105922,8 +105922,8 @@
       "n_reviews": 33,
       "n_judgments": 33,
       "ground_truth": {
-        "verdict": "Generic",
-        "matched_rule": "GENERIC",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 30,
         "incidents": [
@@ -106146,8 +106146,8 @@
       "n_reviews": 45,
       "n_judgments": 45,
       "ground_truth": {
-        "verdict": "Generic",
-        "matched_rule": "GENERIC",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 31,
         "incidents": [
@@ -106377,8 +106377,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 175,
         "incidents": [
@@ -107616,8 +107616,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Generic",
+        "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 175,
         "incidents": [
@@ -110171,8 +110171,8 @@
       "n_reviews": 146,
       "n_judgments": 146,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 134,
         "incidents": [
@@ -112381,9 +112381,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Generic": 12,
-      "Differentiated": 2,
-      "Highly Unique": 86
+      "Generic": 51,
+      "Differentiated": 24,
+      "Highly Unique": 25
     },
     "missing_judgments": 0
   }

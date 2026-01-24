@@ -88,13 +88,13 @@ normative:
       weight: quarter point value (multiply by 0.25) - chef/menu may have changed
     thresholds:
     - verdict: Excellent
-      min_score: 1400
+      min_score: 700
       min_score_by_k:
         25: 175
         50: 350
         100: 700
     - verdict: Needs Improvement
-      max_score: 500
+      max_score: 250
       max_score_by_k:
         25: 63
         50: 125

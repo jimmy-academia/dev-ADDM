@@ -59,14 +59,14 @@ Service style appropriateness for romantic dining
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- 20 or more reviews describe excellent romantic ambiance
-- 100 or more reviews mention successful dates, proposals, or anniversaries
-- 15 or more reviews describe it as quiet, intimate, or romantic
+- 4 or more reviews describe excellent romantic ambiance
+- 15 or more reviews mention successful dates, proposals, or anniversaries
+- 4 or more reviews describe it as quiet, intimate, or romantic
 
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- 20 or more reviews describe loud noise preventing conversation
-- 15 or more reviews describe harsh lighting or unromantic atmosphere
-- 50 or more reviews describe negative date experiences
+- 4 or more reviews describe loud noise preventing conversation
+- 3 or more reviews describe harsh lighting or unromantic atmosphere
+- 8 or more reviews describe negative date experiences
 
 **Acceptable** otherwise, especially when:
 - Mixed reviews about romantic suitability

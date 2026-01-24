@@ -59,11 +59,11 @@ Whether a must-try signature item exists
 ## Verdict Rules
 
 A restaurant is considered **Highly Unique** if any of the following is true:
-- 30 or more reviews describe it as 'one of a kind'
-- 100 or more reviews mention signature items
-- 30 or more reviews describe it as unforgettable
-- 150 or more reviews describe it as memorable
-- 100 or more reviews describe it as unique
+- 18 or more reviews describe it as 'one of a kind'
+- 60 or more reviews mention signature items
+- 18 or more reviews describe it as unforgettable
+- 85 or more reviews describe it as memorable
+- 60 or more reviews describe it as unique
 
 **Generic** if Highly Unique does not apply, but any of the following is true:
 - 5 or more reviews describe it as 'nothing special'

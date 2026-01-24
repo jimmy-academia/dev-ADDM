@@ -3,7 +3,7 @@
   "topic": "G1_allergy",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-23T16:42:44.475182",
+  "computed_at": "2026-01-23T19:09:46.848640",
   "has_scoring": true,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -921,7 +921,9 @@
             "modifiers": [
               "Dismissive staff"
             ],
-            "total_points": 8
+            "total_points": 8,
+            "recency_weight": 1.0,
+            "weighted_points": 8
           },
           {
             "review_id": "JTeR9wzcNH5dzClfgtCOmA",
@@ -932,7 +934,9 @@
             "modifiers": [
               "Dismissive staff"
             ],
-            "total_points": 8
+            "total_points": 8,
+            "recency_weight": 1.0,
+            "weighted_points": 8
           },
           {
             "review_id": "tbm6wNuN89MQGl4B2h5qrQ",
@@ -943,7 +947,9 @@
             "modifiers": [
               "Dismissive staff"
             ],
-            "total_points": 8
+            "total_points": 8,
+            "recency_weight": 1.0,
+            "weighted_points": 8
           }
         ],
         "cuisine_modifier": false,
@@ -1263,7 +1269,9 @@
             "modifiers": [
               "False assurance"
             ],
-            "total_points": 7
+            "total_points": 7,
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,

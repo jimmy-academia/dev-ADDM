@@ -3,7 +3,7 @@
   "topic": "G1_allergy",
   "domain": "yelp",
   "k": 50,
-  "computed_at": "2026-01-23T16:42:55.931225",
+  "computed_at": "2026-01-23T19:09:59.436436",
   "has_scoring": true,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -303,7 +303,9 @@
             "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
-            "total_points": 2
+            "total_points": 2,
+            "recency_weight": 1.0,
+            "weighted_points": 2
           }
         ],
         "cuisine_modifier": false,
@@ -331,7 +333,7 @@
       "n_judgments": 50,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 2,
+        "score": 0,
         "n_incidents": 1,
         "incidents": [
           {
@@ -341,7 +343,9 @@
             "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
-            "total_points": 2
+            "total_points": 2,
+            "recency_weight": 0.25,
+            "weighted_points": 0
           }
         ],
         "cuisine_modifier": false,
@@ -687,7 +691,9 @@
             "severity_label": "Severe incident",
             "base_points": 15,
             "modifiers": [],
-            "total_points": 15
+            "total_points": 15,
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": true,
@@ -837,7 +843,9 @@
             "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
-            "total_points": 2
+            "total_points": 2,
+            "recency_weight": 1.0,
+            "weighted_points": 2
           },
           {
             "review_id": "oUxqbtB8e7M4gZ4T1XFpfg",
@@ -846,7 +854,9 @@
             "severity_label": "Mild incident",
             "base_points": 2,
             "modifiers": [],
-            "total_points": 2
+            "total_points": 2,
+            "recency_weight": 1.0,
+            "weighted_points": 2
           }
         ],
         "cuisine_modifier": false,
@@ -958,7 +968,7 @@
       "n_judgments": 50,
       "ground_truth": {
         "verdict": "Critical Risk",
-        "score": 24,
+        "score": 12,
         "n_incidents": 3,
         "incidents": [
           {
@@ -970,7 +980,9 @@
             "modifiers": [
               "Dismissive staff"
             ],
-            "total_points": 8
+            "total_points": 8,
+            "recency_weight": 0.5,
+            "weighted_points": 4
           },
           {
             "review_id": "JTeR9wzcNH5dzClfgtCOmA",
@@ -981,7 +993,9 @@
             "modifiers": [
               "Dismissive staff"
             ],
-            "total_points": 8
+            "total_points": 8,
+            "recency_weight": 0.5,
+            "weighted_points": 4
           },
           {
             "review_id": "tbm6wNuN89MQGl4B2h5qrQ",
@@ -992,7 +1006,9 @@
             "modifiers": [
               "Dismissive staff"
             ],
-            "total_points": 8
+            "total_points": 8,
+            "recency_weight": 0.5,
+            "weighted_points": 4
           }
         ],
         "cuisine_modifier": false,
@@ -1312,7 +1328,9 @@
             "modifiers": [
               "False assurance"
             ],
-            "total_points": 7
+            "total_points": 7,
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -1381,8 +1399,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "High Risk",
-        "score": 5,
+        "verdict": "Low Risk",
+        "score": 2,
         "n_incidents": 1,
         "incidents": [
           {
@@ -1392,7 +1410,9 @@
             "severity_label": "Moderate incident",
             "base_points": 5,
             "modifiers": [],
-            "total_points": 5
+            "total_points": 5,
+            "recency_weight": 0.5,
+            "weighted_points": 2
           }
         ],
         "cuisine_modifier": false,
@@ -1515,8 +1535,8 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Risk": 95,
-      "High Risk": 2,
+      "Low Risk": 96,
+      "High Risk": 1,
       "Critical Risk": 3
     },
     "missing_judgments": 0

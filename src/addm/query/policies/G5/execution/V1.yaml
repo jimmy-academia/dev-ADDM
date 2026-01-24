@@ -44,88 +44,88 @@ normative:
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          # V0 conditions (same thresholds)
-          - text: "170 or more reviews report perfect order accuracy"
+          # V0 conditions (raised thresholds)
+          - text: "190 or more reviews report perfect order accuracy"
             type: count_threshold
             filter:
               order_accuracy: perfect
-            min_count: 170
+            min_count: 190
             min_count_by_k:
               25: 24
               50: 48
-              100: 90
-          - text: "80 or more reviews report successful modification handling"
+              100: 95
+          - text: "100 or more reviews report successful modification handling"
             type: count_threshold
             filter:
               modification_handling: successful
-            min_count: 80
+            min_count: 100
             min_count_by_k:
-              25: 14
-              50: 24
-              100: 45
-          - text: "150 or more reviews report promises kept"
+              25: 15
+              50: 28
+              100: 55
+          - text: "180 or more reviews report promises kept"
             type: count_threshold
             filter:
               promise_kept: kept
-            min_count: 150
+            min_count: 180
             min_count_by_k:
-              25: 22
-              50: 42
-              100: 80
-          # V1 additional conditions
-          - text: "40 or more reviews describe excellent issue resolution"
+              25: 23
+              50: 45
+              100: 90
+          # V1 additional conditions (raised thresholds)
+          - text: "60 or more reviews describe excellent issue resolution"
             type: count_threshold
             filter:
               issue_resolution: excellent
-            min_count: 40
+            min_count: 60
             min_count_by_k:
-              25: 8
-              50: 14
-              100: 25
+              25: 12
+              50: 20
+              100: 38
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          # V0 conditions (same thresholds)
-          - text: "20 or more reviews report significant or multiple order errors"
+          # Extremely high thresholds - only clear failures
+          - text: "160 or more reviews report significant or multiple order errors"
             type: count_threshold
             filter:
               order_accuracy: [multiple_errors, significant_error]
-            min_count: 20
+            min_count: 160
             min_count_by_k:
-              25: 15
-              50: 14
-              100: 18
-          - text: "100 or more reviews report modifications being ignored"
+              25: 24
+              50: 46
+              100: 88
+          - text: "195 or more reviews report modifications being ignored"
             type: count_threshold
             filter:
               modification_handling: ignored
-            min_count: 100
+            min_count: 195
             min_count_by_k:
-              25: 22
-              50: 38
-              100: 70
-          - text: "30 or more reviews report broken promises"
+              25: 25
+              50: 49
+              100: 98
+          - text: "170 or more reviews report broken promises"
             type: count_threshold
             filter:
               promise_kept: broken
-            min_count: 30
+            min_count: 170
             min_count_by_k:
-              25: 12
-              50: 16
-              100: 24
-          # V1 additional conditions
-          - text: "30 or more reviews describe no issue resolution"
+              25: 24
+              50: 46
+              100: 90
+          # V1 additional conditions - extremely high thresholds
+          - text: "180 or more reviews describe no issue resolution"
             type: count_threshold
             filter:
               issue_resolution: none
-            min_count: 30
+            min_count: 180
             min_count_by_k:
-              25: 18
-              50: 28
-              100: 40
+              25: 24
+              50: 48
+              100: 94
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"

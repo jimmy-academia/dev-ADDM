@@ -43,42 +43,59 @@ normative:
         label: "HIGHLY_UNIQUE"
         logic: ANY
         conditions:
-          - text: "2 or more reviews describe it as 'one of a kind'"
+          - text: "Reviews describe unique food with unforgettable experience"
+            type: count_threshold
+            filter:
+              unique_aspect: food
+              memorability: unforgettable
+            min_count: 8
+            min_count_by_k:
+              25: 2
+              50: 3
+              100: 5
+          - text: "Reviews describe one-of-a-kind differentiation"
             type: count_threshold
             filter:
               differentiation_level: one_of_a_kind
-            min_count: 2
-          - text: "2 or more reviews praise signature items"
-            type: count_threshold
-            filter:
-              signature_item: praised
-            min_count: 2
-          - text: "2 or more reviews describe it as unforgettable or irreplaceable"
-            type: count_threshold
-            filter:
-              memorability: unforgettable
-            min_count: 2
+              memorability: memorable
+            min_count: 6
+            min_count_by_k:
+              25: 1
+              50: 2
+              100: 4
 
       - verdict: "Generic"
         label: "GENERIC"
         precondition: "Highly Unique does not apply"
         logic: ANY
         conditions:
-          - text: "2 or more reviews describe it as 'nothing special'"
+          - text: "40 or more reviews describe it as 'nothing special'"
             type: count_threshold
             filter:
               differentiation_level: generic
-            min_count: 2
-          - text: "2 or more reviews mention no distinguishing features"
+            min_count: 40
+            min_count_by_k:
+              25: 8
+              50: 14
+              100: 26
+          - text: "40 or more reviews mention no distinguishing features"
             type: count_threshold
             filter:
               unique_aspect: none
-            min_count: 2
-          - text: "2 or more reviews describe it as easily confused with competitors"
+            min_count: 40
+            min_count_by_k:
+              25: 8
+              50: 14
+              100: 26
+          - text: "30 or more reviews describe it as easily confused with competitors"
             type: count_threshold
             filter:
               differentiation_level: interchangeable
-            min_count: 2
+            min_count: 30
+            min_count_by_k:
+              25: 6
+              50: 10
+              100: 20
 
       - verdict: "Differentiated"
         label: "DIFFERENTIATED"
