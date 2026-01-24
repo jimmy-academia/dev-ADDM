@@ -179,8 +179,8 @@ def main():
         help="Context size (25, 50, 100, 200) or 'all' for all K values"
     )
     parser.add_argument(
-        "--n", type=int, default=5,
-        help="Number of samples to select (default: 5)"
+        "--n", type=int, default=3,
+        help="Number of samples to select (default: 3, one per verdict category)"
     )
     parser.add_argument(
         "--seed", type=int, default=42,

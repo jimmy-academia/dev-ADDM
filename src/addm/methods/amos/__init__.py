@@ -7,7 +7,7 @@ Two-phase method for evaluating restaurants based on LLM-generated specification
 
 import json
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Callable, Dict, Optional
 
 from addm.data.types import Sample
 from addm.llm import LLMService
@@ -26,6 +26,9 @@ class AMOSMethod(Method):
 
     name = "amos"
 
+    # Type alias for progress callback
+    ProgressCallback = Callable[[int, str, float, str], None]
+
     def __init__(
         self,
         policy_id: str = "G1_allergy_V2",
@@ -33,6 +36,7 @@ class AMOSMethod(Method):
         config: Optional[AMOSConfig] = None,
         batch_size: int = 10,
         system_prompt: Optional[str] = None,
+        progress_callback: Optional["AMOSMethod.ProgressCallback"] = None,
     ):
         """Initialize AMOS method.
 
@@ -42,10 +46,17 @@ class AMOSMethod(Method):
             config: Full AMOS configuration (overrides batch_size param)
             batch_size: Reviews per LLM call (default: 10)
             system_prompt: System prompt for output format (stored for reference)
+            progress_callback: Optional callback for progress updates.
+                Signature: callback(phase: int, step: str, progress: float, detail: str)
+                - phase: 1 or 2
+                - step: Current step name (e.g., "OBSERVE", "PLAN", "ACT")
+                - progress: Percentage complete (0-100)
+                - detail: Additional info (e.g., "25/50 reviews")
         """
         self.policy_id = policy_id
         self.max_concurrent = max_concurrent
         self.system_prompt = system_prompt
+        self.progress_callback = progress_callback
 
         # Build config from parameters or use provided config
         if config:
@@ -60,17 +71,42 @@ class AMOSMethod(Method):
         self._seed: Optional[Dict[str, Any]] = None
         self._phase1_usage: Dict[str, Any] = {}
 
+    def _report_progress(
+        self, phase: int, step: str, progress: float, detail: str = ""
+    ) -> None:
+        """Report progress via callback if configured.
+
+        Args:
+            phase: 1 or 2
+            step: Current step name (e.g., "OBSERVE", "PLAN", "ACT")
+            progress: Percentage complete (0-100)
+            detail: Additional info (e.g., "25/50 reviews")
+        """
+        if self.progress_callback:
+            self.progress_callback(phase, step, progress, detail)
+
     def save_formula_seed_to_run_dir(self, run_dir: Path) -> None:
         """Save a copy of the Formula Seed to the run directory.
 
         Creates formula_seed.json in the run directory for artifact tracking.
+        If hybrid approach was used, also saves policy_yaml.yaml.
 
         Args:
             run_dir: Run directory (e.g., results/dev/20260120_G1_allergy_V2/)
         """
+        import yaml as yaml_module
+
         if self._seed is None:
             return
 
+        # Save PolicyYAML if present (from hybrid approach)
+        policy_yaml = self._seed.pop("_policy_yaml", None)
+        if policy_yaml:
+            yaml_path = run_dir / "policy_yaml.yaml"
+            with open(yaml_path, "w") as f:
+                yaml_module.dump(policy_yaml, f, default_flow_style=False, sort_keys=False)
+
+        # Save Formula Seed (without _policy_yaml)
         output_path = run_dir / "formula_seed.json"
         with open(output_path, "w") as f:
             json.dump(self._seed, f, indent=2)
@@ -111,10 +147,12 @@ class AMOSMethod(Method):
         if self._seed is not None:
             return self._seed
 
-        seed, usage = await generate_formula_seed(
+        seed, usage = await generate_formula_seed_with_config(
             agenda=agenda,
             policy_id=self.policy_id,
             llm=llm,
+            config=self.config,
+            progress_callback=self.progress_callback,
         )
 
         self._seed = seed
@@ -137,8 +175,10 @@ class AMOSMethod(Method):
         # Get or generate Formula Seed (Phase 1)
         if self._seed is None:
             output.status(f"[AMOS] {sample_short}... | Phase 1: Generating Formula Seed")
+            self._report_progress(1, "starting", 0, "generating seed")
         else:
             output.status(f"[AMOS] {sample_short}... | Phase 1: Using cached seed")
+            self._report_progress(1, "cached", 50, "using cached seed")
 
         seed = await self._get_formula_seed(sample.query, llm)
 
@@ -153,12 +193,16 @@ class AMOSMethod(Method):
         biz_name = business.get("name", sample_short)
         output.status(f"[AMOS] {biz_name} | Phase 2: {len(reviews)} reviews")
 
+        # Report Phase 2 start
+        self._report_progress(2, "starting", 50, f"0/{len(reviews)} reviews")
+
         # Create interpreter with config and execute (Phase 2)
         interpreter = FormulaSeedInterpreter(
             seed=seed,
             llm=llm,
             max_concurrent=self.max_concurrent,
             config=self.config,
+            progress_callback=self.progress_callback,
         )
 
         # Execute extraction on all reviews

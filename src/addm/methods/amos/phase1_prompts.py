@@ -163,6 +163,23 @@ But DO skip sections that are just explanatory text without **bold** value defin
     "default_verdict": "<verdict when no rules match>"
   }},
 
+  "CRITICAL_MAPPING": {{
+    "// FOR EACH verdict rule, identify WHICH extraction field and WHICH values determine the count": "",
+    "example_correct_rule": {{
+      "verdict": "Recommended",
+      "condition": ">= 10",
+      "description": "10 or more reviews with PRICE_PERCEPTION in ['Steal', 'Good Value']",
+      "maps_to_field": "PRICE_PERCEPTION",
+      "maps_to_values": ["Steal", "Good Value"]
+    }},
+    "example_wrong_rule": {{
+      "verdict": "Recommended",
+      "condition": ">= 10",
+      "description": "10 or more reviews describe good value",
+      "// PROBLEM": "Vague! Does not specify which field/values to count"
+    }}
+  }},
+
   "account_handling": {{
     "field_name": "<what to call the account type field - e.g., ACCOUNT_TYPE, EVIDENCE_SOURCE, REPORTER_TYPE>",
     "types": [
@@ -329,7 +346,26 @@ Output your plan:
 
     "for_rule_based_type": {{
       "counts_needed": ["<N_SEVERE>", "<N_MODERATE>", "<etc based on verdict rules>"],
-      "count_logic": "<how to count each category>"
+      "count_logic": "<how to count each category>",
+
+      "// CRITICAL: Create field-specific count operations for each verdict rule": "",
+      "// Map each rule to specific extraction field + enum values": "",
+      "count_operations_example": [
+        {{
+          "name": "N_POSITIVE",
+          "field": "PRICE_PERCEPTION",
+          "values": ["Steal", "Good Value"],
+          "for_verdict": "Recommended",
+          "// Derived from rule": "10+ reviews describe good value → count PRICE_PERCEPTION in positive values"
+        }},
+        {{
+          "name": "N_NEGATIVE",
+          "field": "PRICE_PERCEPTION",
+          "values": ["Ripoff", "Overpriced"],
+          "for_verdict": "Not Recommended",
+          "// Derived from rule": "5+ reviews describe poor value → count PRICE_PERCEPTION in negative values"
+        }}
+      ]
     }},
 
     "verdict_rules": {{
@@ -477,13 +513,26 @@ Then count operations aggregate by that enum value. This is how signal detection
 ```
 
 ### COMPUTE OPERATIONS
-1. N_INCIDENTS: count where <account_field> = <counting_account_type> AND <outcome_field> NOT IN <none_values>
-   - CRITICAL: Only count extractions with actual incidents (outcome != none_value)
-   - The outcome_field and none_values come from your extract section (defined below)
-2. For SEVERITY-based policies: N_SEVERE, N_MODERATE counts by severity enum
-3. For SIGNAL-based policies: N_POSITIVE, N_NEGATIVE counts by signal_type enum
-4. (Add more counts as needed for verdict rules)
-5. VERDICT: case using COUNT conditions (NOT score)
+
+**⚠️ CRITICAL WARNING FOR COUNT-BASED VERDICTS ⚠️**
+
+If your policy has MULTIPLE verdict conditions based on DIFFERENT enum values of the SAME field:
+- **DO NOT** use a single N_INCIDENTS count for the verdict
+- **MUST** create SEPARATE counts for each verdict condition
+
+Example: If verdict rules are "18+ positive → Good Value" and "10+ negative → Poor Value":
+- WRONG: `N_INCIDENTS` counting all firsthand, then `VERDICT` based on `N_INCIDENTS`
+- CORRECT: `N_POSITIVE` counting PRICE_PERCEPTION in ["Steal", "Good Value"]
+          `N_NEGATIVE` counting PRICE_PERCEPTION in ["Ripoff", "Overpriced"]
+          `VERDICT` using N_POSITIVE and N_NEGATIVE thresholds
+
+---
+
+1. For SIMPLE count: N_INCIDENTS (when verdict only cares about total count)
+2. For VALUE-SPECIFIC counts: N_POSITIVE, N_NEGATIVE, etc. filtering by enum values
+   - Look at observations.verdict_rules.rules to see which enum values map to which verdict
+   - Each rule's `maps_to_field` and `maps_to_values` tell you what to count
+3. VERDICT: case using the appropriate count variables (NOT a single N_INCIDENTS unless all firsthand count equally)
 
 **CRITICAL: Count operations can ONLY filter by ENUM fields, never by string fields!**
 
@@ -520,6 +569,73 @@ OR use compound conditions in a single case:
   {{"else": "<EXACT from observations.verdict_rules.verdicts[2]>"}}
 ]}}
 ```
+
+### WORKED EXAMPLE: Count-Based Verdict with Enum Values
+
+**Scenario:** Agenda says:
+- Verdict "Recommended" if: 18+ reviews describe excellent value (Steal or Good Value)
+- Verdict "Not Recommended" if: 10+ reviews describe poor value (Ripoff or Overpriced)
+- Otherwise: "Neutral"
+
+**The extraction field is:**
+- PRICE_PERCEPTION: enum with values {{Steal, Good Value, Fair, Overpriced, Ripoff}}
+
+**CORRECT compute section:**
+```json
+"compute": [
+  {{
+    "name": "N_POSITIVE",
+    "op": "count",
+    "where": {{
+      "ACCOUNT_TYPE": ["Firsthand"],
+      "PRICE_PERCEPTION": ["Steal", "Good Value"]
+    }}
+  }},
+  {{
+    "name": "N_NEGATIVE",
+    "op": "count",
+    "where": {{
+      "ACCOUNT_TYPE": ["Firsthand"],
+      "PRICE_PERCEPTION": ["Ripoff", "Overpriced"]
+    }}
+  }},
+  {{
+    "name": "VERDICT",
+    "op": "case",
+    "rules": [
+      {{"when": "N_POSITIVE >= 18", "then": "Recommended"}},
+      {{"when": "N_NEGATIVE >= 10", "then": "Not Recommended"}},
+      {{"else": "Neutral"}}
+    ]
+  }}
+]
+```
+
+**⚠️ WRONG patterns (NEVER DO THIS):**
+
+```json
+// FATAL ERROR #1: Single count without filtering by outcome values
+"compute": [
+  {{"name": "N_INCIDENTS", "op": "count", "where": {{"ACCOUNT_TYPE": ["Firsthand"]}}}},
+  {{"name": "VERDICT", "op": "case", "source": "N_INCIDENTS", "rules": [
+    {{"when": ">= 18", "then": "Good Value"}},  // BROKEN - N_INCIDENTS counts ALL, not just positive!
+    {{"when": ">= 10", "then": "Poor Value"}}   // BROKEN - this will never trigger correctly!
+  ]}}
+]
+// ^^^ THIS IS BROKEN because N_INCIDENTS=50 means "Good Value" even if all 50 are "Ripoff"!
+```
+
+```json
+// FATAL ERROR #2: Using "source" with single count variable
+{{"name": "VERDICT", "op": "case", "source": "N_INCIDENTS", ...}}
+// ^^^ WRONG! When verdict depends on DIFFERENT enum values, don't use "source"
+```
+
+**✓ KEY INSIGHT:**
+1. Identify which enum values map to which verdict (from agenda's verdict rules)
+2. Create SEPARATE count operations for each verdict condition
+3. VERDICT must compare the RIGHT count variable to the RIGHT threshold
+4. If "Good Value" needs 18+ positive reviews, count ONLY the positive enum values!
 
 ---
 
@@ -663,7 +779,10 @@ If compute is empty, the seed is INVALID and will fail to produce any verdicts.
    - If observations say "Low Risk", use "Low Risk" NOT "Low"
 9. **outcome_field (REQUIRED)**: MUST set extract.outcome_field to the category field name that represents the outcome
    - This is the field phase2 uses to determine if an extraction represents an actual incident
-   - Example: for allergy → "INCIDENT_SEVERITY", for romance → "AMBIANCE_QUALITY", for service → "SERVICE_OUTCOME"
+   - Derive from the agenda's scoring section: the field used for "assign points based on severity/level" IS your outcome_field
+   - Example: if scoring says "Severe: 15 points, Moderate: 5 points" for INCIDENT_SEVERITY, then outcome_field = "INCIDENT_SEVERITY"
+   - CRITICAL: The outcome_field value MUST exactly match one of your extract.fields[].name values!
+
 10. **none_values (REQUIRED)**: MUST set extract.none_values to the list of values that mean "no incident"
    - Derive from observations.categories.values - find values meaning absence/none/not applicable
    - Example: ["none", "not applicable", "no incident"]
@@ -676,8 +795,12 @@ If compute is empty, the seed is INVALID and will fail to produce any verdicts.
     The simplified schema only needs: task_name, extraction_guidelines, extract, compute, output.
 13. **VERDICT REQUIRED**: The compute section MUST include a VERDICT operation with op="case".
     This is required for the seed to produce deterministic verdicts.
+14. **ENUM CONSISTENCY (CRITICAL)**: Before outputting, verify:
+    - Every value in compute[].where MUST exist in the corresponding extract.fields[].values
+    - Example: if where: {{"SIGNAL_TYPE": ["excellent"]}}, then "excellent" MUST be a key in SIGNAL_TYPE's values dict
+    - Cross-check field values: Don't use ATTENTIVENESS values (excellent/good/adequate) in a FRIENDLINESS field (warm/friendly/neutral/cold/rude)
 
-14. **extraction_guidelines**: MUST be generated from observations to guide precise extraction. Format as a multi-line string:
+15. **extraction_guidelines**: MUST be generated from observations to guide precise extraction. Format as a multi-line string:
 
    Generate guidelines covering these aspects (derive ALL from observations, never hard-code):
 
@@ -702,6 +825,24 @@ If compute is empty, the seed is INVALID and will fail to produce any verdicts.
       - "If you cannot quote specific evidence from the review, set is_relevant: false."
 
    The extraction_guidelines field should be a SINGLE STRING with these sections separated by newlines.
+
+## SELF-CHECK BEFORE OUTPUT (MANDATORY)
+
+Before outputting your Formula Seed, verify:
+
+1. **Count-Verdict Alignment**: Look at your verdict rules in `compute`. For each verdict condition:
+   - What count variable does it use? (e.g., N_POSITIVE, N_NEGATIVE, N_INCIDENTS)
+   - Does that count variable ACTUALLY count the right enum values?
+
+   Example check:
+   - Verdict rule: `"when": "N_POSITIVE >= 18", "then": "Good Value"`
+   - Find N_POSITIVE definition: `"where": {{"PRICE_PERCEPTION": ["Steal", "Good Value"]}}`
+   - Verify: Does the agenda say "Good Value" verdict requires positive price perceptions? ✓
+
+2. **No Single-Count Fallacy**: If your verdict has multiple conditions based on DIFFERENT enum values,
+   you MUST have multiple count operations. A single N_INCIDENTS is WRONG for such policies.
+
+3. **Threshold Match**: Verify thresholds match the agenda exactly (e.g., ">= 18" if agenda says "18 or more").
 
 Output ONLY the JSON:
 
@@ -764,40 +905,3 @@ Output the COMPLETE corrected Formula Seed JSON:
 
 ```json
 '''
-
-
-# =============================================================================
-# Constants for Extraction Fields
-# =============================================================================
-
-REQUIRED_EXTRACTION_FIELDS = """
-You MUST use these EXACT field names in extraction schema:
-- ACCOUNT_TYPE: "firsthand" | "secondhand" | "general"
-- INCIDENT_SEVERITY: "none" | "mild" | "moderate" | "severe"
-- SPECIFIC_INCIDENT: string describing what happened (or null if none)
-
-Additional fields may be added based on task requirements (e.g., STAFF_RESPONSE, RECURRENCE).
-"""
-
-COMPUTE_TEMPLATE = """
-Use this EXACT compute structure (adjust values based on task):
-
-1. Count incidents:
-   {{"name": "N_INCIDENTS", "op": "count", "where": {{"ACCOUNT_TYPE": "firsthand", "INCIDENT_SEVERITY": ["mild", "moderate", "severe"]}}}}
-
-2. Sum base points (use CASE WHEN for severity scoring):
-   {{"name": "BASE_POINTS", "op": "sum", "expr": "CASE WHEN INCIDENT_SEVERITY = 'severe' THEN <severe_pts> WHEN INCIDENT_SEVERITY = 'moderate' THEN <mod_pts> WHEN INCIDENT_SEVERITY = 'mild' THEN <mild_pts> ELSE 0 END", "where": {{"ACCOUNT_TYPE": "firsthand"}}}}
-
-3. Sum modifier points (if task has modifiers):
-   {{"name": "MODIFIER_POINTS", "op": "sum", "expr": "CASE WHEN MODIFIER_FIELD = 'trigger_value' THEN <mod_points> ELSE 0 END", "where": {{"ACCOUNT_TYPE": "firsthand"}}}}
-
-4. Total score:
-   {{"name": "SCORE", "op": "expr", "expr": "BASE_POINTS + MODIFIER_POINTS"}}
-
-5. Verdict (use threshold values from task):
-   {{"name": "VERDICT", "op": "case", "source": "SCORE", "rules": [
-     {{"when": ">= <critical_threshold>", "then": "<critical_label>"}},
-     {{"when": ">= <high_threshold>", "then": "<high_label>"}},
-     {{"else": "<low_label>"}}
-   ]}}
-"""

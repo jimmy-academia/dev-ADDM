@@ -12,10 +12,15 @@ class Phase1Approach(Enum):
     """Approach for Phase 1 Formula Seed generation.
 
     PLAN_AND_ACT: Fixed 3-step pipeline (OBSERVE → PLAN → ACT)
-                  Same cost as current approach, no self-correction.
+                  LLM generates Formula Seed directly. More flexible but error-prone.
+
+    HYBRID: NL → PolicyYAML → deterministic compiler (recommended)
+            LLM generates simple YAML, compiler ensures correct count operations.
+            More reliable for count-based policies.
     """
 
     PLAN_AND_ACT = "plan_and_act"
+    HYBRID = "hybrid"
 
 
 @dataclass
@@ -39,7 +44,7 @@ class AMOSConfig:
     max_reviews: int = 200  # Process all reviews (K=200 max)
 
     # Phase 1 (Formula Seed generation)
-    phase1_approach: Phase1Approach = Phase1Approach.PLAN_AND_ACT
+    phase1_approach: Phase1Approach = Phase1Approach.HYBRID
 
     def __post_init__(self):
         """Validate configuration."""

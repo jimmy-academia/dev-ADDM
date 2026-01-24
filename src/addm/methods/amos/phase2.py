@@ -12,7 +12,10 @@ import logging
 import re
 import time
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Tuple, TYPE_CHECKING
+from typing import Any, Callable, Dict, List, Optional, Tuple, TYPE_CHECKING
+
+# Type alias for progress callback
+ProgressCallback = Callable[[int, str, float, str], None]
 
 from addm.llm import LLMService
 from addm.methods.amos.config import AMOSConfig
@@ -52,6 +55,7 @@ class FormulaSeedInterpreter:
         llm: LLMService,
         max_concurrent: int = 256,
         config: Optional[AMOSConfig] = None,
+        progress_callback: Optional[ProgressCallback] = None,
     ):
         """Initialize interpreter.
 
@@ -60,6 +64,8 @@ class FormulaSeedInterpreter:
             llm: LLM service for extraction calls
             max_concurrent: Max concurrent LLM calls for extraction
             config: AMOS configuration
+            progress_callback: Optional callback for progress updates.
+                Signature: callback(phase: int, step: str, progress: float, detail: str)
         """
         # Phase 1 now generates seeds in the correct format directly
         # No transformation needed (seed_transform.py removed)
@@ -67,6 +73,7 @@ class FormulaSeedInterpreter:
         self.llm = llm
         self.max_concurrent = max_concurrent
         self.config = config or AMOSConfig()
+        self.progress_callback = progress_callback
 
         # Expression executor for LLM-generated expressions
         self._executor = SafeExpressionExecutor()
@@ -102,6 +109,19 @@ class FormulaSeedInterpreter:
 
         # Wall-clock timing (set during execute)
         self._wall_clock_ms: float = 0.0
+
+    def _report_progress(
+        self, step: str, progress: float, detail: str = ""
+    ) -> None:
+        """Report progress via callback if configured.
+
+        Args:
+            step: Current step name
+            progress: Percentage complete (0-100)
+            detail: Additional info (e.g., "25/50 reviews")
+        """
+        if self.progress_callback:
+            self.progress_callback(2, step, progress, detail)
 
     def _validate_and_store_snippet(
         self,
@@ -405,9 +425,22 @@ class FormulaSeedInterpreter:
         if not fields or not reviews:
             return []
 
+        total = len(reviews)
+        completed = 0
+
+        async def extract_with_progress(review: Dict[str, Any]) -> Dict[str, Any]:
+            """Wrapper that reports progress after each extraction."""
+            nonlocal completed
+            result = await self._extract_single_review(review, fields)
+            completed += 1
+            # Progress: 50-95% during extraction (leaving room for compute)
+            progress = 50 + (completed / total) * 45
+            self._report_progress("extracting", progress, f"{completed}/{total} reviews")
+            return result
+
         # Use PER-REVIEW extraction for reliability (no silent dropouts)
         # Trade-off: More LLM calls, but guaranteed coverage
-        tasks = [self._extract_single_review(r, fields) for r in reviews]
+        tasks = [extract_with_progress(r) for r in reviews]
         results = await gather_with_concurrency(self.max_concurrent, tasks)
 
         # Filter to only relevant extractions
@@ -504,7 +537,7 @@ class FormulaSeedInterpreter:
             field_name = field.get("name", "")
             field_lower = field_name.lower()
 
-            # Look for severity/outcome/quality/level fields
+            # Look for common outcome field name patterns
             if any(x in field_lower for x in ["severity", "outcome", "quality", "level", "intensity"]):
                 values = field.get("values", {})
                 if isinstance(values, dict):
@@ -1833,6 +1866,7 @@ class FormulaSeedInterpreter:
                 reverse=True
             )[:self.config.max_reviews]
 
+        self._report_progress("extracting", 50, f"0/{len(reviews_to_process)} reviews")
         output.status(f"  [Phase 2] Extracting signals from {len(reviews_to_process)} reviews...")
         await self._extract_signals(reviews_to_process)
 
@@ -1848,12 +1882,14 @@ class FormulaSeedInterpreter:
             )
 
         # Compute verdict from extractions
+        self._report_progress("computing", 96, "aggregating")
         self._execute_compute(business)
 
         # Capture results
         verdict = self._namespace.get("VERDICT")
         extractions_count = len(self._extractions)
         output.status(f"  [Phase 2] {extractions_count} relevant extractions -> verdict={verdict}")
+        self._report_progress("done", 100, f"verdict={verdict}")
 
         # Track wall-clock time
         self._wall_clock_ms = (time.perf_counter() - start_time) * 1000

@@ -36,7 +36,7 @@ import shlex
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 import numpy as np
 
@@ -547,6 +547,10 @@ async def eval_restaurant(
         }
 
 
+# Type alias for progress callback
+ProgressCallback = Callable[[int, str, float, str], None]
+
+
 async def run_experiment(
     task_id: Optional[str] = None,
     policy_id: Optional[str] = None,
@@ -570,6 +574,7 @@ async def run_experiment(
     seed_path: Optional[str] = None,
     run_number: Optional[int] = None,
     suppress_output: bool = False,
+    progress_callback: Optional[ProgressCallback] = None,
 ) -> Dict[str, Any]:
     """Run experiment evaluation.
 
@@ -1012,6 +1017,7 @@ Let's think through this step-by-step:"""
                 max_concurrent=256,
                 batch_size=batch_size,
                 system_prompt=system_prompt,
+                progress_callback=progress_callback,
             )
 
             # Convert restaurants to Sample objects
@@ -1644,9 +1650,9 @@ def main() -> None:
     parser.add_argument(
         "--method",
         type=str,
-        default="direct",
+        default="amos",
         choices=["direct", "cot", "react", "rlm", "rag", "amos"],
-        help="Method: direct (default), cot (chain-of-thought), react (reasoning+acting), rlm (recursive LLM), rag (retrieval), or amos (agenda-driven mining)",
+        help="Method: amos (default), direct, cot (chain-of-thought), react (reasoning+acting), rlm (recursive LLM), or rag (retrieval)",
     )
     parser.add_argument(
         "--token-limit",
@@ -1773,7 +1779,17 @@ def main() -> None:
 
     if len(policies) > 1:
         # Multiple policies - run with progress tracking
-        progress_tracker = output.create_multi_policy_progress(policies)
+        # Use AMOSProgressTracker for AMOS method (shows internal step progress)
+        # Use MultiPolicyProgress for baseline methods (shows policy-level progress)
+        is_amos = args.method == "amos"
+        output.info(f"Multi-policy run: method={args.method}, is_amos={is_amos}, policies={len(policies)}")
+
+        # Save output state (individual runs will set suppress_all=True)
+        original_suppress_all = output._suppress_all
+        if is_amos:
+            progress_tracker = output.create_amos_progress(policies)
+        else:
+            progress_tracker = output.create_multi_policy_progress(policies)
 
         async def run_single_policy_safe(policy: str) -> Dict[str, Any]:
             """Run a single policy with error handling and progress tracking."""
@@ -1787,6 +1803,9 @@ def main() -> None:
                     ids_str = all_sample_ids_data.get(policy_key, {}).get(k_key, "")
                     if ids_str:
                         policy_sample_ids = [s.strip() for s in ids_str.split(",") if s.strip()]
+
+                # For AMOS, get callback to report internal progress
+                callback = progress_tracker.get_callback(policy) if is_amos else None
 
                 result = await run_experiment(
                     task_id=args.task,
@@ -1811,6 +1830,7 @@ def main() -> None:
                     seed_path=args.seed,
                     run_number=args.run,
                     suppress_output=True,  # Suppress all output for progress bar
+                    progress_callback=callback,
                 )
                 progress_tracker.complete_policy(policy, result)
                 return result
@@ -1827,8 +1847,53 @@ def main() -> None:
 
         run_result = asyncio.run(run_multiple_policies())
 
-        # Print summary table
-        progress_tracker.print_summary()
+        # Print summary table (detailed for AMOS, simple for baseline)
+        if is_amos:
+            try:
+                progress_tracker.print_detailed_summary(n=args.n, k=args.k, method=args.method)
+            except Exception as e:
+                output.error(f"Failed to print detailed summary: {e}")
+                import traceback
+                traceback.print_exc()
+                progress_tracker.print_summary()
+        else:
+            progress_tracker.print_summary()
+
+        # Print aggregated usage summary for multi-policy runs
+        # Restore output state (individual runs set suppress_all=True)
+        output._suppress_all = original_suppress_all
+
+        total_tokens = 0
+        total_prompt_tokens = 0
+        total_completion_tokens = 0
+        total_cost = 0.0
+        total_latency_ms = 0.0
+        total_llm_calls = 0
+        total_embedding_tokens = 0
+        total_embedding_cost = 0.0
+
+        for policy_id, result in run_result.items():
+            if isinstance(result, dict) and not result.get("error"):
+                usage = result.get("aggregated_usage", {})
+                total_tokens += usage.get("total_tokens", 0)
+                total_prompt_tokens += usage.get("total_prompt_tokens", 0)
+                total_completion_tokens += usage.get("total_completion_tokens", 0)
+                total_cost += usage.get("total_cost_usd", 0.0)
+                total_latency_ms += usage.get("total_latency_ms", 0.0) or 0.0
+                total_llm_calls += usage.get("total_llm_calls", 0)
+                total_embedding_tokens += usage.get("total_embedding_tokens", 0)
+                total_embedding_cost += usage.get("total_embedding_cost_usd", 0.0)
+
+        if total_tokens > 0 or total_cost > 0:
+            latency_str = f"{total_latency_ms / 1000:.1f}s" if total_latency_ms else "N/A (batch)"
+            usage_rows = [
+                ["Tokens", f"{total_tokens:,}", f"({total_prompt_tokens:,} prompt + {total_completion_tokens:,} completion)"],
+                ["Cost", f"${total_cost:.4f}", ""],
+                ["Runtime", latency_str, f"({total_llm_calls} LLM calls)"],
+            ]
+            if total_embedding_tokens > 0:
+                usage_rows.insert(1, ["Embedding Tokens", f"{total_embedding_tokens:,}", f"(${total_embedding_cost:.4f})"])
+            output.print_table("USAGE SUMMARY (all policies)", ["Metric", "Value", "Details"], usage_rows)
     else:
         # Single policy (or task)
         run_result = asyncio.run(

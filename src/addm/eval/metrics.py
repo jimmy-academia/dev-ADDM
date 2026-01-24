@@ -156,7 +156,7 @@ def compute_ordinal_auprc(
     n_samples = len(y_true_ordinal)
 
     if n_samples < 2:
-        return {"ordinal_auprc": 0.0, "n_samples": n_samples}
+        return {"ordinal_auprc": None, "n_samples": n_samples}
 
     # AUPRC for >=High (High+Critical vs Low)
     y_binary_high = (y_true_ordinal >= 1).astype(int)
@@ -170,7 +170,7 @@ def compute_ordinal_auprc(
 
     # Mean ordinal AUPRC
     auprc_values = [v for k, v in results.items() if k.startswith("auprc_")]
-    results["ordinal_auprc"] = np.mean(auprc_values) if auprc_values else 0.0
+    results["ordinal_auprc"] = np.mean(auprc_values) if auprc_values else None
     results["n_samples"] = n_samples
 
     return results
@@ -761,11 +761,11 @@ def compute_evaluation_metrics(
             y_scores.append(risk_score)
 
     auprc_metrics = {}
-    auprc = 0.0
+    auprc = None
     macro_f1 = 0.0
     if len(y_true) >= 2:
         auprc_metrics = compute_ordinal_auprc(np.array(y_true), np.array(y_scores))
-        auprc = auprc_metrics.get("ordinal_auprc", 0.0)
+        auprc = auprc_metrics.get("ordinal_auprc")  # None if no class variation
         # Macro F1: average F1 across all classes (handles skewed data)
         macro_f1 = f1_score(y_true, y_pred, average="macro", zero_division=0)
 

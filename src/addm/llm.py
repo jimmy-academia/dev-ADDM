@@ -49,8 +49,8 @@ class LLMService:
             # Many models (gpt-5-mini, gpt-5-nano) only support default temperature
             "max_tokens": None,
             "base_url": "",
-            "request_timeout": 90.0,
-            "max_retries": 4,
+            "request_timeout": 300.0,  # 5 minutes for large K values
+            "max_retries": 0,  # No retries - single attempt with long timeout
             "max_concurrent": 32,
             # Rate limit mitigation: small delay between requests (seconds)
             # Set to 0.0 to disable, 0.03-0.1 recommended for high-volume runs

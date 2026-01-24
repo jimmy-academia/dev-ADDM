@@ -492,7 +492,7 @@ def compute_unified_metrics(
     if len(y_true) >= 2:
         auprc_metrics = compute_ordinal_auprc(np.array(y_true), np.array(y_scores))
 
-    auprc = auprc_metrics.get("ordinal_auprc", 0.0)
+    auprc = auprc_metrics.get("ordinal_auprc")  # None if no class variation
 
     # 2. Compute Process Score (requires intermediate_metrics)
     # First compute intermediate metrics

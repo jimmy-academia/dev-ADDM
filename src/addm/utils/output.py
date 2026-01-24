@@ -4,10 +4,11 @@ Provides Rich-formatted console output with convenience methods.
 Mode-aware: adjusts output for ondemand vs batch execution.
 """
 
-from typing import Any, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
-from rich.console import Console
+from rich.console import Console, Group
 from rich.live import Live
+from rich.panel import Panel
 from rich.progress import (
     BarColumn,
     Progress,
@@ -17,6 +18,7 @@ from rich.progress import (
     TimeElapsedColumn,
 )
 from rich.table import Table
+from rich.text import Text
 
 
 class OutputManager:
@@ -195,6 +197,21 @@ class OutputManager:
         """
         return MultiPolicyProgress(policies, self._console)
 
+    def create_amos_progress(self, policies: list[str]) -> "AMOSProgressTracker":
+        """Create an AMOS-specific progress tracker for multi-policy runs.
+
+        Shows separate progress bars for each policy with internal step tracking:
+        - Phase 1: OBSERVE → PLAN → ACT
+        - Phase 2: X/Y reviews processed
+
+        Args:
+            policies: List of policy IDs to run
+
+        Returns:
+            AMOSProgressTracker context manager
+        """
+        return AMOSProgressTracker(policies, self._console)
+
 
 class MultiPolicyProgress:
     """Progress tracker for multi-policy experiment runs.
@@ -329,6 +346,323 @@ class MultiPolicyProgress:
                 table.add_row(policy_id, "[dim]?[/dim]", str(result)[:50])
 
         self.console.print(table)
+
+
+class AMOSProgressTracker:
+    """Progress tracker for AMOS multi-policy runs.
+
+    Shows separate progress bars for each policy with internal step tracking:
+    - Phase 1: OBSERVE → PLAN → ACT (→ FIX if needed)
+    - Phase 2: X/Y reviews processed
+
+    Features:
+    - max_display=6 active bars, rest shown as "(+N queued)"
+    - Overall progress footer showing "X/Y complete (Z%)"
+    - Detailed 8-metric summary table after completion
+    """
+
+    MAX_DISPLAY = 6
+
+    def __init__(self, policies: List[str], console: Console):
+        self.policies = policies
+        self.console = console
+        self.total = len(policies)
+        self.completed = 0
+        self.results: Dict[str, Dict] = {}  # policy_id -> result
+
+        # Policy states
+        self.active: Dict[str, Dict] = {}  # policy_id -> {task_id, phase, step, progress, detail}
+        self.queued: List[str] = []  # Policies waiting to be displayed
+        self.finished: List[str] = []  # Completed policies
+
+        # Progress display
+        self.progress = Progress(
+            SpinnerColumn(),
+            TextColumn("{task.description}"),
+            BarColumn(),
+            TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
+            TimeElapsedColumn(),
+            console=console,
+            expand=False,
+        )
+        self.live = None
+
+    def __enter__(self):
+        self.live = Live(self._build_display(), console=self.console, refresh_per_second=4)
+        self.live.start()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if self.live:
+            self.live.stop()
+        return False
+
+    def _build_display(self) -> Group:
+        """Build the composite display with progress bars and overall status."""
+        # Build individual policy progress bars (create fresh each time for simplicity)
+        progress = Progress(
+            SpinnerColumn(),
+            TextColumn("{task.description}"),
+            BarColumn(),
+            TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
+            TimeElapsedColumn(),
+            console=self.console,
+            expand=False,
+        )
+
+        # Add task for each active policy (sorted for consistent display)
+        for policy_id in sorted(self.active.keys()):
+            state = self.active[policy_id]
+            desc = self._format_description(policy_id, state)
+            progress.add_task(desc, total=100, completed=state.get("progress", 0))
+
+        # Build overall status text
+        pct = (self.completed / self.total * 100) if self.total > 0 else 0
+        status_parts = []
+
+        if self.queued:
+            status_parts.append(f"[dim](+{len(self.queued)} queued)[/dim]")
+
+        status_parts.append(
+            f"[bold]Overall:[/bold] {self.completed}/{self.total} complete ({pct:.0f}%)"
+        )
+
+        status_text = Text.from_markup("  ".join(status_parts))
+
+        return Group(progress, status_text)
+
+    def _format_description(self, policy_id: str, state: Dict) -> str:
+        """Format policy progress description."""
+        phase = state.get("phase", 1)
+        step = state.get("step", "")
+        detail = state.get("detail", "")
+
+        if phase == 1:
+            return f"[cyan]{policy_id}[/cyan] P1: {step or 'starting'}"
+        else:
+            return f"[cyan]{policy_id}[/cyan] P2: {detail or 'extracting'}"
+
+    def start_policy(self, policy_id: str) -> None:
+        """Mark a policy as started."""
+        if len(self.active) < self.MAX_DISPLAY:
+            # Add to active display
+            self.active[policy_id] = {
+                "phase": 1,
+                "step": "starting",
+                "progress": 0,
+                "detail": "",
+            }
+        else:
+            # Add to queue
+            self.queued.append(policy_id)
+
+        self._refresh()
+
+    def update_policy(
+        self,
+        policy_id: str,
+        phase: int,
+        step: str,
+        progress: float,
+        detail: str = "",
+    ) -> None:
+        """Update progress for a policy.
+
+        Args:
+            policy_id: Policy identifier
+            phase: 1 or 2
+            step: Current step (e.g., "OBSERVE", "PLAN", "ACT" for P1, or "extracting" for P2)
+            progress: Progress percentage (0-100)
+            detail: Additional detail (e.g., "25/50 reviews")
+        """
+        if policy_id in self.active:
+            self.active[policy_id].update({
+                "phase": phase,
+                "step": step,
+                "progress": progress,
+                "detail": detail,
+            })
+            self._refresh()
+
+    def complete_policy(self, policy_id: str, result: Dict) -> None:
+        """Mark a policy as completed."""
+        self.results[policy_id] = result
+        self.completed += 1
+        self.finished.append(policy_id)
+
+        # Remove from active
+        if policy_id in self.active:
+            del self.active[policy_id]
+
+        # Promote from queue if available
+        if self.queued:
+            next_policy = self.queued.pop(0)
+            self.active[next_policy] = {
+                "phase": 1,
+                "step": "starting",
+                "progress": 0,
+                "detail": "",
+            }
+
+        self._refresh()
+
+    def get_callback(self, policy_id: str) -> Callable:
+        """Get a callback function for AMOS to report progress.
+
+        Returns:
+            Callback with signature: callback(phase, step, progress, detail)
+        """
+        def callback(phase: int, step: str, progress: float, detail: str = "") -> None:
+            self.update_policy(policy_id, phase, step, progress, detail)
+
+        return callback
+
+    def _refresh(self) -> None:
+        """Refresh the display."""
+        if self.live:
+            self.live.update(self._build_display())
+
+    def print_summary(self) -> None:
+        """Print simple summary after all policies complete (same as MultiPolicyProgress)."""
+        self.console.print()
+
+        # Count successes and failures
+        successes = 0
+        failures = 0
+        for result in self.results.values():
+            if isinstance(result, dict) and result.get("error"):
+                failures += 1
+            else:
+                successes += 1
+
+        # Print summary line
+        if failures == 0:
+            self.console.print(f"[green]✓[/green] All {successes} policies completed successfully")
+        else:
+            self.console.print(
+                f"[yellow]![/yellow] {successes} succeeded, {failures} failed"
+            )
+
+    def print_detailed_summary(self, n: int = 0, k: int = 0, method: str = "amos") -> None:
+        """Print detailed 8-metric summary table after all policies complete.
+
+        Args:
+            n: Number of samples per policy
+            k: Context size (reviews per restaurant)
+            method: Method name
+        """
+        self.console.print()
+
+        # Count successes and failures
+        successes = sum(1 for r in self.results.values() if not (isinstance(r, dict) and r.get("error")))
+        failures = len(self.results) - successes
+
+        if failures == 0:
+            self.console.print(f"[green]✓[/green] All {successes} policies completed")
+        else:
+            self.console.print(f"[yellow]![/yellow] {successes} succeeded, {failures} failed")
+
+        self.console.print()
+        self.console.print(f"[bold]RESULTS:[/bold] N={n} samples, K={k} reviews, method={method}")
+        self.console.print()
+
+        # Group policies by topic
+        topics: Dict[str, List[str]] = {}
+        for policy_id in self.policies:
+            # Extract topic: G1_allergy_V2 -> G1_allergy
+            parts = policy_id.rsplit("_", 1)
+            if len(parts) == 2:
+                topic = parts[0]
+            else:
+                topic = policy_id
+            if topic not in topics:
+                topics[topic] = []
+            topics[topic].append(policy_id)
+
+        # Print table for each topic
+        for topic, topic_policies in topics.items():
+            self._print_topic_table(topic, topic_policies)
+
+        # Print column legend
+        self.console.print()
+        self.console.rule()
+        self.console.print(
+            "[dim]Columns: Acc=accuracy, AUPRC, F1=Macro F1, Ev.P=Evidence Precision,[/dim]"
+        )
+        self.console.print(
+            "[dim]         Ev.R=Evidence Recall, Snippet=Snippet Validity, Judg=Judgement Accuracy,[/dim]"
+        )
+        self.console.print(
+            "[dim]         Score=Score Accuracy (V2/V3 only), Cons.=Verdict Consistency[/dim]"
+        )
+
+        # Compute and print average accuracy
+        accuracies = []
+        for policy_id in self.policies:
+            result = self.results.get(policy_id, {})
+            if isinstance(result, dict) and not result.get("error"):
+                acc = result.get("accuracy")
+                if acc is not None:
+                    accuracies.append(acc)
+
+        if accuracies:
+            avg_acc = sum(accuracies) / len(accuracies)
+            self.console.print()
+            self.console.print(
+                f"[bold]Average accuracy across {len(accuracies)} policies:[/bold] {avg_acc:.1%}"
+            )
+
+    def _print_topic_table(self, topic: str, policies: List[str]) -> None:
+        """Print metrics table for a single topic."""
+        self.console.rule(f"[bold]{topic}[/bold]", align="left")
+
+        table = Table(show_header=True, header_style="bold", expand=False)
+        table.add_column("Variant", style="cyan", width=8)
+        table.add_column("Acc", width=6, justify="right")
+        table.add_column("AUPRC", width=7, justify="right")
+        table.add_column("F1", width=6, justify="right")
+        table.add_column("Ev.P", width=6, justify="right")
+        table.add_column("Ev.R", width=6, justify="right")
+        table.add_column("Snippet", width=8, justify="right")
+        table.add_column("Judg", width=6, justify="right")
+        table.add_column("Score", width=7, justify="right")
+        table.add_column("Cons.", width=7, justify="right")
+
+        for policy_id in sorted(policies):
+            # Extract variant: G1_allergy_V2 -> V2
+            parts = policy_id.rsplit("_", 1)
+            variant = parts[1] if len(parts) == 2 else policy_id
+
+            result = self.results.get(policy_id, {})
+            if isinstance(result, dict) and result.get("error"):
+                table.add_row(variant, "[red]ERROR[/red]", "-", "-", "-", "-", "-", "-", "-", "-")
+                continue
+            if isinstance(result, dict) and result.get("quota_met"):
+                table.add_row(variant, "[yellow]SKIP[/yellow]", "-", "-", "-", "-", "-", "-", "-", "-")
+                continue
+
+            # Extract metrics
+            eval_metrics = result.get("evaluation_metrics", {}) if isinstance(result, dict) else {}
+            accuracy = result.get("accuracy") if isinstance(result, dict) else None
+
+            def fmt_pct(val):
+                return f"{val:.0%}" if val is not None else "-"
+
+            table.add_row(
+                variant,
+                fmt_pct(accuracy),
+                fmt_pct(eval_metrics.get("auprc")),
+                fmt_pct(eval_metrics.get("macro_f1")),  # Note: may not exist yet
+                fmt_pct(eval_metrics.get("evidence_precision")),
+                fmt_pct(eval_metrics.get("evidence_recall")),
+                fmt_pct(eval_metrics.get("snippet_validity")),
+                fmt_pct(eval_metrics.get("judgement_accuracy")),
+                fmt_pct(eval_metrics.get("score_accuracy")),
+                fmt_pct(eval_metrics.get("verdict_consistency")),
+            )
+
+        self.console.print(table)
+        self.console.print()
 
 
 # Global singleton instance
