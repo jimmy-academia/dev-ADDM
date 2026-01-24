@@ -2,22 +2,28 @@
 
 LLM reads agenda/query and produces a Formula Seed (executable JSON specification).
 
-Two approaches available (configured via AMOSConfig.phase1_approach):
-1. PARTS (recommended): Part-by-part extraction (terms → scoring → verdicts)
-2. HYBRID: Single-shot NL → PolicyYAML → deterministic compiler
+Uses PARTS approach: Part-by-part extraction with 3 focused LLM calls:
+1. Extract terms/field definitions
+2. Extract scoring system (if present)
+3. Extract verdict rules
 
-Legacy Plan-and-Act approach is in backup/phase1_backup.py.
+File Structure (top-down):
+1. Entry Point: generate_formula_seed_with_config()
+2. Main Function: generate_formula_seed_parts() - orchestrates the 3 LLM calls
+3. Extraction Functions: _extract_terms/scoring/verdicts_from_section()
 
-All approaches include validation after generation.
+Helper functions in phase1_helpers.py:
+- extract_yaml_from_response(), parse_yaml_safely()
+- validate_formula_seed(), validate_field_references()
+- accumulate_usage()
+
+Deprecated HYBRID approach moved to: backup/phase1_hybrid.py
 """
 
-import json
 import logging
 import re
 import time
 from typing import Any, Callable, Dict, List, Optional, Tuple
-
-import yaml
 
 # Type alias for progress callback
 ProgressCallback = Callable[[int, str, float, str], None]
@@ -27,10 +33,15 @@ from addm.utils.debug_logger import get_debug_logger
 from addm.utils.output import output
 
 from .phase1_prompts import (
-    TEXT2YAML_PROMPT,
     EXTRACT_TERMS_PROMPT,
     EXTRACT_SCORING_PROMPT,
     EXTRACT_VERDICTS_PROMPT,
+)
+from .phase1_helpers import (
+    extract_yaml_from_response,
+    parse_yaml_safely,
+    accumulate_usage,
+    validate_formula_seed,
 )
 from .seed_compiler import compile_yaml_to_seed, validate_policy_yaml, PolicyYAMLValidationError
 
@@ -38,190 +49,40 @@ logger = logging.getLogger(__name__)
 
 
 # =============================================================================
-# JSON/YAML Extraction and Usage Accumulation
+# ENTRY POINT
 # =============================================================================
 
-def _extract_json_from_response(response: str) -> Dict[str, Any]:
-    """Extract JSON from LLM response, handling markdown code blocks and common errors."""
-    original = response
-    response = response.strip()
+async def generate_formula_seed_with_config(
+    agenda: str,
+    policy_id: str,
+    llm: LLMService,
+    config: "AMOSConfig",
+    progress_callback: Optional[ProgressCallback] = None,
+) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    """Generate Formula Seed from policy agenda.
 
-    # Handle markdown code blocks
-    if "```json" in response:
-        start = response.find("```json") + 7
-        end = response.find("```", start)
-        if end > start:
-            response = response[start:end].strip()
-    elif "```" in response:
-        start = response.find("```") + 3
-        end = response.find("```", start)
-        if end > start:
-            response = response[start:end].strip()
+    This is the main entry point for Phase 1. Uses part-by-part extraction
+    with 3 focused LLM calls for reliable seed generation.
 
-    # Find JSON object boundaries - handle nested braces properly
-    brace_start = response.find("{")
-    if brace_start >= 0:
-        # Find matching closing brace by counting
-        depth = 0
-        in_string = False
-        escape_next = False
-        brace_end = -1
-        for i, char in enumerate(response[brace_start:], start=brace_start):
-            if escape_next:
-                escape_next = False
-                continue
-            if char == '\\':
-                escape_next = True
-                continue
-            if char == '"' and not escape_next:
-                in_string = not in_string
-                continue
-            if in_string:
-                continue
-            if char == '{':
-                depth += 1
-            elif char == '}':
-                depth -= 1
-                if depth == 0:
-                    brace_end = i
-                    break
-        if brace_end > brace_start:
-            response = response[brace_start : brace_end + 1]
+    Args:
+        agenda: The task agenda/query prompt (natural language policy description)
+        policy_id: Policy identifier (e.g., "G1_allergy_V2")
+        llm: LLM service for API calls
+        config: AMOSConfig (currently unused, kept for API compatibility)
+        progress_callback: Optional callback for progress updates
 
-    # Try to parse as-is first
-    try:
-        return json.loads(response)
-    except json.JSONDecodeError:
-        pass
+    Returns:
+        Tuple of (formula_seed, usage_dict)
 
-    # Apply common fixes iteratively
-    fixed = response
-
-    # Remove single-line comments
-    fixed = re.sub(r'//.*$', '', fixed, flags=re.MULTILINE)
-
-    # Remove trailing commas before } or ]
-    fixed = re.sub(r',(\s*[}\]])', r'\1', fixed)
-
-    # Remove double commas
-    fixed = re.sub(r',\s*,', ',', fixed)
-
-    # Fix missing commas between elements (e.g., "value1" "value2" -> "value1", "value2")
-    fixed = re.sub(r'"\s*\n\s*"', '",\n"', fixed)
-
-    # Fix missing commas after } or ] before next element
-    fixed = re.sub(r'([}\]])\s*\n\s*"', r'\1,\n"', fixed)
-    fixed = re.sub(r'([}\]])\s*\n\s*\{', r'\1,\n{', fixed)
-
-    try:
-        return json.loads(fixed)
-    except json.JSONDecodeError:
-        pass
-
-    # More aggressive: try to fix unescaped quotes in string values
-    try:
-        # Try removing all control characters except standard whitespace
-        cleaned = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f]', '', fixed)
-        return json.loads(cleaned)
-    except json.JSONDecodeError as e:
-        # Log the problematic area for debugging
-        logger.warning(f"JSON parse failed at position {e.pos}: {e.msg}")
-        logger.debug(f"Context around error: ...{fixed[max(0,e.pos-50):e.pos+50]}...")
-        raise
-
-
-def _extract_yaml_from_response(response: str) -> str:
-    """Extract YAML content from LLM response.
-
-    Handles:
-    - Markdown code blocks (```yaml ... ```)
-    - Plain YAML text
-    - Response with explanations before/after
+    Raises:
+        ValueError: If seed generation or validation fails
     """
-    response = response.strip()
-
-    # Try to find YAML in markdown code block
-    if "```yaml" in response:
-        start = response.find("```yaml") + 7
-        end = response.find("```", start)
-        if end > start:
-            return response[start:end].strip()
-
-    # Try generic code block
-    if "```" in response:
-        start = response.find("```") + 3
-        # Skip language identifier if present
-        first_newline = response.find("\n", start)
-        if first_newline > start:
-            start = first_newline + 1
-        end = response.find("```", start)
-        if end > start:
-            return response[start:end].strip()
-
-    # Assume entire response is YAML
-    return response
-
-
-def _parse_yaml_safely(yaml_str: str) -> Dict[str, Any]:
-    """Parse YAML string with error handling."""
-    try:
-        data = yaml.safe_load(yaml_str)
-        if not isinstance(data, dict):
-            raise ValueError(f"Expected dict, got {type(data).__name__}")
-        return data
-    except yaml.YAMLError as e:
-        # Try to fix common issues
-        fixed = yaml_str
-
-        # Fix unquoted strings that look like numbers
-        fixed = re.sub(r":\s*(\d+\.\d+)(?=\s*$)", r': "\1"', fixed, flags=re.MULTILINE)
-
-        # Fix single quotes inside single-quoted strings by converting to double quotes
-        # Pattern: 'text with 'inner' quote' -> "text with 'inner' quote"
-        def fix_single_quotes(line):
-            # If line has a value after colon, try to fix quote issues
-            if ':' in line:
-                key, _, value = line.partition(':')
-                value = value.strip()
-                # If value starts with single quote but has issues, use double quotes
-                if value.startswith("'") and value.count("'") > 2:
-                    # Extract content and re-quote with double quotes
-                    content = value[1:-1] if value.endswith("'") else value[1:]
-                    # Escape any double quotes in content
-                    content = content.replace('"', '\\"')
-                    return f'{key}: "{content}"'
-            return line
-
-        fixed_lines = [fix_single_quotes(line) for line in fixed.split('\n')]
-        fixed = '\n'.join(fixed_lines)
-
-        try:
-            data = yaml.safe_load(fixed)
-            if isinstance(data, dict):
-                return data
-        except yaml.YAMLError:
-            pass
-
-        # Try even more aggressive fixing - remove problematic value content entirely
-        # Just keep the key with a placeholder
-        lines_simplified = []
-        for line in yaml_str.split('\n'):
-            if ':' in line and "'" in line:
-                key = line.split(':')[0]
-                # Keep just the key with a generic value
-                lines_simplified.append(f'{key}: "value"')
-            else:
-                lines_simplified.append(line)
-
-        try:
-            data = yaml.safe_load('\n'.join(lines_simplified))
-            if isinstance(data, dict):
-                logger.warning("Used simplified YAML parsing, some descriptions may be lost")
-                return data
-        except yaml.YAMLError:
-            pass
-
-        raise ValueError(f"YAML parse error: {e}")
+    return await generate_formula_seed_parts(
+        agenda=agenda,
+        policy_id=policy_id,
+        llm=llm,
+        progress_callback=progress_callback,
+    )
 
 
 # =============================================================================
@@ -304,9 +165,9 @@ async def _extract_terms_from_section(
         )
 
     # Parse YAML response
-    yaml_str = _extract_yaml_from_response(response)
+    yaml_str = extract_yaml_from_response(response)
     try:
-        data = _parse_yaml_safely(yaml_str)
+        data = parse_yaml_safely(yaml_str)
     except ValueError as e:
         logger.error(f"YAML parse failed for terms extraction")
         logger.debug(f"Raw response:\n{response[:1000]}")
@@ -378,8 +239,8 @@ async def _extract_scoring_from_section(
         )
 
     # Parse YAML response
-    yaml_str = _extract_yaml_from_response(response)
-    data = _parse_yaml_safely(yaml_str)
+    yaml_str = extract_yaml_from_response(response)
+    data = parse_yaml_safely(yaml_str)
 
     policy_type = data.get("policy_type", "count_rule_based")
 
@@ -460,8 +321,8 @@ async def _extract_verdicts_from_section(
         )
 
     # Parse YAML response
-    yaml_str = _extract_yaml_from_response(response)
-    data = _parse_yaml_safely(yaml_str)
+    yaml_str = extract_yaml_from_response(response)
+    data = parse_yaml_safely(yaml_str)
 
     verdicts = data.get("verdicts", [])
     rules = data.get("rules", [])
@@ -757,7 +618,7 @@ async def generate_formula_seed_parts(
 
     # Step 7: Validate Formula Seed
     report("VALIDATE_SEED", 94, "validating seed")
-    errors = _validate_formula_seed(seed)
+    errors = validate_formula_seed(seed)
 
     if errors:
         output.warn(f"[Phase 1 Parts] Seed validation: {len(errors)} errors")
@@ -768,7 +629,7 @@ async def generate_formula_seed_parts(
     report("VALIDATE_SEED", 98, "passed")
 
     # Return seed
-    total_usage = _accumulate_usage(all_usages)
+    total_usage = accumulate_usage(all_usages)
     wall_clock_ms = (time.perf_counter() - start_time) * 1000
     total_usage["wall_clock_ms"] = wall_clock_ms
 
@@ -780,592 +641,3 @@ async def generate_formula_seed_parts(
     output.status(f"[Phase 1 Parts] Complete: {n_terms} terms, {n_rules} rules")
 
     return seed_clean, total_usage
-
-
-def _accumulate_usage(usages: List[Dict[str, Any]]) -> Dict[str, Any]:
-    """Accumulate usage metrics from multiple LLM calls.
-
-    Args:
-        usages: List of usage dicts from LLM calls
-
-    Returns:
-        Combined usage dict
-    """
-    total = {
-        "prompt_tokens": 0,
-        "completion_tokens": 0,
-        "cost_usd": 0.0,
-        "latency_ms": 0.0,
-    }
-    for u in usages:
-        if not u:
-            continue
-        total["prompt_tokens"] += u.get("prompt_tokens", 0)
-        total["completion_tokens"] += u.get("completion_tokens", 0)
-        total["cost_usd"] += u.get("cost_usd", 0.0)
-        total["latency_ms"] += u.get("latency_ms", 0.0)
-    return total
-
-
-# =============================================================================
-# Validation Functions
-# =============================================================================
-
-def _validate_expression(expr: str, field_name: str) -> Optional[str]:
-    """Validate a Python expression is syntactically correct and semantically meaningful.
-
-    Args:
-        expr: Python expression string
-        field_name: Name of the field (for error messages)
-
-    Returns:
-        Error message if invalid, None if valid
-    """
-    if not expr or not isinstance(expr, str):
-        return None  # Empty is ok
-
-    # Check for syntax errors
-    try:
-        compile(expr, f"<{field_name}>", "eval")
-    except SyntaxError as e:
-        return f"{field_name}: SyntaxError - {e.msg}"
-
-    # Semantic check: detect expressions that are just string literals containing Python code
-    stripped = expr.strip()
-    if stripped.startswith('"') and stripped.endswith('"'):
-        inner = stripped[1:-1]
-        if any(keyword in inner for keyword in [' if ', ' else ', ' and ', ' or ']):
-            return (
-                f"{field_name}: Expression appears to be a string literal containing Python code. "
-                f"Remove the outer quotes. Got: {expr[:50]}..."
-            )
-
-    if stripped.startswith("'") and stripped.endswith("'"):
-        inner = stripped[1:-1]
-        if any(keyword in inner for keyword in [' if ', ' else ', ' and ', ' or ']):
-            return (
-                f"{field_name}: Expression appears to be a string literal containing Python code. "
-                f"Remove the outer quotes. Got: {expr[:50]}..."
-            )
-
-    return None
-
-
-def _validate_enum_consistency(seed: Dict[str, Any]) -> List[str]:
-    """Validate that compute.where values match extract.fields enum values.
-
-    Catches mismatches like compute using "Moderate" when extract defines "Moderate incident".
-    This is a warning-level validation (returns warnings, not blocking errors).
-
-    Args:
-        seed: Formula Seed dict
-
-    Returns:
-        List of warning messages about enum inconsistencies
-    """
-    warnings = []
-
-    # Build map of field -> valid enum values (lowercased for comparison)
-    enum_values: Dict[str, set] = {}
-    for field in seed.get("extract", {}).get("fields", []):
-        if field.get("type") == "enum":
-            name = field.get("name", "")
-            values = field.get("values", {})
-            if isinstance(values, dict):
-                # Store both original and lowercase for matching
-                enum_values[name.upper()] = set(v.lower() for v in values.keys())
-
-    # Check compute.where conditions
-    for op in seed.get("compute", []):
-        op_name = op.get("name", "unknown")
-        where = op.get("where", {})
-
-        if not isinstance(where, dict):
-            continue
-
-        for field, expected in where.items():
-            # Skip logical operators and field/equals keys
-            if field in ("and", "or", "field", "equals", "not_equals"):
-                continue
-
-            field_upper = field.upper()
-            if field_upper not in enum_values:
-                continue  # Not an enum field or unknown field
-
-            valid_values = enum_values[field_upper]
-
-            # Check each expected value
-            expected_list = expected if isinstance(expected, list) else [expected]
-            for e in expected_list:
-                if not isinstance(e, str):
-                    continue
-                e_lower = e.lower()
-                # Check if value exists exactly or is a substring/superstring of valid values
-                exact_match = e_lower in valid_values
-                partial_match = any(e_lower in v or v in e_lower for v in valid_values)
-
-                if not exact_match and partial_match:
-                    # This is a potential mismatch that fuzzy matching will handle,
-                    # but we should warn about it
-                    warnings.append(
-                        f"compute.{op_name}: where value '{e}' is a partial match for {field} "
-                        f"enum values: {sorted(valid_values)}. Consider using exact enum keys."
-                    )
-                elif not exact_match and not partial_match:
-                    warnings.append(
-                        f"compute.{op_name}: where value '{e}' not found in {field} "
-                        f"enum values: {sorted(valid_values)}"
-                    )
-
-    return warnings
-
-
-def _validate_formula_seed(seed: Dict[str, Any]) -> List[str]:
-    """Validate Formula Seed structure, expressions, and field references.
-
-    Args:
-        seed: Formula Seed dict
-
-    Returns:
-        List of validation errors (empty list if valid)
-    """
-    errors = []
-
-    # Required keys (filter is NO LONGER required - simplified schema)
-    required_keys = ["extract", "compute", "output"]
-    for key in required_keys:
-        if key not in seed:
-            errors.append(f"Missing required key: {key}")
-
-    if errors:
-        return errors  # Can't continue without required keys
-
-    # Validate extract
-    if "fields" not in seed["extract"]:
-        errors.append("extract missing 'fields'")
-    elif not isinstance(seed["extract"]["fields"], list):
-        errors.append("extract.fields must be a list")
-    else:
-        # Check for duplicate field names
-        seen_field_names = set()
-        for i, field in enumerate(seed["extract"]["fields"]):
-            if not isinstance(field, dict):
-                continue
-            field_name = field.get("name", "")
-            if field_name:
-                upper_name = field_name.upper()
-                if upper_name in seen_field_names:
-                    errors.append(
-                        f"extract.fields: Duplicate field name '{field_name}'. "
-                        f"Each field must appear exactly once."
-                    )
-                seen_field_names.add(upper_name)
-
-        # Validate field values format (must be dict, not list)
-        for i, field in enumerate(seed["extract"]["fields"]):
-            if not isinstance(field, dict):
-                continue
-            field_name = field.get("name", f"field[{i}]")
-            if field.get("type") == "enum":
-                values = field.get("values")
-                if values is not None and not isinstance(values, dict):
-                    errors.append(
-                        f"extract.fields[{field_name}].values must be a dict "
-                        f"(e.g., {{\"value1\": \"desc1\"}}), not {type(values).__name__}"
-                    )
-
-    # Validate outcome_field and none_values (required for generalizable incident detection)
-    extract = seed.get("extract", {})
-    if "outcome_field" not in extract:
-        errors.append(
-            "extract.outcome_field is required (e.g., 'INCIDENT_SEVERITY', 'QUALITY_LEVEL')"
-        )
-    if "none_values" not in extract:
-        errors.append(
-            "extract.none_values is required (e.g., ['none', 'n/a'])"
-        )
-    elif not isinstance(extract.get("none_values"), list):
-        errors.append("extract.none_values must be a list")
-
-    # Validate compute
-    if not isinstance(seed["compute"], list):
-        errors.append("compute must be a list")
-    elif len(seed["compute"]) == 0:
-        errors.append("compute must not be empty - at minimum needs N_INCIDENTS and VERDICT operations")
-    else:
-        # Validate VERDICT operation exists
-        has_verdict = False
-        for op in seed["compute"]:
-            if isinstance(op, dict) and op.get("name") == "VERDICT":
-                has_verdict = True
-                if op.get("op") != "case":
-                    errors.append(
-                        f"VERDICT operation must have op='case', got op='{op.get('op')}'"
-                    )
-                elif "rules" not in op:
-                    errors.append("VERDICT case operation must have 'rules' list")
-                break
-        if not has_verdict:
-            errors.append(
-                "compute must include a VERDICT operation with op='case' and 'rules'"
-            )
-
-    # Validate output
-    if not isinstance(seed["output"], list):
-        errors.append("output must be a list")
-
-    # Note: search_strategy validation removed - no longer part of simplified schema
-
-    # Validate field references in compute operations
-    field_errors = _validate_field_references(seed)
-    errors.extend(field_errors)
-
-    # Validate enum consistency (warnings, not blocking errors)
-    enum_warnings = _validate_enum_consistency(seed)
-    for warning in enum_warnings:
-        logger.warning(f"Enum consistency warning: {warning}")
-
-    # Add strict enum consistency validation that produces errors for complete mismatches
-    # This catches cases where compute.where uses values that don't exist in extract.fields enums
-    extract_fields = seed.get("extract", {}).get("fields", [])
-    field_values = {}
-    for f in extract_fields:
-        if f.get("type") == "enum" and isinstance(f.get("values"), dict):
-            field_values[f["name"]] = set(f["values"].keys())
-            # Also store lowercase version for case-insensitive matching
-            field_values[f["name"].upper()] = set(v.lower() for v in f["values"].keys())
-
-    for op in seed.get("compute", []):
-        where = op.get("where", {})
-        if not isinstance(where, dict):
-            continue
-        for field_name, values in where.items():
-            # Skip logical operators and special keys
-            if field_name in ("and", "or", "field", "equals", "not_equals"):
-                continue
-
-            field_upper = field_name.upper()
-            if field_upper not in field_values:
-                continue  # Field not defined as enum, skip
-
-            valid_values = field_values[field_upper]
-
-            # Check each expected value
-            values_list = values if isinstance(values, list) else [values]
-            for v in values_list:
-                if not isinstance(v, str):
-                    continue
-                v_lower = v.lower()
-                # Check if value exists (exact match or fuzzy)
-                exact_match = v_lower in valid_values
-                partial_match = any(v_lower in vv or vv in v_lower for vv in valid_values)
-
-                if not exact_match and not partial_match:
-                    errors.append(
-                        f"compute.{op.get('name')}: where value '{v}' not found in {field_name} "
-                        f"enum values: {sorted(valid_values)}"
-                    )
-
-    return errors
-
-
-def _validate_field_references(seed: Dict[str, Any]) -> List[str]:
-    """Validate that compute operations reference valid extraction fields.
-
-    Also validates that where clauses only reference enum fields (not string fields).
-
-    Args:
-        seed: Formula Seed dict
-
-    Returns:
-        List of field reference errors
-    """
-    errors = []
-
-    # Get extraction field names and their types
-    extraction_fields = set()
-    field_types = {}  # field_name.upper() -> "enum" or "string"
-    for field in seed.get("extract", {}).get("fields", []):
-        field_name = field.get("name", "")
-        field_type = field.get("type", "string")
-        if field_name:
-            extraction_fields.add(field_name.upper())
-            extraction_fields.add(field_name)
-            field_types[field_name.upper()] = field_type
-
-    # Get computed value names
-    computed_names = set()
-    for i, op in enumerate(seed.get("compute", [])):
-        if not isinstance(op, dict):
-            errors.append(
-                f"compute[{i}]: Expected dict but got {type(op).__name__}: {str(op)[:100]}"
-            )
-            continue
-        name = op.get("name", "")
-        if name:
-            computed_names.add(name.upper())
-            computed_names.add(name)
-
-    # Pattern to find field references in CASE WHEN expressions
-    case_when_pattern = re.compile(r"WHEN\s+(\w+)\s*=", re.IGNORECASE)
-
-    for i, op in enumerate(seed.get("compute", [])):
-        if not isinstance(op, dict):
-            continue
-        op_name = op.get("name", "unknown")
-        op_type = op.get("op", "")
-
-        # Check CASE WHEN expressions in sum operations
-        if op_type == "sum":
-            expr = op.get("expr", "")
-            if expr.upper().startswith("CASE"):
-                matches = case_when_pattern.findall(expr)
-                for field_ref in matches:
-                    if field_ref.upper() not in extraction_fields:
-                        errors.append(
-                            f"compute.{op_name}: CASE expression references unknown field '{field_ref}'. "
-                            f"Available extraction fields: {sorted(extraction_fields)}"
-                        )
-
-        # Check where conditions
-        where = op.get("where", {})
-        if isinstance(where, dict):
-            for field_ref in where.keys():
-                if field_ref in ("and", "or", "field", "equals", "not_equals"):
-                    continue
-                field_upper = field_ref.upper()
-                if field_upper not in extraction_fields:
-                    errors.append(
-                        f"compute.{op_name}: where condition references unknown field '{field_ref}'. "
-                        f"Available extraction fields: {sorted(extraction_fields)}"
-                    )
-                elif field_types.get(field_upper) == "string":
-                    # Where clauses can only filter by enum fields, not string fields
-                    errors.append(
-                        f"compute.{op_name}: where condition references string field '{field_ref}'. "
-                        f"Count/sum where clauses can only filter by enum fields. "
-                        f"To count by this criterion, create an enum field instead."
-                    )
-
-        # Check case operations that reference extraction fields
-        if op_type == "case":
-            source = op.get("source", "")
-            if source and source.upper() not in extraction_fields and source.upper() not in computed_names:
-                later_computed = set()
-                found = False
-                for later_op in seed.get("compute", []):
-                    if not isinstance(later_op, dict):
-                        continue
-                    if later_op.get("name") == op_name:
-                        found = True
-                    if found:
-                        later_name = later_op.get("name", "")
-                        if later_name:
-                            later_computed.add(later_name.upper())
-
-                if source.upper() not in later_computed:
-                    errors.append(
-                        f"compute.{op_name}: case source '{source}' not found in extraction fields or computed values"
-                    )
-
-    return errors
-
-
-# =============================================================================
-# Hybrid Approach: Text → YAML → Compiled Seed
-# =============================================================================
-
-async def _generate_policy_yaml(
-    agenda: str,
-    llm: LLMService,
-    policy_id: str,
-) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    """Generate PolicyYAML from natural language agenda using LLM.
-
-    This is the first step of the hybrid approach.
-
-    Args:
-        agenda: The task agenda/query prompt
-        llm: LLM service for API calls
-        policy_id: Policy identifier for context
-
-    Returns:
-        Tuple of (policy_yaml_dict, usage)
-    """
-    output.status(f"[Phase 1 Hybrid] Step 1/2: Generating PolicyYAML...")
-
-    prompt = TEXT2YAML_PROMPT.format(agenda=agenda)
-    messages = [{"role": "user", "content": prompt}]
-
-    start_time = time.time()
-    response, usage = await llm.call_async_with_usage(
-        messages,
-        context={"phase": "phase1_hybrid", "step": "text2yaml", "policy_id": policy_id},
-    )
-    latency_ms = (time.time() - start_time) * 1000
-    usage["latency_ms"] = latency_ms
-
-    # Log to debug file
-    if debug_logger := get_debug_logger():
-        debug_logger.log_llm_call(
-            sample_id=policy_id,
-            phase="phase1_text2yaml",
-            prompt=prompt,
-            response=response,
-            model=llm._config.get("model", "unknown"),
-            latency_ms=latency_ms,
-        )
-
-    # Extract and parse YAML
-    yaml_str = _extract_yaml_from_response(response)
-    logger.debug(f"Extracted YAML ({len(yaml_str)} chars):\n{yaml_str[:500]}...")
-
-    try:
-        yaml_data = _parse_yaml_safely(yaml_str)
-    except ValueError as e:
-        logger.error(f"Failed to parse YAML response: {e}")
-        logger.debug(f"Raw response:\n{response}")
-        raise ValueError(f"Failed to parse LLM response as YAML: {e}")
-
-    n_terms = len(yaml_data.get("terms", []))
-    n_rules = len(yaml_data.get("rules", []))
-    output.status(f"[Phase 1 Hybrid] PolicyYAML generated: {n_terms} terms, {n_rules} rules")
-
-    return yaml_data, usage
-
-
-async def generate_formula_seed_hybrid(
-    agenda: str,
-    policy_id: str,
-    llm: LLMService,
-    progress_callback: Optional[ProgressCallback] = None,
-) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    """Generate Formula Seed using hybrid approach: NL → PolicyYAML → compiled seed.
-
-    This approach splits the work:
-    - LLM generates simple PolicyYAML (good at understanding, bad at precision)
-    - Deterministic compiler transforms to Formula Seed (guaranteed correct)
-
-    Args:
-        agenda: The task agenda/query prompt
-        policy_id: Policy identifier (e.g., "G1_allergy_V2")
-        llm: LLM service for API calls
-        progress_callback: Optional callback for progress updates
-
-    Returns:
-        Tuple of (formula_seed, usage_dict)
-    """
-    start_time = time.perf_counter()
-    all_usages = []
-
-    def report(step: str, progress: float, detail: str = "") -> None:
-        if progress_callback:
-            progress_callback(1, step, progress, detail)
-
-    # Step 1: LLM generates PolicyYAML from agenda
-    report("TEXT2YAML", 10, "generating yaml")
-    logger.info(f"Phase 1 Hybrid: Step 1/2 TEXT2YAML for {policy_id}")
-
-    yaml_data, usage1 = await _generate_policy_yaml(agenda, llm, policy_id)
-    all_usages.append(usage1)
-    report("TEXT2YAML", 40, "complete")
-
-    # Step 2: Validate PolicyYAML
-    report("VALIDATE_YAML", 45, "validating yaml")
-    try:
-        validate_policy_yaml(yaml_data)
-        output.status(f"[Phase 1 Hybrid] PolicyYAML validation: passed")
-    except PolicyYAMLValidationError as e:
-        logger.warning(f"PolicyYAML validation failed: {e}")
-        output.warn(f"[Phase 1 Hybrid] PolicyYAML validation failed: {e}")
-        raise ValueError(f"PolicyYAML validation failed: {e}")
-    report("VALIDATE_YAML", 50, "passed")
-
-    # Step 3: Deterministic compilation to Formula Seed
-    report("COMPILE", 55, "compiling seed")
-    output.status(f"[Phase 1 Hybrid] Step 2/2: Compiling to Formula Seed...")
-    logger.info(f"Phase 1 Hybrid: Step 2/2 COMPILE for {policy_id}")
-
-    try:
-        seed = compile_yaml_to_seed(yaml_data, validate=False)  # Already validated
-    except Exception as e:
-        logger.error(f"Seed compilation failed: {e}")
-        raise ValueError(f"Failed to compile PolicyYAML to seed: {e}")
-
-    seed["_approach"] = "hybrid"
-    seed["_policy_yaml"] = yaml_data
-    report("COMPILE", 75, "complete")
-
-    # Step 4: Validate the compiled Formula Seed
-    report("VALIDATE_SEED", 80, "validating seed")
-    errors = _validate_formula_seed(seed)
-
-    if errors:
-        output.warn(f"[Phase 1 Hybrid] Seed validation: {len(errors)} errors")
-        logger.warning(f"Compiled seed has validation errors: {errors}")
-        # For hybrid approach, compilation errors are bugs - don't try to fix via LLM
-        raise ValueError(f"Compiled seed validation failed: {errors}")
-    else:
-        output.status(f"[Phase 1 Hybrid] Seed validation: passed")
-        report("VALIDATE_SEED", 95, "passed")
-
-    # Return seed
-    total_usage = _accumulate_usage(all_usages)
-    wall_clock_ms = (time.perf_counter() - start_time) * 1000
-    total_usage["wall_clock_ms"] = wall_clock_ms
-
-    # Keep _policy_yaml for saving, remove other intermediates
-    seed_clean = {k: v for k, v in seed.items() if not k.startswith("_") or k == "_policy_yaml"}
-
-    return seed_clean, total_usage
-
-
-# =============================================================================
-# Main Entry Point
-# =============================================================================
-
-async def generate_formula_seed_with_config(
-    agenda: str,
-    policy_id: str,
-    llm: LLMService,
-    config: "AMOSConfig",
-    progress_callback: Optional[ProgressCallback] = None,
-) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    """Generate Formula Seed using settings from AMOSConfig.
-
-    Selects between approaches based on config.phase1_approach:
-    - PARTS: Part-by-part extraction (recommended) - extracts terms, scoring, verdicts separately
-    - HYBRID: NL → PolicyYAML → deterministic compiler - single-shot YAML generation
-
-    Args:
-        agenda: The task agenda/query prompt
-        policy_id: Policy identifier (e.g., "G1_allergy_V2")
-        llm: LLM service for API calls
-        config: AMOSConfig with phase1_approach setting
-        progress_callback: Optional callback for progress updates.
-
-    Returns:
-        Tuple of (formula_seed, usage_dict)
-    """
-    from .config import Phase1Approach
-
-    if config.phase1_approach == Phase1Approach.PARTS:
-        return await generate_formula_seed_parts(
-            agenda=agenda,
-            policy_id=policy_id,
-            llm=llm,
-            progress_callback=progress_callback,
-        )
-    elif config.phase1_approach == Phase1Approach.HYBRID:
-        return await generate_formula_seed_hybrid(
-            agenda=agenda,
-            policy_id=policy_id,
-            llm=llm,
-            progress_callback=progress_callback,
-        )
-    else:
-        # PLAN_AND_ACT is deprecated - use PARTS instead
-        raise ValueError(
-            f"Phase1Approach.PLAN_AND_ACT is deprecated. "
-            f"Use Phase1Approach.PARTS (recommended) or Phase1Approach.HYBRID instead."
-        )

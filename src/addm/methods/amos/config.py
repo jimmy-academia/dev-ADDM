@@ -4,23 +4,6 @@ Dataclass for configuring AMOS execution modes and parameters.
 """
 
 from dataclasses import dataclass
-from enum import Enum
-from typing import Optional
-
-
-class Phase1Approach(Enum):
-    """Approach for Phase 1 Formula Seed generation.
-
-    PARTS: Part-by-part extraction (recommended)
-           Extracts each query section separately (terms, scoring, verdicts).
-           Most reliable - each LLM call is focused on one specific task.
-
-    HYBRID: NL → PolicyYAML → deterministic compiler
-            LLM generates simple YAML in one shot, compiler ensures correct operations.
-    """
-
-    PARTS = "parts"
-    HYBRID = "hybrid"
 
 
 @dataclass
@@ -43,9 +26,6 @@ class AMOSConfig:
     batch_size: int = 10  # Reviews per LLM call
     max_reviews: int = 200  # Process all reviews (K=200 max)
 
-    # Phase 1 (Formula Seed generation)
-    phase1_approach: Phase1Approach = Phase1Approach.PARTS
-
     def __post_init__(self):
         """Validate configuration."""
         if self.max_concurrent < 1:
@@ -54,3 +34,9 @@ class AMOSConfig:
             raise ValueError("batch_size must be >= 1")
         if self.max_reviews < 1:
             raise ValueError("max_reviews must be >= 1")
+
+
+# Keep for backwards compatibility (deprecated)
+class Phase1Approach:
+    """Deprecated. Only PARTS approach is now used."""
+    PARTS = "parts"
