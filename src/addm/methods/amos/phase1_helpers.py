@@ -28,6 +28,7 @@ def extract_yaml_from_response(response: str) -> str:
     - Markdown code blocks (```yaml ... ```)
     - Plain YAML text
     - Response with explanations before/after
+    - Bare "yaml" prefix without code blocks
     """
     response = response.strip()
 
@@ -49,7 +50,17 @@ def extract_yaml_from_response(response: str) -> str:
         if end > start:
             return response[start:end].strip()
 
-    # Assume entire response is YAML
+    # Handle bare "yaml" prefix (LLM continuing from prompt's ```yaml)
+    # Strip lines that are just "yaml" or "YAML" at the start
+    lines = response.split('\n')
+    if lines and lines[0].strip().lower() == 'yaml':
+        response = '\n'.join(lines[1:]).strip()
+
+    # Also handle if response starts with language identifier on same line
+    # e.g., "yaml\nterms:" or "YAML\nterms:"
+    if response.lower().startswith('yaml\n'):
+        response = response[5:].strip()
+
     return response
 
 

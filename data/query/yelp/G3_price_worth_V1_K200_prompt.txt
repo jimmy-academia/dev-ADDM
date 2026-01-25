@@ -21,55 +21,55 @@ Reviews that only discuss food quality without mentioning price carry less weigh
 ### Account Type
 How the reviewer relates to the described event
 
-- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
-- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
-- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+- **firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
 
 ### Price Perception
 Perception of value for money
 
-- **Ripoff**: Extremely overpriced, feel cheated
-- **Overpriced**: Prices higher than expected for quality
-- **Fair**: Prices appropriate for what you get
-- **Good Value**: Good quality for the price
-- **Steal**: Exceptional value, surprisingly affordable
+- **ripoff**: Extremely overpriced, feel cheated
+- **overpriced**: Prices higher than expected for quality
+- **fair**: Prices appropriate for what you get
+- **good_value**: Good quality for the price
+- **steal**: Exceptional value, surprisingly affordable
 
 ### Portion Size
 Assessment of portion sizes relative to price
 
-- **Tiny**: Portions much too small for the price
-- **Small**: Portions smaller than expected
-- **Adequate**: Portions are appropriate
-- **Generous**: Large, generous portions
+- **tiny**: Portions much too small for the price
+- **small**: Portions smaller than expected
+- **adequate**: Portions are appropriate
+- **generous**: Large, generous portions
 
 ### Quality For Price
 Food quality relative to cost
 
-- **Poor**: Quality far below what price suggests
-- **Fair**: Quality matches price point
-- **Good**: Quality exceeds price expectation
-- **Excellent**: Premium quality at reasonable price
+- **poor**: Quality far below what price suggests
+- **fair**: Quality matches price point
+- **good**: Quality exceeds price expectation
+- **excellent**: Premium quality at reasonable price
 
 ### Return Intent
 Would return based on value assessment
 
-- **Never**: Won't return due to poor value
-- **Maybe**: Might return if prices improve
-- **True**: Will return, acceptable value
-- **Definitely**: Great value, will definitely return
+- **never**: Won't return due to poor value
+- **maybe**: Might return if prices improve
+- **yes**: Will return, acceptable value
+- **definitely**: Great value, will definitely return
 
 
 ## Verdict Rules
 
 A restaurant is considered **Good Value** if any of the following is true:
-- 70 or more reviews describe excellent value for money [filter: quality_for_price=excellent]
-- 30 or more reviews praise generous portions or quality relative to price [filter: portion_size=generous]
-- 15 or more reviews describe it as a 'great deal' or 'bargain' [filter: price_perception=bargain]
+- 70 or more reviews describe excellent value for money
+- 30 or more reviews praise generous portions or quality relative to price
+- 15 or more reviews describe it as a 'great deal' or 'bargain'
 
 **Poor Value** if Good Value does not apply, but any of the following is true:
-- 40 or more reviews describe it as overpriced or a 'ripoff' [filter: price_perception=overpriced]
-- 10 or more reviews criticize small portions relative to price [filter: portion_size=small]
-- 40 or more reviews mention not returning due to poor value [filter: return_intent=False, quality_for_price=poor]
+- 40 or more reviews describe it as overpriced or a 'ripoff'
+- 10 or more reviews criticize small portions relative to price
+- 40 or more reviews mention not returning due to poor value
 
 **Fair Value** otherwise, especially when:
 - Prices described as reasonable for the area/cuisine

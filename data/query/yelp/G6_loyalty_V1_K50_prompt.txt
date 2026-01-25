@@ -21,56 +21,56 @@ Reviews from first-time visitors that don't mention return intent carry less wei
 ### Account Type
 How the reviewer relates to the described event
 
-- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
-- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
-- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+- **firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
 
 ### Return Intent
 Intention to return
 
-- **Never**: Will never return
-- **Unlikely**: Probably won't return
-- **Likely**: Will probably return
-- **Definitely**: Will definitely return
+- **never**: Will never return
+- **unlikely**: Probably won't return
+- **likely**: Will probably return
+- **definitely**: Will definitely return
 
 ### Recommend Intent
 Intention to recommend to others
 
-- **Warn Others**: Would warn others to stay away
-- **Neutral**: Neither recommend nor warn
-- **Recommend**: Would recommend
-- **Strongly Recommend**: Would strongly recommend
+- **warn_others**: Would warn others to stay away
+- **neutral**: Neither recommend nor warn
+- **recommend**: Would recommend
+- **strongly_recommend**: Would strongly recommend
 
 ### Emotional Connection
 Emotional attachment to restaurant
 
-- **None**: No emotional connection
-- **Low**: Minor positive feeling
-- **Moderate**: Noticeable affection
-- **High**: Strong emotional connection
+- **none**: No emotional connection
+- **low**: Minor positive feeling
+- **moderate**: Noticeable affection
+- **high**: Strong emotional connection
 
 ### Loyalty Driver
 Primary reason for loyalty
 
-- **Price**: Loyal because of value
-- **Quality**: Loyal because of food quality
-- **Service**: Loyal because of service
-- **Convenience**: Loyal because of convenience
-- **Love**: Genuine love for the restaurant
-- **None**: No clear driver
+- **price**: Loyal because of value
+- **quality**: Loyal because of food quality
+- **service**: Loyal because of service
+- **convenience**: Loyal because of convenience
+- **love**: Genuine love for the restaurant
+- **none**: No clear driver
 
 
 ## Verdict Rules
 
 A restaurant is considered **High Loyalty** if any of the following is true:
-- 28 or more reviews describe high emotional connection [filter: emotional_connection=high]
-- 32 or more reviews strongly recommend [filter: recommend_intent=strongly_recommend]
-- 28 or more reviews say they would definitely return [filter: return_intent=definitely]
+- 28 or more reviews describe high emotional connection
+- 32 or more reviews strongly recommend
+- 28 or more reviews say they would definitely return
 
 **Low Loyalty** if High Loyalty does not apply, but any of the following is true:
-- 12 or more reviews say 'will never return' [filter: return_intent=never]
-- 18 or more reviews report unlikely to return [filter: return_intent=unlikely]
-- 18 or more reviews warn others [filter: recommend_intent=warn_others]
+- 12 or more reviews say 'will never return'
+- 18 or more reviews report unlikely to return
+- 18 or more reviews warn others
 
 **Moderate Loyalty** otherwise, especially when:
 - Mixed signals on return intent

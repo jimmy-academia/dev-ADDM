@@ -391,7 +391,12 @@ class FormulaSeedInterpreter(ComputeOperationsMixin):
         return result
 
     def _build_standard_output(self) -> Dict[str, Any]:
-        """Transform to standard output format for evaluation."""
+        """Transform to standard output format for evaluation.
+
+        Creates one evidence entry per extraction with:
+        - field: the outcome field name (e.g., "incident_severity")
+        - judgement: the outcome field value (e.g., "moderate")
+        """
         evidences = []
         evidence_idx = 1
         outcome_field, none_values = get_outcome_field_info(self.seed)
@@ -400,28 +405,34 @@ class FormulaSeedInterpreter(ComputeOperationsMixin):
             review_id = ext.get("review_id", "unknown")
             snippet = ext.get("_snippet") or ext.get("supporting_quote", "")
 
+            # Determine outcome field and value
             if outcome_field:
                 outcome_value = get_field_value(ext, outcome_field)
+                field_name = outcome_field.lower()
             else:
-                outcome_value = (
-                    get_field_value(ext, "incident_severity") or
-                    get_field_value(ext, "severity") or "none"
-                )
+                # Fallback: look for common outcome fields
+                for candidate in ["incident_severity", "severity", "outcome"]:
+                    outcome_value = get_field_value(ext, candidate)
+                    if outcome_value:
+                        field_name = candidate
+                        break
+                else:
+                    outcome_value = "none"
+                    field_name = "outcome"
 
+            # Skip if outcome is a "none" value (no incident)
             if is_none_value(outcome_value, none_values):
                 continue
 
-            for field, value in ext.items():
-                if field.startswith("_") or field in ("review_id", "is_relevant", "supporting_quote"):
-                    continue
-                evidences.append({
-                    "evidence_id": f"E{evidence_idx}",
-                    "review_id": review_id,
-                    "field": field.lower(),
-                    "judgement": str(value).lower() if value else "none",
-                    "snippet": snippet,
-                })
-                evidence_idx += 1
+            # Create ONE evidence entry per extraction
+            evidences.append({
+                "evidence_id": f"E{evidence_idx}",
+                "review_id": review_id,
+                "field": field_name,
+                "judgement": str(outcome_value).lower() if outcome_value else "none",
+                "snippet": snippet,
+            })
+            evidence_idx += 1
 
         raw_verdict = self._namespace.get("VERDICT")
         return {

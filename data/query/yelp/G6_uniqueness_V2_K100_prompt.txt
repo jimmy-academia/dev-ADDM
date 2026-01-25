@@ -21,57 +21,57 @@ Reviews that don't mention distinctiveness or memorability carry less weight.
 ### Account Type
 How the reviewer relates to the described event
 
-- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
-- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
-- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+- **firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
 
 ### Unique Aspect
 What aspect makes this restaurant unique
 
-- **Food**: Unique or standout food
-- **Atmosphere**: Unique ambiance or setting
-- **Service**: Unique service approach
-- **Concept**: Unique restaurant concept
-- **Location**: Unique location or view
-- **None**: Nothing particularly unique
+- **food**: Unique or standout food
+- **atmosphere**: Unique ambiance or setting
+- **service**: Unique service approach
+- **concept**: Unique restaurant concept
+- **location**: Unique location or view
+- **none**: Nothing particularly unique
 
 ### Differentiation Level
 Degree of uniqueness
 
-- **Generic**: Nothing differentiates from competitors
-- **Somewhat Different**: Some distinguishing features
-- **Unique**: Clearly unique offerings
-- **One of a Kind**: Truly irreplaceable experience
+- **generic**: Nothing differentiates from competitors
+- **somewhat_different**: Some distinguishing features
+- **unique**: Clearly unique offerings
+- **one_of_a_kind**: Truly irreplaceable experience
 
 ### Memorability
 How memorable the experience is
 
-- **Forgettable**: Nothing memorable about it
-- **Average**: Neither memorable nor forgettable
-- **Memorable**: Stands out in memory
-- **Unforgettable**: Truly unforgettable experience
+- **forgettable**: Nothing memorable about it
+- **average**: Neither memorable nor forgettable
+- **memorable**: Stands out in memory
+- **unforgettable**: Truly unforgettable experience
 
 ### Signature Item
 Whether a must-try signature item exists
 
-- **True**: Has a famous must-try item
-- **False**: No standout signature item
+- **true**: Has a famous must-try item
+- **false**: No standout signature item
 
 
 ## Verdict Rules
 
 A restaurant is considered **Highly Unique** if any of the following is true:
-- 18 or more reviews describe it as 'one of a kind' [filter: differentiation_level=one_of_a_kind]
-- 78 or more reviews mention signature items [filter: signature_item=true]
-- 18 or more reviews describe it as unforgettable [filter: memorability=unforgettable]
-- 90 or more reviews describe it as memorable [filter: memorability=memorable]
-- 85 or more reviews describe it as unique [filter: differentiation_level=unique]
+- 18 or more reviews describe it as 'one of a kind'
+- 78 or more reviews mention signature items
+- 18 or more reviews describe it as unforgettable
+- 90 or more reviews describe it as memorable
+- 85 or more reviews describe it as unique
 
 **Generic** if Highly Unique does not apply, but any of the following is true:
-- 26 or more reviews describe it as 'nothing special' [filter: differentiation_level=generic]
-- 26 or more reviews mention no distinguishing features [filter: unique_aspect=none]
-- 24 or more reviews describe forgettable experience [filter: memorability=forgettable]
-- 34 or more reviews describe average experience [filter: memorability=average]
+- 26 or more reviews describe it as 'nothing special'
+- 26 or more reviews mention no distinguishing features
+- 24 or more reviews describe forgettable experience
+- 34 or more reviews describe average experience
 
 **Differentiated** otherwise, especially when:
 - Some unique elements noted

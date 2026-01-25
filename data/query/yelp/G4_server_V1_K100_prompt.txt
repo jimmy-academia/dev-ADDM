@@ -22,61 +22,61 @@ Reviews that only discuss food without mentioning service carry less weight.
 ### Account Type
 How the reviewer relates to the described event
 
-- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
-- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
-- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+- **firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
 
 ### Attentiveness
 How attentive was the server
 
-- **Absent**: Server was nowhere to be found
-- **Poor**: Server rarely checked on table
-- **Adequate**: Acceptable level of attention
-- **Good**: Checked in appropriately, responsive
-- **Excellent**: Anticipatory service, exceptional attention
+- **absent**: Server was nowhere to be found
+- **poor**: Server rarely checked on table
+- **adequate**: Acceptable level of attention
+- **good**: Checked in appropriately, responsive
+- **excellent**: Anticipatory service, exceptional attention
 
 ### Friendliness
 Demeanor of the server
 
-- **Rude**: Actively rude or hostile
-- **Cold**: Distant, unfriendly manner
-- **Neutral**: Neither friendly nor unfriendly
-- **Friendly**: Warm and personable
-- **Warm**: Exceptionally warm, made guests feel special
+- **rude**: Actively rude or hostile
+- **cold**: Distant, unfriendly manner
+- **neutral**: Neither friendly nor unfriendly
+- **friendly**: Warm and personable
+- **warm**: Exceptionally warm, made guests feel special
 
 ### Menu Knowledge
 Server's knowledge of menu and ingredients
 
-- **None**: No knowledge, couldn't answer questions
-- **Poor**: Limited knowledge, many uncertainties
-- **Adequate**: Basic knowledge, can handle common questions
-- **Good**: Good knowledge with recommendations
-- **Excellent**: Expert knowledge, excellent recommendations
+- **none**: No knowledge, couldn't answer questions
+- **poor**: Limited knowledge, many uncertainties
+- **adequate**: Basic knowledge, can handle common questions
+- **good**: Good knowledge with recommendations
+- **excellent**: Expert knowledge, excellent recommendations
 
 ### Service Errors
 Errors made by the server
 
-- **None**: No service errors
-- **Minor**: Small mistakes quickly corrected
-- **Significant**: Notable errors affecting experience
-- **Severe**: Major errors significantly impacting experience
+- **none**: No service errors
+- **minor**: Small mistakes quickly corrected
+- **significant**: Notable errors affecting experience
+- **severe**: Major errors significantly impacting experience
 
 ### Named Positively
 Whether server was named positively
 
-- **True**: Server mentioned by name with praise
-- **False**: Server not named or not praised by name
+- **true**: Server mentioned by name with praise
+- **false**: Server not named or not praised by name
 
 
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- 22 or more reviews praise server attentiveness and friendliness [filter: attentiveness=excellent, friendliness=warm]
-- 18 or more reviews mention servers by name with exceptional praise [filter: named_positively=true, attentiveness=excellent]
+- 22 or more reviews praise server attentiveness and friendliness
+- 18 or more reviews mention servers by name with exceptional praise
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- 24 or more reviews describe inattentive or absent servers [filter: attentiveness=poor]
-- 15 or more reviews complain about rude service [filter: friendliness=rude]
+- 24 or more reviews describe inattentive or absent servers
+- 15 or more reviews complain about rude service
 
 **Satisfactory** otherwise, especially when:
 - Service is acceptable but not exceptional

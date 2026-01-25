@@ -21,53 +21,53 @@ Reviews that only discuss food quality without mentioning capacity carry less we
 ### Account Type
 How the reviewer relates to the described event
 
-- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
-- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
-- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+- **firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
 
 ### Staffing Level
 Perceived staffing level relative to customer volume
 
-- **Severely Understaffed**: Far too few staff for customer volume
-- **Understaffed**: Noticeably insufficient staff
-- **Adequate**: Sufficient staff for the volume
-- **Well Staffed**: Plenty of staff, smooth operations
+- **severely_understaffed**: Far too few staff for customer volume
+- **understaffed**: Noticeably insufficient staff
+- **adequate**: Sufficient staff for the volume
+- **well_staffed**: Plenty of staff, smooth operations
 
 ### Crowd Level
 How crowded the restaurant was
 
-- **Empty**: Very few or no other customers
-- **Moderate**: Normal level of customers
-- **Busy**: Restaurant was busy
-- **Packed**: Extremely crowded
+- **empty**: Very few or no other customers
+- **moderate**: Normal level of customers
+- **busy**: Restaurant was busy
+- **packed**: Extremely crowded
 
 ### Service Degradation
 Whether busyness affected service quality
 
-- **None**: Service maintained despite volume
-- **Minor**: Slight degradation noticeable
-- **Significant**: Clear service decline due to volume
-- **Complete**: Service completely collapsed under volume
+- **none**: Service maintained despite volume
+- **minor**: Slight degradation noticeable
+- **significant**: Clear service decline due to volume
+- **complete**: Service completely collapsed under volume
 
 ### Volume Handling
 How well they handled customer volume
 
-- **Collapsed**: Could not handle the volume at all
-- **Struggled**: Visible difficulty managing volume
-- **Managed**: Acceptable handling of volume
-- **Handled Well**: Impressed by volume management
+- **collapsed**: Could not handle the volume at all
+- **struggled**: Visible difficulty managing volume
+- **managed**: Acceptable handling of volume
+- **handled_well**: Impressed by volume management
 
 
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- Reviews praise volume handling during busy periods [filter: volume_handling=handled_well, crowd_level=busy]
-- Reviews show well-staffed with no service degradation [filter: staffing_level=well_staffed, service_degradation=none]
+- Reviews praise volume handling during busy periods
+- Reviews show well-staffed with no service degradation
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- 8 or more reviews describe understaffing [filter: staffing_level=understaffed]
-- 8 or more reviews describe significant service degradation [filter: service_degradation=significant]
-- 8 or more reviews report volume handling struggles [filter: volume_handling=struggled]
+- 8 or more reviews describe understaffing
+- 8 or more reviews describe significant service degradation
+- 8 or more reviews report volume handling struggles
 
 **Satisfactory** otherwise, especially when:
 - Handles normal volume adequately

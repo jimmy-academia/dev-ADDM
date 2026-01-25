@@ -21,52 +21,52 @@ Reviews that don't mention competitors or comparisons carry less weight.
 ### Account Type
 How the reviewer relates to the described event
 
-- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
-- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
-- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+- **firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
 
 ### Comparison Outcome
 How this restaurant compares to named competitors
 
-- **Unfavorable**: Competitor is better
-- **Neutral**: About the same as competitors
-- **Favorable**: Better than competitors
+- **unfavorable**: Competitor is better
+- **neutral**: About the same as competitors
+- **favorable**: Better than competitors
 
 ### Compared Aspect
 What aspect is being compared
 
-- **Price**: Price comparison
-- **Quality**: Food quality comparison
-- **Service**: Service comparison
-- **Atmosphere**: Ambiance comparison
-- **Overall**: Overall comparison
+- **price**: Price comparison
+- **quality**: Food quality comparison
+- **service**: Service comparison
+- **atmosphere**: Ambiance comparison
+- **overall**: Overall comparison
 
 ### Preference Stated
 Whether a preference is stated
 
-- **Prefer Other**: Prefers the competitor
-- **No Preference**: No clear preference
-- **Prefer This**: Prefers this restaurant
+- **prefer_other**: Prefers the competitor
+- **no_preference**: No clear preference
+- **prefer_this**: Prefers this restaurant
 
 ### Switching Intent
 Intent to switch to/from this restaurant
 
-- **Switching Away**: Will go to competitor instead
-- **Considering**: Considering switching
-- **Staying**: Will stay with this restaurant
-- **Switching To**: Switching to this restaurant from competitor
+- **switching_away**: Will go to competitor instead
+- **considering**: Considering switching
+- **staying**: Will stay with this restaurant
+- **switching_to**: Switching to this restaurant from competitor
 
 
 ## Verdict Rules
 
 A restaurant is considered **Stronger** if any of the following is true:
-- Reviews favorably compare overall quality [filter: comparison_outcome=favorable, compared_aspect=overall]
-- Reviews show preference and switching to this restaurant [filter: preference_stated=prefer_this, switching_intent=switching_to]
+- Reviews favorably compare overall quality
+- Reviews show preference and switching to this restaurant
 
 **Weaker** if Stronger does not apply, but any of the following is true:
-- 7 or more reviews prefer competitors [filter: preference_stated=prefer_other]
-- 8 or more reviews describe customers switching away [filter: switching_intent=switching_away]
-- 10 or more reviews describe unfavorable comparisons [filter: comparison_outcome=unfavorable]
+- 7 or more reviews prefer competitors
+- 8 or more reviews describe customers switching away
+- 10 or more reviews describe unfavorable comparisons
 
 **Comparable** otherwise, especially when:
 - Mixed comparisons

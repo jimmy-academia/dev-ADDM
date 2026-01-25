@@ -24,33 +24,33 @@ NOT considered incidents but ARE considered allergy-relevant.
 ### Account Type
 How the reviewer relates to the described event
 
-- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
-- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
-- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+- **firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
 
 ### Incident Severity
 Severity of allergic reaction if one occurred
 
-- **No reaction**: No allergic reaction described
-- **Mild incident**: Discomfort or minor symptoms that do not include visible swelling/hives and do not require urgent medical care
-- **Moderate incident**: Visible symptoms (e.g., hives or swelling) and/or symptoms that required medication (e.g., antihistamine), but not life-threatening
-- **Severe incident**: Life-threatening reaction, including any mention of anaphylaxis, EpiPen use, emergency room visit, hospitalization, or explicitly described medical emergency
+- **none**: No allergic reaction described
+- **mild**: Discomfort or minor symptoms that do not include visible swelling/hives and do not require urgent medical care
+- **moderate**: Visible symptoms (e.g., hives or swelling) and/or symptoms that required medication (e.g., antihistamine), but not life-threatening
+- **severe**: Life-threatening reaction, including any mention of anaphylaxis, EpiPen use, emergency room visit, hospitalization, or explicitly described medical emergency
 
 ### Assurance of Safety
 Whether staff explicitly assured the food was safe for the allergy
 
-- **Assurance given**: Review states an explicit assurance of safety (e.g., "guaranteed nut-free", "confirmed no peanuts", "assured it was safe for my allergy")
-- **No assurance**: Review discusses allergy but contains no explicit assurance claim
-- **Unknown**: Text is too vague to determine
+- **true**: Review states an explicit assurance of safety (e.g., "guaranteed nut-free", "confirmed no peanuts", "assured it was safe for my allergy")
+- **false**: Review discusses allergy but contains no explicit assurance claim
+- **unknown**: Text is too vague to determine
 
 ### Staff Response
 How staff responded when the concern was raised
 
-- **Accommodated**: Staff took the concern seriously and successfully accommodated (ingredient check, substitution, separate preparation, clear warnings)
-- **Refused**: Staff stated they could not or would not accommodate
-- **Dismissive**: Staff minimized the concern or did not take it seriously
-- **Not described**: No staff interaction about the concern is described
-- **Unknown**: Unclear from the review
+- **accommodated**: Staff took the concern seriously and successfully accommodated (ingredient check, substitution, separate preparation, clear warnings)
+- **refused**: Staff stated they could not or would not accommodate
+- **dismissive**: Staff minimized the concern or did not take it seriously
+- **none**: No staff interaction about the concern is described
+- **unknown**: Unclear from the review
 
 
 ## Scoring System

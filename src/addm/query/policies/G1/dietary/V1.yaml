@@ -57,7 +57,7 @@ normative:
           - text: "{min_count} or more reviews report staff providing incorrect ingredient information"
             type: count_threshold
             filter:
-              staff_knowledge: incorrect
+              staff_knowledge: poor
               account_type: firsthand
             min_count: 2
             min_count_by_k:
@@ -98,10 +98,11 @@ normative:
             min_count: 2
             min_count_by_k:
               25: 1
-          - text: "{min_count} or more reviews describe staff as unknowledgeable about ingredients"
+          - text: "{min_count} or more reviews describe staff with no knowledge about ingredients"
             type: count_threshold
             filter:
-              staff_knowledge: unknowledgeable
+              staff_knowledge: none
+              account_type: firsthand
             min_count: 2
             min_count_by_k:
               25: 1

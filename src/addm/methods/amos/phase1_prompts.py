@@ -44,9 +44,12 @@ terms:
 ## RULES
 
 1. Use UPPERCASE_WITH_UNDERSCORES for field names (e.g., PRICE_PERCEPTION, INCIDENT_SEVERITY)
-2. Use lowercase_with_underscores for values (e.g., good_value, very_poor)
-3. Include ALL values mentioned, even neutral ones
-4. Copy descriptions verbatim when possible
+2. For values: Use the EXACT bolded term from each bullet point. The bolded word IS the value ID.
+   Example: "- **severe**: Serious health consequences..." → use value "severe"
+   Example: "- **none**: No dietary incident..." → use value "none"
+3. Do NOT convert values to snake_case or add suffixes. Use them exactly as bolded.
+4. Include ALL values mentioned, even neutral ones
+5. Copy descriptions verbatim when possible
 
 Output ONLY the YAML, no explanation:
 
@@ -176,16 +179,19 @@ Extract the verdict rules that determine the final outcome.
 
 CRITICAL INSTRUCTIONS:
 
-1. Look for [filter: field=value] annotations in the condition text. These EXPLICITLY tell you which field and values to use.
-   Example: "15 or more reviews mention successful dates [filter: date_outcome=positive]"
-   → field: DATE_OUTCOME, values: [positive], min_count: 15
+1. Parse each condition to identify the field and values being checked.
+   Example: "1 or more severe dietary incidents"
+   → field: INCIDENT_SEVERITY, values: [severe], min_count: 1
 
-2. When a [filter: ...] annotation exists, ALWAYS use the field name from the annotation (converted to UPPERCASE).
-   DO NOT try to interpret the descriptive text - use the filter annotation directly.
+2. Match field names to "Available Terms" above (convert to UPPERCASE_WITH_UNDERSCORES).
+   Example: "dietary incidents" relates to INCIDENT_SEVERITY
+   Example: "staff knowledge" relates to STAFF_KNOWLEDGE
 
-3. If no [filter: ...] annotation exists, use context from "Available Terms" to determine the correct field.
+3. Values should match the bolded IDs from the term definitions.
+   Example: If condition says "severe", use value "severe" (not "severe_incident")
+   Example: If condition says "poor accommodation", use value "poor"
 
-4. Only use field names from "Available Terms" or filter annotations.
+4. Only use field names from "Available Terms" - do not invent new field names.
 
 ## OUTPUT FORMAT (YAML)
 

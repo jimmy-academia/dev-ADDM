@@ -22,42 +22,42 @@ Reviews that don't mention timing or waiting carry less weight.
 ### Account Type
 How the reviewer relates to the described event
 
-- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
-- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
-- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+- **firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
 
 ### Wait Type
 What type of wait occurred
 
-- **Seating**: Wait for a table
-- **Food**: Wait for food to arrive
-- **Check**: Wait for check/bill
-- **Reservation**: Wait despite having reservation
+- **seating**: Wait for a table
+- **food**: Wait for food to arrive
+- **check**: Wait for check/bill
+- **reservation**: Wait despite having reservation
 
 ### Wait Duration
 How long the wait was
 
-- **No Wait**: Seated or served immediately
-- **Short**: Brief wait (under 15 minutes)
-- **Moderate**: Moderate wait (15-30 minutes)
-- **Long**: Long wait (30-60 minutes)
-- **Excessive**: Unreasonably long wait (over 60 minutes)
+- **none**: Seated or served immediately
+- **short**: Brief wait (under 15 minutes)
+- **moderate**: Moderate wait (15-30 minutes)
+- **long**: Long wait (30-60 minutes)
+- **excessive**: Unreasonably long wait (over 60 minutes)
 
 ### Wait Justification
 Was the wait justified by the experience
 
-- **Not Worth It**: Wait was not worth the experience
-- **Barely Worth It**: Marginal justification for the wait
-- **Worth It**: Experience justified the wait
-- **Definitely Worth It**: Experience far exceeded expectations, wait was trivial
+- **not_worth_it**: Wait was not worth the experience
+- **barely**: Marginal justification for the wait
+- **worth_it**: Experience justified the wait
+- **definitely_worth_it**: Experience far exceeded expectations, wait was trivial
 
 ### Would Wait Again
 Would customer wait again for this restaurant
 
-- **Never**: Would not wait again
-- **Maybe**: Might wait under certain conditions
-- **True**: Would wait again
-- **Definitely**: Would definitely wait again
+- **never**: Would not wait again
+- **maybe**: Might wait under certain conditions
+- **yes**: Would wait again
+- **definitely**: Would definitely wait again
 
 
 ## Scoring System

@@ -442,7 +442,7 @@ def compute_verdict_support(
         justification = _extract_justification(result)
         direct_evidence = justification.get("direct_evidence", [])
         triggered_rule = justification.get("triggered_rule", "")
-        scoring_trace = justification.get("scoring_trace", {})
+        scoring_trace = justification.get("scoring_trace") or {}
 
         # Filter to only direct evidence items, or use all if direct_evidence is empty
         if direct_evidence:

@@ -22,62 +22,62 @@ Reviews that only discuss food or service without mentioning environment carry l
 ### Account Type
 How the reviewer relates to the described event
 
-- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
-- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
-- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+- **firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
 
 ### Cleanliness
 Cleanliness of the restaurant environment
 
-- **Dirty**: Visibly dirty, concerning
-- **Fair**: Could be cleaner but acceptable
-- **Clean**: Clean and well-maintained
-- **Spotless**: Exceptionally clean
+- **dirty**: Visibly dirty, concerning
+- **fair**: Could be cleaner but acceptable
+- **clean**: Clean and well-maintained
+- **spotless**: Exceptionally clean
 
 ### Noise Level
 Noise level in the restaurant
 
-- **Deafening**: Extremely loud, cannot converse
-- **Loud**: Loud, conversation difficult
-- **Moderate**: Some noise but conversation possible
-- **Quiet**: Quiet, easy conversation
+- **deafening**: Extremely loud, cannot converse
+- **loud**: Loud, conversation difficult
+- **moderate**: Some noise but conversation possible
+- **quiet**: Quiet, easy conversation
 
 ### Comfort
 Physical comfort of seating/space
 
-- **Uncomfortable**: Seating or space is uncomfortable
-- **Fair**: Acceptable but not particularly comfortable
-- **Comfortable**: Comfortable seating and spacing
-- **Very Comfortable**: Exceptionally comfortable environment
+- **uncomfortable**: Seating or space is uncomfortable
+- **fair**: Acceptable but not particularly comfortable
+- **comfortable**: Comfortable seating and spacing
+- **very_comfortable**: Exceptionally comfortable environment
 
 ### Temperature
 Room temperature comfort
 
-- **Too Cold**: Uncomfortably cold
-- **Cold**: On the cold side
-- **Comfortable**: Temperature is comfortable
-- **Hot**: On the warm side
-- **Too Hot**: Uncomfortably hot
+- **too_cold**: Uncomfortably cold
+- **cold**: On the cold side
+- **comfortable**: Temperature is comfortable
+- **hot**: On the warm side
+- **too_hot**: Uncomfortably hot
 
 ### Ambiance Fit
 How well ambiance matches the concept
 
-- **Poor**: Ambiance doesn't fit the concept
-- **Fair**: Ambiance partially matches
-- **Good**: Ambiance matches concept well
-- **Excellent**: Ambiance perfectly complements concept
+- **poor**: Ambiance doesn't fit the concept
+- **fair**: Ambiance partially matches
+- **good**: Ambiance matches concept well
+- **excellent**: Ambiance perfectly complements concept
 
 
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- 100 or more reviews praise excellent atmosphere [filter: ambiance_fit=excellent]
-- 190 or more reviews describe it as spotless [filter: cleanliness=spotless]
+- 100 or more reviews praise excellent atmosphere
+- 190 or more reviews describe it as spotless
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- 25 or more reviews describe cleanliness issues [filter: cleanliness=dirty]
-- 25 or more reviews report poor ambiance fit [filter: ambiance_fit=poor]
-- 15 or more reviews complain about deafening noise [filter: noise_level=deafening]
+- 25 or more reviews describe cleanliness issues
+- 25 or more reviews report poor ambiance fit
+- 15 or more reviews complain about deafening noise
 
 **Satisfactory** otherwise, especially when:
 - Environment is acceptable but unremarkable

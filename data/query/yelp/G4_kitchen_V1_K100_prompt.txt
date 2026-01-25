@@ -22,53 +22,53 @@ Reviews that only discuss service without mentioning food quality carry less wei
 ### Account Type
 How the reviewer relates to the described event
 
-- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
-- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
-- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+- **firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
 
 ### Food Issue Type
 Type of food quality issue
 
-- **Temperature**: Food served at wrong temperature
-- **Doneness**: Food over or undercooked
-- **Taste**: Flavor issues (bland, too salty, etc.)
-- **Presentation**: Visual presentation issues
-- **Portion**: Portion size issues
-- **None**: No food issues mentioned
+- **temperature**: Food served at wrong temperature
+- **doneness**: Food over or undercooked
+- **taste**: Flavor issues (bland, too salty, etc.)
+- **presentation**: Visual presentation issues
+- **portion**: Portion size issues
+- **none**: No food issues mentioned
 
 ### Issue Severity
 Severity of food quality issues
 
-- **None**: No issues, food was good
-- **Minor**: Small issues, still edible
-- **Major**: Significant issues affecting enjoyment
-- **Inedible**: Food was not edible
+- **none**: No issues, food was good
+- **minor**: Small issues, still edible
+- **major**: Significant issues affecting enjoyment
+- **inedible**: Food was not edible
 
 ### Consistency
 Consistency of food quality
 
-- **Inconsistent**: Quality varies significantly between visits/dishes
-- **Variable**: Some variation but generally acceptable
-- **Consistent**: Reliable quality every time
+- **inconsistent**: Quality varies significantly between visits/dishes
+- **variable**: Some variation but generally acceptable
+- **consistent**: Reliable quality every time
 
 ### Chef Skill
 Perceived skill level of kitchen
 
-- **Poor**: Kitchen seems unskilled
-- **Average**: Competent but unremarkable
-- **Good**: Skilled kitchen, quality execution
-- **Excellent**: Exceptional culinary skill
+- **poor**: Kitchen seems unskilled
+- **average**: Competent but unremarkable
+- **good**: Skilled kitchen, quality execution
+- **excellent**: Exceptional culinary skill
 
 
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- 55 or more reviews praise excellent chef skill [filter: chef_skill=excellent]
-- 90 or more reviews report consistent food quality [filter: consistency=consistent]
+- 55 or more reviews praise excellent chef skill
+- 90 or more reviews report consistent food quality
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- 28 or more reviews report poor chef skill [filter: chef_skill=poor]
-- 32 or more reviews report inconsistent food quality [filter: consistency=inconsistent]
+- 28 or more reviews report poor chef skill
+- 32 or more reviews report inconsistent food quality
 
 **Satisfactory** otherwise, especially when:
 - Food quality is acceptable but not exceptional

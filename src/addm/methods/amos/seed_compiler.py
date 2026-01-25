@@ -567,21 +567,8 @@ def _build_compute_operations(
             if logic == "ALL":
                 when_expr = " and ".join(cond_exprs)
             else:  # ANY
-                # For OR rules, filter out conditions with threshold = 1 if there are
-                # other stronger conditions. This prevents overly permissive rules like
-                # "SEVERE >= 1 OR MILD >= 1" which triggers on any incident.
-                strong_conds = [c for c in cond_exprs if not c.endswith(">= 1")]
-                weak_conds = [c for c in cond_exprs if c.endswith(">= 1")]
-
-                # If we have both strong and weak conditions, only keep strong ones
-                # for non-default verdicts (keeps rules meaningful)
-                if strong_conds and weak_conds:
-                    logger.debug(
-                        f"Filtering weak OR conditions for {verdict}: "
-                        f"keeping {strong_conds}, dropping {weak_conds}"
-                    )
-                    cond_exprs = strong_conds
-
+                # Keep all conditions as specified by the policy
+                # The policy defines which thresholds trigger each verdict
                 when_expr = " or ".join(cond_exprs)
 
             verdict_rules.append({

@@ -23,40 +23,40 @@ Reviews that only discuss ambiance without mentioning order execution carry less
 ### Account Type
 How the reviewer relates to the described event
 
-- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
-- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
-- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+- **firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
 
 ### Order Accuracy
 Whether orders were fulfilled correctly
 
-- **Perfect**: Everything correct, no issues
-- **Minor Error**: Small mistake, easily fixed
-- **Significant Error**: Major order problem
-- **Multiple Errors**: Several mistakes on single order
+- **perfect**: Everything correct, no issues
+- **minor_error**: Small mistake, easily fixed
+- **significant_error**: Major order problem
+- **multiple_errors**: Several mistakes on single order
 
 ### Modification Handling
 How well they handled special requests
 
-- **Refused**: Would not accommodate modification
-- **Ignored**: Modification request was ignored
-- **Attempted**: Tried but got it wrong
-- **Successful**: Modification handled correctly
+- **refused**: Would not accommodate modification
+- **ignored**: Modification request was ignored
+- **attempted**: Tried but got it wrong
+- **successful**: Modification handled correctly
 
 ### Promise Kept
 Whether stated commitments were honored
 
-- **Broken**: Promise was not kept
-- **Partial**: Promise partially fulfilled
-- **Kept**: Promise was fulfilled
+- **broken**: Promise was not kept
+- **partial**: Promise partially fulfilled
+- **kept**: Promise was fulfilled
 
 ### Issue Resolution
 How well problems were resolved
 
-- **None**: Issue not addressed
-- **Poor**: Attempted but inadequate resolution
-- **Adequate**: Acceptable resolution
-- **Excellent**: Went above and beyond to fix
+- **none**: Issue not addressed
+- **poor**: Attempted but inadequate resolution
+- **adequate**: Acceptable resolution
+- **excellent**: Went above and beyond to fix
 
 
 ## Scoring System

@@ -21,52 +21,52 @@ Reviews that only discuss food without mentioning billing carry less weight.
 ### Account Type
 How the reviewer relates to the described event
 
-- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
-- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
-- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+- **firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
 
 ### Cost Type
 Type of hidden or unexpected cost
 
-- **Service Charge**: Mandatory service charge added to bill
-- **Auto Gratuity**: Automatic tip added to bill
-- **Corkage Fee**: Fee for bringing own wine
-- **Split Fee**: Fee for splitting dishes or checks
-- **Other**: Other unexpected charges
+- **service_charge**: Mandatory service charge added to bill
+- **auto_gratuity**: Automatic tip added to bill
+- **corkage**: Fee for bringing own wine
+- **split_fee**: Fee for splitting dishes or checks
+- **other**: Other unexpected charges
 
 ### Disclosure Level
 How well the hidden cost was disclosed
 
-- **No Disclosure**: Not mentioned until bill arrived
-- **Fine Print**: Mentioned in small print on menu
-- **Verbal**: Server mentioned it verbally
-- **Clear**: Clearly displayed or communicated
+- **none**: Not mentioned until bill arrived
+- **fine_print**: Mentioned in small print on menu
+- **verbal**: Server mentioned it verbally
+- **clear**: Clearly displayed or communicated
 
 ### Impact Severity
 Impact of hidden cost on total bill
 
-- **Minor**: Small percentage of bill (<5%)
-- **Moderate**: Noticeable addition (5-15%)
-- **Significant**: Major impact on bill (>15%)
+- **minor**: Small percentage of bill (<5%)
+- **moderate**: Noticeable addition (5-15%)
+- **significant**: Major impact on bill (>15%)
 
 ### Customer Reaction
 Customer's reaction to the hidden cost
 
-- **Upset**: Very unhappy about undisclosed charges
-- **Annoyed**: Mildly annoyed but not deal-breaker
-- **Neutral**: Accepted the charge
-- **Understanding**: Understood and accepted the charge
+- **upset**: Very unhappy about undisclosed charges
+- **annoyed**: Mildly annoyed but not deal-breaker
+- **neutral**: Accepted the charge
+- **understanding**: Understood and accepted the charge
 
 
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- 3 or more reviews report significant impact from undisclosed charges [filter: impact_severity=significant]
-- 7 or more reviews report moderate billing impact [filter: impact_severity=moderate]
+- 3 or more reviews report significant impact from undisclosed charges
+- 7 or more reviews report moderate billing impact
 
 **High Risk** if Critical Risk does not apply, but any of the following is true:
-- 2 or more reviews report significant impact [filter: impact_severity=significant]
-- 4 or more reviews report moderate billing impact [filter: impact_severity=moderate]
+- 2 or more reviews report significant impact
+- 4 or more reviews report moderate billing impact
 
 **Low Risk** otherwise, especially when:
 - No mentions of hidden charges

@@ -22,63 +22,63 @@ Reviews that only discuss food without mentioning the business context carry les
 ### Account Type
 How the reviewer relates to the described event
 
-- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
-- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
-- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+- **firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
 
 ### Professionalism
 Overall professional atmosphere
 
-- **Poor**: Unprofessional, inappropriate for business
-- **Adequate**: Acceptable for casual business, not formal
-- **Good**: Professional atmosphere, suitable for most business
-- **Excellent**: Highly professional, suitable for important clients
+- **poor**: Unprofessional, inappropriate for business
+- **adequate**: Acceptable for casual business, not formal
+- **good**: Professional atmosphere, suitable for most business
+- **excellent**: Highly professional, suitable for important clients
 
 ### Conversation Suitability
 Suitability for business conversation
 
-- **Poor**: Too loud or distracting for business discussion
-- **Fair**: Possible to talk but some challenges
-- **Good**: Comfortable for business conversation
-- **Excellent**: Perfect for confidential or important discussions
+- **poor**: Too loud or distracting for business discussion
+- **fair**: Possible to talk but some challenges
+- **good**: Comfortable for business conversation
+- **excellent**: Perfect for confidential or important discussions
 
 ### Service Efficiency
 Service efficiency for busy professionals
 
-- **Slow**: Service too slow for business meal
-- **Normal**: Average pace, not ideal for quick meetings
-- **Efficient**: Quick and professional service
-- **Exemplary**: Exceptional timing, understands business needs
+- **slow**: Service too slow for business meal
+- **normal**: Average pace, not ideal for quick meetings
+- **efficient**: Quick and professional service
+- **exemplary**: Exceptional timing, understands business needs
 
 ### Privacy Level
 Privacy available for business discussions
 
-- **None**: Very public, no privacy for sensitive topics
-- **Low**: Limited privacy, must be careful what is discussed
-- **Moderate**: Reasonable privacy for most business talk
-- **High**: Private rooms or very secluded tables available
+- **none**: Very public, no privacy for sensitive topics
+- **low**: Limited privacy, must be careful what is discussed
+- **moderate**: Reasonable privacy for most business talk
+- **high**: Private rooms or very secluded tables available
 
 ### Meeting Outcome
 How the business meal/meeting went
 
-- **Negative**: Restaurant negatively impacted the meeting
-- **Neutral**: Restaurant was adequate, didn't stand out
-- **Positive**: Restaurant contributed positively to the meeting
+- **negative**: Restaurant negatively impacted the meeting
+- **neutral**: Restaurant was adequate, didn't stand out
+- **positive**: Restaurant contributed positively to the meeting
 
 
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- 50 or more reviews describe successful business meals or client meetings [filter: meeting_outcome=positive]
-- 10 or more reviews describe it as professional, quiet, or suitable for meetings [filter: professionalism=['professional', 'excellent']]
-- 15 or more reviews describe efficient service that respects busy schedules [filter: service_efficiency=efficient]
-- 3 or more reviews describe excellent conversation suitability [filter: conversation_suitability=excellent]
-- 3 or more reviews describe high privacy level [filter: privacy_level=high]
+- 50 or more reviews describe successful business meals or client meetings
+- 10 or more reviews describe it as professional, quiet, or suitable for meetings
+- 15 or more reviews describe efficient service that respects busy schedules
+- 3 or more reviews describe excellent conversation suitability
+- 3 or more reviews describe high privacy level
 
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- 5 or more reviews describe it as too loud for conversation [filter: conversation_suitability=poor]
-- 8 or more reviews describe service as too slow for business meals [filter: service_efficiency=slow]
-- 10 or more reviews describe negative meeting outcomes [filter: meeting_outcome=negative]
+- 5 or more reviews describe it as too loud for conversation
+- 8 or more reviews describe service as too slow for business meals
+- 10 or more reviews describe negative meeting outcomes
 
 **Acceptable** otherwise, especially when:
 - Suitable for internal team lunches but not client entertainment
