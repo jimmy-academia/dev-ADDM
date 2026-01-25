@@ -45,17 +45,17 @@ normative:
         label: "RECOMMENDED"
         logic: ANY
         conditions:
-          - text: "5 or more reviews describe successful large group events"
+          - text: "5 or more reviews describe successful/great group outcomes with large groups (10+ people)"
             type: count_threshold
             filter:
-              group_outcome: positive
+              group_outcome: [success, great]
               group_size: large
             min_count: 5
             min_count_by_k:
               25: 3
               50: 2
               100: 3
-          - text: "20 or more reviews mention private rooms or dedicated group areas positively"
+          - text: "20 or more reviews praise excellent accommodation quality (private rooms, dedicated areas)"
             type: count_threshold
             filter:
               accommodation_quality: excellent
@@ -64,7 +64,7 @@ normative:
               25: 5
               50: 8
               100: 12
-          - text: "70 or more reviews praise the handling of groups"
+          - text: "70 or more reviews describe good or excellent accommodation quality for groups"
             type: count_threshold
             filter:
               accommodation_quality: [good, excellent]
@@ -79,7 +79,7 @@ normative:
         precondition: "Recommended does not apply"
         logic: ANY
         conditions:
-          - text: "30 or more reviews describe groups being turned away or poorly handled"
+          - text: "30 or more reviews describe poor accommodation quality (turned away or poorly handled)"
             type: count_threshold
             filter:
               accommodation_quality: poor
@@ -88,7 +88,7 @@ normative:
               25: 5
               50: 10
               100: 18
-          - text: "15 or more complaints about long waits despite reservations"
+          - text: "15 or more complaints about excessive wait times despite reservations"
             type: count_threshold
             filter:
               wait_time: excessive

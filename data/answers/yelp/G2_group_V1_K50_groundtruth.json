@@ -3,7 +3,7 @@
   "topic": "G2_group",
   "domain": "yelp",
   "k": 50,
-  "computed_at": "2026-01-24T20:05:58.027364",
+  "computed_at": "2026-01-25T01:22:56.196580",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -901,8 +901,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_group_V1",
         "n_incidents": 30,
         "incidents": [
@@ -20984,8 +20984,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_group_V1",
         "n_incidents": 32,
         "incidents": [
@@ -21747,8 +21747,8 @@
       "n_reviews": 50,
       "n_judgments": 50,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "matched_rule": "ACCEPTABLE",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_group_V1",
         "n_incidents": 33,
         "incidents": [
@@ -26092,9 +26092,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Not Recommended": 9,
-      "Acceptable": 24,
-      "Recommended": 67
+      "Not Recommended": 7,
+      "Acceptable": 23,
+      "Recommended": 70
     },
     "missing_judgments": 0
   }

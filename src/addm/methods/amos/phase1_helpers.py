@@ -89,6 +89,40 @@ def parse_yaml_safely(yaml_str: str) -> Dict[str, Any]:
     # Fix unquoted strings that look like numbers
     fixed = re.sub(r":\s*(\d+\.\d+)(?=\s*$)", r': "\1"', fixed, flags=re.MULTILINE)
 
+    # Fix LLM-style escaped quotes (\' inside single-quoted strings is invalid in YAML)
+    # Convert to double-quoted strings where content has escaped quotes
+    def fix_escaped_quotes_in_line(line: str) -> str:
+        if ':' not in line or "\\'" not in line:
+            return line
+
+        key, _, value = line.partition(':')
+        value = value.strip()
+
+        if not value or not value.startswith("'"):
+            return line
+
+        # This line has \' inside a single-quoted string - convert to double-quoted
+        # Remove outer quotes and unescape the \'
+        content = value[1:]
+        if content.endswith("'"):
+            content = content[:-1]
+        # Replace \' with just ' (the backslash was escaping, we don't need it in double quotes)
+        content = content.replace("\\'", "'")
+        # Escape any double quotes that might be in the content
+        content = content.replace('"', '\\"')
+        return f'{key}: "{content}"'
+
+    fixed_lines = [fix_escaped_quotes_in_line(line) for line in fixed.split('\n')]
+    fixed = '\n'.join(fixed_lines)
+
+    try:
+        data = yaml.safe_load(fixed)
+        if isinstance(data, dict):
+            return data
+    except yaml.YAMLError:
+        pass
+
+    # Now try original quote fixing logic
     # Fix apostrophes in single-quoted strings by converting to double quotes
     # Pattern: key: 'text with 'inner' quote' -> key: "text with 'inner' quote"
     def fix_quotes_in_line(line: str) -> str:

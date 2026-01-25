@@ -49,7 +49,7 @@ normative:
           - text: "2 or more reviews report food poisoning or illness"
             type: count_threshold
             filter:
-              illness_reported: true
+              illness_reported: "true"
               account_type: firsthand
             min_count: 2
           - text: "2 or more reviews report pest sightings (roaches, rodents)"
@@ -81,7 +81,7 @@ normative:
           - text: "At least 1 review reports food poisoning"
             type: count_threshold
             filter:
-              illness_reported: true
+              illness_reported: "true"
               account_type: firsthand
             min_count: 1
           - text: "2 or more reviews describe hair or foreign objects in food"

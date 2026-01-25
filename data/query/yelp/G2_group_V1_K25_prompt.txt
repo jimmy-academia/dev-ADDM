@@ -81,8 +81,8 @@ A restaurant is considered **Recommended** if any of the following is true:
 - 12 or more reviews praise the handling of groups
 
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- 5 or more reviews describe groups being turned away or poorly handled
-- 3 or more complaints about long waits despite reservations
+- 5 or more reviews describe poor accommodation quality (turned away or poorly handled)
+- 3 or more complaints about excessive wait times despite reservations
 - 2 or more reviews report refused check splitting for groups
 
 **Acceptable** otherwise, especially when:

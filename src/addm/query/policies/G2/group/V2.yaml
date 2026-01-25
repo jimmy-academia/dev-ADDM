@@ -51,7 +51,7 @@ normative:
           - text: "5 or more reviews describe successful large group events"
             type: count_threshold
             filter:
-              group_outcome: positive
+              group_outcome: [success, great]
               group_size: large
             min_count: 5
             min_count_by_k:
@@ -93,7 +93,7 @@ normative:
         logic: ANY
         conditions:
           # V0 conditions with min_count_by_k
-          - text: "30 or more reviews describe groups being turned away or poorly handled"
+          - text: "30 or more reviews describe poor accommodation quality (turned away or poorly handled)"
             type: count_threshold
             filter:
               accommodation_quality: poor
@@ -102,7 +102,7 @@ normative:
               25: 4
               50: 8
               100: 15
-          - text: "15 or more complaints about long waits despite reservations"
+          - text: "15 or more complaints about excessive wait times despite reservations"
             type: count_threshold
             filter:
               wait_time: excessive
