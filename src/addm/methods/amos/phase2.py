@@ -33,6 +33,8 @@ from addm.methods.amos.phase2_helpers import (
     validate_snippet,
     validate_enum_fields,
     get_outcome_field_info,
+    get_relevant_fields_from_compute,
+    get_none_values,
     is_none_value,
     matches_condition,
 )
@@ -351,18 +353,25 @@ class FormulaSeedInterpreter(ComputeOperationsMixin):
     def _filter_to_incidents_only(self) -> int:
         """Filter extractions to only include actual incidents.
 
-        Uses seed.extract.outcome_field and seed.extract.none_values
-        to determine which extractions represent "no incident".
+        Data-driven: Uses fields from compute operations (verdict rules).
+        Keeps extraction if ANY relevant field has a non-none value.
         """
-        outcome_field, none_values = get_outcome_field_info(self.seed)
-        if not outcome_field:
+        relevant_fields = get_relevant_fields_from_compute(self.seed)
+        none_values = get_none_values(self.seed)
+
+        if not relevant_fields:
             return 0
 
+        def has_relevant_signal(ext: Dict[str, Any]) -> bool:
+            """Check if extraction has any non-none value in relevant fields."""
+            for field in relevant_fields:
+                value = get_field_value(ext, field)
+                if value is not None and not is_none_value(value, none_values):
+                    return True
+            return False
+
         original_count = len(self._extractions)
-        self._extractions = [
-            ext for ext in self._extractions
-            if not is_none_value(get_field_value(ext, outcome_field), none_values)
-        ]
+        self._extractions = [ext for ext in self._extractions if has_relevant_signal(ext)]
         return original_count - len(self._extractions)
 
     # =========================================================================
@@ -393,46 +402,43 @@ class FormulaSeedInterpreter(ComputeOperationsMixin):
     def _build_standard_output(self) -> Dict[str, Any]:
         """Transform to standard output format for evaluation.
 
-        Creates one evidence entry per extraction with:
-        - field: the outcome field name (e.g., "incident_severity")
-        - judgement: the outcome field value (e.g., "moderate")
+        Data-driven: Outputs ALL enum fields from each extraction.
+        Creates one evidence entry per field per extraction.
+        Evaluation can match on whichever field GT specifies.
         """
         evidences = []
         evidence_idx = 1
-        outcome_field, none_values = get_outcome_field_info(self.seed)
+        none_values = get_none_values(self.seed)
+
+        # Get all enum fields from seed (exclude metadata fields)
+        enum_fields = []
+        skip_fields = {"account_type", "description"}  # Metadata, not outcomes
+        for field_def in self.seed.get("extract", {}).get("fields", []):
+            if field_def.get("type") == "enum":
+                field_name = field_def.get("name", "").lower()
+                if field_name and field_name not in skip_fields:
+                    enum_fields.append(field_name)
 
         for ext in self._extractions:
             review_id = ext.get("review_id", "unknown")
             snippet = ext.get("_snippet") or ext.get("supporting_quote", "")
 
-            # Determine outcome field and value
-            if outcome_field:
-                outcome_value = get_field_value(ext, outcome_field)
-                field_name = outcome_field.lower()
-            else:
-                # Fallback: look for common outcome fields
-                for candidate in ["incident_severity", "severity", "outcome"]:
-                    outcome_value = get_field_value(ext, candidate)
-                    if outcome_value:
-                        field_name = candidate
-                        break
-                else:
-                    outcome_value = "none"
-                    field_name = "outcome"
+            # Output one evidence per enum field that has a non-none value
+            for field_name in enum_fields:
+                value = get_field_value(ext, field_name)
 
-            # Skip if outcome is a "none" value (no incident)
-            if is_none_value(outcome_value, none_values):
-                continue
+                # Skip if value is none/missing
+                if value is None or is_none_value(value, none_values):
+                    continue
 
-            # Create ONE evidence entry per extraction
-            evidences.append({
-                "evidence_id": f"E{evidence_idx}",
-                "review_id": review_id,
-                "field": field_name,
-                "judgement": str(outcome_value).lower() if outcome_value else "none",
-                "snippet": snippet,
-            })
-            evidence_idx += 1
+                evidences.append({
+                    "evidence_id": f"E{evidence_idx}",
+                    "review_id": review_id,
+                    "field": field_name,
+                    "judgement": str(value).lower(),
+                    "snippet": snippet,
+                })
+                evidence_idx += 1
 
         raw_verdict = self._namespace.get("VERDICT")
         return {
@@ -453,14 +459,13 @@ class FormulaSeedInterpreter(ComputeOperationsMixin):
         verdict = self._namespace.get("VERDICT", "Unknown")
         is_scoring = "SCORE" in self._namespace or "INCIDENT_POINTS" in self._namespace
 
-        outcome_field, _ = get_outcome_field_info(self.seed)
-        outcome_names = {"incident_severity", "severity", "outcome"}
-        if outcome_field:
-            outcome_names.add(outcome_field.lower())
+        # Data-driven: use fields from compute ops
+        relevant_fields = get_relevant_fields_from_compute(self.seed)
+        relevant_fields_lower = {f.lower() for f in relevant_fields}
 
         breakdown = []
         for ev in evidences:
-            if ev["field"] in outcome_names:
+            if ev["field"] in relevant_fields_lower:
                 points = self._get_points_for_severity(ev["judgement"])
                 if points > 0:
                     breakdown.append({
@@ -544,14 +549,18 @@ class FormulaSeedInterpreter(ComputeOperationsMixin):
             self.progress_callback(2, step, progress, detail)
 
     def _get_points_for_severity(self, severity: str) -> int:
-        """Get point value from seed.compute case operations."""
-        outcome_field, _ = get_outcome_field_info(self.seed)
+        """Get point value from seed.compute case operations.
+
+        Searches all case operations for matching severity value.
+        """
         severity_lower = severity.lower()
+        relevant_fields = {f.lower() for f in get_relevant_fields_from_compute(self.seed)}
 
         for op in self.seed.get("compute", []):
             if op.get("op") == "case":
                 source = op.get("source", "").lower()
-                if outcome_field and source == outcome_field.lower():
+                # Check if source is a relevant field or a computed score
+                if source in relevant_fields or "score" in source:
                     for rule in op.get("rules", []):
                         if rule.get("when", "").lower() == severity_lower:
                             try:

@@ -278,35 +278,37 @@ def _determine_outcome_field(terms: List[Dict[str, Any]]) -> tuple:
     Returns:
         Tuple of (outcome_field_name, none_values_list)
     """
-    # Look for common outcome field patterns
-    outcome_keywords = {"severity", "quality", "outcome", "level", "perception", "rating"}
-    # None indicators to catch patterns that mean "no incident/signal to report":
-    # - Explicit none: none, n/a, absent
-    # - Negation prefix: no_, not_
-    # - Note: DON'T include neutral signals like "average", "fair" as these are legitimate
+    # Prioritized keywords - check in order (severity first, then less specific)
+    # "severity" is most specific for incident-based policies
+    priority_keywords = ["severity", "outcome", "quality", "perception", "rating", "level"]
+
+    # None indicators to catch patterns that mean "no incident/signal to report"
     none_indicators = {
         "none", "n/a", "absent", "unknown",
         "no ", "no_", "no-", "not ", "not_",
-        "nothing_special", "generic_forgettable",  # Specific values that mean "nothing noteworthy"
+        "nothing_special", "generic_forgettable",
     }
 
     outcome_field = None
     none_values = []
 
-    for term in terms:
-        name = term.get("name", "").lower()
-        values = term.get("values", [])
+    # Search for outcome field by keyword priority
+    for keyword in priority_keywords:
+        for term in terms:
+            name = term.get("name", "").lower()
+            values = term.get("values", [])
 
-        # Check if this looks like an outcome field
-        if any(kw in name for kw in outcome_keywords):
-            outcome_field = term.get("name", "").upper()
+            if keyword in name:
+                outcome_field = term.get("name", "").upper()
 
-            # Find none values
-            for v in values:
-                v_lower = str(v).lower()
-                if any(ind in v_lower for ind in none_indicators):
-                    none_values.append(str(v))
+                # Find none values
+                for v in values:
+                    v_lower = str(v).lower()
+                    if any(ind in v_lower for ind in none_indicators):
+                        none_values.append(str(v))
 
+                break
+        if outcome_field:
             break
 
     # Fallback: use first term as outcome field

@@ -207,11 +207,39 @@ def validate_enum_fields(
 
 
 # =============================================================================
-# Outcome Field Detection
+# Outcome Field Detection (Data-Driven from Compute Ops)
 # =============================================================================
+
+def get_relevant_fields_from_compute(seed: Dict[str, Any]) -> List[str]:
+    """Get all fields used in compute operations (data-driven from rules).
+
+    Extracts field names from compute[].where clauses, excluding ACCOUNT_TYPE
+    since it's a filter field, not an outcome field.
+
+    Args:
+        seed: Formula Seed dict
+
+    Returns:
+        List of field names used in verdict rules (uppercase)
+    """
+    fields = set()
+    skip_fields = {"ACCOUNT_TYPE"}  # Filter field, not outcome
+
+    for op in seed.get("compute", []):
+        where = op.get("where", {})
+        for field_name in where.keys():
+            upper_name = field_name.upper()
+            if upper_name not in skip_fields:
+                fields.add(upper_name)
+
+    return list(fields)
+
 
 def get_outcome_field_info(seed: Dict[str, Any]) -> Tuple[Optional[str], List[str]]:
     """Get outcome field name and none values from seed metadata.
+
+    DEPRECATED: Use get_relevant_fields_from_compute() for multi-field support.
+    Kept for backward compatibility.
 
     Args:
         seed: Formula Seed dict
@@ -223,6 +251,19 @@ def get_outcome_field_info(seed: Dict[str, Any]) -> Tuple[Optional[str], List[st
     outcome_field = extract.get("outcome_field")
     none_values = extract.get("none_values", ["none", "n/a"])
     return outcome_field, none_values
+
+
+def get_none_values(seed: Dict[str, Any]) -> List[str]:
+    """Get none values from seed metadata.
+
+    Args:
+        seed: Formula Seed dict
+
+    Returns:
+        List of values that mean "no incident"
+    """
+    extract = seed.get("extract", {})
+    return extract.get("none_values", ["none", "n/a"])
 
 
 def is_none_value(value: Any, none_values: List[str]) -> bool:

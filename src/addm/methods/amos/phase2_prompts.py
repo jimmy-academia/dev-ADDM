@@ -413,6 +413,28 @@ STRICT OUTPUT RULES:
 FIELD DEFINITIONS:
 {field_definitions}
 
+EXAMPLES - Learn from these patterns:
+
+Example 1 - REAL INCIDENT (is_relevant: true):
+Review: "I told them about my nut allergy. The waiter said the dish was nut-free, but when it arrived I could see walnuts in it. I had to send it back."
+Analysis: Staff gave incorrect information (said nut-free but wasn't). This is a real incident.
+→ is_relevant: true, with appropriate severity/knowledge fields filled based on actual incident.
+
+Example 2 - NO INCIDENT (is_relevant: false):
+Review: "Great pasta! The portions were huge and the price was fair. Will come back."
+Analysis: General positive review. No mention of any dietary restrictions, accommodations, or incidents.
+→ is_relevant: false
+
+Example 3 - SUCCESSFUL ACCOMMODATION (NOT an incident):
+Review: "I'm vegan and ordered the veggie bowl without cheese. They made it exactly as requested. Delicious!"
+Analysis: Customer requested accommodation, restaurant fulfilled it successfully. NO incident occurred.
+→ This is NOT a staff knowledge problem. This is NOT poor accommodation. If task is about incidents/problems, this is is_relevant: false or fields show "none"/"adequate".
+
+Example 4 - COMMON MISTAKE TO AVOID:
+Review: "Being lactose intolerant, I asked if the soup had dairy. The server checked with the kitchen and confirmed it was dairy-free."
+WRONG: Setting staff_knowledge to "none" or "poor" because dietary restriction was mentioned.
+CORRECT: Staff demonstrated ADEQUATE knowledge by checking with kitchen. No incident occurred.
+
 REVIEW TEXT:
 {review_text}
 
@@ -424,12 +446,14 @@ WHEN TO SET is_relevant: false
 - For COMPARISON tasks: the review must EXPLICITLY mention another restaurant/competitor by name or reference (e.g., "better than X", "compared to the place down the street"). Generic negative/positive reviews are NOT comparisons.
 - For LOYALTY tasks: the review must mention return visits, regular customer status, or intentions to return. One-time visits are NOT loyalty signals.
 - For UNIQUENESS tasks: the review must describe distinctive features. Generic praise/criticism is NOT uniqueness evidence.
+- IMPORTANT: A successful accommodation (customer asked, restaurant delivered) is NOT a problem. Do not mark successful experiences as incidents.
 - When in doubt, set is_relevant: false
 
 WHEN TO SET is_relevant: true
 - ONLY if the review contains ACTUAL evidence (a real incident, experience, or observation directly related to {task_name})
 - You must be able to quote specific text that demonstrates the evidence
 - The quoted text must DIRECTLY support the task type, not just be related to the general topic
+- There must be an actual PROBLEM or ISSUE described, not just a mention of the topic
 
 CRITICAL - EVIDENCE REQUIREMENT:
 You MUST include a "supporting_quote" field with the EXACT text from the review that supports your extraction.
