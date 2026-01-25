@@ -5,7 +5,7 @@ Assign a risk label: Low Risk, High Risk, or Critical Risk.
 
 ## Definitions of Terms
 
-### Incident
+### What to Consider (Guidance)
 
 Only firsthand accounts are treated as confirmed evidence. An account is
 considered relevant if it meaningfully discusses any of the following:
@@ -16,6 +16,8 @@ considered relevant if it meaningfully discusses any of the following:
 
 General food preference mentions (e.g., "I like vegan food") are NOT considered
 incidents unless they describe an accommodation attempt.
+
+*Note: The above describes what types of content are relevant for this task. It is NOT a field to extract.*
 
 ### Account Type
 How the reviewer relates to the described event

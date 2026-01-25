@@ -6,7 +6,7 @@ Assign a label: Low Loyalty, Moderate Loyalty, or High Loyalty.
 
 ## Definitions of Terms
 
-### Incident
+### What to Consider (Guidance)
 
 Consider reviews that mention any of the following:
 - return visits or intention to return
@@ -15,6 +15,8 @@ Consider reviews that mention any of the following:
 - loyalty despite issues
 
 Reviews from first-time visitors that don't mention return intent carry less weight.
+
+*Note: The above describes what types of content are relevant for this task. It is NOT a field to extract.*
 
 ### Account Type
 How the reviewer relates to the described event

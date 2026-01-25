@@ -5,7 +5,7 @@ Assign a verdict: Not Worth Waiting, Worth Waiting, or Definitely Worth Waiting.
 
 ## Definitions of Terms
 
-### Incident
+### What to Consider (Guidance)
 
 Consider reviews that mention any of the following:
 - wait times for seating, food, or service
@@ -14,6 +14,8 @@ Consider reviews that mention any of the following:
 - willingness to wait again
 
 Reviews that don't mention timing or waiting carry less weight.
+
+*Note: The above describes what types of content are relevant for this task. It is NOT a field to extract.*
 
 ### Account Type
 How the reviewer relates to the described event

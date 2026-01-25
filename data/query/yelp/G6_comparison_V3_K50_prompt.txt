@@ -8,7 +8,7 @@ This assessment uses a point-based scoring system to quantify competitive positi
 
 ## Definitions of Terms
 
-### Incident
+### What to Consider (Guidance)
 
 Consider reviews that mention any of the following:
 - comparisons to other restaurants
@@ -17,6 +17,8 @@ Consider reviews that mention any of the following:
 - relative strengths and weaknesses
 
 Reviews that don't mention competitors or comparisons carry less weight.
+
+*Note: The above describes what types of content are relevant for this task. It is NOT a field to extract.*
 
 ### Account Type
 How the reviewer relates to the described event

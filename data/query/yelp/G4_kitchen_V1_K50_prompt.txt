@@ -6,7 +6,7 @@ Assign a performance label: Needs Improvement, Satisfactory, or Excellent.
 
 ## Definitions of Terms
 
-### Incident
+### What to Consider (Guidance)
 
 Consider reviews that mention any of the following:
 - food quality issues (temperature, doneness, taste)
@@ -16,6 +16,8 @@ Consider reviews that mention any of the following:
 - food sent back or complaints addressed
 
 Reviews that only discuss service without mentioning food quality carry less weight.
+
+*Note: The above describes what types of content are relevant for this task. It is NOT a field to extract.*
 
 ### Account Type
 How the reviewer relates to the described event

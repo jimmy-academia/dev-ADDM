@@ -7,7 +7,7 @@ This assessment uses a point-based scoring system to quantify risk.
 
 ## Definitions of Terms
 
-### Incident
+### What to Consider (Guidance)
 
 Only firsthand accounts are treated as confirmed incident evidence. An account is
 considered an incident if it meaningfully discusses any of the following:
@@ -18,6 +18,8 @@ considered an incident if it meaningfully discusses any of the following:
 
 Ingredient mentions without allergy context (e.g., "peanut sauce is great") are
 NOT considered incidents but ARE considered allergy-relevant.
+
+*Note: The above describes what types of content are relevant for this task. It is NOT a field to extract.*
 
 ### Account Type
 How the reviewer relates to the described event

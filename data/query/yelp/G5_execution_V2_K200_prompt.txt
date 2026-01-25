@@ -6,7 +6,7 @@ Assign a label: Needs Improvement, Satisfactory, or Excellent.
 
 ## Definitions of Terms
 
-### Incident
+### What to Consider (Guidance)
 
 Consider reviews that mention any of the following:
 - order accuracy (correct items, modifications)
@@ -15,6 +15,8 @@ Consider reviews that mention any of the following:
 - menu accuracy and descriptions
 
 Reviews that only discuss ambiance without mentioning order execution carry less weight.
+
+*Note: The above describes what types of content are relevant for this task. It is NOT a field to extract.*
 
 ### Account Type
 How the reviewer relates to the described event

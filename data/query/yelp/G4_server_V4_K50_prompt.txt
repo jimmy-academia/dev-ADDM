@@ -8,7 +8,7 @@ This assessment uses a point-based scoring system with recency weighting.
 
 ## Definitions of Terms
 
-### Incident
+### What to Consider (Guidance)
 
 Consider reviews that mention any of the following:
 - server attentiveness and responsiveness
@@ -18,6 +18,8 @@ Consider reviews that mention any of the following:
 - exceptional servers mentioned by name
 
 Reviews that only discuss food without mentioning service carry less weight.
+
+*Note: The above describes what types of content are relevant for this task. It is NOT a field to extract.*
 
 ### Account Type
 How the reviewer relates to the described event

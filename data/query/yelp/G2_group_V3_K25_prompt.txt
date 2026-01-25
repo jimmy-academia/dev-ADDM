@@ -8,7 +8,7 @@ This assessment uses a point-based scoring system to quantify suitability.
 
 ## Definitions of Terms
 
-### Incident
+### What to Consider (Guidance)
 
 Consider reviews that mention any of the following:
 - large group dining, parties, celebrations, birthday dinners
@@ -18,6 +18,8 @@ Consider reviews that mention any of the following:
 - family-friendliness (if relevant)
 
 Reviews from solo diners or couples carry less weight unless they comment on observed group experiences.
+
+*Note: The above describes what types of content are relevant for this task. It is NOT a field to extract.*
 
 ### Account Type
 How the reviewer relates to the described event

@@ -25,6 +25,11 @@ Extract ALL terms/fields defined in this section. Each term has:
 - Possible values (the options/categories)
 - Descriptions for each value
 
+IMPORTANT: Skip sections that are guidance or context (e.g., "What to Consider", "Incident", "Overview").
+These describe what to look for but are NOT fields to extract. Only extract sections that have:
+- A clear term name (e.g., "Account Type", "Date Outcome")
+- Bulleted values with labels and descriptions (e.g., "- **Positive**: Restaurant contributed...")
+
 ## OUTPUT FORMAT (YAML)
 
 ```yaml

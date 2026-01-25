@@ -6,7 +6,7 @@ Assign a suitability label: Not Recommended, Acceptable, or Recommended.
 
 ## Definitions of Terms
 
-### Incident
+### What to Consider (Guidance)
 
 Consider reviews that mention any of the following:
 - business lunches, client meetings, interviews, work events
@@ -16,6 +16,8 @@ Consider reviews that mention any of the following:
 - overall professional atmosphere
 
 Reviews that only discuss food without mentioning the business context carry less weight.
+
+*Note: The above describes what types of content are relevant for this task. It is NOT a field to extract.*
 
 ### Account Type
 How the reviewer relates to the described event
