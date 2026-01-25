@@ -480,7 +480,7 @@ def compute_score_accuracy(
     """Compute score accuracy - does method's computed score match GT?
 
     Only evaluated for policies with score systems (V2/V3).
-    Returns None for V0/V1 (condition-based) policies.
+    Returns None for V1/V2 (condition-based) policies.
 
     Args:
         results: Method outputs with parsed.justification.scoring_trace
@@ -496,7 +496,7 @@ def compute_score_accuracy(
     if policy_id:
         version = policy_id.split("_")[-1] if "_" in policy_id else ""
         if version not in ("V2", "V3"):
-            return None, {"skipped": "Policy does not use scoring system (V0/V1)"}
+            return None, {"skipped": "Policy does not use scoring system (V1/V2)"}
 
     correct = 0
     total = 0
@@ -656,13 +656,16 @@ def compute_evaluation_metrics(
     policy_id: Optional[str] = None,
     formula_seed: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
-    """Compute all evaluation metrics (8 metrics total).
+    """Compute all evaluation metrics (7 metrics total).
 
     Returns separate, interpretable metrics without weighted composites.
 
     Tier 1: Final Quality (ranking + classification)
-    - AUPRC: Ordinal ranking quality (>=High, >=Critical)
-    - Macro F1: Classification quality across all classes (handles skewed data)
+    - AUPRC: Ordinal ranking quality (>=High, >=Critical). Measures if high-risk
+      items are RANKED above low-risk items. Can be high even with wrong predictions
+      if the relative ordering is correct.
+    - Macro F1: Classification quality across all classes. Measures if predictions
+      are CORRECT. Averages F1 across classes, resistant to class imbalance.
 
     Tier 2: Evidence Quality
     - Evidence Precision: % claimed incidents that exist in GT
@@ -671,7 +674,6 @@ def compute_evaluation_metrics(
 
     Tier 3: Reasoning Quality
     - Judgement Accuracy: % correct field values for matched incidents
-    - Score Accuracy: Is computed score correct? (V2/V3 only)
     - Verdict Consistency: Does (evidence + triggered_rule) → verdict?
 
     Args:
@@ -685,19 +687,17 @@ def compute_evaluation_metrics(
 
     Returns:
         {
-            "auprc": float,  # 0.0-1.0, ordinal ranking quality
-            "macro_f1": float,  # 0.0-1.0, classification quality (skew-resistant)
+            "auprc": float,  # 0.0-1.0, ordinal ranking quality (are risky items ranked higher?)
+            "macro_f1": float,  # 0.0-1.0, classification quality (are predictions correct?)
             "evidence_precision": float or None,  # 0.0-1.0, % claimed that exist in GT
             "evidence_recall": float or None,  # 0.0-1.0, % GT incidents found
             "snippet_validity": float or None,  # 0.0-1.0, % snippets that match source
             "judgement_accuracy": float or None,  # 0.0-1.0, field correctness
-            "score_accuracy": float or None,  # 0.0-1.0, V2/V3 score correctness
             "verdict_consistency": float or None,  # 0.0-1.0, evidence+rule→verdict
             "details": {
                 "auprc_metrics": {...},
                 "incident_details": {...},
                 "judgement_details": {...},
-                "score_details": {...},
                 "consistency_details": {...},
             },
             "n_samples": int,
@@ -792,12 +792,7 @@ def compute_evaluation_metrics(
             structured_results, gt_data
         )
 
-    # 4. Compute Score Accuracy (V2/V3 only)
-    score_accuracy, score_details = compute_score_accuracy(
-        results, gt_data, policy_id
-    )
-
-    # 5. Compute Enhanced Verdict Consistency (with triggered_rule check)
+    # 4. Compute Enhanced Verdict Consistency (with triggered_rule check)
     verdict_consistency, consistency_details = compute_verdict_consistency_enhanced(
         results, policy_id, formula_seed
     )
@@ -812,14 +807,12 @@ def compute_evaluation_metrics(
         "snippet_validity": snippet_validity,
         # Tier 3: Reasoning Quality
         "judgement_accuracy": judgement_accuracy,
-        "score_accuracy": score_accuracy,
         "verdict_consistency": verdict_consistency,
         # Details
         "details": {
             "auprc_metrics": auprc_metrics,
             "incident_details": incident_details,
             "judgement_details": judgement_details,
-            "score_details": score_details,
             "consistency_details": consistency_details,
         },
         "n_samples": len(results),

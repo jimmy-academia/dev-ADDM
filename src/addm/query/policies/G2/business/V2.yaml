@@ -1,14 +1,19 @@
+# G2_business_V2: Business Dining with Override Triggers
+# V2 = Extended: Multiple conditions per verdict (ANY triggers)
+
 policy_id: G2_business_V2
 extends: G2_business_V1
-version: '1.0'
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
 overview:
-  title: Business Dining Suitability Assessment
+  title: "Business Dining Suitability Assessment"
+
   purpose: |
     Help assess how suitable this restaurant is for business dining (client meetings, work lunches, interviews)
     using customer reviews as evidence.
     Assign a suitability label: Not Recommended, Acceptable, or Recommended.
 
-    This assessment uses a point-based scoring system to quantify suitability.
   incident_definition: |
     Consider reviews that mention any of the following:
     - business lunches, client meetings, interviews, work events
@@ -18,129 +23,148 @@ overview:
     - overall professional atmosphere
 
     Reviews that only discuss food without mentioning the business context carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
-  - ref: shared:ACCOUNT_TYPE
-  - ref: business:PROFESSIONALISM
-  - ref: business:CONVERSATION_SUITABILITY
-  - ref: business:SERVICE_EFFICIENCY
-  - ref: business:PRIVACY_LEVEL
-  - ref: business:MEETING_OUTCOME
-  scoring:
-    field_mapping:
-      severity_field: meeting_outcome
-      value_mappings:
-        positive: Successful client meeting
-        neutral: Neutral mention
-        negative: Client embarrassment
-      modifier_mappings:
-      - field: privacy_level
-        value: high
-        label: Private room available
-      - field: conversation_suitability
-        value: excellent
-        label: Quiet atmosphere
-      - field: service_efficiency
-        value: efficient
-        label: Efficient service
-      - field: conversation_suitability
-        value: poor
-        label: Loud environment
-      - field: service_efficiency
-        value: slow
-        label: Slow service
-    description: |
-      Calculate a business suitability score by summing points from relevant reviews.
-      Positive points indicate business suitability, negative points indicate drawbacks.
-    severity_points:
-    - label: Successful client meeting
-      points: 15
-    - label: Positive business meal
-      points: 5
-    - label: Neutral mention
-      points: 0
-    - label: Minor issue (slightly loud, slow)
-      points: -2
-    - label: Major issue (too loud, very slow)
-      points: -5
-    - label: Client embarrassment
-      points: -15
-    modifiers:
-    - label: Private room available
-      description: mentions private dining room or secluded area
-      points: 5
-    - label: Quiet atmosphere
-      description: explicitly describes as quiet or easy to talk
-      points: 3
-    - label: Efficient service
-      description: service described as quick and professional
-      points: 3
-    - label: Loud environment
-      description: noise level prevents easy conversation
-      points: -5
-    - label: Slow service
-      description: service too slow for business timing
-      points: -3
-    thresholds:
-    - verdict: Recommended
-      min_score: 1200
-      min_score_by_k:
-        25: 150
-        50: 300
-        100: 600
-    - verdict: Not Recommended
-      max_score: 170
-      max_score_by_k:
-        25: 70
-        50: 100
-        100: 170
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "business:PROFESSIONALISM"
+    - ref: "business:CONVERSATION_SUITABILITY"
+    - ref: "business:SERVICE_EFFICIENCY"
+    - ref: "business:PRIVACY_LEVEL"
+    - ref: "business:MEETING_OUTCOME"
+
+  # Decision policy -> generates Verdict Rules section
   decision:
-    verdicts:
-    - Not Recommended
-    - Acceptable
-    - Recommended
+    verdicts: ["Not Recommended", "Acceptable", "Recommended"]
     ordered: true
+
     rules:
-    - verdict: Recommended
-      label: RECOMMENDED
-      logic: ANY
-      conditions:
-      - Total suitability score is 1200 or higher
-    - verdict: Not Recommended
-      label: NOT_RECOMMENDED
-      precondition: Recommended does not apply
-      logic: ANY
-      conditions:
-      - Total suitability score is 50 or lower
-    - verdict: Acceptable
-      label: ACCEPTABLE
-      default: true
+      # V1 includes V0 conditions PLUS additional conditions
+      - verdict: "Recommended"
+        label: "RECOMMENDED"
+        logic: ANY
+        conditions:
+          # V0 conditions (same thresholds)
+          - text: "100 or more reviews describe successful business meals or client meetings"
+            type: count_threshold
+            filter:
+              meeting_outcome: positive
+            min_count: 100
+            min_count_by_k:
+              25: 12
+              50: 25
+              100: 50
+          - text: "20 or more reviews describe it as professional, quiet, or suitable for meetings"
+            type: count_threshold
+            filter:
+              professionalism: [professional, excellent]
+            min_count: 20
+            min_count_by_k:
+              25: 2
+              50: 5
+              100: 10
+          - text: "30 or more reviews describe efficient service that respects busy schedules"
+            type: count_threshold
+            filter:
+              service_efficiency: efficient
+            min_count: 30
+            min_count_by_k:
+              25: 4
+              50: 8
+              100: 15
+          # V1 additional conditions
+          - text: "5 or more reviews describe excellent conversation suitability"
+            type: count_threshold
+            filter:
+              conversation_suitability: excellent
+            min_count: 5
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 3
+          - text: "5 or more reviews describe high privacy level"
+            type: count_threshold
+            filter:
+              privacy_level: high
+            min_count: 5
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 3
+
+      - verdict: "Not Recommended"
+        label: "NOT_RECOMMENDED"
+        precondition: "Recommended does not apply"
+        logic: ANY
+        conditions:
+          # V0 conditions (same thresholds)
+          - text: "20 or more reviews describe it as too loud for conversation"
+            type: count_threshold
+            filter:
+              conversation_suitability: poor
+            min_count: 20
+            min_count_by_k:
+              25: 2
+              50: 3
+              100: 5
+              200: 10
+          - text: "30 or more reviews describe service as too slow for business meals"
+            type: count_threshold
+            filter:
+              service_efficiency: slow
+            min_count: 30
+            min_count_by_k:
+              25: 4
+              50: 5
+              100: 8
+              200: 15
+          # V1 additional condition - negative meeting outcomes
+          - text: "40 or more reviews describe negative meeting outcomes"
+            type: count_threshold
+            filter:
+              meeting_outcome: negative
+            min_count: 40
+            min_count_by_k:
+              25: 5
+              50: 4
+              100: 10
+              200: 20
+
+      - verdict: "Acceptable"
+        label: "ACCEPTABLE"
+        default: true
+        especially_when:
+          - "Suitable for internal team lunches but not client entertainment"
+          - "Professional enough for casual business dining"
+          - "Mixed reviews about noise or service speed"
+
+  # Output format
   output:
     verdict:
       type: enum
-      values:
-      - Not Recommended
-      - Acceptable
-      - Recommended
+      values: ["Not Recommended", "Acceptable", "Recommended"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: Relevant quotes supporting the verdict
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
-      description: Explain how the evidence was used to arrive at the final verdict
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
-      values:
-      - low
-      - medium
-      - high
-      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
-      description: Any other relevant observations or caveats
+      description: "Any other relevant observations or caveats"

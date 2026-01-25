@@ -4,7 +4,7 @@ Help assess how well this restaurant handles customer volume using reviews as ev
 This is from the perspective of a business owner diagnosing staffing and capacity issues.
 Assign a label: Needs Improvement, Satisfactory, or Excellent.
 
-This assessment uses a point-based scoring system with recency weighting.
+This assessment uses a point-based scoring system to quantify performance.
 
 ## Definitions of Terms
 
@@ -60,9 +60,8 @@ How well they handled customer volume
 
 ## Scoring System
 
-Calculate a capacity score by summing points from relevant reviews,
-with recency weighting. Staffing levels can change significantly,
-so recent reviews are weighted more heavily.
+Calculate a capacity score by summing points from relevant reviews.
+Positive points indicate good volume handling, negative points indicate issues.
 
 For each firsthand incident, assign points based on severity:
 - Excellent peak handling: 10 points
@@ -78,19 +77,13 @@ Additional modifiers:
 - Understaffed (not enough staff): -5 points
 - Service collapsed (service fell apart under volume): -5 points
 
-Recency weighting:
-- Within 6 months: full point value
-- 6 months to 1 year: three-quarter point value (multiply by 0.75)
-- 1-2 years old: half point value (multiply by 0.5)
-- Over 2 years old: quarter point value (multiply by 0.25) - staffing likely changed
-
 
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- Total score is 163 or higher (after recency weighting)
+- Total score is 163 or higher
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- Total score is 50 or lower (after recency weighting)
+- Total score is 50 or lower
 
 **Satisfactory** otherwise

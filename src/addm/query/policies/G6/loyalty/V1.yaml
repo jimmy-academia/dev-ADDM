@@ -1,8 +1,8 @@
-# G6_loyalty_V1: Loyalty with Override Triggers
-# V1 = Extended: Multiple conditions per verdict (ANY triggers) for strong loyalty signals
+# G6_loyalty_V1: Base Customer Loyalty Assessment
+# V1 = Base: Simple per-instance reasoning, basic thresholds
+# Owner perspective: Evaluating customer retention and loyalty
 
-policy_id: "G6_loyalty_V1"
-extends: "G6_loyalty_V0"
+policy_id: G6_loyalty_V1
 version: "1.0"
 
 # === OVERVIEW (generates Overview section) ===
@@ -36,15 +36,13 @@ normative:
   # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Low Loyalty", "Moderate Loyalty", "High Loyalty"]
-    ordered: true
+    ordered: true  # Higher = stronger loyalty
 
     rules:
-      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "High Loyalty"
         label: "HIGH_LOYALTY"
         logic: ANY
         conditions:
-          # V0 conditions (further raised thresholds)
           - text: "90 or more reviews describe high emotional connection"
             type: count_threshold
             filter:
@@ -72,32 +70,12 @@ normative:
               25: 15
               50: 28
               100: 55
-          # V1 additional conditions (further raised thresholds)
-          - text: "65 or more reviews describe love as loyalty driver"
-            type: count_threshold
-            filter:
-              loyalty_driver: love
-            min_count: 65
-            min_count_by_k:
-              25: 12
-              50: 22
-              100: 42
-          - text: "55 or more reviews describe frequent visits"
-            type: count_threshold
-            filter:
-              loyalty_driver: habit
-            min_count: 55
-            min_count_by_k:
-              25: 10
-              50: 18
-              100: 35
 
       - verdict: "Low Loyalty"
         label: "LOW_LOYALTY"
         precondition: "High Loyalty does not apply"
         logic: ANY
         conditions:
-          # V0 conditions (raised thresholds)
           - text: "30 or more reviews say 'will never return'"
             type: count_threshold
             filter:
@@ -125,24 +103,14 @@ normative:
               25: 10
               50: 18
               100: 34
-          # V1 additional conditions (raised thresholds)
-          - text: "45 or more reviews have no emotional connection"
-            type: count_threshold
-            filter:
-              emotional_connection: none
-            min_count: 45
-            min_count_by_k:
-              25: 9
-              50: 16
-              100: 28
 
       - verdict: "Moderate Loyalty"
         label: "MODERATE_LOYALTY"
         default: true
         especially_when:
-          - "Will return but not enthusiastic"
-          - "Recommendations with caveats"
-          - "No strong emotional connection"
+          - "Mixed signals on return intent"
+          - "Conditional recommendations"
+          - "Some repeat customers mentioned"
 
   # Output format
   output:

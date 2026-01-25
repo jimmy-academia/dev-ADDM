@@ -8,7 +8,7 @@ overview:
     This is from the perspective of a business owner evaluating their kitchen team's execution.
     Assign a performance label: Needs Improvement, Satisfactory, or Excellent.
 
-    This assessment uses a point-based scoring system with recency weighting.
+    This assessment uses a point-based scoring system to quantify performance.
   incident_definition: |
     Consider reviews that mention any of the following:
     - food quality issues (temperature, doneness, taste)
@@ -45,9 +45,8 @@ normative:
         value: 'true'
         label: Food sent back
     description: |
-      Calculate a performance score by summing points from relevant reviews,
-      with recency weighting applied. Chef changes and menu updates mean
-      recent reviews are more indicative of current quality.
+      Calculate a performance score by summing points from relevant reviews.
+      Positive points indicate good performance, negative points indicate issues.
     severity_points:
     - label: Exceptional food quality
       points: 10
@@ -77,24 +76,15 @@ normative:
     - label: Food sent back
       description: dish had to be returned
       points: -3
-    recency_rules:
-    - age: Within 6 months
-      weight: full point value
-    - age: 6 months to 1 year
-      weight: three-quarter point value (multiply by 0.75)
-    - age: 1-2 years old
-      weight: half point value (multiply by 0.5)
-    - age: Over 2 years old
-      weight: quarter point value (multiply by 0.25) - chef/menu may have changed
     thresholds:
     - verdict: Excellent
-      min_score: 700
+      min_score: 1400
       min_score_by_k:
         25: 175
         50: 350
         100: 700
     - verdict: Needs Improvement
-      max_score: 250
+      max_score: 500
       max_score_by_k:
         25: 63
         50: 125
@@ -110,13 +100,13 @@ normative:
       label: EXCELLENT
       logic: ANY
       conditions:
-      - Total performance score is 1400 or higher (after recency weighting)
+      - Total performance score is 1400 or higher
     - verdict: Needs Improvement
       label: NEEDS_IMPROVEMENT
       precondition: Excellent does not apply
       logic: ANY
       conditions:
-      - Total performance score is 500 or lower (after recency weighting)
+      - Total performance score is 500 or lower
     - verdict: Satisfactory
       label: SATISFACTORY
       default: true
@@ -137,7 +127,7 @@ normative:
     justification:
       type: string
       required: true
-      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
       values:

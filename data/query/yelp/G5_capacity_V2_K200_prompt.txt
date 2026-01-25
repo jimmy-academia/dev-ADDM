@@ -4,8 +4,6 @@ Help assess how well this restaurant handles customer volume using reviews as ev
 This is from the perspective of a business owner diagnosing staffing and capacity issues.
 Assign a label: Needs Improvement, Satisfactory, or Excellent.
 
-This assessment uses a point-based scoring system to quantify performance.
-
 ## Definitions of Terms
 
 ### Incident
@@ -58,32 +56,21 @@ How well they handled customer volume
 - **Handled Well**: Impressed by volume management
 
 
-## Scoring System
-
-Calculate a capacity score by summing points from relevant reviews.
-Positive points indicate good volume handling, negative points indicate issues.
-
-For each firsthand incident, assign points based on severity:
-- Excellent peak handling: 10 points
-- Good volume management: 5 points
-- Adequate capacity: 0 points
-- Minor capacity issue: -2 points
-- Significant understaffing: -5 points
-- Complete breakdown: -10 points
-
-Additional modifiers:
-- Well staffed (staffing praised): +3 points
-- Smooth peak times (busy times handled well): +3 points
-- Understaffed (not enough staff): -5 points
-- Service collapsed (service fell apart under volume): -5 points
-
-
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- Total score is 1300 or higher
+- Reviews praise volume handling during busy periods [filter: volume_handling=handled_well, crowd_level=busy]
+- Reviews show well-staffed with no service degradation [filter: staffing_level=well_staffed, service_degradation=none]
+- Reviews praise handling when packed [filter: volume_handling=handled_well, crowd_level=packed]
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- Total score is 400 or lower
+- 40 or more reviews describe understaffing [filter: staffing_level=understaffed]
+- 50 or more reviews describe significant service degradation [filter: service_degradation=significant]
+- 50 or more reviews report volume handling struggles [filter: volume_handling=struggled]
+- 15 or more reviews describe severely understaffed situation [filter: staffing_level=severely_understaffed]
+- 25 or more reviews describe complete service degradation [filter: service_degradation=complete]
 
-**Satisfactory** otherwise
+**Satisfactory** otherwise, especially when:
+- Adequate handling most of the time
+- Occasional peak-time struggles
+- Generally manages volume acceptably

@@ -4,8 +4,6 @@ Help assess the quality consistency at this restaurant using reviews as evidence
 This is from the perspective of a business owner diagnosing reliability.
 Assign a label: Needs Improvement, Satisfactory, or Excellent.
 
-This assessment uses a point-based scoring system to quantify performance.
-
 ## Definitions of Terms
 
 ### Incident
@@ -58,32 +56,21 @@ How often reviewer has visited
 - **Frequent**: Very frequent visitor
 
 
-## Scoring System
-
-Calculate a consistency score by summing points from relevant reviews.
-Positive points indicate good reliability, negative points indicate inconsistency.
-
-For each firsthand incident, assign points based on severity:
-- Always excellent: 10 points
-- Mostly reliable: 5 points
-- Adequate consistency: 0 points
-- Some inconsistency: -2 points
-- Hit or miss: -5 points
-- Completely unpredictable: -10 points
-
-Additional modifiers:
-- Improving trend (quality getting better): +3 points
-- Regular customer praise (frequent visitor praises consistency): +3 points
-- Declining trend (quality getting worse): -5 points
-- Management change decline (quality dropped after ownership/management change): -3 points
-
-
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- Total score is 100 or higher
+- 18 or more reviews describe it as always reliable [filter: reliability=always_reliable]
+- 25 or more reviews describe quality as stable [filter: quality_trend=stable]
+- 8 or more frequent customers describe always reliable experience [filter: reliability=always_reliable, visit_frequency=frequent]
+- 12 or more reviews describe improving quality [filter: quality_trend=improving]
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- Total score is -100 or lower
+- 8 or more reviews describe declining quality [filter: quality_trend=declining]
+- 12 or more reviews describe it as hit or miss [filter: reliability=hit_or_miss]
+- 7 or more reviews describe it as unpredictable [filter: reliability=unpredictable]
+- 6 or more reviews describe visit being much worse [filter: visit_comparison=much_worse]
 
-**Satisfactory** otherwise
+**Satisfactory** otherwise, especially when:
+- Generally reliable with occasional variation
+- No strong positive or negative trends
+- Adequate consistency for most visits

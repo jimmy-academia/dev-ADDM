@@ -52,14 +52,11 @@ How staff responded when the concern was raised
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- 1 or more severe firsthand incidents are reported
-- 2 or more moderate firsthand incidents are reported
-- 1 or more reviews report a moderate or severe incident after an explicit assurance of safety
+- 1 or more severe firsthand incidents are reported [filter: incident_severity=severe, account_type=firsthand]
+- 2 or more moderate firsthand incidents are reported [filter: incident_severity=moderate, account_type=firsthand]
 
 **High Risk** if Critical Risk does not apply, but any of the following is true:
-- 1 or more moderate firsthand incidents are reported
-- 1 or more reviews describe staff as refusing or being dismissive about allergy concerns
-- 1 or more reviews report a mild incident after an explicit assurance of safety
+- 1 or more mild or moderate firsthand incidents are reported [filter: incident_severity=['mild', 'moderate'], account_type=firsthand]
 
 **Low Risk** otherwise, especially when:
 - No firsthand incidents are reported

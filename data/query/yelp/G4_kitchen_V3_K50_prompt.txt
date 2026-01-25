@@ -4,7 +4,7 @@ Help assess the kitchen performance at this restaurant using customer reviews as
 This is from the perspective of a business owner evaluating their kitchen team's execution.
 Assign a performance label: Needs Improvement, Satisfactory, or Excellent.
 
-This assessment uses a point-based scoring system with recency weighting.
+This assessment uses a point-based scoring system to quantify performance.
 
 ## Definitions of Terms
 
@@ -68,9 +68,8 @@ Whether food was sent back
 
 ## Scoring System
 
-Calculate a performance score by summing points from relevant reviews,
-with recency weighting applied. Chef changes and menu updates mean
-recent reviews are more indicative of current quality.
+Calculate a performance score by summing points from relevant reviews.
+Positive points indicate good performance, negative points indicate issues.
 
 For each firsthand incident, assign points based on severity:
 - Exceptional food quality: 10 points
@@ -87,19 +86,13 @@ Additional modifiers:
 - Inconsistent quality (hit or miss between visits): -5 points
 - Food sent back (dish had to be returned): -3 points
 
-Recency weighting:
-- Within 6 months: full point value
-- 6 months to 1 year: three-quarter point value (multiply by 0.75)
-- 1-2 years old: half point value (multiply by 0.5)
-- Over 2 years old: quarter point value (multiply by 0.25) - chef/menu may have changed
-
 
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- Total performance score is 350 or higher (after recency weighting)
+- Total performance score is 350 or higher
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- Total performance score is 125 or lower (after recency weighting)
+- Total performance score is 125 or lower
 
 **Satisfactory** otherwise

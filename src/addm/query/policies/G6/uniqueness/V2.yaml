@@ -1,14 +1,19 @@
+# G6_uniqueness_V2: Uniqueness with Override Triggers
+# V2 = Extended: Multiple conditions per verdict (ANY triggers) for exceptional/poor uniqueness
+
 policy_id: G6_uniqueness_V2
 extends: G6_uniqueness_V1
-version: '1.0'
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
 overview:
-  title: Uniqueness Assessment
+  title: "Uniqueness Assessment"
+
   purpose: |
     Help assess how unique and differentiated this restaurant is using reviews as evidence.
     This is from the perspective of a business owner evaluating competitive positioning.
     Assign a label: Generic, Differentiated, or Highly Unique.
 
-    This assessment uses a point-based scoring system to quantify uniqueness.
   incident_definition: |
     Consider reviews that mention any of the following:
     - what makes the restaurant special or different
@@ -17,118 +22,153 @@ overview:
     - comparisons to other restaurants
 
     Reviews that don't mention distinctiveness or memorability carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
-  - ref: shared:ACCOUNT_TYPE
-  - ref: uniqueness:UNIQUE_ASPECT
-  - ref: uniqueness:DIFFERENTIATION_LEVEL
-  - ref: uniqueness:MEMORABILITY
-  - ref: uniqueness:SIGNATURE_ITEM
-  scoring:
-    field_mapping:
-      severity_field: differentiation_level
-      value_mappings:
-        one_of_a_kind: One of a kind
-        unique: Clearly unique
-        somewhat_different: Somewhat different
-        generic: Generic/forgettable
-      modifier_mappings:
-      - field: signature_item
-        value: 'true'
-        label: Signature dish praised
-      - field: memorability
-        value: unforgettable
-        label: Unforgettable experience
-      - field: memorability
-        value: forgettable
-        label: Like a chain
-    description: |
-      Calculate a uniqueness score by summing points from relevant reviews.
-      Positive points indicate strong differentiation, negative points indicate generic.
-    severity_points:
-    - label: One of a kind
-      points: 10
-    - label: Clearly unique
-      points: 5
-    - label: Somewhat different
-      points: 2
-    - label: Nothing special
-      points: -2
-    - label: Generic/forgettable
-      points: -5
-    modifiers:
-    - label: Signature dish praised
-      description: famous must-try item
-      points: 5
-    - label: Destination restaurant
-      description: worth traveling for
-      points: 5
-    - label: Unforgettable experience
-      description: truly memorable
-      points: 3
-    - label: Like a chain
-      description: described as generic
-      points: -5
-    thresholds:
-    - verdict: Highly Unique
-      min_score: 1000
-      min_score_by_k:
-        25: 125
-        50: 250
-        100: 500
-    - verdict: Generic
-      max_score: 350
-      max_score_by_k:
-        25: 44
-        50: 88
-        100: 175
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "uniqueness:UNIQUE_ASPECT"
+    - ref: "uniqueness:DIFFERENTIATION_LEVEL"
+    - ref: "uniqueness:MEMORABILITY"
+    - ref: "uniqueness:SIGNATURE_ITEM"
+
+  # Decision policy -> generates Verdict Rules section
   decision:
-    verdicts:
-    - Generic
-    - Differentiated
-    - Highly Unique
+    verdicts: ["Generic", "Differentiated", "Highly Unique"]
     ordered: true
+
     rules:
-    - verdict: Highly Unique
-      label: HIGHLY_UNIQUE
-      logic: ANY
-      conditions:
-      - Total score is 1000 or higher
-    - verdict: Generic
-      label: GENERIC
-      precondition: Highly Unique does not apply
-      logic: ANY
-      conditions:
-      - Total score is 350 or lower
-    - verdict: Differentiated
-      label: DIFFERENTIATED
-      default: true
+      # V1 includes V0 conditions PLUS additional conditions
+      - verdict: "Highly Unique"
+        label: "HIGHLY_UNIQUE"
+        logic: ANY
+        conditions:
+          # Calibrated thresholds (~5-15% Highly Unique)
+          - text: "45 or more reviews describe it as 'one of a kind'"
+            type: count_threshold
+            filter:
+              differentiation_level: one_of_a_kind
+            min_count: 45
+            min_count_by_k:
+              25: 4
+              50: 8
+              100: 18
+          - text: "150 or more reviews mention signature items"
+            type: count_threshold
+            filter:
+              signature_item: "true"
+            min_count: 150
+            min_count_by_k:
+              25: 18
+              50: 38
+              100: 78
+          - text: "45 or more reviews describe it as unforgettable"
+            type: count_threshold
+            filter:
+              memorability: unforgettable
+            min_count: 45
+            min_count_by_k:
+              25: 4
+              50: 8
+              100: 18
+          # V1 additional conditions
+          - text: "175 or more reviews describe it as memorable"
+            type: count_threshold
+            filter:
+              memorability: memorable
+            min_count: 175
+            min_count_by_k:
+              25: 22
+              50: 44
+              100: 90
+          - text: "160 or more reviews describe it as unique"
+            type: count_threshold
+            filter:
+              differentiation_level: unique
+            min_count: 160
+            min_count_by_k:
+              25: 21
+              50: 42
+              100: 85
+
+      - verdict: "Generic"
+        label: "GENERIC"
+        precondition: "Highly Unique does not apply"
+        logic: ANY
+        conditions:
+          # Raise Generic thresholds to get more Differentiated
+          - text: "40 or more reviews describe it as 'nothing special'"
+            type: count_threshold
+            filter:
+              differentiation_level: generic
+            min_count: 40
+            min_count_by_k:
+              25: 8
+              50: 14
+              100: 26
+          - text: "40 or more reviews mention no distinguishing features"
+            type: count_threshold
+            filter:
+              unique_aspect: none
+            min_count: 40
+            min_count_by_k:
+              25: 8
+              50: 14
+              100: 26
+          # V1 additional conditions
+          - text: "35 or more reviews describe forgettable experience"
+            type: count_threshold
+            filter:
+              memorability: forgettable
+            min_count: 35
+            min_count_by_k:
+              25: 7
+              50: 12
+              100: 24
+          - text: "50 or more reviews describe average experience"
+            type: count_threshold
+            filter:
+              memorability: average
+            min_count: 50
+            min_count_by_k:
+              25: 10
+              50: 18
+              100: 34
+
+      - verdict: "Differentiated"
+        label: "DIFFERENTIATED"
+        default: true
+        especially_when:
+          - "Some unique elements noted"
+          - "Has character but not irreplaceable"
+          - "Memorable aspects mentioned"
+
+  # Output format
   output:
     verdict:
       type: enum
-      values:
-      - Generic
-      - Differentiated
-      - Highly Unique
+      values: ["Generic", "Differentiated", "Highly Unique"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: Relevant quotes supporting the verdict
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
-      description: Explain how the evidence was used to arrive at the final verdict
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
-      values:
-      - low
-      - medium
-      - high
-      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
-      description: Any other relevant observations or caveats
+      description: "Any other relevant observations or caveats"

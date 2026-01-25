@@ -60,19 +60,16 @@ Would return based on value assessment
 ## Verdict Rules
 
 A restaurant is considered **Good Value** if any of the following is true:
-- 18 or more reviews describe excellent value for money
-- 8 or more reviews praise generous portions or quality relative to price
-- 4 or more reviews describe it as a 'great deal' or 'bargain'
-- 2 or more reviews describe price as a steal
+- 18 or more reviews describe excellent value for money [filter: quality_for_price=excellent]
+- 8 or more reviews praise generous portions or quality relative to price [filter: portion_size=generous]
+- 4 or more reviews describe it as a 'great deal' or 'bargain' [filter: price_perception=bargain]
 
 **Poor Value** if Good Value does not apply, but any of the following is true:
-- 40 or more reviews describe it as overpriced or a 'ripoff'
-- 10 or more reviews criticize small portions relative to price
-- 40 or more reviews mention not returning due to poor value
-- 5 or more reviews describe price as ripoff
-- 5 or more reviews describe portion as tiny
+- 10 or more reviews describe it as overpriced or a 'ripoff' [filter: price_perception=overpriced]
+- 3 or more reviews criticize small portions relative to price [filter: portion_size=small]
+- 10 or more reviews mention not returning due to poor value [filter: return_intent=False, quality_for_price=poor]
 
 **Fair Value** otherwise, especially when:
-- Prices match quality and expectations
-- Standard for the cuisine or neighborhood
-- Some dishes are good value, others less so
+- Prices described as reasonable for the area/cuisine
+- You get what you pay for
+- Mixed reviews about value

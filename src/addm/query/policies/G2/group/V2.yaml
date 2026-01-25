@@ -1,14 +1,19 @@
+# G2_group_V2: Group Dining with Override Triggers
+# V2 = Extended: Multiple conditions per verdict (ANY triggers)
+
 policy_id: G2_group_V2
 extends: G2_group_V1
-version: '1.0'
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
 overview:
-  title: Group Dining Suitability Assessment
+  title: "Group Dining Suitability Assessment"
+
   purpose: |
     Help assess how suitable this restaurant is for group dining (large parties, celebrations, family gatherings)
     using customer reviews as evidence.
     Assign a suitability label: Not Recommended, Acceptable, or Recommended.
 
-    This assessment uses a point-based scoring system to quantify suitability.
   incident_definition: |
     Consider reviews that mention any of the following:
     - large group dining, parties, celebrations, birthday dinners
@@ -18,137 +23,147 @@ overview:
     - family-friendliness (if relevant)
 
     Reviews from solo diners or couples carry less weight unless they comment on observed group experiences.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
-  - ref: shared:ACCOUNT_TYPE
-  - ref: group:GROUP_SIZE
-  - ref: group:ACCOMMODATION_QUALITY
-  - ref: group:CHECK_SPLITTING
-  - ref: group:WAIT_TIME
-  - ref: group:FAMILY_FRIENDLINESS
-  - ref: group:GROUP_OUTCOME
-  scoring:
-    field_mapping:
-      severity_field: group_outcome
-      value_mappings:
-        great: Perfect group event
-        success: Positive group experience
-        mixed: Neutral mention
-        disaster: Group disaster
-      modifier_mappings:
-      - field: accommodation_quality
-        value: excellent
-        label: Private room available
-      - field: check_splitting
-        value: easy
-        label: Easy check splitting
-      - field: family_friendliness
-        value: friendly
-        label: Family-friendly
-      - field: check_splitting
-        value: refused
-        label: Refused check split
-      - field: wait_time
-        value: excessive
-        label: Long wait despite reservation
-      - field: accommodation_quality
-        value: poor
-        label: Group split across tables
-    description: |
-      Calculate a group suitability score by summing points from relevant reviews.
-      Positive points indicate group suitability, negative points indicate drawbacks.
-    severity_points:
-    - label: Perfect group event
-      points: 15
-    - label: Positive group experience
-      points: 5
-    - label: Neutral mention
-      points: 0
-    - label: Minor group issue
-      points: -2
-    - label: Major group issue
-      points: -5
-    - label: Group disaster
-      points: -15
-    modifiers:
-    - label: Private room available
-      description: private dining space for groups
-      points: 5
-    - label: Easy check splitting
-      description: no issues splitting checks
-      points: 3
-    - label: Family-friendly
-      description: kids menu, high chairs, family welcoming
-      points: 3
-    - label: Refused check split
-      description: would not split the check
-      points: -5
-    - label: Long wait despite reservation
-      description: waited excessively despite having reservation
-      points: -5
-    - label: Group split across tables
-      description: party was not seated together
-      points: -3
-    thresholds:
-    - verdict: Recommended
-      min_score: 2000
-      min_score_by_k:
-        25: 250
-        50: 500
-        100: 1000
-    - verdict: Not Recommended
-      max_score: 600
-      max_score_by_k:
-        25: 75
-        50: 150
-        100: 300
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "group:GROUP_SIZE"
+    - ref: "group:ACCOMMODATION_QUALITY"
+    - ref: "group:CHECK_SPLITTING"
+    - ref: "group:WAIT_TIME"
+    - ref: "group:FAMILY_FRIENDLINESS"
+    - ref: "group:GROUP_OUTCOME"
+
+  # Decision policy -> generates Verdict Rules section
   decision:
-    verdicts:
-    - Not Recommended
-    - Acceptable
-    - Recommended
+    verdicts: ["Not Recommended", "Acceptable", "Recommended"]
     ordered: true
+
     rules:
-    - verdict: Recommended
-      label: RECOMMENDED
-      logic: ANY
-      conditions:
-      - Total suitability score is 2000 or higher
-    - verdict: Not Recommended
-      label: NOT_RECOMMENDED
-      precondition: Recommended does not apply
-      logic: ANY
-      conditions:
-      - Total suitability score is 600 or lower
-    - verdict: Acceptable
-      label: ACCEPTABLE
-      default: true
+      # V1 includes V0 conditions PLUS additional conditions
+      - verdict: "Recommended"
+        label: "RECOMMENDED"
+        logic: ANY
+        conditions:
+          # V0 conditions (same thresholds)
+          - text: "5 or more reviews describe successful large group events"
+            type: count_threshold
+            filter:
+              group_outcome: positive
+              group_size: large
+            min_count: 5
+            min_count_by_k:
+              25: 1
+              50: 2
+              100: 3
+          - text: "20 or more reviews mention private rooms or dedicated group areas positively"
+            type: count_threshold
+            filter:
+              accommodation_quality: excellent
+            min_count: 20
+            min_count_by_k:
+              25: 3
+              50: 5
+              100: 10
+          - text: "70 or more reviews praise the handling of groups"
+            type: count_threshold
+            filter:
+              accommodation_quality: [good, excellent]
+            min_count: 70
+            min_count_by_k:
+              25: 9
+              50: 18
+              100: 35
+          # V1 additional conditions
+          - text: "5 or more reviews describe exceptional family friendliness"
+            type: count_threshold
+            filter:
+              family_friendliness: exceptional
+            min_count: 5
+            min_count_by_k:
+              25: 1
+              50: 2
+              100: 3
+
+      - verdict: "Not Recommended"
+        label: "NOT_RECOMMENDED"
+        precondition: "Recommended does not apply"
+        logic: ANY
+        conditions:
+          # V0 conditions with min_count_by_k
+          - text: "30 or more reviews describe groups being turned away or poorly handled"
+            type: count_threshold
+            filter:
+              accommodation_quality: poor
+            min_count: 30
+            min_count_by_k:
+              25: 4
+              50: 8
+              100: 15
+          - text: "15 or more complaints about long waits despite reservations"
+            type: count_threshold
+            filter:
+              wait_time: excessive
+            min_count: 15
+            min_count_by_k:
+              25: 2
+              50: 4
+              100: 8
+          - text: "10 or more reviews report refused check splitting for groups"
+            type: count_threshold
+            filter:
+              check_splitting: refused
+            min_count: 10
+            min_count_by_k:
+              25: 1
+              50: 3
+              100: 5
+          # V1 additional conditions
+          - text: "10 or more reviews describe disaster group outcomes"
+            type: count_threshold
+            filter:
+              group_outcome: disaster
+            min_count: 10
+            min_count_by_k:
+              25: 1
+              50: 3
+              100: 5
+
+      - verdict: "Acceptable"
+        label: "ACCEPTABLE"
+        default: true
+        especially_when:
+          - "Handles groups adequately but not exceptionally"
+          - "Suitable for medium groups but struggles with large ones"
+          - "Mixed experiences reported"
+
+  # Output format
   output:
     verdict:
       type: enum
-      values:
-      - Not Recommended
-      - Acceptable
-      - Recommended
+      values: ["Not Recommended", "Acceptable", "Recommended"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: Relevant quotes supporting the verdict
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
-      description: Explain how the evidence was used to arrive at the final verdict
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
-      values:
-      - low
-      - medium
-      - high
-      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
-      description: Any other relevant observations or caveats
+      description: "Any other relevant observations or caveats"

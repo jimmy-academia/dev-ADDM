@@ -69,14 +69,14 @@ Whether server was named positively
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- 6 or more reviews praise excellent attentiveness and warmth together
-- 5 or more reviews mention servers by name with exceptional praise
+- 6 or more reviews praise server attentiveness and friendliness [filter: attentiveness=excellent, friendliness=warm]
+- 5 or more reviews mention servers by name with exceptional praise [filter: named_positively=true, attentiveness=excellent]
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- 9 or more reviews describe inattentive servers
-- 6 or more reviews complain about rude service
+- 9 or more reviews describe inattentive or absent servers [filter: attentiveness=poor]
+- 6 or more reviews complain about rude service [filter: friendliness=rude]
 
 **Satisfactory** otherwise, especially when:
-- Service is professional and adequate
-- No major complaints or exceptional praise
-- Servers do their job without standing out
+- Service is acceptable but not exceptional
+- Mixed reviews about server quality
+- Some good experiences, some issues

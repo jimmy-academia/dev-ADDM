@@ -1,0 +1,158 @@
+policy_id: G5_consistency_V4
+extends: G5_consistency_V3
+version: '1.0'
+overview:
+  title: Consistency Assessment
+  purpose: |
+    Help assess the quality consistency at this restaurant using reviews as evidence.
+    This is from the perspective of a business owner diagnosing reliability.
+    Assign a label: Needs Improvement, Satisfactory, or Excellent.
+
+    This assessment uses a point-based scoring system with recency weighting.
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - quality changes over time
+    - comparison to previous visits
+    - reliability and predictability
+    - repeat customer observations
+
+    Reviews from first-time visitors that don't mention consistency carry less weight.
+normative:
+  terms:
+  - ref: shared:ACCOUNT_TYPE
+  - ref: consistency:QUALITY_TREND
+  - ref: consistency:VISIT_COMPARISON
+  - ref: consistency:RELIABILITY
+  - ref: consistency:VISIT_FREQUENCY
+  scoring:
+    field_mapping:
+      severity_field: reliability
+      value_mappings:
+        always_reliable: Always excellent
+        mostly_reliable: Mostly reliable
+        hit_or_miss: Hit or miss
+        unpredictable: Completely unpredictable
+      modifier_mappings:
+      - field: quality_trend
+        value: improving
+        label: Improving trend
+      - field: visit_frequency
+        value: regular
+        label: Regular customer praise
+      - field: visit_frequency
+        value: frequent
+        label: Regular customer praise
+      - field: quality_trend
+        value: declining
+        label: Declining trend
+    description: |
+      Calculate a consistency score by summing points from relevant reviews,
+      with recency weighting. For consistency, trend over time is important,
+      so recency helps identify the current state.
+    severity_points:
+    - label: Always excellent
+      points: 10
+    - label: Mostly reliable
+      points: 5
+    - label: Adequate consistency
+      points: 0
+    - label: Some inconsistency
+      points: -2
+    - label: Hit or miss
+      points: -5
+    - label: Completely unpredictable
+      points: -10
+    modifiers:
+    - label: Improving trend
+      description: quality getting better
+      points: 3
+    - label: Regular customer praise
+      description: frequent visitor praises consistency
+      points: 3
+    - label: Declining trend
+      description: quality getting worse
+      points: -5
+    - label: Management change decline
+      description: quality dropped after ownership/management change
+      points: -3
+    reference_date: "2022-01-01"
+    recency_rules:
+    - age: Within 6 months
+      weight: full point value
+      max_age_years: 0.5
+      weight_multiplier: 1.0
+    - age: 6 months to 1 year
+      weight: three-quarter point value (multiply by 0.75)
+      max_age_years: 1.0
+      weight_multiplier: 0.75
+    - age: 1-2 years old
+      weight: half point value (multiply by 0.5)
+      max_age_years: 2.0
+      weight_multiplier: 0.5
+    - age: Over 2 years old
+      weight: quarter point value (multiply by 0.25)
+      max_age_years: 999
+      weight_multiplier: 0.25
+    thresholds:
+    - verdict: Excellent
+      min_score: 800
+      min_score_by_k:
+        25: 100
+        50: 200
+        100: 400
+    - verdict: Needs Improvement
+      max_score: 0
+      max_score_by_k:
+        25: -100
+        50: -50
+        100: -25
+  decision:
+    verdicts:
+    - Needs Improvement
+    - Satisfactory
+    - Excellent
+    ordered: true
+    rules:
+    - verdict: Excellent
+      label: EXCELLENT
+      logic: ANY
+      conditions:
+      - Total score is 800 or higher (after recency weighting)
+    - verdict: Needs Improvement
+      label: NEEDS_IMPROVEMENT
+      precondition: Excellent does not apply
+      logic: ANY
+      conditions:
+      - Total score is 0 or lower (after recency weighting)
+    - verdict: Satisfactory
+      label: SATISFACTORY
+      default: true
+  output:
+    verdict:
+      type: enum
+      values:
+      - Needs Improvement
+      - Satisfactory
+      - Excellent
+      required: true
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: Relevant quotes supporting the verdict
+    justification:
+      type: string
+      required: true
+      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
+    confidence:
+      type: enum
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
+    other_notes:
+      type: string
+      optional: true
+      description: Any other relevant observations or caveats

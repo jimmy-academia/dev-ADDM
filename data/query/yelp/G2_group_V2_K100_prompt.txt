@@ -4,8 +4,6 @@ Help assess how suitable this restaurant is for group dining (large parties, cel
 using customer reviews as evidence.
 Assign a suitability label: Not Recommended, Acceptable, or Recommended.
 
-This assessment uses a point-based scoring system to quantify suitability.
-
 ## Definitions of Terms
 
 ### Incident
@@ -73,34 +71,21 @@ Overall success of the group dining experience
 - **Great**: Exceptional group experience
 
 
-## Scoring System
-
-Calculate a group suitability score by summing points from relevant reviews.
-Positive points indicate group suitability, negative points indicate drawbacks.
-
-For each firsthand incident, assign points based on severity:
-- Perfect group event: 15 points
-- Positive group experience: 5 points
-- Neutral mention: 0 points
-- Minor group issue: -2 points
-- Major group issue: -5 points
-- Group disaster: -15 points
-
-Additional modifiers:
-- Private room available (private dining space for groups): +5 points
-- Easy check splitting (no issues splitting checks): +3 points
-- Family-friendly (kids menu, high chairs, family welcoming): +3 points
-- Refused check split (would not split the check): -5 points
-- Long wait despite reservation (waited excessively despite having reservation): -5 points
-- Group split across tables (party was not seated together): -3 points
-
-
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- Total suitability score is 1000 or higher
+- 3 or more reviews describe successful large group events [filter: group_outcome=positive, group_size=large]
+- 10 or more reviews mention private rooms or dedicated group areas positively [filter: accommodation_quality=excellent]
+- 35 or more reviews praise the handling of groups [filter: accommodation_quality=['good', 'excellent']]
+- 3 or more reviews describe exceptional family friendliness [filter: family_friendliness=exceptional]
 
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- Total suitability score is 300 or lower
+- 15 or more reviews describe groups being turned away or poorly handled [filter: accommodation_quality=poor]
+- 8 or more complaints about long waits despite reservations [filter: wait_time=excessive]
+- 5 or more reviews report refused check splitting for groups [filter: check_splitting=refused]
+- 5 or more reviews describe disaster group outcomes [filter: group_outcome=disaster]
 
-**Acceptable** otherwise
+**Acceptable** otherwise, especially when:
+- Handles groups adequately but not exceptionally
+- Suitable for medium groups but struggles with large ones
+- Mixed experiences reported

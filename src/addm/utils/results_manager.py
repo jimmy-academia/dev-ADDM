@@ -59,6 +59,8 @@ class ResultsManager:
     def create_dev_run_dir(self, run_name: str, timestamp: Optional[str] = None) -> Path:
         """Create directory for a dev run.
 
+        If directory already exists, adds serial suffix (_1, _2, etc.)
+
         Args:
             run_name: Run identifier (e.g., policy_id)
             timestamp: Optional timestamp (default: current time)
@@ -66,9 +68,23 @@ class ResultsManager:
         Returns:
             Path to created dev run directory
         """
-        run_dir = self.get_dev_run_dir(run_name, timestamp)
+        if timestamp is None:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+        base_name = f"{timestamp}_{run_name}"
+        run_dir = self.results_root / "dev" / base_name
+
+        # If exists, add serial suffix
+        if run_dir.exists():
+            suffix = 1
+            while True:
+                run_dir = self.results_root / "dev" / f"{base_name}_{suffix}"
+                if not run_dir.exists():
+                    break
+                suffix += 1
+
         run_dir.mkdir(parents=True, exist_ok=True)
-        (run_dir / "item_logs").mkdir(exist_ok=True)
+        (run_dir / "debug").mkdir(exist_ok=True)
         return run_dir
 
     # -------------------------------------------------------------------------
@@ -228,7 +244,7 @@ class ResultsManager:
         run_dir = self.get_benchmark_dir(method, policy_id) / f"run_{run_num}"
 
         run_dir.mkdir(parents=True, exist_ok=True)
-        (run_dir / "item_logs").mkdir(exist_ok=True)
+        (run_dir / "debug").mkdir(exist_ok=True)
 
         return run_dir
 

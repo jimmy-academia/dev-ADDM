@@ -18,7 +18,6 @@ from addm.eval.metrics import (
     # New simplified metrics entry point
     compute_evaluation_metrics,
     # New metrics (v2)
-    compute_score_accuracy,
     compute_verdict_consistency_enhanced,
     extract_verdict_from_rule,
 )
@@ -59,7 +58,6 @@ __all__ = [
     "compute_ordinal_auprc",
     # New simplified metrics (recommended - 7 metrics)
     "compute_evaluation_metrics",
-    "compute_score_accuracy",
     "compute_verdict_consistency_enhanced",
     # Intermediate metrics
     "compute_intermediate_metrics",

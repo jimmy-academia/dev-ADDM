@@ -1,6 +1,6 @@
 """Scoring logic for policy ground truth computation.
 
-Handles both V0/V1 rule-based evaluation and V2/V3 point-based scoring.
+Handles both V1/V2 rule-based evaluation and V3/V4 point-based scoring.
 """
 
 from dataclasses import dataclass

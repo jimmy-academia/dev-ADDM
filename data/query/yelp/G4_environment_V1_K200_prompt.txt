@@ -69,15 +69,15 @@ How well ambiance matches the concept
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- 100 or more reviews praise excellent atmosphere
-- 190 or more reviews describe it as spotless
+- 100 or more reviews praise excellent atmosphere [filter: ambiance_fit=excellent]
+- 190 or more reviews describe it as spotless [filter: cleanliness=spotless]
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- 25 or more reviews describe cleanliness issues
-- 25 or more reviews report poor ambiance fit
-- 15 or more reviews complain about deafening noise
+- 25 or more reviews describe cleanliness issues [filter: cleanliness=dirty]
+- 25 or more reviews report poor ambiance fit [filter: ambiance_fit=poor]
+- 15 or more reviews complain about deafening noise [filter: noise_level=deafening]
 
 **Satisfactory** otherwise, especially when:
-- Environment is pleasant but not remarkable
-- Minor issues but overall acceptable
-- Gets the job done without standing out
+- Environment is acceptable but unremarkable
+- Some positive and some negative comments
+- Basic expectations met but not exceeded

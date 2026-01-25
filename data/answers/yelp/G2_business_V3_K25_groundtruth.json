@@ -3,7 +3,7 @@
   "topic": "G2_business",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-23T19:09:47.353610",
+  "computed_at": "2026-01-24T20:04:12.355472",
   "has_scoring": true,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -12,8 +12,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "score": 59,
+        "verdict": "Recommended",
+        "score": 283,
         "n_incidents": 19,
         "incidents": [
           {
@@ -26,8 +26,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "C9yG1IzFU1ZipclYeMp1YA",
@@ -39,8 +39,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "LF7C5SP0zvmzTcef3pTXTw",
@@ -50,8 +50,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "tH1tfFh3bHlsQ2kO4I_Kdg",
@@ -61,8 +61,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "1ggPgHUGI4h00_enoKQh8w",
@@ -72,8 +72,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "fBKbgJEsdDNpCmoKbmJwog",
@@ -83,8 +83,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "sZB3_H--A_2CqnTn_ujzXA",
@@ -94,8 +94,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "Ii37Ht2-YMxH04sbBO2VXA",
@@ -105,8 +105,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "FBGeW6gMosER99pBPY64aw",
@@ -116,8 +116,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "MITNCreVAxbba0sWmBD3Yw",
@@ -127,8 +127,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "qO1QsjxZPhyxs33ZpoQt3Q",
@@ -138,8 +138,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "L_rDTOZ321diOeOtTbznVw",
@@ -151,8 +151,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "9MkP511YJEtrcNctMDGkpw",
@@ -162,8 +162,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "77TFze35Z92hzxwcRlEHjw",
@@ -175,8 +175,8 @@
               "Loud environment"
             ],
             "total_points": 10,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 10
           },
           {
             "review_id": "DGzAxUxcAUSZOlbbuRZpOQ",
@@ -186,7 +186,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -197,8 +197,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "MFqypHT6KO7mnT8oYuHfHA",
@@ -210,8 +210,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "T5OA21--nDBEitj8Garirw",
@@ -223,8 +223,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "U8K4nv_wbAP1raEe2LoEVg",
@@ -236,8 +236,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           }
         ],
         "cuisine_modifier": false,
@@ -1328,8 +1328,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 78,
+        "verdict": "Recommended",
+        "score": 174,
         "n_incidents": 20,
         "incidents": [
           {
@@ -1392,8 +1392,8 @@
               "Slow service"
             ],
             "total_points": -3,
-            "recency_weight": 0.5,
-            "weighted_points": -1
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "rsIR7kprrSXsQL--TURj6g",
@@ -1403,8 +1403,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "CXgswKlc8g7y3TWfyMOCPw",
@@ -1414,7 +1414,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -1425,8 +1425,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "igDtcdWUhbCpNDJovIYB7Q",
@@ -1438,8 +1438,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "730CnXjJ-S2qH1RaR1DiJQ",
@@ -1451,8 +1451,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "0jirewIsx-8SA5YjMuQRMg",
@@ -1464,8 +1464,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "HNWkqh82vE9vfSE3kDhyCA",
@@ -1475,7 +1475,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -1486,7 +1486,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -1497,8 +1497,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "kuVJaxu5U3UbhY_y5hqyDg",
@@ -1510,8 +1510,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "u4XxhcmTXlmCFtMICzxIUw",
@@ -1523,8 +1523,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "KXsOqCnZKRBH0Ny9YYXAXQ",
@@ -1536,8 +1536,8 @@
               "Efficient service"
             ],
             "total_points": 3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": 3
           },
           {
             "review_id": "nTeU8kAZkL7FcfjCUjVMhQ",
@@ -1547,7 +1547,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -1558,8 +1558,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "_UWpT6GZUT8aRHeglvjtPA",
@@ -1569,7 +1569,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           }
         ],
@@ -2052,8 +2052,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "score": 33,
+        "verdict": "Acceptable",
+        "score": 79,
         "n_incidents": 9,
         "incidents": [
           {
@@ -2064,7 +2064,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -2075,8 +2075,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "uKEHAlaA3uZVnK7XXjdcag",
@@ -2086,8 +2086,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "z05FQDrIL0BfVWF8xdiqNQ",
@@ -2097,7 +2097,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -2111,8 +2111,8 @@
               "Loud environment"
             ],
             "total_points": 13,
-            "recency_weight": 0.5,
-            "weighted_points": 6
+            "recency_weight": 1.0,
+            "weighted_points": 13
           },
           {
             "review_id": "KODwhmO7KWdrMtfUXuRIDg",
@@ -2122,7 +2122,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -2133,7 +2133,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -2146,8 +2146,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "g7utouomWqAhu6aY0_3fcw",
@@ -2159,8 +2159,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           }
         ],
         "cuisine_modifier": false,
@@ -2416,8 +2416,8 @@
       "n_reviews": 16,
       "n_judgments": 16,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "score": 38,
+        "verdict": "Acceptable",
+        "score": 91,
         "n_incidents": 11,
         "incidents": [
           {
@@ -2443,8 +2443,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "RFGZ3JCXOmc5iuE4xNnK9g",
@@ -2454,8 +2454,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "bRJsvMfezXU72N-06gGPMQ",
@@ -2465,8 +2465,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "DpPZeib9eCHdyKwOMB0FtA",
@@ -2476,7 +2476,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -2489,8 +2489,8 @@
               "Loud environment"
             ],
             "total_points": -5,
-            "recency_weight": 0.25,
-            "weighted_points": -1
+            "recency_weight": 1.0,
+            "weighted_points": -5
           },
           {
             "review_id": "U_YZ_RcVr50pK6cRmB5loA",
@@ -2500,7 +2500,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -2511,8 +2511,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "Qpjh3xgzyeddNoUzRJGbRA",
@@ -2522,7 +2522,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -2533,7 +2533,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -2544,8 +2544,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": false,
@@ -2558,8 +2558,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "score": 43,
+        "verdict": "Recommended",
+        "score": 210,
         "n_incidents": 17,
         "incidents": [
           {
@@ -2570,8 +2570,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "CF-hRSm9017ocoBcUC7VJQ",
@@ -2581,8 +2581,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "KDhOMn2bpUoQv-lLB9nhlg",
@@ -2592,8 +2592,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "c7ZLU1FcG1GG1E-YVkQdUQ",
@@ -2606,8 +2606,8 @@
               "Loud environment"
             ],
             "total_points": 13,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 13
           },
           {
             "review_id": "7B610NDiV013m0Op9wt56Q",
@@ -2619,8 +2619,8 @@
               "Loud environment"
             ],
             "total_points": 10,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 10
           },
           {
             "review_id": "n5BdTsyGrMi6RItGlB81fQ",
@@ -2630,8 +2630,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "M59tvW2Xnt5T99tmTj7Bbg",
@@ -2641,7 +2641,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -2654,8 +2654,8 @@
               "Efficient service"
             ],
             "total_points": 3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": 3
           },
           {
             "review_id": "WDmq_EjF9igjeuMoDJY1Wg",
@@ -2665,8 +2665,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "craWktl39g6Akmnn1b1C6w",
@@ -2678,8 +2678,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "B4Kf6pSPSviy4k3418mvcg",
@@ -2691,8 +2691,8 @@
               "Loud environment"
             ],
             "total_points": 10,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 10
           },
           {
             "review_id": "fV0_FDuuT4uCTS4gcE68Mw",
@@ -2702,8 +2702,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "P-GxP8N59h1X8vIkYD_jHg",
@@ -2713,8 +2713,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "WSJjFwoozmjoS-eo0SUNiA",
@@ -2726,8 +2726,8 @@
               "Loud environment"
             ],
             "total_points": 10,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 10
           },
           {
             "review_id": "hj67_Gi4g9tj6IIHifFDVQ",
@@ -2739,8 +2739,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "UcApIZDl9L_2XIaLk6-60Q",
@@ -2752,8 +2752,8 @@
               "Loud environment"
             ],
             "total_points": 10,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 10
           },
           {
             "review_id": "kpGDamaNhbF8tEFH1RGzlA",
@@ -2766,8 +2766,8 @@
               "Loud environment"
             ],
             "total_points": 13,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 13
           }
         ],
         "cuisine_modifier": false,
@@ -3665,8 +3665,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "score": 42,
+        "verdict": "Recommended",
+        "score": 180,
         "n_incidents": 19,
         "incidents": [
           {
@@ -3688,7 +3688,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -3699,8 +3699,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "XnIBZ4W-18kgeHgl3Ho-IA",
@@ -3710,7 +3710,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -3723,8 +3723,8 @@
               "Slow service"
             ],
             "total_points": -3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "ogx8_Ue2G7yrc0xHWykzog",
@@ -3736,8 +3736,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "J7pniRMfHhTNJOGUKW0TJA",
@@ -3749,8 +3749,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "WbRrPHzCweCt1SpZwvFoRw",
@@ -3760,8 +3760,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "A0Pur0Osy7qr2EjVbkJJUg",
@@ -3771,7 +3771,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -3782,7 +3782,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -3793,8 +3793,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "g0Yfiesmohp4IIW7UZY5hg",
@@ -3806,8 +3806,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "QkizCHtQrmypPFS1oKMYNg",
@@ -3819,8 +3819,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "6219Aws0A67Hly0ZGWyY3w",
@@ -3832,8 +3832,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "JSdOsozifKf7LrWWTTUgfg",
@@ -3843,7 +3843,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -3856,8 +3856,8 @@
               "Efficient service"
             ],
             "total_points": 3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": 3
           },
           {
             "review_id": "ut3VEiM3uvouHhwr_3KfIQ",
@@ -3867,8 +3867,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "jyhm4mq5KccwO7s9whecWQ",
@@ -3878,8 +3878,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "RoUmSIMDmuh-vu9aFuaI7A",
@@ -3889,8 +3889,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": false,
@@ -4117,8 +4117,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 124,
+        "verdict": "Recommended",
+        "score": 261,
         "n_incidents": 19,
         "incidents": [
           {
@@ -4129,8 +4129,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "g-D1qqQJw7_tFmCdJwaNdg",
@@ -4140,8 +4140,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "GNr7IvE-2NwHu0sPtNyuew",
@@ -4151,8 +4151,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "JotJjvZ2y0hDSj3kmVKXAw",
@@ -4162,8 +4162,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "lTHfTsnpBHO5W3cpBirsGQ",
@@ -4175,8 +4175,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "f6NO695aGaNYWKD2MxFwqg",
@@ -4186,8 +4186,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "cChW_zWGsTjwpJK5wEQCAw",
@@ -4197,8 +4197,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "d2TeXS-t5LdQlr2tZ_VxWg",
@@ -4210,8 +4210,8 @@
               "Efficient service"
             ],
             "total_points": 3,
-            "recency_weight": 0.5,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 3
           },
           {
             "review_id": "LV3xNGcvqEY18FnC46DwCw",
@@ -4221,8 +4221,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "EKQ8DIwlNQKu3COD02MC3w",
@@ -4234,8 +4234,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "D1qIJXFMbY9_bv071w8Jpw",
@@ -4245,8 +4245,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "-HzvYWOl_sYKZ-jECRDXtQ",
@@ -4256,8 +4256,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "o6M6mWYKZLNRWr7SSXmFqw",
@@ -4267,8 +4267,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "MQUNORcNVtFJZduexMdmKw",
@@ -4278,8 +4278,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "6vmGPVu7Rr2nlbZeGm7qpA",
@@ -4291,8 +4291,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "JzjNEUXH6lDI8s56FT1SdA",
@@ -4302,7 +4302,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -4315,8 +4315,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "SY6wBT1vmSUh0U7eayNxgA",
@@ -4328,8 +4328,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "i5j_Uf_OvhvBxPaabja5Ew",
@@ -4341,8 +4341,8 @@
               "Efficient service"
             ],
             "total_points": 3,
-            "recency_weight": 0.5,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 3
           }
         ],
         "cuisine_modifier": false,
@@ -4923,8 +4923,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 125,
+        "verdict": "Recommended",
+        "score": 192,
         "n_incidents": 14,
         "incidents": [
           {
@@ -5016,8 +5016,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "HGzjDxprF8Coq8ayb-9BHQ",
@@ -5029,8 +5029,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "Bn1QScPOf4Gc9lsG9pAeTA",
@@ -5040,8 +5040,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "MDLNw_n5EDoIfkbMhW371A",
@@ -5051,7 +5051,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -5064,8 +5064,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "lkKjzK8COzzxPT54loB3YA",
@@ -5075,8 +5075,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "iRxhUvSEQidh58cpkB8i3w",
@@ -5086,8 +5086,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": false,
@@ -5100,8 +5100,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "score": 34,
+        "verdict": "Recommended",
+        "score": 152,
         "n_incidents": 14,
         "incidents": [
           {
@@ -5112,8 +5112,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "-RlIK2vDCM3FplfWddaC9g",
@@ -5123,8 +5123,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "iD4aqf6fBY2eE3dGLhY43g",
@@ -5136,8 +5136,8 @@
               "Slow service"
             ],
             "total_points": -3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "nr9eVsLQJXHFJIJ-yG4BIA",
@@ -5149,8 +5149,8 @@
               "Slow service"
             ],
             "total_points": 12,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 12
           },
           {
             "review_id": "AbKuNE9NgoQAyxCl5iDJ0A",
@@ -5160,7 +5160,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -5171,7 +5171,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -5182,8 +5182,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "OSGSWKfor2UqZVvDP-4gwg",
@@ -5195,8 +5195,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "WWAPGh_xRBSkH92KDTwT1w",
@@ -5208,8 +5208,8 @@
               "Slow service"
             ],
             "total_points": -3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "Af4AKb1XtzX2IhXFirQong",
@@ -5221,8 +5221,8 @@
               "Slow service"
             ],
             "total_points": 12,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 12
           },
           {
             "review_id": "xi392eLpV7pneWfk-jLnfw",
@@ -5232,8 +5232,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "lJHgB2DVklkDK0o4fbJjcg",
@@ -5246,8 +5246,8 @@
               "Quiet atmosphere"
             ],
             "total_points": 23,
-            "recency_weight": 0.25,
-            "weighted_points": 5
+            "recency_weight": 1.0,
+            "weighted_points": 23
           },
           {
             "review_id": "2bh6jXA060JA_wEnlIn1EQ",
@@ -5259,8 +5259,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "5wNqBtdZNtyWDKVLzLIJfQ",
@@ -5270,8 +5270,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": false,
@@ -5600,8 +5600,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "score": 63,
+        "verdict": "Recommended",
+        "score": 303,
         "n_incidents": 21,
         "incidents": [
           {
@@ -5612,8 +5612,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "S2ntjRKIoT_9sMg1C_EOBQ",
@@ -5625,8 +5625,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "XZvCt1dXGQqonBk-G4KtrA",
@@ -5636,7 +5636,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -5647,8 +5647,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "Fb1MRlPj7v2TrTSwrTZ34A",
@@ -5658,8 +5658,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "DAxAF34cMpshUWv92QMDcQ",
@@ -5669,8 +5669,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "bWaiJS6Ldan9QZ56rnFGEw",
@@ -5680,8 +5680,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "j9vomQ8gUtJJynnu7g_c4w",
@@ -5691,8 +5691,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "ZWIuBZpUd_9426YoIqtpbw",
@@ -5702,8 +5702,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "JccP8qegFZgNil1SfYF2sg",
@@ -5715,8 +5715,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "R9PJ3Sy-JgPRozQ403wlfA",
@@ -5726,8 +5726,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "vqAkpAPQikz177IHw3XG7A",
@@ -5737,8 +5737,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "4M58uj3xoYnyfM5NXRzMQA",
@@ -5750,8 +5750,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "F4V0mZcZhnQCewrDenuFKA",
@@ -5761,7 +5761,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -5774,8 +5774,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "ekp93wYFos3NKrClXuVaUg",
@@ -5785,8 +5785,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "FhWLPS8XxGb2lUds-BKzjg",
@@ -5796,8 +5796,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "NO5j4_xQjNxcqs3yLmfyeQ",
@@ -5809,8 +5809,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "Y38rLEb4NNQ6WvHBuUHtkg",
@@ -5822,8 +5822,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "k4A2YmwdVe2e2te2i2iJ0w",
@@ -5833,8 +5833,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "mDX9vTm8xjjmASNOXUm4Sw",
@@ -5844,8 +5844,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": false,
@@ -5859,7 +5859,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Not Recommended",
-        "score": 14,
+        "score": 66,
         "n_incidents": 13,
         "incidents": [
           {
@@ -5872,8 +5872,8 @@
               "Slow service"
             ],
             "total_points": -3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "gGAkjvs_j9YM2kE35RmXkA",
@@ -5885,8 +5885,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "g5gsMbQn7cV_MHZh4bh34w",
@@ -5896,8 +5896,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "bJwG2gXXFwcxUF2py_jiYQ",
@@ -5909,8 +5909,8 @@
               "Efficient service"
             ],
             "total_points": 3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": 3
           },
           {
             "review_id": "s-89d30lGjmK6QBymsXorQ",
@@ -5920,7 +5920,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -5931,8 +5931,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "phwS1b3cdy9bXjyz4-Z7UQ",
@@ -5942,7 +5942,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -5953,7 +5953,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -5966,8 +5966,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "VDNae7B2yf1ardf3BiUFZQ",
@@ -5979,8 +5979,8 @@
               "Slow service"
             ],
             "total_points": -18,
-            "recency_weight": 0.25,
-            "weighted_points": -4
+            "recency_weight": 1.0,
+            "weighted_points": -18
           },
           {
             "review_id": "zae0pE_e8yNJL4GHUUErUw",
@@ -5992,8 +5992,8 @@
               "Efficient service"
             ],
             "total_points": 3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": 3
           },
           {
             "review_id": "luX-ww4a15YwrkfTCK5Kng",
@@ -6005,8 +6005,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "vzRiQsHcJIBXC-JChvgsQA",
@@ -6018,8 +6018,8 @@
               "Slow service"
             ],
             "total_points": -3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": -3
           }
         ],
         "cuisine_modifier": false,
@@ -6258,8 +6258,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "score": 41,
+        "verdict": "Acceptable",
+        "score": 82,
         "n_incidents": 13,
         "incidents": [
           {
@@ -6305,8 +6305,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "rn4YalnwHPVXzz3BLPCk_g",
@@ -6316,7 +6316,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6329,8 +6329,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "-Hbs5XaTgqzlgInJXkgTSg",
@@ -6340,7 +6340,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6351,7 +6351,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6362,7 +6362,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6375,8 +6375,8 @@
               "Efficient service"
             ],
             "total_points": 3,
-            "recency_weight": 0.5,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 3
           },
           {
             "review_id": "znEB1kX8qUjlz6oTBhMyCA",
@@ -6386,7 +6386,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6397,8 +6397,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "735P14RwCI3m0eBRiasEcw",
@@ -6411,8 +6411,8 @@
               "Loud environment"
             ],
             "total_points": 13,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 13
           }
         ],
         "cuisine_modifier": false,
@@ -6425,8 +6425,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 95,
+        "verdict": "Recommended",
+        "score": 267,
         "n_incidents": 21,
         "incidents": [
           {
@@ -6486,8 +6486,8 @@
               "Efficient service"
             ],
             "total_points": 23,
-            "recency_weight": 0.25,
-            "weighted_points": 5
+            "recency_weight": 1.0,
+            "weighted_points": 23
           },
           {
             "review_id": "e0Acgx5D7f4XFOxva7YKSw",
@@ -6497,8 +6497,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "cMATz_NczgHQ5WhPcUdLiQ",
@@ -6510,8 +6510,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "We7JFzdLku2U5hH7Fc7kDg",
@@ -6521,7 +6521,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6534,8 +6534,8 @@
               "Loud environment"
             ],
             "total_points": 10,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 10
           },
           {
             "review_id": "E387ljRiX_57sjlsiifbiw",
@@ -6547,8 +6547,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "mEjp09IcD6aurfkCmZiGqw",
@@ -6558,8 +6558,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "69fO245BAEGJExFfggS2zQ",
@@ -6569,8 +6569,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "VnrrNLrxxkvZ1qxKEXqr_w",
@@ -6582,8 +6582,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "Lucs75gXhiM-A9jMK3KnNA",
@@ -6595,8 +6595,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "17DQviu7DyWdOT5THZImfA",
@@ -6608,8 +6608,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "gN0h2evux83st2511dzTWw",
@@ -6621,8 +6621,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "BugQQIWj-oxd_EntJpKGKA",
@@ -6632,7 +6632,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6643,7 +6643,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6654,8 +6654,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "1OFY7tPLX1PoGGAXRMlS4g",
@@ -6665,7 +6665,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6678,8 +6678,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           }
         ],
         "cuisine_modifier": false,
@@ -7954,8 +7954,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "score": 42,
+        "verdict": "Recommended",
+        "score": 192,
         "n_incidents": 15,
         "incidents": [
           {
@@ -7968,8 +7968,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "TCAG5BTGPRPFoond4czz2Q",
@@ -7981,8 +7981,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "cwF5IWNH-oC5xSpJBFGaTg",
@@ -7992,8 +7992,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "U1t66x7yApcGeqorexKOrw",
@@ -8003,7 +8003,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -8014,7 +8014,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -8027,8 +8027,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "ebIyckkrvF8cLvKJCytwIw",
@@ -8038,8 +8038,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "997UmUKfGFeeCs2Dmb0L2A",
@@ -8051,8 +8051,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "RG7pEUZu_wXmw2N85crtgQ",
@@ -8062,7 +8062,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -8075,8 +8075,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "1aG_h28r2ZzJ8KoparFtrw",
@@ -8086,7 +8086,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -8099,8 +8099,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "DO-n7PAKvIEF3sScST7LsQ",
@@ -8112,8 +8112,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "KJkmQbmsyHSwRG_3wFpFRQ",
@@ -8125,8 +8125,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "wA0TtAGc6KOZ9JgDc1x44g",
@@ -8138,8 +8138,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           }
         ],
         "cuisine_modifier": false,
@@ -9607,7 +9607,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Acceptable",
-        "score": 126,
+        "score": 135,
         "n_incidents": 16,
         "incidents": [
           {
@@ -9758,7 +9758,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -9769,7 +9769,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -9780,7 +9780,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -9793,8 +9793,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           }
         ],
         "cuisine_modifier": false,
@@ -9807,8 +9807,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 136,
+        "verdict": "Recommended",
+        "score": 171,
         "n_incidents": 18,
         "incidents": [
           {
@@ -9983,8 +9983,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "WsjA3ZMePX-z26gh5Yh1Jw",
@@ -9996,8 +9996,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "II4aoFlRTTBhyDfPmI0VNQ",
@@ -10009,8 +10009,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "6ujf9mjmOXNDSX7wWGUcQw",
@@ -10020,8 +10020,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": false,
@@ -11300,8 +11300,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 108,
+        "verdict": "Recommended",
+        "score": 210,
         "n_incidents": 18,
         "incidents": [
           {
@@ -11323,8 +11323,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "p1eZx9cP5D1Ft5a0N8a0lA",
@@ -11334,8 +11334,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "7P_TXJv4b-c6Ue1YvAI9qg",
@@ -11345,8 +11345,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "2bArTNbxoclGtxQOK7WvLg",
@@ -11356,7 +11356,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -11367,8 +11367,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "60KYsmZjadyZPaVpk9ljGw",
@@ -11378,7 +11378,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -11389,7 +11389,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -11400,7 +11400,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -11413,8 +11413,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "eA2a0VBeTrpbolPT_HLoQQ",
@@ -11424,8 +11424,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "1hLYaX3CSmzXlFskqwzBWw",
@@ -11437,8 +11437,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "cBQFLwkEy24bQwc4csO26Q",
@@ -11448,8 +11448,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "eHMzJSw1qAH3UsfiwgmrOA",
@@ -11461,8 +11461,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "dq0PKei9tB209vQ_YOSW_w",
@@ -11474,8 +11474,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "3FqSOZHXkyntrAjYXfOpgQ",
@@ -11485,8 +11485,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "yTYMsANL7G9hDWa4Q2J2IA",
@@ -11496,8 +11496,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "RL_1HfJiWlDMOzNGSaPUnw",
@@ -11509,8 +11509,8 @@
               "Efficient service"
             ],
             "total_points": 3,
-            "recency_weight": 0.5,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 3
           }
         ],
         "cuisine_modifier": false,
@@ -11523,8 +11523,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "score": 27,
+        "verdict": "Acceptable",
+        "score": 134,
         "n_incidents": 20,
         "incidents": [
           {
@@ -11535,7 +11535,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -11546,8 +11546,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "867jsJ2wga2jXfSPYS3yTw",
@@ -11557,7 +11557,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -11570,8 +11570,8 @@
               "Efficient service"
             ],
             "total_points": 3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": 3
           },
           {
             "review_id": "jketQ98oZbus-_0D6uh-NQ",
@@ -11583,8 +11583,8 @@
               "Loud environment"
             ],
             "total_points": -5,
-            "recency_weight": 0.25,
-            "weighted_points": -1
+            "recency_weight": 1.0,
+            "weighted_points": -5
           },
           {
             "review_id": "qOc9WMGS4NWh4LQiU9RnRA",
@@ -11594,8 +11594,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "w5fsNXDhUnGmtWhItW9FHg",
@@ -11605,8 +11605,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "8u1Rt-aAt40mOWBQgJM_qQ",
@@ -11616,8 +11616,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "0Kfl-F_nKA7l38m8Kt7xGg",
@@ -11627,7 +11627,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -11638,8 +11638,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "o0QO66ismi1d6w2xSdGLVg",
@@ -11651,8 +11651,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "b2nBriAAkRjozLVtUTutOQ",
@@ -11662,7 +11662,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -11673,8 +11673,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "jTHum2rKTn4RD1POS3H-hw",
@@ -11686,8 +11686,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "5h_qCDV1OJOht6NeBxR8JA",
@@ -11697,7 +11697,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -11708,7 +11708,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -11719,8 +11719,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "v5ZMBppXWiDD7GuZoOGHig",
@@ -11730,8 +11730,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "9qaP_XmBIgCOLSDi0mDYeA",
@@ -11743,8 +11743,8 @@
               "Loud environment"
             ],
             "total_points": -5,
-            "recency_weight": 0.25,
-            "weighted_points": -1
+            "recency_weight": 1.0,
+            "weighted_points": -5
           },
           {
             "review_id": "jttVNH3-NazcgOO5Qp5-Aw",
@@ -11754,8 +11754,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": false,
@@ -12007,7 +12007,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Not Recommended",
-        "score": 37,
+        "score": 67,
         "n_incidents": 21,
         "incidents": [
           {
@@ -12115,7 +12115,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12128,8 +12128,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "_I6nyXTFDvzoAh4gRZ4V7A",
@@ -12139,7 +12139,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12150,7 +12150,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12161,7 +12161,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12172,7 +12172,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12185,8 +12185,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "FtSapdDQCpIhWZ3izyQaYA",
@@ -12196,7 +12196,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12207,7 +12207,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12218,7 +12218,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12229,8 +12229,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "2g_Xy8tKKsVXAsDldGYMyQ",
@@ -12240,7 +12240,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12251,7 +12251,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           }
         ],
@@ -12265,8 +12265,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 115,
+        "verdict": "Recommended",
+        "score": 204,
         "n_incidents": 21,
         "incidents": [
           {
@@ -12310,8 +12310,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "VSjf6NJhi4xvBBZP2pxayw",
@@ -12321,8 +12321,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "obXdvbk2uXBsu3NgPs6RuA",
@@ -12334,8 +12334,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "noiubYGsEvG-xuIV4VPTsA",
@@ -12345,8 +12345,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "pX8GzyOXYQvL6ApTRM5yNQ",
@@ -12358,8 +12358,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "3PxyPZUOIM5lxirt7FZyTw",
@@ -12371,8 +12371,8 @@
               "Slow service"
             ],
             "total_points": -3,
-            "recency_weight": 0.5,
-            "weighted_points": -1
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "FqxjcQgz66ssbK3UVGrxIg",
@@ -12382,7 +12382,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12393,7 +12393,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12406,8 +12406,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "q9q3XGfViLetHpbz_eTKGA",
@@ -12419,8 +12419,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "itYRmu7RICSs0G_EnqgEMg",
@@ -12430,8 +12430,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "vO3-olIoqfvZ2WMa8d0n_Q",
@@ -12441,7 +12441,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12452,7 +12452,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12465,8 +12465,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "rWPN6JvlO6mL-R1BHeg-tw",
@@ -12476,7 +12476,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12487,7 +12487,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12500,8 +12500,8 @@
               "Slow service"
             ],
             "total_points": 12,
-            "recency_weight": 0.5,
-            "weighted_points": 6
+            "recency_weight": 1.0,
+            "weighted_points": 12
           },
           {
             "review_id": "MnzbbENkUgjBvYqdxoS8QA",
@@ -12511,8 +12511,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": false,
@@ -12995,8 +12995,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 94,
+        "verdict": "Recommended",
+        "score": 151,
         "n_incidents": 21,
         "incidents": [
           {
@@ -13054,7 +13054,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13065,8 +13065,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "XmcmkEFUq4eyIZ6HUAeUdw",
@@ -13076,8 +13076,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "0djCNAVkry1rzEy1fQDDbg",
@@ -13087,7 +13087,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13098,7 +13098,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13109,7 +13109,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13120,8 +13120,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "ZaYjEwcU4XCWNMJZcQwaDA",
@@ -13133,8 +13133,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "lVQHes43YSy366m6GwecLw",
@@ -13144,7 +13144,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13155,7 +13155,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13166,7 +13166,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13177,7 +13177,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13188,8 +13188,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "DgF7JMPxboMemB4x6ZZA-A",
@@ -13199,7 +13199,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13210,8 +13210,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "sd8GUY9iALfxnWoubkYwLA",
@@ -13221,8 +13221,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "FqfHkcRJOKXdZ8xhWLO1rQ",
@@ -13232,7 +13232,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           }
         ],
@@ -13817,8 +13817,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 84,
+        "verdict": "Recommended",
+        "score": 183,
         "n_incidents": 18,
         "incidents": [
           {
@@ -13875,7 +13875,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13886,7 +13886,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13897,8 +13897,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "-dfYYnobP9bRVXEmmJnsYg",
@@ -13908,8 +13908,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "fxxi0fDTkZgHfaWPlE8Ucw",
@@ -13921,8 +13921,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "FIPtQNYMwBne9DbIKb99Xw",
@@ -13932,7 +13932,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13945,8 +13945,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "ZlQE5600W4Xpcdv6pRDEQg",
@@ -13956,7 +13956,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13969,8 +13969,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "yFbGNVu-7pmmOMJOPXf7UQ",
@@ -13982,8 +13982,8 @@
               "Efficient service"
             ],
             "total_points": 3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": 3
           },
           {
             "review_id": "8pPV92OLcm8pFa4QLkHWoQ",
@@ -13993,8 +13993,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "0GOZ46hwInHiRGXeicVKzQ",
@@ -14006,8 +14006,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "6iYcwC5bkXrOXGyzPJjrmQ",
@@ -14017,8 +14017,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "S1DaYb2VL8T6KO8H7UcVJQ",
@@ -14028,7 +14028,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           }
         ],
@@ -14329,8 +14329,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "score": 54,
+        "verdict": "Recommended",
+        "score": 261,
         "n_incidents": 20,
         "incidents": [
           {
@@ -14341,8 +14341,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "IzFKFV2JhROJV7QR_C6c3Q",
@@ -14354,8 +14354,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "j73ZTPyctRV7ZweBtlNI6Q",
@@ -14367,8 +14367,8 @@
               "Efficient service"
             ],
             "total_points": 3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": 3
           },
           {
             "review_id": "JIgVU1YDIimL3R8xiALXDA",
@@ -14378,7 +14378,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -14389,8 +14389,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "NQDO0ZFNrxwWFVJIBfif6Q",
@@ -14400,8 +14400,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "UOvMHLtZ-V-LnMEMdexK_A",
@@ -14411,8 +14411,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "49Igf5CDh7NIk2e2vlQg3w",
@@ -14422,8 +14422,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "JTeR9wzcNH5dzClfgtCOmA",
@@ -14433,7 +14433,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -14444,7 +14444,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -14455,8 +14455,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "T3bUCQtSh1naAeXlT-GcAw",
@@ -14468,8 +14468,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "bfyDaekhZAiXACUBblsxsQ",
@@ -14479,8 +14479,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "yBvwzRSZgy0BnnfACnMlNg",
@@ -14492,8 +14492,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "F9Kk8t6IRUfwcoAWCxIyPw",
@@ -14505,8 +14505,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "tfQRIk-inm4A8AFeMQGqrQ",
@@ -14518,8 +14518,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "6xCuRLzyGzrVIwesudvDfQ",
@@ -14531,8 +14531,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "aBzmA9s1aVeIJ8Cq7tLtqg",
@@ -14542,8 +14542,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "gEkCdeLmgik2Co1Kbi91Nw",
@@ -14553,8 +14553,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "hnF4L5R3bGGT1YBlxmK8Ww",
@@ -14564,8 +14564,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": false,
@@ -15042,8 +15042,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 138,
+        "verdict": "Recommended",
+        "score": 189,
         "n_incidents": 14,
         "incidents": [
           {
@@ -15128,8 +15128,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "yzY0YgCG6kuQCJbdKs7Krw",
@@ -15139,7 +15139,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -15152,8 +15152,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "6EAJhHu3WBtb9zrKLxCMNA",
@@ -15165,8 +15165,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "yHvZvXS0DTWctekJNXndNw",
@@ -15178,8 +15178,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "l8AzZ-2V3cTNzuYafyWtWQ",
@@ -15191,8 +15191,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "RF38UdspFYcoNVY0Aufdbg",
@@ -15204,8 +15204,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "CsIcN0B4A-urgwLpMk0CDg",
@@ -15217,8 +15217,8 @@
               "Slow service"
             ],
             "total_points": -3,
-            "recency_weight": 0.5,
-            "weighted_points": -1
+            "recency_weight": 1.0,
+            "weighted_points": -3
           }
         ],
         "cuisine_modifier": false,
@@ -15232,7 +15232,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Recommended",
-        "score": 284,
+        "score": 300,
         "n_incidents": 20,
         "incidents": [
           {
@@ -15440,8 +15440,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "Avnm3Pih865LVYirycsSvA",
@@ -15451,7 +15451,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -15462,8 +15462,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": false,
@@ -16067,7 +16067,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Acceptable",
-        "score": 99,
+        "score": 131,
         "n_incidents": 16,
         "incidents": [
           {
@@ -16210,8 +16210,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "LqBIXRK0qlHVr5n4Iqn7bA",
@@ -16221,8 +16221,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "LVCyL41CzxGgdFfDEkf1Cw",
@@ -16232,8 +16232,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "_iEmfpzqVCavpOnwyU1S7Q",
@@ -16243,8 +16243,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "Zdt_IW2I1ndMbtyrmdWnzg",
@@ -16254,7 +16254,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           }
         ],
@@ -16547,7 +16547,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Recommended",
-        "score": 175,
+        "score": 196,
         "n_incidents": 19,
         "incidents": [
           {
@@ -16718,8 +16718,8 @@
               "Loud environment"
             ],
             "total_points": 10,
-            "recency_weight": 0.5,
-            "weighted_points": 5
+            "recency_weight": 1.0,
+            "weighted_points": 10
           },
           {
             "review_id": "MN9n-gl8laCnVbPCNaW3qQ",
@@ -16729,8 +16729,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "8SNf_qYvVrIoKVfLmuGsog",
@@ -16740,7 +16740,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -16751,7 +16751,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -16762,8 +16762,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": false,
@@ -18046,8 +18046,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "score": 36,
+        "verdict": "Acceptable",
+        "score": 122,
         "n_incidents": 12,
         "incidents": [
           {
@@ -18098,8 +18098,8 @@
               "Loud environment"
             ],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "F4bkDF8zJk_lLW0ZPpDxjg",
@@ -18112,8 +18112,8 @@
               "Efficient service"
             ],
             "total_points": 23,
-            "recency_weight": 0.25,
-            "weighted_points": 5
+            "recency_weight": 1.0,
+            "weighted_points": 23
           },
           {
             "review_id": "reAHSupzuOo9Q9KIV51udw",
@@ -18123,8 +18123,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "Q0d-ms7Ztxg8tV3RivYF4Q",
@@ -18136,8 +18136,8 @@
               "Slow service"
             ],
             "total_points": -3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "uhK2t7pPckyctBztFNHG7w",
@@ -18147,7 +18147,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -18161,8 +18161,8 @@
               "Loud environment"
             ],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "KR7LAF78stvWS-gwTEaufQ",
@@ -18172,8 +18172,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "7mC_1D3YhXNFXVMejPIqgg",
@@ -18185,8 +18185,8 @@
               "Private room available"
             ],
             "total_points": 20,
-            "recency_weight": 0.25,
-            "weighted_points": 5
+            "recency_weight": 1.0,
+            "weighted_points": 20
           },
           {
             "review_id": "fMtXDKwqwSvs2YIhZVoMOg",
@@ -18198,8 +18198,8 @@
               "Loud environment"
             ],
             "total_points": 10,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 10
           }
         ],
         "cuisine_modifier": false,
@@ -18387,8 +18387,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "score": 28,
+        "verdict": "Acceptable",
+        "score": 135,
         "n_incidents": 13,
         "incidents": [
           {
@@ -18399,8 +18399,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "cChhUdCZZUyeQ66sK9sjWw",
@@ -18410,8 +18410,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "Rp8ObIus4UEYrII_74OlIg",
@@ -18421,8 +18421,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "wZI0-_JeNt3zVRCY8tZxAQ",
@@ -18434,8 +18434,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "BSd5sW2quVSJ6Sq0PPvjZA",
@@ -18445,8 +18445,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "Eg1U1v3ZhzEQl5mRJ4ay2Q",
@@ -18456,8 +18456,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "vgSBC3sHH7O5eI7KOLunHg",
@@ -18469,8 +18469,8 @@
               "Slow service"
             ],
             "total_points": -3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "L8BONnobImHdO9CJL5EE2g",
@@ -18480,8 +18480,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "bI3LkP8FVydT15OvtuUTmg",
@@ -18491,8 +18491,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "lCOOtDs6wwWcw0b-9HjyTw",
@@ -18502,7 +18502,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -18513,8 +18513,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "YxqLJwDgcL4OoDB1hN-Ikg",
@@ -18524,7 +18524,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -18535,7 +18535,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           }
         ],
@@ -19253,7 +19253,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Recommended",
-        "score": 238,
+        "score": 306,
         "n_incidents": 23,
         "incidents": [
           {
@@ -19398,8 +19398,8 @@
               "Loud environment"
             ],
             "total_points": -5,
-            "recency_weight": 0.5,
-            "weighted_points": -2
+            "recency_weight": 1.0,
+            "weighted_points": -5
           },
           {
             "review_id": "Hv6FgZWrxulHVU46PAa4SQ",
@@ -19411,8 +19411,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "7oLfIgC8BkiBH4jQ5_fhgg",
@@ -19424,8 +19424,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "1wAHwPCeT0KX0-oKY1VEhw",
@@ -19437,8 +19437,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "mTnAnOI2Ch8WDWIo3kZEMg",
@@ -19448,8 +19448,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "7OerQvwbyGyNnNeZee-sLQ",
@@ -19459,7 +19459,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -19472,8 +19472,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "7UfRCcBnbdg7D1VLdHqAJQ",
@@ -19483,7 +19483,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -19494,7 +19494,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -19507,8 +19507,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "bBjlvPiWoeBLCxv5n-hBmw",
@@ -19520,8 +19520,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "DWxRotm88TBz7vJr7jF72A",
@@ -19533,8 +19533,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           }
         ],
         "cuisine_modifier": false,
@@ -19950,7 +19950,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Acceptable",
-        "score": 85,
+        "score": 124,
         "n_incidents": 22,
         "incidents": [
           {
@@ -20031,8 +20031,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "i6kvirQnrWlu-zIIS-cbQQ",
@@ -20042,7 +20042,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -20053,8 +20053,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "tklBhBhyOm5k0sOQtualdg",
@@ -20064,7 +20064,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -20075,7 +20075,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -20088,8 +20088,8 @@
               "Loud environment"
             ],
             "total_points": -5,
-            "recency_weight": 0.5,
-            "weighted_points": -2
+            "recency_weight": 1.0,
+            "weighted_points": -5
           },
           {
             "review_id": "ShL9e1c8RdkFy8ZlD1Ja8A",
@@ -20099,8 +20099,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "MBrKiwvsig4aF9DJTZluTQ",
@@ -20112,8 +20112,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "lwzzqajvNdgtkEe0PXf_Jg",
@@ -20123,7 +20123,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -20134,7 +20134,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -20145,8 +20145,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "W3Vi_Ie8eGIxd1LihpmMGQ",
@@ -20156,7 +20156,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -20167,7 +20167,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -20178,7 +20178,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -20189,7 +20189,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -20200,7 +20200,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           }
         ],
@@ -20215,7 +20215,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Recommended",
-        "score": 244,
+        "score": 279,
         "n_incidents": 22,
         "incidents": [
           {
@@ -20403,7 +20403,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -20414,8 +20414,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "hwF5f-Np-SYgNe5Kg3RnVg",
@@ -20425,8 +20425,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "-OUMQeXQdYsSPX7KdLjHzw",
@@ -20438,8 +20438,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "QqFNaBnFOEH695SK1v3nBQ",
@@ -20451,8 +20451,8 @@
               "Efficient service"
             ],
             "total_points": 3,
-            "recency_weight": 0.5,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 3
           },
           {
             "review_id": "E3WEtaUE3QbR-VQeI1qJ4g",
@@ -20462,7 +20462,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -20473,8 +20473,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": false,
@@ -20488,7 +20488,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Recommended",
-        "score": 166,
+        "score": 185,
         "n_incidents": 16,
         "incidents": [
           {
@@ -20659,8 +20659,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "zFrypvU6HIuymHNvFaGZdQ",
@@ -20670,7 +20670,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -20683,8 +20683,8 @@
               "Private room available"
             ],
             "total_points": 20,
-            "recency_weight": 0.5,
-            "weighted_points": 10
+            "recency_weight": 1.0,
+            "weighted_points": 20
           }
         ],
         "cuisine_modifier": false,
@@ -20697,8 +20697,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "score": 58,
+        "verdict": "Acceptable",
+        "score": 120,
         "n_incidents": 14,
         "incidents": [
           {
@@ -20746,8 +20746,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "8DnXnpBAmeWMEVNGF-IcHg",
@@ -20759,8 +20759,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "_3o0Fs6v5zPOn-nAR8TfGw",
@@ -20770,7 +20770,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -20781,8 +20781,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "CfQuX9D4VLX_dwvr6LE7Eg",
@@ -20792,8 +20792,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "k4a0aX1aQbFpk0TVfHhplA",
@@ -20803,8 +20803,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "iKn2Tl2mkzhkiupE5HHBbA",
@@ -20816,8 +20816,8 @@
               "Slow service"
             ],
             "total_points": -3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "e7eiO4XOiWMWJsuAl_U01w",
@@ -20829,8 +20829,8 @@
               "Slow service"
             ],
             "total_points": -3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "SyvGagBfIGzzE5Pg6_fSxA",
@@ -20842,8 +20842,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "WzlXooTqtbznPUq8mTLylA",
@@ -20855,8 +20855,8 @@
               "Slow service"
             ],
             "total_points": -3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "mEYtFDSYNSPkETzJZqH8gw",
@@ -20868,8 +20868,8 @@
               "Efficient service"
             ],
             "total_points": 3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": 3
           }
         ],
         "cuisine_modifier": false,
@@ -20882,8 +20882,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "score": 54,
+        "verdict": "Recommended",
+        "score": 246,
         "n_incidents": 16,
         "incidents": [
           {
@@ -20894,8 +20894,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "kfDnNNmEI10Z6Lc4bPbRwA",
@@ -20907,8 +20907,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "AEF5sK_K2kNziZw_a8TmZg",
@@ -20918,8 +20918,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "cRVj8rLLdjprmFvjdnDbfg",
@@ -20931,8 +20931,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "pCBSTQvy7N0XmwBvrYZTRg",
@@ -20944,8 +20944,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "GyQ6-Ptr3bVeBopNku1W_g",
@@ -20957,8 +20957,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "1fjrSTx4m_thChscZg5-Aw",
@@ -20968,7 +20968,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -20981,8 +20981,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "GeFjk0bBO3KLgMtUmjTNxw",
@@ -20995,8 +20995,8 @@
               "Efficient service"
             ],
             "total_points": 21,
-            "recency_weight": 0.25,
-            "weighted_points": 5
+            "recency_weight": 1.0,
+            "weighted_points": 21
           },
           {
             "review_id": "y4gDiv0ohE7Qn7VwYyHzDg",
@@ -21008,8 +21008,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "ex9f8x7ITJRfOWdXse8zHA",
@@ -21021,8 +21021,8 @@
               "Slow service"
             ],
             "total_points": 12,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 12
           },
           {
             "review_id": "k74RcCG9kHtiDSBiau4rrA",
@@ -21032,8 +21032,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "gwYS-bzYPqDsR5-Q6z5LYw",
@@ -21045,8 +21045,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "o2_eijd2bJxxH9szzwHdww",
@@ -21056,8 +21056,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "yBS7CtMKXFlv2lbqZeXbPw",
@@ -21067,8 +21067,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "fppoSpnV6YeAOS7wOI0Hfw",
@@ -21080,8 +21080,8 @@
               "Slow service"
             ],
             "total_points": 12,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 12
           }
         ],
         "cuisine_modifier": false,
@@ -21374,8 +21374,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "score": 58,
+        "verdict": "Recommended",
+        "score": 215,
         "n_incidents": 17,
         "incidents": [
           {
@@ -21388,8 +21388,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "DYeCRcMPalh4uIjVgNyuog",
@@ -21401,8 +21401,8 @@
               "Slow service"
             ],
             "total_points": -3,
-            "recency_weight": 0.5,
-            "weighted_points": -1
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "ekJhmeHSh8yxjymWcEhljQ",
@@ -21412,7 +21412,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -21423,8 +21423,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "7pWoRCPbSTqMGC_KD9_qQQ",
@@ -21436,8 +21436,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "3H5Hmbf0bV5PMf6255kXbw",
@@ -21447,8 +21447,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "Wy1x-bEj9AqtSxshk0HPjg",
@@ -21458,8 +21458,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "HfVTakZ1gwz57UmsnIFX5Q",
@@ -21469,8 +21469,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "LB1qoBWzrsz7WYKkC6D5Kg",
@@ -21482,8 +21482,8 @@
               "Efficient service"
             ],
             "total_points": 3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": 3
           },
           {
             "review_id": "VBmiaIFlyPPSbpcX2B1LOA",
@@ -21493,8 +21493,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "S-ld0G4Dla0iLBftJQWFDA",
@@ -21504,8 +21504,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "tYVcjD0VGMpObImlEg5oPw",
@@ -21515,7 +21515,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -21526,8 +21526,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "R4a8hhXQ65n9g79xNG9zLQ",
@@ -21539,8 +21539,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "2wgZQf5RaZoulLiA2GGs2A",
@@ -21550,8 +21550,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "P1s40HpgCXiHxZHO2vSKbA",
@@ -21561,8 +21561,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "KpU3hND9zpy4uImO1VCR9A",
@@ -21576,8 +21576,8 @@
               "Efficient service"
             ],
             "total_points": 26,
-            "recency_weight": 0.25,
-            "weighted_points": 6
+            "recency_weight": 1.0,
+            "weighted_points": 26
           }
         ],
         "cuisine_modifier": false,
@@ -21590,8 +21590,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 125,
+        "verdict": "Recommended",
+        "score": 308,
         "n_incidents": 19,
         "incidents": [
           {
@@ -21604,8 +21604,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "SVw8g6SZqc9dWZxXUzKUQQ",
@@ -21617,8 +21617,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "ziTVwLWI_3DXZNeOIHj_tg",
@@ -21628,8 +21628,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "FQCrzXkYPBWoaAAyjpZaYg",
@@ -21641,8 +21641,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "lS474_PCVvuNz1QlT5Godw",
@@ -21652,8 +21652,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "JkKHSmBONcWwTfZc8WogeA",
@@ -21665,8 +21665,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "I5V28sR1PyrCekRYDyhJhw",
@@ -21676,8 +21676,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "qc-e0xmD1qekdZ0DB7J7ng",
@@ -21687,8 +21687,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "YsjkRj8Fd8opQt-cSdU5jA",
@@ -21698,7 +21698,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -21711,8 +21711,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "fKqzzmlj9ToExrug7LuN6A",
@@ -21722,8 +21722,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "0pSXXFrWbjCWWMcs6cgSzQ",
@@ -21735,8 +21735,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "a4Drw2WOl2Jsg2t6H17QWA",
@@ -21748,8 +21748,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "d0oNB29vKrgmPmrHepb0lA",
@@ -21759,8 +21759,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "gBSHTwjVrOBm3F_uattSjQ",
@@ -21772,8 +21772,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "noIfk7I8cA1iZDg_dJzj8g",
@@ -21786,8 +21786,8 @@
               "Quiet atmosphere"
             ],
             "total_points": 23,
-            "recency_weight": 0.25,
-            "weighted_points": 5
+            "recency_weight": 1.0,
+            "weighted_points": 23
           },
           {
             "review_id": "Aby_xqouTHG5AHecZcQJYg",
@@ -21799,8 +21799,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "ATWyFyS2qwfltKA5N42YXg",
@@ -21812,8 +21812,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "gu2vuvVGigE-msPmwrkEug",
@@ -21823,8 +21823,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": false,
@@ -21837,8 +21837,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 104,
+        "verdict": "Recommended",
+        "score": 255,
         "n_incidents": 23,
         "incidents": [
           {
@@ -21895,8 +21895,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "vUJ19l4YPkxeGgGci1mCXg",
@@ -21906,7 +21906,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -21917,8 +21917,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "QgvZDxc1HhhbUcvyU3enOg",
@@ -21928,8 +21928,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "p0_eFt05Gxc6D4v1Exo1yw",
@@ -21943,8 +21943,8 @@
               "Efficient service"
             ],
             "total_points": 26,
-            "recency_weight": 0.5,
-            "weighted_points": 13
+            "recency_weight": 1.0,
+            "weighted_points": 26
           },
           {
             "review_id": "midtbwYbAFvjcZlGxiX2NQ",
@@ -21954,7 +21954,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -21967,8 +21967,8 @@
               "Efficient service"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "jsCT1fCfnOK5HCWf2evxvw",
@@ -21978,8 +21978,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "2M4PY1raf72YBgQPwO6oCw",
@@ -21989,7 +21989,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -22003,8 +22003,8 @@
               "Quiet atmosphere"
             ],
             "total_points": 23,
-            "recency_weight": 0.25,
-            "weighted_points": 5
+            "recency_weight": 1.0,
+            "weighted_points": 23
           },
           {
             "review_id": "2A-QFX4UCtr24aNEuThjuA",
@@ -22014,8 +22014,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "_A8f_O_o_IhKpcBAh_1g9Q",
@@ -22027,8 +22027,8 @@
               "Private room available"
             ],
             "total_points": 20,
-            "recency_weight": 0.25,
-            "weighted_points": 5
+            "recency_weight": 1.0,
+            "weighted_points": 20
           },
           {
             "review_id": "u2i8x0XeRAqFd58fvQu4Yw",
@@ -22038,7 +22038,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -22049,8 +22049,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "WgDpszOyhlI41KKbzHImcA",
@@ -22062,8 +22062,8 @@
               "Slow service"
             ],
             "total_points": 12,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 12
           },
           {
             "review_id": "7rkzhcDgsMtXPkPeDdvyew",
@@ -22073,8 +22073,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "pwQK_OkdhKCm1_3wQiNx2g",
@@ -22086,8 +22086,8 @@
               "Efficient service"
             ],
             "total_points": 3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": 3
           },
           {
             "review_id": "KnWPJGNIvVcDYht94k0zAQ",
@@ -22097,7 +22097,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -22108,8 +22108,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": false,
@@ -22414,9 +22414,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Not Recommended": 21,
-      "Acceptable": 29,
-      "Recommended": 50
+      "Not Recommended": 5,
+      "Acceptable": 24,
+      "Recommended": 71
     },
     "missing_judgments": 0
   }

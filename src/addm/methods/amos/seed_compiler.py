@@ -16,6 +16,7 @@ The compiler generates:
 """
 
 import logging
+import re
 from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
@@ -359,19 +360,32 @@ def _build_scoring_compute(
             "where": {account_field: [counting_account_type]},
         })
 
-    # 2. MODIFIER operations (one per modifier)
+    # 2. MODIFIER operations (one per modifier, unique names)
     modifier_names = []
-    for mod in modifiers:
+    used_mod_names = set()
+    for i, mod in enumerate(modifiers):
         field = mod.get("field", "")
         value = mod.get("value", "")
         points = mod.get("points", 0)
         if field and value:
-            name = f"MOD_{field.upper()}"
+            # Generate unique name including both field and value
+            # Sanitize value for variable name (uppercase, replace non-alphanumeric)
+            value_sanitized = re.sub(r'[^A-Za-z0-9_]', '_', str(value).upper())
+            base_name = f"MOD_{field.upper()}_{value_sanitized}"
+
+            # Ensure uniqueness by adding suffix if needed
+            name = base_name
+            suffix = 1
+            while name in used_mod_names:
+                name = f"{base_name}_{suffix}"
+                suffix += 1
+            used_mod_names.add(name)
+
             modifier_names.append(name)
             compute.append({
                 "name": name,
                 "op": "sum",
-                "expr": f"CASE WHEN {field}='{value}' THEN {points} ELSE 0 END",
+                "expr": f"CASE WHEN {field.upper()}='{value}' THEN {points} ELSE 0 END",
                 "where": {account_field: [counting_account_type]},
             })
 
@@ -750,6 +764,12 @@ def compile_yaml_to_seed(
         "_compiled_from": "PolicyYAML",
         "_compiler_version": "1.0",
     }
+
+    # Preserve recency_rules for V3 policies (used by phase2 for weighting)
+    if scoring_config.get("recency_rules"):
+        seed["scoring"] = {
+            "recency_rules": scoring_config["recency_rules"],
+        }
 
     return seed
 

@@ -1,8 +1,7 @@
-# G3_time_value_V1: Time-Value with Override Triggers
-# V1 = Extended: Multiple conditions per verdict (ANY triggers)
+# G3_time_value_V1: Base Time-Value Assessment
+# V1 = Base: Simple per-instance reasoning, basic thresholds
 
-policy_id: "G3_time_value_V1"
-extends: "G3_time_value_V0"
+policy_id: G3_time_value_V1
 version: "1.0"
 
 # === OVERVIEW (generates Overview section) ===
@@ -35,15 +34,13 @@ normative:
   # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Not Worth Waiting", "Worth Waiting", "Definitely Worth Waiting"]
-    ordered: true
+    ordered: true  # Higher = better
 
     rules:
-      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Definitely Worth Waiting"
         label: "DEFINITELY"
         logic: ANY
         conditions:
-          # V0 conditions (same thresholds)
           - text: "80 or more reviews say it was definitely worth the wait"
             type: count_threshold
             filter:
@@ -62,23 +59,12 @@ normative:
               25: 13
               50: 25
               100: 50
-          # V1 additional conditions
-          - text: "50 or more reviews mention quick service"
-            type: count_threshold
-            filter:
-              wait_duration: quick
-            min_count: 50
-            min_count_by_k:
-              25: 6
-              50: 13
-              100: 25
 
       - verdict: "Not Worth Waiting"
         label: "NOT_WORTH"
         precondition: "Definitely Worth Waiting does not apply"
         logic: ANY
         conditions:
-          # V0 conditions (same thresholds)
           - text: "50 or more reviews describe waits as 'not worth it'"
             type: count_threshold
             filter:
@@ -97,33 +83,14 @@ normative:
               25: 4
               50: 9
               100: 18
-          # V1 additional conditions
-          - text: "10 or more reviews describe excessive wait duration"
-            type: count_threshold
-            filter:
-              wait_duration: excessive
-            min_count: 10
-            min_count_by_k:
-              25: 1
-              50: 3
-              100: 5
-          - text: "20 or more reviews say it was barely worth the wait"
-            type: count_threshold
-            filter:
-              wait_justification: barely
-            min_count: 20
-            min_count_by_k:
-              25: 3
-              50: 5
-              100: 10
 
       - verdict: "Worth Waiting"
         label: "WORTH"
         default: true
         especially_when:
-          - "Reasonable waits for good food"
-          - "Some timing issues but overall positive"
-          - "Wait acceptable for the type of restaurant"
+          - "Wait times are reasonable for the quality"
+          - "Mixed reviews about whether wait is justified"
+          - "Good experience but some timing issues"
 
   # Output format
   output:

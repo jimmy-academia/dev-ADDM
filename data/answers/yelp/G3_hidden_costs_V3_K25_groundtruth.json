@@ -3,7 +3,7 @@
   "topic": "G3_hidden_costs",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-23T19:09:48.311153",
+  "computed_at": "2026-01-24T20:07:49.951389",
   "has_scoring": true,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -13,7 +13,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 6,
+        "score": 42,
         "n_incidents": 6,
         "incidents": [
           {
@@ -26,8 +26,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "BpCzU-GsGOGmxOpeOQt9gA",
@@ -39,8 +39,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "78Yp8ITygZOqjrkEG4UMig",
@@ -52,8 +52,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "tH1tfFh3bHlsQ2kO4I_Kdg",
@@ -65,8 +65,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "FBGeW6gMosER99pBPY64aw",
@@ -78,8 +78,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "T5OA21--nDBEitj8Garirw",
@@ -91,8 +91,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -644,7 +644,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 23,
+        "score": 54,
         "n_incidents": 8,
         "incidents": [
           {
@@ -683,8 +683,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "0jirewIsx-8SA5YjMuQRMg",
@@ -694,8 +694,8 @@
             "base_points": 2,
             "modifiers": [],
             "total_points": 2,
-            "recency_weight": 0.5,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 2
           },
           {
             "review_id": "kuVJaxu5U3UbhY_y5hqyDg",
@@ -707,8 +707,8 @@
               "No disclosure"
             ],
             "total_points": 10,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 10
           },
           {
             "review_id": "u4XxhcmTXlmCFtMICzxIUw",
@@ -720,8 +720,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "wboWGpOTdJtk24TCtepURw",
@@ -733,8 +733,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "_UWpT6GZUT8aRHeglvjtPA",
@@ -746,8 +746,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -977,7 +977,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 23,
+        "score": 53,
         "n_incidents": 7,
         "incidents": [
           {
@@ -991,8 +991,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "uKEHAlaA3uZVnK7XXjdcag",
@@ -1004,8 +1004,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "ChakUUkJLPEQEqyuVM4jdg",
@@ -1017,8 +1017,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "KODwhmO7KWdrMtfUXuRIDg",
@@ -1031,8 +1031,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "tpTK5AuSxpLyltXhhap7Dg",
@@ -1044,8 +1044,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "KeaE_40TZhI7WxWKKd0Ghg",
@@ -1057,8 +1057,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "yhG7yLbvcZZjl6CV5Ghgiw",
@@ -1070,8 +1070,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -1191,7 +1191,7 @@
       "n_judgments": 16,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 10,
+        "score": 56,
         "n_incidents": 8,
         "incidents": [
           {
@@ -1204,8 +1204,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "RFGZ3JCXOmc5iuE4xNnK9g",
@@ -1217,8 +1217,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "bRJsvMfezXU72N-06gGPMQ",
@@ -1230,8 +1230,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "U_YZ_RcVr50pK6cRmB5loA",
@@ -1243,8 +1243,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "T511n7IkWNXJos5FbbHiKQ",
@@ -1256,8 +1256,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "Qpjh3xgzyeddNoUzRJGbRA",
@@ -1269,8 +1269,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "u6VMHxBG99Drhmgmjggl-g",
@@ -1282,8 +1282,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "rUlhUmUoMCQP7tjMfvui6g",
@@ -1295,8 +1295,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -1310,7 +1310,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 7,
+        "score": 49,
         "n_incidents": 7,
         "incidents": [
           {
@@ -1323,8 +1323,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "M59tvW2Xnt5T99tmTj7Bbg",
@@ -1336,8 +1336,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "yTx1AqKCHfYM6oq6tQjTug",
@@ -1349,8 +1349,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "DVFYTxkKlB_LgMHP4AcDPA",
@@ -1362,8 +1362,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "fV0_FDuuT4uCTS4gcE68Mw",
@@ -1375,8 +1375,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "P-GxP8N59h1X8vIkYD_jHg",
@@ -1388,8 +1388,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "WSJjFwoozmjoS-eo0SUNiA",
@@ -1401,8 +1401,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -1936,7 +1936,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 6,
+        "score": 42,
         "n_incidents": 6,
         "incidents": [
           {
@@ -1949,8 +1949,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "ogx8_Ue2G7yrc0xHWykzog",
@@ -1962,8 +1962,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "0UcvB6bmEowIxCgXPTPvwg",
@@ -1975,8 +1975,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "WbRrPHzCweCt1SpZwvFoRw",
@@ -1988,8 +1988,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "A0Pur0Osy7qr2EjVbkJJUg",
@@ -2001,8 +2001,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "ut3VEiM3uvouHhwr_3KfIQ",
@@ -2014,8 +2014,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -2109,8 +2109,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 30,
+        "verdict": "High Risk",
+        "score": 68,
         "n_incidents": 9,
         "incidents": [
           {
@@ -2123,8 +2123,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "n8W9yEJGoj0xsy3VVZg33A",
@@ -2136,8 +2136,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "JotJjvZ2y0hDSj3kmVKXAw",
@@ -2149,8 +2149,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "hszEmh5iNx8ADpIRxkTHLg",
@@ -2163,8 +2163,8 @@
               "Customer very upset"
             ],
             "total_points": 12,
-            "recency_weight": 0.5,
-            "weighted_points": 6
+            "recency_weight": 1.0,
+            "weighted_points": 12
           },
           {
             "review_id": "d2TeXS-t5LdQlr2tZ_VxWg",
@@ -2176,8 +2176,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "-HzvYWOl_sYKZ-jECRDXtQ",
@@ -2189,8 +2189,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "SuHNkUOT7IJmEejML-dCeg",
@@ -2202,8 +2202,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "JzjNEUXH6lDI8s56FT1SdA",
@@ -2215,8 +2215,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "SY6wBT1vmSUh0U7eayNxgA",
@@ -2228,8 +2228,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -2415,7 +2415,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 40,
+        "score": 64,
         "n_incidents": 9,
         "incidents": [
           {
@@ -2478,8 +2478,8 @@
             "base_points": 2,
             "modifiers": [],
             "total_points": 2,
-            "recency_weight": 0.5,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 2
           },
           {
             "review_id": "S_IHOzJnpnEtcn-nhTETDA",
@@ -2492,8 +2492,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "MCyysfTaEbbp-cL8QJHUig",
@@ -2506,8 +2506,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "Bn1QScPOf4Gc9lsG9pAeTA",
@@ -2519,8 +2519,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "vmXheZqkTnyjyCj9BE0Vww",
@@ -2533,8 +2533,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 9
           }
         ],
         "cuisine_modifier": false,
@@ -2547,8 +2547,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 14,
+        "verdict": "Critical Risk",
+        "score": 88,
         "n_incidents": 12,
         "incidents": [
           {
@@ -2562,8 +2562,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "jffpWbZjFiSZCPCLmtRidg",
@@ -2575,8 +2575,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "iD4aqf6fBY2eE3dGLhY43g",
@@ -2588,8 +2588,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "AbKuNE9NgoQAyxCl5iDJ0A",
@@ -2601,8 +2601,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "5Pr4v3UGwal1IHhZ-FMJUw",
@@ -2615,8 +2615,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "IEdxyyZaTsmsTV3vyV-oQg",
@@ -2628,8 +2628,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "YHne4bXx8MnLTbVvRJynhQ",
@@ -2641,8 +2641,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "t4VVZdxUH01eMzfDVLh1SQ",
@@ -2654,8 +2654,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "Af4AKb1XtzX2IhXFirQong",
@@ -2667,8 +2667,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "xi392eLpV7pneWfk-jLnfw",
@@ -2680,8 +2680,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "JJqqe2n1ThnAAtNit2skBg",
@@ -2693,8 +2693,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "lJHgB2DVklkDK0o4fbJjcg",
@@ -2706,8 +2706,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -2878,8 +2878,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 10,
+        "verdict": "High Risk",
+        "score": 70,
         "n_incidents": 10,
         "incidents": [
           {
@@ -2892,8 +2892,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "S2ntjRKIoT_9sMg1C_EOBQ",
@@ -2905,8 +2905,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "csumMxaN6oj28a6l1JVGvA",
@@ -2918,8 +2918,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "j9vomQ8gUtJJynnu7g_c4w",
@@ -2931,8 +2931,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "R9PJ3Sy-JgPRozQ403wlfA",
@@ -2944,8 +2944,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "4M58uj3xoYnyfM5NXRzMQA",
@@ -2957,8 +2957,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "3aCyDv2CxOqS6QmnwnERpw",
@@ -2970,8 +2970,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "FhWLPS8XxGb2lUds-BKzjg",
@@ -2983,8 +2983,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "Y38rLEb4NNQ6WvHBuUHtkg",
@@ -2996,8 +2996,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "mDX9vTm8xjjmASNOXUm4Sw",
@@ -3009,8 +3009,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -3024,7 +3024,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 8,
+        "score": 46,
         "n_incidents": 6,
         "incidents": [
           {
@@ -3038,8 +3038,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "s-89d30lGjmK6QBymsXorQ",
@@ -3051,8 +3051,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "E7cUGNyg1t-wjxMrX0HwMg",
@@ -3065,8 +3065,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "h1bJqq3_8fZcyr003xRDoA",
@@ -3078,8 +3078,8 @@
               "Customer very upset"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "phwS1b3cdy9bXjyz4-Z7UQ",
@@ -3091,8 +3091,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "luX-ww4a15YwrkfTCK5Kng",
@@ -3104,8 +3104,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -3173,7 +3173,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 35,
+        "score": 39,
         "n_incidents": 5,
         "incidents": [
           {
@@ -3240,8 +3240,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -3254,8 +3254,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 28,
+        "verdict": "High Risk",
+        "score": 72,
         "n_incidents": 11,
         "incidents": [
           {
@@ -3307,8 +3307,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "cMATz_NczgHQ5WhPcUdLiQ",
@@ -3320,8 +3320,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "We7JFzdLku2U5hH7Fc7kDg",
@@ -3333,8 +3333,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "17DQviu7DyWdOT5THZImfA",
@@ -3346,8 +3346,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "SNA7sNPqiiaZS0vUCQ0wKQ",
@@ -3359,8 +3359,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "4ubo7fZvQCsZmr4SpnGO2g",
@@ -3372,8 +3372,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "qD2aN-lUVdMs9R-XVjsrbw",
@@ -3383,8 +3383,8 @@
             "base_points": 2,
             "modifiers": [],
             "total_points": 2,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": 2
           },
           {
             "review_id": "KlN5NYMc8ElG5fEKGXCzlQ",
@@ -3396,8 +3396,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -3775,7 +3775,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 4,
+        "score": 28,
         "n_incidents": 4,
         "incidents": [
           {
@@ -3788,8 +3788,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "zphxn-71mwkeTiZHdlHKxw",
@@ -3801,8 +3801,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "DO-n7PAKvIEF3sScST7LsQ",
@@ -3814,8 +3814,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "wA0TtAGc6KOZ9JgDc1x44g",
@@ -3827,8 +3827,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -4984,7 +4984,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 56,
+        "score": 60,
         "n_incidents": 9,
         "incidents": [
           {
@@ -5100,8 +5100,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -5115,7 +5115,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 40,
+        "score": 44,
         "n_incidents": 6,
         "incidents": [
           {
@@ -5194,8 +5194,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -5869,7 +5869,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 15,
+        "score": 35,
         "n_incidents": 5,
         "incidents": [
           {
@@ -5882,8 +5882,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "1hLYaX3CSmzXlFskqwzBWw",
@@ -5895,8 +5895,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "dq0PKei9tB209vQ_YOSW_w",
@@ -5908,8 +5908,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "3FqSOZHXkyntrAjYXfOpgQ",
@@ -5921,8 +5921,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "yTYMsANL7G9hDWa4Q2J2IA",
@@ -5934,8 +5934,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -5949,7 +5949,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 9,
+        "score": 53,
         "n_incidents": 7,
         "incidents": [
           {
@@ -5962,8 +5962,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "0Kfl-F_nKA7l38m8Kt7xGg",
@@ -5975,8 +5975,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "6-0AlUBg8xegGg5SZXe4dQ",
@@ -5989,8 +5989,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "DWnGmRK1XNrVdT95NzBKpA",
@@ -6002,8 +6002,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "b2nBriAAkRjozLVtUTutOQ",
@@ -6015,8 +6015,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "1jhRwbJ-gJzIDISXeRl2fw",
@@ -6029,8 +6029,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "5_0UZBfsU4GD3FeNSVDwiQ",
@@ -6042,8 +6042,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -6189,8 +6189,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 38,
+        "verdict": "High Risk",
+        "score": 72,
         "n_incidents": 10,
         "incidents": [
           {
@@ -6243,8 +6243,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "7OvpivY4VWmJzhRlQ58f_g",
@@ -6256,8 +6256,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "Fp7KmyxZNVEVLWt4tyOd7w",
@@ -6269,8 +6269,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "FtSapdDQCpIhWZ3izyQaYA",
@@ -6282,8 +6282,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "y23pPvifmFWUggw0KaC1ug",
@@ -6295,8 +6295,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "aOztdkzagYaWX73ZsgIG0A",
@@ -6308,8 +6308,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "kIQ6_L3bdlqPw_s5UGQ4kA",
@@ -6321,8 +6321,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -6335,8 +6335,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 29,
+        "verdict": "High Risk",
+        "score": 67,
         "n_incidents": 9,
         "incidents": [
           {
@@ -6349,8 +6349,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "_v65PY8ZJ0AwImIEdV3O3g",
@@ -6362,8 +6362,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "wtqioP10W4DnZv8Ted3v6Q",
@@ -6375,8 +6375,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "q9q3XGfViLetHpbz_eTKGA",
@@ -6388,8 +6388,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "C9cYCMFmjml5CtDtNdHv4A",
@@ -6401,8 +6401,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "rWPN6JvlO6mL-R1BHeg-tw",
@@ -6414,8 +6414,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "j7zT_HGN2OqQdBpJsn_QVA",
@@ -6428,8 +6428,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "ERgL_jc3Ecl79P8NdgmbZw",
@@ -6441,8 +6441,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "rgByCzzwWs66804sKpHDjw",
@@ -6455,8 +6455,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 9
           }
         ],
         "cuisine_modifier": false,
@@ -6696,7 +6696,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 27,
+        "score": 44,
         "n_incidents": 6,
         "incidents": [
           {
@@ -6735,8 +6735,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "0djCNAVkry1rzEy1fQDDbg",
@@ -6748,8 +6748,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "J8TI-vH5F4AGTOP5j-huWw",
@@ -6761,8 +6761,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "vPQWjq0u6kZy080MhDLDNw",
@@ -6775,8 +6775,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 9
           }
         ],
         "cuisine_modifier": false,
@@ -6938,8 +6938,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 36,
+        "verdict": "Critical Risk",
+        "score": 88,
         "n_incidents": 12,
         "incidents": [
           {
@@ -6979,8 +6979,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "aRxd_RXWtIVDxskbqsx3yA",
@@ -6992,8 +6992,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "938SpotakgbvfRhiv5XqQQ",
@@ -7005,8 +7005,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "-dfYYnobP9bRVXEmmJnsYg",
@@ -7018,8 +7018,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "xXYK8wjeP5bvhx1fKUj5fQ",
@@ -7032,8 +7032,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "fxxi0fDTkZgHfaWPlE8Ucw",
@@ -7045,8 +7045,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "ZlQE5600W4Xpcdv6pRDEQg",
@@ -7058,8 +7058,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "EN4l1q2ShbYm8aBpYi3CIg",
@@ -7071,8 +7071,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "6iYcwC5bkXrOXGyzPJjrmQ",
@@ -7084,8 +7084,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "S1DaYb2VL8T6KO8H7UcVJQ",
@@ -7097,8 +7097,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -7205,8 +7205,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 12,
+        "verdict": "High Risk",
+        "score": 68,
         "n_incidents": 10,
         "incidents": [
           {
@@ -7219,8 +7219,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "IzFKFV2JhROJV7QR_C6c3Q",
@@ -7230,8 +7230,8 @@
             "base_points": 2,
             "modifiers": [],
             "total_points": 2,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": 2
           },
           {
             "review_id": "ddLSGsrlR0mjtbda6T5GeQ",
@@ -7244,8 +7244,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "NQDO0ZFNrxwWFVJIBfif6Q",
@@ -7257,8 +7257,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "C_9HEqYieW7TnM86OtQlqw",
@@ -7271,8 +7271,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "JTeR9wzcNH5dzClfgtCOmA",
@@ -7284,8 +7284,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "SQfvXDKum2-19jC4yhxjeQ",
@@ -7297,8 +7297,8 @@
               "Customer very upset"
             ],
             "total_points": 4,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 4
           },
           {
             "review_id": "tbm6wNuN89MQGl4B2h5qrQ",
@@ -7311,8 +7311,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "T3bUCQtSh1naAeXlT-GcAw",
@@ -7324,8 +7324,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "6xCuRLzyGzrVIwesudvDfQ",
@@ -7337,8 +7337,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -7526,7 +7526,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 32,
+        "score": 41,
         "n_incidents": 5,
         "incidents": [
           {
@@ -7581,8 +7581,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "2NYQPtfqRPiXvSwCH2_cNg",
@@ -7594,8 +7594,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -7609,7 +7609,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 45,
+        "score": 49,
         "n_incidents": 6,
         "incidents": [
           {
@@ -7689,8 +7689,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -8052,7 +8052,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 46,
+        "score": 60,
         "n_incidents": 8,
         "incidents": [
           {
@@ -8131,8 +8131,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "g6uud_8Dkv1zk3E5PVbFQQ",
@@ -8145,8 +8145,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "aINuVl9CgEtwTSZC66_lnw",
@@ -8158,8 +8158,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -9035,8 +9035,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 62,
+        "verdict": "Critical Risk",
+        "score": 95,
         "n_incidents": 12,
         "incidents": [
           {
@@ -9128,8 +9128,8 @@
             "base_points": 2,
             "modifiers": [],
             "total_points": 2,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": 2
           },
           {
             "review_id": "F4bkDF8zJk_lLW0ZPpDxjg",
@@ -9141,8 +9141,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "reAHSupzuOo9Q9KIV51udw",
@@ -9154,8 +9154,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "Ty5GM3S0pvVoyGxnLEHYSg",
@@ -9167,8 +9167,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "HNQ02ftDrE3ApVAbEC4D4g",
@@ -9181,8 +9181,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "fMtXDKwqwSvs2YIhZVoMOg",
@@ -9194,8 +9194,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -9319,8 +9319,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 9,
+        "verdict": "High Risk",
+        "score": 65,
         "n_incidents": 10,
         "incidents": [
           {
@@ -9331,8 +9331,8 @@
             "base_points": 2,
             "modifiers": [],
             "total_points": 2,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": 2
           },
           {
             "review_id": "Rp8ObIus4UEYrII_74OlIg",
@@ -9344,8 +9344,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "BSd5sW2quVSJ6Sq0PPvjZA",
@@ -9357,8 +9357,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "vgSBC3sHH7O5eI7KOLunHg",
@@ -9370,8 +9370,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "L8BONnobImHdO9CJL5EE2g",
@@ -9383,8 +9383,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "bI3LkP8FVydT15OvtuUTmg",
@@ -9396,8 +9396,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "lCOOtDs6wwWcw0b-9HjyTw",
@@ -9409,8 +9409,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "EmHUDCrXdSHPIFfzF_DK7g",
@@ -9422,8 +9422,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "Mc2H4y-czfE5za_0ZFLmsQ",
@@ -9435,8 +9435,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "xEn3lMbL2Cs7v7io4QfJZg",
@@ -9448,8 +9448,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -9705,7 +9705,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 28,
+        "score": 62,
         "n_incidents": 9,
         "incidents": [
           {
@@ -9729,8 +9729,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "HGZuTsbh9nqWmgLuUVsAhQ",
@@ -9743,8 +9743,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "Hv6FgZWrxulHVU46PAa4SQ",
@@ -9756,8 +9756,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "1wAHwPCeT0KX0-oKY1VEhw",
@@ -9769,8 +9769,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "mTnAnOI2Ch8WDWIo3kZEMg",
@@ -9782,8 +9782,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "Ogm6Hvy10TaNspC6KBJbvw",
@@ -9795,8 +9795,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "Re_BZaWjabKuDn7Q8Ss4KA",
@@ -9809,8 +9809,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "DWxRotm88TBz7vJr7jF72A",
@@ -9822,8 +9822,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -10081,7 +10081,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 28,
+        "score": 46,
         "n_incidents": 8,
         "incidents": [
           {
@@ -10118,8 +10118,8 @@
             "base_points": 2,
             "modifiers": [],
             "total_points": 2,
-            "recency_weight": 0.5,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 2
           },
           {
             "review_id": "ShL9e1c8RdkFy8ZlD1Ja8A",
@@ -10131,8 +10131,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "lwzzqajvNdgtkEe0PXf_Jg",
@@ -10144,8 +10144,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "V_V-t9R6Q-kNxL7o0FH_5Q",
@@ -10155,8 +10155,8 @@
             "base_points": 2,
             "modifiers": [],
             "total_points": 2,
-            "recency_weight": 0.5,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 2
           },
           {
             "review_id": "CFKkizzGFR4TOrUFJGXZAQ",
@@ -10168,8 +10168,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "qhMvWh1sK1FfaV3a2XQiAQ",
@@ -10181,8 +10181,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -10196,7 +10196,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 44,
+        "score": 60,
         "n_incidents": 9,
         "incidents": [
           {
@@ -10273,8 +10273,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "-OUMQeXQdYsSPX7KdLjHzw",
@@ -10286,8 +10286,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "QqFNaBnFOEH695SK1v3nBQ",
@@ -10299,8 +10299,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "NHJeQ5c-fVntXK84b44k7A",
@@ -10312,8 +10312,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -10327,7 +10327,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 47,
+        "score": 63,
         "n_incidents": 7,
         "incidents": [
           {
@@ -10394,8 +10394,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "tUYKFO1I9vstl-17pfKxhA",
@@ -10407,8 +10407,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "zaa5EzU8GCT_77DoTGs33A",
@@ -10421,8 +10421,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 9
           }
         ],
         "cuisine_modifier": false,
@@ -10435,8 +10435,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 53,
+        "verdict": "Critical Risk",
+        "score": 101,
         "n_incidents": 13,
         "incidents": [
           {
@@ -10517,8 +10517,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "k4a0aX1aQbFpk0TVfHhplA",
@@ -10530,8 +10530,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "Ph1mLkSHNKadpW-lCQ_QEg",
@@ -10544,8 +10544,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "SyvGagBfIGzzE5Pg6_fSxA",
@@ -10557,8 +10557,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "iAvHSYrYS_nhvnpcdiXEvQ",
@@ -10571,8 +10571,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "WzlXooTqtbznPUq8mTLylA",
@@ -10584,8 +10584,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "OtNKxEQI2KsZBzwmRhJZCA",
@@ -10597,8 +10597,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "mEYtFDSYNSPkETzJZqH8gw",
@@ -10610,8 +10610,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -10624,8 +10624,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 11,
+        "verdict": "High Risk",
+        "score": 72,
         "n_incidents": 11,
         "incidents": [
           {
@@ -10638,8 +10638,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "kfDnNNmEI10Z6Lc4bPbRwA",
@@ -10651,8 +10651,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "AEF5sK_K2kNziZw_a8TmZg",
@@ -10664,8 +10664,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "l1Aal0aeVaif9CKMCXv4xg",
@@ -10677,8 +10677,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "GeFjk0bBO3KLgMtUmjTNxw",
@@ -10690,8 +10690,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "8ECR_r9HT2loycrDH8BtRA",
@@ -10703,8 +10703,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "QHWllGFYW_WRW6xOKIiVsg",
@@ -10716,8 +10716,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "k74RcCG9kHtiDSBiau4rrA",
@@ -10727,8 +10727,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "gwYS-bzYPqDsR5-Q6z5LYw",
@@ -10740,8 +10740,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "o2_eijd2bJxxH9szzwHdww",
@@ -10753,8 +10753,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "DZYguu6eEzTx_F3TihTDSA",
@@ -10766,8 +10766,8 @@
               "Customer very upset"
             ],
             "total_points": 4,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 4
           }
         ],
         "cuisine_modifier": false,
@@ -10874,7 +10874,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 7,
+        "score": 35,
         "n_incidents": 4,
         "incidents": [
           {
@@ -10888,8 +10888,8 @@
               "Customer very upset"
             ],
             "total_points": 12,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 12
           },
           {
             "review_id": "UO0gabDbnJxL1l2CdusxIQ",
@@ -10901,8 +10901,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "i7rF7A51Hn5zrcE_emAxXw",
@@ -10915,8 +10915,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "KpU3hND9zpy4uImO1VCR9A",
@@ -10928,8 +10928,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -10943,7 +10943,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 17,
+        "score": 49,
         "n_incidents": 7,
         "incidents": [
           {
@@ -10956,8 +10956,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "JkKHSmBONcWwTfZc8WogeA",
@@ -10969,8 +10969,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "pTFa8vK4lXXaAW4DZzR74Q",
@@ -10982,8 +10982,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "0pSXXFrWbjCWWMcs6cgSzQ",
@@ -10995,8 +10995,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "a4Drw2WOl2Jsg2t6H17QWA",
@@ -11008,8 +11008,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "noIfk7I8cA1iZDg_dJzj8g",
@@ -11021,8 +11021,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "ATWyFyS2qwfltKA5N42YXg",
@@ -11034,8 +11034,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -11048,8 +11048,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 33,
+        "verdict": "High Risk",
+        "score": 72,
         "n_incidents": 10,
         "incidents": [
           {
@@ -11089,8 +11089,8 @@
               "Customer very upset"
             ],
             "total_points": 9,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 9
           },
           {
             "review_id": "Thareumn62o1zF9oxuJEVA",
@@ -11102,8 +11102,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "QgvZDxc1HhhbUcvyU3enOg",
@@ -11115,8 +11115,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "eIHLM_6rWWPUhVvP1PmcYQ",
@@ -11128,8 +11128,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "midtbwYbAFvjcZlGxiX2NQ",
@@ -11141,8 +11141,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.5,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "2A-QFX4UCtr24aNEuThjuA",
@@ -11154,8 +11154,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "_A8f_O_o_IhKpcBAh_1g9Q",
@@ -11167,8 +11167,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "Zj5CnKi_kn2VCwxm6nPx1A",
@@ -11180,8 +11180,8 @@
               "No disclosure"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           }
         ],
         "cuisine_modifier": false,
@@ -11311,9 +11311,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Risk": 81,
-      "High Risk": 15,
-      "Critical Risk": 4
+      "Low Risk": 68,
+      "High Risk": 24,
+      "Critical Risk": 8
     },
     "missing_judgments": 0
   }

@@ -59,19 +59,15 @@ Whether a must-try signature item exists
 ## Verdict Rules
 
 A restaurant is considered **Highly Unique** if any of the following is true:
-- 8 or more reviews describe it as 'one of a kind'
-- 20 or more reviews mention signature items
-- 8 or more reviews describe it as unforgettable
-- 23 or more reviews describe it as memorable
-- 20 or more reviews describe it as unique
+- Reviews describe unique food with unforgettable experience [filter: unique_aspect=food, memorability=unforgettable]
+- Reviews describe one-of-a-kind differentiation [filter: differentiation_level=one_of_a_kind, memorability=memorable]
 
 **Generic** if Highly Unique does not apply, but any of the following is true:
-- 5 or more reviews describe it as 'nothing special'
-- 5 or more reviews mention no distinguishing features
-- 5 or more reviews describe forgettable experience
-- 10 or more reviews describe average experience
+- 8 or more reviews describe it as 'nothing special' [filter: differentiation_level=generic]
+- 8 or more reviews mention no distinguishing features [filter: unique_aspect=none]
+- 6 or more reviews describe it as easily confused with competitors [filter: differentiation_level=interchangeable]
 
 **Differentiated** otherwise, especially when:
-- Some unique elements noted
-- Has character but not irreplaceable
-- Memorable aspects mentioned
+- Has some unique elements
+- Memorable but not irreplaceable
+- Some signature items

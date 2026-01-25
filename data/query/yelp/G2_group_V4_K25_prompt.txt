@@ -1,0 +1,111 @@
+# Group Dining Suitability Assessment
+
+Help assess how suitable this restaurant is for group dining (large parties, celebrations, family gatherings)
+using customer reviews as evidence.
+Assign a suitability label: Not Recommended, Acceptable, or Recommended.
+
+This assessment uses a point-based scoring system with recency weighting.
+
+## Definitions of Terms
+
+### Incident
+
+Consider reviews that mention any of the following:
+- large group dining, parties, celebrations, birthday dinners
+- ability to accommodate large parties
+- wait times for groups, reservation handling
+- check splitting, group service coordination
+- family-friendliness (if relevant)
+
+Reviews from solo diners or couples carry less weight unless they comment on observed group experiences.
+
+### Account Type
+How the reviewer relates to the described event
+
+- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+
+### Group Size
+Size of the dining group
+
+- **Small (4-6)**: Small group of 4-6 people
+- **Medium (7-10)**: Medium group of 7-10 people
+- **Large (10+)**: Large group of more than 10 people
+
+### Accommodation Quality
+How well the restaurant handled the group
+
+- **Poor**: Could not or would not accommodate group well
+- **Adequate**: Basic accommodation, nothing special
+- **Good**: Handled group well, smooth experience
+- **Excellent**: Exceptional group handling, private room, coordinated service
+
+### Check Splitting
+How easy it was to split the check
+
+- **Refused**: Restaurant would not split the check
+- **Difficult**: Splitting was possible but problematic
+- **Easy**: No issues splitting the check
+
+### Wait Time
+Wait time for large party seating
+
+- **Excessive**: Unreasonably long wait despite reservation
+- **Long**: Significant wait but not unreasonable
+- **Reasonable**: Acceptable wait for group size
+- **Quick**: Seated quickly, minimal wait
+
+### Family Friendliness
+How family-friendly the restaurant is
+
+- **Not Suitable**: Not appropriate for children/families
+- **Tolerant**: Allows children but not particularly welcoming
+- **Friendly**: Welcoming to families, kids menu available
+- **Exceptional**: Designed for families, activities for kids
+
+### Group Outcome
+Overall success of the group dining experience
+
+- **Disaster**: Group experience was a disaster
+- **Mixed**: Some issues but overall acceptable
+- **Success**: Group had a good experience
+- **Great**: Exceptional group experience
+
+
+## Scoring System
+
+Calculate a group suitability score by summing points from relevant reviews,
+with recency weighting applied.
+
+For each firsthand incident, assign points based on severity:
+- Perfect group event: 15 points
+- Positive group experience: 5 points
+- Neutral mention: 0 points
+- Minor group issue: -2 points
+- Major group issue: -5 points
+- Group disaster: -15 points
+
+Additional modifiers:
+- Private room available (private dining space for groups): +5 points
+- Easy check splitting (no issues splitting checks): +3 points
+- Family-friendly (kids menu, high chairs, family welcoming): +3 points
+- Refused check split (would not split the check): -5 points
+- Long wait despite reservation (waited excessively despite having reservation): -5 points
+- Group split across tables (party was not seated together): -3 points
+
+Recency weighting (reference date: 2022-01-01):
+- Within 1 year: full point value
+- 1-2 years old: half point value (multiply by 0.5)
+- Over 2 years old: quarter point value (multiply by 0.25)
+
+
+## Verdict Rules
+
+A restaurant is considered **Recommended** if any of the following is true:
+- Total suitability score is 250 or higher (after recency weighting)
+
+**Not Recommended** if Recommended does not apply, but any of the following is true:
+- Total suitability score is 75 or lower (after recency weighting)
+
+**Acceptable** otherwise

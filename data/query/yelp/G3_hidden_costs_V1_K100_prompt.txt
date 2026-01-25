@@ -59,14 +59,14 @@ Customer's reaction to the hidden cost
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- 3 or more reviews report significant impact from undisclosed charges
-- 7 or more reviews report moderate billing impact
+- 3 or more reviews report significant impact from undisclosed charges [filter: impact_severity=significant]
+- 7 or more reviews report moderate billing impact [filter: impact_severity=moderate]
 
 **High Risk** if Critical Risk does not apply, but any of the following is true:
-- 2 or more reviews report significant impact
-- 4 or more reviews report moderate billing impact
+- 2 or more reviews report significant impact [filter: impact_severity=significant]
+- 4 or more reviews report moderate billing impact [filter: impact_severity=moderate]
 
 **Low Risk** otherwise, especially when:
-- No mentions of hidden charges
-- Fees are clearly disclosed upfront
-- Transparent pricing praised
+- No mentions of unexpected charges
+- Any fees are clearly disclosed
+- Billing is transparent and straightforward

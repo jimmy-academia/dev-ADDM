@@ -3,8 +3,6 @@
 Help assess the dietary accommodation risk for this restaurant using customer reviews as evidence.
 Assign a risk label: Low Risk, High Risk, or Critical Risk.
 
-This assessment uses a point-based scoring system to quantify risk.
-
 ## Definitions of Terms
 
 ### Incident
@@ -69,27 +67,22 @@ How staff responded when the concern was raised
 - **Unknown**: Unclear from the review
 
 
-## Scoring System
-
-Calculate a total risk score by summing points from all firsthand dietary incidents.
-
-For each firsthand incident, assign points based on severity:
-- Mild incident: 2 points
-- Moderate incident: 5 points
-- Severe incident: 15 points
-
-Additional modifiers:
-- False assurance (incident after staff confirmed food was safe for restriction): +5 points
-- Dismissive staff (staff dismissed dietary concern or was rude about request): +3 points
-- Medical restriction (restriction is medical (celiac, allergy) rather than preference): +2 points
-
-
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- Total risk score is 5 or higher
+- 1 or more severe dietary incidents (restricted food served, person got sick) [filter: incident_severity=severe, account_type=firsthand]
+- 1 or more reviews report staff providing incorrect ingredient information [filter: staff_knowledge=incorrect, account_type=firsthand]
+- 1 or more severe dietary incident with firsthand account [filter: incident_severity=severe, account_type=firsthand]
+- 2 or more moderate dietary incidents [filter: incident_severity=moderate, account_type=firsthand]
 
 **High Risk** if Critical Risk does not apply, but any of the following is true:
-- Total risk score is 2 or higher
+- 1 or more moderate dietary incidents [filter: incident_severity=moderate, account_type=firsthand]
+- 1 or more reviews describe poor accommodation despite clear requests [filter: accommodation_level=poor, account_type=firsthand]
+- 1 or more reviews describe staff as unknowledgeable about ingredients [filter: staff_knowledge=unknowledgeable]
+- 1 or more reviews describe staff refusing accommodation [filter: staff_response=refused]
+- 1 or more reviews describe staff being dismissive [filter: staff_response=dismissive]
 
-**Low Risk** otherwise
+**Low Risk** otherwise, especially when:
+- No dietary incidents are reported
+- Reviews describe knowledgeable staff and successful accommodation
+- Menu clearly labels dietary options

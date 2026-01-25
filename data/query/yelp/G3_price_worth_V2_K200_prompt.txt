@@ -3,8 +3,6 @@
 Help assess the value-for-money at this restaurant using customer reviews as evidence.
 Assign a value label: Poor Value, Fair Value, or Good Value.
 
-This assessment uses a point-based scoring system to quantify value.
-
 ## Definitions of Terms
 
 ### Incident
@@ -59,33 +57,22 @@ Would return based on value assessment
 - **Definitely**: Great value, will definitely return
 
 
-## Scoring System
-
-Calculate a value score by summing points from relevant reviews.
-Positive points indicate good value, negative points indicate poor value.
-
-For each firsthand incident, assign points based on severity:
-- Exceptional value (steal): 10 points
-- Good value: 5 points
-- Fair value: 0 points
-- Slightly overpriced: -3 points
-- Significantly overpriced: -5 points
-- Ripoff: -10 points
-
-Additional modifiers:
-- Generous portions (portions described as large or generous): +3 points
-- Quality exceeds price (food quality better than price suggests): +3 points
-- Great deals available (happy hour, lunch specials, or deals praised): +2 points
-- Tiny portions (portions described as too small): -3 points
-- Quality below price (food quality worse than price suggests): -3 points
-
-
 ## Verdict Rules
 
 A restaurant is considered **Good Value** if any of the following is true:
-- Total value score is 350 or higher
+- 70 or more reviews describe excellent value for money [filter: quality_for_price=excellent]
+- 30 or more reviews praise generous portions or quality relative to price [filter: portion_size=generous]
+- 15 or more reviews describe it as a 'great deal' or 'bargain' [filter: price_perception=bargain]
+- 5 or more reviews describe price as a steal [filter: price_perception=steal]
 
 **Poor Value** if Good Value does not apply, but any of the following is true:
-- Total value score is -100 or lower
+- 40 or more reviews describe it as overpriced or a 'ripoff' [filter: price_perception=overpriced]
+- 10 or more reviews criticize small portions relative to price [filter: portion_size=small]
+- 40 or more reviews mention not returning due to poor value [filter: return_intent=False, quality_for_price=poor]
+- 5 or more reviews describe price as ripoff [filter: price_perception=ripoff]
+- 5 or more reviews describe portion as tiny [filter: portion_size=tiny]
 
-**Fair Value** otherwise
+**Fair Value** otherwise, especially when:
+- Prices match quality and expectations
+- Standard for the cuisine or neighborhood
+- Some dishes are good value, others less so

@@ -4,7 +4,7 @@ Help assess how suitable this restaurant is for romantic dining (dates, annivers
 using customer reviews as evidence.
 Assign a suitability label: Not Recommended, Acceptable, or Recommended.
 
-This assessment uses a point-based scoring system with recency weighting.
+This assessment uses a point-based scoring system to quantify suitability.
 
 ## Definitions of Terms
 
@@ -68,8 +68,8 @@ How the date/romantic occasion went
 
 ## Scoring System
 
-Calculate a romance suitability score by summing points from relevant reviews,
-with recency weighting applied.
+Calculate a romance suitability score by summing points from relevant reviews.
+Positive points indicate romantic suitability, negative points indicate drawbacks.
 
 For each firsthand incident, assign points based on severity:
 - Romantic success (proposal, anniversary): 15 points
@@ -86,18 +86,13 @@ Additional modifiers:
 - Rushed service (service was rushed, couldn't linger): -3 points
 - Loud music/crowd (noise prevented conversation): -5 points
 
-Recency weighting:
-- Within 1 year: full point value
-- 1-2 years old: half point value (multiply by 0.5)
-- Over 2 years old: quarter point value (multiply by 0.25), unless review mentions permanent features (decor, layout)
-
 
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- Total suitability score is 400 or higher (after recency weighting)
+- Total suitability score is 400 or higher
 
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- Total suitability score is -5 or lower (after recency weighting)
+- Total suitability score is -100 or lower
 
 **Acceptable** otherwise

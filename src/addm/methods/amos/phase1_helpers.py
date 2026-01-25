@@ -54,65 +54,147 @@ def extract_yaml_from_response(response: str) -> str:
 
 
 def parse_yaml_safely(yaml_str: str) -> Dict[str, Any]:
-    """Parse YAML string with error handling."""
+    """Parse YAML string with error handling.
+
+    Handles common LLM YAML generation issues:
+    1. Apostrophes in single-quoted strings (e.g., 'customer's experience')
+    2. Unquoted strings that look like numbers
+    3. Mixed quote styles
+
+    Falls back progressively from least to most aggressive fixes.
+    """
+    # First try: normal parse
     try:
         data = yaml.safe_load(yaml_str)
         if not isinstance(data, dict):
             raise ValueError(f"Expected dict, got {type(data).__name__}")
         return data
     except yaml.YAMLError as e:
-        # Try to fix common issues
-        fixed = yaml_str
+        original_error = e
 
-        # Fix unquoted strings that look like numbers
-        fixed = re.sub(r":\s*(\d+\.\d+)(?=\s*$)", r': "\1"', fixed, flags=re.MULTILINE)
+    # Second try: Fix common quote issues
+    fixed = yaml_str
 
-        # Fix single quotes inside single-quoted strings by converting to double quotes
-        # Pattern: 'text with 'inner' quote' -> "text with 'inner' quote"
-        def fix_single_quotes(line):
-            # If line has a value after colon, try to fix quote issues
-            if ':' in line:
-                key, _, value = line.partition(':')
-                value = value.strip()
-                # If value starts with single quote but has issues, use double quotes
-                if value.startswith("'") and value.count("'") > 2:
-                    # Extract content and re-quote with double quotes
-                    content = value[1:-1] if value.endswith("'") else value[1:]
-                    # Escape any double quotes in content
-                    content = content.replace('"', '\\"')
-                    return f'{key}: "{content}"'
+    # Fix unquoted strings that look like numbers
+    fixed = re.sub(r":\s*(\d+\.\d+)(?=\s*$)", r': "\1"', fixed, flags=re.MULTILINE)
+
+    # Fix apostrophes in single-quoted strings by converting to double quotes
+    # Pattern: key: 'text with 'inner' quote' -> key: "text with 'inner' quote"
+    def fix_quotes_in_line(line: str) -> str:
+        if ':' not in line:
             return line
 
-        fixed_lines = [fix_single_quotes(line) for line in fixed.split('\n')]
-        fixed = '\n'.join(fixed_lines)
+        key, _, value = line.partition(':')
+        value = value.strip()
 
-        try:
-            data = yaml.safe_load(fixed)
-            if isinstance(data, dict):
-                return data
-        except yaml.YAMLError:
-            pass
+        # Skip if no quotes or empty value
+        if not value or (not value.startswith("'") and not value.startswith('"')):
+            return line
 
-        # Try even more aggressive fixing - remove problematic value content entirely
-        # Just keep the key with a placeholder
-        lines_simplified = []
-        for line in yaml_str.split('\n'):
-            if ':' in line and "'" in line:
-                key = line.split(':')[0]
-                # Keep just the key with a generic value
-                lines_simplified.append(f'{key}: "value"')
+        # If value has unbalanced single quotes (apostrophe issue), convert to double quotes
+        if value.startswith("'"):
+            # Count single quotes - if odd or >2, likely has embedded apostrophe
+            if value.count("'") != 2 or (value.count("'") == 2 and not value.endswith("'")):
+                # Extract content between first quote and try to find ending
+                content = value[1:]
+                if content.endswith("'"):
+                    content = content[:-1]
+                # Escape any double quotes in content, preserve single quotes (apostrophes)
+                content = content.replace('"', '\\"')
+                return f'{key}: "{content}"'
+
+        return line
+
+    fixed_lines = [fix_quotes_in_line(line) for line in fixed.split('\n')]
+    fixed = '\n'.join(fixed_lines)
+
+    try:
+        data = yaml.safe_load(fixed)
+        if isinstance(data, dict):
+            return data
+    except yaml.YAMLError:
+        pass
+
+    # Third try: More aggressive - wrap all string values in double quotes
+    def force_double_quotes(line: str) -> str:
+        if ':' not in line:
+            return line
+
+        # Preserve indentation
+        stripped = line.lstrip()
+        indent = line[:len(line) - len(stripped)]
+
+        if ':' not in stripped:
+            return line
+
+        key, _, value = stripped.partition(':')
+        value = value.strip()
+
+        # Skip if empty, already double-quoted, a list item, or a number
+        if not value or value.startswith('"') or value.startswith('[') or value.startswith('-'):
+            return line
+        if re.match(r'^-?\d+(\.\d+)?$', value):
+            return line
+        if value.lower() in ('true', 'false', 'null', 'none'):
+            return line
+
+        # Remove existing quotes and re-quote with double quotes
+        if value.startswith("'"):
+            # Find the content - handle unbalanced quotes
+            if value.endswith("'") and value.count("'") == 2:
+                content = value[1:-1]
             else:
-                lines_simplified.append(line)
+                # Unbalanced - take everything after first quote
+                content = value[1:].rstrip("'")
+        else:
+            content = value
 
-        try:
-            data = yaml.safe_load('\n'.join(lines_simplified))
-            if isinstance(data, dict):
-                logger.warning("Used simplified YAML parsing, some descriptions may be lost")
-                return data
-        except yaml.YAMLError:
-            pass
+        # Escape double quotes in content
+        content = content.replace('"', '\\"')
+        return f'{indent}{key}: "{content}"'
 
-        raise ValueError(f"YAML parse error: {e}")
+    forced_lines = [force_double_quotes(line) for line in yaml_str.split('\n')]
+    forced = '\n'.join(forced_lines)
+
+    try:
+        data = yaml.safe_load(forced)
+        if isinstance(data, dict):
+            logger.debug("Used double-quote forcing for YAML parsing")
+            return data
+    except yaml.YAMLError:
+        pass
+
+    # Last resort: Simplified parsing - replace problematic values with placeholders
+    # This loses information but allows the seed to be generated
+    lines_simplified = []
+    lost_values = []
+    for line in yaml_str.split('\n'):
+        if ':' in line and ("'" in line or '"' in line):
+            key_part = line.split(':')[0]
+            # Keep indentation
+            indent = len(key_part) - len(key_part.lstrip())
+            key = key_part.strip()
+            # Track what we're losing
+            value_part = line.split(':', 1)[1].strip() if ':' in line else ''
+            if value_part and value_part not in ('', '[]', '{}'):
+                lost_values.append(f"{key}: {value_part[:50]}")
+            lines_simplified.append(f'{" " * indent}{key}: "value"')
+        else:
+            lines_simplified.append(line)
+
+    try:
+        data = yaml.safe_load('\n'.join(lines_simplified))
+        if isinstance(data, dict):
+            if lost_values:
+                logger.warning(
+                    f"Used simplified YAML parsing, {len(lost_values)} descriptions may be lost: "
+                    f"{lost_values[:3]}{'...' if len(lost_values) > 3 else ''}"
+                )
+            return data
+    except yaml.YAMLError:
+        pass
+
+    raise ValueError(f"YAML parse error: {original_error}")
 
 
 # =============================================================================

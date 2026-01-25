@@ -8,7 +8,7 @@ overview:
     using customer reviews as evidence.
     Assign a suitability label: Not Recommended, Acceptable, or Recommended.
 
-    This assessment uses a point-based scoring system with recency weighting.
+    This assessment uses a point-based scoring system to quantify suitability.
   incident_definition: |
     Consider reviews that mention any of the following:
     - date nights, anniversaries, romantic occasions, proposals
@@ -47,8 +47,8 @@ normative:
         value: loud
         label: Loud music/crowd
     description: |
-      Calculate a romance suitability score by summing points from relevant reviews,
-      with recency weighting applied.
+      Calculate a romance suitability score by summing points from relevant reviews.
+      Positive points indicate romantic suitability, negative points indicate drawbacks.
     severity_points:
     - label: Romantic success (proposal, anniversary)
       points: 15
@@ -78,13 +78,6 @@ normative:
     - label: Loud music/crowd
       description: noise prevented conversation
       points: -5
-    recency_rules:
-    - age: Within 1 year
-      weight: full point value
-    - age: 1-2 years old
-      weight: half point value (multiply by 0.5)
-    - age: Over 2 years old
-      weight: quarter point value (multiply by 0.25), unless review mentions permanent features (decor, layout)
     thresholds:
     - verdict: Recommended
       min_score: 400
@@ -93,11 +86,11 @@ normative:
         50: 100
         100: 200
     - verdict: Not Recommended
-      max_score: -5
+      max_score: -100
       max_score_by_k:
-        25: -5
-        50: -5
-        100: -5
+        25: -10
+        50: -25
+        100: -50
   decision:
     verdicts:
     - Not Recommended
@@ -109,13 +102,13 @@ normative:
       label: RECOMMENDED
       logic: ANY
       conditions:
-      - Total suitability score is 400 or higher (after recency weighting)
+      - Total suitability score is 400 or higher
     - verdict: Not Recommended
       label: NOT_RECOMMENDED
       precondition: Recommended does not apply
       logic: ANY
       conditions:
-      - Total suitability score is -100 or lower (after recency weighting)
+      - Total suitability score is -500 or lower
     - verdict: Acceptable
       label: ACCEPTABLE
       default: true
@@ -136,7 +129,7 @@ normative:
     justification:
       type: string
       required: true
-      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
       values:

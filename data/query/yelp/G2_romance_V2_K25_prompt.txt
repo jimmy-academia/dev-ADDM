@@ -4,8 +4,6 @@ Help assess how suitable this restaurant is for romantic dining (dates, annivers
 using customer reviews as evidence.
 Assign a suitability label: Not Recommended, Acceptable, or Recommended.
 
-This assessment uses a point-based scoring system to quantify suitability.
-
 ## Definitions of Terms
 
 ### Incident
@@ -66,33 +64,22 @@ How the date/romantic occasion went
 - **Memorable**: Exceptional experience, memorable occasion
 
 
-## Scoring System
-
-Calculate a romance suitability score by summing points from relevant reviews.
-Positive points indicate romantic suitability, negative points indicate drawbacks.
-
-For each firsthand incident, assign points based on severity:
-- Romantic success (proposal, anniversary): 15 points
-- Positive date experience: 5 points
-- Neutral mention: 0 points
-- Minor atmosphere issue: -2 points
-- Major atmosphere issue: -5 points
-- Date disaster: -15 points
-
-Additional modifiers:
-- Candlelit atmosphere (explicitly mentions candles or romantic lighting): +3 points
-- Private seating (mentions privacy, secluded tables, or booths): +3 points
-- Live music (romantic live music mentioned): +2 points
-- Rushed service (service was rushed, couldn't linger): -3 points
-- Loud music/crowd (noise prevented conversation): -5 points
-
-
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- Total suitability score is 50 or higher
+- 5 or more reviews describe excellent romantic ambiance [filter: ambiance_quality=excellent]
+- 16 or more reviews mention successful dates, proposals, or anniversaries [filter: date_outcome=positive]
+- 5 or more reviews describe quiet or intimate noise level [filter: noise_level=['quiet', 'intimate']]
+- 2 or more reviews describe a memorable date outcome [filter: date_outcome=memorable]
+- 2 or more reviews describe romantic service style [filter: service_style=romantic]
 
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- Total suitability score is -10 or lower
+- 4 or more reviews describe loud noise preventing conversation [filter: noise_level=loud]
+- 3 or more reviews describe harsh lighting [filter: lighting_quality=harsh]
+- 8 or more reviews describe negative date experiences [filter: date_outcome=negative]
+- 3 or more reviews describe rushed service style [filter: service_style=rushed]
 
-**Acceptable** otherwise
+**Acceptable** otherwise, especially when:
+- Atmosphere is pleasant but not particularly romantic
+- Good for casual dates but not special occasions
+- Mixed reviews about ambiance

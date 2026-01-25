@@ -4,7 +4,7 @@ Help assess customer loyalty and retention indicators using reviews as evidence.
 This is from the perspective of a business owner evaluating customer loyalty.
 Assign a label: Low Loyalty, Moderate Loyalty, or High Loyalty.
 
-This assessment uses a point-based scoring system with recency weighting.
+This assessment uses a point-based scoring system to quantify loyalty.
 
 ## Definitions of Terms
 
@@ -62,9 +62,8 @@ Primary reason for loyalty
 
 ## Scoring System
 
-Calculate a loyalty score by summing points from relevant reviews,
-with recency weighting. Loyalty patterns can shift as restaurants change,
-so recent reviews are weighted more heavily.
+Calculate a loyalty score by summing points from relevant reviews.
+Positive points indicate strong loyalty, negative points indicate weak loyalty.
 
 For each firsthand incident, assign points based on severity:
 - Regular customer: 10 points
@@ -79,19 +78,13 @@ Additional modifiers:
 - Warns others away (actively discourages visits): -5 points
 - Switched to competitor (explicitly left for alternative): -8 points
 
-Recency weighting:
-- Within 6 months: full point value
-- 6 months to 1 year: three-quarter point value (multiply by 0.75)
-- 1-2 years old: half point value (multiply by 0.5)
-- Over 2 years old: quarter point value (multiply by 0.25) - loyalty patterns may have changed
-
 
 ## Verdict Rules
 
 A restaurant is considered **High Loyalty** if any of the following is true:
-- Total score is 1400 or higher (after recency weighting)
+- Total score is 1400 or higher
 
 **Low Loyalty** if High Loyalty does not apply, but any of the following is true:
-- Total score is 100 or lower (after recency weighting)
+- Total score is 100 or lower
 
 **Moderate Loyalty** otherwise

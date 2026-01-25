@@ -3,7 +3,7 @@
 Help assess the value-for-money at this restaurant using customer reviews as evidence.
 Assign a value label: Poor Value, Fair Value, or Good Value.
 
-This assessment uses a point-based scoring system with recency weighting.
+This assessment uses a point-based scoring system to quantify value.
 
 ## Definitions of Terms
 
@@ -61,9 +61,8 @@ Would return based on value assessment
 
 ## Scoring System
 
-Calculate a value score by summing points from relevant reviews,
-with recency weighting applied. Prices and portions can change significantly,
-so recent reviews are weighted more heavily.
+Calculate a value score by summing points from relevant reviews.
+Positive points indicate good value, negative points indicate poor value.
 
 For each firsthand incident, assign points based on severity:
 - Exceptional value (steal): 10 points
@@ -80,19 +79,13 @@ Additional modifiers:
 - Tiny portions (portions described as too small): -3 points
 - Quality below price (food quality worse than price suggests): -3 points
 
-Recency weighting:
-- Within 6 months: full point value
-- 6 months to 1 year: three-quarter point value (multiply by 0.75)
-- 1-2 years old: half point value (multiply by 0.5)
-- Over 2 years old: quarter point value (multiply by 0.25) - prices likely changed
-
 
 ## Verdict Rules
 
 A restaurant is considered **Good Value** if any of the following is true:
-- Total value score is 350 or higher (after recency weighting)
+- Total value score is 350 or higher
 
 **Poor Value** if Good Value does not apply, but any of the following is true:
-- Total value score is -100 or lower (after recency weighting)
+- Total value score is -100 or lower
 
 **Fair Value** otherwise

@@ -4,7 +4,7 @@ Help assess the front-of-house staff performance at this restaurant using custom
 This is from the perspective of a business owner evaluating their service team.
 Assign a performance label: Needs Improvement, Satisfactory, or Excellent.
 
-This assessment uses a point-based scoring system with recency weighting.
+This assessment uses a point-based scoring system to quantify performance.
 
 ## Definitions of Terms
 
@@ -70,9 +70,8 @@ Whether server was named positively
 
 ## Scoring System
 
-Calculate a performance score by summing points from relevant reviews,
-with recency weighting applied. Staff turnover means recent reviews
-are more indicative of current performance.
+Calculate a performance score by summing points from relevant reviews.
+Positive points indicate good performance, negative points indicate issues.
 
 For each firsthand incident, assign points based on severity:
 - Exceptional service experience: 10 points
@@ -89,19 +88,13 @@ Additional modifiers:
 - Rude or hostile (server described as rude or having attitude): -5 points
 - Unrecovered error (service error not addressed properly): -3 points
 
-Recency weighting:
-- Within 6 months: full point value
-- 6 months to 1 year: three-quarter point value (multiply by 0.75)
-- 1-2 years old: half point value (multiply by 0.5)
-- Over 2 years old: quarter point value (multiply by 0.25) - staff likely changed
-
 
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- Total performance score is 600 or higher (after recency weighting)
+- Total performance score is 1200 or higher
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- Total performance score is 250 or lower (after recency weighting)
+- Total performance score is 500 or lower
 
 **Satisfactory** otherwise

@@ -12,7 +12,7 @@ Usage:
     .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100
 
     # Multiple policies (comma-separated)
-    .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V0,G1_allergy_V1 --dev
+    .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V1,G1_allergy_V2 --dev
 
     # Dev mode (saves to results/dev/, no quota)
     .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --dev
@@ -722,8 +722,8 @@ async def run_experiment(
     output.configure(quiet=not verbose, mode=effective_mode, suppress_all=suppress_output)
 
     # Setup loggers
-    # Debug logger writes to debug.jsonl (consolidated mode)
-    debug_logger = DebugLogger(output_dir, consolidated=True)
+    # Debug logger writes to debug/ directory with per-item JSONL files
+    debug_logger = DebugLogger(output_dir)
     set_debug_logger(debug_logger)
 
     # Item logger writes to item_logs/{sample_id}.json (streaming, per-sample)
@@ -1486,6 +1486,7 @@ Let's think through this step-by-step:"""
         score_rows = [
             # Tier 1: Final Quality
             ["AUPRC", fmt_pct(eval_metrics.get("auprc")), "(ranking quality)"],
+            ["Macro F1", fmt_pct(eval_metrics.get("macro_f1")), "(classification quality)"],
             # Tier 2: Evidence Quality
             ["Evidence Precision", fmt_pct(eval_metrics.get("evidence_precision")),
              f"({total_matched}/{total_claimed} claimed exist in GT)" if total_claimed > 0 else "(no claims)"],
@@ -1496,22 +1497,22 @@ Let's think through this step-by-step:"""
             # Tier 3: Reasoning Quality
             ["Judgement Accuracy", fmt_pct(eval_metrics.get("judgement_accuracy")),
              f"({judgement_correct}/{judgement_total} field correctness)" if judgement_total > 0 else "(no matches)"],
-            ["Score Accuracy", fmt_pct(eval_metrics.get("score_accuracy")),
-             f"({score_correct}/{score_total} scores match GT)" if score_total > 0 else
-             (score_details.get("skipped", "(V2/V3 only)") if isinstance(score_details, dict) else "(V2/V3 only)")],
             ["Verdict Consistency", fmt_pct(eval_metrics.get("verdict_consistency")),
              f"({consistency_count}/{consistency_total} evidence+rule→verdict)" if consistency_total > 0 else "(no evidence)"],
         ]
         output.print_table("EVALUATION METRICS (7 total)", ["Metric", "Score", "Notes"], score_rows)
 
     # Compute aggregated usage from all results
+    total_prompt_tokens = sum(r.get("prompt_tokens", 0) for r in results if "error" not in r)
+    total_completion_tokens = sum(r.get("completion_tokens", 0) for r in results if "error" not in r)
     aggregated_usage = {
-        "total_prompt_tokens": sum(r.get("prompt_tokens", 0) for r in results if "error" not in r),
-        "total_completion_tokens": sum(r.get("completion_tokens", 0) for r in results if "error" not in r),
-        "total_tokens": sum(r.get("prompt_tokens", 0) + r.get("completion_tokens", 0) for r in results if "error" not in r),
+        "total_llm_calls": sum(r.get("llm_calls", 1) for r in results if "error" not in r),
+        "total_prompt_tokens": total_prompt_tokens,
+        "total_completion_tokens": total_completion_tokens,
+        "total_tokens": total_prompt_tokens + total_completion_tokens,
         "total_cost_usd": sum(r.get("cost_usd", 0.0) for r in results if "error" not in r),
         "total_latency_ms": sum(r.get("latency_ms", 0.0) for r in results if "error" not in r and r.get("latency_ms")),
-        "total_llm_calls": sum(r.get("llm_calls", 1) for r in results if "error" not in r),
+        "total_throttle_delay_ms": sum(r.get("throttle_delay_ms", 0.0) for r in results if "error" not in r),
     }
     # Add embedding costs for RAG/hybrid methods
     embedding_tokens = sum(r.get("embedding_tokens", 0) for r in results if "error" not in r)
@@ -1546,43 +1547,88 @@ Let's think through this step-by-step:"""
     # Extract run_N from output_dir for benchmark runs
     run_dir_name = output_dir.name if benchmark else None
 
+    # Build per_sample_results with scores and parsed output
+    per_sample_results = []
+    for result in results:
+        if "error" in result:
+            continue
+        biz_id = result.get("business_id", "")
+        sample_result = {
+            "item_id": biz_id,
+            "scores": {
+                "evidence_precision": None,  # Computed at aggregate level
+                "evidence_recall": None,
+                "snippet_validity": None,
+                "judgement_accuracy": None,
+                "verdict_consistency": 1 if result.get("correct") else 0,
+            },
+            "parsed": {
+                "verdict": result.get("verdict"),
+                "score": result.get("risk_score"),
+            },
+            "output": result.get("parsed", {}),  # Full method output following schema
+        }
+        per_sample_results.append(sample_result)
+
     run_output = {
-        "run_id": run_dir_name or run_id,
-        "task_id": task_id,
-        "policy_id": policy_id,
-        "gt_task_id": gt_task_id,
-        "domain": domain,
-        "method": method,
-        "model": model,
-        "mode": effective_mode,
-        "has_latency": effective_mode == "ondemand",
-        "k": k,
-        "n": len(results),
-        "timestamp": timestamp,
+        # Metadata section
+        "metadata": {
+            "policy_id": policy_id or task_id,
+            "method": method,
+            "model": model,
+            "mode": effective_mode,
+            "k": k,
+            "n_samples": len(results),
+            "timestamp": datetime.now().isoformat() + "Z",
+            "run_id": run_dir_name or run_id,
+            "domain": domain,
+            "gt_task_id": gt_task_id,
+            "has_latency": effective_mode == "ondemand",
+        },
+
+        # Aggregate scores section (7 metrics)
+        "aggregate_scores": {
+            "auprc": eval_metrics.get("auprc") if eval_metrics else None,
+            "macro_f1": eval_metrics.get("macro_f1") if eval_metrics else None,
+            "evidence_precision": eval_metrics.get("evidence_precision") if eval_metrics else None,
+            "evidence_recall": eval_metrics.get("evidence_recall") if eval_metrics else None,
+            "snippet_validity": eval_metrics.get("snippet_validity") if eval_metrics else None,
+            "judgement_accuracy": eval_metrics.get("judgement_accuracy") if eval_metrics else None,
+            "verdict_consistency": eval_metrics.get("verdict_consistency") if eval_metrics else None,
+        },
+
+        # Usage summary section
+        "usage_summary": {
+            "total_llm_calls": aggregated_usage.get("total_llm_calls", 0),
+            "total_prompt_tokens": aggregated_usage.get("total_prompt_tokens", 0),
+            "total_completion_tokens": aggregated_usage.get("total_completion_tokens", 0),
+            "total_cost_usd": aggregated_usage.get("total_cost_usd", 0.0),
+            "total_latency_ms": aggregated_usage.get("total_latency_ms", 0.0),
+            "total_throttle_delay_ms": aggregated_usage.get("total_throttle_delay_ms", 0.0),
+        },
+
+        # Per-sample results
+        "per_sample_results": per_sample_results,
+
+        # Legacy fields (kept for backward compatibility)
         "accuracy": accuracy,
         "correct": correct,
         "total": total,
         "auprc": auprc_metrics,
         "intermediate_metrics": intermediate_metrics,
-        # New simplified metrics (recommended - 7 metrics)
         "evaluation_metrics": {
-            # Tier 1: Final Quality
             "auprc": eval_metrics.get("auprc"),
-            # Tier 2: Evidence Quality
+            "macro_f1": eval_metrics.get("macro_f1"),
             "evidence_precision": eval_metrics.get("evidence_precision"),
             "evidence_recall": eval_metrics.get("evidence_recall"),
             "snippet_validity": eval_metrics.get("snippet_validity"),
-            # Tier 3: Reasoning Quality
             "judgement_accuracy": eval_metrics.get("judgement_accuracy"),
-            "score_accuracy": eval_metrics.get("score_accuracy"),
             "verdict_consistency": eval_metrics.get("verdict_consistency"),
-            # Sample counts
             "n_samples": eval_metrics.get("n_samples", 0),
             "n_structured": eval_metrics.get("n_structured", 0),
             "n_with_gt": eval_metrics.get("n_with_gt", 0),
         } if eval_metrics else None,
         "evaluation_metrics_full": eval_metrics if eval_metrics else None,
-        # Legacy unified scores (deprecated, kept for backward compat)
         "unified_scores": {
             "auprc": unified_metrics.get("auprc", 0.0),
             "process_score": unified_metrics.get("process_score", 0.0),
@@ -1590,9 +1636,7 @@ Let's think through this step-by-step:"""
             "false_positive_rate": unified_metrics.get("false_positive_rate", 0.0),
         } if unified_metrics else None,
         "unified_metrics_full": unified_metrics if unified_metrics else None,
-        # Aggregated usage (per-sample data in item_logs/)
         "aggregated_usage": aggregated_usage,
-        # NOTE: Per-sample results removed - see item_logs/{sample_id}.json for details
     }
 
     with open(output_path, "w") as f:
@@ -1623,7 +1667,7 @@ def main() -> None:
     target_group.add_argument(
         "--topic",
         type=str,
-        help="Topic (e.g., G1_allergy) - runs all V0-V3 variants (4 policies)",
+        help="Topic (e.g., G1_allergy) - runs all V1-V4 variants (4 policies)",
     )
     target_group.add_argument(
         "--group",

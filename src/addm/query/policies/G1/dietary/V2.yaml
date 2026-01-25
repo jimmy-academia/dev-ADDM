@@ -1,13 +1,18 @@
+# G1_dietary_V2: Dietary Accommodation with Extended Conditions
+# V2 = Extended: Multiple conditions per verdict (ANY triggers)
+
 policy_id: G1_dietary_V2
 extends: G1_dietary_V1
-version: '1.0'
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
 overview:
-  title: Dietary Accommodation Risk Assessment
+  title: "Dietary Accommodation Risk Assessment"
+
   purpose: |
     Help assess the dietary accommodation risk for this restaurant using customer reviews as evidence.
     Assign a risk label: Low Risk, High Risk, or Critical Risk.
 
-    This assessment uses a point-based scoring system to quantify risk.
   incident_definition: |
     Only firsthand accounts are treated as confirmed evidence. An account is
     considered relevant if it meaningfully discusses any of the following:
@@ -18,107 +23,150 @@ overview:
 
     General food preference mentions (e.g., "I like vegan food") are NOT considered
     incidents unless they describe an accommodation attempt.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
-  - ref: shared:ACCOUNT_TYPE
-  - ref: dietary:RESTRICTION_TYPE
-  - ref: dietary:ACCOMMODATION_LEVEL
-  - ref: dietary:INCIDENT_SEVERITY
-  - ref: dietary:STAFF_KNOWLEDGE
-  - ref: shared:STAFF_RESPONSE
-  scoring:
-    field_mapping:
-      severity_field: incident_severity
-      value_mappings:
-        mild: Mild incident
-        moderate: Moderate incident
-        severe: Severe incident
-      modifier_mappings:
-      - field: staff_knowledge
-        value: none
-        label: False assurance
-      - field: staff_response
-        value: dismissive
-        label: Dismissive staff
-    description: |
-      Calculate a total risk score by summing points from all firsthand dietary incidents.
-    severity_points:
-    - label: Mild incident
-      points: 2
-    - label: Moderate incident
-      points: 5
-    - label: Severe incident
-      points: 15
-    modifiers:
-    - label: False assurance
-      description: incident after staff confirmed food was safe for restriction
-      points: 5
-    - label: Dismissive staff
-      description: staff dismissed dietary concern or was rude about request
-      points: 3
-    - label: Medical restriction
-      description: restriction is medical (celiac, allergy) rather than preference
-      points: 2
-    thresholds:
-    - verdict: Critical Risk
-      min_score: 8
-      min_score_by_k:
-        25: 5
-        50: 6
-        100: 7
-    - verdict: High Risk
-      min_score: 4
-      min_score_by_k:
-        25: 2
-        50: 3
-        100: 3
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "dietary:RESTRICTION_TYPE"
+    - ref: "dietary:ACCOMMODATION_LEVEL"
+    - ref: "dietary:INCIDENT_SEVERITY"
+    - ref: "dietary:STAFF_KNOWLEDGE"
+    - ref: "shared:STAFF_RESPONSE"
+
+  # Decision policy -> generates Verdict Rules section
   decision:
-    verdicts:
-    - Low Risk
-    - High Risk
-    - Critical Risk
+    verdicts: ["Low Risk", "High Risk", "Critical Risk"]
     ordered: true
+
     rules:
-    - verdict: Critical Risk
-      label: CRITICAL
-      logic: ANY
-      conditions:
-      - Total risk score is 8 or higher
-    - verdict: High Risk
-      label: HIGH
-      precondition: Critical Risk does not apply
-      logic: ANY
-      conditions:
-      - Total risk score is 4 or higher
-    - verdict: Low Risk
-      label: LOW
-      default: true
+      # V1 includes V0 conditions PLUS additional conditions
+      - verdict: "Critical Risk"
+        label: "CRITICAL"
+        logic: ANY
+        conditions:
+          # V0 conditions (same thresholds)
+          - text: "{min_count} or more severe dietary incidents (restricted food served, person got sick)"
+            type: count_threshold
+            filter:
+              incident_severity: severe
+              account_type: firsthand
+            min_count: 2
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 1
+          - text: "{min_count} or more reviews report staff providing incorrect ingredient information"
+            type: count_threshold
+            filter:
+              staff_knowledge: incorrect
+              account_type: firsthand
+            min_count: 2
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 1
+          # V1 additional conditions
+          - text: "{min_count} or more severe dietary incident with firsthand account"
+            type: count_threshold
+            filter:
+              incident_severity: severe
+              account_type: firsthand
+            min_count: 1
+          - text: "{min_count} or more moderate dietary incidents"
+            type: count_threshold
+            filter:
+              incident_severity: moderate
+              account_type: firsthand
+            min_count: 999
+            min_count_by_k:
+              25: 2
+
+      - verdict: "High Risk"
+        label: "HIGH"
+        precondition: "Critical Risk does not apply"
+        logic: ANY
+        conditions:
+          # V0 conditions (same thresholds)
+          - text: "{min_count} or more moderate dietary incidents"
+            type: count_threshold
+            filter:
+              incident_severity: moderate
+              account_type: firsthand
+            min_count: 2
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 1
+          - text: "{min_count} or more reviews describe poor accommodation despite clear requests"
+            type: count_threshold
+            filter:
+              accommodation_level: poor
+              account_type: firsthand
+            min_count: 2
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 1
+          - text: "{min_count} or more reviews describe staff as unknowledgeable about ingredients"
+            type: count_threshold
+            filter:
+              staff_knowledge: unknowledgeable
+            min_count: 2
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 1
+          # V1 additional conditions
+          - text: "{min_count} or more reviews describe staff refusing accommodation"
+            type: count_threshold
+            filter:
+              staff_response: refused
+            min_count: 1
+          - text: "{min_count} or more reviews describe staff being dismissive"
+            type: count_threshold
+            filter:
+              staff_response: dismissive
+            min_count: 3
+            min_count_by_k:
+              25: 1
+              50: 2
+              100: 2
+
+      - verdict: "Low Risk"
+        label: "LOW"
+        default: true
+        especially_when:
+          - "No dietary incidents are reported"
+          - "Reviews describe knowledgeable staff and successful accommodation"
+          - "Menu clearly labels dietary options"
+
+  # Output format
   output:
     verdict:
       type: enum
-      values:
-      - Low Risk
-      - High Risk
-      - Critical Risk
+      values: ["Low Risk", "High Risk", "Critical Risk"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: Relevant quotes supporting the verdict
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
-      description: Explain how the evidence was used to arrive at the final verdict
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
-      values:
-      - low
-      - medium
-      - high
-      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
-      description: Any other relevant observations or caveats
+      description: "Any other relevant observations or caveats"

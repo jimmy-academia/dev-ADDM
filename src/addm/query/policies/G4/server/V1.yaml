@@ -1,8 +1,8 @@
-# G4_server_V1: Server Performance with Override Triggers
-# V1 = Extended: Multiple conditions per verdict (ANY triggers)
+# G4_server_V1: Base Server Performance Assessment
+# V1 = Base: Simple per-instance reasoning, basic thresholds
+# Owner perspective: Evaluating front-of-house staff performance
 
-policy_id: "G4_server_V1"
-extends: "G4_server_V0"
+policy_id: G4_server_V1
 version: "1.0"
 
 # === OVERVIEW (generates Overview section) ===
@@ -38,15 +38,14 @@ normative:
   # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
-    ordered: true
+    ordered: true  # Higher = better performance
 
     rules:
-      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Excellent"
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          - text: "40 or more reviews praise excellent attentiveness and warmth together"
+          - text: "40 or more reviews praise server attentiveness and friendliness"
             type: count_threshold
             filter:
               attentiveness: excellent
@@ -72,7 +71,7 @@ normative:
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          - text: "35 or more reviews describe inattentive servers"
+          - text: "35 or more reviews describe inattentive or absent servers"
             type: count_threshold
             filter:
               attentiveness: poor
@@ -95,9 +94,9 @@ normative:
         label: "SATISFACTORY"
         default: true
         especially_when:
-          - "Service is professional and adequate"
-          - "No major complaints or exceptional praise"
-          - "Servers do their job without standing out"
+          - "Service is acceptable but not exceptional"
+          - "Mixed reviews about server quality"
+          - "Some good experiences, some issues"
 
   # Output format
   output:

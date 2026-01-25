@@ -2,31 +2,23 @@
 
 LLM reads agenda/query and produces a Formula Seed (executable JSON specification).
 
-Uses PARTS approach: Part-by-part extraction with 3 focused LLM calls:
+Uses part-by-part extraction with 3 focused LLM calls:
 1. Extract terms/field definitions
 2. Extract scoring system (if present)
 3. Extract verdict rules
 
-File Structure (top-down):
-1. Entry Point: generate_formula_seed_with_config()
-2. Main Function: generate_formula_seed_parts() - orchestrates the 3 LLM calls
-3. Extraction Functions: _extract_terms/scoring/verdicts_from_section()
+Entry point: generate_formula_seed()
 
 Helper functions in phase1_helpers.py:
 - extract_yaml_from_response(), parse_yaml_safely()
-- validate_formula_seed(), validate_field_references()
+- validate_formula_seed()
 - accumulate_usage()
-
-Deprecated HYBRID approach moved to: backup/phase1_hybrid.py
 """
 
 import logging
 import re
 import time
 from typing import Any, Callable, Dict, List, Optional, Tuple
-
-# Type alias for progress callback
-ProgressCallback = Callable[[int, str, float, str], None]
 
 from addm.llm import LLMService
 from addm.utils.debug_logger import get_debug_logger
@@ -47,28 +39,33 @@ from .seed_compiler import compile_yaml_to_seed, validate_policy_yaml, PolicyYAM
 
 logger = logging.getLogger(__name__)
 
+# Type alias for progress callback
+ProgressCallback = Callable[[int, str, float, str], None]
+
 
 # =============================================================================
 # ENTRY POINT
 # =============================================================================
 
-async def generate_formula_seed_with_config(
+async def generate_formula_seed(
     agenda: str,
     policy_id: str,
     llm: LLMService,
-    config: "AMOSConfig",
+    config: "AMOSConfig" = None,
     progress_callback: Optional[ProgressCallback] = None,
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """Generate Formula Seed from policy agenda.
 
-    This is the main entry point for Phase 1. Uses part-by-part extraction
-    with 3 focused LLM calls for reliable seed generation.
+    Entry point for Phase 1. Extracts each query section separately:
+    1. Terms/Definitions → field definitions
+    2. Scoring System → point values (if present)
+    3. Verdict Rules → thresholds and conditions
 
     Args:
         agenda: The task agenda/query prompt (natural language policy description)
         policy_id: Policy identifier (e.g., "G1_allergy_V2")
         llm: LLM service for API calls
-        config: AMOSConfig (currently unused, kept for API compatibility)
+        config: AMOSConfig (unused, kept for API compatibility)
         progress_callback: Optional callback for progress updates
 
     Returns:
@@ -77,44 +74,161 @@ async def generate_formula_seed_with_config(
     Raises:
         ValueError: If seed generation or validation fails
     """
-    return await generate_formula_seed_parts(
-        agenda=agenda,
-        policy_id=policy_id,
-        llm=llm,
-        progress_callback=progress_callback,
+    start_time = time.perf_counter()
+    all_usages = []
+
+    # Set debug logger to Phase 1 mode - all LLM calls go to debug/phase1.jsonl
+    if debug_logger := get_debug_logger():
+        debug_logger.set_phase1_mode()
+
+    def report(step: str, progress: float, detail: str = "") -> None:
+        if progress_callback:
+            progress_callback(1, step, progress, detail)
+
+    # Step 0: Parse query into sections
+    report("PARSE", 5, "parsing query sections")
+    output.status(f"[Phase 1] Parsing query sections...")
+
+    sections = _parse_query_sections(agenda)
+    logger.info(f"Parsed query into sections: {list(sections.keys())}")
+
+    # Extract task name from header
+    header = sections.get("header", "")
+    task_name_match = re.search(r'^#\s*(.+?)(?:\n|$)', header)
+    task_name = task_name_match.group(1).strip() if task_name_match else policy_id
+
+    # Step 1: Extract terms
+    report("TERMS", 10, "extracting terms")
+    output.status(f"[Phase 1] Step 1/3: Extracting terms...")
+
+    terms_section = sections.get("terms", "")
+    if not terms_section:
+        terms_section = header
+        logger.warning("No explicit terms section found, using header")
+
+    terms, usage1 = await _extract_terms_from_section(terms_section, llm, policy_id)
+    all_usages.append(usage1)
+    output.status(f"[Phase 1] Extracted {len(terms)} terms")
+    report("TERMS", 30, f"{len(terms)} terms")
+
+    # Step 2: Extract scoring (if present)
+    report("SCORING", 35, "checking for scoring")
+    output.status(f"[Phase 1] Step 2/3: Checking for scoring system...")
+
+    scoring_section = sections.get("scoring", "")
+    if scoring_section:
+        scoring, usage2 = await _extract_scoring_from_section(scoring_section, terms, llm, policy_id)
+        all_usages.append(usage2)
+        is_scoring = scoring.get("policy_type") == "scoring"
+        output.status(f"[Phase 1] Scoring: {'yes' if is_scoring else 'no'}")
+    else:
+        scoring = {"policy_type": "count_rule_based"}
+        output.status(f"[Phase 1] No scoring section found")
+    report("SCORING", 50, scoring.get("policy_type", "unknown"))
+
+    # Step 3: Extract verdicts and rules
+    report("VERDICTS", 55, "extracting verdicts")
+    output.status(f"[Phase 1] Step 3/3: Extracting verdict rules...")
+
+    verdicts_section = sections.get("verdicts", "")
+    if not verdicts_section:
+        verdicts_section = header
+        logger.warning("No explicit verdicts section found, using header")
+
+    verdicts_data, usage3 = await _extract_verdicts_from_section(
+        verdicts_section, terms, scoring, llm, policy_id
     )
+    all_usages.append(usage3)
+    output.status(f"[Phase 1] Extracted {len(verdicts_data.get('verdicts', []))} verdicts")
+    report("VERDICTS", 70, f"{len(verdicts_data.get('rules', []))} rules")
+
+    # Merge discovered terms from verdict rules into terms list
+    discovered_terms = verdicts_data.pop("discovered_terms", [])
+    if discovered_terms:
+        logger.info(f"Adding {len(discovered_terms)} discovered terms from verdict rules")
+        output.status(f"[Phase 1] Discovered {len(discovered_terms)} additional fields from verdict rules")
+        terms = terms + discovered_terms
+
+    # Step 4: Combine parts
+    report("COMBINE", 75, "combining parts")
+    output.status(f"[Phase 1] Combining extracted parts...")
+
+    yaml_data = _combine_parts_to_yaml(terms, scoring, verdicts_data, task_name)
+    logger.info(f"Combined PolicyYAML: {yaml_data.get('policy_type')}, {len(yaml_data.get('terms', []))} terms")
+
+    # Step 5: Validate PolicyYAML
+    report("VALIDATE_YAML", 80, "validating yaml")
+    try:
+        validate_policy_yaml(yaml_data)
+        output.status(f"[Phase 1] PolicyYAML validation: passed")
+    except PolicyYAMLValidationError as e:
+        logger.warning(f"PolicyYAML validation failed: {e}")
+        output.warn(f"[Phase 1] PolicyYAML validation failed: {e}")
+        raise ValueError(f"PolicyYAML validation failed: {e}")
+    report("VALIDATE_YAML", 85, "passed")
+
+    # Step 6: Compile to Formula Seed
+    report("COMPILE", 88, "compiling seed")
+    output.status(f"[Phase 1] Compiling to Formula Seed...")
+
+    try:
+        seed = compile_yaml_to_seed(yaml_data, validate=False)
+    except Exception as e:
+        logger.error(f"Seed compilation failed: {e}")
+        raise ValueError(f"Failed to compile PolicyYAML to seed: {e}")
+
+    seed["_approach"] = "parts"
+    seed["_policy_yaml"] = yaml_data
+    report("COMPILE", 92, "complete")
+
+    # Step 7: Validate Formula Seed
+    report("VALIDATE_SEED", 94, "validating seed")
+    errors = validate_formula_seed(seed)
+
+    if errors:
+        output.warn(f"[Phase 1] Seed validation: {len(errors)} errors")
+        logger.warning(f"Compiled seed has validation errors: {errors}")
+        raise ValueError(f"Compiled seed validation failed: {errors}")
+    else:
+        output.status(f"[Phase 1] Seed validation: passed")
+    report("VALIDATE_SEED", 98, "passed")
+
+    # Return seed
+    total_usage = accumulate_usage(all_usages)
+    wall_clock_ms = (time.perf_counter() - start_time) * 1000
+    total_usage["wall_clock_ms"] = wall_clock_ms
+
+    seed_clean = {k: v for k, v in seed.items() if not k.startswith("_") or k == "_policy_yaml"}
+
+    n_terms = len(yaml_data.get("terms", []))
+    n_rules = len(yaml_data.get("rules", []))
+    output.status(f"[Phase 1] Complete: {n_terms} terms, {n_rules} rules")
+
+    return seed_clean, total_usage
+
+
+# Backward compatibility alias
+generate_formula_seed_with_config = generate_formula_seed
 
 
 # =============================================================================
-# Part-by-Part Query Parsing and Extraction
+# Query Parsing Helpers
 # =============================================================================
 
 def _parse_query_sections(query: str) -> Dict[str, str]:
-    """Parse query into sections based on markdown headers.
-
-    Args:
-        query: The full query/agenda text
-
-    Returns:
-        Dict mapping section names to their content
-    """
+    """Parse query into sections based on markdown headers."""
     sections = {}
-
-    # Split by ## headers
     parts = re.split(r'\n##\s+', query)
 
-    # First part is the header/intro
     if parts:
         sections["header"] = parts[0].strip()
 
-    # Process remaining sections
     for part in parts[1:]:
         lines = part.split('\n', 1)
         if lines:
             section_name = lines[0].strip().lower()
             section_content = lines[1].strip() if len(lines) > 1 else ""
 
-            # Normalize section names
             if "definition" in section_name or "term" in section_name:
                 sections["terms"] = section_content
             elif "scoring" in section_name or "point" in section_name:
@@ -122,56 +236,114 @@ def _parse_query_sections(query: str) -> Dict[str, str]:
             elif "verdict" in section_name or "rule" in section_name:
                 sections["verdicts"] = section_content
             else:
-                # Store with original name
                 sections[section_name] = section_content
 
     return sections
 
+
+def _discover_fields_from_rules(
+    rules: List[Dict[str, Any]],
+    known_fields: set,
+) -> Dict[str, Dict[str, Any]]:
+    """Discover fields used in rule conditions that aren't in extracted terms.
+
+    This handles cases where verdict rules reference fields not in the Definitions
+    section (e.g., date_outcome in V1 policies). We infer the field type and values
+    from how they're used in conditions.
+
+    Args:
+        rules: List of extracted verdict rules with conditions
+        known_fields: Set of field names already extracted from terms (uppercase)
+
+    Returns:
+        Dict mapping discovered field names to their inferred definitions:
+        {
+            "DATE_OUTCOME": {
+                "name": "DATE_OUTCOME",
+                "type": "enum",
+                "values": {"positive", "negative", ...}
+            }
+        }
+    """
+    discovered = {}
+
+    for rule in rules:
+        # Skip default rules and score-condition rules
+        if rule.get("default") or "condition" in rule:
+            continue
+
+        conditions = rule.get("conditions", [])
+        for cond in conditions:
+            field = cond.get("field", "").upper()
+            if not field:
+                continue
+
+            # Skip if field is already known
+            if field in known_fields:
+                continue
+
+            # Check if it's a fuzzy match to known fields
+            is_fuzzy_match = False
+            for kf in known_fields:
+                if field in kf or kf in field:
+                    is_fuzzy_match = True
+                    break
+            if is_fuzzy_match:
+                continue
+
+            # This is a truly new field - collect its values
+            cond_values = cond.get("values", [])
+            if not cond_values:
+                continue
+
+            if field not in discovered:
+                discovered[field] = {
+                    "name": field,
+                    "type": "enum",
+                    "values": set(),
+                }
+
+            # Add values from this condition
+            for v in cond_values:
+                discovered[field]["values"].add(str(v).lower())
+
+    # Convert value sets to lowercase sets (consistent with field_values format)
+    return discovered
+
+
+# =============================================================================
+# LLM Extraction Functions
+# =============================================================================
 
 async def _extract_terms_from_section(
     section: str,
     llm: LLMService,
     policy_id: str,
 ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
-    """Extract terms/field definitions from the Definitions section.
-
-    Args:
-        section: The "Definitions of Terms" section content
-        llm: LLM service for API calls
-        policy_id: Policy identifier
-
-    Returns:
-        Tuple of (terms_list, usage)
-    """
+    """Extract terms/field definitions from the Definitions section."""
     prompt = EXTRACT_TERMS_PROMPT.format(section=section)
     messages = [{"role": "user", "content": prompt}]
 
     start_time = time.time()
     response, usage = await llm.call_async_with_usage(
         messages,
-        context={"phase": "phase1_parts", "step": "extract_terms", "policy_id": policy_id},
+        context={
+            "sample_id": policy_id,
+            "phase": "phase1_extract_terms",
+            "step": "extract_terms",
+            "policy_id": policy_id,
+        },
     )
     usage["latency_ms"] = (time.time() - start_time) * 1000
 
-    # Log to debug file
-    if debug_logger := get_debug_logger():
-        debug_logger.log_llm_call(
-            sample_id=policy_id,
-            phase="phase1_extract_terms",
-            prompt=prompt,
-            response=response,
-            model=llm._config.get("model", "unknown"),
-            latency_ms=usage["latency_ms"],
-        )
+    # Note: LLMService handles debug logging automatically
 
-    # Parse YAML response
     yaml_str = extract_yaml_from_response(response)
     try:
         data = parse_yaml_safely(yaml_str)
     except ValueError as e:
         logger.error(f"YAML parse failed for terms extraction")
         logger.debug(f"Raw response:\n{response[:1000]}")
-        logger.debug(f"Extracted YAML:\n{yaml_str[:1000]}")
         raise ValueError(f"Failed to parse terms YAML: {e}")
 
     terms = data.get("terms", [])
@@ -189,18 +361,8 @@ async def _extract_scoring_from_section(
     llm: LLMService,
     policy_id: str,
 ) -> Tuple[Optional[Dict[str, Any]], Dict[str, Any]]:
-    """Extract scoring system from the Scoring section.
-
-    Args:
-        section: The "Scoring System" section content
-        terms: Previously extracted terms (for context)
-        llm: LLM service for API calls
-        policy_id: Policy identifier
-
-    Returns:
-        Tuple of (scoring_dict or None, usage)
-    """
-    # Build terms summary with explicit values
+    """Extract scoring system from the Scoring section."""
+    # Build terms summary
     terms_parts = []
     for t in terms:
         name = t.get('name', 'UNKNOWN')
@@ -214,31 +376,23 @@ async def _extract_scoring_from_section(
                 terms_parts.append(f"    * {v}")
     terms_summary = "\n".join(terms_parts)
 
-    prompt = EXTRACT_SCORING_PROMPT.format(
-        section=section,
-        terms_summary=terms_summary,
-    )
+    prompt = EXTRACT_SCORING_PROMPT.format(section=section, terms_summary=terms_summary)
     messages = [{"role": "user", "content": prompt}]
 
     start_time = time.time()
     response, usage = await llm.call_async_with_usage(
         messages,
-        context={"phase": "phase1_parts", "step": "extract_scoring", "policy_id": policy_id},
+        context={
+            "sample_id": policy_id,
+            "phase": "phase1_extract_scoring",
+            "step": "extract_scoring",
+            "policy_id": policy_id,
+        },
     )
     usage["latency_ms"] = (time.time() - start_time) * 1000
 
-    # Log to debug file
-    if debug_logger := get_debug_logger():
-        debug_logger.log_llm_call(
-            sample_id=policy_id,
-            phase="phase1_extract_scoring",
-            prompt=prompt,
-            response=response,
-            model=llm._config.get("model", "unknown"),
-            latency_ms=usage["latency_ms"],
-        )
+    # Note: LLMService handles debug logging automatically
 
-    # Parse YAML response
     yaml_str = extract_yaml_from_response(response)
     data = parse_yaml_safely(yaml_str)
 
@@ -260,19 +414,8 @@ async def _extract_verdicts_from_section(
     llm: LLMService,
     policy_id: str,
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    """Extract verdict rules from the Verdict Rules section.
-
-    Args:
-        section: The "Verdict Rules" section content
-        terms: Previously extracted terms
-        scoring: Previously extracted scoring (or None)
-        llm: LLM service for API calls
-        policy_id: Policy identifier
-
-    Returns:
-        Tuple of (verdicts_dict, usage)
-    """
-    # Build context from terms and scoring with explicit values
+    """Extract verdict rules from the Verdict Rules section."""
+    # Build context from terms and scoring
     context_parts = ["## Available Terms and Values (USE ONLY THESE):"]
     for t in terms:
         name = t.get('name', 'UNKNOWN')
@@ -296,31 +439,23 @@ async def _extract_verdicts_from_section(
 
     context = "\n".join(context_parts)
 
-    prompt = EXTRACT_VERDICTS_PROMPT.format(
-        section=section,
-        context=context,
-    )
+    prompt = EXTRACT_VERDICTS_PROMPT.format(section=section, context=context)
     messages = [{"role": "user", "content": prompt}]
 
     start_time = time.time()
     response, usage = await llm.call_async_with_usage(
         messages,
-        context={"phase": "phase1_parts", "step": "extract_verdicts", "policy_id": policy_id},
+        context={
+            "sample_id": policy_id,
+            "phase": "phase1_extract_verdicts",
+            "step": "extract_verdicts",
+            "policy_id": policy_id,
+        },
     )
     usage["latency_ms"] = (time.time() - start_time) * 1000
 
-    # Log to debug file
-    if debug_logger := get_debug_logger():
-        debug_logger.log_llm_call(
-            sample_id=policy_id,
-            phase="phase1_extract_verdicts",
-            prompt=prompt,
-            response=response,
-            model=llm._config.get("model", "unknown"),
-            latency_ms=usage["latency_ms"],
-        )
+    # Note: LLMService handles debug logging automatically
 
-    # Parse YAML response
     yaml_str = extract_yaml_from_response(response)
     data = parse_yaml_safely(yaml_str)
 
@@ -332,12 +467,9 @@ async def _extract_verdicts_from_section(
     if not rules:
         raise ValueError("No rules extracted from section")
 
-    # Build lookup tables for validation
+    # Build lookup tables for validation (from extracted terms only)
     valid_fields = {t.get("name", "").upper() for t in terms if t.get("name")}
-    valid_fields.add("ACCOUNT_TYPE")  # Always valid
-
-    # Build field -> valid values mapping
-    field_values = {"ACCOUNT_TYPE": {"firsthand", "secondhand", "general"}}
+    field_values = {}
     for t in terms:
         name = t.get("name", "").upper()
         values = t.get("values", [])
@@ -346,6 +478,17 @@ async def _extract_verdicts_from_section(
         elif isinstance(values, list):
             field_values[name] = {str(v).lower() for v in values}
 
+    # Discover fields from rule conditions that aren't in extracted terms
+    # This handles fields like date_outcome that appear in verdict rules but not definitions
+    discovered_fields = _discover_fields_from_rules(rules, valid_fields)
+    if discovered_fields:
+        logger.info(f"Discovered {len(discovered_fields)} fields from rule conditions: {list(discovered_fields.keys())}")
+        # Add discovered fields to valid_fields and field_values
+        for field_name, field_data in discovered_fields.items():
+            valid_fields.add(field_name)
+            field_values[field_name] = field_data["values"]
+
+    # Repair rules if needed
     repaired_rules = []
     for rule in rules:
         if rule.get("default"):
@@ -357,7 +500,7 @@ async def _extract_verdicts_from_section(
             repaired_rules.append(rule)
             continue
 
-        # Validate conditions: field references and values
+        # Validate conditions
         conditions = rule.get("conditions", [])
         valid_conditions = []
         for cond in conditions:
@@ -387,10 +530,8 @@ async def _extract_verdicts_from_section(
                 if v_lower in allowed_values:
                     repaired_values.append(v)
                 else:
-                    # Try fuzzy match
                     matched = False
                     for av in allowed_values:
-                        # Check if v is contained in av or vice versa
                         if v_lower in av or av in v_lower:
                             repaired_values.append(av)
                             logger.warning(f"Repaired value: {v} -> {av}")
@@ -410,7 +551,6 @@ async def _extract_verdicts_from_section(
             new_rule["conditions"] = valid_conditions
             repaired_rules.append(new_rule)
         else:
-            # No valid conditions - convert to default if it's the last verdict
             if rule.get("verdict") == verdicts[-1]:
                 repaired_rules.append({"verdict": rule.get("verdict"), "default": True})
                 logger.warning(f"Converted rule to default: {rule.get('verdict')}")
@@ -421,9 +561,26 @@ async def _extract_verdicts_from_section(
         repaired_rules.append({"verdict": verdicts[-1], "default": True})
         logger.warning(f"Added missing default rule for: {verdicts[-1]}")
 
-    logger.info(f"Extracted {len(verdicts)} verdicts and {len(repaired_rules)} rules (after repair)")
-    return {"verdicts": verdicts, "rules": repaired_rules}, usage
+    logger.info(f"Extracted {len(verdicts)} verdicts and {len(repaired_rules)} rules")
 
+    # Convert discovered fields to term format for inclusion in seed
+    discovered_terms = []
+    for field_name, field_data in discovered_fields.items():
+        # Convert to dict format with values as descriptions
+        values_dict = {v: f"{field_name} is {v}" for v in field_data["values"]}
+        discovered_terms.append({
+            "name": field_name,
+            "type": "enum",
+            "values": values_dict,
+            "_discovered": True,  # Mark as discovered (for debugging)
+        })
+
+    return {"verdicts": verdicts, "rules": repaired_rules, "discovered_terms": discovered_terms}, usage
+
+
+# =============================================================================
+# Combine Parts
+# =============================================================================
 
 def _combine_parts_to_yaml(
     terms: List[Dict[str, Any]],
@@ -431,25 +588,12 @@ def _combine_parts_to_yaml(
     verdicts_data: Dict[str, Any],
     task_name: str,
 ) -> Dict[str, Any]:
-    """Combine extracted parts into a complete PolicyYAML structure.
-
-    Args:
-        terms: List of term definitions
-        scoring: Scoring configuration or None
-        verdicts_data: Verdicts and rules
-        task_name: Description of the policy task
-
-    Returns:
-        Complete PolicyYAML dict
-    """
+    """Combine extracted parts into a complete PolicyYAML structure."""
     policy_type = scoring.get("policy_type", "count_rule_based") if scoring else "count_rule_based"
-
-    # Process rules based on policy type
     rules = verdicts_data.get("rules", [])
 
     if policy_type == "scoring":
-        # For scoring policies, PRESERVE score-based conditions
-        # Don't convert to counts - let seed_compiler generate proper SUM operations
+        # Preserve score-based conditions for seed_compiler
         processed_rules = []
         for rule in rules:
             new_rule = {"verdict": rule.get("verdict", "")}
@@ -457,15 +601,11 @@ def _combine_parts_to_yaml(
             if rule.get("default"):
                 new_rule["default"] = True
             elif "condition" in rule:
-                # Preserve score-based condition: "score >= X"
-                # This will be handled by _build_scoring_compute in seed_compiler
                 new_rule["condition"] = rule.get("condition")
             elif "conditions" in rule:
-                # Already has conditions list, use as-is
                 new_rule["logic"] = rule.get("logic", "ANY")
                 new_rule["conditions"] = rule.get("conditions", [])
 
-            # Only add rule if it has condition, conditions, or is default
             if new_rule.get("default") or new_rule.get("condition") or new_rule.get("conditions"):
                 processed_rules.append(new_rule)
             else:
@@ -473,7 +613,6 @@ def _combine_parts_to_yaml(
 
         rules = processed_rules
 
-    # Filter terms that have no values
     filtered_terms = [t for t in terms if t.get("values")]
 
     yaml_data = {
@@ -484,160 +623,7 @@ def _combine_parts_to_yaml(
         "rules": rules,
     }
 
-    # Add scoring details if present
     if scoring and scoring.get("policy_type") == "scoring":
         yaml_data["scoring"] = scoring.get("scoring", {})
 
     return yaml_data
-
-
-async def generate_formula_seed_parts(
-    agenda: str,
-    policy_id: str,
-    llm: LLMService,
-    progress_callback: Optional[ProgressCallback] = None,
-) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    """Generate Formula Seed using part-by-part extraction.
-
-    This approach extracts each query section separately:
-    1. Terms/Definitions → field definitions
-    2. Scoring System → point values (if present)
-    3. Verdict Rules → thresholds and conditions
-
-    Benefits over single-shot:
-    - Each LLM call is simpler and more focused
-    - Validation at each step catches errors early
-    - Reduced variance because sub-tasks are well-defined
-
-    Args:
-        agenda: The task agenda/query prompt
-        policy_id: Policy identifier (e.g., "G1_allergy_V2")
-        llm: LLM service for API calls
-        progress_callback: Optional callback for progress updates
-
-    Returns:
-        Tuple of (formula_seed, usage_dict)
-    """
-    start_time = time.perf_counter()
-    all_usages = []
-
-    def report(step: str, progress: float, detail: str = "") -> None:
-        if progress_callback:
-            progress_callback(1, step, progress, detail)
-
-    # Step 0: Parse query into sections
-    report("PARSE", 5, "parsing query sections")
-    output.status(f"[Phase 1 Parts] Parsing query sections...")
-
-    sections = _parse_query_sections(agenda)
-    logger.info(f"Parsed query into sections: {list(sections.keys())}")
-
-    # Extract task name from header
-    header = sections.get("header", "")
-    task_name_match = re.search(r'^#\s*(.+?)(?:\n|$)', header)
-    task_name = task_name_match.group(1).strip() if task_name_match else policy_id
-
-    # Step 1: Extract terms
-    report("TERMS", 10, "extracting terms")
-    output.status(f"[Phase 1 Parts] Step 1/3: Extracting terms...")
-
-    terms_section = sections.get("terms", "")
-    if not terms_section:
-        # Fall back to using full header + any definition content
-        terms_section = header
-        logger.warning("No explicit terms section found, using header")
-
-    terms, usage1 = await _extract_terms_from_section(terms_section, llm, policy_id)
-    all_usages.append(usage1)
-    output.status(f"[Phase 1 Parts] Extracted {len(terms)} terms")
-    report("TERMS", 30, f"{len(terms)} terms")
-
-    # Step 2: Extract scoring (if present)
-    report("SCORING", 35, "checking for scoring")
-    output.status(f"[Phase 1 Parts] Step 2/3: Checking for scoring system...")
-
-    scoring_section = sections.get("scoring", "")
-    if scoring_section:
-        scoring, usage2 = await _extract_scoring_from_section(scoring_section, terms, llm, policy_id)
-        all_usages.append(usage2)
-        is_scoring = scoring.get("policy_type") == "scoring"
-        output.status(f"[Phase 1 Parts] Scoring: {'yes' if is_scoring else 'no'}")
-    else:
-        scoring = {"policy_type": "count_rule_based"}
-        output.status(f"[Phase 1 Parts] No scoring section found")
-    report("SCORING", 50, scoring.get("policy_type", "unknown"))
-
-    # Step 3: Extract verdicts and rules
-    report("VERDICTS", 55, "extracting verdicts")
-    output.status(f"[Phase 1 Parts] Step 3/3: Extracting verdict rules...")
-
-    verdicts_section = sections.get("verdicts", "")
-    if not verdicts_section:
-        # Look for any rules in header
-        verdicts_section = header
-        logger.warning("No explicit verdicts section found, using header")
-
-    verdicts_data, usage3 = await _extract_verdicts_from_section(
-        verdicts_section, terms, scoring, llm, policy_id
-    )
-    all_usages.append(usage3)
-    output.status(f"[Phase 1 Parts] Extracted {len(verdicts_data.get('verdicts', []))} verdicts")
-    report("VERDICTS", 70, f"{len(verdicts_data.get('rules', []))} rules")
-
-    # Step 4: Combine parts
-    report("COMBINE", 75, "combining parts")
-    output.status(f"[Phase 1 Parts] Combining extracted parts...")
-
-    yaml_data = _combine_parts_to_yaml(terms, scoring, verdicts_data, task_name)
-    logger.info(f"Combined PolicyYAML: {yaml_data.get('policy_type')}, {len(yaml_data.get('terms', []))} terms")
-
-    # Step 5: Validate PolicyYAML
-    report("VALIDATE_YAML", 80, "validating yaml")
-    try:
-        validate_policy_yaml(yaml_data)
-        output.status(f"[Phase 1 Parts] PolicyYAML validation: passed")
-    except PolicyYAMLValidationError as e:
-        logger.warning(f"PolicyYAML validation failed: {e}")
-        output.warn(f"[Phase 1 Parts] PolicyYAML validation failed: {e}")
-        raise ValueError(f"PolicyYAML validation failed: {e}")
-    report("VALIDATE_YAML", 85, "passed")
-
-    # Step 6: Compile to Formula Seed
-    report("COMPILE", 88, "compiling seed")
-    output.status(f"[Phase 1 Parts] Compiling to Formula Seed...")
-
-    try:
-        seed = compile_yaml_to_seed(yaml_data, validate=False)
-    except Exception as e:
-        logger.error(f"Seed compilation failed: {e}")
-        raise ValueError(f"Failed to compile PolicyYAML to seed: {e}")
-
-    seed["_approach"] = "parts"
-    seed["_policy_yaml"] = yaml_data
-    report("COMPILE", 92, "complete")
-
-    # Step 7: Validate Formula Seed
-    report("VALIDATE_SEED", 94, "validating seed")
-    errors = validate_formula_seed(seed)
-
-    if errors:
-        output.warn(f"[Phase 1 Parts] Seed validation: {len(errors)} errors")
-        logger.warning(f"Compiled seed has validation errors: {errors}")
-        raise ValueError(f"Compiled seed validation failed: {errors}")
-    else:
-        output.status(f"[Phase 1 Parts] Seed validation: passed")
-    report("VALIDATE_SEED", 98, "passed")
-
-    # Return seed
-    total_usage = accumulate_usage(all_usages)
-    wall_clock_ms = (time.perf_counter() - start_time) * 1000
-    total_usage["wall_clock_ms"] = wall_clock_ms
-
-    # Keep _policy_yaml for saving
-    seed_clean = {k: v for k, v in seed.items() if not k.startswith("_") or k == "_policy_yaml"}
-
-    n_terms = len(yaml_data.get("terms", []))
-    n_rules = len(yaml_data.get("rules", []))
-    output.status(f"[Phase 1 Parts] Complete: {n_terms} terms, {n_rules} rules")
-
-    return seed_clean, total_usage

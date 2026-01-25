@@ -8,7 +8,7 @@ overview:
     This is from the perspective of a business owner diagnosing staffing and capacity issues.
     Assign a label: Needs Improvement, Satisfactory, or Excellent.
 
-    This assessment uses a point-based scoring system with recency weighting.
+    This assessment uses a point-based scoring system to quantify performance.
   incident_definition: |
     Consider reviews that mention any of the following:
     - staffing levels relative to busyness
@@ -49,9 +49,8 @@ normative:
         value: complete
         label: Service collapsed
     description: |
-      Calculate a capacity score by summing points from relevant reviews,
-      with recency weighting. Staffing levels can change significantly,
-      so recent reviews are weighted more heavily.
+      Calculate a capacity score by summing points from relevant reviews.
+      Positive points indicate good volume handling, negative points indicate issues.
     severity_points:
     - label: Excellent peak handling
       points: 10
@@ -78,15 +77,6 @@ normative:
     - label: Service collapsed
       description: service fell apart under volume
       points: -5
-    recency_rules:
-    - age: Within 6 months
-      weight: full point value
-    - age: 6 months to 1 year
-      weight: three-quarter point value (multiply by 0.75)
-    - age: 1-2 years old
-      weight: half point value (multiply by 0.5)
-    - age: Over 2 years old
-      weight: quarter point value (multiply by 0.25) - staffing likely changed
     thresholds:
     - verdict: Excellent
       min_score: 1300
@@ -111,13 +101,13 @@ normative:
       label: EXCELLENT
       logic: ANY
       conditions:
-      - Total score is 1300 or higher (after recency weighting)
+      - Total score is 1300 or higher
     - verdict: Needs Improvement
       label: NEEDS_IMPROVEMENT
       precondition: Excellent does not apply
       logic: ANY
       conditions:
-      - Total score is 400 or lower (after recency weighting)
+      - Total score is 400 or lower
     - verdict: Satisfactory
       label: SATISFACTORY
       default: true
@@ -138,7 +128,7 @@ normative:
     justification:
       type: string
       required: true
-      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
       values:

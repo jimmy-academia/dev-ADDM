@@ -1,8 +1,7 @@
-# G2_group_V1: Group Dining with Override Triggers
-# V1 = Extended: Multiple conditions per verdict (ANY triggers)
+# G2_group_V1: Base Group Dining Suitability Assessment
+# V1 = Base: Simple per-instance reasoning, basic thresholds
 
-policy_id: "G2_group_V1"
-extends: "G2_group_V0"
+policy_id: G2_group_V1
 version: "1.0"
 
 # === OVERVIEW (generates Overview section) ===
@@ -29,25 +28,23 @@ normative:
   # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
+    - ref: "group:GROUP_OUTCOME"
     - ref: "group:GROUP_SIZE"
     - ref: "group:ACCOMMODATION_QUALITY"
     - ref: "group:CHECK_SPLITTING"
     - ref: "group:WAIT_TIME"
     - ref: "group:FAMILY_FRIENDLINESS"
-    - ref: "group:GROUP_OUTCOME"
 
   # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Not Recommended", "Acceptable", "Recommended"]
-    ordered: true
+    ordered: true  # Higher = better suitability
 
     rules:
-      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Recommended"
         label: "RECOMMENDED"
         logic: ANY
         conditions:
-          # V0 conditions (same thresholds)
           - text: "5 or more reviews describe successful large group events"
             type: count_threshold
             filter:
@@ -55,7 +52,7 @@ normative:
               group_size: large
             min_count: 5
             min_count_by_k:
-              25: 1
+              25: 3
               50: 2
               100: 3
           - text: "20 or more reviews mention private rooms or dedicated group areas positively"
@@ -64,80 +61,59 @@ normative:
               accommodation_quality: excellent
             min_count: 20
             min_count_by_k:
-              25: 3
-              50: 5
-              100: 10
+              25: 5
+              50: 8
+              100: 12
           - text: "70 or more reviews praise the handling of groups"
             type: count_threshold
             filter:
               accommodation_quality: [good, excellent]
             min_count: 70
             min_count_by_k:
-              25: 9
-              50: 18
-              100: 35
-          # V1 additional conditions
-          - text: "5 or more reviews describe exceptional family friendliness"
-            type: count_threshold
-            filter:
-              family_friendliness: exceptional
-            min_count: 5
-            min_count_by_k:
-              25: 1
-              50: 2
-              100: 3
+              25: 12
+              50: 22
+              100: 40
 
       - verdict: "Not Recommended"
         label: "NOT_RECOMMENDED"
         precondition: "Recommended does not apply"
         logic: ANY
         conditions:
-          # V0 conditions with min_count_by_k
           - text: "30 or more reviews describe groups being turned away or poorly handled"
             type: count_threshold
             filter:
               accommodation_quality: poor
             min_count: 30
             min_count_by_k:
-              25: 4
-              50: 8
-              100: 15
+              25: 5
+              50: 10
+              100: 18
           - text: "15 or more complaints about long waits despite reservations"
             type: count_threshold
             filter:
               wait_time: excessive
             min_count: 15
             min_count_by_k:
-              25: 2
-              50: 4
-              100: 8
+              25: 3
+              50: 5
+              100: 9
           - text: "10 or more reviews report refused check splitting for groups"
             type: count_threshold
             filter:
               check_splitting: refused
             min_count: 10
             min_count_by_k:
-              25: 1
-              50: 3
-              100: 5
-          # V1 additional conditions
-          - text: "10 or more reviews describe disaster group outcomes"
-            type: count_threshold
-            filter:
-              group_outcome: disaster
-            min_count: 10
-            min_count_by_k:
-              25: 1
-              50: 3
-              100: 5
+              25: 2
+              50: 4
+              100: 6
 
       - verdict: "Acceptable"
         label: "ACCEPTABLE"
         default: true
         especially_when:
-          - "Handles groups adequately but not exceptionally"
-          - "Suitable for medium groups but struggles with large ones"
-          - "Mixed experiences reported"
+          - "Can accommodate groups with advance notice"
+          - "Mixed reviews about group experiences"
+          - "Suitable for small groups but not large parties"
 
   # Output format
   output:

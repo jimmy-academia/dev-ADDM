@@ -34,7 +34,7 @@ from rich.panel import Panel
 
 # Constants
 GT_DIR = Path(__file__).parent.parent.parent / "data" / "answers" / "yelp"
-VARIANTS = ["V0", "V1", "V2", "V3"]
+VARIANTS = ["V1", "V2", "V3", "V4"]
 
 # Verdict order: worst → best (for coloring: red, yellow, green)
 VERDICT_ORDER = {

@@ -11,6 +11,7 @@ from openai import AsyncOpenAI
 from addm.data.types import Sample
 from addm.llm import LLMService
 from addm.methods.base import Method
+from addm.utils.debug_logger import get_debug_logger
 from addm.utils.results_manager import get_results_manager
 
 
@@ -215,6 +216,10 @@ class RAGMethod(Method):
         Returns:
             Dict with sample_id, output, and usage metrics
         """
+        # Set debug logger context - all LLM calls go to debug/{sample_id}.jsonl
+        if debug_logger := get_debug_logger():
+            debug_logger.set_context(sample.sample_id)
+
         start_time = time.time()
 
         # Parse restaurant data

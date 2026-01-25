@@ -8,7 +8,7 @@ overview:
     This is from the perspective of a business owner evaluating competitive positioning.
     Assign a label: Generic, Differentiated, or Highly Unique.
 
-    This assessment uses a point-based scoring system with recency weighting.
+    This assessment uses a point-based scoring system to quantify uniqueness.
   incident_definition: |
     Consider reviews that mention any of the following:
     - what makes the restaurant special or different
@@ -43,9 +43,8 @@ normative:
         value: forgettable
         label: Like a chain
     description: |
-      Calculate a uniqueness score by summing points from relevant reviews,
-      with recency weighting. Uniqueness is relatively stable over time,
-      so older reviews still carry meaningful weight.
+      Calculate a uniqueness score by summing points from relevant reviews.
+      Positive points indicate strong differentiation, negative points indicate generic.
     severity_points:
     - label: One of a kind
       points: 10
@@ -70,13 +69,6 @@ normative:
     - label: Like a chain
       description: described as generic
       points: -5
-    recency_rules:
-    - age: Within 1 year
-      weight: full point value
-    - age: 1-2 years old
-      weight: three-quarter point value (multiply by 0.75)
-    - age: Over 2 years old
-      weight: half point value (multiply by 0.5) - uniqueness is relatively stable
     thresholds:
     - verdict: Highly Unique
       min_score: 1000
@@ -101,13 +93,13 @@ normative:
       label: HIGHLY_UNIQUE
       logic: ANY
       conditions:
-      - Total score is 1000 or higher (after recency weighting)
+      - Total score is 1000 or higher
     - verdict: Generic
       label: GENERIC
       precondition: Highly Unique does not apply
       logic: ANY
       conditions:
-      - Total score is 350 or lower (after recency weighting)
+      - Total score is 350 or lower
     - verdict: Differentiated
       label: DIFFERENTIATED
       default: true
@@ -128,7 +120,7 @@ normative:
     justification:
       type: string
       required: true
-      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
       values:

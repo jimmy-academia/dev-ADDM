@@ -7,7 +7,7 @@ overview:
     Help assess the hygiene and food safety risk for this restaurant using customer reviews as evidence.
     Assign a risk label: Low Risk, High Risk, or Critical Risk.
 
-    This assessment uses a point-based scoring system with recency weighting.
+    This assessment uses a point-based scoring system to quantify risk.
   incident_definition: |
     Only firsthand observations are treated as confirmed evidence. An account is
     considered relevant if it meaningfully discusses any of the following:
@@ -46,8 +46,7 @@ normative:
         value: 'true'
         label: Multiple affected
     description: |
-      Calculate a total risk score by summing points from all firsthand hygiene incidents,
-      with recency weighting applied.
+      Calculate a total risk score by summing points from all firsthand hygiene incidents.
     severity_points:
     - label: Minor issue
       points: 2
@@ -68,13 +67,6 @@ normative:
     - label: Multiple affected
       description: multiple people in party experienced same issue
       points: 3
-    recency_rules:
-    - age: Within 1 year
-      weight: full point value
-    - age: 1-2 years old
-      weight: half point value (multiply by 0.5)
-    - age: Over 2 years old
-      weight: quarter point value (multiply by 0.25), or discard entirely if 3+ recent reviews confirm cleanliness improvement
     thresholds:
     - verdict: Critical Risk
       min_score: 150
@@ -99,13 +91,13 @@ normative:
       label: CRITICAL
       logic: ANY
       conditions:
-      - Total risk score is 150 or higher (after recency weighting)
+      - Total risk score is 150 or higher
     - verdict: High Risk
       label: HIGH
       precondition: Critical Risk does not apply
       logic: ANY
       conditions:
-      - Total risk score is 50 or higher (after recency weighting)
+      - Total risk score is 50 or higher
     - verdict: Low Risk
       label: LOW
       default: true
@@ -126,7 +118,7 @@ normative:
     justification:
       type: string
       required: true
-      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
       values:

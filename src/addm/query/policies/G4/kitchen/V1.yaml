@@ -1,8 +1,8 @@
-# G4_kitchen_V1: Kitchen Performance with Override Triggers
-# V1 = Extended: Multiple conditions per verdict (ANY triggers)
+# G4_kitchen_V1: Base Kitchen Performance Assessment
+# V1 = Base: Simple per-instance reasoning, basic thresholds
+# Owner perspective: Evaluating kitchen/food execution
 
-policy_id: "G4_kitchen_V1"
-extends: "G4_kitchen_V0"
+policy_id: G4_kitchen_V1
 version: "1.0"
 
 # === OVERVIEW (generates Overview section) ===
@@ -33,16 +33,13 @@ normative:
     - ref: "kitchen:ISSUE_SEVERITY"
     - ref: "kitchen:CONSISTENCY"
     - ref: "kitchen:CHEF_SKILL"
-    - ref: "kitchen:FOOD_SENT_BACK"
 
   # Decision policy -> generates Verdict Rules section
-  # V1 adds single-instance OVERRIDES
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
-    ordered: true
+    ordered: true  # Higher = better performance
 
     rules:
-      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Excellent"
         label: "EXCELLENT"
         logic: ANY
@@ -94,9 +91,9 @@ normative:
         label: "SATISFACTORY"
         default: true
         especially_when:
-          - "Food is generally good with occasional issues"
-          - "Competent execution without exceptional creativity"
-          - "Some standout dishes, some average"
+          - "Food quality is acceptable but not exceptional"
+          - "Some good dishes, some less impressive"
+          - "Occasional issues but generally competent"
 
   # Output format
   output:

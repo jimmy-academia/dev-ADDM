@@ -57,24 +57,18 @@ Perceived skill level of kitchen
 - **Good**: Skilled kitchen, quality execution
 - **Excellent**: Exceptional culinary skill
 
-### Food Sent Back
-Whether food was sent back
-
-- **True**: Food was sent back to kitchen
-- **False**: Food was not sent back
-
 
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- 55 or more reviews praise excellent chef skill
-- 90 or more reviews report consistent food quality
+- 55 or more reviews praise excellent chef skill [filter: chef_skill=excellent]
+- 90 or more reviews report consistent food quality [filter: consistency=consistent]
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- 28 or more reviews report poor chef skill
-- 32 or more reviews report inconsistent food quality
+- 28 or more reviews report poor chef skill [filter: chef_skill=poor]
+- 32 or more reviews report inconsistent food quality [filter: consistency=inconsistent]
 
 **Satisfactory** otherwise, especially when:
-- Food is generally good with occasional issues
-- Competent execution without exceptional creativity
-- Some standout dishes, some average
+- Food quality is acceptable but not exceptional
+- Some good dishes, some less impressive
+- Occasional issues but generally competent

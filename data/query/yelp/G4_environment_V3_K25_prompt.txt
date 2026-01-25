@@ -4,7 +4,7 @@ Help assess the physical environment quality at this restaurant using customer r
 This is from the perspective of a business owner evaluating ambiance and comfort.
 Assign a quality label: Needs Improvement, Satisfactory, or Excellent.
 
-This assessment uses a point-based scoring system with recency weighting.
+This assessment uses a point-based scoring system to quantify quality.
 
 ## Definitions of Terms
 
@@ -70,9 +70,8 @@ How well ambiance matches the concept
 
 ## Scoring System
 
-Calculate a quality score by summing points from relevant reviews,
-with recency weighting. Environment can change with renovations
-or maintenance, so recent reviews are more indicative.
+Calculate a quality score by summing points from relevant reviews.
+Positive points indicate good environment, negative points indicate issues.
 
 For each firsthand incident, assign points based on severity:
 - Exceptional atmosphere: 10 points
@@ -90,19 +89,13 @@ Additional modifiers:
 - Temperature issues (too hot or too cold): -3 points
 - Dirty/unclean (cleanliness issues noted): -5 points
 
-Recency weighting:
-- Within 6 months: full point value
-- 6 months to 1 year: three-quarter point value (multiply by 0.75)
-- 1-2 years old: half point value (multiply by 0.5)
-- Over 2 years old: quarter point value (multiply by 0.25) - unless describing permanent fixtures
-
 
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- Total quality score is 113 or higher (after recency weighting)
+- Total quality score is 113 or higher
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- Total quality score is 25 or lower (after recency weighting)
+- Total quality score is 25 or lower
 
 **Satisfactory** otherwise

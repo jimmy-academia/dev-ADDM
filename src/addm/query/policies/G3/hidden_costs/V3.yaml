@@ -7,7 +7,7 @@ overview:
     Help assess the risk of unexpected charges at this restaurant using customer reviews as evidence.
     Assign a risk label: Low Risk, High Risk, or Critical Risk.
 
-    This assessment uses a point-based scoring system with recency weighting.
+    This assessment uses a point-based scoring system to quantify risk.
   incident_definition: |
     Consider reviews that mention any of the following:
     - unexpected charges on the bill
@@ -42,9 +42,8 @@ normative:
         value: upset
         label: Customer very upset
     description: |
-      Calculate a risk score by summing points from hidden cost incidents,
-      with recency weighting. Pricing policies can change, so recent reviews
-      are weighted more heavily.
+      Calculate a risk score by summing points from hidden cost incidents.
+      Higher scores indicate greater risk of unexpected charges.
     severity_points:
     - label: Minor hidden cost (<5% impact)
       points: 2
@@ -65,24 +64,15 @@ normative:
     - label: Customer very upset
       description: reviewer expressed strong negative reaction
       points: 2
-    recency_rules:
-    - age: Within 6 months
-      weight: full point value
-    - age: 6 months to 1 year
-      weight: three-quarter point value (multiply by 0.75)
-    - age: 1-2 years old
-      weight: half point value (multiply by 0.5)
-    - age: Over 2 years old
-      weight: quarter point value (multiply by 0.25) - policies may have changed
     thresholds:
     - verdict: Critical Risk
-      min_score: 340
+      min_score: 550
       min_score_by_k:
         25: 85
         50: 150
         100: 290
     - verdict: High Risk
-      min_score: 210
+      min_score: 420
       min_score_by_k:
         25: 65
         50: 125
@@ -98,13 +88,13 @@ normative:
       label: CRITICAL
       logic: ANY
       conditions:
-      - Total risk score is 500 or higher (after recency weighting)
+      - Total risk score is 500 or higher
     - verdict: High Risk
       label: HIGH
       precondition: Critical Risk does not apply
       logic: ANY
       conditions:
-      - Total risk score is 200 or higher (after recency weighting)
+      - Total risk score is 200 or higher
     - verdict: Low Risk
       label: LOW
       default: true
@@ -125,7 +115,7 @@ normative:
     justification:
       type: string
       required: true
-      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
       values:

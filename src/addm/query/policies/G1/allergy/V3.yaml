@@ -7,7 +7,7 @@ overview:
     Help assess the allergy safety risk for this restaurant using customer reviews as evidence.
     Assign a risk label: Low Risk, High Risk, or Critical Risk.
 
-    This assessment uses a point-based scoring system with recency weighting.
+    This assessment uses a point-based scoring system to quantify risk.
   incident_definition: |
     Only firsthand accounts are treated as confirmed incident evidence. An account is
     considered an incident if it meaningfully discusses any of the following:
@@ -39,8 +39,7 @@ normative:
         value: dismissive
         label: Dismissive staff
     description: |
-      Calculate a total risk score by summing points from all firsthand incidents,
-      with recency weighting applied.
+      Calculate a total risk score by summing points from all firsthand incidents.
     severity_points:
     - label: Mild incident
       points: 2
@@ -58,13 +57,6 @@ normative:
     - label: High-risk cuisine
       description: restaurant is Thai, Vietnamese, or Chinese cuisine
       points: 2
-    recency_rules:
-    - age: Within 2 years
-      weight: full point value
-    - age: 2-3 years old
-      weight: half point value (multiply by 0.5)
-    - age: Over 3 years old
-      weight: quarter point value (multiply by 0.25), or discard entirely if 3+ recent reviews show improved handling
     thresholds:
     - verdict: Critical Risk
       min_score: 8
@@ -89,13 +81,13 @@ normative:
       label: CRITICAL
       logic: ANY
       conditions:
-      - Total risk score is 8 or higher (after recency weighting)
+      - Total risk score is 8 or higher
     - verdict: High Risk
       label: HIGH
       precondition: Critical Risk does not apply
       logic: ANY
       conditions:
-      - Total risk score is 4 or higher (after recency weighting)
+      - Total risk score is 4 or higher
     - verdict: Low Risk
       label: LOW
       default: true
@@ -116,7 +108,7 @@ normative:
     justification:
       type: string
       required: true
-      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
       values:

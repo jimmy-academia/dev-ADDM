@@ -3,8 +3,6 @@
 Help assess whether waiting at this restaurant is worth it using customer reviews as evidence.
 Assign a verdict: Not Worth Waiting, Worth Waiting, or Definitely Worth Waiting.
 
-This assessment uses a point-based scoring system to quantify time-value.
-
 ## Definitions of Terms
 
 ### Incident
@@ -58,33 +56,20 @@ Would customer wait again for this restaurant
 - **Definitely**: Would definitely wait again
 
 
-## Scoring System
-
-Calculate a time-value score by summing points from relevant reviews.
-Positive points indicate worth waiting, negative points indicate not worth it.
-
-For each firsthand incident, assign points based on severity:
-- Exceptional - worth any wait: 10 points
-- Worth the wait: 5 points
-- Neutral/acceptable wait: 0 points
-- Wait somewhat not worth it: -3 points
-- Definitely not worth waiting: -5 points
-- Left due to wait/complete waste: -10 points
-
-Additional modifiers:
-- No wait ever (always seated immediately): +3 points
-- Reservations honored (reservations work well): +2 points
-- Would wait again (reviewer would gladly wait again): +3 points
-- Reservations not honored (had reservation but still waited long): -5 points
-- Would not wait again (reviewer explicitly wouldn't wait again): -3 points
-
-
 ## Verdict Rules
 
 A restaurant is considered **Definitely Worth Waiting** if any of the following is true:
-- Total time-value score is 350 or higher
+- 20 or more reviews say it was definitely worth the wait [filter: wait_justification=definitely_worth_it]
+- 25 or more reviews say they would definitely wait again [filter: would_wait_again=definitely]
+- 13 or more reviews mention quick service [filter: wait_duration=quick]
 
 **Not Worth Waiting** if Definitely Worth Waiting does not apply, but any of the following is true:
-- Total time-value score is 125 or lower
+- 13 or more reviews describe waits as 'not worth it' [filter: wait_justification=not_worth_it]
+- 9 or more reviews say they would never wait again [filter: would_wait_again=never]
+- 3 or more reviews describe excessive wait duration [filter: wait_duration=excessive]
+- 5 or more reviews say it was barely worth the wait [filter: wait_justification=barely]
 
-**Worth Waiting** otherwise
+**Worth Waiting** otherwise, especially when:
+- Reasonable waits for good food
+- Some timing issues but overall positive
+- Wait acceptable for the type of restaurant

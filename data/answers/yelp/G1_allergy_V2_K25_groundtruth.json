@@ -3,8 +3,8 @@
   "topic": "G1_allergy",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-23T19:09:46.848640",
-  "has_scoring": true,
+  "computed_at": "2026-01-24T20:00:34.890807",
+  "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
       "name": "Bliss",
@@ -13,11 +13,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "-Tskf8WK17rb3ZfeFuRSWA": {
@@ -27,11 +26,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "ny1N_Py01kVoGOvL9oKjMQ": {
@@ -41,11 +39,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "zljfjg_zTL3ceGi_Vr4OFw": {
@@ -55,11 +52,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "SZU9c8V2GuREDN5KgyHFJw": {
@@ -69,11 +65,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "L5LLN0RafiV1Z9cddzvuCw": {
@@ -83,11 +78,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "Ipt9ga67vVC_2ob3YmVwNA": {
@@ -97,11 +91,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "iSRTaT9WngzB8JJ2YKJUig": {
@@ -111,11 +104,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "oQdGhdjzz_HhTaC4VrtBLQ": {
@@ -125,11 +117,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "8XjxHeV66F4eoIy06rW0pA": {
@@ -139,11 +130,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "zwBvdDWFQpYJE1UMDTlSyw": {
@@ -153,11 +143,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "cgd4udcCVzMfhJL_3W03Yw": {
@@ -167,11 +156,10 @@
       "n_judgments": 16,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "crjRqGzxe6-MM4ylqlSfmw": {
@@ -181,11 +169,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "EP9K6qXOyHFq_0tp93wh9Q": {
@@ -195,11 +182,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "nIAbuktMEzVjT4P9pG89rQ": {
@@ -209,11 +195,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "S8ZFYEgMejpChID8tzKo9A": {
@@ -222,12 +207,11 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "99dN-202N0EzRqdaOA_eRQ": {
@@ -237,11 +221,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "r2bYRNrtMhv-ED2-cFZp6Q": {
@@ -251,11 +234,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "8Vk_2t7hQI02IhpcRnfAIw": {
@@ -265,11 +247,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "ChlcxTEoWBQJXJ2Xb2vm5g": {
@@ -279,11 +260,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "iNiAJAtsbV5xOQGRtce-NQ": {
@@ -293,11 +273,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "ww3YJXu5c18aGZXWmm00qg": {
@@ -307,11 +286,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "xtWIORPp-HG2LWtz5jQtiA": {
@@ -321,11 +299,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "F7etLf6od7CUnCPknsQ-6Q": {
@@ -335,11 +312,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "8gY3LGFUMIQubovGbSd7Nw": {
@@ -349,11 +325,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "ROcx9FXq206zfI77MGo1Yw": {
@@ -363,11 +338,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "-T1sYi2cqB2oW4GeUXmIBQ": {
@@ -377,11 +351,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "xwk_8nCLpolbdZpKcWicRA": {
@@ -391,11 +364,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "Mm9zXIgMQMzgDt4GShSWrw": {
@@ -405,11 +377,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "IhN-DlnytNvnzCoTIwwfgQ": {
@@ -419,11 +390,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "gjCxTVItFxk46rCZ-YaiFA": {
@@ -433,11 +403,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "5xRmemqmR89BpGoOA25hqA": {
@@ -447,11 +416,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "R8t9g5nvi7VFyS8zsgmj8Q": {
@@ -461,11 +429,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "6a4gLLFSgr-Q6CZXDLzBGQ": {
@@ -475,11 +442,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "6_T2xzR74JqGCTPefAD8Tw": {
@@ -489,11 +455,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "Mzmt8AvZOExG_4h3MMlihg": {
@@ -503,11 +468,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "1bJxvwuMTyXmQGu90WLPhA": {
@@ -517,11 +481,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "GBTPC53ZrG1ZBY3DT8Mbcw": {
@@ -531,11 +494,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "S0dQ8Vks0IR-PZPLoBHKRA": {
@@ -545,11 +507,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "eCikDKFbaeYVNdCD2beX0Q": {
@@ -559,11 +520,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "TbjqvdrSBm27arbKbReRfg": {
@@ -573,11 +533,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "yT3Qs8rz82wqhKFlfWr1Lg": {
@@ -587,11 +546,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "ewaaXBGXMGluuTGXOnTkRg": {
@@ -601,11 +559,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "yksAB6aQXfNRrZM0jTxyOA": {
@@ -615,11 +572,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "_1JmbxhyiTXO_CDytQTkgA": {
@@ -629,11 +585,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "MJ9FaB4y2jCyn1CU7Fnj2Q": {
@@ -643,11 +598,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "lVAjWGOqyZOFHMEw5NLt9g": {
@@ -657,11 +611,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "XrikSy0DQ_fhVCaRRBJI-g": {
@@ -671,11 +624,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "jbJTF1zVmZsk4hea8hoeVA": {
@@ -685,11 +637,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "RQTRnBmDXXNWiM1-1LEqWg": {
@@ -699,11 +650,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "gVuzYJvei8rVDCLmhWBZ2Q": {
@@ -713,11 +663,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "kK-pcrXr3CEnWP-ci7XXgw": {
@@ -727,11 +676,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "tV46IhCfHbsx_af-pMupiw": {
@@ -741,11 +689,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "caSFK6m6kbifsD9ZF7bCNw": {
@@ -755,11 +702,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "DcBLYSvOuWcNReolRVr12A": {
@@ -768,12 +714,11 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "6OC8ErU_m06KABnfSXTJEA": {
@@ -783,11 +728,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "gebiRewfieSdtt17PTW6Zg": {
@@ -797,11 +741,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "GeLwhGlX8XsIsH-o3Wdc5w": {
@@ -811,11 +754,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "GmXC3CBu172Bkb0c6RnO7w": {
@@ -825,11 +767,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "QAlWB_JXJNQyg-kqAK_Ciw": {
@@ -839,11 +780,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "Ps7Q7BOKzJO4nDTUhbk43Q": {
@@ -853,11 +793,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "IxlIgLbIbynzJdzeqO860Q": {
@@ -867,11 +806,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "qqtGFnjyZWV--_YqabSb8A": {
@@ -881,11 +819,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "eZCt3doDaA-l4sg_OM67YQ": {
@@ -894,12 +831,11 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "sf-KdXHB5nxfNjl2uUpI6Q": {
@@ -909,51 +845,47 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Critical Risk",
-        "score": 24,
-        "n_incidents": 3,
+        "matched_rule": "CRITICAL",
+        "policy_id": "G1_allergy_V2",
+        "n_incidents": 4,
         "incidents": [
           {
             "review_id": "C_9HEqYieW7TnM86OtQlqw",
             "severity_field": "incident_severity",
             "severity_value": "moderate",
-            "severity_label": "Moderate incident",
-            "base_points": 5,
+            "account_type": "firsthand",
             "modifiers": [
               "Dismissive staff"
-            ],
-            "total_points": 8,
-            "recency_weight": 1.0,
-            "weighted_points": 8
+            ]
+          },
+          {
+            "review_id": "93U8OAWqqnndCCe4gm82AA",
+            "severity_field": "incident_severity",
+            "severity_value": "mild",
+            "account_type": "secondhand",
+            "modifiers": [
+              "Dismissive staff"
+            ]
           },
           {
             "review_id": "JTeR9wzcNH5dzClfgtCOmA",
             "severity_field": "incident_severity",
             "severity_value": "moderate",
-            "severity_label": "Moderate incident",
-            "base_points": 5,
+            "account_type": "firsthand",
             "modifiers": [
               "Dismissive staff"
-            ],
-            "total_points": 8,
-            "recency_weight": 1.0,
-            "weighted_points": 8
+            ]
           },
           {
             "review_id": "tbm6wNuN89MQGl4B2h5qrQ",
             "severity_field": "incident_severity",
             "severity_value": "moderate",
-            "severity_label": "Moderate incident",
-            "base_points": 5,
+            "account_type": "firsthand",
             "modifiers": [
               "Dismissive staff"
-            ],
-            "total_points": 8,
-            "recency_weight": 1.0,
-            "weighted_points": 8
+            ]
           }
-        ],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        ]
       }
     },
     "6ajnOk0GcY9xbb5Ocaw8Gw": {
@@ -963,11 +895,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "ac1AeYqs8Z4_e2X5M3if2A": {
@@ -977,11 +908,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "gKS0fS91JQOOTICdc2ZvFw": {
@@ -991,11 +921,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "73ZXjIfdHJs59XOzKHQ45g": {
@@ -1005,11 +934,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "ZfOS7Mz-iGseNxBhlhXm_w": {
@@ -1018,12 +946,11 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "unjm4rIGc-ZzRxdzEPnc1g": {
@@ -1033,11 +960,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "05ev984NYfimRN0UiFrxaA": {
@@ -1047,11 +973,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "CCnuyfb1nd-doEpkj0OoHg": {
@@ -1061,11 +986,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "ctHjyadbDQAtUFfkcAFEHw": {
@@ -1075,11 +999,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "B_q2xoAgTyn6U4YNEc3kSw": {
@@ -1089,11 +1012,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "6LyhttbsQn6a6PDxQDojCw": {
@@ -1103,11 +1025,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "LIHDIAocngz5Loe04eQ_oA": {
@@ -1117,11 +1038,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "DvBdqAA3XleMaOMwBl7g4g": {
@@ -1131,11 +1051,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "1vPSY4EA-fTRIZYz1Ruzow": {
@@ -1145,11 +1064,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "QvB0NRTGDplwnfPZGq8chw": {
@@ -1159,11 +1077,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "18eWJFJbXyR9j_5xfcRLYA": {
@@ -1173,11 +1090,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "Fc_8eLlcq5yy4DzrEeqEaQ": {
@@ -1187,11 +1103,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "HDnaNdHEZpQMYXo-ZHHG9g": {
@@ -1201,11 +1116,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "ws7z5fLdaVgwxZ9ex3cKxw": {
@@ -1215,11 +1129,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "9PZxjhTIU7OgPIzuGi89Ew": {
@@ -1229,11 +1142,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "dsfRniRgfbDjC8os848B6A": {
@@ -1243,11 +1155,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "JrG4NINLspXPNhSXg7Q07Q": {
@@ -1257,25 +1168,20 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "High Risk",
-        "score": 7,
+        "matched_rule": "HIGH",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 1,
         "incidents": [
           {
             "review_id": "IJbGk6P30mvrqcmE0Q1cTA",
             "severity_field": "incident_severity",
             "severity_value": "mild",
-            "severity_label": "Mild incident",
-            "base_points": 2,
+            "account_type": "firsthand",
             "modifiers": [
               "False assurance"
-            ],
-            "total_points": 7,
-            "recency_weight": 1.0,
-            "weighted_points": 7
+            ]
           }
-        ],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        ]
       }
     },
     "mbzBcAAR1Hx4G2jWRxJRew": {
@@ -1285,11 +1191,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "cM3C8AT3IhOIM4ccBofuSg": {
@@ -1298,12 +1203,11 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "i_FWONQD1ZBqrNE2b-M5Ug": {
@@ -1313,11 +1217,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "MfkMUNwur9huBERrx0k5lg": {
@@ -1327,11 +1230,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "TCAaeZi4m_RwUTTbZseRmg": {
@@ -1341,11 +1243,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "CFjQ7Rld0ddZFTi8Ryc5Kw": {
@@ -1355,11 +1256,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "D16LyrKmQ0Cs8NQQkFZD6A": {
@@ -1369,11 +1269,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "9z2z_y0JK1F2CC5MAPuzrg": {
@@ -1383,11 +1282,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "2CDI713ATuxHfnB5b-sBdw": {
@@ -1397,11 +1295,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "VpeqnfECjFNcYLyDxuc-_w": {
@@ -1410,12 +1307,11 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 0,
+        "verdict": "High Risk",
+        "matched_rule": "HIGH",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "2MAQeAqmD8enCT2ZYqUgIQ": {
@@ -1425,11 +1321,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "fdez0D4ovth2k1IvR0ZbpQ": {
@@ -1439,11 +1334,10 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     },
     "kZ1q0K13tFYG_ZJrVvsJHA": {
@@ -1453,19 +1347,18 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "matched_rule": "LOW",
+        "policy_id": "G1_allergy_V2",
         "n_incidents": 0,
-        "incidents": [],
-        "cuisine_modifier": false,
-        "policy_id": "G1_allergy_V2"
+        "incidents": []
       }
     }
   },
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Risk": 98,
-      "High Risk": 1,
+      "Low Risk": 92,
+      "High Risk": 7,
       "Critical Risk": 1
     },
     "missing_judgments": 0

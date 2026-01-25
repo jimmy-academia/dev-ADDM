@@ -59,18 +59,15 @@ How often reviewer has visited
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- 15 or more reviews describe it as always reliable
-- 80 or more reviews describe quality as stable
-- 3 or more frequent customers describe always reliable experience
-- 10 or more reviews describe improving quality
+- 60 or more reviews describe it as always reliable [filter: reliability=always_reliable]
+- 98 or more reviews describe quality as stable [filter: quality_trend=stable]
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- 15 or more reviews describe declining quality
-- 28 or more reviews describe it as hit or miss
-- 10 or more reviews describe it as unpredictable
-- 6 or more reviews describe visit being much worse
+- 26 or more reviews describe declining quality [filter: quality_trend=declining]
+- 42 or more reviews describe it as hit or miss [filter: reliability=hit_or_miss]
+- 20 or more reviews describe it as unpredictable [filter: reliability=unpredictable]
 
 **Satisfactory** otherwise, especially when:
-- Generally reliable with occasional variation
-- No strong positive or negative trends
-- Adequate consistency for most visits
+- Generally consistent with occasional variation
+- Most visits are good
+- Mixed reviews on reliability

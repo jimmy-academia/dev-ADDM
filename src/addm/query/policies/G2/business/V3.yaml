@@ -8,7 +8,7 @@ overview:
     using customer reviews as evidence.
     Assign a suitability label: Not Recommended, Acceptable, or Recommended.
 
-    This assessment uses a point-based scoring system with recency weighting.
+    This assessment uses a point-based scoring system to quantify suitability.
   incident_definition: |
     Consider reviews that mention any of the following:
     - business lunches, client meetings, interviews, work events
@@ -50,8 +50,8 @@ normative:
         value: slow
         label: Slow service
     description: |
-      Calculate a business suitability score by summing points from relevant reviews,
-      with recency weighting applied.
+      Calculate a business suitability score by summing points from relevant reviews.
+      Positive points indicate business suitability, negative points indicate drawbacks.
     severity_points:
     - label: Successful client meeting
       points: 15
@@ -81,13 +81,6 @@ normative:
     - label: Slow service
       description: service too slow for business timing
       points: -3
-    recency_rules:
-    - age: Within 1 year
-      weight: full point value
-    - age: 1-2 years old
-      weight: half point value (multiply by 0.5)
-    - age: Over 2 years old
-      weight: quarter point value (multiply by 0.25), unless describing permanent features
     thresholds:
     - verdict: Recommended
       min_score: 1200
@@ -112,13 +105,13 @@ normative:
       label: RECOMMENDED
       logic: ANY
       conditions:
-      - Total suitability score is 1200 or higher (after recency weighting)
+      - Total suitability score is 1200 or higher
     - verdict: Not Recommended
       label: NOT_RECOMMENDED
       precondition: Recommended does not apply
       logic: ANY
       conditions:
-      - Total suitability score is 50 or lower (after recency weighting)
+      - Total suitability score is 50 or lower
     - verdict: Acceptable
       label: ACCEPTABLE
       default: true
@@ -139,7 +132,7 @@ normative:
     justification:
       type: string
       required: true
-      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
       values:

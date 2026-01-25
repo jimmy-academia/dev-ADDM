@@ -58,19 +58,15 @@ Intent to switch to/from this restaurant
 ## Verdict Rules
 
 A restaurant is considered **Stronger** if any of the following is true:
-- 15 or more reviews favorably compare to competitors
-- 1 or more reviews describe customers switching to this place
-- 25 or more reviews state preference for this restaurant
-- 5 or more reviews describe strongly favorable comparison
-- 8 or more reviews cite better overall than competitors
+- Reviews favorably compare overall quality [filter: comparison_outcome=favorable, compared_aspect=overall]
+- Reviews show preference and switching to this restaurant [filter: preference_stated=prefer_this, switching_intent=switching_to]
 
 **Weaker** if Stronger does not apply, but any of the following is true:
-- 5 or more reviews prefer competitors
-- 8 or more reviews describe customers switching away
-- 10 or more reviews describe unfavorable comparisons
-- 3 or more reviews describe strongly unfavorable comparison
+- 12 or more reviews prefer competitors [filter: preference_stated=prefer_other]
+- 16 or more reviews describe customers switching away [filter: switching_intent=switching_away]
+- 18 or more reviews describe unfavorable comparisons [filter: comparison_outcome=unfavorable]
 
 **Comparable** otherwise, especially when:
-- Similar quality to nearby competitors
-- Trade-offs between restaurants
-- No clear winner in comparisons
+- Mixed comparisons
+- Similar to competitors
+- Different strengths and weaknesses

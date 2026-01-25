@@ -1,0 +1,139 @@
+policy_id: G1_dietary_V4
+extends: G1_dietary_V3
+version: '1.0'
+overview:
+  title: Dietary Accommodation Risk Assessment
+  purpose: |
+    Help assess the dietary accommodation risk for this restaurant using customer reviews as evidence.
+    Assign a risk label: Low Risk, High Risk, or Critical Risk.
+
+    This assessment uses a point-based scoring system with recency weighting.
+  incident_definition: |
+    Only firsthand accounts are treated as confirmed evidence. An account is
+    considered relevant if it meaningfully discusses any of the following:
+    - requesting accommodation for a dietary restriction (gluten-free, dairy-free, vegan, vegetarian)
+    - staff response to dietary restriction requests
+    - incidents where restricted foods were served despite requests
+    - menu labeling or ingredient transparency
+
+    General food preference mentions (e.g., "I like vegan food") are NOT considered
+    incidents unless they describe an accommodation attempt.
+normative:
+  terms:
+  - ref: shared:ACCOUNT_TYPE
+  - ref: dietary:RESTRICTION_TYPE
+  - ref: dietary:ACCOMMODATION_LEVEL
+  - ref: dietary:INCIDENT_SEVERITY
+  - ref: dietary:STAFF_KNOWLEDGE
+  - ref: shared:STAFF_RESPONSE
+  scoring:
+    field_mapping:
+      severity_field: incident_severity
+      value_mappings:
+        mild: Mild incident
+        moderate: Moderate incident
+        severe: Severe incident
+      modifier_mappings:
+      - field: staff_knowledge
+        value: none
+        label: False assurance
+      - field: staff_response
+        value: dismissive
+        label: Dismissive staff
+    description: |
+      Calculate a total risk score by summing points from all firsthand dietary incidents,
+      with recency weighting applied.
+    severity_points:
+    - label: Mild incident
+      points: 2
+    - label: Moderate incident
+      points: 5
+    - label: Severe incident
+      points: 15
+    modifiers:
+    - label: False assurance
+      description: incident after staff confirmed food was safe for restriction
+      points: 5
+    - label: Dismissive staff
+      description: staff dismissed dietary concern or was rude about request
+      points: 3
+    - label: Medical restriction
+      description: restriction is medical (celiac, allergy) rather than preference
+      points: 2
+    reference_date: "2022-01-01"
+    recency_rules:
+    - age: Within 2 years
+      weight: full point value
+      max_age_years: 2.0
+      weight_multiplier: 1.0
+    - age: 2-3 years old
+      weight: half point value (multiply by 0.5)
+      max_age_years: 3.0
+      weight_multiplier: 0.5
+    - age: Over 3 years old
+      weight: quarter point value (multiply by 0.25)
+      max_age_years: 999
+      weight_multiplier: 0.25
+    thresholds:
+    - verdict: Critical Risk
+      min_score: 8
+      min_score_by_k:
+        25: 5
+        50: 6
+        100: 7
+    - verdict: High Risk
+      min_score: 4
+      min_score_by_k:
+        25: 2
+        50: 3
+        100: 3
+  decision:
+    verdicts:
+    - Low Risk
+    - High Risk
+    - Critical Risk
+    ordered: true
+    rules:
+    - verdict: Critical Risk
+      label: CRITICAL
+      logic: ANY
+      conditions:
+      - Total risk score is 8 or higher (after recency weighting)
+    - verdict: High Risk
+      label: HIGH
+      precondition: Critical Risk does not apply
+      logic: ANY
+      conditions:
+      - Total risk score is 4 or higher (after recency weighting)
+    - verdict: Low Risk
+      label: LOW
+      default: true
+  output:
+    verdict:
+      type: enum
+      values:
+      - Low Risk
+      - High Risk
+      - Critical Risk
+      required: true
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: Relevant quotes supporting the verdict
+    justification:
+      type: string
+      required: true
+      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
+    confidence:
+      type: enum
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
+    other_notes:
+      type: string
+      optional: true
+      description: Any other relevant observations or caveats

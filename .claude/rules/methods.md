@@ -22,11 +22,11 @@ Uses [recursive-llm](https://github.com/ysz/recursive-llm) (forked to `lib/recur
 ```bash
 # Basic RLM
 .venv/bin/python -m addm.tasks.cli.run_experiment \
-    --policy G1_allergy_V2 -n 1 --k 50 --dev --method rlm
+    --policy G1_allergy_V3 -n 1 --k 50 --dev --method rlm
 
 # Custom token limit
 .venv/bin/python -m addm.tasks.cli.run_experiment \
-    --policy G1_allergy_V2 -n 1 --k 50 --dev --method rlm --token-limit 30000
+    --policy G1_allergy_V3 -n 1 --k 50 --dev --method rlm --token-limit 30000
 ```
 
 ## AMOS Method
@@ -39,15 +39,15 @@ Two-phase method for comprehensive review analysis:
 ```bash
 # Run AMOS (both phases)
 .venv/bin/python -m addm.tasks.cli.run_experiment \
-    --policy G1_allergy_V2 -n 10 --method amos --dev
+    --policy G1_allergy_V3 -n 10 --method amos --dev
 
 # Phase 1 only (generate seed)
 .venv/bin/python -m addm.tasks.cli.run_experiment \
-    --policy G1_allergy_V2 --phase 1 --method amos --dev
+    --policy G1_allergy_V3 --phase 1 --method amos --dev
 
 # Phase 2 only (use pre-generated seed)
 .venv/bin/python -m addm.tasks.cli.run_experiment \
-    --policy G1_allergy_V2 --phase 2 --seed results/dev/seeds/ -n 5 --method amos --dev
+    --policy G1_allergy_V3 --phase 2 --seed results/dev/seeds/ -n 5 --method amos --dev
 ```
 
 ### AMOS Flow

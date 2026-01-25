@@ -3,7 +3,7 @@
   "topic": "G2_romance",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-23T19:09:47.170375",
+  "computed_at": "2026-01-24T20:03:07.729605",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -15,7 +15,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 18,
+        "n_incidents": 21,
         "incidents": [
           {
             "review_id": "Hg-uI07Uh-ydKTQFIUYC1Q",
@@ -74,6 +74,13 @@
             "modifiers": []
           },
           {
+            "review_id": "sZB3_H--A_2CqnTn_ujzXA",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "Ii37Ht2-YMxH04sbBO2VXA",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -116,6 +123,13 @@
             "modifiers": []
           },
           {
+            "review_id": "77TFze35Z92hzxwcRlEHjw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "DGzAxUxcAUSZOlbbuRZpOQ",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -137,6 +151,13 @@
             "modifiers": []
           },
           {
+            "review_id": "T5OA21--nDBEitj8Garirw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "U8K4nv_wbAP1raEe2LoEVg",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -152,10 +173,10 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 12,
+        "n_incidents": 14,
         "incidents": [
           {
             "review_id": "_0hK9x4hyOV8VoE4a4L6Rg",
@@ -168,6 +189,20 @@
             "review_id": "I91H3yiCVaTdW5bJXKsuXQ",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "mHTb1ONJiFRRtfBOp1D0Ow",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "0ZVwhYnvzznk5EYMsqLH_g",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -561,7 +596,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 18,
+        "n_incidents": 21,
         "incidents": [
           {
             "review_id": "du-KcU3422VJx6e9QlkkGA",
@@ -606,9 +641,30 @@
             "modifiers": []
           },
           {
+            "review_id": "JohiWHksgEFwpxA2B7XwpQ",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "JJvKhaSvOY3vSbAtuZDeJA",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HEEnvEOB2sZgUoEoaeQt1w",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "xkan47q-cfvUE0tfFGxQqA",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -810,10 +866,10 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "matched_rule": "ACCEPTABLE",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 15,
+        "n_incidents": 16,
         "incidents": [
           {
             "review_id": "szGkWgKSsTWgXqHLakRNIg",
@@ -910,6 +966,13 @@
             "review_id": "v3OO3yiKDuUNc3XYpBWj7g",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8l9DemCrQrOFor58tgdW0Q",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -1076,8 +1139,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
         "n_incidents": 13,
         "incidents": [
@@ -1181,10 +1244,10 @@
       "n_reviews": 16,
       "n_judgments": 16,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 7,
+        "n_incidents": 8,
         "incidents": [
           {
             "review_id": "rNoM9zQvVTmqBufEIFE8Cg",
@@ -1229,6 +1292,13 @@
             "modifiers": []
           },
           {
+            "review_id": "u6VMHxBG99Drhmgmjggl-g",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "rUlhUmUoMCQP7tjMfvui6g",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -1247,7 +1317,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 19,
+        "n_incidents": 23,
         "incidents": [
           {
             "review_id": "2F67_0CBF8xhBDL9OZWutA",
@@ -1288,6 +1358,13 @@
             "review_id": "c7ZLU1FcG1GG1E-YVkQdUQ",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "7B610NDiV013m0Op9wt56Q",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -1369,9 +1446,30 @@
             "modifiers": []
           },
           {
+            "review_id": "hj67_Gi4g9tj6IIHifFDVQ",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "3wDx50h-ShsxzGEjrrIQsg",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "UcApIZDl9L_2XIaLk6-60Q",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "kpGDamaNhbF8tEFH1RGzlA",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -1681,7 +1779,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 17,
+        "n_incidents": 18,
         "incidents": [
           {
             "review_id": "o9dtSdd_JvRdZEKGMHkQuw",
@@ -1708,6 +1806,13 @@
             "review_id": "-U68E22hTkZeC1FJxw9iIQ",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "keF7f-KOsHFekhvaGMzcKA",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -1811,10 +1916,10 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 10,
+        "n_incidents": 12,
         "incidents": [
           {
             "review_id": "svdczN1KKj_APLUCOGwRuA",
@@ -1834,6 +1939,13 @@
             "review_id": "LD6P20SZ4Txb3IC82W_zDg",
             "severity_field": "date_outcome",
             "severity_value": "negative",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "c_TAq--wg9LWfb24u8VfeA",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -1869,6 +1981,13 @@
             "review_id": "vdV7ZkOFOktDbVtWC7nZHw",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "n08peLpJWgE0vmcgvVEG-Q",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -2052,7 +2171,7 @@
         "verdict": "Acceptable",
         "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 13,
+        "n_incidents": 14,
         "incidents": [
           {
             "review_id": "XIPUzf9-_DTEkHvzalWDrw",
@@ -2132,6 +2251,13 @@
             "modifiers": []
           },
           {
+            "review_id": "LFXKbF2dmXzqHI7N7CKOXA",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "2PJyjlfXZm9awneBJIAMZg",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -2154,10 +2280,10 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 13,
+        "n_incidents": 15,
         "incidents": [
           {
             "review_id": "sXpwSCw9X-7R1baOIbx9dA",
@@ -2209,9 +2335,23 @@
             "modifiers": []
           },
           {
+            "review_id": "LV3xNGcvqEY18FnC46DwCw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "D1qIJXFMbY9_bv071w8Jpw",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "-HzvYWOl_sYKZ-jECRDXtQ",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -2430,7 +2570,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 20,
+        "n_incidents": 21,
         "incidents": [
           {
             "review_id": "Ksrjay8bcTIC03jBkDQPvQ",
@@ -2548,6 +2688,13 @@
             "review_id": "LbcQ_sM4jqVQZhDZ5xXGuw",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ky2nFoYQ9UOZcibWyYBdiQ",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -2693,10 +2840,10 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 12,
+        "n_incidents": 14,
         "incidents": [
           {
             "review_id": "0H8KiqAsO5wVDInD-7X0kw",
@@ -2765,6 +2912,20 @@
             "review_id": "dPZEH-BbS4aE03bhfJHT_w",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "xi392eLpV7pneWfk-jLnfw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "lJHgB2DVklkDK0o4fbJjcg",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -2948,7 +3109,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 19,
+        "n_incidents": 20,
         "incidents": [
           {
             "review_id": "k6nbECBTDReR7odtEpR9mw",
@@ -2968,6 +3129,13 @@
             "review_id": "csumMxaN6oj28a6l1JVGvA",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Fb1MRlPj7v2TrTSwrTZ34A",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -3267,11 +3435,18 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 8,
+        "n_incidents": 10,
         "incidents": [
+          {
+            "review_id": "0Xnz4uVptIHw0b9fgtBw_g",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "c4JrlE6JaLz6n4hAfYRdBg",
             "severity_field": "date_outcome",
@@ -3297,6 +3472,13 @@
             "review_id": "O7zt3GITDAUtpEVOZ0_UPQ",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "GsNdn6vOdloomyGsl1lCGw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -3340,7 +3522,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 20,
+        "n_incidents": 21,
         "incidents": [
           {
             "review_id": "BvWLOBHxZk2clSP_q7_iaQ",
@@ -3374,6 +3556,13 @@
             "review_id": "wCmkglZcgmeHGdGIjEZYdA",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "e0Acgx5D7f4XFOxva7YKSw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -3820,11 +4009,18 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 14,
+        "n_incidents": 16,
         "incidents": [
+          {
+            "review_id": "J91xJiDM8k-P410yZe52Ww",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "JQzeFT7T1SCTYPPg6Fg9_Q",
             "severity_field": "date_outcome",
@@ -3843,6 +4039,13 @@
             "review_id": "DVu8asJS2bzEjxlA4poQGQ",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "twcmpy8sdxI2yR7S-xuoFw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -3935,12 +4138,19 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 14,
+        "n_incidents": 19,
         "incidents": [
           {
             "review_id": "YuTswFRG6Ljl4HPRFN3ILw",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "y3os-oOVd9tEoW4MjfugLQ",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -3959,9 +4169,23 @@
             "modifiers": []
           },
           {
+            "review_id": "L5nngnjlPtspyre0En1Sbw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "57tr8SbA0W2jSL7FuH3LQQ",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "p4qKLkI5zH5vuJCGCQNm3Q",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -4022,6 +4246,13 @@
             "modifiers": []
           },
           {
+            "review_id": "VbS9z56qPAnP_YSP-S7SOg",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "G1hVp2RkfbbUOlbNwQtA_Q",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -4032,6 +4263,13 @@
             "review_id": "s3lNcgbQPGWNNCCMqJYfVw",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "4_R2UqR_2lpK_mOrFmAMeQ",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           }
@@ -4047,7 +4285,7 @@
         "verdict": "Acceptable",
         "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 12,
+        "n_incidents": 13,
         "incidents": [
           {
             "review_id": "Vf7uILwri9F1D4pCmPFJcQ",
@@ -4109,6 +4347,13 @@
             "review_id": "CIH4B6PF5fm1SMcReckwXA",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "KbOvS_CWhUSGvmRaEoYFzA",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -4257,7 +4502,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 16,
+        "n_incidents": 18,
         "incidents": [
           {
             "review_id": "eTqjV_YKhz6s72jGqTkaJg",
@@ -4277,6 +4522,13 @@
             "review_id": "cULTDl5aMoszZWFDdU835Q",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "mISgmxQMYNSWNDBPCAk3pw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -4333,6 +4585,13 @@
             "review_id": "apMnceMy1GtpC5FlAV4faw",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "vgAvPoSQr3V1lggoE9BiGA",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -4534,8 +4793,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
         "n_incidents": 15,
         "incidents": [
@@ -4852,7 +5111,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 19,
+        "n_incidents": 20,
         "incidents": [
           {
             "review_id": "hXhCdo0z1Rbc18cO9vEm7w",
@@ -4942,6 +5201,13 @@
             "review_id": "PZv_Z3xsU1xn5rU_QIbuxQ",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "T_-hSx-X_-r0JENd5t1VUw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -5104,7 +5370,7 @@
         "verdict": "Acceptable",
         "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 11,
+        "n_incidents": 12,
         "incidents": [
           {
             "review_id": "5ifbm85vbJT1U9LAraKv2w",
@@ -5173,6 +5439,13 @@
             "review_id": "WsjA3ZMePX-z26gh5Yh1Jw",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "II4aoFlRTTBhyDfPmI0VNQ",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -5265,12 +5538,19 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 15,
+        "n_incidents": 21,
         "incidents": [
           {
             "review_id": "wuUYnX0XVhV9gXONuQv0xw",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "5CAg_ojiSW0pcvwoQFIBWQ",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -5296,9 +5576,30 @@
             "modifiers": []
           },
           {
+            "review_id": "wHmfgEsX3lfCaSk2OmxOHg",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "2ZiAKcadlIwht6crM9T5xA",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "WP8sJYWInSwtZk8sTJsegA",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ftXxl-IcfkvQL-EVu6rq6g",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -5313,6 +5614,13 @@
             "review_id": "_G0FAP7LfczwEG6ppQ6iow",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "w_vrztIdOh7_VEzlkIlECg",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -5355,6 +5663,13 @@
             "review_id": "u5RGdKLYzO66ieVOzRM45w",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "462FsWR5lyir4gMAnF3F2A",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -5510,7 +5825,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 19,
+        "n_incidents": 20,
         "incidents": [
           {
             "review_id": "CI170eVhZR9GTBFwo0EasQ",
@@ -5593,6 +5908,13 @@
             "review_id": "g_xyGToJ4V11LkNrBJxs2Q",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "S2kRdCPoDFUgCLt6RVal3Q",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -5713,8 +6035,15 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 17,
+        "n_incidents": 18,
         "incidents": [
+          {
+            "review_id": "BUGqRKvDt8V6I_Flp37eOQ",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "LHRzLgxqWidpXBeA8Gxg_g",
             "severity_field": "date_outcome",
@@ -5846,8 +6175,15 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 17,
+        "n_incidents": 20,
         "incidents": [
+          {
+            "review_id": "EdFRNyKG1Uur-ScEOAGsZg",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "jYznJ3uLEoVryFrDvs8ioA",
             "severity_field": "date_outcome",
@@ -5905,6 +6241,13 @@
             "modifiers": []
           },
           {
+            "review_id": "W-0Tn6uBNirB8IbahottIw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "4jHNLeGwi1cOdwPCZZK2iA",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -5957,6 +6300,13 @@
             "review_id": "3FqSOZHXkyntrAjYXfOpgQ",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "yTYMsANL7G9hDWa4Q2J2IA",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -6284,10 +6634,10 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 15,
+        "n_incidents": 17,
         "incidents": [
           {
             "review_id": "wxToKzS6FZeM_XNCVDAPXQ",
@@ -6339,6 +6689,13 @@
             "modifiers": []
           },
           {
+            "review_id": "wtqioP10W4DnZv8Ted3v6Q",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "q9q3XGfViLetHpbz_eTKGA",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -6381,6 +6738,13 @@
             "modifiers": []
           },
           {
+            "review_id": "mHUs4rHL6hQWs2AvLXLE3w",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "MnzbbENkUgjBvYqdxoS8QA",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -6406,7 +6770,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 14,
+        "n_incidents": 16,
         "incidents": [
           {
             "review_id": "urbCmNfqIhzvKhazy8gzhQ",
@@ -6472,6 +6836,13 @@
             "modifiers": []
           },
           {
+            "review_id": "6NWiqN5esqhmdculvUenmA",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "A3ZDKOFG_KmFVRrjqByWdA",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -6505,6 +6876,13 @@
             "severity_value": "positive",
             "account_type": "firsthand",
             "modifiers": []
+          },
+          {
+            "review_id": "lKrQIfhXIS8Xo5gv5Ur58g",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -6518,7 +6896,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 13,
+        "n_incidents": 21,
         "incidents": [
           {
             "review_id": "jJlo9bR4D9O8Gz_MnnNbBA",
@@ -6531,6 +6909,13 @@
             "review_id": "Ig9mCQbnZVtXonbBySKg_A",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "yfFDBozpWlSgvaqgKcywLA",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -6556,9 +6941,23 @@
             "modifiers": []
           },
           {
+            "review_id": "Z3BZTagJqxDT9TXviDSuYg",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "iTfl4qh1eB_CZyH3mqug1w",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "oqYMPxkuGqYFUMoaJpitCA",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -6573,6 +6972,13 @@
             "review_id": "1TdOcg8t_ViHUSP_1VQ3Jg",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "50Uh091gyniUV6fSHT2trw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -6598,6 +7004,20 @@
             "modifiers": []
           },
           {
+            "review_id": "4ewbSP31LF5defBxzyp_-Q",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "iHYZlRVk0g0j87lV1sIK_g",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "ra4aruIPMkVg8OLbUPni3g",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -6605,9 +7025,23 @@
             "modifiers": []
           },
           {
+            "review_id": "PrvPHaZPu2Lr-taVMKfFRA",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "uWusvmodmGBsUy78qiPJNQ",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "cjJ3qUbgGG2HX-pIxh-YjQ",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           }
@@ -6847,7 +7281,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 21,
+        "n_incidents": 23,
         "incidents": [
           {
             "review_id": "ooBBYupuTgbgHu0FKaWOVA",
@@ -6867,6 +7301,13 @@
             "review_id": "TTK7zYHWCYobedlNiMxSgw",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DzW43OnbMgkQEpynMHdykw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -6951,6 +7392,13 @@
             "review_id": "p-VRpBkUZ2N5s6OM1VDDuw",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "m1nqryp9af-QICLSS_Z0FQ",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -7232,7 +7680,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 19,
+        "n_incidents": 20,
         "incidents": [
           {
             "review_id": "yzwdbUtk8eFu8tJvUGaZaA",
@@ -7245,6 +7693,13 @@
             "review_id": "IzFKFV2JhROJV7QR_C6c3Q",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "j73ZTPyctRV7ZweBtlNI6Q",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -7376,10 +7831,10 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 11,
+        "n_incidents": 13,
         "incidents": [
           {
             "review_id": "QltRqYg5uLqR05JrOJrKYQ",
@@ -7424,6 +7879,13 @@
             "modifiers": []
           },
           {
+            "review_id": "A6BfeEvNwhyV6d6qsQpnzw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "5sOt6CUkPLCcvtUeInJnTQ",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -7434,6 +7896,13 @@
             "review_id": "MB_lefdYMi8Y8t9c5WOzDw",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "531K4RimHH8skFrKP68Hxw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -7470,7 +7939,7 @@
         "verdict": "Acceptable",
         "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 14,
+        "n_incidents": 15,
         "incidents": [
           {
             "review_id": "0s6ngEsSL8Eoqr5RckSTGw",
@@ -7483,6 +7952,13 @@
             "review_id": "_LuPE2z0fUvxZ0pXfVhpSQ",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "gjmdCfZxygSGVWB8HiSh7A",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -7708,7 +8184,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 15,
+        "n_incidents": 19,
         "incidents": [
           {
             "review_id": "bCExSK6mGFpRQ9Gda0P8jg",
@@ -7739,6 +8215,27 @@
             "modifiers": []
           },
           {
+            "review_id": "a4ETPAWEtwWd8MlMJyysiw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "jgl51PDisL-nwEfGpa6h9A",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Aegi7X4EyFrp8Em7coDQ0Q",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "h6-gkweIJvEMcHqe4owALw",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -7756,6 +8253,13 @@
             "review_id": "pdPyiehrim9BjbsVK6uD9A",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "qFoIEGFWIxVLpZ3vMdrL6w",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -7922,10 +8426,10 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 16,
+        "n_incidents": 18,
         "incidents": [
           {
             "review_id": "lWlOGzO0nclq0qAYEWjmuA",
@@ -7959,6 +8463,13 @@
             "review_id": "xjwYmAh4CSnOJrOb725oEQ",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "mtU3Lsr6L6PywK0uosYglw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -8033,6 +8544,13 @@
             "modifiers": []
           },
           {
+            "review_id": "d-vL2mAG-dHC0F_QeDonsg",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "KhZ0GHG6hVt4byKlHWzFMA",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -8048,8 +8566,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "matched_rule": "ACCEPTABLE",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
         "n_incidents": 16,
         "incidents": [
@@ -8268,12 +8786,19 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 18,
+        "n_incidents": 22,
         "incidents": [
           {
             "review_id": "vOAs8zT_wGRSv0Eb4Md4vw",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "k0g9CEwYkiYcjjZBPY8JEw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -8288,6 +8813,13 @@
             "review_id": "a-Tgt7efPufU9k8cxcELrQ",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "98obuBjYGZ4QTqovgF_bPw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -8355,6 +8887,13 @@
             "modifiers": []
           },
           {
+            "review_id": "blalnL2hoGaZLecgAfF5Yg",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "o48oXG5pxHNbEnX9B0shRw",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -8365,6 +8904,13 @@
             "review_id": "60phG0etxmAbDEXiJSaWyg",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DIuMZAmKW8UrDYFB5OWaPg",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -8520,8 +9066,15 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 17,
+        "n_incidents": 19,
         "incidents": [
+          {
+            "review_id": "t7L6k5RZhD6G2_xeM9yIZw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "wqDCfQwxWJ26PH8nFCqDQw",
             "severity_field": "date_outcome",
@@ -8596,6 +9149,13 @@
             "review_id": "WdjjdD-dcvltLzFFapnUNg",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "eIEp8mAIFsOO34yVRt3nkQ",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -8839,10 +9399,10 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 14,
+        "n_incidents": 15,
         "incidents": [
           {
             "review_id": "CIRd-90Zyb2vjRybV1LhJA",
@@ -8883,6 +9443,13 @@
             "review_id": "SRfAFtOHeD-CDvPfUFuHlA",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "5cpDOyMB_BjwjSI_nmPt0Q",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -8954,7 +9521,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 18,
+        "n_incidents": 19,
         "incidents": [
           {
             "review_id": "kAhlM6rgoSDtgNyORJIx2w",
@@ -9016,6 +9583,13 @@
             "review_id": "yWaPVTBmhC5aVFCxdWS59A",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "XpZE8KPZrdVp1fvlNsFxHg",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -9091,8 +9665,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "matched_rule": "ACCEPTABLE",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
         "n_incidents": 15,
         "incidents": [
@@ -9213,7 +9787,7 @@
         "verdict": "Acceptable",
         "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 9,
+        "n_incidents": 10,
         "incidents": [
           {
             "review_id": "WsE19SWrI4iyG9c74DjvjQ",
@@ -9247,6 +9821,13 @@
             "review_id": "F4bkDF8zJk_lLW0ZPpDxjg",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "reAHSupzuOo9Q9KIV51udw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -9364,15 +9945,29 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 10,
+        "n_incidents": 13,
         "incidents": [
+          {
+            "review_id": "yPO4xeD7pBzFJ1CQWNGIpA",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "96JiNWWZUr7OgF_BL2Gd9Q",
             "severity_field": "date_outcome",
             "severity_value": "negative",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "cChhUdCZZUyeQ66sK9sjWw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -9394,6 +9989,13 @@
             "review_id": "wZI0-_JeNt3zVRCY8tZxAQ",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "BSd5sW2quVSJ6Sq0PPvjZA",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -9451,7 +10053,7 @@
         "verdict": "Acceptable",
         "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 8,
+        "n_incidents": 9,
         "incidents": [
           {
             "review_id": "qZPaFeIRLU1xWagngviXWA",
@@ -9508,6 +10110,13 @@
             "severity_value": "positive",
             "account_type": "firsthand",
             "modifiers": []
+          },
+          {
+            "review_id": "OztSVjD16UJuY_CojdGNJg",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -9521,7 +10130,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 14,
+        "n_incidents": 19,
         "incidents": [
           {
             "review_id": "n90FHRnLDnpYfdKZQTzGdA",
@@ -9573,6 +10182,27 @@
             "modifiers": []
           },
           {
+            "review_id": "pnHADOPNw2rlQeww74EfDQ",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "de_wtEZj6h_FBm9a1M8Rjg",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "VeDiSN_AzIACsEVTWtR2ww",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "4KB16yYNyyfxISxqKrev4w",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -9590,6 +10220,20 @@
             "review_id": "OFKapw7laUqBNYSD29pbCA",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "bQYf7EoU7mvLL9qmeIikbA",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "qz-csYJvKSdZVJWqliJCXw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -9927,8 +10571,15 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 15,
+        "n_incidents": 17,
         "incidents": [
+          {
+            "review_id": "y_e0z3XxHRssJCH99PDGBw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "X2cHT-Mmkq7eiFTlMltbKg",
             "severity_field": "date_outcome",
@@ -10000,6 +10651,13 @@
             "modifiers": []
           },
           {
+            "review_id": "9eDaI90tkTO1AUTJFhDwNQ",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "YLoGIeFmtSzVwH_VadJo5Q",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -10043,8 +10701,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
-        "matched_rule": "NOT_RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
         "n_incidents": 14,
         "incidents": [
@@ -10158,7 +10816,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 20,
+        "n_incidents": 21,
         "incidents": [
           {
             "review_id": "z7etcJfnnUSx-kWVDydsHQ",
@@ -10241,6 +10899,13 @@
             "review_id": "UWuCryPad942gYjbns3Udg",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "2ciQniDEepU03WtDWEjv3Q",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -10540,8 +11205,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "matched_rule": "ACCEPTABLE",
+        "verdict": "Recommended",
+        "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
         "n_incidents": 17,
         "incidents": [
@@ -10676,7 +11341,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 18,
+        "n_incidents": 20,
         "incidents": [
           {
             "review_id": "mWnfAVBcAD-A-mfaiCKpfQ",
@@ -10721,6 +11386,13 @@
             "modifiers": []
           },
           {
+            "review_id": "nAJInUu-SPbYNUy9-nX9gw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "zodKbbBLz0l89zuRpcoQug",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -10738,6 +11410,13 @@
             "review_id": "wUNTZvTfkDjKUhXw6EAvHg",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "y_QJRxX6QRbZX93P9jvHRA",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -10813,15 +11492,22 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Recommended",
-        "matched_rule": "RECOMMENDED",
+        "verdict": "Acceptable",
+        "matched_rule": "ACCEPTABLE",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 12,
+        "n_incidents": 14,
         "incidents": [
           {
             "review_id": "E2uxslWfGhHxP2F8mR47zA",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "mnO_DnGs9c-1Gj_oPaA80Q",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -10836,6 +11522,13 @@
             "review_id": "3H5Hmbf0bV5PMf6255kXbw",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Wy1x-bEj9AqtSxshk0HPjg",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -10914,7 +11607,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 15,
+        "n_incidents": 22,
         "incidents": [
           {
             "review_id": "Mr0EFPk-bV5YCLWcJHWnhg",
@@ -10931,6 +11624,20 @@
             "modifiers": []
           },
           {
+            "review_id": "F3uf5uSbZPA6LB25WN6__w",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "SVw8g6SZqc9dWZxXUzKUQQ",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "ziTVwLWI_3DXZNeOIHj_tg",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -10938,9 +11645,37 @@
             "modifiers": []
           },
           {
+            "review_id": "FQCrzXkYPBWoaAAyjpZaYg",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "lS474_PCVvuNz1QlT5Godw",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "JkKHSmBONcWwTfZc8WogeA",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "I5V28sR1PyrCekRYDyhJhw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "qc-e0xmD1qekdZ0DB7J7ng",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -11008,6 +11743,13 @@
             "modifiers": []
           },
           {
+            "review_id": "Aby_xqouTHG5AHecZcQJYg",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "ATWyFyS2qwfltKA5N42YXg",
             "severity_field": "date_outcome",
             "severity_value": "positive",
@@ -11033,7 +11775,7 @@
         "verdict": "Recommended",
         "matched_rule": "RECOMMENDED",
         "policy_id": "G2_romance_V1",
-        "n_incidents": 18,
+        "n_incidents": 20,
         "incidents": [
           {
             "review_id": "i-4u-j2uKNVmw3GnH04Qwg",
@@ -11092,6 +11834,13 @@
             "modifiers": []
           },
           {
+            "review_id": "p0_eFt05Gxc6D4v1Exo1yw",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "eIHLM_6rWWPUhVvP1PmcYQ",
             "severity_field": "date_outcome",
             "severity_value": "negative",
@@ -11116,6 +11865,13 @@
             "review_id": "2M4PY1raf72YBgQPwO6oCw",
             "severity_field": "date_outcome",
             "severity_value": "positive",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "MVb1974eTtYcGi79hdtMGQ",
+            "severity_field": "date_outcome",
+            "severity_value": "memorable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -11301,9 +12057,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Not Recommended": 8,
-      "Acceptable": 40,
-      "Recommended": 52
+      "Not Recommended": 3,
+      "Acceptable": 51,
+      "Recommended": 46
     },
     "missing_judgments": 0
   }

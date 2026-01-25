@@ -8,7 +8,7 @@ overview:
     This is from the perspective of a business owner evaluating customer loyalty.
     Assign a label: Low Loyalty, Moderate Loyalty, or High Loyalty.
 
-    This assessment uses a point-based scoring system with recency weighting.
+    This assessment uses a point-based scoring system to quantify loyalty.
   incident_definition: |
     Consider reviews that mention any of the following:
     - return visits or intention to return
@@ -43,9 +43,8 @@ normative:
         value: warn_others
         label: Warns others away
     description: |
-      Calculate a loyalty score by summing points from relevant reviews,
-      with recency weighting. Loyalty patterns can shift as restaurants change,
-      so recent reviews are weighted more heavily.
+      Calculate a loyalty score by summing points from relevant reviews.
+      Positive points indicate strong loyalty, negative points indicate weak loyalty.
     severity_points:
     - label: Regular customer
       points: 10
@@ -70,15 +69,6 @@ normative:
     - label: Switched to competitor
       description: explicitly left for alternative
       points: -8
-    recency_rules:
-    - age: Within 6 months
-      weight: full point value
-    - age: 6 months to 1 year
-      weight: three-quarter point value (multiply by 0.75)
-    - age: 1-2 years old
-      weight: half point value (multiply by 0.5)
-    - age: Over 2 years old
-      weight: quarter point value (multiply by 0.25) - loyalty patterns may have changed
     thresholds:
     - verdict: High Loyalty
       min_score: 1400
@@ -103,13 +93,13 @@ normative:
       label: HIGH_LOYALTY
       logic: ANY
       conditions:
-      - Total score is 1400 or higher (after recency weighting)
+      - Total score is 1400 or higher
     - verdict: Low Loyalty
       label: LOW_LOYALTY
       precondition: High Loyalty does not apply
       logic: ANY
       conditions:
-      - Total score is 100 or lower (after recency weighting)
+      - Total score is 100 or lower
     - verdict: Moderate Loyalty
       label: MODERATE_LOYALTY
       default: true
@@ -130,7 +120,7 @@ normative:
     justification:
       type: string
       required: true
-      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
       values:

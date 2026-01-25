@@ -4,8 +4,6 @@ Help assess the physical environment quality at this restaurant using customer r
 This is from the perspective of a business owner evaluating ambiance and comfort.
 Assign a quality label: Needs Improvement, Satisfactory, or Excellent.
 
-This assessment uses a point-based scoring system to quantify quality.
-
 ## Definitions of Terms
 
 ### Incident
@@ -68,34 +66,18 @@ How well ambiance matches the concept
 - **Excellent**: Ambiance perfectly complements concept
 
 
-## Scoring System
-
-Calculate a quality score by summing points from relevant reviews.
-Positive points indicate good environment, negative points indicate issues.
-
-For each firsthand incident, assign points based on severity:
-- Exceptional atmosphere: 10 points
-- Pleasant environment: 5 points
-- Adequate environment: 0 points
-- Minor environment issue: -2 points
-- Significant environment issue: -5 points
-- Terrible environment: -10 points
-
-Additional modifiers:
-- Spotless clean (cleanliness specifically praised): +3 points
-- Perfect ambiance (atmosphere matches and enhances concept): +3 points
-- Comfortable seating (seating comfort praised): +2 points
-- Too loud (noise level a significant problem): -4 points
-- Temperature issues (too hot or too cold): -3 points
-- Dirty/unclean (cleanliness issues noted): -5 points
-
-
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- Total quality score is 225 or higher
+- 28 or more reviews praise excellent atmosphere [filter: ambiance_fit=excellent]
+- 48 or more reviews describe it as spotless [filter: cleanliness=spotless]
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- Total quality score is 50 or lower
+- 8 or more reviews describe cleanliness issues [filter: cleanliness=dirty]
+- 8 or more reviews report poor ambiance fit [filter: ambiance_fit=poor]
+- 5 or more reviews complain about deafening noise [filter: noise_level=deafening]
 
-**Satisfactory** otherwise
+**Satisfactory** otherwise, especially when:
+- Environment is pleasant but not remarkable
+- Minor issues but overall acceptable
+- Gets the job done without standing out

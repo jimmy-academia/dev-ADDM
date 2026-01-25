@@ -4,8 +4,6 @@ Help assess how well this restaurant executes orders and keeps promises using re
 This is from the perspective of a business owner diagnosing operational issues.
 Assign a label: Needs Improvement, Satisfactory, or Excellent.
 
-This assessment uses a point-based scoring system to quantify performance.
-
 ## Definitions of Terms
 
 ### Incident
@@ -57,32 +55,21 @@ How well problems were resolved
 - **Excellent**: Went above and beyond to fix
 
 
-## Scoring System
-
-Calculate an execution score by summing points from relevant reviews.
-Positive points indicate good execution, negative points indicate issues.
-
-For each firsthand incident, assign points based on severity:
-- Perfect execution: 10 points
-- Good execution: 5 points
-- Adequate execution: 0 points
-- Minor execution error: -2 points
-- Significant execution error: -5 points
-- Complete failure: -10 points
-
-Additional modifiers:
-- Above and beyond resolution (issue resolved exceptionally): +5 points
-- Modifications handled perfectly (special requests always correct): +3 points
-- Modification ignored (special request not honored): -5 points
-- No resolution attempt (issue not addressed): -5 points
-
-
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- Total score is 500 or higher
+- 190 or more reviews report perfect order accuracy [filter: order_accuracy=perfect]
+- 100 or more reviews report successful modification handling [filter: modification_handling=successful]
+- 180 or more reviews report promises kept [filter: promise_kept=kept]
+- 60 or more reviews describe excellent issue resolution [filter: issue_resolution=excellent]
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- Total score is -100 or lower
+- 160 or more reviews report significant or multiple order errors [filter: order_accuracy=['multiple_errors', 'significant_error']]
+- 195 or more reviews report modifications being ignored [filter: modification_handling=ignored]
+- 170 or more reviews report broken promises [filter: promise_kept=broken]
+- 180 or more reviews describe no issue resolution [filter: issue_resolution=none]
 
-**Satisfactory** otherwise
+**Satisfactory** otherwise, especially when:
+- Orders mostly correct with occasional errors
+- Issues acknowledged and addressed
+- Reasonable accommodation of requests

@@ -3,7 +3,7 @@
   "topic": "G2_romance",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-23T19:09:47.215314",
+  "computed_at": "2026-01-24T20:03:10.566272",
   "has_scoring": true,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -12,8 +12,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 19,
+        "verdict": "Recommended",
+        "score": 95,
         "n_incidents": 22,
         "incidents": [
           {
@@ -24,8 +24,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "-pR9O5xtABzCX0xEKc24sw",
@@ -35,8 +35,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "C9yG1IzFU1ZipclYeMp1YA",
@@ -46,8 +46,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "LF7C5SP0zvmzTcef3pTXTw",
@@ -57,8 +57,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "BpCzU-GsGOGmxOpeOQt9gA",
@@ -68,7 +68,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -79,8 +79,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "PouuwV0N0ziDrv0sJjtbXQ",
@@ -90,8 +90,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "1ggPgHUGI4h00_enoKQh8w",
@@ -101,8 +101,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "fBKbgJEsdDNpCmoKbmJwog",
@@ -112,8 +112,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "sZB3_H--A_2CqnTn_ujzXA",
@@ -123,8 +123,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "Ii37Ht2-YMxH04sbBO2VXA",
@@ -134,8 +134,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "FBGeW6gMosER99pBPY64aw",
@@ -145,8 +145,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "MITNCreVAxbba0sWmBD3Yw",
@@ -156,8 +156,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "qO1QsjxZPhyxs33ZpoQt3Q",
@@ -167,8 +167,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "L_rDTOZ321diOeOtTbznVw",
@@ -178,8 +178,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "9MkP511YJEtrcNctMDGkpw",
@@ -189,8 +189,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "77TFze35Z92hzxwcRlEHjw",
@@ -200,8 +200,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "DGzAxUxcAUSZOlbbuRZpOQ",
@@ -211,8 +211,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "_0H_sBpnB5NmSONPQhp-KA",
@@ -222,8 +222,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "MFqypHT6KO7mnT8oYuHfHA",
@@ -233,8 +233,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "T5OA21--nDBEitj8Garirw",
@@ -244,8 +244,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "U8K4nv_wbAP1raEe2LoEVg",
@@ -255,8 +255,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -1319,7 +1319,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Acceptable",
-        "score": -1,
+        "score": 9,
         "n_incidents": 20,
         "incidents": [
           {
@@ -1376,8 +1376,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "rsIR7kprrSXsQL--TURj6g",
@@ -1387,8 +1387,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "CXgswKlc8g7y3TWfyMOCPw",
@@ -1401,8 +1401,8 @@
               "Loud music/crowd"
             ],
             "total_points": -23,
-            "recency_weight": 0.5,
-            "weighted_points": -11
+            "recency_weight": 1.0,
+            "weighted_points": -23
           },
           {
             "review_id": "HZhVQ0z1oxpLh_DxHtzCpQ",
@@ -1412,8 +1412,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "igDtcdWUhbCpNDJovIYB7Q",
@@ -1423,8 +1423,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "730CnXjJ-S2qH1RaR1DiJQ",
@@ -1434,8 +1434,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "0jirewIsx-8SA5YjMuQRMg",
@@ -1445,8 +1445,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "HNWkqh82vE9vfSE3kDhyCA",
@@ -1459,8 +1459,8 @@
               "Loud music/crowd"
             ],
             "total_points": -23,
-            "recency_weight": 0.5,
-            "weighted_points": -11
+            "recency_weight": 1.0,
+            "weighted_points": -23
           },
           {
             "review_id": "9c_K-C9T3tWYIPXhUEq_Rw",
@@ -1470,7 +1470,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -1481,8 +1481,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "kuVJaxu5U3UbhY_y5hqyDg",
@@ -1492,7 +1492,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -1503,8 +1503,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "KXsOqCnZKRBH0Ny9YYXAXQ",
@@ -1514,8 +1514,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "nTeU8kAZkL7FcfjCUjVMhQ",
@@ -1525,7 +1525,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -1536,8 +1536,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "_UWpT6GZUT8aRHeglvjtPA",
@@ -1547,7 +1547,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           }
         ],
@@ -1995,7 +1995,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Acceptable",
-        "score": 4,
+        "score": 15,
         "n_incidents": 12,
         "incidents": [
           {
@@ -2006,8 +2006,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "swgT8lZiKOdRigHIzpYPdA",
@@ -2017,7 +2017,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -2028,8 +2028,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "uKEHAlaA3uZVnK7XXjdcag",
@@ -2039,8 +2039,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "z05FQDrIL0BfVWF8xdiqNQ",
@@ -2050,8 +2050,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "ChakUUkJLPEQEqyuVM4jdg",
@@ -2063,7 +2063,7 @@
               "Loud music/crowd"
             ],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -2074,8 +2074,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.5,
-            "weighted_points": -7
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "KeaE_40TZhI7WxWKKd0Ghg",
@@ -2085,7 +2085,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -2096,7 +2096,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -2107,7 +2107,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -2118,8 +2118,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "g7utouomWqAhu6aY0_3fcw",
@@ -2129,8 +2129,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -2377,7 +2377,7 @@
       "n_judgments": 16,
       "ground_truth": {
         "verdict": "Acceptable",
-        "score": 8,
+        "score": 26,
         "n_incidents": 12,
         "incidents": [
           {
@@ -2401,7 +2401,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -2412,8 +2412,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "RFGZ3JCXOmc5iuE4xNnK9g",
@@ -2423,8 +2423,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "bRJsvMfezXU72N-06gGPMQ",
@@ -2434,8 +2434,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "VKr9oW7gTRijz-me37s_fA",
@@ -2448,8 +2448,8 @@
               "Loud music/crowd"
             ],
             "total_points": -3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "30NqkbjEA0ne2o-U3BkhlQ",
@@ -2461,8 +2461,8 @@
               "Loud music/crowd"
             ],
             "total_points": -5,
-            "recency_weight": 0.25,
-            "weighted_points": -1
+            "recency_weight": 1.0,
+            "weighted_points": -5
           },
           {
             "review_id": "U_YZ_RcVr50pK6cRmB5loA",
@@ -2472,8 +2472,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "XZZUPk0wxoosrlwtCLj5UA",
@@ -2483,7 +2483,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -2494,7 +2494,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -2508,8 +2508,8 @@
               "Loud music/crowd"
             ],
             "total_points": 7,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 7
           },
           {
             "review_id": "rUlhUmUoMCQP7tjMfvui6g",
@@ -2519,8 +2519,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -2533,8 +2533,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 27,
+        "verdict": "Recommended",
+        "score": 135,
         "n_incidents": 24,
         "incidents": [
           {
@@ -2545,8 +2545,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "LxR1Qn2hQUSuQzeT_jkkUQ",
@@ -2556,8 +2556,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "CF-hRSm9017ocoBcUC7VJQ",
@@ -2567,8 +2567,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "yR0C6ZS0MbRrJ0UzMNQ6IQ",
@@ -2578,8 +2578,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "KDhOMn2bpUoQv-lLB9nhlg",
@@ -2589,8 +2589,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "c7ZLU1FcG1GG1E-YVkQdUQ",
@@ -2600,8 +2600,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "7B610NDiV013m0Op9wt56Q",
@@ -2611,8 +2611,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "QFf16bxnfjfuq4fx6qtWoQ",
@@ -2622,8 +2622,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "n5BdTsyGrMi6RItGlB81fQ",
@@ -2633,8 +2633,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "M59tvW2Xnt5T99tmTj7Bbg",
@@ -2644,7 +2644,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -2655,8 +2655,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "yTx1AqKCHfYM6oq6tQjTug",
@@ -2666,8 +2666,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "DVFYTxkKlB_LgMHP4AcDPA",
@@ -2677,8 +2677,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "WDmq_EjF9igjeuMoDJY1Wg",
@@ -2688,8 +2688,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "craWktl39g6Akmnn1b1C6w",
@@ -2699,8 +2699,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "B4Kf6pSPSviy4k3418mvcg",
@@ -2710,8 +2710,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "fV0_FDuuT4uCTS4gcE68Mw",
@@ -2721,8 +2721,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "P-GxP8N59h1X8vIkYD_jHg",
@@ -2732,8 +2732,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "WSJjFwoozmjoS-eo0SUNiA",
@@ -2743,8 +2743,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "hj67_Gi4g9tj6IIHifFDVQ",
@@ -2754,8 +2754,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "3wDx50h-ShsxzGEjrrIQsg",
@@ -2765,8 +2765,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "UcApIZDl9L_2XIaLk6-60Q",
@@ -2776,8 +2776,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "kpGDamaNhbF8tEFH1RGzlA",
@@ -2787,8 +2787,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "OyJ3dFmEav_Lr9ZDwNERDA",
@@ -2798,8 +2798,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -3705,8 +3705,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 28,
+        "verdict": "Recommended",
+        "score": 92,
         "n_incidents": 24,
         "incidents": [
           {
@@ -3739,8 +3739,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "HJoQlv6crVfNAHuxWCfrww",
@@ -3750,8 +3750,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "VhHT8OSllks310O48t3uQw",
@@ -3764,8 +3764,8 @@
               "Loud music/crowd"
             ],
             "total_points": -3,
-            "recency_weight": 0.5,
-            "weighted_points": -1
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "XnIBZ4W-18kgeHgl3Ho-IA",
@@ -3775,8 +3775,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "iFkRPnbhnngoAt0qCWd5xA",
@@ -3786,8 +3786,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "ogx8_Ue2G7yrc0xHWykzog",
@@ -3797,8 +3797,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "WNHQ2OvkihxzdEMgE5fQlg",
@@ -3808,7 +3808,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -3819,8 +3819,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "0UcvB6bmEowIxCgXPTPvwg",
@@ -3830,7 +3830,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -3841,8 +3841,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "A0Pur0Osy7qr2EjVbkJJUg",
@@ -3852,8 +3852,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "r0v6nQ8jI7QpRb9nfMMf0g",
@@ -3863,8 +3863,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "SpnItP_qRP_KhREx5500HA",
@@ -3874,8 +3874,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "DPv5KXIhUVYoHRP6RQpsdA",
@@ -3885,7 +3885,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -3896,8 +3896,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "QkizCHtQrmypPFS1oKMYNg",
@@ -3907,8 +3907,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "6219Aws0A67Hly0ZGWyY3w",
@@ -3918,8 +3918,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "GzMrP0IQWWx75PJEfCj8aA",
@@ -3929,7 +3929,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -3940,8 +3940,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "ut3VEiM3uvouHhwr_3KfIQ",
@@ -3951,8 +3951,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "jyhm4mq5KccwO7s9whecWQ",
@@ -3962,8 +3962,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "RoUmSIMDmuh-vu9aFuaI7A",
@@ -3973,8 +3973,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -4200,8 +4200,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 27,
+        "verdict": "Recommended",
+        "score": 65,
         "n_incidents": 19,
         "incidents": [
           {
@@ -4212,7 +4212,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -4223,8 +4223,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "n8W9yEJGoj0xsy3VVZg33A",
@@ -4236,7 +4236,7 @@
               "Loud music/crowd"
             ],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -4247,8 +4247,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "GNr7IvE-2NwHu0sPtNyuew",
@@ -4258,8 +4258,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "JotJjvZ2y0hDSj3kmVKXAw",
@@ -4269,8 +4269,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "lTHfTsnpBHO5W3cpBirsGQ",
@@ -4280,8 +4280,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "f6NO695aGaNYWKD2MxFwqg",
@@ -4291,7 +4291,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -4302,8 +4302,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "LV3xNGcvqEY18FnC46DwCw",
@@ -4313,8 +4313,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "D1qIJXFMbY9_bv071w8Jpw",
@@ -4324,8 +4324,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "-HzvYWOl_sYKZ-jECRDXtQ",
@@ -4335,8 +4335,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "o6M6mWYKZLNRWr7SSXmFqw",
@@ -4346,7 +4346,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -4357,8 +4357,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "6vmGPVu7Rr2nlbZeGm7qpA",
@@ -4368,8 +4368,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "JzjNEUXH6lDI8s56FT1SdA",
@@ -4379,7 +4379,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -4390,8 +4390,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "SY6wBT1vmSUh0U7eayNxgA",
@@ -4403,7 +4403,7 @@
               "Loud music/crowd"
             ],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -4414,8 +4414,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.5,
-            "weighted_points": -7
+            "recency_weight": 1.0,
+            "weighted_points": -15
           }
         ],
         "cuisine_modifier": false,
@@ -4972,7 +4972,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Acceptable",
-        "score": 1,
+        "score": 14,
         "n_incidents": 16,
         "incidents": [
           {
@@ -5065,8 +5065,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "HGzjDxprF8Coq8ayb-9BHQ",
@@ -5076,8 +5076,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "YcvISBbgnVVb4bmBtnPPzg",
@@ -5089,8 +5089,8 @@
               "Rushed service"
             ],
             "total_points": -18,
-            "recency_weight": 0.5,
-            "weighted_points": -9
+            "recency_weight": 1.0,
+            "weighted_points": -18
           },
           {
             "review_id": "yrDLkdOUjJxAX1ZlU95BZg",
@@ -5100,7 +5100,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -5111,8 +5111,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "MDLNw_n5EDoIfkbMhW371A",
@@ -5122,8 +5122,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "hbNEe6IK350nHR0vEbPccg",
@@ -5133,8 +5133,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "lkKjzK8COzzxPT54loB3YA",
@@ -5144,7 +5144,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -5155,8 +5155,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -5169,8 +5169,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 10,
+        "verdict": "Recommended",
+        "score": 50,
         "n_incidents": 18,
         "incidents": [
           {
@@ -5181,8 +5181,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "-RlIK2vDCM3FplfWddaC9g",
@@ -5192,7 +5192,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -5203,8 +5203,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "iD4aqf6fBY2eE3dGLhY43g",
@@ -5214,7 +5214,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -5227,8 +5227,8 @@
               "Rushed service"
             ],
             "total_points": -18,
-            "recency_weight": 0.25,
-            "weighted_points": -4
+            "recency_weight": 1.0,
+            "weighted_points": -18
           },
           {
             "review_id": "nr9eVsLQJXHFJIJ-yG4BIA",
@@ -5238,8 +5238,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "AbKuNE9NgoQAyxCl5iDJ0A",
@@ -5249,7 +5249,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -5262,8 +5262,8 @@
               "Private seating"
             ],
             "total_points": 8,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 8
           },
           {
             "review_id": "OSGSWKfor2UqZVvDP-4gwg",
@@ -5273,8 +5273,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "IEdxyyZaTsmsTV3vyV-oQg",
@@ -5284,7 +5284,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -5295,8 +5295,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "WWAPGh_xRBSkH92KDTwT1w",
@@ -5306,8 +5306,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "Af4AKb1XtzX2IhXFirQong",
@@ -5317,8 +5317,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "dPZEH-BbS4aE03bhfJHT_w",
@@ -5328,8 +5328,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "xi392eLpV7pneWfk-jLnfw",
@@ -5339,8 +5339,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "lJHgB2DVklkDK0o4fbJjcg",
@@ -5350,8 +5350,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "2bh6jXA060JA_wEnlIn1EQ",
@@ -5361,8 +5361,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "5wNqBtdZNtyWDKVLzLIJfQ",
@@ -5372,8 +5372,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -5679,8 +5679,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 20,
+        "verdict": "Recommended",
+        "score": 97,
         "n_incidents": 22,
         "incidents": [
           {
@@ -5691,8 +5691,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "S2ntjRKIoT_9sMg1C_EOBQ",
@@ -5702,8 +5702,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "XZvCt1dXGQqonBk-G4KtrA",
@@ -5713,7 +5713,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -5724,8 +5724,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "Fb1MRlPj7v2TrTSwrTZ34A",
@@ -5735,8 +5735,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "DAxAF34cMpshUWv92QMDcQ",
@@ -5746,8 +5746,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "bWaiJS6Ldan9QZ56rnFGEw",
@@ -5757,8 +5757,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "j9vomQ8gUtJJynnu7g_c4w",
@@ -5768,8 +5768,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "ZWIuBZpUd_9426YoIqtpbw",
@@ -5779,8 +5779,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "JccP8qegFZgNil1SfYF2sg",
@@ -5792,7 +5792,7 @@
               "Loud music/crowd"
             ],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -5803,8 +5803,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "vqAkpAPQikz177IHw3XG7A",
@@ -5814,8 +5814,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "4M58uj3xoYnyfM5NXRzMQA",
@@ -5825,8 +5825,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "F4V0mZcZhnQCewrDenuFKA",
@@ -5836,7 +5836,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -5850,8 +5850,8 @@
               "Loud music/crowd"
             ],
             "total_points": -3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "dy_BpdISGQyPtNEktLu4Vw",
@@ -5861,8 +5861,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "ekp93wYFos3NKrClXuVaUg",
@@ -5872,8 +5872,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "FhWLPS8XxGb2lUds-BKzjg",
@@ -5883,8 +5883,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "NO5j4_xQjNxcqs3yLmfyeQ",
@@ -5894,8 +5894,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "Y38rLEb4NNQ6WvHBuUHtkg",
@@ -5905,8 +5905,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "k4A2YmwdVe2e2te2i2iJ0w",
@@ -5916,8 +5916,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "mDX9vTm8xjjmASNOXUm4Sw",
@@ -5927,8 +5927,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -5941,8 +5941,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": -2,
+        "verdict": "Not Recommended",
+        "score": -10,
         "n_incidents": 14,
         "incidents": [
           {
@@ -5953,7 +5953,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -5964,8 +5964,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "g5gsMbQn7cV_MHZh4bh34w",
@@ -5975,8 +5975,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "bJwG2gXXFwcxUF2py_jiYQ",
@@ -5986,8 +5986,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "t4swqCpLumJDeryIJOdPYQ",
@@ -5997,8 +5997,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "FarddIVguOXo7rzZP7NBNQ",
@@ -6008,8 +6008,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "h1bJqq3_8fZcyr003xRDoA",
@@ -6019,8 +6019,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "IKMExxFSdQFNeQfBh01Kpw",
@@ -6030,7 +6030,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6041,8 +6041,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "VDNae7B2yf1ardf3BiUFZQ",
@@ -6052,7 +6052,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6063,8 +6063,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "luX-ww4a15YwrkfTCK5Kng",
@@ -6074,8 +6074,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "vzRiQsHcJIBXC-JChvgsQA",
@@ -6085,7 +6085,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6096,8 +6096,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           }
         ],
         "cuisine_modifier": false,
@@ -6338,7 +6338,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Not Recommended",
-        "score": -7,
+        "score": -18,
         "n_incidents": 16,
         "incidents": [
           {
@@ -6404,8 +6404,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "rn4YalnwHPVXzz3BLPCk_g",
@@ -6415,7 +6415,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6426,8 +6426,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "4jIwM9NjzHTcjNdnRwZECg",
@@ -6437,7 +6437,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6448,7 +6448,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6459,7 +6459,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6470,7 +6470,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6481,8 +6481,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "CxqvKAIGVbegzi4eaERiFA",
@@ -6492,8 +6492,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "N9r0gJRMMfPDzx5wPIN1GA",
@@ -6506,8 +6506,8 @@
               "Loud music/crowd"
             ],
             "total_points": -23,
-            "recency_weight": 0.25,
-            "weighted_points": -5
+            "recency_weight": 1.0,
+            "weighted_points": -23
           },
           {
             "review_id": "735P14RwCI3m0eBRiasEcw",
@@ -6517,8 +6517,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -6531,8 +6531,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 16,
+        "verdict": "Recommended",
+        "score": 52,
         "n_incidents": 24,
         "incidents": [
           {
@@ -6603,8 +6603,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "e0Acgx5D7f4XFOxva7YKSw",
@@ -6614,8 +6614,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "cMATz_NczgHQ5WhPcUdLiQ",
@@ -6625,8 +6625,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "UiBI6NNMK5gPPOnc_rc3Ug",
@@ -6636,8 +6636,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "We7JFzdLku2U5hH7Fc7kDg",
@@ -6647,8 +6647,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "XP-dKisG7yvnz1bXeZMxXw",
@@ -6660,7 +6660,7 @@
               "Loud music/crowd"
             ],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6671,8 +6671,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "mEjp09IcD6aurfkCmZiGqw",
@@ -6682,8 +6682,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "69fO245BAEGJExFfggS2zQ",
@@ -6693,8 +6693,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "5CBprvqmcQ1IVCthf_Kj4w",
@@ -6704,8 +6704,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "VnrrNLrxxkvZ1qxKEXqr_w",
@@ -6715,8 +6715,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "Lucs75gXhiM-A9jMK3KnNA",
@@ -6726,8 +6726,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "17DQviu7DyWdOT5THZImfA",
@@ -6737,8 +6737,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "gN0h2evux83st2511dzTWw",
@@ -6748,7 +6748,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6759,8 +6759,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "SNA7sNPqiiaZS0vUCQ0wKQ",
@@ -6770,8 +6770,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "4ubo7fZvQCsZmr4SpnGO2g",
@@ -6781,8 +6781,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "qD2aN-lUVdMs9R-XVjsrbw",
@@ -6792,7 +6792,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -6805,7 +6805,7 @@
               "Loud music/crowd"
             ],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           }
         ],
@@ -8063,7 +8063,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Acceptable",
-        "score": 6,
+        "score": 30,
         "n_incidents": 16,
         "incidents": [
           {
@@ -8074,8 +8074,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "TCAG5BTGPRPFoond4czz2Q",
@@ -8085,8 +8085,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "cwF5IWNH-oC5xSpJBFGaTg",
@@ -8096,8 +8096,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "U1t66x7yApcGeqorexKOrw",
@@ -8107,7 +8107,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -8118,7 +8118,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -8129,8 +8129,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "ebIyckkrvF8cLvKJCytwIw",
@@ -8140,8 +8140,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "H6pu12NtKMriV65yPycEhQ",
@@ -8151,8 +8151,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "997UmUKfGFeeCs2Dmb0L2A",
@@ -8162,8 +8162,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "n464yXb1VDXrKrICZiG_XA",
@@ -8173,8 +8173,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "CIH4B6PF5fm1SMcReckwXA",
@@ -8184,8 +8184,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "1aG_h28r2ZzJ8KoparFtrw",
@@ -8195,7 +8195,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -8206,8 +8206,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "DO-n7PAKvIEF3sScST7LsQ",
@@ -8217,8 +8217,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "KJkmQbmsyHSwRG_3wFpFRQ",
@@ -8230,7 +8230,7 @@
               "Loud music/crowd"
             ],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -8241,8 +8241,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -9203,7 +9203,7 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Not Recommended",
+        "verdict": "Acceptable",
         "score": -6,
         "n_incidents": 16,
         "incidents": [
@@ -9869,7 +9869,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Acceptable",
-        "score": -2,
+        "score": 4,
         "n_incidents": 20,
         "incidents": [
           {
@@ -10064,8 +10064,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "fLLPphr5WK2YdFmu5YDQig",
@@ -10075,7 +10075,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -10086,7 +10086,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -10097,8 +10097,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -10111,8 +10111,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 45,
+        "verdict": "Recommended",
+        "score": 62,
         "n_incidents": 19,
         "incidents": [
           {
@@ -10291,8 +10291,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "WsjA3ZMePX-z26gh5Yh1Jw",
@@ -10302,8 +10302,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "II4aoFlRTTBhyDfPmI0VNQ",
@@ -10313,8 +10313,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "6ujf9mjmOXNDSX7wWGUcQw",
@@ -10324,8 +10324,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -11647,8 +11647,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 42,
+        "verdict": "Recommended",
+        "score": 84,
         "n_incidents": 22,
         "incidents": [
           {
@@ -11672,8 +11672,8 @@
               "Private seating"
             ],
             "total_points": 8,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 8
           },
           {
             "review_id": "YMLc15V9sVsAv4VG4G0_Xg",
@@ -11683,8 +11683,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "p1eZx9cP5D1Ft5a0N8a0lA",
@@ -11694,8 +11694,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "7P_TXJv4b-c6Ue1YvAI9qg",
@@ -11705,8 +11705,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "2bArTNbxoclGtxQOK7WvLg",
@@ -11716,8 +11716,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "4a3MUljz9u7QqH7-bhk9tQ",
@@ -11727,7 +11727,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -11738,8 +11738,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "60KYsmZjadyZPaVpk9ljGw",
@@ -11749,8 +11749,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "tpMMOr4kojzZ92urRqMuAw",
@@ -11760,8 +11760,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "W-0Tn6uBNirB8IbahottIw",
@@ -11771,8 +11771,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "4jHNLeGwi1cOdwPCZZK2iA",
@@ -11782,8 +11782,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "eA2a0VBeTrpbolPT_HLoQQ",
@@ -11793,8 +11793,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "lb-4TTqUVm1cHQ3bAwDUHQ",
@@ -11806,8 +11806,8 @@
               "Rushed service"
             ],
             "total_points": -18,
-            "recency_weight": 0.5,
-            "weighted_points": -9
+            "recency_weight": 1.0,
+            "weighted_points": -18
           },
           {
             "review_id": "acoVSnwE3X_1h1SLbTgD2g",
@@ -11817,7 +11817,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -11830,8 +11830,8 @@
               "Rushed service"
             ],
             "total_points": 2,
-            "recency_weight": 0.5,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 2
           },
           {
             "review_id": "cBQFLwkEy24bQwc4csO26Q",
@@ -11841,8 +11841,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "eHMzJSw1qAH3UsfiwgmrOA",
@@ -11852,8 +11852,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "dq0PKei9tB209vQ_YOSW_w",
@@ -11863,8 +11863,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "3FqSOZHXkyntrAjYXfOpgQ",
@@ -11874,8 +11874,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "yTYMsANL7G9hDWa4Q2J2IA",
@@ -11885,8 +11885,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "AfP02dCO28qpmXE9uZ9xTA",
@@ -11898,8 +11898,8 @@
               "Rushed service"
             ],
             "total_points": -18,
-            "recency_weight": 0.5,
-            "weighted_points": -9
+            "recency_weight": 1.0,
+            "weighted_points": -18
           }
         ],
         "cuisine_modifier": false,
@@ -11913,7 +11913,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Acceptable",
-        "score": 9,
+        "score": 45,
         "n_incidents": 21,
         "incidents": [
           {
@@ -11924,7 +11924,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -11935,8 +11935,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "867jsJ2wga2jXfSPYS3yTw",
@@ -11946,8 +11946,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "Jp2mDxINfpogT5UNsu5_vQ",
@@ -11957,8 +11957,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "jketQ98oZbus-_0D6uh-NQ",
@@ -11968,7 +11968,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -11979,8 +11979,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "w5fsNXDhUnGmtWhItW9FHg",
@@ -11990,8 +11990,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "59PEgbHK6cP1HdxeH9SL9Q",
@@ -12001,8 +12001,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "GZs1naZzTIljmT5mDIJQpg",
@@ -12012,7 +12012,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12023,8 +12023,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "0Kfl-F_nKA7l38m8Kt7xGg",
@@ -12034,7 +12034,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12045,8 +12045,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "o0QO66ismi1d6w2xSdGLVg",
@@ -12056,8 +12056,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "b2nBriAAkRjozLVtUTutOQ",
@@ -12067,7 +12067,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12078,8 +12078,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "jTHum2rKTn4RD1POS3H-hw",
@@ -12089,8 +12089,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "5h_qCDV1OJOht6NeBxR8JA",
@@ -12100,8 +12100,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "5_0UZBfsU4GD3FeNSVDwiQ",
@@ -12111,7 +12111,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12122,8 +12122,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "9qaP_XmBIgCOLSDi0mDYeA",
@@ -12135,8 +12135,8 @@
               "Loud music/crowd"
             ],
             "total_points": -5,
-            "recency_weight": 0.25,
-            "weighted_points": -1
+            "recency_weight": 1.0,
+            "weighted_points": -5
           },
           {
             "review_id": "jttVNH3-NazcgOO5Qp5-Aw",
@@ -12146,8 +12146,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -12385,7 +12385,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Acceptable",
-        "score": 22,
+        "score": 32,
         "n_incidents": 19,
         "incidents": [
           {
@@ -12473,7 +12473,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12484,8 +12484,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "_I6nyXTFDvzoAh4gRZ4V7A",
@@ -12495,7 +12495,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12506,8 +12506,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "7OvpivY4VWmJzhRlQ58f_g",
@@ -12517,7 +12517,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12528,8 +12528,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "FtSapdDQCpIhWZ3izyQaYA",
@@ -12539,7 +12539,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12553,8 +12553,8 @@
               "Loud music/crowd"
             ],
             "total_points": -3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "PtCEVDGd4M77vefKzz6kmg",
@@ -12564,7 +12564,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12575,8 +12575,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "2g_Xy8tKKsVXAsDldGYMyQ",
@@ -12586,7 +12586,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12597,7 +12597,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           }
         ],
@@ -12611,8 +12611,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 30,
+        "verdict": "Recommended",
+        "score": 62,
         "n_incidents": 22,
         "incidents": [
           {
@@ -12656,8 +12656,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "VSjf6NJhi4xvBBZP2pxayw",
@@ -12667,7 +12667,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12678,8 +12678,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "noiubYGsEvG-xuIV4VPTsA",
@@ -12689,8 +12689,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "pX8GzyOXYQvL6ApTRM5yNQ",
@@ -12700,8 +12700,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "FqxjcQgz66ssbK3UVGrxIg",
@@ -12711,7 +12711,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12722,8 +12722,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "wtqioP10W4DnZv8Ted3v6Q",
@@ -12733,8 +12733,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "q9q3XGfViLetHpbz_eTKGA",
@@ -12744,8 +12744,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "itYRmu7RICSs0G_EnqgEMg",
@@ -12755,8 +12755,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "vO3-olIoqfvZ2WMa8d0n_Q",
@@ -12766,8 +12766,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "C9cYCMFmjml5CtDtNdHv4A",
@@ -12777,7 +12777,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -12788,8 +12788,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "j7zT_HGN2OqQdBpJsn_QVA",
@@ -12799,8 +12799,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.5,
-            "weighted_points": -7
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "O8vKCkasH_gsJzhZeYYhIg",
@@ -12810,8 +12810,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "mHUs4rHL6hQWs2AvLXLE3w",
@@ -12821,8 +12821,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "MnzbbENkUgjBvYqdxoS8QA",
@@ -12832,8 +12832,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "tXh7eyzjLr1noKTfiwDK_A",
@@ -12845,8 +12845,8 @@
               "Rushed service"
             ],
             "total_points": -18,
-            "recency_weight": 0.5,
-            "weighted_points": -9
+            "recency_weight": 1.0,
+            "weighted_points": -18
           },
           {
             "review_id": "rgByCzzwWs66804sKpHDjw",
@@ -12856,7 +12856,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           }
         ],
@@ -13344,8 +13344,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 33,
+        "verdict": "Recommended",
+        "score": 52,
         "n_incidents": 21,
         "incidents": [
           {
@@ -13411,7 +13411,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13422,7 +13422,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13433,8 +13433,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "0djCNAVkry1rzEy1fQDDbg",
@@ -13444,8 +13444,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "GRNWETKa69eDZ835AqNlGA",
@@ -13455,7 +13455,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13466,8 +13466,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "gJ5tVg3zo51lmk1rfOh-lA",
@@ -13477,7 +13477,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13488,8 +13488,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "ZaYjEwcU4XCWNMJZcQwaDA",
@@ -13499,7 +13499,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13510,7 +13510,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13521,7 +13521,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13532,8 +13532,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "nAd1fCzwhTq2x7tNyxU7Ug",
@@ -13543,7 +13543,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -13554,8 +13554,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "sd8GUY9iALfxnWoubkYwLA",
@@ -13568,8 +13568,8 @@
               "Loud music/crowd"
             ],
             "total_points": -3,
-            "recency_weight": 0.5,
-            "weighted_points": -1
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "FqfHkcRJOKXdZ8xhWLO1rQ",
@@ -13579,8 +13579,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -14141,7 +14141,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Acceptable",
-        "score": 18,
+        "score": 47,
         "n_incidents": 22,
         "incidents": [
           {
@@ -14209,8 +14209,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.5,
-            "weighted_points": -7
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "axYpCDhRdzTPdQR3mKr5Ow",
@@ -14220,8 +14220,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "a0ICINLmnclxV2kVrRLG6Q",
@@ -14231,7 +14231,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -14242,7 +14242,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -14253,8 +14253,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "-dfYYnobP9bRVXEmmJnsYg",
@@ -14264,8 +14264,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "fxxi0fDTkZgHfaWPlE8Ucw",
@@ -14275,8 +14275,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "FIPtQNYMwBne9DbIKb99Xw",
@@ -14286,7 +14286,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -14297,8 +14297,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "ZlQE5600W4Xpcdv6pRDEQg",
@@ -14308,8 +14308,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "EN4l1q2ShbYm8aBpYi3CIg",
@@ -14319,8 +14319,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "yFbGNVu-7pmmOMJOPXf7UQ",
@@ -14332,7 +14332,7 @@
               "Loud music/crowd"
             ],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -14343,7 +14343,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -14354,8 +14354,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "0GOZ46hwInHiRGXeicVKzQ",
@@ -14365,7 +14365,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -14376,8 +14376,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "S1DaYb2VL8T6KO8H7UcVJQ",
@@ -14387,8 +14387,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -14669,8 +14669,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 17,
+        "verdict": "Recommended",
+        "score": 82,
         "n_incidents": 21,
         "incidents": [
           {
@@ -14681,8 +14681,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "IzFKFV2JhROJV7QR_C6c3Q",
@@ -14692,8 +14692,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "j73ZTPyctRV7ZweBtlNI6Q",
@@ -14703,8 +14703,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "JIgVU1YDIimL3R8xiALXDA",
@@ -14714,8 +14714,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "ddLSGsrlR0mjtbda6T5GeQ",
@@ -14725,8 +14725,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "s9GHYUApBQaZPbZtcF3D5w",
@@ -14736,8 +14736,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "NQDO0ZFNrxwWFVJIBfif6Q",
@@ -14747,8 +14747,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "UOvMHLtZ-V-LnMEMdexK_A",
@@ -14758,8 +14758,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "49Igf5CDh7NIk2e2vlQg3w",
@@ -14769,8 +14769,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "JTeR9wzcNH5dzClfgtCOmA",
@@ -14780,8 +14780,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "At0KNRwo4GQhognK7rOPNA",
@@ -14794,8 +14794,8 @@
               "Loud music/crowd"
             ],
             "total_points": -3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "MV3kehbS4Uc6m3DmTNlbRg",
@@ -14805,8 +14805,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "T3bUCQtSh1naAeXlT-GcAw",
@@ -14816,8 +14816,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "bfyDaekhZAiXACUBblsxsQ",
@@ -14827,8 +14827,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "yBvwzRSZgy0BnnfACnMlNg",
@@ -14838,7 +14838,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -14849,8 +14849,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "tfQRIk-inm4A8AFeMQGqrQ",
@@ -14860,8 +14860,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "6xCuRLzyGzrVIwesudvDfQ",
@@ -14871,8 +14871,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "aBzmA9s1aVeIJ8Cq7tLtqg",
@@ -14882,8 +14882,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "gEkCdeLmgik2Co1Kbi91Nw",
@@ -14893,8 +14893,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "hnF4L5R3bGGT1YBlxmK8Ww",
@@ -14904,8 +14904,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -15377,7 +15377,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Acceptable",
-        "score": 26,
+        "score": 7,
         "n_incidents": 16,
         "incidents": [
           {
@@ -15454,8 +15454,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "HB-xKrSpptpv09_iON5NuA",
@@ -15465,8 +15465,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "HTMCLLJBRiX3pMTeLUcRUg",
@@ -15476,8 +15476,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.5,
-            "weighted_points": -7
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "6EAJhHu3WBtb9zrKLxCMNA",
@@ -15487,8 +15487,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "yHvZvXS0DTWctekJNXndNw",
@@ -15498,8 +15498,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "l8AzZ-2V3cTNzuYafyWtWQ",
@@ -15511,7 +15511,7 @@
               "Loud music/crowd"
             ],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -15522,8 +15522,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "CsIcN0B4A-urgwLpMk0CDg",
@@ -15535,7 +15535,7 @@
               "Loud music/crowd"
             ],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -15548,8 +15548,8 @@
               "Rushed service"
             ],
             "total_points": -18,
-            "recency_weight": 0.25,
-            "weighted_points": -4
+            "recency_weight": 1.0,
+            "weighted_points": -18
           },
           {
             "review_id": "kyN3morGIRS3iqyHp_jNGA",
@@ -15559,8 +15559,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           }
         ],
         "cuisine_modifier": false,
@@ -15574,7 +15574,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Recommended",
-        "score": 93,
+        "score": 96,
         "n_incidents": 22,
         "incidents": [
           {
@@ -15800,8 +15800,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "Avnm3Pih865LVYirycsSvA",
@@ -15811,7 +15811,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -15822,7 +15822,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           }
         ],
@@ -16493,7 +16493,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Acceptable",
-        "score": -2,
+        "score": 6,
         "n_incidents": 17,
         "incidents": [
           {
@@ -16644,8 +16644,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "LVCyL41CzxGgdFfDEkf1Cw",
@@ -16655,8 +16655,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "IYNPM78XdRgpJl1W_d9oNw",
@@ -16666,8 +16666,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "_iEmfpzqVCavpOnwyU1S7Q",
@@ -16677,8 +16677,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "Zdt_IW2I1ndMbtyrmdWnzg",
@@ -16691,8 +16691,8 @@
               "Loud music/crowd"
             ],
             "total_points": -8,
-            "recency_weight": 0.5,
-            "weighted_points": -4
+            "recency_weight": 1.0,
+            "weighted_points": -8
           }
         ],
         "cuisine_modifier": false,
@@ -16974,7 +16974,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Acceptable",
-        "score": 17,
+        "score": 21,
         "n_incidents": 20,
         "incidents": [
           {
@@ -17158,8 +17158,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "MN9n-gl8laCnVbPCNaW3qQ",
@@ -17172,8 +17172,8 @@
               "Loud music/crowd"
             ],
             "total_points": -3,
-            "recency_weight": 0.5,
-            "weighted_points": -1
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "8SNf_qYvVrIoKVfLmuGsog",
@@ -17183,7 +17183,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -17194,7 +17194,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -17205,8 +17205,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -18495,7 +18495,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Acceptable",
-        "score": 14,
+        "score": 39,
         "n_incidents": 13,
         "incidents": [
           {
@@ -18544,7 +18544,7 @@
               "Loud music/crowd"
             ],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -18555,8 +18555,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "reAHSupzuOo9Q9KIV51udw",
@@ -18566,8 +18566,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "Q0d-ms7Ztxg8tV3RivYF4Q",
@@ -18579,8 +18579,8 @@
               "Rushed service"
             ],
             "total_points": -3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "uhK2t7pPckyctBztFNHG7w",
@@ -18590,7 +18590,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -18601,8 +18601,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "KR7LAF78stvWS-gwTEaufQ",
@@ -18612,7 +18612,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -18623,8 +18623,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "j3-F3MjFPx0GXFqgNMOo3Q",
@@ -18634,8 +18634,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "fMtXDKwqwSvs2YIhZVoMOg",
@@ -18647,7 +18647,7 @@
               "Loud music/crowd"
             ],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           }
         ],
@@ -18800,7 +18800,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Acceptable",
-        "score": 3,
+        "score": 15,
         "n_incidents": 18,
         "incidents": [
           {
@@ -18811,8 +18811,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "96JiNWWZUr7OgF_BL2Gd9Q",
@@ -18822,8 +18822,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "cChhUdCZZUyeQ66sK9sjWw",
@@ -18833,8 +18833,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "kZ_Y-2VKAPsHSTC5bLpl7w",
@@ -18844,8 +18844,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "Rp8ObIus4UEYrII_74OlIg",
@@ -18855,8 +18855,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "dBnpd2o3AVuby2h7T6zvzw",
@@ -18866,7 +18866,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -18877,8 +18877,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "BSd5sW2quVSJ6Sq0PPvjZA",
@@ -18890,8 +18890,8 @@
               "Private seating"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "Eg1U1v3ZhzEQl5mRJ4ay2Q",
@@ -18901,7 +18901,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -18912,8 +18912,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "L8BONnobImHdO9CJL5EE2g",
@@ -18923,8 +18923,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "bI3LkP8FVydT15OvtuUTmg",
@@ -18934,8 +18934,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "lCOOtDs6wwWcw0b-9HjyTw",
@@ -18945,7 +18945,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -18956,8 +18956,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "B6EFOyqNqSJ0hIzeers7xQ",
@@ -18969,8 +18969,8 @@
               "Rushed service"
             ],
             "total_points": -18,
-            "recency_weight": 0.25,
-            "weighted_points": -4
+            "recency_weight": 1.0,
+            "weighted_points": -18
           },
           {
             "review_id": "YxqLJwDgcL4OoDB1hN-Ikg",
@@ -18980,8 +18980,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "0UL_hDjrrSbA0I5qvi3PWQ",
@@ -18991,7 +18991,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -19002,7 +19002,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           }
         ],
@@ -19648,7 +19648,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Recommended",
-        "score": 59,
+        "score": 80,
         "n_incidents": 19,
         "incidents": [
           {
@@ -19774,8 +19774,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "7oLfIgC8BkiBH4jQ5_fhgg",
@@ -19785,8 +19785,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "1wAHwPCeT0KX0-oKY1VEhw",
@@ -19796,8 +19796,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "mTnAnOI2Ch8WDWIo3kZEMg",
@@ -19807,8 +19807,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "DH0mKnoHDId31cQmVvVPtQ",
@@ -19818,8 +19818,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "Ogm6Hvy10TaNspC6KBJbvw",
@@ -19829,8 +19829,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "KzdeF0K8SBJeoGCXiq0v4A",
@@ -19840,7 +19840,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -19851,7 +19851,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -19862,8 +19862,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -20282,8 +20282,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 28,
+        "verdict": "Recommended",
+        "score": 57,
         "n_incidents": 21,
         "incidents": [
           {
@@ -20363,8 +20363,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "wsrBghsTUVkz8RgkTEy3dQ",
@@ -20376,8 +20376,8 @@
               "Private seating"
             ],
             "total_points": 8,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 8
           },
           {
             "review_id": "tklBhBhyOm5k0sOQtualdg",
@@ -20387,7 +20387,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -20398,7 +20398,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -20409,8 +20409,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "ShL9e1c8RdkFy8ZlD1Ja8A",
@@ -20420,8 +20420,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "MBrKiwvsig4aF9DJTZluTQ",
@@ -20431,7 +20431,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -20442,8 +20442,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "L135htLuIlCsnNWzjgELMw",
@@ -20453,7 +20453,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -20464,8 +20464,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "W3Vi_Ie8eGIxd1LihpmMGQ",
@@ -20475,8 +20475,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "V_V-t9R6Q-kNxL7o0FH_5Q",
@@ -20489,8 +20489,8 @@
               "Loud music/crowd"
             ],
             "total_points": -3,
-            "recency_weight": 0.5,
-            "weighted_points": -1
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "CFKkizzGFR4TOrUFJGXZAQ",
@@ -20500,8 +20500,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "qhMvWh1sK1FfaV3a2XQiAQ",
@@ -20511,8 +20511,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "dTIOpDXPHJ4dSzfRjRUwhQ",
@@ -20522,8 +20522,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -20537,7 +20537,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Recommended",
-        "score": 90,
+        "score": 104,
         "n_incidents": 23,
         "incidents": [
           {
@@ -20717,8 +20717,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.5,
-            "weighted_points": -7
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "zb8f6IgTJOvC7vCT8oe4rw",
@@ -20728,8 +20728,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "f9A7T9h9sagzkfcC04qT1w",
@@ -20739,8 +20739,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "hwF5f-Np-SYgNe5Kg3RnVg",
@@ -20750,8 +20750,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "-OUMQeXQdYsSPX7KdLjHzw",
@@ -20761,8 +20761,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "QqFNaBnFOEH695SK1v3nBQ",
@@ -20772,8 +20772,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "E3WEtaUE3QbR-VQeI1qJ4g",
@@ -20783,8 +20783,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "uhYGePPAP76cU2koP__TYQ",
@@ -20796,8 +20796,8 @@
               "Private seating"
             ],
             "total_points": 8,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 8
           }
         ],
         "cuisine_modifier": false,
@@ -20810,8 +20810,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 49,
+        "verdict": "Recommended",
+        "score": 55,
         "n_incidents": 16,
         "incidents": [
           {
@@ -20971,8 +20971,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "zFrypvU6HIuymHNvFaGZdQ",
@@ -20982,8 +20982,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "tUYKFO1I9vstl-17pfKxhA",
@@ -20993,7 +20993,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           }
         ],
@@ -21008,7 +21008,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Acceptable",
-        "score": 0,
+        "score": 19,
         "n_incidents": 17,
         "incidents": [
           {
@@ -21066,8 +21066,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "8DnXnpBAmeWMEVNGF-IcHg",
@@ -21079,8 +21079,8 @@
               "Rushed service"
             ],
             "total_points": 2,
-            "recency_weight": 0.5,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 2
           },
           {
             "review_id": "_3o0Fs6v5zPOn-nAR8TfGw",
@@ -21090,8 +21090,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "vVUxRNeWDAiMP4CNkowMHQ",
@@ -21103,8 +21103,8 @@
               "Loud music/crowd"
             ],
             "total_points": -5,
-            "recency_weight": 0.25,
-            "weighted_points": -1
+            "recency_weight": 1.0,
+            "weighted_points": -5
           },
           {
             "review_id": "ksWROzxWWd0P0vtPxoFR7w",
@@ -21114,8 +21114,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "CfQuX9D4VLX_dwvr6LE7Eg",
@@ -21125,8 +21125,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "k4a0aX1aQbFpk0TVfHhplA",
@@ -21136,8 +21136,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "iKn2Tl2mkzhkiupE5HHBbA",
@@ -21147,8 +21147,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "e7eiO4XOiWMWJsuAl_U01w",
@@ -21158,8 +21158,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "SyvGagBfIGzzE5Pg6_fSxA",
@@ -21169,8 +21169,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "iAvHSYrYS_nhvnpcdiXEvQ",
@@ -21180,8 +21180,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "WzlXooTqtbznPUq8mTLylA",
@@ -21191,7 +21191,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -21202,8 +21202,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -21217,7 +21217,7 @@
       "n_judgments": 25,
       "ground_truth": {
         "verdict": "Acceptable",
-        "score": 10,
+        "score": 48,
         "n_incidents": 18,
         "incidents": [
           {
@@ -21228,8 +21228,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "kfDnNNmEI10Z6Lc4bPbRwA",
@@ -21239,8 +21239,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "AEF5sK_K2kNziZw_a8TmZg",
@@ -21250,8 +21250,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "cRVj8rLLdjprmFvjdnDbfg",
@@ -21261,8 +21261,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "pCBSTQvy7N0XmwBvrYZTRg",
@@ -21272,8 +21272,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "GyQ6-Ptr3bVeBopNku1W_g",
@@ -21283,8 +21283,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "l1Aal0aeVaif9CKMCXv4xg",
@@ -21296,8 +21296,8 @@
               "Private seating"
             ],
             "total_points": 8,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 8
           },
           {
             "review_id": "GeFjk0bBO3KLgMtUmjTNxw",
@@ -21307,8 +21307,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "gSd1ZFhWwYgYi0sSZcLGhw",
@@ -21318,8 +21318,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "y4gDiv0ohE7Qn7VwYyHzDg",
@@ -21329,8 +21329,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "ex9f8x7ITJRfOWdXse8zHA",
@@ -21340,8 +21340,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "k74RcCG9kHtiDSBiau4rrA",
@@ -21351,8 +21351,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "gwYS-bzYPqDsR5-Q6z5LYw",
@@ -21362,8 +21362,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "o2_eijd2bJxxH9szzwHdww",
@@ -21373,8 +21373,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "hxNJ1DEYm18_-J6Gt2t92A",
@@ -21384,8 +21384,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.25,
-            "weighted_points": -3
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "yBS7CtMKXFlv2lbqZeXbPw",
@@ -21395,8 +21395,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "fppoSpnV6YeAOS7wOI0Hfw",
@@ -21406,8 +21406,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "PXNpSu4I2roKrD27fBxIOA",
@@ -21417,7 +21417,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           }
         ],
@@ -21710,8 +21710,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 22,
+        "verdict": "Recommended",
+        "score": 77,
         "n_incidents": 17,
         "incidents": [
           {
@@ -21722,8 +21722,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "DYeCRcMPalh4uIjVgNyuog",
@@ -21733,7 +21733,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -21744,7 +21744,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -21755,8 +21755,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "7pWoRCPbSTqMGC_KD9_qQQ",
@@ -21766,8 +21766,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "3H5Hmbf0bV5PMf6255kXbw",
@@ -21777,8 +21777,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "Wy1x-bEj9AqtSxshk0HPjg",
@@ -21788,8 +21788,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "HfVTakZ1gwz57UmsnIFX5Q",
@@ -21799,8 +21799,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "LB1qoBWzrsz7WYKkC6D5Kg",
@@ -21810,8 +21810,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "VBmiaIFlyPPSbpcX2B1LOA",
@@ -21821,8 +21821,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "S-ld0G4Dla0iLBftJQWFDA",
@@ -21835,8 +21835,8 @@
               "Loud music/crowd"
             ],
             "total_points": -3,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": -3
           },
           {
             "review_id": "tYVcjD0VGMpObImlEg5oPw",
@@ -21846,7 +21846,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -21857,8 +21857,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "R4a8hhXQ65n9g79xNG9zLQ",
@@ -21870,7 +21870,7 @@
               "Loud music/crowd"
             ],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -21881,8 +21881,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "P1s40HpgCXiHxZHO2vSKbA",
@@ -21892,8 +21892,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "KpU3hND9zpy4uImO1VCR9A",
@@ -21903,8 +21903,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -21917,8 +21917,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 43,
+        "verdict": "Recommended",
+        "score": 118,
         "n_incidents": 22,
         "incidents": [
           {
@@ -21929,8 +21929,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.5,
-            "weighted_points": -7
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "dl8kaFE0Edfem_BfjQ2D3g",
@@ -21940,8 +21940,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "F3uf5uSbZPA6LB25WN6__w",
@@ -21951,8 +21951,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "SVw8g6SZqc9dWZxXUzKUQQ",
@@ -21964,8 +21964,8 @@
               "Candlelit atmosphere"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "ziTVwLWI_3DXZNeOIHj_tg",
@@ -21975,8 +21975,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "FQCrzXkYPBWoaAAyjpZaYg",
@@ -21986,8 +21986,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "lS474_PCVvuNz1QlT5Godw",
@@ -21997,8 +21997,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "JkKHSmBONcWwTfZc8WogeA",
@@ -22008,8 +22008,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "I5V28sR1PyrCekRYDyhJhw",
@@ -22019,8 +22019,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "qc-e0xmD1qekdZ0DB7J7ng",
@@ -22030,8 +22030,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.5,
-            "weighted_points": 7
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "vo50fs34moheJHjy-7EOww",
@@ -22043,8 +22043,8 @@
               "Rushed service"
             ],
             "total_points": -18,
-            "recency_weight": 0.5,
-            "weighted_points": -9
+            "recency_weight": 1.0,
+            "weighted_points": -18
           },
           {
             "review_id": "uSuAr4rpDb6vpTTASKo_Sg",
@@ -22054,8 +22054,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "fKqzzmlj9ToExrug7LuN6A",
@@ -22065,8 +22065,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "pTFa8vK4lXXaAW4DZzR74Q",
@@ -22076,8 +22076,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.5,
-            "weighted_points": -7
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "0pSXXFrWbjCWWMcs6cgSzQ",
@@ -22087,8 +22087,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "a4Drw2WOl2Jsg2t6H17QWA",
@@ -22098,8 +22098,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "d0oNB29vKrgmPmrHepb0lA",
@@ -22111,7 +22111,7 @@
               "Loud music/crowd"
             ],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -22122,8 +22122,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "noIfk7I8cA1iZDg_dJzj8g",
@@ -22135,8 +22135,8 @@
               "Private seating"
             ],
             "total_points": 8,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 8
           },
           {
             "review_id": "Aby_xqouTHG5AHecZcQJYg",
@@ -22146,8 +22146,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           },
           {
             "review_id": "ATWyFyS2qwfltKA5N42YXg",
@@ -22157,8 +22157,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "gu2vuvVGigE-msPmwrkEug",
@@ -22168,8 +22168,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -22182,8 +22182,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Acceptable",
-        "score": 31,
+        "verdict": "Recommended",
+        "score": 81,
         "n_incidents": 22,
         "incidents": [
           {
@@ -22227,8 +22227,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.5,
-            "weighted_points": -7
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "Thareumn62o1zF9oxuJEVA",
@@ -22238,8 +22238,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "vUJ19l4YPkxeGgGci1mCXg",
@@ -22249,8 +22249,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "xvB6aBPZrfq-237ldiRseg",
@@ -22260,8 +22260,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "QgvZDxc1HhhbUcvyU3enOg",
@@ -22271,8 +22271,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "p0_eFt05Gxc6D4v1Exo1yw",
@@ -22284,8 +22284,8 @@
               "Private seating"
             ],
             "total_points": 18,
-            "recency_weight": 0.5,
-            "weighted_points": 9
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "eIHLM_6rWWPUhVvP1PmcYQ",
@@ -22295,8 +22295,8 @@
             "base_points": -15,
             "modifiers": [],
             "total_points": -15,
-            "recency_weight": 0.5,
-            "weighted_points": -7
+            "recency_weight": 1.0,
+            "weighted_points": -15
           },
           {
             "review_id": "midtbwYbAFvjcZlGxiX2NQ",
@@ -22306,7 +22306,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.5,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -22317,8 +22317,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "jsCT1fCfnOK5HCWf2evxvw",
@@ -22330,7 +22330,7 @@
               "Loud music/crowd"
             ],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -22341,8 +22341,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "MVb1974eTtYcGi79hdtMGQ",
@@ -22354,8 +22354,8 @@
               "Private seating"
             ],
             "total_points": 18,
-            "recency_weight": 0.25,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 18
           },
           {
             "review_id": "2A-QFX4UCtr24aNEuThjuA",
@@ -22365,8 +22365,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "_A8f_O_o_IhKpcBAh_1g9Q",
@@ -22376,8 +22376,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "efhtnGW4IOdlfgyhJ9pC7g",
@@ -22387,8 +22387,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "WgDpszOyhlI41KKbzHImcA",
@@ -22398,8 +22398,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "7rkzhcDgsMtXPkPeDdvyew",
@@ -22409,8 +22409,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           },
           {
             "review_id": "KnWPJGNIvVcDYht94k0zAQ",
@@ -22420,7 +22420,7 @@
             "base_points": 0,
             "modifiers": [],
             "total_points": 0,
-            "recency_weight": 0.25,
+            "recency_weight": 1.0,
             "weighted_points": 0
           },
           {
@@ -22431,8 +22431,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -22725,8 +22725,8 @@
     "total_restaurants": 100,
     "verdict_distribution": {
       "Not Recommended": 6,
-      "Acceptable": 50,
-      "Recommended": 44
+      "Acceptable": 33,
+      "Recommended": 61
     },
     "missing_judgments": 0
   }

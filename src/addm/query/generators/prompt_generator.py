@@ -282,6 +282,7 @@ class PromptGenerator:
             modifiers=scoring.modifiers,
             thresholds=scoring.thresholds,
             recency_rules=scoring.recency_rules,
+            reference_date=scoring.reference_date,
         )
 
     def _render_verdict_rules(self, policy: PolicyIR) -> str:

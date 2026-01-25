@@ -1,0 +1,108 @@
+# Environment Quality Assessment
+
+Help assess the physical environment quality at this restaurant using customer reviews as evidence.
+This is from the perspective of a business owner evaluating ambiance and comfort.
+Assign a quality label: Needs Improvement, Satisfactory, or Excellent.
+
+This assessment uses a point-based scoring system with recency weighting.
+
+## Definitions of Terms
+
+### Incident
+
+Consider reviews that mention any of the following:
+- cleanliness of the space
+- noise level
+- seating comfort
+- temperature comfort (AC, heating)
+- ambiance and decor fit with concept
+
+Reviews that only discuss food or service without mentioning environment carry less weight.
+
+### Account Type
+How the reviewer relates to the described event
+
+- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+
+### Cleanliness
+Cleanliness of the restaurant environment
+
+- **Dirty**: Visibly dirty, concerning
+- **Fair**: Could be cleaner but acceptable
+- **Clean**: Clean and well-maintained
+- **Spotless**: Exceptionally clean
+
+### Noise Level
+Noise level in the restaurant
+
+- **Deafening**: Extremely loud, cannot converse
+- **Loud**: Loud, conversation difficult
+- **Moderate**: Some noise but conversation possible
+- **Quiet**: Quiet, easy conversation
+
+### Comfort
+Physical comfort of seating/space
+
+- **Uncomfortable**: Seating or space is uncomfortable
+- **Fair**: Acceptable but not particularly comfortable
+- **Comfortable**: Comfortable seating and spacing
+- **Very Comfortable**: Exceptionally comfortable environment
+
+### Temperature
+Room temperature comfort
+
+- **Too Cold**: Uncomfortably cold
+- **Cold**: On the cold side
+- **Comfortable**: Temperature is comfortable
+- **Hot**: On the warm side
+- **Too Hot**: Uncomfortably hot
+
+### Ambiance Fit
+How well ambiance matches the concept
+
+- **Poor**: Ambiance doesn't fit the concept
+- **Fair**: Ambiance partially matches
+- **Good**: Ambiance matches concept well
+- **Excellent**: Ambiance perfectly complements concept
+
+
+## Scoring System
+
+Calculate a quality score by summing points from relevant reviews,
+with recency weighting. Environment can change with renovations
+or maintenance, so recent reviews are more indicative.
+
+For each firsthand incident, assign points based on severity:
+- Exceptional atmosphere: 10 points
+- Pleasant environment: 5 points
+- Adequate environment: 0 points
+- Minor environment issue: -2 points
+- Significant environment issue: -5 points
+- Terrible environment: -10 points
+
+Additional modifiers:
+- Spotless clean (cleanliness specifically praised): +3 points
+- Perfect ambiance (atmosphere matches and enhances concept): +3 points
+- Comfortable seating (seating comfort praised): +2 points
+- Too loud (noise level a significant problem): -4 points
+- Temperature issues (too hot or too cold): -3 points
+- Dirty/unclean (cleanliness issues noted): -5 points
+
+Recency weighting (reference date: 2022-01-01):
+- Within 6 months: full point value
+- 6 months to 1 year: three-quarter point value (multiply by 0.75)
+- 1-2 years old: half point value (multiply by 0.5)
+- Over 2 years old: quarter point value (multiply by 0.25)
+
+
+## Verdict Rules
+
+A restaurant is considered **Excellent** if any of the following is true:
+- Total quality score is 225 or higher (after recency weighting)
+
+**Needs Improvement** if Excellent does not apply, but any of the following is true:
+- Total quality score is 50 or lower (after recency weighting)
+
+**Satisfactory** otherwise

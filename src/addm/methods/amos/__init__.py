@@ -13,7 +13,7 @@ from addm.data.types import Sample
 from addm.llm import LLMService
 from addm.methods.base import Method
 from addm.methods.amos.config import AMOSConfig
-from addm.methods.amos.phase1 import generate_formula_seed_with_config
+from addm.methods.amos.phase1 import generate_formula_seed
 from addm.methods.amos.phase2 import FormulaSeedInterpreter
 from addm.utils.output import output
 
@@ -147,13 +147,30 @@ class AMOSMethod(Method):
         if self._seed is not None:
             return self._seed
 
-        seed, usage = await generate_formula_seed_with_config(
+        seed, usage = await generate_formula_seed(
             agenda=agenda,
             policy_id=self.policy_id,
             llm=llm,
             config=self.config,
             progress_callback=self.progress_callback,
         )
+
+        # Phase 1 should extract recency_rules via LLM (generalizable approach)
+        # Log if V4 policy doesn't have recency rules - indicates LLM extraction failed
+        if self.policy_id.endswith("_V4"):
+            recency_rules = seed.get("scoring", {}).get("recency_rules", {})
+            if recency_rules and recency_rules.get("rules"):
+                import logging
+                logging.getLogger(__name__).info(
+                    f"Phase 1 extracted {len(recency_rules['rules'])} recency rules "
+                    f"(reference_date={recency_rules.get('reference_date', 'not set')})"
+                )
+            else:
+                import logging
+                logging.getLogger(__name__).warning(
+                    f"V4 policy {self.policy_id} has no recency_rules in seed. "
+                    f"LLM may have failed to extract them from the query."
+                )
 
         self._seed = seed
         self._phase1_usage = usage
@@ -270,7 +287,7 @@ __all__ = [
     "AMOSMethod",
     "AMOSConfig",
     # Phase 1 (Formula Seed generation)
-    "generate_formula_seed_with_config",
+    "generate_formula_seed",
     # Phase 2 (Formula Seed interpreter)
     "FormulaSeedInterpreter",
 ]

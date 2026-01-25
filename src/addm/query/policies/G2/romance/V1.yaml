@@ -1,8 +1,7 @@
-# G2_romance_V1: Romantic Dining with Override Triggers
-# V1 = Extended: Multiple conditions per verdict (ANY triggers) for exceptional experiences
+# G2_romance_V1: Base Romantic Dining Suitability Assessment
+# V1 = Base: Simple per-instance reasoning, basic thresholds
 
-policy_id: "G2_romance_V1"
-extends: "G2_romance_V0"
+policy_id: G2_romance_V1
 version: "1.0"
 
 # === OVERVIEW (generates Overview section) ===
@@ -28,77 +27,55 @@ normative:
   # Terms -> auto-generates Definitions section
   terms:
     - ref: "shared:ACCOUNT_TYPE"
+    - ref: "romance:DATE_OUTCOME"
     - ref: "romance:AMBIANCE_QUALITY"
     - ref: "romance:NOISE_LEVEL"
     - ref: "romance:LIGHTING_QUALITY"
     - ref: "romance:SERVICE_STYLE"
-    - ref: "romance:DATE_OUTCOME"
 
   # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Not Recommended", "Acceptable", "Recommended"]
-    ordered: true
+    ordered: true  # Higher = better suitability
 
     rules:
-      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Recommended"
         label: "RECOMMENDED"
         logic: ANY
         conditions:
-          # V0 conditions (same thresholds)
           - text: "20 or more reviews describe excellent romantic ambiance"
             type: count_threshold
             filter:
               ambiance_quality: excellent
             min_count: 20
             min_count_by_k:
-              25: 5
-              50: 9
-              100: 14
+              25: 4
+              50: 7
+              100: 12
           - text: "100 or more reviews mention successful dates, proposals, or anniversaries"
             type: count_threshold
             filter:
               date_outcome: positive
             min_count: 100
             min_count_by_k:
-              25: 16
-              50: 33
-              100: 58
-          - text: "15 or more reviews describe it as quiet, intimate, or romantic"
+              25: 15
+              50: 30
+              100: 55
+          - text: "15 or more reviews describe quiet or intimate noise level"
             type: count_threshold
             filter:
-              ambiance_quality: [intimate, romantic]
+              noise_level: [quiet, intimate]
             min_count: 15
             min_count_by_k:
-              25: 5
-              50: 8
-              100: 12
-          # V1 additional conditions
-          - text: "5 or more reviews describe a memorable date outcome"
-            type: count_threshold
-            filter:
-              date_outcome: memorable
-            min_count: 5
-            min_count_by_k:
-              25: 2
-              50: 3
-              100: 4
-          - text: "5 or more reviews describe romantic service style"
-            type: count_threshold
-            filter:
-              service_style: romantic
-            min_count: 5
-            min_count_by_k:
-              25: 2
-              50: 3
-              100: 4
+              25: 4
+              50: 6
+              100: 10
 
       - verdict: "Not Recommended"
         label: "NOT_RECOMMENDED"
         precondition: "Recommended does not apply"
         logic: ANY
         conditions:
-          # V0 conditions (same thresholds)
           - text: "20 or more reviews describe loud noise preventing conversation"
             type: count_threshold
             filter:
@@ -106,17 +83,17 @@ normative:
             min_count: 20
             min_count_by_k:
               25: 4
-              50: 8
-              100: 13
-          - text: "15 or more reviews describe harsh lighting or unromantic atmosphere"
+              50: 7
+              100: 12
+          - text: "15 or more reviews describe harsh lighting"
             type: count_threshold
             filter:
-              ambiance_quality: [harsh, unromantic]
+              lighting_quality: harsh
             min_count: 15
             min_count_by_k:
               25: 3
-              50: 6
-              100: 10
+              50: 5
+              100: 9
           - text: "50 or more reviews describe negative date experiences"
             type: count_threshold
             filter:
@@ -124,26 +101,16 @@ normative:
             min_count: 50
             min_count_by_k:
               25: 8
-              50: 16
+              50: 15
               100: 28
-          # V1 additional conditions
-          - text: "10 or more reviews describe rushed service style"
-            type: count_threshold
-            filter:
-              service_style: rushed
-            min_count: 10
-            min_count_by_k:
-              25: 3
-              50: 5
-              100: 7
 
       - verdict: "Acceptable"
         label: "ACCEPTABLE"
         default: true
         especially_when:
-          - "Atmosphere is pleasant but not particularly romantic"
-          - "Good for casual dates but not special occasions"
-          - "Mixed reviews about ambiance"
+          - "Mixed reviews about romantic suitability"
+          - "Atmosphere is neutral - neither romantic nor anti-romantic"
+          - "Food is good but ambiance is not particularly romantic"
 
   # Output format
   output:

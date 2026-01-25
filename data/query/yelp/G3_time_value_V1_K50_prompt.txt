@@ -59,17 +59,14 @@ Would customer wait again for this restaurant
 ## Verdict Rules
 
 A restaurant is considered **Definitely Worth Waiting** if any of the following is true:
-- 20 or more reviews say it was definitely worth the wait
-- 25 or more reviews say they would definitely wait again
-- 13 or more reviews mention quick service
+- 20 or more reviews say it was definitely worth the wait [filter: wait_justification=definitely_worth_it]
+- 25 or more reviews say they would definitely wait again [filter: would_wait_again=definitely]
 
 **Not Worth Waiting** if Definitely Worth Waiting does not apply, but any of the following is true:
-- 13 or more reviews describe waits as 'not worth it'
-- 9 or more reviews say they would never wait again
-- 3 or more reviews describe excessive wait duration
-- 5 or more reviews say it was barely worth the wait
+- 13 or more reviews describe waits as 'not worth it' [filter: wait_justification=not_worth_it]
+- 9 or more reviews say they would never wait again [filter: would_wait_again=never]
 
 **Worth Waiting** otherwise, especially when:
-- Reasonable waits for good food
-- Some timing issues but overall positive
-- Wait acceptable for the type of restaurant
+- Wait times are reasonable for the quality
+- Mixed reviews about whether wait is justified
+- Good experience but some timing issues

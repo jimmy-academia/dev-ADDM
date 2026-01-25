@@ -1,7 +1,7 @@
 """Policy-based ground truth computation.
 
 This module provides functions to compute ground truth verdicts from L0 judgments
-using PolicyIR scoring rules (V2+) or qualitative decision rules (V0/V1).
+using PolicyIR scoring rules (V3+) or qualitative decision rules (V1/V2).
 
 Two-step flow:
 1. extract.py: Extract L0 judgments from reviews (multi-model, aggregated)
@@ -186,7 +186,7 @@ def build_l0_schema_from_topic(topic: str, library: TermLibrary) -> Dict[str, Di
 
     Topic format: "G1_allergy" (group_topic)
 
-    Uses the union of terms across V0-V3 to ensure all fields needed by any
+    Uses the union of terms across V1-V4 to ensure all fields needed by any
     policy version are extracted.
 
     Args:
@@ -211,7 +211,7 @@ def build_l0_schema_from_topic(topic: str, library: TermLibrary) -> Dict[str, Di
         raise FileNotFoundError(f"Topic directory not found: {topic_dir}")
 
     schema: Dict[str, Dict[str, str]] = {}
-    for version in ["V0", "V1", "V2", "V3"]:
+    for version in ["V1", "V2", "V3", "V4"]:
         policy_path = topic_dir / f"{version}.yaml"
         if policy_path.exists():
             policy = PolicyIR.load(policy_path)
@@ -312,7 +312,7 @@ def aggregate_judgments(
 
 
 # =============================================================================
-# Scoring-based GT computation (V2+)
+# Scoring-based GT computation (V3+)
 # =============================================================================
 
 
@@ -371,7 +371,7 @@ def determine_verdict(
 
 def compute_recency_weight(review_date_str: Optional[str], scoring: ScoringSystem) -> float:
     """
-    Compute recency weight for V3 scoring based on review age.
+    Compute recency weight for V4 scoring based on review age.
 
     Args:
         review_date_str: Review date string (e.g., "2019-12-15 19:02:50")
@@ -439,7 +439,7 @@ def compute_gt_from_policy_scoring(
     k: int = 200,
 ) -> Dict[str, Any]:
     """
-    Compute GT using policy scoring rules (V2+).
+    Compute GT using policy scoring rules (V3+).
 
     Uses field_mapping from policy to determine which judgment fields to use
     for scoring. Falls back to G1-style hardcoded fields if no field_mapping.
@@ -537,7 +537,7 @@ def compute_gt_from_policy_scoring(
                 if mod_pts > 0:
                     applied_modifiers.append("Dismissive staff")
 
-        # Apply V3 recency weighting if policy has recency_rules
+        # Apply V4 recency weighting if policy has recency_rules
         recency_weight = compute_recency_weight(j.get("_review_date"), scoring)
         weighted_points = int(points * recency_weight)
 
@@ -555,7 +555,7 @@ def compute_gt_from_policy_scoring(
         })
 
     # Cuisine modifier (restaurant-level, not per-incident)
-    # Only applies when there are actual incidents (per V2 policy)
+    # Only applies when there are actual incidents (per V3 policy)
     cuisine_modifier_applied = False
     if is_high_risk_cuisine(categories) and len(incidents) > 0:
         mod_pts = get_modifier_points("High-risk cuisine", scoring)
@@ -584,7 +584,7 @@ def compute_gt_from_policy_scoring(
 
 
 # =============================================================================
-# Qualitative GT computation (V0/V1)
+# Qualitative GT computation (V1/V2)
 # =============================================================================
 
 
@@ -654,7 +654,7 @@ def compute_gt_from_policy_qualitative(
     k: int = 200,
 ) -> Dict[str, Any]:
     """
-    Compute GT using qualitative decision rules (V0/V1).
+    Compute GT using qualitative decision rules (V1/V2).
 
     Args:
         judgments: List of aggregated L0 judgments
@@ -673,7 +673,7 @@ def compute_gt_from_policy_qualitative(
     rules = policy.normative.decision.rules
 
     # Extract evidence from judgments (same as scoring, but without point calculation)
-    # This enables evaluation metrics to work for V0/V1 policies
+    # This enables evaluation metrics to work for V1/V2 policies
     from addm.eval.constants import get_evidence_config
 
     evidences: List[Dict[str, Any]] = []
@@ -772,7 +772,7 @@ def compute_gt_from_policy(
     """
     Compute ground truth using policy rules.
 
-    Automatically selects scoring (V2+) or qualitative (V0/V1) based on policy.
+    Automatically selects scoring (V3+) or qualitative (V1/V2) based on policy.
 
     Args:
         judgments: List of aggregated L0 judgments (one per review)
@@ -794,8 +794,8 @@ def load_policy(policy_id: str) -> PolicyIR:
     """
     Load a policy by ID.
 
-    Policy ID format: "G1_allergy_V2" -> policies/G1/allergy/V2.yaml
-                      "G3_price_worth_V0" -> policies/G3/price_worth/V0.yaml
+    Policy ID format: "G1_allergy_V3" -> policies/G1/allergy/V3.yaml
+                      "G3_price_worth_V1" -> policies/G3/price_worth/V1.yaml
 
     Args:
         policy_id: Policy identifier
@@ -805,9 +805,9 @@ def load_policy(policy_id: str) -> PolicyIR:
     """
     parts = policy_id.split("_")
     if len(parts) < 3:
-        raise ValueError(f"Invalid policy_id format: {policy_id} (expected G1_allergy_V2)")
+        raise ValueError(f"Invalid policy_id format: {policy_id} (expected G1_allergy_V3)")
 
-    # First part is group (G1, G2, ...), last part is version (V0, V1, ...)
+    # First part is group (G1, G2, ...), last part is version (V1, V2, ...)
     # Everything in between is the topic (may contain underscores)
     group = parts[0]
     version = parts[-1]

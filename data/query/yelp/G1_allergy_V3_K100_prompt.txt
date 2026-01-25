@@ -3,7 +3,7 @@
 Help assess the allergy safety risk for this restaurant using customer reviews as evidence.
 Assign a risk label: Low Risk, High Risk, or Critical Risk.
 
-This assessment uses a point-based scoring system with recency weighting.
+This assessment uses a point-based scoring system to quantify risk.
 
 ## Definitions of Terms
 
@@ -53,8 +53,7 @@ How staff responded when the concern was raised
 
 ## Scoring System
 
-Calculate a total risk score by summing points from all firsthand incidents,
-with recency weighting applied.
+Calculate a total risk score by summing points from all firsthand incidents.
 
 For each firsthand incident, assign points based on severity:
 - Mild incident: 2 points
@@ -66,18 +65,13 @@ Additional modifiers:
 - Dismissive staff (staff dismissed allergy concern during incident): +3 points
 - High-risk cuisine (restaurant is Thai, Vietnamese, or Chinese cuisine): +2 points
 
-Recency weighting:
-- Within 2 years: full point value
-- 2-3 years old: half point value (multiply by 0.5)
-- Over 3 years old: quarter point value (multiply by 0.25), or discard entirely if 3+ recent reviews show improved handling
-
 
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- Total risk score is 7 or higher (after recency weighting)
+- Total risk score is 7 or higher
 
 **High Risk** if Critical Risk does not apply, but any of the following is true:
-- Total risk score is 3 or higher (after recency weighting)
+- Total risk score is 3 or higher
 
 **Low Risk** otherwise

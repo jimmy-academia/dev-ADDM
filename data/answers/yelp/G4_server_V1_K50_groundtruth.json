@@ -3,7 +3,7 @@
   "topic": "G4_server",
   "domain": "yelp",
   "k": 50,
-  "computed_at": "2026-01-23T19:10:02.682036",
+  "computed_at": "2026-01-24T20:10:36.522131",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -295,8 +295,15 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 35,
+        "n_incidents": 37,
         "incidents": [
+          {
+            "review_id": "fXNi_kvxvRGAhoKczf_2uw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "_0hK9x4hyOV8VoE4a4L6Rg",
             "severity_field": "attentiveness",
@@ -459,6 +466,13 @@
             "modifiers": []
           },
           {
+            "review_id": "QavJJxq0eiI_5VsjhdnBMw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "ablujnnN8njLaOeMfmVQKg",
             "severity_field": "attentiveness",
             "severity_value": "good",
@@ -554,7 +568,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 31,
+        "n_incidents": 32,
         "incidents": [
           {
             "review_id": "jl0gQGfbzN3Q0JiEE5GGJQ",
@@ -567,6 +581,13 @@
             "review_id": "TBEbQ_OF6TBjGaL265ontw",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "GYh3-rc5yIyWnLG_yIvzfw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -785,7 +806,7 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 35,
+        "n_incidents": 38,
         "incidents": [
           {
             "review_id": "T3NU733w4xH3N10B2UBewg",
@@ -805,6 +826,13 @@
             "review_id": "O2ldLPAYiPtOMLcUIPcelQ",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "FLug-7XFX0mtpZwjjcES_g",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -963,6 +991,13 @@
             "modifiers": []
           },
           {
+            "review_id": "-q9fHoyC9r9yZNijL3zP8Q",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "76fmZpNPsaIRbOabqDokOQ",
             "severity_field": "attentiveness",
             "severity_value": "good",
@@ -1008,6 +1043,13 @@
             "review_id": "Cd2aEaUQPqBkUT8SiJEeWA",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "85T-ax39TCy2gN0NiYib0g",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -1660,7 +1702,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 22,
+        "n_incidents": 25,
         "incidents": [
           {
             "review_id": "szGkWgKSsTWgXqHLakRNIg",
@@ -1694,6 +1736,13 @@
             "review_id": "yJxxk2V-7XuGBHX3QT8u9g",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "xvF9ytDDXumLSdqHa9d_vw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -1743,6 +1792,13 @@
             "review_id": "A7Epxf7rFnsB3BHxTmOMgQ",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "R8wUG3hCqNE5mjFyPRlnxQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -1815,6 +1871,13 @@
             "severity_value": "excellent",
             "account_type": "firsthand",
             "modifiers": []
+          },
+          {
+            "review_id": "Y8ryJPTadq3ZbTFKuL09hw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -1828,8 +1891,36 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 14,
+        "n_incidents": 19,
         "incidents": [
+          {
+            "review_id": "iiyS6jxMSqzmtJY7i_HV6Q",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "z_g0FynrR07g-P20A5vSCw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "bfg92TGdgbgZsc_MP_hlfQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "G9YJIdkjABvkijOF9SnbTQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "SlQxmVwHa_fR9udLSl0eMg",
             "severity_field": "attentiveness",
@@ -1915,6 +2006,13 @@
             "modifiers": []
           },
           {
+            "review_id": "6yVgYbjzNw9f273jgag-BA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "sAEU18RUtJpQZKoCy7iFbQ",
             "severity_field": "attentiveness",
             "severity_value": "poor",
@@ -1940,13 +2038,27 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 29,
+        "n_incidents": 33,
         "incidents": [
+          {
+            "review_id": "Un50rdD1n4vJMtaSb6J9Ig",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "Q-VjFZ9PvUjUlsj8v2JvQA",
             "severity_field": "attentiveness",
             "severity_value": "poor",
             "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "JZc1SsFEhyfdaIDX_9sL-A",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "secondhand",
             "modifiers": []
           },
           {
@@ -1974,6 +2086,20 @@
             "review_id": "_bx6-DnVBUoLHME9fIGksA",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "tpTK5AuSxpLyltXhhap7Dg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3_ENWVsxpVUHdU0slLV5jw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -2157,7 +2283,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 20,
+        "n_incidents": 22,
         "incidents": [
           {
             "review_id": "ZGm7mdbPBCKZvE7m0V93cQ",
@@ -2177,6 +2303,13 @@
             "review_id": "S4VuU2r-_mKOnx__O1L7Vg",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "bujRwRJUf62rIhGO_ys_ZQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -2226,6 +2359,13 @@
             "review_id": "FGZSrPj4pEEXzimlaFrPwQ",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "5_30F9SSvJMdFIX4nWkuQg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -2311,7 +2451,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 3,
+        "n_incidents": 4,
         "incidents": [
           {
             "review_id": "Yf9140c5cb35EDkgPrnwvQ",
@@ -2324,6 +2464,13 @@
             "review_id": "RFGZ3JCXOmc5iuE4xNnK9g",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "U_YZ_RcVr50pK6cRmB5loA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -2346,7 +2493,7 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 30,
+        "n_incidents": 31,
         "incidents": [
           {
             "review_id": "yR0C6ZS0MbRrJ0UzMNQ6IQ",
@@ -2496,6 +2643,13 @@
             "modifiers": []
           },
           {
+            "review_id": "-3OXc2p1STQViWqyuQvobg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "Sykniwmz-_00HTJ0qcGv3A",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
@@ -2570,7 +2724,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 28,
+        "n_incidents": 29,
         "incidents": [
           {
             "review_id": "fYCLKg23-MTG2694UiidJA",
@@ -2744,6 +2898,13 @@
             "review_id": "Tr8sCXPqMNkFjusiMgIKjQ",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "bVPY6XJ2g7Yt1IbY4CExKg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -3312,12 +3473,33 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 26,
+        "n_incidents": 34,
         "incidents": [
           {
             "review_id": "fS8QVcQ4OQcwupogEP3K6g",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ne1EZZbkTg3ktcJCYoD9ww",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "gsrEUegUS7wLiRZM3MvLfA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "njECvmhmrQwtjcv9LoLcwg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -3329,9 +3511,23 @@
             "modifiers": []
           },
           {
+            "review_id": "LD6P20SZ4Txb3IC82W_zDg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "sG3HDQzb-AYbUPC_LDTvMg",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DIg2wkLUc7Xl6kaSodg99g",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -3385,6 +3581,13 @@
             "modifiers": []
           },
           {
+            "review_id": "LT876wSz45Nb96wS2VODuA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "0QPI4eOr6eOYRihfURsyBw",
             "severity_field": "attentiveness",
             "severity_value": "good",
@@ -3423,6 +3626,13 @@
             "review_id": "3ozKra8wC8NBvrxehyoO9Q",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "mAd3H-PmfsJx4We8hKb-AQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -3476,6 +3686,13 @@
             "modifiers": []
           },
           {
+            "review_id": "7XQagGEMo2QWrie2IfiKqw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "4eZrWmBsSpjzEcZEZx7S-g",
             "severity_field": "attentiveness",
             "severity_value": "poor",
@@ -3508,7 +3725,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 15,
+        "n_incidents": 16,
         "incidents": [
           {
             "review_id": "HJoQlv6crVfNAHuxWCfrww",
@@ -3595,6 +3812,13 @@
             "modifiers": []
           },
           {
+            "review_id": "JczAe6FWmkQOtRTtSEDfbw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "QdDb9fdyZK7iKTAwPu7Wxg",
             "severity_field": "attentiveness",
             "severity_value": "good",
@@ -3627,8 +3851,15 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 25,
+        "n_incidents": 26,
         "incidents": [
+          {
+            "review_id": "DQacZF_R5utCYpjBP19G9w",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "XIPUzf9-_DTEkHvzalWDrw",
             "severity_field": "attentiveness",
@@ -3816,7 +4047,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 37,
+        "n_incidents": 38,
         "incidents": [
           {
             "review_id": "sXpwSCw9X-7R1baOIbx9dA",
@@ -3969,6 +4200,13 @@
             "review_id": "gGitBI18zIhyD18RhmCcKw",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "MTUH3JC4STlakaVilPWofQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -4572,7 +4810,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 34,
+        "n_incidents": 38,
         "incidents": [
           {
             "review_id": "P4G9atlsE6zA4ANsPlwizQ",
@@ -4645,9 +4883,30 @@
             "modifiers": []
           },
           {
+            "review_id": "YcvISBbgnVVb4bmBtnPPzg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "3MN1erteCDd7C_pJnqfYeQ",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "MCyysfTaEbbp-cL8QJHUig",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "yrDLkdOUjJxAX1ZlU95BZg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -4697,6 +4956,13 @@
             "review_id": "iRxhUvSEQidh58cpkB8i3w",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HMRq3kMVy8gVl9vbFoArLg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -5440,7 +5706,7 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 30,
+        "n_incidents": 33,
         "incidents": [
           {
             "review_id": "mofqrY_IT7e4snKjsGNVBQ",
@@ -5474,6 +5740,13 @@
             "review_id": "HMV7ajRU-1nzMUyhS9uJWQ",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "E7cUGNyg1t-wjxMrX0HwMg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -5618,9 +5891,23 @@
             "modifiers": []
           },
           {
+            "review_id": "TdIR2Mjp-1nDloxNXt3X0Q",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "YTIsCftnbMjJ1JesPX8_Vg",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "pL7iWrBzzq4PmRznWZGV9Q",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -5664,12 +5951,19 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 10,
+        "n_incidents": 14,
         "incidents": [
           {
             "review_id": "ZQ7fn3ib_LZJLAIUPe9KSw",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "dIRjDE41JTSdLZCnc7saSA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -5681,9 +5975,23 @@
             "modifiers": []
           },
           {
+            "review_id": "QW3kpBJdROT4TlR3T7S2ng",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "PN1zJM1NaYcSN1d_K9tv2w",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "QD2PRNBr4UX0JHM6o7WbBg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -5698,6 +6006,13 @@
             "review_id": "kp90XYMAzqFb5YN7DhvzYg",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "0W402Qd1jtay583G1mo3ug",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -5748,8 +6063,15 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 29,
+        "n_incidents": 31,
         "incidents": [
+          {
+            "review_id": "YAmEXINBRHgEB6w3X4G1TA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "O2zp1AuD-JSDdPqPzzd49A",
             "severity_field": "attentiveness",
@@ -5831,6 +6153,13 @@
             "review_id": "CxqvKAIGVbegzi4eaERiFA",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "N9r0gJRMMfPDzx5wPIN1GA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -5965,7 +6294,7 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 36,
+        "n_incidents": 38,
         "incidents": [
           {
             "review_id": "a-ptEPsf-ea_7tpK2yoimw",
@@ -5978,6 +6307,13 @@
             "review_id": "jFtCYroe_GAElwBDU0C8YA",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "wq6ik7yW7POxJUX6Cf_vUA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -6111,6 +6447,13 @@
             "review_id": "EH_8Wc4Lgp_zBg1LzHGArA",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "1jViHACLkC2DcHxuO4bjkg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -6595,7 +6938,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 25,
+        "n_incidents": 26,
         "incidents": [
           {
             "review_id": "gYS_GE_1QKBfrIGknLWW0Q",
@@ -6755,6 +7098,13 @@
             "review_id": "X5UZergnMRCFflYTg7Csyg",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "-H-xVIaiqmqXaom2nZEkZQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -6994,7 +7344,7 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 35,
+        "n_incidents": 37,
         "incidents": [
           {
             "review_id": "YuTswFRG6Ljl4HPRFN3ILw",
@@ -7070,6 +7420,13 @@
             "review_id": "Tejfue74XyuQ3CvjQoOEow",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "chgTrg7P9nkO-dLN6rXKdQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -7238,6 +7595,13 @@
             "review_id": "nvolQOs-BvuXxGtr872UlA",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "avqr8DBMIsQHHKrefUVP1A",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           }
@@ -7505,7 +7869,7 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 34,
+        "n_incidents": 38,
         "incidents": [
           {
             "review_id": "oZh510Y4LWcRNtZfej4_XQ",
@@ -7578,6 +7942,13 @@
             "modifiers": []
           },
           {
+            "review_id": "ypf0WPDtZkFG39v0Ul0WTw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "323szbJk9Q7zd6MUUbSV8w",
             "severity_field": "attentiveness",
             "severity_value": "poor",
@@ -7620,6 +7991,13 @@
             "modifiers": []
           },
           {
+            "review_id": "xDwxfw7Yo6qxHOAN5ROYhw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "K7oSNQwcdSF5RqtjdDQbHA",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
@@ -7648,6 +8026,13 @@
             "modifiers": []
           },
           {
+            "review_id": "JMJfu4ZEGqhHCgas4efpaA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "uRVEEfKD69f1-le5hF-dGA",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
@@ -7672,6 +8057,13 @@
             "review_id": "czsabhCshS-dDb1ejoe7dA",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "rwW1x1mcFfWx_OUrGMdMQA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -8002,7 +8394,7 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 37,
+        "n_incidents": 41,
         "incidents": [
           {
             "review_id": "msWw5i0v02kNyy6p78k8_w",
@@ -8194,6 +8586,13 @@
             "modifiers": []
           },
           {
+            "review_id": "VGsp7r_PLC-cW4VKAqGJpQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "9TB_ZjHAF__NYEUbg0pf-Q",
             "severity_field": "attentiveness",
             "severity_value": "good",
@@ -8204,6 +8603,13 @@
             "review_id": "6Kf7F1nJDrqcAwNJ6iCIkA",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "GDmw7PhUcJWBFviPK2CSug",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -8229,6 +8635,13 @@
             "modifiers": []
           },
           {
+            "review_id": "Ez0Z8flD3gKWjjv2mPPOXw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "anhLD2k0UthQ7nvsEQrJvQ",
             "severity_field": "attentiveness",
             "severity_value": "poor",
@@ -8239,6 +8652,13 @@
             "review_id": "zCLpZmZ-CPrF2BIgRJI6lA",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ZLi-zLy8lpIvA-ptpAy15g",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -8275,12 +8695,19 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 16,
+        "n_incidents": 19,
         "incidents": [
           {
             "review_id": "JH8ETY1G--0iIe79x_QCFw",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "q_2VxSAitHojEFWWikfIUA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -8302,6 +8729,13 @@
             "review_id": "0YDsSU-eVMQehfukMCDCsA",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8j3jDpHntyIeF1FepE-MTQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -8376,6 +8810,13 @@
             "modifiers": []
           },
           {
+            "review_id": "c8_cEhPXxi8vGsMFqFetdw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "z00blk-VS4iezovpomSVAw",
             "severity_field": "attentiveness",
             "severity_value": "good",
@@ -8401,7 +8842,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 26,
+        "n_incidents": 31,
         "incidents": [
           {
             "review_id": "68nBDTuO1DaBdWiMabXLvg",
@@ -8414,6 +8855,13 @@
             "review_id": "8_J1qa4XM8Zf2nKzH7g1Ew",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "WQZTfg9iOFFB_Vo_ZvPArw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -8449,6 +8897,13 @@
             "review_id": "97AFlFMaPA9D57dd5DPA6w",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "MFzzWQ4QwHpE3yrqsDtPvQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -8516,6 +8971,13 @@
             "modifiers": []
           },
           {
+            "review_id": "PdAeCNNl8cTCAcwrrsDqGg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "bUM0iMLZJZjMYP-nKBDqkA",
             "severity_field": "attentiveness",
             "severity_value": "poor",
@@ -8554,6 +9016,20 @@
             "review_id": "3N9d8ERaZY2J0Y6Lm_p5yQ",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "dLS_HoOOfp9up9_aIOR_Xg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "NQZlGJGCQ2tBrZAUDftrvw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -8597,7 +9073,7 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 34,
+        "n_incidents": 36,
         "incidents": [
           {
             "review_id": "wJnZvCragM0d7-FWlgbEug",
@@ -8663,6 +9139,13 @@
             "modifiers": []
           },
           {
+            "review_id": "ebg-_yB_IRAnWPTZd-HPhQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "H0KsQJ-RfoIlJadGksrckg",
             "severity_field": "attentiveness",
             "severity_value": "poor",
@@ -8694,6 +9177,13 @@
             "review_id": "h253xl6kUmLETYheoAEE9A",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "198kcRMaApyx1oqW0j22OQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -8849,7 +9339,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 25,
+        "n_incidents": 27,
         "incidents": [
           {
             "review_id": "6Oc0S12zRJweXaRUJgKitg",
@@ -8862,6 +9352,13 @@
             "review_id": "FlbN5hsrJYfzzZILYU0WaA",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "elLQua2rVCUqqFZ2_HpIgw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -9006,6 +9503,13 @@
             "modifiers": []
           },
           {
+            "review_id": "8XNsIVnM66v925-hB1i7MQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "sIuZM4Se6nHHhEXU_8J9OQ",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
@@ -9038,7 +9542,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 33,
+        "n_incidents": 34,
         "incidents": [
           {
             "review_id": "hXhCdo0z1Rbc18cO9vEm7w",
@@ -9237,6 +9741,13 @@
             "modifiers": []
           },
           {
+            "review_id": "SaGMts5NCKYU1ied-9WpCw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "Vybs7YL9Vk60F88sUZhyVQ",
             "severity_field": "attentiveness",
             "severity_value": "good",
@@ -9283,8 +9794,15 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 23,
+        "n_incidents": 29,
         "incidents": [
+          {
+            "review_id": "6D_zELZVMiXI2bA6TjE9Qw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "V465zXUXmXlqy0qA2b5kKw",
             "severity_field": "attentiveness",
@@ -9328,6 +9846,13 @@
             "modifiers": []
           },
           {
+            "review_id": "FjyLecg6DvC_MdoC4gfWWg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "4I2xFsr-UIjFyJNQncSCGg",
             "severity_field": "attentiveness",
             "severity_value": "poor",
@@ -9345,6 +9870,20 @@
             "review_id": "0zL-WGYOWMbJKGD5ukHwSQ",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "fLLPphr5WK2YdFmu5YDQig",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "lpZ0bPHY3AnfLsNXzTpvvw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -9370,6 +9909,13 @@
             "modifiers": []
           },
           {
+            "review_id": "9PfylAbCHCJ23OfBSDp-zQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "i8nQqvjDei4FlNMo0XgxFw",
             "severity_field": "attentiveness",
             "severity_value": "good",
@@ -9387,6 +9933,13 @@
             "review_id": "BUzbYXI8VCi4-B79H-UKHg",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "YaVOT61NYzHhycefUvT2GA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -9458,7 +10011,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 27,
+        "n_incidents": 30,
         "incidents": [
           {
             "review_id": "onmW56V-C-3SQVkE3X9jyg",
@@ -9538,9 +10091,23 @@
             "modifiers": []
           },
           {
+            "review_id": "tUeEDxRJY8fsfa-v-FIY5w",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "II4aoFlRTTBhyDfPmI0VNQ",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "eW2JOk9tmjjmgAjaNeQNzg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -9555,6 +10122,13 @@
             "review_id": "U0BmeRyc0yv5sXg_CMzRzw",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "fgXp0w6X48usOh7LOveR8A",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -9661,7 +10235,7 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 30,
+        "n_incidents": 36,
         "incidents": [
           {
             "review_id": "2hqG212BpvOpzx5xh-pS2w",
@@ -9681,6 +10255,13 @@
             "review_id": "hlyUomIVQ1Td85m1aSMp4w",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "oxtPSdr1hx3ZBvZ8b1JqMw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -9804,6 +10385,20 @@
             "modifiers": []
           },
           {
+            "review_id": "DFZ3dnlUrGNkoa4XWJvVXA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "FrGiVZZADTlj5hXw5vzoBQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "cl0Qszg0VRl5GSkf5H8RMw",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
@@ -9863,6 +10458,27 @@
             "review_id": "IwmLSLOr63K9s7csiBBYqA",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "avjpB79D8KVLssB9QMmr1A",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8gLkSOIbNhfy3SlfTGPoUw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3v1mCkwqD8tCE5O9OVgEjA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -10186,7 +10802,7 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 28,
+        "n_incidents": 29,
         "incidents": [
           {
             "review_id": "WOWuQXiy4H-9-wRD8E6r7A",
@@ -10213,6 +10829,13 @@
             "review_id": "pqKr1W7sG9oovmnfvY6Hmg",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "9sB38t2sqHujZhgN4qOQ_w",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -10396,7 +11019,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 20,
+        "n_incidents": 21,
         "incidents": [
           {
             "review_id": "CI170eVhZR9GTBFwo0EasQ",
@@ -10525,6 +11148,13 @@
             "modifiers": []
           },
           {
+            "review_id": "qP62hlfUtIc59CV1tsaEXg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "vWHkkaqtqc49g9fgWMPKsw",
             "severity_field": "attentiveness",
             "severity_value": "good",
@@ -10550,7 +11180,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 20,
+        "n_incidents": 21,
         "incidents": [
           {
             "review_id": "6wpbNPiLfZ-4Tg1KwEEK6Q",
@@ -10668,6 +11298,13 @@
             "review_id": "b5MKWzcx5ybPa-LbVrsBgQ",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "4BeymtraymOK7xZcbvkqRA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -10977,7 +11614,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 32,
+        "n_incidents": 33,
         "incidents": [
           {
             "review_id": "jYznJ3uLEoVryFrDvs8ioA",
@@ -11046,6 +11683,13 @@
             "review_id": "lb-4TTqUVm1cHQ3bAwDUHQ",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "xudIVbMYwySDjJkLULiK_g",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -11390,7 +12034,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 27,
+        "n_incidents": 28,
         "incidents": [
           {
             "review_id": "fWhc3qtm0SeVP0nHLHhtSA",
@@ -11452,6 +12096,13 @@
             "review_id": "HUjKBgQkBCj2kOJAOxQpVQ",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "kR2SzYOVB0JS_EifrMINHw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -11593,8 +12244,15 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 19,
+        "n_incidents": 22,
         "incidents": [
+          {
+            "review_id": "Vm9to8nZKDAZgI4ajrp67g",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "1ASSywl_LQaS_gX8Wzbqrg",
             "severity_field": "attentiveness",
@@ -11617,6 +12275,13 @@
             "modifiers": []
           },
           {
+            "review_id": "cJ1330P4cQ7428odltKN0Q",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "ZS7HE6YzEY5oP83PSMDbQg",
             "severity_field": "attentiveness",
             "severity_value": "good",
@@ -11634,6 +12299,13 @@
             "review_id": "Fp7KmyxZNVEVLWt4tyOd7w",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "y23pPvifmFWUggw0KaC1ug",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -11740,7 +12412,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 29,
+        "n_incidents": 30,
         "incidents": [
           {
             "review_id": "9fauE6tSCZYb9BECRN_NUw",
@@ -11830,6 +12502,13 @@
             "review_id": "tXh7eyzjLr1noKTfiwDK_A",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "7A17k_cq7Ai02ig7M02Kpw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -11957,7 +12636,7 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 31,
+        "n_incidents": 34,
         "incidents": [
           {
             "review_id": "eRz1cI543X4oRah5w5cj4g",
@@ -12016,6 +12695,13 @@
             "modifiers": []
           },
           {
+            "review_id": "5p3VbA4ijmfGdAyNHYAOow",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "A3ZDKOFG_KmFVRrjqByWdA",
             "severity_field": "attentiveness",
             "severity_value": "good",
@@ -12040,6 +12726,13 @@
             "review_id": "CfY-50ReKyjr9cFVLjvF2g",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "wyP60vnmTMft74gebJBoGw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -12089,6 +12782,13 @@
             "review_id": "sLDTFnQlRWrPzR3f378tEA",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "xgekW8nkGbokAc5tgSTE6Q",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -12517,7 +13217,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 14,
+        "n_incidents": 19,
         "incidents": [
           {
             "review_id": "9slowIS-b7ukvNiT8NMzUQ",
@@ -12541,6 +13241,13 @@
             "modifiers": []
           },
           {
+            "review_id": "GRNWETKa69eDZ835AqNlGA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "-5xT7VdhHGnbUPi3LSr_5A",
             "severity_field": "attentiveness",
             "severity_value": "good",
@@ -12555,9 +13262,23 @@
             "modifiers": []
           },
           {
+            "review_id": "kHNYCD0hZmZUQFsDh1JpOA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "SKvRskVD0y6vkHgUjotDCA",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "XUWYzT4A9AHGjsqX_pe_Rg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -12590,6 +13311,13 @@
             "modifiers": []
           },
           {
+            "review_id": "uAn7pHYolr1gOjP85UDoQg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "mevo8Ve2RuWhE0WVxBcI-Q",
             "severity_field": "attentiveness",
             "severity_value": "good",
@@ -12614,6 +13342,13 @@
             "review_id": "j7nVBHn5QjbjxFqclIFZSQ",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3965QeQJwgPPy3m-EL7dew",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           }
@@ -12853,7 +13588,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 32,
+        "n_incidents": 33,
         "incidents": [
           {
             "review_id": "sc9z-7-KUL-tf69nEo0_cw",
@@ -12929,6 +13664,13 @@
             "review_id": "_BEedgYG1uKutR6xFrUg4w",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "p-VRpBkUZ2N5s6OM1VDDuw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -13091,7 +13833,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 17,
+        "n_incidents": 19,
         "incidents": [
           {
             "review_id": "Z1idbAu2lwqwN8GPWQPABw",
@@ -13104,6 +13846,13 @@
             "review_id": "jgnm56yDM4wHKML-31IXTQ",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "xXYK8wjeP5bvhx1fKUj5fQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -13171,6 +13920,13 @@
             "modifiers": []
           },
           {
+            "review_id": "I8JbX1W2FT4or_6rQX4byg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "MKW0P8TqI1oeOjEZS9k19g",
             "severity_field": "attentiveness",
             "severity_value": "poor",
@@ -13224,7 +13980,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 11,
+        "n_incidents": 13,
         "incidents": [
           {
             "review_id": "1Xujh3pOC0QVZFBIRXvAGA",
@@ -13251,6 +14007,20 @@
             "review_id": "rGxMpAysiGop2Oo9IL6B8w",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "BHAEgOZvoKB9ogeozONngQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3fpaHupkun-Nr6uUx9CelA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -13546,8 +14316,15 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 30,
+        "n_incidents": 33,
         "incidents": [
+          {
+            "review_id": "lnyIStyZ4_SozfDakUv9gw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "qQ-Eusi1k7tZiXeRQYltHA",
             "severity_field": "attentiveness",
@@ -13605,6 +14382,13 @@
             "modifiers": []
           },
           {
+            "review_id": "B89Ww_PC0FEE_JpBu0xpHg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "531K4RimHH8skFrKP68Hxw",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
@@ -13622,6 +14406,13 @@
             "review_id": "vN73bNSnEUX0UsPhbGea5Q",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "WBNRYIjz3lOT80C1jl2L7Q",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -13770,7 +14561,7 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 40,
+        "n_incidents": 41,
         "incidents": [
           {
             "review_id": "0s6ngEsSL8Eoqr5RckSTGw",
@@ -13797,6 +14588,13 @@
             "review_id": "e0ZMzh9LD3b3rxnUofojEQ",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "7YiO1jTqTgokw4-sgVuxpA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -14064,7 +14862,7 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 33,
+        "n_incidents": 37,
         "incidents": [
           {
             "review_id": "hYjL78tSqn3QiSMtEs6Qhg",
@@ -14172,6 +14970,13 @@
             "modifiers": []
           },
           {
+            "review_id": "HpkpInf0faYuxB8S5W1okA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "CsIcN0B4A-urgwLpMk0CDg",
             "severity_field": "attentiveness",
             "severity_value": "poor",
@@ -14214,6 +15019,13 @@
             "modifiers": []
           },
           {
+            "review_id": "mJEJV_8t_5SkiJlbJeOl3w",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "NiZr8fufcn0h-dYVOWBVig",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
@@ -14245,6 +15057,13 @@
             "review_id": "1SoeH7Ly5GEV0adI7HCcIg",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "bkaUjA7IxMjsPEGtwf8rxg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -14294,6 +15113,13 @@
             "review_id": "2NucjoLDUgqeG5DABkN1oQ",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "6qK4zPGZFaGgibW5x26l7Q",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           }
@@ -14617,7 +15443,7 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 27,
+        "n_incidents": 30,
         "incidents": [
           {
             "review_id": "TlnmtzMUhtdP4Etg3104rw",
@@ -14658,6 +15484,13 @@
             "review_id": "olfkRSFBgzeUQZ_SVTsUZQ",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "tg1NlQ9NEkvNUEwKk-OJQg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -14732,6 +15565,13 @@
             "modifiers": []
           },
           {
+            "review_id": "lsGw3TcFzW0EiPhkJGEtqw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "p0SL5hP_7e0GWBNlhfZEMg",
             "severity_field": "attentiveness",
             "severity_value": "poor",
@@ -14756,6 +15596,13 @@
             "review_id": "6qP8M_5AcZt5Au1FgkLLgQ",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "IISls1IJ8dt7CsjzXTvTUg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -14820,7 +15667,7 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 38,
+        "n_incidents": 40,
         "incidents": [
           {
             "review_id": "QVeoy7vZ1YugZgZ6yrWnEA",
@@ -15040,6 +15887,13 @@
             "modifiers": []
           },
           {
+            "review_id": "BeYESCL_lax_g3bKNoLTyw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "HXV_jjMBsp4V2kZtao5L6A",
             "severity_field": "attentiveness",
             "severity_value": "poor",
@@ -15050,6 +15904,13 @@
             "review_id": "ex55m03lar7kTRHEg31byQ",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "XOgsm35uwJzHaRTjaI3qEA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -15100,7 +15961,7 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 40,
+        "n_incidents": 41,
         "incidents": [
           {
             "review_id": "4WtkjKJ9TM7tcpFbMadV7w",
@@ -15176,6 +16037,13 @@
             "review_id": "AZYcXb2WSGaFFwxi37YDvw",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Po4kfZI3_WVYp4Oz6J9vvA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -15394,7 +16262,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 25,
+        "n_incidents": 27,
         "incidents": [
           {
             "review_id": "klqLptr_ma7Y7MpRC32cgw",
@@ -15523,9 +16391,23 @@
             "modifiers": []
           },
           {
+            "review_id": "EqVcRB4lYjsB4fynou4hvw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "5ZfmmAGvOE1jWkLzOipAFQ",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DKxMaM_rRFe_5-8SbN7Cww",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -15814,7 +16696,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 26,
+        "n_incidents": 32,
         "incidents": [
           {
             "review_id": "dRxN3FW7EG4zH1Kw1PSPLw",
@@ -15894,6 +16776,20 @@
             "modifiers": []
           },
           {
+            "review_id": "YgjeQxONV8X5FuhhoTGLOw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "EkIRuhtu91ynpBJeJI-0Fg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "eElPZ7icWswUc0ON8RuRCQ",
             "severity_field": "attentiveness",
             "severity_value": "good",
@@ -15908,9 +16804,23 @@
             "modifiers": []
           },
           {
+            "review_id": "nOQBTPErU4TGJDFU-gYK8Q",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "EsLP68ZRz_bro6MJfu9X2A",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DUdYir-_lVsJYl1252ssjg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -15939,6 +16849,13 @@
             "review_id": "lN-B7xzxqQtJdIhSpLIFjA",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "C8rLg6raUFD33LQ2wFdaCA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -15997,6 +16914,13 @@
             "severity_value": "poor",
             "account_type": "firsthand",
             "modifiers": []
+          },
+          {
+            "review_id": "KZUkUJz8OV6qLUHJydfnEw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -16010,7 +16934,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 28,
+        "n_incidents": 29,
         "incidents": [
           {
             "review_id": "t7L6k5RZhD6G2_xeM9yIZw",
@@ -16058,6 +16982,13 @@
             "review_id": "NL4Of3E3j-8deB_wTn8LWQ",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HtqpxgYlPQjhw8Zaexn8xg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -16220,7 +17151,7 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 37,
+        "n_incidents": 38,
         "incidents": [
           {
             "review_id": "-TTqJ6ojod2BCIQCB921cw",
@@ -16345,6 +17276,13 @@
             "review_id": "KG_HJTislXMJHw3a3cMWgQ",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "71eWkZzp102lGneOw7yELQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -16822,7 +17760,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 18,
+        "n_incidents": 20,
         "incidents": [
           {
             "review_id": "6m30HOcJRxCmoIffIH8ibA",
@@ -16888,6 +17826,13 @@
             "modifiers": []
           },
           {
+            "review_id": "qUM1vTUZykzFQywmk9Z9sA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "YaQY2jdr7gtsz3lgwDKesw",
             "severity_field": "attentiveness",
             "severity_value": "poor",
@@ -16919,6 +17864,13 @@
             "review_id": "oFfVEHUN7-wG-e7Z75W81Q",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "NlRhyNrJqSKm__PDIjJ4KQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -16962,7 +17914,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 29,
+        "n_incidents": 31,
         "incidents": [
           {
             "review_id": "Nc2F2QEbMxpyXPUfe-vdEQ",
@@ -17056,6 +18008,13 @@
             "modifiers": []
           },
           {
+            "review_id": "AyWdKlG6UzVVRHe1RzQEiw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "TzjiSpC-fBdyeYDUAUWg5A",
             "severity_field": "attentiveness",
             "severity_value": "good",
@@ -17073,6 +18032,13 @@
             "review_id": "D8KkvwJb66V98_U-12uQSg",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "_QOv6fVTR5Q0OT4Qlf4U2Q",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -17179,7 +18145,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 27,
+        "n_incidents": 30,
         "incidents": [
           {
             "review_id": "QjDm_6Xv6q72C0kb17YUrQ",
@@ -17220,6 +18186,13 @@
             "review_id": "6uWzaKULP9xWolk6nPADPQ",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "iG86hn9wnyTsJ8rcsOX-Jw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -17364,9 +18337,23 @@
             "modifiers": []
           },
           {
+            "review_id": "t9GRuK6Iz2w-M54rWL90Rg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "6j25PymZHCi13-XidZx_kw",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "C_JKc1x14NS78LxCApczng",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           }
@@ -17382,7 +18369,7 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 30,
+        "n_incidents": 35,
         "incidents": [
           {
             "review_id": "WsE19SWrI4iyG9c74DjvjQ",
@@ -17462,6 +18449,13 @@
             "modifiers": []
           },
           {
+            "review_id": "Q0d-ms7Ztxg8tV3RivYF4Q",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "lt58rWOsnR9sNVwhSCTbtQ",
             "severity_field": "attentiveness",
             "severity_value": "poor",
@@ -17504,9 +18498,23 @@
             "modifiers": []
           },
           {
+            "review_id": "WuWNGOSNHekrU2OwUhzQ5Q",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "0R9yRcwfdoRYmPR3925oeQ",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "vxvZXMZeQDfCXhoFqgAYdw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -17521,6 +18529,13 @@
             "review_id": "49DfxT5wHQ7EItyTmTG4Tw",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "U8i5spJRTYjG4JkqXVo13w",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -17593,6 +18608,13 @@
             "severity_value": "good",
             "account_type": "firsthand",
             "modifiers": []
+          },
+          {
+            "review_id": "URRdJSFgX5qudjTPkaS0gw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
           }
         ]
       }
@@ -17606,7 +18628,7 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 24,
+        "n_incidents": 26,
         "incidents": [
           {
             "review_id": "Swwd98GB2R5ZeFd3_Zb9QA",
@@ -17707,6 +18729,13 @@
             "modifiers": []
           },
           {
+            "review_id": "vAOZ_dnmDh6ffJU0Iaf_4A",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "-NK_HYy6StyEnmDG00IGyw",
             "severity_field": "attentiveness",
             "severity_value": "poor",
@@ -17773,6 +18802,13 @@
             "review_id": "Luf_dagPGavHwYHjcvNzBQ",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "z7tz8Rzgq9Mz29uSMMzxrg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           }
@@ -18012,12 +19048,19 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 20,
+        "n_incidents": 22,
         "incidents": [
           {
             "review_id": "7g2M6oybGZ6g0VJp18cg6A",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Jj9vCFfXSnKRMVHdH_5Yiw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -18060,6 +19103,13 @@
             "review_id": "YJJYUX43w2xhXUnjO4hgmg",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "vpFfZhtasQlrx6f8KerC0Q",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -18166,8 +19216,15 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 30,
+        "n_incidents": 32,
         "incidents": [
+          {
+            "review_id": "n90FHRnLDnpYfdKZQTzGdA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "4Z2pvXQT9Ht6FOmqwyGnrA",
             "severity_field": "attentiveness",
@@ -18351,6 +19408,13 @@
             "modifiers": []
           },
           {
+            "review_id": "iZ6V-sti2U_mCCIDhQnudA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "zipnCce_krcj7ErEwcKhbw",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
@@ -18390,7 +19454,7 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 33,
+        "n_incidents": 34,
         "incidents": [
           {
             "review_id": "E7rmE7-I7IFDPoJNCxyh8g",
@@ -18445,6 +19509,13 @@
             "review_id": "Quhn9UAtKLVFhCsuAQd8VQ",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ZD7KxGpVL_fmOYKo0xvWfg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -18880,7 +19951,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 27,
+        "n_incidents": 29,
         "incidents": [
           {
             "review_id": "Sx_U-OAa8PRUF6uvEMJaiQ",
@@ -18918,9 +19989,23 @@
             "modifiers": []
           },
           {
+            "review_id": "MzLDPpInPwrjm8uN9gisRA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "1VGA2igipXXC5-zl8cQXfQ",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "rltZ_iKgzbbsvp_jHaXwbQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -19307,7 +20392,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 19,
+        "n_incidents": 22,
         "incidents": [
           {
             "review_id": "fA6-GEuBaIIK8j6Rjwy64A",
@@ -19324,6 +20409,13 @@
             "modifiers": []
           },
           {
+            "review_id": "guB4eX8c3oG-soi_vMgTLg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "c4MOQygoGHJje5rQTjBF5Q",
             "severity_field": "attentiveness",
             "severity_value": "good",
@@ -19334,6 +20426,20 @@
             "review_id": "wsrBghsTUVkz8RgkTEy3dQ",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "tklBhBhyOm5k0sOQtualdg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "6BLN2mAhqaNJydssKaHZUQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -19454,8 +20560,15 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 33,
+        "n_incidents": 35,
         "incidents": [
+          {
+            "review_id": "rdf_L1kQQ-9yinx6A4UVyA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "z7etcJfnnUSx-kWVDydsHQ",
             "severity_field": "attentiveness",
@@ -19530,6 +20643,13 @@
             "review_id": "UWuCryPad942gYjbns3Udg",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "2ciQniDEepU03WtDWEjv3Q",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -19699,12 +20819,19 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 30,
+        "n_incidents": 31,
         "incidents": [
           {
             "review_id": "Z_fmhKe75ScFCkFZ8nl4oA",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "cOCJVbhr4phPgzcPjcTvzw",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -19923,7 +21050,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 23,
+        "n_incidents": 24,
         "incidents": [
           {
             "review_id": "j9hqlBFL5PBiXQVqUSf4aw",
@@ -19978,6 +21105,13 @@
             "review_id": "_3o0Fs6v5zPOn-nAR8TfGw",
             "severity_field": "attentiveness",
             "severity_value": "good",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "vVUxRNeWDAiMP4CNkowMHQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -20567,7 +21701,7 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_server_V1",
-        "n_incidents": 37,
+        "n_incidents": 38,
         "incidents": [
           {
             "review_id": "E2uxslWfGhHxP2F8mR47zA",
@@ -20636,6 +21770,13 @@
             "review_id": "Wy1x-bEj9AqtSxshk0HPjg",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "UO0gabDbnJxL1l2CdusxIQ",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -21155,12 +22296,19 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 33,
+        "n_incidents": 34,
         "incidents": [
           {
             "review_id": "pNi6b5A0VMxQOpLgLWTAdQ",
             "severity_field": "attentiveness",
             "severity_value": "poor",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "9XhTDbTLrYhd4vnpZWOKiA",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -21400,7 +22548,7 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_server_V1",
-        "n_incidents": 28,
+        "n_incidents": 29,
         "incidents": [
           {
             "review_id": "xr9oBz0pNwu2FSrD7agPTw",
@@ -21434,6 +22582,13 @@
             "review_id": "FIgKSyusDNwBkNtdB-GPbA",
             "severity_field": "attentiveness",
             "severity_value": "excellent",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "FaiVZMqgLqwEz7r2P3e6bg",
+            "severity_field": "attentiveness",
+            "severity_value": "absent",
             "account_type": "firsthand",
             "modifiers": []
           },

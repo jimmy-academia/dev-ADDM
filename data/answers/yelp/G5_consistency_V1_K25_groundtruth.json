@@ -3,7 +3,7 @@
   "topic": "G5_consistency",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-23T19:09:49.392978",
+  "computed_at": "2026-01-24T20:16:20.417203",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -15,8 +15,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "sZB3_H--A_2CqnTn_ujzXA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "s6IN-wqocfq5QoMOi5e7Eg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "-Tskf8WK17rb3ZfeFuRSWA": {
@@ -28,8 +43,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "fXNi_kvxvRGAhoKczf_2uw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "-dHx_X9BdXdU_Ep_j14prg",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ZSeQbybC81hXYgy_jK1bMw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "ny1N_Py01kVoGOvL9oKjMQ": {
@@ -41,8 +78,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "GYh3-rc5yIyWnLG_yIvzfw",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "sugFvrxc6rqeGn0iZxHPnw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "fjE_Tlj-O3hzzfk__Uedfw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "zljfjg_zTL3ceGi_Vr4OFw": {
@@ -54,8 +113,72 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 9,
+        "incidents": [
+          {
+            "review_id": "FLug-7XFX0mtpZwjjcES_g",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "xdzVQLj6toIksCORs74cZg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "_rHsFCLwuObdAhlEmnG5HA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "CT5FqTfK0mhiV55qIi_AGw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "oyZIZbHUxs4ESps7IvGbsw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "tj07liNxF9vFcNz7smc5Ng",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "aem2PS4JgxWM-TPnKkhTkw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Qz27Wj3PbgYy0KaX8vNFSA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "jJ4dZKa7W-VxFzQNz-AkvQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "SZU9c8V2GuREDN5KgyHFJw": {
@@ -67,8 +190,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "hp0dglg04iwgxn51mgX20w",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "gJuPxYGGT0TzlE5-mUVHWQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "q5X2Zr7IXZ33jBJ08yeHfg",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "L5LLN0RafiV1Z9cddzvuCw": {
@@ -93,8 +238,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "4jtqQsPsSXV8szHN5pAqLA",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "CXgswKlc8g7y3TWfyMOCPw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "dzqCymXAr0JGxG5vnM_NWA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "iSRTaT9WngzB8JJ2YKJUig": {
@@ -106,8 +273,16 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "GFID_703de5WTmaDLLpHVg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "oQdGhdjzz_HhTaC4VrtBLQ": {
@@ -119,8 +294,16 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "1_7AiDQHEn9-hZ4S64AAWA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "8XjxHeV66F4eoIy06rW0pA": {
@@ -132,8 +315,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "KXzWI4S8k6Ufotl_c-2Q9w",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "yhG7yLbvcZZjl6CV5Ghgiw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "zwBvdDWFQpYJE1UMDTlSyw": {
@@ -145,8 +343,16 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "DTLJQoEGcH4uKbSDqgSJxA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "cgd4udcCVzMfhJL_3W03Yw": {
@@ -171,8 +377,44 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "yR0C6ZS0MbRrJ0UzMNQ6IQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "7B610NDiV013m0Op9wt56Q",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "fV0_FDuuT4uCTS4gcE68Mw",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3wDx50h-ShsxzGEjrrIQsg",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "UcApIZDl9L_2XIaLk6-60Q",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "EP9K6qXOyHFq_0tp93wh9Q": {
@@ -184,8 +426,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "fYCLKg23-MTG2694UiidJA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "4dOjFlFCDqRzPSKOlEAcYA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "nIAbuktMEzVjT4P9pG89rQ": {
@@ -210,8 +467,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "JIMUO835j89bRgi2pcfVew",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "E8iOZq7hJwjVPc-MDte5VQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "aiNkkx3y0pxLsW-XJJlPEA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "99dN-202N0EzRqdaOA_eRQ": {
@@ -223,8 +502,23 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "sG3HDQzb-AYbUPC_LDTvMg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "tLEVKIdZOHho7f4Ybqvovg",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "r2bYRNrtMhv-ED2-cFZp6Q": {
@@ -236,8 +530,23 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "6ZvVeOvolRqGLK3x8mrisg",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "iFkRPnbhnngoAt0qCWd5xA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "8Vk_2t7hQI02IhpcRnfAIw": {
@@ -249,8 +558,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "wr4Jv6zNFdv6Xy_t1wQWZA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "98uCsSJPCdvI0yASo_2EtQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "vBNJN4w4UmnTL6tZ_oRkzg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "ChlcxTEoWBQJXJ2Xb2vm5g": {
@@ -262,8 +593,23 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "xOl4E3K7SwZIL1ahqkYesQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "D1qIJXFMbY9_bv071w8Jpw",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "iNiAJAtsbV5xOQGRtce-NQ": {
@@ -275,8 +621,16 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "yFsjTSxOzQ9WTUsht7b8Fg",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "ww3YJXu5c18aGZXWmm00qg": {
@@ -288,8 +642,16 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "opYnQ9-R6HvQYm0AZ0WSjA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "xtWIORPp-HG2LWtz5jQtiA": {
@@ -301,8 +663,58 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 7,
+        "incidents": [
+          {
+            "review_id": "_j2j4M7MWVF20f5dvyj9lw",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "eUUiwAc_V3AvN03jL4dlIw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "iClsz0cC47x2Wh336Y60Sg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "YcvISBbgnVVb4bmBtnPPzg",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3MN1erteCDd7C_pJnqfYeQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "MCyysfTaEbbp-cL8QJHUig",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "9p-9H2byIsC77RukisHlPg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "F7etLf6od7CUnCPknsQ-6Q": {
@@ -314,8 +726,44 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "77Ym_bBI7sLbFcStot7NVA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "jffpWbZjFiSZCPCLmtRidg",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "cQP_z3wJt2SdXYK0GEyCQg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "AbKuNE9NgoQAyxCl5iDJ0A",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "KrgYa0200Dy7RFcYse58pw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "8gY3LGFUMIQubovGbSd7Nw": {
@@ -327,8 +775,16 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "tpVO6i6rFx0dmIkePG_NnA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "ROcx9FXq206zfI77MGo1Yw": {
@@ -353,8 +809,79 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 10,
+        "incidents": [
+          {
+            "review_id": "mofqrY_IT7e4snKjsGNVBQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Mj8S8-jiSHmai5FyDtDNoA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "siK0R_Fcz5cT11XvfmC36A",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HMV7ajRU-1nzMUyhS9uJWQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "E7cUGNyg1t-wjxMrX0HwMg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "lYb9FgHFAvoZYyhrLuJOJA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "FarddIVguOXo7rzZP7NBNQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "h1bJqq3_8fZcyr003xRDoA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "XZjxP0q2R4DyN-MhtfgIEA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "vzRiQsHcJIBXC-JChvgsQA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "xwk_8nCLpolbdZpKcWicRA": {
@@ -366,8 +893,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "QD2PRNBr4UX0JHM6o7WbBg",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "rAsGDjiMGAuI4U_Xy0i-Fw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "Mm9zXIgMQMzgDt4GShSWrw": {
@@ -379,8 +921,86 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 11,
+        "incidents": [
+          {
+            "review_id": "lAHxARLu3OGMON8QY7AKAQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "YAmEXINBRHgEB6w3X4G1TA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "O2zp1AuD-JSDdPqPzzd49A",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "VwuQ2mqdvAQyZQAkhiE1TA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "pE3xZV6RyJrPl6vjgrkxcg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8FsxpJJ27c3bxaGrWMvKgQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "2QL8enMObj-Oy-U8WNz6jA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "znEB1kX8qUjlz6oTBhMyCA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Nsb2WwR8pD_D5KrXjCIP1w",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "CxqvKAIGVbegzi4eaERiFA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "N9r0gJRMMfPDzx5wPIN1GA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "IhN-DlnytNvnzCoTIwwfgQ": {
@@ -392,8 +1012,37 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "cMATz_NczgHQ5WhPcUdLiQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "17DQviu7DyWdOT5THZImfA",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "1OFY7tPLX1PoGGAXRMlS4g",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "qD2aN-lUVdMs9R-XVjsrbw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "gjCxTVItFxk46rCZ-YaiFA": {
@@ -444,8 +1093,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "cvqFNdwfXR4IJKVqr6tZvQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "YDm1Nr-JMCbjMH9GnB9OWQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "6_T2xzR74JqGCTPefAD8Tw": {
@@ -457,8 +1121,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "chgTrg7P9nkO-dLN6rXKdQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "VbS9z56qPAnP_YSP-S7SOg",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ceGN-TG7oa-phl9Yo_SgSw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "Mzmt8AvZOExG_4h3MMlihg": {
@@ -470,8 +1156,58 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 7,
+        "incidents": [
+          {
+            "review_id": "J6wfxHqnzvMn7xvBomIAbw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "H6pu12NtKMriV65yPycEhQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "997UmUKfGFeeCs2Dmb0L2A",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "RG7pEUZu_wXmw2N85crtgQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "1aG_h28r2ZzJ8KoparFtrw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "acgehWgiTD2gdhRDx0DDnA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "5Ep2UrwsMwbrf6EWjZC9vQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "1bJxvwuMTyXmQGu90WLPhA": {
@@ -483,8 +1219,79 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 10,
+        "incidents": [
+          {
+            "review_id": "oZh510Y4LWcRNtZfej4_XQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "2SYot6bLdkeSPTAYZefo_g",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "66N92iwN-SDBd_S6j9tdiQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ekoZ9VUN11g6DvHhKfWdxg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "imZRMNp1DDuClvfu_7ANcw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "mQ3Q2NOJ5AXj6YQTgRhObg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "PANi5-LXQHbxJo_NemAIxA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "z4DwbXFjT3NtZiFUdydC0Q",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "jAdG213pLi5RUu_pPU09eQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "qkaKGrjsUE34SAvFEq-Xnw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "GBTPC53ZrG1ZBY3DT8Mbcw": {
@@ -496,8 +1303,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "apMnceMy1GtpC5FlAV4faw",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "iwyncD_MPumZA0VHjEBEsw",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "S0dQ8Vks0IR-PZPLoBHKRA": {
@@ -509,8 +1331,65 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 8,
+        "incidents": [
+          {
+            "review_id": "msWw5i0v02kNyy6p78k8_w",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "kDHuuN8FAOhb0KqI1QkckQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "By_6MUh-8-Db6DHBT_2Q6w",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "mabXQOeJwP3BXHM8VTTUug",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "nmOkiQGEJ8LVLYfXLFicFg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "w7UWo9orNCs2SZG17LRQvQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "4OFuw_hJj07axCcNlyS5tA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "YhJNmh3UJ4X6j-FZyLiDYg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "eCikDKFbaeYVNdCD2beX0Q": {
@@ -522,8 +1401,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "8j3jDpHntyIeF1FepE-MTQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "X0-d-g_ZOWy9iPbcgS08Ng",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "kdZpgsINn6D3SpqKs7K4jw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "TbjqvdrSBm27arbKbReRfg": {
@@ -535,8 +1436,37 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "WQZTfg9iOFFB_Vo_ZvPArw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "tcRuyLgqDcJCQ1PfLzB8Ew",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "1Qzpw9aa5B1p_1z3aggMMg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ll7NcasRm8Oq2IWDoqEhIg",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "yT3Qs8rz82wqhKFlfWr1Lg": {
@@ -548,8 +1478,51 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 6,
+        "incidents": [
+          {
+            "review_id": "rK_nhLIeGIInwl4vdy5eyg",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "dtOG_6BLEgWQTRzwV6IYZQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ebg-_yB_IRAnWPTZd-HPhQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "H0KsQJ-RfoIlJadGksrckg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "198kcRMaApyx1oqW0j22OQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "w-wQ6J2Ekffzcwoagj8eYQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "ewaaXBGXMGluuTGXOnTkRg": {
@@ -561,8 +1534,65 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 8,
+        "incidents": [
+          {
+            "review_id": "FlbN5hsrJYfzzZILYU0WaA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "elLQua2rVCUqqFZ2_HpIgw",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "uH_XDW2LmqWAptmZwOhExg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "5Wms3iWix1hgaAbs_QN4Pg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8AR3af2VjmKn1Hs2IL6_nQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Gi1S7snrk6jlXlEcC_xPNw",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "h_32ud2RKm0v0PzHPB9zSA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "SO-nz2iVsma_-JEX9WEtlQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "yksAB6aQXfNRrZM0jTxyOA": {
@@ -574,8 +1604,58 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 7,
+        "incidents": [
+          {
+            "review_id": "UKJyYPyxjOA182PrX4KouQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "w3kRZT0HNEVmbPn3g1QAhQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DYesyaAjy5_wx4z17q6JyQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "7A8Pmuts0eCSLB4gjqlW0g",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "9QZ_2Q2r7lXuoSxUzAUl8w",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "JVlURcOGmNsmf2nyIcGv5g",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "QkD9KbSR89BG9fBMtVaImA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "_1JmbxhyiTXO_CDytQTkgA": {
@@ -587,8 +1667,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "FjyLecg6DvC_MdoC4gfWWg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "0zL-WGYOWMbJKGD5ukHwSQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "MJ9FaB4y2jCyn1CU7Fnj2Q": {
@@ -600,8 +1695,37 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "17OMBDDrMxdC7Lmy0HGl1A",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "m3fhEh9zN-jE-gllCnrWIw",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "cpZLCl1me1aEwa5FoXmmAQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "vajTfG2CQ8MHB64pR3ZsOA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "lVAjWGOqyZOFHMEw5NLt9g": {
@@ -613,8 +1737,58 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 7,
+        "incidents": [
+          {
+            "review_id": "2hqG212BpvOpzx5xh-pS2w",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "LZhh5uvjAWKsToYsKwiFPw",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "xg8aeSx4nGYIoctgaQ4U1w",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "OgY2ayjVM2ONLu8Lwd3Now",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DrmnTgl-7LrahegQ7nFP0Q",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "GdmJJ8O9rDgZrOC6sQ47cA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "6MoOpqIixO12rSnhY3DfCQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "XrikSy0DQ_fhVCaRRBJI-g": {
@@ -626,8 +1800,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "WP8sJYWInSwtZk8sTJsegA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "462FsWR5lyir4gMAnF3F2A",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "jbJTF1zVmZsk4hea8hoeVA": {
@@ -639,8 +1828,37 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "UfJBp1LaP3cbyFlOTqJ4DQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "c1qBIKxGEJBYKhOjhu4BlQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Agb4MMrNL_R903eStCdoew",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "77E_ASStdYIr5q2GgeuWBg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "RQTRnBmDXXNWiM1-1LEqWg": {
@@ -652,8 +1870,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "YfIwL6HlvZEXJq0hZLzQaQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "XvPqzopJ_4lhQMeogpLLhg",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "gVuzYJvei8rVDCLmhWBZ2Q": {
@@ -665,8 +1898,79 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 10,
+        "incidents": [
+          {
+            "review_id": "j8E3-MmsQi2eqwsiA1-H5Q",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Ud_zFRpsmPSgJRpi26xtGA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "oo5053J3YVHtvslA-7ymHA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "NCuDFhxNVKuAInuZQZTT6A",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "LeXX-m9uaUpRcKOWSs4ufA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "g6qolKBdRBq2yyvc7Ac7Kw",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "hnxOjW3Fbp9YIVrqllM7nw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Svv4rkDAltccNkPHmA7bAg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "TLs7SxnbyPvOt49Nf6HeZg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "hWNlileKZLZNCUr5KbCBFg",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "kK-pcrXr3CEnWP-ci7XXgw": {
@@ -678,8 +1982,16 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "Ft0Ey2KtdraPAvzdpb4bBg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "tV46IhCfHbsx_af-pMupiw": {
@@ -691,8 +2003,16 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "lb-4TTqUVm1cHQ3bAwDUHQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "caSFK6m6kbifsD9ZF7bCNw": {
@@ -704,8 +2024,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "59PEgbHK6cP1HdxeH9SL9Q",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "1jhRwbJ-gJzIDISXeRl2fw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "XVZiFcRapdN8UGFqjCmJ8g",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "DcBLYSvOuWcNReolRVr12A": {
@@ -717,8 +2059,16 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "Car28zE-QXLUDX2crCJxNg",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "6OC8ErU_m06KABnfSXTJEA": {
@@ -730,8 +2080,16 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "2TZXowwTTB81WIeAnb0zMA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "gebiRewfieSdtt17PTW6Zg": {
@@ -743,8 +2101,37 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "C9cYCMFmjml5CtDtNdHv4A",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "j7zT_HGN2OqQdBpJsn_QVA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "MnzbbENkUgjBvYqdxoS8QA",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "rgByCzzwWs66804sKpHDjw",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "GeLwhGlX8XsIsH-o3Wdc5w": {
@@ -756,8 +2143,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "I_ewkPq8dsu5MHjiFOSrjw",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "qfwpNGiQ77XdfKv52nSVnw",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "GmXC3CBu172Bkb0c6RnO7w": {
@@ -769,8 +2171,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "50Uh091gyniUV6fSHT2trw",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ra4aruIPMkVg8OLbUPni3g",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "QAlWB_JXJNQyg-kqAK_Ciw": {
@@ -782,8 +2199,23 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "SLq1WBDpBWQqL8r_E6VcOw",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "53DJJqQ3BndlD3-VExDIYA",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "Ps7Q7BOKzJO4nDTUhbk43Q": {
@@ -795,8 +2227,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "8xDf3athukK3IW39J3u8Yw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "opyVbC4bcLhEChTRLMzyXw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "IxlIgLbIbynzJdzeqO860Q": {
@@ -808,8 +2255,16 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "Tk6GluVd2nsu7XLbglhysw",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "qqtGFnjyZWV--_YqabSb8A": {
@@ -821,8 +2276,44 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "FTZQfioEHANTpeykng401w",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "a0ICINLmnclxV2kVrRLG6Q",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "xXYK8wjeP5bvhx1fKUj5fQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ZlQE5600W4Xpcdv6pRDEQg",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8pPV92OLcm8pFa4QLkHWoQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "eZCt3doDaA-l4sg_OM67YQ": {
@@ -834,8 +2325,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "UxMxoFA9sqo4oJVH_G0wHA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HUHWsmt4ZK7om0-96pb_2Q",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "6IqkreQrec3ZiHqlj8rdZQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "sf-KdXHB5nxfNjl2uUpI6Q": {
@@ -847,8 +2360,37 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "ddLSGsrlR0mjtbda6T5GeQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "At0KNRwo4GQhognK7rOPNA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "bfyDaekhZAiXACUBblsxsQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "6xCuRLzyGzrVIwesudvDfQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "6ajnOk0GcY9xbb5Ocaw8Gw": {
@@ -860,8 +2402,16 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "qQ-Eusi1k7tZiXeRQYltHA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "ac1AeYqs8Z4_e2X5M3if2A": {
@@ -873,8 +2423,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "0s6ngEsSL8Eoqr5RckSTGw",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "pYWGh05y84O7BwzMkL2S8g",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "gKS0fS91JQOOTICdc2ZvFw": {
@@ -886,8 +2451,51 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 6,
+        "incidents": [
+          {
+            "review_id": "3_zMSsdB8byzZmOxQkFlJg",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "qBoHiICAGhAWyCBnM6tDdA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HTMCLLJBRiX3pMTeLUcRUg",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HpkpInf0faYuxB8S5W1okA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "2NYQPtfqRPiXvSwCH2_cNg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "kyN3morGIRS3iqyHp_jNGA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "73ZXjIfdHJs59XOzKHQ45g": {
@@ -912,8 +2520,79 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 10,
+        "incidents": [
+          {
+            "review_id": "P_lO54d-n-K1-puRRMCgyQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "qwPJ6EHKA3R23iahSQ6CoA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Kz_6W2fyKpnq17Q3WcpFng",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8xK-cXCFUrKsNEf5ZjCZLA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "olfkRSFBgzeUQZ_SVTsUZQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "h_-CQejjjr7I338jM3UMKQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ridD_kyOXV9bkC3rn-16Aw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "JfsJ5gpFvr3HIDPhp8NHpw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "We-Xm2nwQs0vutN8eM92Hg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "6Gd1TZLwc-fRPUW80IKfSA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "unjm4rIGc-ZzRxdzEPnc1g": {
@@ -925,8 +2604,72 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 9,
+        "incidents": [
+          {
+            "review_id": "ySEVX2BAtlep_Zw16NOdgQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HqCeItBHJL3yt1eONha27w",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "xf6D0pMMQM3XpSwc1hQb3g",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "mtU3Lsr6L6PywK0uosYglw",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "6guMEAgjurx9h-RrJv5F-A",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "lGmxyMizGdPgK7sirUhTMg",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HYLZr6DhT2Be3FS6sCLjug",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "wA5GKuMLMFveWpAmoMRxOw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "KhZ0GHG6hVt4byKlHWzFMA",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "05ev984NYfimRN0UiFrxaA": {
@@ -938,8 +2681,44 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "Po4kfZI3_WVYp4Oz6J9vvA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "4lTZZFrm5ilRvu7rA16EUA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "KVrdpyyD6ThcGooFglI3bg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "vHScuw24h53SqMiwXfNRBg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "frXAHuDtHlRG3HfVDUm04g",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "CCnuyfb1nd-doEpkj0OoHg": {
@@ -951,8 +2730,58 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 7,
+        "incidents": [
+          {
+            "review_id": "ujI-CjN8Z5qC7uyqvL_rSg",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "klqLptr_ma7Y7MpRC32cgw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "A3SVkYtHWbpujsATD8Qmcw",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "fBkJrzmZox0YeVJa6ZjWIA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "v6GhARCDgqk5iFsPtlwAsQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "g6uud_8Dkv1zk3E5PVbFQQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "aINuVl9CgEtwTSZC66_lnw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "ctHjyadbDQAtUFfkcAFEHw": {
@@ -964,8 +2793,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "DIuMZAmKW8UrDYFB5OWaPg",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "oaxk3GZK7YIklKL9ldEtxg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "B_q2xoAgTyn6U4YNEc3kSw": {
@@ -977,8 +2821,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "31tqC_wsjW7EKh_OvkPO4w",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "hVmbRnxR3N4R8eOv-wEpWA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "6LyhttbsQn6a6PDxQDojCw": {
@@ -990,8 +2849,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "RkgXUSenhgrorIDLSTacbg",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3zReV2npzsdfhXyQJkIIyQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "LIHDIAocngz5Loe04eQ_oA": {
@@ -1003,8 +2877,51 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 6,
+        "incidents": [
+          {
+            "review_id": "-TTqJ6ojod2BCIQCB921cw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "wCTLWWSQL8tQaX5lJkd7oA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "057jH-x6UdIgWsz9PeigAw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "oRUXyBzQT16wZuEJ8I_5xg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "iTlAloxt4Mk4V8TJ0MUwYg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "azokJnA7jxDkKZfg9bk86g",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "DvBdqAA3XleMaOMwBl7g4g": {
@@ -1016,8 +2933,44 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "mJO7ytMfrqyQM-_7C7sKbA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "JD96Z0twk4DkMoWIfpXKjg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "spH6m0sGHk2lgadEkgwiKg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "CB4s8EByBtrFbmRXzETRzQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "V0vbSD-d5MQZkhRcNrnD9A",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "1vPSY4EA-fTRIZYz1Ruzow": {
@@ -1029,8 +2982,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "_7TS-hqyY1nSEFGD5Kf0uw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "A1Z-O41z4f0MNgaOp1jDHA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "QvB0NRTGDplwnfPZGq8chw": {
@@ -1042,8 +3010,44 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "lIbTN00MIP3YnOZqGvsFwg",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "CVx5fFr9Ko2yKxRfSn0h1A",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "QTjf1ZriiIvvi9O3agQa3g",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "AyWdKlG6UzVVRHe1RzQEiw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "TzjiSpC-fBdyeYDUAUWg5A",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "18eWJFJbXyR9j_5xfcRLYA": {
@@ -1055,8 +3059,23 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "6uWzaKULP9xWolk6nPADPQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "C4HwBM6Ld_QZSKE8Wq8uEw",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "Fc_8eLlcq5yy4DzrEeqEaQ": {
@@ -1068,8 +3087,23 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "zlDHP2AJh2TmzMVXyzPbsA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HNQ02ftDrE3ApVAbEC4D4g",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "HDnaNdHEZpQMYXo-ZHHG9g": {
@@ -1081,8 +3115,65 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 8,
+        "incidents": [
+          {
+            "review_id": "Swwd98GB2R5ZeFd3_Zb9QA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "oCmDerHEg_P-tuz2x6TWqQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "sUML10Pm8vef8gW2Cupg9A",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3aTiVG4_7YazFd33IVyBQA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "cLQfZI8FNlK62jyKgUMymA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "1087ZqQAXVOGVuyKqD22cg",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "E9K304kjjE-ZJr1z9WScDA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "9X7I14SE2Cvn8c04B8mV4A",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "ws7z5fLdaVgwxZ9ex3cKxw": {
@@ -1094,8 +3185,65 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 8,
+        "incidents": [
+          {
+            "review_id": "96JiNWWZUr7OgF_BL2Gd9Q",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Bo-hQKEkQ-OQP8O5XzXs-g",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "kZ_Y-2VKAPsHSTC5bLpl7w",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "dBnpd2o3AVuby2h7T6zvzw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "CVUBd_gHilTKmfvvNpRKhg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "lCOOtDs6wwWcw0b-9HjyTw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "yxlmQjEoHY4m17ewkTjMyw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "B6EFOyqNqSJ0hIzeers7xQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "9PZxjhTIU7OgPIzuGi89Ew": {
@@ -1107,8 +3255,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "kWKb51aL5EsoqcfNy5X4vw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "-GTnn4Gs2hnLXw5wumc6xw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "dsfRniRgfbDjC8os848B6A": {
@@ -1120,8 +3283,44 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "NZwG3f689o0CDupgD4ZwjQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3j-qEtWsA4wf2iMUb23F-g",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "qz-csYJvKSdZVJWqliJCXw",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "5Gdh-_CjKvR1OvyjJAZx-Q",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "cR0W6iFQtPYkCBFoivbmIA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "JrG4NINLspXPNhSXg7Q07Q": {
@@ -1133,8 +3332,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "ZD7KxGpVL_fmOYKo0xvWfg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "YDHQRkTpMiTBh3BO9JKcGA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "mbzBcAAR1Hx4G2jWRxJRew": {
@@ -1146,8 +3360,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "7Y4a51eaoa8dBUG57KFsMw",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HGZuTsbh9nqWmgLuUVsAhQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DH0mKnoHDId31cQmVvVPtQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "cM3C8AT3IhOIM4ccBofuSg": {
@@ -1159,8 +3395,44 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "yJPYoWc0gS8QvC0FvKirxQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "MzLDPpInPwrjm8uN9gisRA",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "_--Vslyyb8TaAmute9MFDA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "rltZ_iKgzbbsvp_jHaXwbQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "mmqrZOTiH3xqeqF3sBTIew",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "i_FWONQD1ZBqrNE2b-M5Ug": {
@@ -1198,8 +3470,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "M7AMt3Bomc5apwa90OWNvQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "-OUMQeXQdYsSPX7KdLjHzw",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "CFjQ7Rld0ddZFTi8Ryc5Kw": {
@@ -1211,8 +3498,37 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "AO_vOy1TOhJ_S3ntgQzLYQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HF0VUuAFd8h0Htc6I7YpqA",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ijCXRGJjpkk6C10-dvN6oA",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "w0lWZcvOZ3MUpLJ-l0mRUw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "D16LyrKmQ0Cs8NQQkFZD6A": {
@@ -1224,8 +3540,44 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "j9hqlBFL5PBiXQVqUSf4aw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3koPRcTy07JZLiuGXWM3og",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "9WpXTlWxEPCfCTeRsGRV-w",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "iAvHSYrYS_nhvnpcdiXEvQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "WzlXooTqtbznPUq8mTLylA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "9z2z_y0JK1F2CC5MAPuzrg": {
@@ -1237,8 +3589,44 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "0sehF7nnFGpfH3mYUOHu6Q",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8ECR_r9HT2loycrDH8BtRA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "gSd1ZFhWwYgYi0sSZcLGhw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "gwYS-bzYPqDsR5-Q6z5LYw",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "PXNpSu4I2roKrD27fBxIOA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "2CDI713ATuxHfnB5b-sBdw": {
@@ -1250,8 +3638,16 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "wUNTZvTfkDjKUhXw6EAvHg",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "VpeqnfECjFNcYLyDxuc-_w": {
@@ -1263,8 +3659,37 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "UgRtHz6GMHlNj4hxbWF3YA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "i7rF7A51Hn5zrcE_emAxXw",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "XRqFFWjLiMhfVCHDcW2qow",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "2wgZQf5RaZoulLiA2GGs2A",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "2MAQeAqmD8enCT2ZYqUgIQ": {
@@ -1276,8 +3701,58 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 7,
+        "incidents": [
+          {
+            "review_id": "Mr0EFPk-bV5YCLWcJHWnhg",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "JkKHSmBONcWwTfZc8WogeA",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "qc-e0xmD1qekdZ0DB7J7ng",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "JMuwJWJIPpt1fBfZNRXNow",
+            "severity_field": "visit_comparison",
+            "severity_value": "much_worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "YsjkRj8Fd8opQt-cSdU5jA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "pTFa8vK4lXXaAW4DZzR74Q",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "gBSHTwjVrOBm3F_uattSjQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "better",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "fdez0D4ovth2k1IvR0ZbpQ": {
@@ -1289,8 +3764,23 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "eIHLM_6rWWPUhVvP1PmcYQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "midtbwYbAFvjcZlGxiX2NQ",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "kZ1q0K13tFYG_ZJrVvsJHA": {
@@ -1302,8 +3792,16 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G5_consistency_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "euFZLs98-bnxTdmJyuxBFA",
+            "severity_field": "visit_comparison",
+            "severity_value": "worse",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     }
   },

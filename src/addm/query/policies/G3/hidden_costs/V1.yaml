@@ -1,8 +1,7 @@
-# G3_hidden_costs_V1: Hidden Costs with Override Triggers
-# V1 = Extended: Multiple conditions per verdict (ANY triggers)
+# G3_hidden_costs_V1: Base Hidden Costs Risk Assessment
+# V1 = Base: Simple per-instance reasoning, basic thresholds
 
-policy_id: "G3_hidden_costs_V1"
-extends: "G3_hidden_costs_V0"
+policy_id: G3_hidden_costs_V1
 version: "1.0"
 
 # === OVERVIEW (generates Overview section) ===
@@ -36,10 +35,9 @@ normative:
   # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Low Risk", "High Risk", "Critical Risk"]
-    ordered: true
+    ordered: true  # Higher = worse
 
     rules:
-      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Critical Risk"
         label: "CRITICAL"
         logic: ANY
@@ -91,9 +89,9 @@ normative:
         label: "LOW"
         default: true
         especially_when:
-          - "No mentions of hidden charges"
-          - "Fees are clearly disclosed upfront"
-          - "Transparent pricing praised"
+          - "No mentions of unexpected charges"
+          - "Any fees are clearly disclosed"
+          - "Billing is transparent and straightforward"
 
   # Output format
   output:

@@ -2,7 +2,7 @@
 CLI: Compute ground truth from cached judgments.
 
 Usage:
-    # Compute GT for a topic (all V0-V3 variants)
+    # Compute GT for a topic (all V1-V4 variants)
     python -m addm.tasks.cli.compute_gt --topic G1_allergy
 
     # Compute GT for ALL policies (default)
@@ -294,17 +294,17 @@ def main() -> None:
     target_group.add_argument(
         "--topic",
         type=str,
-        help="Topic (e.g., G1_allergy) - computes all V0-V3 variants for K=25,50,100,200",
+        help="Topic (e.g., G1_allergy) - computes all V1-V4 variants for K=25,50,100,200",
     )
     target_group.add_argument(
         "--group",
         type=str,
-        help="Group (e.g., G1) - computes all topics × V0-V3 variants (12 policies)",
+        help="Group (e.g., G1) - computes all topics × V1-V4 variants (12 policies)",
     )
     target_group.add_argument(
         "--policy",
         type=str,
-        help="Policy ID(s), comma-separated (e.g., G1_allergy_V2 or G1_allergy_V0,V1,V2,V3)",
+        help="Policy ID(s), comma-separated (e.g., G1_allergy_V2 or G1_allergy_V1,V2,V3,V4)",
     )
     target_group.add_argument(
         "--all", action="store_true", help="Compute GT for ALL policies (72 total) - default"

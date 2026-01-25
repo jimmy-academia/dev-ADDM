@@ -1,8 +1,7 @@
-# G3_price_worth_V1: Price-Worth with Override Triggers
-# V1 = Extended: Multiple conditions per verdict (ANY triggers)
+# G3_price_worth_V1: Base Price-Worth Value Assessment
+# V1 = Base: Simple per-instance reasoning, basic thresholds
 
-policy_id: "G3_price_worth_V1"
-extends: "G3_price_worth_V0"
+policy_id: G3_price_worth_V1
 version: "1.0"
 
 # === OVERVIEW (generates Overview section) ===
@@ -36,15 +35,13 @@ normative:
   # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Poor Value", "Fair Value", "Good Value"]
-    ordered: true
+    ordered: true  # Higher = better value
 
     rules:
-      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Good Value"
         label: "GOOD"
         logic: ANY
         conditions:
-          # V0 conditions (same thresholds)
           - text: "70 or more reviews describe excellent value for money"
             type: count_threshold
             filter:
@@ -72,58 +69,48 @@ normative:
               25: 2
               50: 4
               100: 8
-          # V1 additional conditions
-          - text: "5 or more reviews describe price as a steal"
-            type: count_threshold
-            filter:
-              price_perception: steal
-            min_count: 5
-            min_count_by_k:
-              25: 1
-              50: 2
-              100: 3
 
       - verdict: "Poor Value"
         label: "POOR"
         precondition: "Good Value does not apply"
         logic: ANY
         conditions:
-          # V0 conditions (same thresholds)
           - text: "40 or more reviews describe it as overpriced or a 'ripoff'"
             type: count_threshold
             filter:
               price_perception: overpriced
             min_count: 40
+            min_count_by_k:
+              25: 5
+              50: 10
+              100: 20
           - text: "10 or more reviews criticize small portions relative to price"
             type: count_threshold
             filter:
               portion_size: small
             min_count: 10
+            min_count_by_k:
+              25: 1
+              50: 3
+              100: 5
           - text: "40 or more reviews mention not returning due to poor value"
             type: count_threshold
             filter:
               return_intent: no
               quality_for_price: poor
             min_count: 40
-          # V1 additional conditions
-          - text: "5 or more reviews describe price as ripoff"
-            type: count_threshold
-            filter:
-              price_perception: ripoff
-            min_count: 5
-          - text: "5 or more reviews describe portion as tiny"
-            type: count_threshold
-            filter:
-              portion_size: tiny
-            min_count: 5
+            min_count_by_k:
+              25: 5
+              50: 10
+              100: 20
 
       - verdict: "Fair Value"
         label: "FAIR"
         default: true
         especially_when:
-          - "Prices match quality and expectations"
-          - "Standard for the cuisine or neighborhood"
-          - "Some dishes are good value, others less so"
+          - "Prices described as reasonable for the area/cuisine"
+          - "You get what you pay for"
+          - "Mixed reviews about value"
 
   # Output format
   output:

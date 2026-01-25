@@ -17,7 +17,7 @@ Additional modifiers:
 {% endif %}
 {% if recency_rules %}
 
-Recency weighting:
+Recency weighting (reference date: {{ reference_date | default('2022-01-01') }}):
 {% for rule in recency_rules %}
 - {{ rule.age }}: {{ rule.weight }}
 {% endfor %}

@@ -4,29 +4,29 @@
 
 ```bash
 # Default: benchmark mode (quota-controlled)
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V3 -n 100
 
 # Dev mode (no quota, saves to results/dev/)
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --dev
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V3 -n 5 --dev
 
 # Force run even if quota is met
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100 --force
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V3 -n 100 --force
 
 # Specific method
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 1 --method rlm
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V3 -n 1 --method rlm
 
 # AMOS Phase Control
 # Phase 1 only: generate Formula Seed
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 --phase 1 --method amos --dev
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V3 --phase 1 --method amos --dev
 
 # Phase 2 only: use pre-generated seed (file path)
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 --phase 2 --seed path/to/G1_allergy_V2.json -n 5 --method amos --dev
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V3 --phase 2 --seed path/to/G1_allergy_V3.json -n 5 --method amos --dev
 
 # Phase 2 with seed directory (auto-finds {policy_id}.json)
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 --phase 2 --seed results/dev/seeds/ -n 5 --method amos --dev
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V3 --phase 2 --seed results/dev/seeds/ -n 5 --method amos --dev
 
 # Batch mode (24hr async)
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100 --mode batch
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V3 -n 100 --mode batch
 
 # Legacy task ID (still works)
 .venv/bin/python -m addm.tasks.cli.run_experiment --task G1a -n 5
@@ -39,7 +39,7 @@
 .venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode batch
 
 # Step 2: Compute GT from extractions
-.venv/bin/python -m addm.tasks.cli.compute_gt --policy G1_allergy_V2 --k 200
+.venv/bin/python -m addm.tasks.cli.compute_gt --policy G1_allergy_V3 --k 200
 
 # All 72 policies at once
 .venv/bin/python -m addm.tasks.cli.compute_gt --k 200
@@ -52,7 +52,7 @@
 .venv/bin/python -m addm.query.cli.generate
 
 # Generate single policy
-.venv/bin/python -m addm.query.cli.generate --policy G1/allergy/V2
+.venv/bin/python -m addm.query.cli.generate --policy G1/allergy/V3
 ```
 
 ## Useful Flags

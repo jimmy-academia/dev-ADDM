@@ -5,4 +5,4 @@ Do not hard code, do not leak test data in prompt
 
 Don’t fix failures by tweaking prompt wording or adding benchmark-specific hints (e.g., “be extra careful about secondhand allergy cases” or “remember the threshold is usually 2”), because that is behavioral overfitting. Do fix failures by tightening the specification (e.g., require account_type ∈ {firsthand, secondhand, hypothetical}, validate evidence IDs against the input, and compute rule thresholds deterministically in code). Don’t rely on the model to “usually follow the rules.” Do enforce constraints so invalid outputs are rejected or abstained, making errors explicit and measurable.
 
-
+make sure your implementation and revision creates genuine and generalizable method that does not hard-code or over fit to the test

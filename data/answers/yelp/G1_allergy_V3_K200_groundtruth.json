@@ -3,7 +3,7 @@
   "topic": "G1_allergy",
   "domain": "yelp",
   "k": 200,
-  "computed_at": "2026-01-23T19:35:24.185459",
+  "computed_at": "2026-01-24T20:00:55.049409",
   "has_scoring": true,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -304,8 +304,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 3,
+        "verdict": "High Risk",
+        "score": 4,
         "n_incidents": 2,
         "incidents": [
           {
@@ -327,8 +327,8 @@
             "base_points": 2,
             "modifiers": [],
             "total_points": 2,
-            "recency_weight": 0.5,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 2
           }
         ],
         "cuisine_modifier": false,
@@ -356,7 +356,7 @@
       "n_judgments": 200,
       "ground_truth": {
         "verdict": "Low Risk",
-        "score": 0,
+        "score": 2,
         "n_incidents": 1,
         "incidents": [
           {
@@ -367,8 +367,8 @@
             "base_points": 2,
             "modifiers": [],
             "total_points": 2,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": 2
           }
         ],
         "cuisine_modifier": false,
@@ -381,8 +381,8 @@
       "n_reviews": 143,
       "n_judgments": 143,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 3,
+        "verdict": "Critical Risk",
+        "score": 15,
         "n_incidents": 1,
         "incidents": [
           {
@@ -393,8 +393,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": false,
@@ -687,8 +687,8 @@
       "n_reviews": 199,
       "n_judgments": 199,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 2,
+        "verdict": "High Risk",
+        "score": 5,
         "n_incidents": 1,
         "incidents": [
           {
@@ -699,8 +699,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -880,7 +880,7 @@
       "n_judgments": 200,
       "ground_truth": {
         "verdict": "High Risk",
-        "score": 4,
+        "score": 6,
         "n_incidents": 3,
         "incidents": [
           {
@@ -913,8 +913,8 @@
             "base_points": 2,
             "modifiers": [],
             "total_points": 2,
-            "recency_weight": 0.25,
-            "weighted_points": 0
+            "recency_weight": 1.0,
+            "weighted_points": 2
           }
         ],
         "cuisine_modifier": false,
@@ -1026,7 +1026,7 @@
       "n_judgments": 200,
       "ground_truth": {
         "verdict": "Critical Risk",
-        "score": 12,
+        "score": 24,
         "n_incidents": 3,
         "incidents": [
           {
@@ -1039,8 +1039,8 @@
               "Dismissive staff"
             ],
             "total_points": 8,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 8
           },
           {
             "review_id": "JTeR9wzcNH5dzClfgtCOmA",
@@ -1052,8 +1052,8 @@
               "Dismissive staff"
             ],
             "total_points": 8,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 8
           },
           {
             "review_id": "tbm6wNuN89MQGl4B2h5qrQ",
@@ -1065,8 +1065,8 @@
               "Dismissive staff"
             ],
             "total_points": 8,
-            "recency_weight": 0.5,
-            "weighted_points": 4
+            "recency_weight": 1.0,
+            "weighted_points": 8
           }
         ],
         "cuisine_modifier": false,
@@ -1163,8 +1163,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 2,
+        "verdict": "High Risk",
+        "score": 5,
         "n_incidents": 1,
         "incidents": [
           {
@@ -1175,8 +1175,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -1217,8 +1217,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "High Risk",
-        "score": 5,
+        "verdict": "Critical Risk",
+        "score": 17,
         "n_incidents": 1,
         "incidents": [
           {
@@ -1229,8 +1229,8 @@
             "base_points": 15,
             "modifiers": [],
             "total_points": 15,
-            "recency_weight": 0.25,
-            "weighted_points": 3
+            "recency_weight": 1.0,
+            "weighted_points": 15
           }
         ],
         "cuisine_modifier": true,
@@ -1257,8 +1257,8 @@
       "n_reviews": 200,
       "n_judgments": 200,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 1,
+        "verdict": "High Risk",
+        "score": 5,
         "n_incidents": 1,
         "incidents": [
           {
@@ -1271,8 +1271,8 @@
               "Dismissive staff"
             ],
             "total_points": 5,
-            "recency_weight": 0.25,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -1412,7 +1412,7 @@
       "n_judgments": 200,
       "ground_truth": {
         "verdict": "Critical Risk",
-        "score": 8,
+        "score": 9,
         "n_incidents": 2,
         "incidents": [
           {
@@ -1436,8 +1436,8 @@
             "base_points": 2,
             "modifiers": [],
             "total_points": 2,
-            "recency_weight": 0.5,
-            "weighted_points": 1
+            "recency_weight": 1.0,
+            "weighted_points": 2
           }
         ],
         "cuisine_modifier": false,
@@ -1450,8 +1450,8 @@
       "n_reviews": 173,
       "n_judgments": 173,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 2,
+        "verdict": "Critical Risk",
+        "score": 10,
         "n_incidents": 1,
         "incidents": [
           {
@@ -1464,8 +1464,8 @@
               "False assurance"
             ],
             "total_points": 10,
-            "recency_weight": 0.25,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 10
           }
         ],
         "cuisine_modifier": false,
@@ -1520,8 +1520,8 @@
       "n_reviews": 165,
       "n_judgments": 165,
       "ground_truth": {
-        "verdict": "Low Risk",
-        "score": 2,
+        "verdict": "High Risk",
+        "score": 5,
         "n_incidents": 1,
         "incidents": [
           {
@@ -1532,8 +1532,8 @@
             "base_points": 5,
             "modifiers": [],
             "total_points": 5,
-            "recency_weight": 0.5,
-            "weighted_points": 2
+            "recency_weight": 1.0,
+            "weighted_points": 5
           }
         ],
         "cuisine_modifier": false,
@@ -1668,9 +1668,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Low Risk": 93,
-      "High Risk": 3,
-      "Critical Risk": 4
+      "Low Risk": 86,
+      "High Risk": 7,
+      "Critical Risk": 7
     },
     "missing_judgments": 0
   }

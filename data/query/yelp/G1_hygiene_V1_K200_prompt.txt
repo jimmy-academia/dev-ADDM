@@ -54,30 +54,19 @@ Whether the reviewer or their party got sick
 - **False**: No illness reported
 - **Unknown**: Unclear from the review
 
-### Staff Response
-How staff responded when the concern was raised
-
-- **Accommodated**: Staff took the concern seriously and successfully accommodated (ingredient check, substitution, separate preparation, clear warnings)
-- **Refused**: Staff stated they could not or would not accommodate
-- **Dismissive**: Staff minimized the concern or did not take it seriously
-- **Not described**: No staff interaction about the concern is described
-- **Unknown**: Unclear from the review
-
 
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- 2 or more reviews report food poisoning or illness
-- 2 or more reviews report pest sightings (roaches, rodents)
-- 1 or more severe hygiene issue reported
+- 2 or more reviews report food poisoning or illness [filter: illness_reported=True, account_type=firsthand]
+- 2 or more reviews report pest sightings (roaches, rodents) [filter: issue_type=['pest', 'rodent', 'roach'], account_type=firsthand]
 
 **High Risk** if Critical Risk does not apply, but any of the following is true:
-- 2 or more reviews describe major cleanliness issues
-- At least 1 review reports food poisoning
-- 2 or more reviews describe hair or foreign objects in food
-- 3 or more reviews describe staff refusing to address hygiene issues
+- 2 or more reviews describe major cleanliness issues [filter: issue_severity=major, account_type=firsthand]
+- At least 1 review reports food poisoning [filter: illness_reported=True, account_type=firsthand]
+- 2 or more reviews describe hair or foreign objects in food [filter: issue_type=['foreign_object', 'hair'], account_type=firsthand]
 
 **Low Risk** otherwise, especially when:
 - No hygiene issues are reported
 - Reviews describe the restaurant as clean
-- Minor issues were addressed promptly by staff
+- No illness reports

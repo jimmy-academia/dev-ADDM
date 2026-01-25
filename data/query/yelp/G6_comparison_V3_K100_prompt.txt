@@ -4,7 +4,7 @@ Help assess how this restaurant compares to competitors using reviews as evidenc
 This is from the perspective of a business owner evaluating competitive position.
 Assign a label: Weaker, Comparable, or Stronger.
 
-This assessment uses a point-based scoring system with recency weighting.
+This assessment uses a point-based scoring system to quantify competitive position.
 
 ## Definitions of Terms
 
@@ -59,9 +59,8 @@ Intent to switch to/from this restaurant
 
 ## Scoring System
 
-Calculate a competitive position score by summing points from relevant reviews,
-with recency weighting. Competition can change as restaurants improve or decline,
-so recent reviews are weighted more heavily.
+Calculate a competitive position score by summing points from relevant reviews.
+Positive points indicate stronger position, negative points indicate weaker.
 
 For each firsthand incident, assign points based on severity:
 - Best in area: 10 points
@@ -76,19 +75,13 @@ Additional modifiers:
 - Customer switched away (lost customer to competitor): -5 points
 - Warned to go elsewhere (told to go to competitor instead): -3 points
 
-Recency weighting:
-- Within 6 months: full point value
-- 6 months to 1 year: three-quarter point value (multiply by 0.75)
-- 1-2 years old: half point value (multiply by 0.5)
-- Over 2 years old: quarter point value (multiply by 0.25) - competitive landscape may have changed
-
 
 ## Verdict Rules
 
 A restaurant is considered **Stronger** if any of the following is true:
-- Total score is 250 or higher (after recency weighting)
+- Total score is 250 or higher
 
 **Weaker** if Stronger does not apply, but any of the following is true:
-- Total score is -100 or lower (after recency weighting)
+- Total score is -100 or lower
 
 **Comparable** otherwise

@@ -3,8 +3,6 @@
 Help assess the hygiene and food safety risk for this restaurant using customer reviews as evidence.
 Assign a risk label: Low Risk, High Risk, or Critical Risk.
 
-This assessment uses a point-based scoring system to quantify risk.
-
 ## Definitions of Terms
 
 ### Incident
@@ -66,28 +64,20 @@ How staff responded when the concern was raised
 - **Unknown**: Unclear from the review
 
 
-## Scoring System
-
-Calculate a total risk score by summing points from all firsthand hygiene incidents.
-
-For each firsthand incident, assign points based on severity:
-- Minor issue: 2 points
-- Major issue: 5 points
-- Severe issue (illness, rodent): 15 points
-
-Additional modifiers:
-- Food poisoning (reviewer or party got sick after eating): +10 points
-- Pest sighting (roaches, flies, rodents observed): +5 points
-- Dismissive staff (staff dismissed or ignored hygiene complaint): +3 points
-- Multiple affected (multiple people in party experienced same issue): +3 points
-
-
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- Total risk score is 38 or higher
+- 2 or more reviews report food poisoning or illness [filter: illness_reported=True, account_type=firsthand]
+- 2 or more reviews report pest sightings (roaches, rodents) [filter: issue_type=['pest', 'rodent', 'roach'], account_type=firsthand]
+- 1 or more severe hygiene issue reported [filter: issue_severity=severe, account_type=firsthand]
 
 **High Risk** if Critical Risk does not apply, but any of the following is true:
-- Total risk score is 13 or higher
+- 2 or more reviews describe major cleanliness issues [filter: issue_severity=major, account_type=firsthand]
+- At least 1 review reports food poisoning [filter: illness_reported=True, account_type=firsthand]
+- 2 or more reviews describe hair or foreign objects in food [filter: issue_type=['foreign_object', 'hair'], account_type=firsthand]
+- 3 or more reviews describe staff refusing to address hygiene issues [filter: staff_response=refused]
 
-**Low Risk** otherwise
+**Low Risk** otherwise, especially when:
+- No hygiene issues are reported
+- Reviews describe the restaurant as clean
+- Minor issues were addressed promptly by staff

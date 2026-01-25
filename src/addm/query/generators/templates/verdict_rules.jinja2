@@ -24,7 +24,12 @@ A restaurant is considered **{{ rule.verdict }}** if any of the following is tru
 {# Use K-aware threshold: get_effective_min_count checks min_count_by_k first #}
 {% set effective_count = get_effective_min_count(condition) %}
 {% if effective_count < 999 %}
+{# Include filter info so Phase 1 LLM can extract correct fields #}
+{% if condition.filter %}
+- {{ condition.text | make_threshold_explicit(effective_count) }} [filter: {% for field, values in condition.filter.items() %}{{ field }}={{ values }}{% if not loop.last %}, {% endif %}{% endfor %}]
+{% else %}
 - {{ condition.text | make_threshold_explicit(effective_count) }}
+{% endif %}
 {% endif %}
 {% else %}
 - {{ condition }}

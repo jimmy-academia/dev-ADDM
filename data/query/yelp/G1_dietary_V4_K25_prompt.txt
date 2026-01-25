@@ -1,0 +1,101 @@
+# Dietary Accommodation Risk Assessment
+
+Help assess the dietary accommodation risk for this restaurant using customer reviews as evidence.
+Assign a risk label: Low Risk, High Risk, or Critical Risk.
+
+This assessment uses a point-based scoring system with recency weighting.
+
+## Definitions of Terms
+
+### Incident
+
+Only firsthand accounts are treated as confirmed evidence. An account is
+considered relevant if it meaningfully discusses any of the following:
+- requesting accommodation for a dietary restriction (gluten-free, dairy-free, vegan, vegetarian)
+- staff response to dietary restriction requests
+- incidents where restricted foods were served despite requests
+- menu labeling or ingredient transparency
+
+General food preference mentions (e.g., "I like vegan food") are NOT considered
+incidents unless they describe an accommodation attempt.
+
+### Account Type
+How the reviewer relates to the described event
+
+- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+
+### Restriction Type
+Type of dietary restriction
+
+- **Gluten-free**: Gluten allergy, celiac disease, or gluten intolerance
+- **Dairy-free**: Dairy allergy, lactose intolerance, or dairy avoidance
+- **Vegan**: No animal products (dietary or ethical)
+- **Vegetarian**: No meat (may include eggs/dairy)
+- **Other**: Other dietary restriction (kosher, halal, keto, etc.)
+
+### Accommodation Level
+How well the restaurant accommodated the dietary restriction
+
+- **No accommodation**: Restaurant refused or had no options for the restriction
+- **Poor accommodation**: Limited options, mistakes made, or staff seemed annoyed
+- **Adequate accommodation**: Basic options available, needs were met
+- **Excellent accommodation**: Many options, knowledgeable staff, went above and beyond
+
+### Incident Severity
+Severity of any dietary incident that occurred
+
+- **No incident**: No dietary incident described
+- **Mild incident**: Wrong ingredient served but caught before eating, or minor discomfort
+- **Moderate incident**: Ate restricted food accidentally, noticeable symptoms
+- **Severe incident**: Serious health consequences requiring medical attention
+
+### Staff Knowledge
+Staff knowledge about ingredients and dietary accommodations
+
+- **No knowledge**: Staff had no knowledge of ingredients or restrictions
+- **Poor knowledge**: Staff made incorrect claims or guesses
+- **Adequate knowledge**: Staff knew basics, checked with kitchen when unsure
+- **Excellent knowledge**: Staff was highly knowledgeable about all ingredients
+
+### Staff Response
+How staff responded when the concern was raised
+
+- **Accommodated**: Staff took the concern seriously and successfully accommodated (ingredient check, substitution, separate preparation, clear warnings)
+- **Refused**: Staff stated they could not or would not accommodate
+- **Dismissive**: Staff minimized the concern or did not take it seriously
+- **Not described**: No staff interaction about the concern is described
+- **Unknown**: Unclear from the review
+
+
+## Scoring System
+
+Calculate a total risk score by summing points from all firsthand dietary incidents,
+with recency weighting applied.
+
+For each firsthand incident, assign points based on severity:
+- Mild incident: 2 points
+- Moderate incident: 5 points
+- Severe incident: 15 points
+
+Additional modifiers:
+- False assurance (incident after staff confirmed food was safe for restriction): +5 points
+- Dismissive staff (staff dismissed dietary concern or was rude about request): +3 points
+- Medical restriction (restriction is medical (celiac, allergy) rather than preference): +2 points
+
+Recency weighting (reference date: 2022-01-01):
+- Within 2 years: full point value
+- 2-3 years old: half point value (multiply by 0.5)
+- Over 3 years old: quarter point value (multiply by 0.25)
+
+
+## Verdict Rules
+
+A restaurant is considered **Critical Risk** if any of the following is true:
+- Total risk score is 5 or higher (after recency weighting)
+
+**High Risk** if Critical Risk does not apply, but any of the following is true:
+- Total risk score is 2 or higher (after recency weighting)
+
+**Low Risk** otherwise

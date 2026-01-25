@@ -8,7 +8,7 @@ overview:
     This is from the perspective of a business owner evaluating ambiance and comfort.
     Assign a quality label: Needs Improvement, Satisfactory, or Excellent.
 
-    This assessment uses a point-based scoring system with recency weighting.
+    This assessment uses a point-based scoring system to quantify quality.
   incident_definition: |
     Consider reviews that mention any of the following:
     - cleanliness of the space
@@ -57,9 +57,8 @@ normative:
         value: dirty
         label: Dirty/unclean
     description: |
-      Calculate a quality score by summing points from relevant reviews,
-      with recency weighting. Environment can change with renovations
-      or maintenance, so recent reviews are more indicative.
+      Calculate a quality score by summing points from relevant reviews.
+      Positive points indicate good environment, negative points indicate issues.
     severity_points:
     - label: Exceptional atmosphere
       points: 10
@@ -92,24 +91,15 @@ normative:
     - label: Dirty/unclean
       description: cleanliness issues noted
       points: -5
-    recency_rules:
-    - age: Within 6 months
-      weight: full point value
-    - age: 6 months to 1 year
-      weight: three-quarter point value (multiply by 0.75)
-    - age: 1-2 years old
-      weight: half point value (multiply by 0.5)
-    - age: Over 2 years old
-      weight: quarter point value (multiply by 0.25) - unless describing permanent fixtures
     thresholds:
     - verdict: Excellent
-      min_score: 450
+      min_score: 900
       min_score_by_k:
         25: 113
         50: 225
         100: 450
     - verdict: Needs Improvement
-      max_score: 100
+      max_score: 200
       max_score_by_k:
         25: 25
         50: 50
@@ -125,13 +115,13 @@ normative:
       label: EXCELLENT
       logic: ANY
       conditions:
-      - Total quality score is 900 or higher (after recency weighting)
+      - Total quality score is 900 or higher
     - verdict: Needs Improvement
       label: NEEDS_IMPROVEMENT
       precondition: Excellent does not apply
       logic: ANY
       conditions:
-      - Total quality score is 200 or lower (after recency weighting)
+      - Total quality score is 200 or lower
     - verdict: Satisfactory
       label: SATISFACTORY
       default: true
@@ -152,7 +142,7 @@ normative:
     justification:
       type: string
       required: true
-      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
       values:

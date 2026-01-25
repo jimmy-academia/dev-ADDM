@@ -1,13 +1,18 @@
+# G3_hidden_costs_V2: Hidden Costs with Override Triggers
+# V2 = Extended: Multiple conditions per verdict (ANY triggers)
+
 policy_id: G3_hidden_costs_V2
 extends: G3_hidden_costs_V1
-version: '1.0'
+version: "1.0"
+
+# === OVERVIEW (generates Overview section) ===
 overview:
-  title: Hidden Costs Risk Assessment
+  title: "Hidden Costs Risk Assessment"
+
   purpose: |
     Help assess the risk of unexpected charges at this restaurant using customer reviews as evidence.
     Assign a risk label: Low Risk, High Risk, or Critical Risk.
 
-    This assessment uses a point-based scoring system to quantify risk.
   incident_definition: |
     Consider reviews that mention any of the following:
     - unexpected charges on the bill
@@ -17,113 +22,104 @@ overview:
     - fine print charges
 
     Reviews that only discuss food without mentioning billing carry less weight.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
 normative:
+  # Terms -> auto-generates Definitions section
   terms:
-  - ref: shared:ACCOUNT_TYPE
-  - ref: hidden_costs:COST_TYPE
-  - ref: hidden_costs:DISCLOSURE_LEVEL
-  - ref: hidden_costs:IMPACT_SEVERITY
-  - ref: hidden_costs:CUSTOMER_REACTION
-  scoring:
-    field_mapping:
-      severity_field: impact_severity
-      value_mappings:
-        minor: Minor hidden cost (<5% impact)
-        moderate: Moderate hidden cost (5-15% impact)
-        significant: Significant hidden cost (>15% impact)
-      modifier_mappings:
-      - field: disclosure_level
-        value: none
-        label: No disclosure
-      - field: disclosure_level
-        value: fine_print
-        label: Fine print only
-      - field: customer_reaction
-        value: upset
-        label: Customer very upset
-    description: |
-      Calculate a risk score by summing points from hidden cost incidents.
-      Higher scores indicate greater risk of unexpected charges.
-    severity_points:
-    - label: Minor hidden cost (<5% impact)
-      points: 2
-    - label: Moderate hidden cost (5-15% impact)
-      points: 5
-    - label: Significant hidden cost (>15% impact)
-      points: 10
-    modifiers:
-    - label: No disclosure
-      description: charge was not disclosed until bill arrived
-      points: 5
-    - label: Fine print only
-      description: charge mentioned only in small print
-      points: 3
-    - label: Multiple hidden charges
-      description: more than one type of hidden charge reported
-      points: 3
-    - label: Customer very upset
-      description: reviewer expressed strong negative reaction
-      points: 2
-    thresholds:
-    - verdict: Critical Risk
-      min_score: 550
-      min_score_by_k:
-        25: 85
-        50: 150
-        100: 290
-    - verdict: High Risk
-      min_score: 420
-      min_score_by_k:
-        25: 65
-        50: 125
-        100: 230
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "hidden_costs:COST_TYPE"
+    - ref: "hidden_costs:DISCLOSURE_LEVEL"
+    - ref: "hidden_costs:IMPACT_SEVERITY"
+    - ref: "hidden_costs:CUSTOMER_REACTION"
+
+  # Decision policy -> generates Verdict Rules section
   decision:
-    verdicts:
-    - Low Risk
-    - High Risk
-    - Critical Risk
+    verdicts: ["Low Risk", "High Risk", "Critical Risk"]
     ordered: true
+
     rules:
-    - verdict: Critical Risk
-      label: CRITICAL
-      logic: ANY
-      conditions:
-      - Total risk score is 500 or higher
-    - verdict: High Risk
-      label: HIGH
-      precondition: Critical Risk does not apply
-      logic: ANY
-      conditions:
-      - Total risk score is 200 or higher
-    - verdict: Low Risk
-      label: LOW
-      default: true
+      # V1 includes V0 conditions PLUS additional conditions
+      - verdict: "Critical Risk"
+        label: "CRITICAL"
+        logic: ANY
+        conditions:
+          - text: "5 or more reviews report significant impact from undisclosed charges"
+            type: count_threshold
+            filter:
+              impact_severity: significant
+            min_count: 5
+            min_count_by_k:
+              25: 1
+              50: 2
+              100: 3
+          - text: "10 or more reviews report moderate billing impact"
+            type: count_threshold
+            filter:
+              impact_severity: moderate
+            min_count: 10
+            min_count_by_k:
+              25: 3
+              50: 5
+              100: 7
+
+      - verdict: "High Risk"
+        label: "HIGH"
+        precondition: "Critical Risk does not apply"
+        logic: ANY
+        conditions:
+          - text: "1 or more reviews report significant impact"
+            type: count_threshold
+            filter:
+              impact_severity: significant
+            min_count: 3
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 2
+          - text: "2 or more reviews report moderate billing impact"
+            type: count_threshold
+            filter:
+              impact_severity: moderate
+            min_count: 5
+            min_count_by_k:
+              25: 1
+              50: 3
+              100: 4
+
+      - verdict: "Low Risk"
+        label: "LOW"
+        default: true
+        especially_when:
+          - "No mentions of hidden charges"
+          - "Fees are clearly disclosed upfront"
+          - "Transparent pricing praised"
+
+  # Output format
   output:
     verdict:
       type: enum
-      values:
-      - Low Risk
-      - High Risk
-      - Critical Risk
+      values: ["Low Risk", "High Risk", "Critical Risk"]
       required: true
+
     evidence:
       type: array
       items:
         review_id: string
         quote: string
-      description: Relevant quotes supporting the verdict
+      description: "Relevant quotes supporting the verdict"
+
     justification:
       type: string
       required: true
-      description: Explain how the evidence was used to arrive at the final verdict
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
     confidence:
       type: enum
-      values:
-      - low
-      - medium
-      - high
-      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
     other_notes:
       type: string
       optional: true
-      description: Any other relevant observations or caveats
+      description: "Any other relevant observations or caveats"

@@ -4,8 +4,6 @@ Help assess the kitchen performance at this restaurant using customer reviews as
 This is from the perspective of a business owner evaluating their kitchen team's execution.
 Assign a performance label: Needs Improvement, Satisfactory, or Excellent.
 
-This assessment uses a point-based scoring system to quantify performance.
-
 ## Definitions of Terms
 
 ### Incident
@@ -66,33 +64,17 @@ Whether food was sent back
 - **False**: Food was not sent back
 
 
-## Scoring System
-
-Calculate a performance score by summing points from relevant reviews.
-Positive points indicate good performance, negative points indicate issues.
-
-For each firsthand incident, assign points based on severity:
-- Exceptional food quality: 10 points
-- Good food quality: 5 points
-- Adequate food quality: 0 points
-- Minor food issue: -2 points
-- Significant food issue: -5 points
-- Inedible food: -10 points
-
-Additional modifiers:
-- Consistent excellence (same great quality across visits): +5 points
-- Creative/unique dishes (chef praised for creativity): +3 points
-- Beautiful presentation (plating and presentation praised): +2 points
-- Inconsistent quality (hit or miss between visits): -5 points
-- Food sent back (dish had to be returned): -3 points
-
-
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- Total performance score is 1400 or higher
+- 100 or more reviews praise excellent chef skill [filter: chef_skill=excellent]
+- 180 or more reviews report consistent food quality [filter: consistency=consistent]
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- Total performance score is 500 or lower
+- 40 or more reviews report poor chef skill [filter: chef_skill=poor]
+- 45 or more reviews report inconsistent food quality [filter: consistency=inconsistent]
 
-**Satisfactory** otherwise
+**Satisfactory** otherwise, especially when:
+- Food is generally good with occasional issues
+- Competent execution without exceptional creativity
+- Some standout dishes, some average

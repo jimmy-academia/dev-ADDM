@@ -3,8 +3,6 @@
 Help assess the allergy safety risk for this restaurant using customer reviews as evidence.
 Assign a risk label: Low Risk, High Risk, or Critical Risk.
 
-This assessment uses a point-based scoring system to quantify risk.
-
 ## Definitions of Terms
 
 ### Incident
@@ -51,27 +49,18 @@ How staff responded when the concern was raised
 - **Unknown**: Unclear from the review
 
 
-## Scoring System
-
-Calculate a total risk score by summing points from all firsthand incidents.
-
-For each firsthand incident, assign points based on severity:
-- Mild incident: 2 points
-- Moderate incident: 5 points
-- Severe incident: 15 points
-
-Additional modifiers:
-- False assurance (incident after explicit safety guarantee): +5 points
-- Dismissive staff (staff dismissed allergy concern during incident): +3 points
-- High-risk cuisine (restaurant is Thai, Vietnamese, or Chinese cuisine): +2 points
-
-
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- Total risk score is 6 or higher
+- 1 or more severe firsthand incidents are reported [filter: incident_severity=severe, account_type=firsthand]
+- 2 or more moderate firsthand incidents are reported [filter: incident_severity=moderate, account_type=firsthand]
+- 1 or more reviews report a moderate or severe incident after an explicit assurance of safety [filter: incident_severity=['moderate', 'severe'], account_type=firsthand]
 
 **High Risk** if Critical Risk does not apply, but any of the following is true:
-- Total risk score is 3 or higher
+- 1 or more moderate firsthand incidents are reported [filter: incident_severity=moderate, account_type=firsthand]
+- 1 or more reviews describe staff as refusing or being dismissive about allergy concerns [filter: staff_response=['refused', 'dismissive']]
+- 1 or more reviews report a mild incident after an explicit assurance of safety [filter: incident_severity=mild, account_type=firsthand]
 
-**Low Risk** otherwise
+**Low Risk** otherwise, especially when:
+- No firsthand incidents are reported
+- Allergy-relevant reviews describe consistent accommodation behavior

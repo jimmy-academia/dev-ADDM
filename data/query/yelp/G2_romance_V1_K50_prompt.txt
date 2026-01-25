@@ -23,6 +23,14 @@ How the reviewer relates to the described event
 - **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
 - **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
 
+### Date Outcome
+How the date/romantic occasion went
+
+- **Negative**: Date was negatively affected by restaurant experience
+- **Neutral**: Restaurant didn't particularly help or hurt the date
+- **Positive**: Restaurant contributed positively to the date
+- **Memorable**: Exceptional experience, memorable occasion
+
 ### Ambiance Quality
 Overall romantic ambiance assessment
 
@@ -55,31 +63,20 @@ Service style appropriateness for romantic dining
 - **Attentive**: Attentive without being intrusive
 - **Romantic**: Service enhances romantic experience (special touches)
 
-### Date Outcome
-How the date/romantic occasion went
-
-- **Negative**: Date was negatively affected by restaurant experience
-- **Neutral**: Restaurant didn't particularly help or hurt the date
-- **Positive**: Restaurant contributed positively to the date
-- **Memorable**: Exceptional experience, memorable occasion
-
 
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- 9 or more reviews describe excellent romantic ambiance
-- 33 or more reviews mention successful dates, proposals, or anniversaries
-- 8 or more reviews describe it as quiet, intimate, or romantic
-- 3 or more reviews describe a memorable date outcome
-- 3 or more reviews describe romantic service style
+- 7 or more reviews describe excellent romantic ambiance [filter: ambiance_quality=excellent]
+- 30 or more reviews mention successful dates, proposals, or anniversaries [filter: date_outcome=positive]
+- 6 or more reviews describe quiet or intimate noise level [filter: noise_level=['quiet', 'intimate']]
 
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- 8 or more reviews describe loud noise preventing conversation
-- 6 or more reviews describe harsh lighting or unromantic atmosphere
-- 16 or more reviews describe negative date experiences
-- 5 or more reviews describe rushed service style
+- 7 or more reviews describe loud noise preventing conversation [filter: noise_level=loud]
+- 5 or more reviews describe harsh lighting [filter: lighting_quality=harsh]
+- 15 or more reviews describe negative date experiences [filter: date_outcome=negative]
 
 **Acceptable** otherwise, especially when:
-- Atmosphere is pleasant but not particularly romantic
-- Good for casual dates but not special occasions
-- Mixed reviews about ambiance
+- Mixed reviews about romantic suitability
+- Atmosphere is neutral - neither romantic nor anti-romantic
+- Food is good but ambiance is not particularly romantic

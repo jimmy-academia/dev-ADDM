@@ -4,7 +4,7 @@ Help assess the quality consistency at this restaurant using reviews as evidence
 This is from the perspective of a business owner diagnosing reliability.
 Assign a label: Needs Improvement, Satisfactory, or Excellent.
 
-This assessment uses a point-based scoring system with recency weighting.
+This assessment uses a point-based scoring system to quantify performance.
 
 ## Definitions of Terms
 
@@ -60,9 +60,8 @@ How often reviewer has visited
 
 ## Scoring System
 
-Calculate a consistency score by summing points from relevant reviews,
-with recency weighting. For consistency, trend over time is important,
-so recency helps identify the current state.
+Calculate a consistency score by summing points from relevant reviews.
+Positive points indicate good reliability, negative points indicate inconsistency.
 
 For each firsthand incident, assign points based on severity:
 - Always excellent: 10 points
@@ -78,19 +77,13 @@ Additional modifiers:
 - Declining trend (quality getting worse): -5 points
 - Management change decline (quality dropped after ownership/management change): -3 points
 
-Recency weighting:
-- Within 6 months: full point value
-- 6 months to 1 year: three-quarter point value (multiply by 0.75)
-- 1-2 years old: half point value (multiply by 0.5)
-- Over 2 years old: quarter point value (multiply by 0.25) - trends may have changed
-
 
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- Total score is 800 or higher (after recency weighting)
+- Total score is 800 or higher
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- Total score is 0 or lower (after recency weighting)
+- Total score is 0 or lower
 
 **Satisfactory** otherwise

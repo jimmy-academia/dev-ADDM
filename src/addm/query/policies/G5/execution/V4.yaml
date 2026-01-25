@@ -1,0 +1,158 @@
+policy_id: G5_execution_V4
+extends: G5_execution_V3
+version: '1.0'
+overview:
+  title: Execution Quality Assessment
+  purpose: |
+    Help assess how well this restaurant executes orders and keeps promises using reviews as evidence.
+    This is from the perspective of a business owner diagnosing operational issues.
+    Assign a label: Needs Improvement, Satisfactory, or Excellent.
+
+    This assessment uses a point-based scoring system with recency weighting.
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - order accuracy (correct items, modifications)
+    - promises made and kept
+    - how issues were resolved
+    - menu accuracy and descriptions
+
+    Reviews that only discuss ambiance without mentioning order execution carry less weight.
+normative:
+  terms:
+  - ref: shared:ACCOUNT_TYPE
+  - ref: execution:ORDER_ACCURACY
+  - ref: execution:MODIFICATION_HANDLING
+  - ref: execution:PROMISE_KEPT
+  - ref: execution:ISSUE_RESOLUTION
+  scoring:
+    field_mapping:
+      severity_field: order_accuracy
+      value_mappings:
+        perfect: Perfect execution
+        minor_error: Minor execution error
+        significant_error: Significant execution error
+        multiple_errors: Complete failure
+      modifier_mappings:
+      - field: issue_resolution
+        value: excellent
+        label: Above and beyond resolution
+      - field: modification_handling
+        value: successful
+        label: Modifications handled perfectly
+      - field: modification_handling
+        value: ignored
+        label: Modification ignored
+      - field: issue_resolution
+        value: none
+        label: No resolution attempt
+    description: |
+      Calculate an execution score by summing points from relevant reviews,
+      with recency weighting. Execution processes can improve or degrade,
+      so recent reviews are weighted more heavily.
+    severity_points:
+    - label: Perfect execution
+      points: 10
+    - label: Good execution
+      points: 5
+    - label: Adequate execution
+      points: 0
+    - label: Minor execution error
+      points: -2
+    - label: Significant execution error
+      points: -5
+    - label: Complete failure
+      points: -10
+    modifiers:
+    - label: Above and beyond resolution
+      description: issue resolved exceptionally
+      points: 5
+    - label: Modifications handled perfectly
+      description: special requests always correct
+      points: 3
+    - label: Modification ignored
+      description: special request not honored
+      points: -5
+    - label: No resolution attempt
+      description: issue not addressed
+      points: -5
+    reference_date: "2022-01-01"
+    recency_rules:
+    - age: Within 6 months
+      weight: full point value
+      max_age_years: 0.5
+      weight_multiplier: 1.0
+    - age: 6 months to 1 year
+      weight: three-quarter point value (multiply by 0.75)
+      max_age_years: 1.0
+      weight_multiplier: 0.75
+    - age: 1-2 years old
+      weight: half point value (multiply by 0.5)
+      max_age_years: 2.0
+      weight_multiplier: 0.5
+    - age: Over 2 years old
+      weight: quarter point value (multiply by 0.25)
+      max_age_years: 999
+      weight_multiplier: 0.25
+    thresholds:
+    - verdict: Excellent
+      min_score: 500
+      min_score_by_k:
+        25: 63
+        50: 125
+        100: 250
+    - verdict: Needs Improvement
+      max_score: -100
+      max_score_by_k:
+        25: -75
+        50: -60
+        100: -75
+  decision:
+    verdicts:
+    - Needs Improvement
+    - Satisfactory
+    - Excellent
+    ordered: true
+    rules:
+    - verdict: Excellent
+      label: EXCELLENT
+      logic: ANY
+      conditions:
+      - Total score is 500 or higher (after recency weighting)
+    - verdict: Needs Improvement
+      label: NEEDS_IMPROVEMENT
+      precondition: Excellent does not apply
+      logic: ANY
+      conditions:
+      - Total score is -100 or lower (after recency weighting)
+    - verdict: Satisfactory
+      label: SATISFACTORY
+      default: true
+  output:
+    verdict:
+      type: enum
+      values:
+      - Needs Improvement
+      - Satisfactory
+      - Excellent
+      required: true
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: Relevant quotes supporting the verdict
+    justification:
+      type: string
+      required: true
+      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
+    confidence:
+      type: enum
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
+    other_notes:
+      type: string
+      optional: true
+      description: Any other relevant observations or caveats

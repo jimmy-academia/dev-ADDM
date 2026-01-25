@@ -625,7 +625,6 @@ class AMOSProgressTracker:
         table.add_column("Ev.R", width=6, justify="right")
         table.add_column("Snippet", width=8, justify="right")
         table.add_column("Judg", width=6, justify="right")
-        table.add_column("Score", width=7, justify="right")
         table.add_column("Cons.", width=7, justify="right")
 
         for policy_id in sorted(policies):
@@ -635,10 +634,10 @@ class AMOSProgressTracker:
 
             result = self.results.get(policy_id, {})
             if isinstance(result, dict) and result.get("error"):
-                table.add_row(variant, "[red]ERROR[/red]", "-", "-", "-", "-", "-", "-", "-", "-")
+                table.add_row(variant, "[red]ERROR[/red]", "-", "-", "-", "-", "-", "-", "-")
                 continue
             if isinstance(result, dict) and result.get("quota_met"):
-                table.add_row(variant, "[yellow]SKIP[/yellow]", "-", "-", "-", "-", "-", "-", "-", "-")
+                table.add_row(variant, "[yellow]SKIP[/yellow]", "-", "-", "-", "-", "-", "-", "-")
                 continue
 
             # Extract metrics
@@ -652,12 +651,11 @@ class AMOSProgressTracker:
                 variant,
                 fmt_pct(accuracy),
                 fmt_pct(eval_metrics.get("auprc")),
-                fmt_pct(eval_metrics.get("macro_f1")),  # Note: may not exist yet
+                fmt_pct(eval_metrics.get("macro_f1")),
                 fmt_pct(eval_metrics.get("evidence_precision")),
                 fmt_pct(eval_metrics.get("evidence_recall")),
                 fmt_pct(eval_metrics.get("snippet_validity")),
                 fmt_pct(eval_metrics.get("judgement_accuracy")),
-                fmt_pct(eval_metrics.get("score_accuracy")),
                 fmt_pct(eval_metrics.get("verdict_consistency")),
             )
 

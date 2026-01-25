@@ -4,7 +4,7 @@ Help assess how suitable this restaurant is for group dining (large parties, cel
 using customer reviews as evidence.
 Assign a suitability label: Not Recommended, Acceptable, or Recommended.
 
-This assessment uses a point-based scoring system with recency weighting.
+This assessment uses a point-based scoring system to quantify suitability.
 
 ## Definitions of Terms
 
@@ -75,8 +75,8 @@ Overall success of the group dining experience
 
 ## Scoring System
 
-Calculate a group suitability score by summing points from relevant reviews,
-with recency weighting applied.
+Calculate a group suitability score by summing points from relevant reviews.
+Positive points indicate group suitability, negative points indicate drawbacks.
 
 For each firsthand incident, assign points based on severity:
 - Perfect group event: 15 points
@@ -94,18 +94,13 @@ Additional modifiers:
 - Long wait despite reservation (waited excessively despite having reservation): -5 points
 - Group split across tables (party was not seated together): -3 points
 
-Recency weighting:
-- Within 1 year: full point value
-- 1-2 years old: half point value (multiply by 0.5)
-- Over 2 years old: quarter point value (multiply by 0.25), unless describing permanent features (private room, layout)
-
 
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- Total suitability score is 250 or higher (after recency weighting)
+- Total suitability score is 250 or higher
 
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- Total suitability score is 75 or lower (after recency weighting)
+- Total suitability score is 75 or lower
 
 **Acceptable** otherwise

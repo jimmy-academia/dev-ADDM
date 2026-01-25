@@ -4,8 +4,6 @@ Help assess how unique and differentiated this restaurant is using reviews as ev
 This is from the perspective of a business owner evaluating competitive positioning.
 Assign a label: Generic, Differentiated, or Highly Unique.
 
-This assessment uses a point-based scoring system to quantify uniqueness.
-
 ## Definitions of Terms
 
 ### Incident
@@ -58,31 +56,22 @@ Whether a must-try signature item exists
 - **False**: No standout signature item
 
 
-## Scoring System
-
-Calculate a uniqueness score by summing points from relevant reviews.
-Positive points indicate strong differentiation, negative points indicate generic.
-
-For each firsthand incident, assign points based on severity:
-- One of a kind: 10 points
-- Clearly unique: 5 points
-- Somewhat different: 2 points
-- Nothing special: -2 points
-- Generic/forgettable: -5 points
-
-Additional modifiers:
-- Signature dish praised (famous must-try item): +5 points
-- Destination restaurant (worth traveling for): +5 points
-- Unforgettable experience (truly memorable): +3 points
-- Like a chain (described as generic): -5 points
-
-
 ## Verdict Rules
 
 A restaurant is considered **Highly Unique** if any of the following is true:
-- Total score is 500 or higher
+- 18 or more reviews describe it as 'one of a kind' [filter: differentiation_level=one_of_a_kind]
+- 78 or more reviews mention signature items [filter: signature_item=true]
+- 18 or more reviews describe it as unforgettable [filter: memorability=unforgettable]
+- 90 or more reviews describe it as memorable [filter: memorability=memorable]
+- 85 or more reviews describe it as unique [filter: differentiation_level=unique]
 
 **Generic** if Highly Unique does not apply, but any of the following is true:
-- Total score is 175 or lower
+- 26 or more reviews describe it as 'nothing special' [filter: differentiation_level=generic]
+- 26 or more reviews mention no distinguishing features [filter: unique_aspect=none]
+- 24 or more reviews describe forgettable experience [filter: memorability=forgettable]
+- 34 or more reviews describe average experience [filter: memorability=average]
 
-**Differentiated** otherwise
+**Differentiated** otherwise, especially when:
+- Some unique elements noted
+- Has character but not irreplaceable
+- Memorable aspects mentioned

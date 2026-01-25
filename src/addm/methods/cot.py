@@ -12,6 +12,7 @@ from typing import Any, Dict, Optional
 from addm.data.types import Sample
 from addm.llm import LLMService
 from addm.methods.base import Method
+from addm.utils.debug_logger import get_debug_logger
 
 
 # System prompt encouraging step-by-step reasoning
@@ -71,6 +72,10 @@ class CoTMethod(Method):
         Returns:
             Dict with sample_id, output, and usage metrics
         """
+        # Set debug logger context - all LLM calls go to debug/{sample_id}.jsonl
+        if debug_logger := get_debug_logger():
+            debug_logger.set_context(sample.sample_id)
+
         context = sample.context or ""
         messages = build_cot_prompt(sample, context)
 

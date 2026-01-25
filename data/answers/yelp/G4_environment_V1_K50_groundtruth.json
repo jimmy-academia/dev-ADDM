@@ -3,7 +3,7 @@
   "topic": "G4_environment",
   "domain": "yelp",
   "k": 50,
-  "computed_at": "2026-01-23T19:10:03.107545",
+  "computed_at": "2026-01-24T20:12:44.328793",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -15,8 +15,23 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "78Yp8ITygZOqjrkEG4UMig",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "P9YmbRug9f8DY_JPII7Xng",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "-Tskf8WK17rb3ZfeFuRSWA": {
@@ -28,8 +43,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "fXNi_kvxvRGAhoKczf_2uw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "CqUB6DT83T7L7PRkeg3KYA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "QavJJxq0eiI_5VsjhdnBMw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "ny1N_Py01kVoGOvL9oKjMQ": {
@@ -41,8 +78,44 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "GYh3-rc5yIyWnLG_yIvzfw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "sugFvrxc6rqeGn0iZxHPnw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "1jp_WqWMhAyXtYs-j5YC0g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "9yvLPIC_-y1LOvw4WLk_Iw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "W2c1KF18rjBLlVaOv3ZeHA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "zljfjg_zTL3ceGi_Vr4OFw": {
@@ -54,8 +127,191 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 26,
+        "incidents": [
+          {
+            "review_id": "Ncb097kpoE1E8UAtbTh0bQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "FLug-7XFX0mtpZwjjcES_g",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "bRJ0xXAbAyh9W4ebS8pw2A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "mR03sTJclEcRL0o7VpNa-w",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "xdzVQLj6toIksCORs74cZg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "_rHsFCLwuObdAhlEmnG5HA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3UEg1MAADkFXJSj12Q0sMA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "duPQGPE2YVK__ZA43XzVjw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "CT5FqTfK0mhiV55qIi_AGw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "oyZIZbHUxs4ESps7IvGbsw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3WjnrhzmZ7tmdPFzQ_KgUA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "tj07liNxF9vFcNz7smc5Ng",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "aem2PS4JgxWM-TPnKkhTkw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Qz27Wj3PbgYy0KaX8vNFSA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "jJ4dZKa7W-VxFzQNz-AkvQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ebty9HtXZFaEu0bwq5tFrA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "_ppKR7WSL1PHcATL7nkDLg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "wDEWMtydZQ6sZTPZRRafpg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "rjWw04E3zzzv4mrBm_soSw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "-q9fHoyC9r9yZNijL3zP8Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "-cfBAut4YdK0BFQYJg5ebQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8lvevEqVuG-F8UG2on-GCQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "br8KFljDhCNTE7B302xVug",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Cd2aEaUQPqBkUT8SiJEeWA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "pRdBN5eSxVZ18baHmBxJYw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "-JqFzzIx8fN8GGsQ7uOAfQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "SZU9c8V2GuREDN5KgyHFJw": {
@@ -67,8 +323,65 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 8,
+        "incidents": [
+          {
+            "review_id": "-VuplhtozzSin0VxOFYuBw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "aXovyTYgw0be84VLTYc_Gw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "BudCKpxXvESgew7pJWHYjA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ICSle3XrD31gRF2tSWqeKg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Qz6KuUH8CoS6krk25Rmw9w",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "iNQXAtRCJLvI94aRnIa48g",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "mCD3XqfuTkR4E03H0qvTBA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "xx0Risj0pRoq3FLeFTVa7A",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "L5LLN0RafiV1Z9cddzvuCw": {
@@ -80,8 +393,23 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "JJvKhaSvOY3vSbAtuZDeJA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Rs7MdTh_34BQffbZS0-Dug",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "Ipt9ga67vVC_2ob3YmVwNA": {
@@ -93,8 +421,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "HNWkqh82vE9vfSE3kDhyCA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "dzqCymXAr0JGxG5vnM_NWA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "fe8djbTMyDSK5-_uJK6DdA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "iSRTaT9WngzB8JJ2YKJUig": {
@@ -106,8 +456,79 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 10,
+        "incidents": [
+          {
+            "review_id": "1ywuJtMBDljbbjVa5dhZbw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "yJxxk2V-7XuGBHX3QT8u9g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "GFID_703de5WTmaDLLpHVg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "A7Epxf7rFnsB3BHxTmOMgQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "R8wUG3hCqNE5mjFyPRlnxQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "TP3ZnA6TQowvgsMEIrZTQQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "eP0YZVMcRqboAEpjHn6KXw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "45wHyFe1pZL_leRrE4ml1Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "n0zdpUE08FAE428K8WFppw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "gw8K5JtCU5l7qETXynBkKg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "oQdGhdjzz_HhTaC4VrtBLQ": {
@@ -119,8 +540,44 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "G9YJIdkjABvkijOF9SnbTQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "JVTBnLxI28GVbqYP5_tysQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "1_7AiDQHEn9-hZ4S64AAWA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "QyDMGgepZOEPav3UTd7Uug",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "6yVgYbjzNw9f273jgag-BA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "8XjxHeV66F4eoIy06rW0pA": {
@@ -132,8 +589,107 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 14,
+        "incidents": [
+          {
+            "review_id": "Un50rdD1n4vJMtaSb6J9Ig",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "a1c_xKJy0q2i9QloMARsKw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3_ENWVsxpVUHdU0slLV5jw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "KeaE_40TZhI7WxWKKd0Ghg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ISd75P2y2UiaFUvUaFd_2Q",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ZIP7579dJmzA5EoW7HEUPQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "e33bZ6ov8ICxEmXNrj86-w",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "QFgBPFg2_vQRCb0FLBZXBg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Qu9fFNbZXm0irlthvYDK-A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "lswycplF4N1DGPIOkqz8Fg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "oQ-L85qfxz5XqTX6leiEjg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Jcbf8aE4zlcuFjJLE-bK_g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "O3NVGkmU34bJayKLxlac2g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "QBKpynG7e9-i5SgUfeZwKQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "zwBvdDWFQpYJE1UMDTlSyw": {
@@ -145,8 +701,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "OdBWmp7AvbPwe4zqn0vXww",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "MGMmRWtb9ZvW0uCmCmki0Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Ci9x06SYczX3rGliwbvagw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "cgd4udcCVzMfhJL_3W03Yw": {
@@ -171,8 +749,16 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "WsXQBgFZVFJN_05HGFGE-Q",
+            "severity_field": "cleanliness",
+            "severity_value": "spotless",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "EP9K6qXOyHFq_0tp93wh9Q": {
@@ -184,8 +770,58 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 7,
+        "incidents": [
+          {
+            "review_id": "fYCLKg23-MTG2694UiidJA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "E4M46K65ONKpyDrSxtoB8Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "jS2COKKShnUyqlJMOc0kkQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "N9-AN70aFL8V7C_NZ8kFAA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "FHfgJpB1UZtO-geaXS_VCQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "bVPY6XJ2g7Yt1IbY4CExKg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "W4z3rhK9iJUZxcybO6Jzcg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "nIAbuktMEzVjT4P9pG89rQ": {
@@ -197,8 +833,16 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "wlGzYCQkuA2JaGvdWbBcZQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "S8ZFYEgMejpChID8tzKo9A": {
@@ -210,8 +854,37 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "aiNkkx3y0pxLsW-XJJlPEA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "TDkJv2rIcmW31aA6SOYOJg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "KYc4GQwCY-VNxIiuyxyNsA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3w6qSgYGfvbKy4TQv8QbKQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "99dN-202N0EzRqdaOA_eRQ": {
@@ -223,8 +896,149 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 20,
+        "incidents": [
+          {
+            "review_id": "fS8QVcQ4OQcwupogEP3K6g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ne1EZZbkTg3ktcJCYoD9ww",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "gsrEUegUS7wLiRZM3MvLfA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "LD6P20SZ4Txb3IC82W_zDg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "NN_01CXHJwAmFRrxN6dz7Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "sG3HDQzb-AYbUPC_LDTvMg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "i9f1BZQc-8yxDgCnAIx6mw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8xVj84bm2ZsuWuW-4CNidw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "d_JY2jQAkot4dHHAIahLJg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "b8LY-hg3FiHeb5B8TC0kSg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "1B7JwyWgCuvvkBwriU59Sg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "LT876wSz45Nb96wS2VODuA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "sUM9ypqAeO1uA_vU3JoobQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "PcWR_XxuWizkGva7vrQgpQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DDg5eeizcKNQdNY8SpwEbw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "62yJI0hJh87tcW82jmeKuA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "IHhh0DfOd6DuN6gmZ9FbeQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "7XQagGEMo2QWrie2IfiKqw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "4eZrWmBsSpjzEcZEZx7S-g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "S5iqLM_pS9fnNTxD0b9A-Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "r2bYRNrtMhv-ED2-cFZp6Q": {
@@ -236,8 +1050,37 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "WNHQ2OvkihxzdEMgE5fQlg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "CAZKc3JzVxU-EzdmsL-kwg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "NeT81MXUq7J3pr8YD_BBUg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Gpvr2I2liWTw6dBdYPbdVw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "8Vk_2t7hQI02IhpcRnfAIw": {
@@ -249,8 +1092,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "yfGcy1bAchWsZi6eEQJcfw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "wr4Jv6zNFdv6Xy_t1wQWZA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "s4vS3NRTtwRHBFNhbPTFlw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "ChlcxTEoWBQJXJ2Xb2vm5g": {
@@ -262,8 +1127,37 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "MTUH3JC4STlakaVilPWofQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "NwqqsCRLS5-MaLstGxoMpQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "vf4dG9azjEdkFDXJrFuBEA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "CtFjbU25g7OR1Fn2yUqnGQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "iNiAJAtsbV5xOQGRtce-NQ": {
@@ -275,8 +1169,16 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "Zlg4nKIoFP94G3g6A_LAPw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "ww3YJXu5c18aGZXWmm00qg": {
@@ -288,8 +1190,30 @@
         "verdict": "Excellent",
         "matched_rule": "EXCELLENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "5i7qTCKBZ8n_AjR1xJAhwQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "dA6od0JF-Np20hfsmN3tJA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "fdmuBbLxaZAgLjcuMDRQtg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "xtWIORPp-HG2LWtz5jQtiA": {
@@ -301,8 +1225,93 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 12,
+        "incidents": [
+          {
+            "review_id": "eUUiwAc_V3AvN03jL4dlIw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "S_IHOzJnpnEtcn-nhTETDA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3MN1erteCDd7C_pJnqfYeQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "9p-9H2byIsC77RukisHlPg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "vmXheZqkTnyjyCj9BE0Vww",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "F93HOMIKNJFSA6zyB9ZdWA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "0MN8Vevsg_epAfgvcUF0rw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HMRq3kMVy8gVl9vbFoArLg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "MkXyZCzDq90ErcBsXQvp7A",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "r2fOXqSQp_96xZWku_kS9Q",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "RAKYBJMA7Q1xIEC9JGQdsA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "r4qSr6VfCxLqWaVt0z8dTA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "F7etLf6od7CUnCPknsQ-6Q": {
@@ -314,8 +1323,44 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "5Pr4v3UGwal1IHhZ-FMJUw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "t4VVZdxUH01eMzfDVLh1SQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "gzSmMoltqrvBSRotsjMI1Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "FMegVAxNMqq9dUOYhuWmlQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Fg9L2jnnIF70gwGfEhSD9Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "8gY3LGFUMIQubovGbSd7Nw": {
@@ -327,8 +1372,44 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "d6D3uklNXg9u0pU0Ypr_uw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "7qf4_jKxhyqOyv9f4Nxhlg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Vo2K8kJP1o9TVU-0iywRnw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "S_Oyg80yeE8TjkkRdb_1IA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "l1cRR5iqc7ofJtSKbcjLsA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "ROcx9FXq206zfI77MGo1Yw": {
@@ -340,8 +1421,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "xyuydJej9DvvxzQCWEXKkQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "5ckEquAgH0vASWmmKr5w8Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "e8LdqxPrHXxlN-WxrwJt7w",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "-T1sYi2cqB2oW4GeUXmIBQ": {
@@ -353,8 +1456,128 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 17,
+        "incidents": [
+          {
+            "review_id": "mofqrY_IT7e4snKjsGNVBQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Mj8S8-jiSHmai5FyDtDNoA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "siK0R_Fcz5cT11XvfmC36A",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "s-89d30lGjmK6QBymsXorQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HMV7ajRU-1nzMUyhS9uJWQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "E7cUGNyg1t-wjxMrX0HwMg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "k7jRK8uny6OINtRJI6x97w",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "FarddIVguOXo7rzZP7NBNQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "h1bJqq3_8fZcyr003xRDoA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "XZjxP0q2R4DyN-MhtfgIEA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "T7utcv8MfxBWG-OW1JUUUQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "t05jZM52ZDld-AUTcOIvAw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "XvR87ZjEBjuY2Htncb6y_g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "XKdY5cqsY61hmsRRCHuKAQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "SYK2OVSAJ5rRyQtIblYxig",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "pL7iWrBzzq4PmRznWZGV9Q",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Gs4-iRvIX0mnAyVp0dBz1Q",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "xwk_8nCLpolbdZpKcWicRA": {
@@ -366,8 +1589,37 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "SEp-8LO8HVinZZv3zVLP5g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "cwRcnNHKwJh6nNTwqKTsgw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "jRc-Sp-yoc8hxG1eKSbHyw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "wnxPwyIby7NXoIGgMyFL1g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "Mm9zXIgMQMzgDt4GShSWrw": {
@@ -379,8 +1631,44 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "lAHxARLu3OGMON8QY7AKAQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "YAmEXINBRHgEB6w3X4G1TA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "UNj4YuE5X9AB8ZnGfBkjMw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "N9r0gJRMMfPDzx5wPIN1GA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "N9zW-u0aEk1IInisczNtWg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "IhN-DlnytNvnzCoTIwwfgQ": {
@@ -392,8 +1680,65 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 8,
+        "incidents": [
+          {
+            "review_id": "UiBI6NNMK5gPPOnc_rc3Ug",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "5CBprvqmcQ1IVCthf_Kj4w",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "1OFY7tPLX1PoGGAXRMlS4g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "KlN5NYMc8ElG5fEKGXCzlQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "YYKxI8rcTWp8Aqcoj2VT6g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Nl6ysHqgOnqB_UMdtX2sFg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "M2ZksSuorP8KUUCj8sNoSg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "-2jrdW8a-cK4bDARg6n7Iw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "gjCxTVItFxk46rCZ-YaiFA": {
@@ -405,8 +1750,37 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "CsaHzg64bd_UI81dEGa6SA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "MtEguk9KW_8lwpUmM0WAMw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "X8XmvzCwPfQS-A2Ub0swWg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "roT4J43wWrc5gxQCWJ5fzQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "5xRmemqmR89BpGoOA25hqA": {
@@ -418,8 +1792,30 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "nWqtz67D_sRtbX7B7QUdrA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Usn5VhxxkN_SyeC8kb3OOQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "PTv5RaTqav-7ks0ZKPewEg",
+            "severity_field": "cleanliness",
+            "severity_value": "spotless",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "R8t9g5nvi7VFyS8zsgmj8Q": {
@@ -431,8 +1827,44 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "aklHfftld-CQmgtzxiMxAg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "AkW4_g8LNnQyE6Ztvs8Juw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "SmR8Zxe6CLKQD8xkPpN2RA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ByOk2JZooXJh1Kx13ydbuw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "-H-xVIaiqmqXaom2nZEkZQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "6a4gLLFSgr-Q6CZXDLzBGQ": {
@@ -444,8 +1876,44 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "_WiqQF-zQ9Ou3RuKu6Sc3w",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "5z69PwGmraROskt2wPdq9w",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8HF8BElH14TFdcYVrRXTtA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DVu8asJS2bzEjxlA4poQGQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "KC2we0dylciFjFvDOc8NJQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "6_T2xzR74JqGCTPefAD8Tw": {
@@ -457,8 +1925,16 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "POVyXkFxSRGtdgAMYt1t0A",
+            "severity_field": "cleanliness",
+            "severity_value": "spotless",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "Mzmt8AvZOExG_4h3MMlihg": {
@@ -470,8 +1946,44 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "iHeOZDq4TD4zgqtTHzmcBg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "AUvnP9OpB4Z1_45PoOXwDA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "U1t66x7yApcGeqorexKOrw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "RG7pEUZu_wXmw2N85crtgQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "fQaltTyMDwX7T8uBSPVj2A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "1bJxvwuMTyXmQGu90WLPhA": {
@@ -483,8 +1995,79 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 10,
+        "incidents": [
+          {
+            "review_id": "XeO78sqLUHwh7zt2nWP1uA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "z4DwbXFjT3NtZiFUdydC0Q",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "jAdG213pLi5RUu_pPU09eQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "qkaKGrjsUE34SAvFEq-Xnw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "czsabhCshS-dDb1ejoe7dA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "rwW1x1mcFfWx_OUrGMdMQA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "SfHddN5pz3dvg6_D9OAGfA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "WmpIPuDDuehP1A-6beufWQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "mXJ3U1X7jKx9xRomOxMUAg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "NLa4KooJ8QidsFnV7JvE3Q",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "GBTPC53ZrG1ZBY3DT8Mbcw": {
@@ -496,8 +2079,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "is7hCYzYbWRf4a7e_KVH7Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Y5gtWmQw4He7aKmHCcvf7w",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "S0dQ8Vks0IR-PZPLoBHKRA": {
@@ -509,8 +2107,149 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 20,
+        "incidents": [
+          {
+            "review_id": "zCnzMv4JH4BRbfvaTOYf_A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "1f9I5eHCa48IhR6NRCeHAg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "qPZs6NjVko3Fh_tsIYRppw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "5v_Pe8msIBFZAgHp7L2izQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "uj4b2csjf0efZLQdbxtDLA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "S6K9X5vVLTKWz8QcRWFimA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "nmOkiQGEJ8LVLYfXLFicFg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "gYsRZjsHU2-wn1bqALgwTw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "w7UWo9orNCs2SZG17LRQvQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "5QlDIQSYe7PI_8uqnWSVyA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "YhJNmh3UJ4X6j-FZyLiDYg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "vIVpPWUfVoaNeHHIypESFA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "paKmLmGLTbtXzqmjOULnnA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "VGsp7r_PLC-cW4VKAqGJpQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "GDmw7PhUcJWBFviPK2CSug",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "BX4FtspyvQFRct9XGg_oQA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "V8oJitfLqOlr5ym828kamg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "anhLD2k0UthQ7nvsEQrJvQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ZLi-zLy8lpIvA-ptpAy15g",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "mf-A6BxoJ7dhNZX6HVxmBg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "eCikDKFbaeYVNdCD2beX0Q": {
@@ -522,8 +2261,65 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 8,
+        "incidents": [
+          {
+            "review_id": "Z50bE2LjzXI-CwSWhAjXBg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3A5ETZM5k7dF5Bq103x-mQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8j3jDpHntyIeF1FepE-MTQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "yXtAUruZsVQXq7x6puXthQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "lqeSZuuoQ8AaKRQLBkOaJg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "zLToIEyGm1Oryfre0eMHBA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "d7IBCNwffH1JgGLhD7un6g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "i0Ijos7Ph0kn9BriVXrOog",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "TbjqvdrSBm27arbKbReRfg": {
@@ -535,8 +2331,51 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 6,
+        "incidents": [
+          {
+            "review_id": "8_J1qa4XM8Zf2nKzH7g1Ew",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "tcRuyLgqDcJCQ1PfLzB8Ew",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "MFzzWQ4QwHpE3yrqsDtPvQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8GyrA_vKJY_1XELlXp62JQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "fUb1Bxro99bVHJh2MouwuQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "JNAagy6bNAc1Ly0tFR71xg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "yT3Qs8rz82wqhKFlfWr1Lg": {
@@ -548,8 +2387,107 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 14,
+        "incidents": [
+          {
+            "review_id": "wJnZvCragM0d7-FWlgbEug",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "rK_nhLIeGIInwl4vdy5eyg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "H0KsQJ-RfoIlJadGksrckg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "uQhZnMYx2rrT_m1zDuZLAw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Eae7sDLJRX3iMQ3GZ86fAQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "198kcRMaApyx1oqW0j22OQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "O0fwv7RItxKVPyorGfy2pw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "_aeokHY3SGPHHxezb_Z3sg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "gFT28PtjpVvAp-wqzFyjPg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "FNiEsH2D9jGS8AxI9AQjlg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "9eX6txQGRZvR9t3pk0SpCg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "MexU3gel9xXqDTEzAagd1A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "yxVfqrSAspWfKiRebF8Xlg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "iDAnMcp0No-EKKLQdFGMqQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "ewaaXBGXMGluuTGXOnTkRg": {
@@ -561,8 +2499,107 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 14,
+        "incidents": [
+          {
+            "review_id": "6Oc0S12zRJweXaRUJgKitg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "elLQua2rVCUqqFZ2_HpIgw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "5Wms3iWix1hgaAbs_QN4Pg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "lYStKh0wmbtQBYtyxH5lIg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8AR3af2VjmKn1Hs2IL6_nQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Gi1S7snrk6jlXlEcC_xPNw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "OPgRc_3QRaVvt2tfqsa_oA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "x8bWGBb4ujluaCAdLGGuWg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "f1JC3qJl9-pLu7mhdc_CVQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "rW5FNzChNJ00EbMIZOT7-g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "j-7UXtuJ-mojo-qNOZjXRg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8XNsIVnM66v925-hB1i7MQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "4q9knBtqv4pYYqpRvtVDAA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "r38TFUuKTBC2essShT0HQQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "yksAB6aQXfNRrZM0jTxyOA": {
@@ -574,8 +2611,37 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "UKJyYPyxjOA182PrX4KouQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Uukv_VGK95sC9uw45ww8qw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DYesyaAjy5_wx4z17q6JyQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "AWF4GUxGAbU3oGWmeWqm9w",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "_1JmbxhyiTXO_CDytQTkgA": {
@@ -587,8 +2653,58 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 7,
+        "incidents": [
+          {
+            "review_id": "uoW-_6mH8bSfsxg51vColg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "lpZ0bPHY3AnfLsNXzTpvvw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "zZ4TxG9vY6H9KmyEp7stMQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "UwdZcTFxjhdUDo_1YNTZAg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "7lveSGpC6jUfcp9K-3u89w",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "zaYddeGj_cXumY8J9IluNA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "2Jb8mmjzDkU791u9P6t8qQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "MJ9FaB4y2jCyn1CU7Fnj2Q": {
@@ -600,8 +2716,93 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 12,
+        "incidents": [
+          {
+            "review_id": "17OMBDDrMxdC7Lmy0HGl1A",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "jT99XkOXU6WqF3h3l4xDqA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "5JwasW8hh-W3vvLddcSHfg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "tUeEDxRJY8fsfa-v-FIY5w",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "fgXp0w6X48usOh7LOveR8A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "BAwsjf8MsxIY9aeXgai7lw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "1T51XffeE4muWlR0ZEo9Tg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "2QcJFiyWwjg2rD7qKS1okA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "j7bldEQD2bbsG-4_UoCs1g",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "1baV-N-xCAXcx1HH-7MxTw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DU4BF4VLFCBwVQQivo3YYA",
+            "severity_field": "cleanliness",
+            "severity_value": "spotless",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DgFnc5zIFqFKtQSJD8JrqA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "lVAjWGOqyZOFHMEw5NLt9g": {
@@ -613,8 +2814,79 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 10,
+        "incidents": [
+          {
+            "review_id": "oMHhigqP1Ou-jJM38BVI-g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "X3pJbd_oSikIuO8zao_z2A",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "28A4HmyJ_IYjuH6mTzm3Ng",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "wo9BKsjWGgY1pbiQhjj-8A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "6MoOpqIixO12rSnhY3DfCQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "6mDBJpEKNI39P0Ir5aCMPw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "nD9bVi1VNNWFwz4RQ1SBBw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "L-z0NM4z61Do_5aTOKqM9Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "o5jvFA9sXG05SwxnU5U0RA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "rIQ9A5XeowsjCP9kQbLHkQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "XrikSy0DQ_fhVCaRRBJI-g": {
@@ -626,8 +2898,37 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "fDG5f0wYTpSMdXAhwYeJFA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "baOBmvwiu2xI6OFuUpixlg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "L1fSrbzs-ubSk7l8OWj-Lg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "fcB3F3fZ-FIWriWLJrAWWQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "jbJTF1zVmZsk4hea8hoeVA": {
@@ -652,8 +2953,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "YfIwL6HlvZEXJq0hZLzQaQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "UgqHqXWYBdgdp_K66M2wZA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "qP62hlfUtIc59CV1tsaEXg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "gVuzYJvei8rVDCLmhWBZ2Q": {
@@ -665,8 +2988,149 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 20,
+        "incidents": [
+          {
+            "review_id": "oo5053J3YVHtvslA-7ymHA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "_WYuCAQaK-UgU3Og4FSmbg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "LeXX-m9uaUpRcKOWSs4ufA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "35T8JBTPVynUiOyQe85ZaA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "hnxOjW3Fbp9YIVrqllM7nw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Svv4rkDAltccNkPHmA7bAg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "TLs7SxnbyPvOt49Nf6HeZg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "_Z1KNbV5PZPbj7tVOka4Jw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "b_e_MGf2Clhw_e3CuQOA4w",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "YM0KHyQ0OBbNMtiVb2Qtpw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "wgZ6nzW5e22IeWi6d44p3g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "SV1rW5pnWRMSbLiU1EKlDg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8oCNk26x9b8cjGPdd7J_Ew",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "s_ZDvv6phC1QoODiZsnwnA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "xpLJUPc_IpnhHWowFk1FBg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "b5MKWzcx5ybPa-LbVrsBgQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ETt1YdlKJeG6OppIDlt0vg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "T4wpWNHFObQ9YpoRvu2tKw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "IPwf4WTmdKoVc-B1mZU-AQ",
+            "severity_field": "cleanliness",
+            "severity_value": "spotless",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "dgDoSD8zM0DgcIIUHsESsg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "kK-pcrXr3CEnWP-ci7XXgw": {
@@ -678,8 +3142,44 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "fxFFvhrNvpp8tqONqb1akg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "xHjYVvou543dvIaul_DcNA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DToNE1u_upDYpvUaae5yLg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "qqcR86jwh4ZA1COcOKfZIg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "JrPBH7swwnU2JrH81HMLQA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "tV46IhCfHbsx_af-pMupiw": {
@@ -691,8 +3191,16 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "sQ228xJOmETUUDyGIiwmPw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "caSFK6m6kbifsD9ZF7bCNw": {
@@ -704,8 +3212,86 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 11,
+        "incidents": [
+          {
+            "review_id": "jketQ98oZbus-_0D6uh-NQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "59PEgbHK6cP1HdxeH9SL9Q",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DWnGmRK1XNrVdT95NzBKpA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "XVZiFcRapdN8UGFqjCmJ8g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "w5reValcIhZN5uHZXiq3kA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "9qaP_XmBIgCOLSDi0mDYeA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "y6Jag3-nwkdmcztrAnrcvw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "GQ6y3TXCrF9lOeSoI4Nfjg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "04HOMwKokZRFazduBl7Zgg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "N3eeXBMDRHVEHC3RI5zuzg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "kajFiyH9KqAxxceS0OJZSQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "DcBLYSvOuWcNReolRVr12A": {
@@ -717,8 +3303,44 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "C7nMZoZZXXDaEbolpk-dDQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ys6KOEN69BpKKK19kPR2qg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "sdHJb3eXPC01osODOA3V5g",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "i-ePMMjxmCkMtoqXTlDqxQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "wUs676WMAao622HwxtR1Xw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "6OC8ErU_m06KABnfSXTJEA": {
@@ -730,8 +3352,30 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "2TZXowwTTB81WIeAnb0zMA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "VbyBXFnLMj90EPz4cuiy7A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "_I6nyXTFDvzoAh4gRZ4V7A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "gebiRewfieSdtt17PTW6Zg": {
@@ -743,8 +3387,65 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 8,
+        "incidents": [
+          {
+            "review_id": "_v65PY8ZJ0AwImIEdV3O3g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "C9cYCMFmjml5CtDtNdHv4A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ERgL_jc3Ecl79P8NdgmbZw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "tXh7eyzjLr1noKTfiwDK_A",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "rgByCzzwWs66804sKpHDjw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "h5NoP5mWY9q8W4Mfu_hOEw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "yAcQRsXrF6sohBBLqYtTeg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "U1Zzf_uRbtSvyLAGh18L9Q",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "GeLwhGlX8XsIsH-o3Wdc5w": {
@@ -756,8 +3457,72 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 9,
+        "incidents": [
+          {
+            "review_id": "eRz1cI543X4oRah5w5cj4g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "mwLBDZsQgToKVGEToYpdWQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "wyP60vnmTMft74gebJBoGw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "P1_K_3AWZ7EgwjsgF99GQg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "CpDVS3fUqwcmURQRoc61pg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "2WkM4JnSq8bS0CPJDqtSAA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "1o_hiHp1JitmYIjewBPW7g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "oORwWqftmV7lrI763a2IhQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "-n328r9SGgkSmS8edF__sQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "GmXC3CBu172Bkb0c6RnO7w": {
@@ -769,8 +3534,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "N0Ozu1hSbviNcLMpNxk9qw",
+            "severity_field": "cleanliness",
+            "severity_value": "spotless",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "2VjBRpCUHxFTE8XtTZNipg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "QAlWB_JXJNQyg-kqAK_Ciw": {
@@ -782,8 +3562,23 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "-5xT7VdhHGnbUPi3LSr_5A",
+            "severity_field": "cleanliness",
+            "severity_value": "spotless",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "uAn7pHYolr1gOjP85UDoQg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "Ps7Q7BOKzJO4nDTUhbk43Q": {
@@ -795,8 +3590,37 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "O0kamWpAaWWl4AMmPoTS6w",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DZ8fv-Z3RwuPaHxnjZWonQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "-CQMRIiHiLrHpKE_EhzSgQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "opyVbC4bcLhEChTRLMzyXw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "IxlIgLbIbynzJdzeqO860Q": {
@@ -808,8 +3632,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "wnHW3lXXERaAZVNjRD4gqA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "VDumVNnafxrnjicRewRulw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "6ItoCtt4tO5FrZj5bdXEqQ",
+            "severity_field": "cleanliness",
+            "severity_value": "spotless",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "qqtGFnjyZWV--_YqabSb8A": {
@@ -821,8 +3667,86 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 11,
+        "incidents": [
+          {
+            "review_id": "axYpCDhRdzTPdQR3mKr5Ow",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "a0ICINLmnclxV2kVrRLG6Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "G4JVoyGcHSWDN0wjolNHEg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "B_PTHmMTzmevuE9J5M9r_Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "YtLwPdDmxPCpbwrVL9CuCg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HdJ5Ibn0SduuCkSX_HrdGQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "I8JbX1W2FT4or_6rQX4byg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "MKW0P8TqI1oeOjEZS9k19g",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "AoP69AGK29_oVNRbEmnjDg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "LeGIxMghrehd24MZAlJCoQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "EwXjtO0ZBNTCdY3W64vRiQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "eZCt3doDaA-l4sg_OM67YQ": {
@@ -834,8 +3758,16 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "HUHWsmt4ZK7om0-96pb_2Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "sf-KdXHB5nxfNjl2uUpI6Q": {
@@ -860,8 +3792,23 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "Y0UcZkTwoq8jDBLWiHnePQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "YDxeHFIPMFqlXuVtx_e4Rg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "ac1AeYqs8Z4_e2X5M3if2A": {
@@ -873,8 +3820,51 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 6,
+        "incidents": [
+          {
+            "review_id": "e0ZMzh9LD3b3rxnUofojEQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "c4yYyFYbVO123A8aCZwoPA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "zqRZwKimkEmmIXaQvwZtJA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "V6nN2q8I5XOWXcaYqZRU7Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ixyEKsDYDSXQLvrKX6J96A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "4p_tQeWQfVamd9HLoyVxtA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "gKS0fS91JQOOTICdc2ZvFw": {
@@ -886,8 +3876,93 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 12,
+        "incidents": [
+          {
+            "review_id": "JECYAyYcWqfwCzAPfjmzIw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3_zMSsdB8byzZmOxQkFlJg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "qBoHiICAGhAWyCBnM6tDdA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HTMCLLJBRiX3pMTeLUcRUg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "iOkMGbRG8rigI_7O2MVGtQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "yHvZvXS0DTWctekJNXndNw",
+            "severity_field": "cleanliness",
+            "severity_value": "spotless",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HpkpInf0faYuxB8S5W1okA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "kyN3morGIRS3iqyHp_jNGA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "E17619JR2hj1XrYWtUpb2Q",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "1SoeH7Ly5GEV0adI7HCcIg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "SlwJ9Qwhc6NONHrRFu4g8w",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "2NucjoLDUgqeG5DABkN1oQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "73ZXjIfdHJs59XOzKHQ45g": {
@@ -899,8 +3974,65 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 8,
+        "incidents": [
+          {
+            "review_id": "a4ETPAWEtwWd8MlMJyysiw",
+            "severity_field": "cleanliness",
+            "severity_value": "spotless",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "FKk72Oos8cIdcr2ijQ1DPg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "VXnoo0kMEHQ4jpgv52wG7Q",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "C0LB3EhW9rx6ypbBGLl0XQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "0Y6R0EjKgR0UZwiJjnhXXA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "e5DiSVSWD7lAum0o2DM34Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "AGv3k_puLAmMfqJwhf6D0A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "MgiUHjhUio9EYo3OPNTPRg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "ZfOS7Mz-iGseNxBhlhXm_w": {
@@ -912,8 +4044,86 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 11,
+        "incidents": [
+          {
+            "review_id": "P_lO54d-n-K1-puRRMCgyQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8xK-cXCFUrKsNEf5ZjCZLA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ridD_kyOXV9bkC3rn-16Aw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "25TJ4QjeIfv5rJUQSnv-MA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "lsGw3TcFzW0EiPhkJGEtqw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "uoZVe__391Hwe2Sg9n7fEQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "6qP8M_5AcZt5Au1FgkLLgQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HBBDuLHY2JEFBFK9frE11w",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "JOqK7Z6t1homYvSuRVeQ8Q",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "zBL6_hdSWRqWIoX_-tiW1w",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8oSH01_xTKYo549h_SfCYQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "unjm4rIGc-ZzRxdzEPnc1g": {
@@ -925,8 +4135,100 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 13,
+        "incidents": [
+          {
+            "review_id": "QVeoy7vZ1YugZgZ6yrWnEA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "sEWuZQq7tl-q9HxAIwLN0w",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HqCeItBHJL3yt1eONha27w",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "xf6D0pMMQM3XpSwc1hQb3g",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ogT2S4g6IbOKEgjfyTE5CA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "oG4NSleFtaBYkQfNLFLzgA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "RgQuPC6y9dqNWCZ7xrfr1g",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "5RQTer-Jks9G6u26dhpOTA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "mFyDa974nbLNbFI5B6EpNw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HXV_jjMBsp4V2kZtao5L6A",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ex55m03lar7kTRHEg31byQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "KQlQjTGhBTDlsHMSJrs1zQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "J6Vx-BC2lZNAEQ_sYr99wg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "05ev984NYfimRN0UiFrxaA": {
@@ -938,8 +4240,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "AZYcXb2WSGaFFwxi37YDvw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Po4kfZI3_WVYp4Oz6J9vvA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "65myO1d1kwVO0sZ2ZJC-og",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "CCnuyfb1nd-doEpkj0OoHg": {
@@ -951,8 +4275,93 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 12,
+        "incidents": [
+          {
+            "review_id": "8vp74cgHgUgNnZeJoIYDdg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "crL82QaSrZTsb__6rwLvpw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "p4al4RRwsDEsTfr5Sa_jdA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "7mXOmqfRU2g5jRVbMeMOjA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "g6uud_8Dkv1zk3E5PVbFQQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "UXqAbuiKkDmykUmv-h3Wyw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "aINuVl9CgEtwTSZC66_lnw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "9vXq2CBnnlt6mZATWChJkw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "SzWF_QjJCe9LyTEuwMapNw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "6X33ItqPRvFzBaAOynl5jg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "EqVcRB4lYjsB4fynou4hvw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "aQ0MrOu7IeY8s51pbwCe2w",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "ctHjyadbDQAtUFfkcAFEHw": {
@@ -964,8 +4373,30 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "LZMzVWCED5WCqQ_097vKXw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "oaxk3GZK7YIklKL9ldEtxg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "lqxRG4sNtefdi67hqSrLQQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "B_q2xoAgTyn6U4YNEc3kSw": {
@@ -977,8 +4408,121 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 16,
+        "incidents": [
+          {
+            "review_id": "NzRxCkEEfEUPxpIugTODSQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "rCcIyxFM0MLaokM4IN_qhQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "_Mq5uMZ-khkRlznBuVplmw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "6sEuggW3G9ZrJsfxeRIyWA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "hVmbRnxR3N4R8eOv-wEpWA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "YgjeQxONV8X5FuhhoTGLOw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "EaVCbnYcx44lInmnBGjAng",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DUdYir-_lVsJYl1252ssjg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Ki8F791zas0USRKXdhLLug",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "4XBvWosNShcLrIx89cyRfA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "bN7rp119f52Nq1bvIac7Hg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "kqrgqAqQyK3L5GtC90BFYg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "0vFFJQH-S0Ua0H-cOYyWog",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "QjRsI-0HXqZ8zuBuExDC3Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "fwJtwedhvPXp0pHutNF-RQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "6UM22qVbKmIhp5zNfFgkzA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "6LyhttbsQn6a6PDxQDojCw": {
@@ -990,8 +4534,44 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "HtqpxgYlPQjhw8Zaexn8xg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "29SsLJU2SCFlZTr1qFxf2A",
+            "severity_field": "cleanliness",
+            "severity_value": "spotless",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "u6a5Cc-fmgMEvUCBfE5nMA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3zReV2npzsdfhXyQJkIIyQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "cTrT18zL-8wj9r-Q2ksDJg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "LIHDIAocngz5Loe04eQ_oA": {
@@ -1003,8 +4583,72 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 9,
+        "incidents": [
+          {
+            "review_id": "-TTqJ6ojod2BCIQCB921cw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Wo0OAyHBvJNUprtyrM0HXw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "yOHBv4vKF0nyejEhK5MMRg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DL3QnFZEBBbzfGeBDA9LQQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "2azNtKpMW0aW8Yw-M9wksw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "P7cLIKtFMlDar4zGbL8c1A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "71eWkZzp102lGneOw7yELQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "s-nWzWqNChlgVmRnvlh-DA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "SRAr5AmfTv1EPbIJvjpVww",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "DvBdqAA3XleMaOMwBl7g4g": {
@@ -1016,8 +4660,72 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 9,
+        "incidents": [
+          {
+            "review_id": "d2o6qb-z-TB4qgZP4Yd6Tg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "JD96Z0twk4DkMoWIfpXKjg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "spH6m0sGHk2lgadEkgwiKg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "jQknLkv44vnXlLYwxS5ALg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "V0vbSD-d5MQZkhRcNrnD9A",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "iDwlh6EKdYSiAAqLF8aEMw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8GqN1yPH8tiTYEIe9vyl7g",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "VFOTX7dZOhcv-tzzgx1byA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "njy91G8n6cSYdhc6gf6PWw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "1vPSY4EA-fTRIZYz1Ruzow": {
@@ -1029,8 +4737,16 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "qUM1vTUZykzFQywmk9Z9sA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "QvB0NRTGDplwnfPZGq8chw": {
@@ -1042,8 +4758,51 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 6,
+        "incidents": [
+          {
+            "review_id": "Nc2F2QEbMxpyXPUfe-vdEQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "1-H88UcBE1t-0nSeIJKN2A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "lIbTN00MIP3YnOZqGvsFwg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "QTjf1ZriiIvvi9O3agQa3g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "TBPhcVKtbsHf-FeVXp2QzA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "4jmoZDeXEPcHZny6YY7K6g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "18eWJFJbXyR9j_5xfcRLYA": {
@@ -1055,8 +4814,37 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "iG86hn9wnyTsJ8rcsOX-Jw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "rzeFlcLh07BQnYH9LFve7A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "vsldaaVWSKHIEiYXMrbPEg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "XP9fMP2ph94NLqe09Z6SeA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "Fc_8eLlcq5yy4DzrEeqEaQ": {
@@ -1068,8 +4856,135 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 18,
+        "incidents": [
+          {
+            "review_id": "ATbYlP9o1Nvkk2aR3AF2Fg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "O54LRVFkVKGpNQkx8Tsg5g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "14-0lmqb8IGUNMNM4qhqVw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "H1-gCftSJ8brRDfRswkHVg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "PIbzjMj4mfU53IUiCHCf-w",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "uhK2t7pPckyctBztFNHG7w",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "lt58rWOsnR9sNVwhSCTbtQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3LdlzqauQH7lMU3r0fPCJA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "WuWNGOSNHekrU2OwUhzQ5Q",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "n5rjCmK0CvAzSP9r3X8fsw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "49DfxT5wHQ7EItyTmTG4Tw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "LnnONkzgU1YUmOBFlPOchQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "k1wydEVKWrIo1SUKzNcdkQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "yFlqXb1rwXYCPu3OSYGHzw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "H56aPk8F72QXvUB9CI-dqA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "GbpVjm79ZRPwqvssEIatHQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Y0G5fPZ0_pZCyPHFhE7ubA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "URRdJSFgX5qudjTPkaS0gw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "HDnaNdHEZpQMYXo-ZHHG9g": {
@@ -1081,8 +4996,156 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 21,
+        "incidents": [
+          {
+            "review_id": "Swwd98GB2R5ZeFd3_Zb9QA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "sUML10Pm8vef8gW2Cupg9A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "3aTiVG4_7YazFd33IVyBQA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "cLQfZI8FNlK62jyKgUMymA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "LjdoLKdeDLeOPTZ6Z6HKlg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "P33MEx1k7Vj-VopKNDq_3w",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "eExGbk8Jbr-e-qtnBXYq2Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "E9K304kjjE-ZJr1z9WScDA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "lNhYMJr9KSV6Hpn_crUPvA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "vAOZ_dnmDh6ffJU0Iaf_4A",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "-NK_HYy6StyEnmDG00IGyw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Llio_CGGzYoZN-2xaBhXYw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "idRDPxAsN2E9VMgcigOk-g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "7St9BulGPsX4OtAD0JJp2Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "snI7yCMNruPQ0b8ZyaOn8A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "P1z_R0hXtZOuPeESExYHOw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "9oLcIg0SiRtKvqiQoBPLDA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "aaR6azQhAyOyk9Ev8YJNrQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "RepcKSQunbvbts17ZgLYAQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "IvHA5luectoJUAHH_aFC3A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "I169inKUm1CEv9T69jImYQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "ws7z5fLdaVgwxZ9ex3cKxw": {
@@ -1094,8 +5157,44 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "96JiNWWZUr7OgF_BL2Gd9Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "CVUBd_gHilTKmfvvNpRKhg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Fae46UNrJwThBjS1AN4nTQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "1WeGn44zhoe6yz_LTurbhQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "hJPvjMx8CvGXjYKj782gmQ",
+            "severity_field": "cleanliness",
+            "severity_value": "spotless",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "9PZxjhTIU7OgPIzuGi89Ew": {
@@ -1107,8 +5206,58 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 7,
+        "incidents": [
+          {
+            "review_id": "3VDbuozFHCq9twaCXgKJhg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "EOkKqyJKk2CxMH62a1qeLg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "YMh-7N06ecqpUlGbcT2E2A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "OhTgPbOgke3sUVawxLAG5Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "yTu3evgHLejP7zQRsk2QiQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "N6Fzs4ozJVj8-PL__jw5Gw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "0tA_S3mFNFUKbzky3DZKsQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "dsfRniRgfbDjC8os848B6A": {
@@ -1120,8 +5269,37 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "n90FHRnLDnpYfdKZQTzGdA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "pnHADOPNw2rlQeww74EfDQ",
+            "severity_field": "cleanliness",
+            "severity_value": "spotless",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "5Gdh-_CjKvR1OvyjJAZx-Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "iZ6V-sti2U_mCCIDhQnudA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "JrG4NINLspXPNhSXg7Q07Q": {
@@ -1133,8 +5311,72 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 9,
+        "incidents": [
+          {
+            "review_id": "E7rmE7-I7IFDPoJNCxyh8g",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "GSAmHRm4Gw6pwrP_otpRWA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "EfvICx9UDJecVucJTpnREQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "jkbyzfWZDflPyw9dXv7pVw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "5xVudg0zlA-3FCweEQWAlA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "2Pf9Lyro8ubZpWkXXZSyxw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "aM-nuxe-qcK9881Gx00U-w",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "vMWFJIRWInZXLrNJQgF3RQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Xl4M-4VoQqorgT-trUy_ew",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "mbzBcAAR1Hx4G2jWRxJRew": {
@@ -1146,8 +5388,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "-5S6gL0F_mYisevLtZEksQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HGZuTsbh9nqWmgLuUVsAhQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "6f9jOhBJex4aSspXVAlbSw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "cM3C8AT3IhOIM4ccBofuSg": {
@@ -1159,8 +5423,58 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 7,
+        "incidents": [
+          {
+            "review_id": "mPfbf8WrzJiWZdNGZyTenA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "e04x_CLkTIYZ1Jo2kJiwmw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "MzLDPpInPwrjm8uN9gisRA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "tWS8Xt2twXzM9yQYMKopow",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Fg9e0x0SbZ-zrvzUM-zHEw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "xN5cBlZfp5eF7CQplYnNiw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "wXJgBQXd5JilMuJf6xDMdA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "i_FWONQD1ZBqrNE2b-M5Ug": {
@@ -1172,8 +5486,16 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "UsdHpE_kHy_QOeHApX20DQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "MfkMUNwur9huBERrx0k5lg": {
@@ -1185,8 +5507,37 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "PWhRwHEHKkERf0d3Z7W_DQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "MBrKiwvsig4aF9DJTZluTQ",
+            "severity_field": "cleanliness",
+            "severity_value": "spotless",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "T9nqE9XTRa3QG_N7JgGJHQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "q3g7jddhnOS-Zpoe978k5A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "TCAaeZi4m_RwUTTbZseRmg": {
@@ -1198,8 +5549,37 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 4,
+        "incidents": [
+          {
+            "review_id": "rdf_L1kQQ-9yinx6A4UVyA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "yBCkkbWMxfPTnAs3gSpJ5Q",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "NHJeQ5c-fVntXK84b44k7A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "b5kA3NX7q6m-CMGeSM5I6A",
+            "severity_field": "cleanliness",
+            "severity_value": "spotless",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "CFjQ7Rld0ddZFTi8Ryc5Kw": {
@@ -1211,8 +5591,58 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 7,
+        "incidents": [
+          {
+            "review_id": "AO_vOy1TOhJ_S3ntgQzLYQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "w0lWZcvOZ3MUpLJ-l0mRUw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "AN6mA9tA3iglYd1fUZ_z0A",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "oi5SmKr_bd_UqWEXRNfV3Q",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "zaa5EzU8GCT_77DoTGs33A",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "EN41Vp9XRRrGuVWxrgtL0A",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DvC6P10u_I4ebesh_hh5Sw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "D16LyrKmQ0Cs8NQQkFZD6A": {
@@ -1224,8 +5654,65 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 8,
+        "incidents": [
+          {
+            "review_id": "j9hqlBFL5PBiXQVqUSf4aw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "nGO7yVh80xD9J97UehR42Q",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "49msuKsL-oQ2JdJFnAIRUQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "9WpXTlWxEPCfCTeRsGRV-w",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Ph1mLkSHNKadpW-lCQ_QEg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "iAvHSYrYS_nhvnpcdiXEvQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "OtNKxEQI2KsZBzwmRhJZCA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "LgXzpwef8bPS6b1LtiZLlg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "9z2z_y0JK1F2CC5MAPuzrg": {
@@ -1237,8 +5724,44 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 5,
+        "incidents": [
+          {
+            "review_id": "0sehF7nnFGpfH3mYUOHu6Q",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8ECR_r9HT2loycrDH8BtRA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "QHWllGFYW_WRW6xOKIiVsg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "DZYguu6eEzTx_F3TihTDSA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "tZxZV1u1YnQxaC9XT_4REA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "2CDI713ATuxHfnB5b-sBdw": {
@@ -1250,8 +5773,30 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 3,
+        "incidents": [
+          {
+            "review_id": "fmQ9Sco3sh-JNtJJG6_OPw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "zodKbbBLz0l89zuRpcoQug",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "xjQJQ9OeGMQjemvt6QF1Dw",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "VpeqnfECjFNcYLyDxuc-_w": {
@@ -1263,8 +5808,107 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 14,
+        "incidents": [
+          {
+            "review_id": "DYeCRcMPalh4uIjVgNyuog",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ekJhmeHSh8yxjymWcEhljQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ttYeR3r4TEG0IutfzieSgw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "UO0gabDbnJxL1l2CdusxIQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "i7rF7A51Hn5zrcE_emAxXw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Gi3XeE6AbuwBQUKWgBycVg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "8DNJZX0xsoFVG_hX28qBOw",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "xSM_WeywaX4PQ8SrENHVUQ",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "P0Ncxe4b0y3UI-b2R5ThZQ",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "lqm_7ozkDiNDVU8ZEk-0Hg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "QIviURncl0c87u_ELVMITg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "O5ZwFOQn3toiMXiAKrqm1A",
+            "severity_field": "cleanliness",
+            "severity_value": "spotless",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "74_eVjAPzId002ILdHTPJg",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "_A6N3lIJh1JD0wBi_AE8Ag",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "2MAQeAqmD8enCT2ZYqUgIQ": {
@@ -1276,8 +5920,23 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "Mr0EFPk-bV5YCLWcJHWnhg",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "YsjkRj8Fd8opQt-cSdU5jA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "fdez0D4ovth2k1IvR0ZbpQ": {
@@ -1289,8 +5948,16 @@
         "verdict": "Satisfactory",
         "matched_rule": "SATISFACTORY",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 1,
+        "incidents": [
+          {
+            "review_id": "eUGAvoDiQkw7eOgfjeiydQ",
+            "severity_field": "cleanliness",
+            "severity_value": "spotless",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     },
     "kZ1q0K13tFYG_ZJrVvsJHA": {
@@ -1302,8 +5969,23 @@
         "verdict": "Needs Improvement",
         "matched_rule": "NEEDS_IMPROVEMENT",
         "policy_id": "G4_environment_V1",
-        "n_incidents": 0,
-        "incidents": []
+        "n_incidents": 2,
+        "incidents": [
+          {
+            "review_id": "AsFVBQHzM92saLvkdTjMhA",
+            "severity_field": "cleanliness",
+            "severity_value": "fair",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "Z2zi98eP45CL1FBsROrDNA",
+            "severity_field": "cleanliness",
+            "severity_value": "dirty",
+            "account_type": "firsthand",
+            "modifiers": []
+          }
+        ]
       }
     }
   },

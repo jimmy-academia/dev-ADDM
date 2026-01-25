@@ -1,0 +1,162 @@
+policy_id: G3_price_worth_V4
+extends: G3_price_worth_V3
+version: '1.0'
+overview:
+  title: Price-Worth Value Assessment
+  purpose: |
+    Help assess the value-for-money at this restaurant using customer reviews as evidence.
+    Assign a value label: Poor Value, Fair Value, or Good Value.
+
+    This assessment uses a point-based scoring system with recency weighting.
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - price perception (expensive, cheap, worth it)
+    - portion sizes relative to price
+    - quality relative to price
+    - deals, happy hours, lunch specials
+    - overall value assessment
+
+    Reviews that only discuss food quality without mentioning price carry less weight.
+normative:
+  terms:
+  - ref: shared:ACCOUNT_TYPE
+  - ref: price_worth:PRICE_PERCEPTION
+  - ref: price_worth:PORTION_SIZE
+  - ref: price_worth:QUALITY_FOR_PRICE
+  - ref: price_worth:RETURN_INTENT
+  scoring:
+    field_mapping:
+      severity_field: price_perception
+      value_mappings:
+        steal: Exceptional value (steal)
+        good_value: Good value
+        fair: Fair value
+        overpriced: Slightly overpriced
+        ripoff: Ripoff
+      modifier_mappings:
+      - field: portion_size
+        value: generous
+        label: Generous portions
+      - field: quality_for_price
+        value: excellent
+        label: Quality exceeds price
+      - field: portion_size
+        value: tiny
+        label: Tiny portions
+      - field: quality_for_price
+        value: poor
+        label: Quality below price
+    description: |
+      Calculate a value score by summing points from relevant reviews,
+      with recency weighting applied. Prices and portions can change significantly,
+      so recent reviews are weighted more heavily.
+    severity_points:
+    - label: Exceptional value (steal)
+      points: 10
+    - label: Good value
+      points: 5
+    - label: Fair value
+      points: 0
+    - label: Slightly overpriced
+      points: -3
+    - label: Significantly overpriced
+      points: -5
+    - label: Ripoff
+      points: -10
+    modifiers:
+    - label: Generous portions
+      description: portions described as large or generous
+      points: 3
+    - label: Quality exceeds price
+      description: food quality better than price suggests
+      points: 3
+    - label: Great deals available
+      description: happy hour, lunch specials, or deals praised
+      points: 2
+    - label: Tiny portions
+      description: portions described as too small
+      points: -3
+    - label: Quality below price
+      description: food quality worse than price suggests
+      points: -3
+    reference_date: "2022-01-01"
+    recency_rules:
+    - age: Within 6 months
+      weight: full point value
+      max_age_years: 0.5
+      weight_multiplier: 1.0
+    - age: 6 months to 1 year
+      weight: three-quarter point value (multiply by 0.75)
+      max_age_years: 1.0
+      weight_multiplier: 0.75
+    - age: 1-2 years old
+      weight: half point value (multiply by 0.5)
+      max_age_years: 2.0
+      weight_multiplier: 0.5
+    - age: Over 2 years old
+      weight: quarter point value (multiply by 0.25)
+      max_age_years: 999
+      weight_multiplier: 0.25
+    thresholds:
+    - verdict: Good Value
+      min_score: 350
+      min_score_by_k:
+        25: 44
+        50: 88
+        100: 175
+    - verdict: Poor Value
+      max_score: -100
+      max_score_by_k:
+        25: -13
+        50: -25
+        100: -50
+  decision:
+    verdicts:
+    - Poor Value
+    - Fair Value
+    - Good Value
+    ordered: true
+    rules:
+    - verdict: Good Value
+      label: GOOD
+      logic: ANY
+      conditions:
+      - Total value score is 350 or higher (after recency weighting)
+    - verdict: Poor Value
+      label: POOR
+      precondition: Good Value does not apply
+      logic: ANY
+      conditions:
+      - Total value score is -100 or lower (after recency weighting)
+    - verdict: Fair Value
+      label: FAIR
+      default: true
+  output:
+    verdict:
+      type: enum
+      values:
+      - Poor Value
+      - Fair Value
+      - Good Value
+      required: true
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: Relevant quotes supporting the verdict
+    justification:
+      type: string
+      required: true
+      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
+    confidence:
+      type: enum
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
+    other_notes:
+      type: string
+      optional: true
+      description: Any other relevant observations or caveats

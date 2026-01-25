@@ -40,8 +40,8 @@ GROUP_TOPICS = {
     "G6": ["G6_uniqueness", "G6_comparison", "G6_loyalty"],
 }
 
-# All 72 policies: 18 topics × 4 variants (V0-V3)
-ALL_POLICIES = [f"{topic}_{v}" for topic in ALL_TOPICS for v in ["V0", "V1", "V2", "V3"]]
+# All 72 policies: 18 topics × 4 variants (V1-V4)
+ALL_POLICIES = [f"{topic}_{v}" for topic in ALL_TOPICS for v in ["V1", "V2", "V3", "V4"]]
 
 # K values for ground truth generation
 K_VALUES = [25, 50, 100, 200]
@@ -55,9 +55,9 @@ def expand_policies(
     """Expand policy specifier to list of policy IDs.
 
     Args:
-        policy: Comma-separated policy IDs (e.g., "G1_allergy_V2,G1_allergy_V3")
-        topic: Topic ID (e.g., "G1_allergy") - expands to V0-V3
-        group: Group ID (e.g., "G1") - expands to all topics × V0-V3
+        policy: Comma-separated policy IDs (e.g., "G1_allergy_V3,G1_allergy_V4")
+        topic: Topic ID (e.g., "G1_allergy") - expands to V1-V4
+        group: Group ID (e.g., "G1") - expands to all topics × V1-V4
 
     Returns:
         List of policy IDs. Returns ALL_POLICIES if no argument specified.
@@ -70,12 +70,12 @@ def expand_policies(
     if topic:
         if topic not in ALL_TOPICS:
             raise ValueError(f"Unknown topic: {topic}. Valid: {ALL_TOPICS}")
-        return [f"{topic}_V{v}" for v in range(4)]
+        return [f"{topic}_V{v}" for v in range(1, 5)]
     if group:
         group_upper = group.upper()
         if group_upper not in GROUP_TOPICS:
             raise ValueError(f"Unknown group: {group}. Valid: G1-G6")
-        return [f"{t}_V{v}" for t in GROUP_TOPICS[group_upper] for v in range(4)]
+        return [f"{t}_V{v}" for t in GROUP_TOPICS[group_upper] for v in range(1, 5)]
     return ALL_POLICIES.copy()
 
 

@@ -8,7 +8,7 @@ overview:
     This is from the perspective of a business owner evaluating their service team.
     Assign a performance label: Needs Improvement, Satisfactory, or Excellent.
 
-    This assessment uses a point-based scoring system with recency weighting.
+    This assessment uses a point-based scoring system to quantify performance.
   incident_definition: |
     Consider reviews that mention any of the following:
     - server attentiveness and responsiveness
@@ -52,9 +52,8 @@ normative:
         value: significant
         label: Unrecovered error
     description: |
-      Calculate a performance score by summing points from relevant reviews,
-      with recency weighting applied. Staff turnover means recent reviews
-      are more indicative of current performance.
+      Calculate a performance score by summing points from relevant reviews.
+      Positive points indicate good performance, negative points indicate issues.
     severity_points:
     - label: Exceptional service experience
       points: 10
@@ -84,24 +83,15 @@ normative:
     - label: Unrecovered error
       description: service error not addressed properly
       points: -3
-    recency_rules:
-    - age: Within 6 months
-      weight: full point value
-    - age: 6 months to 1 year
-      weight: three-quarter point value (multiply by 0.75)
-    - age: 1-2 years old
-      weight: half point value (multiply by 0.5)
-    - age: Over 2 years old
-      weight: quarter point value (multiply by 0.25) - staff likely changed
     thresholds:
     - verdict: Excellent
-      min_score: 600
+      min_score: 1200
       min_score_by_k:
         25: 150
         50: 300
         100: 600
     - verdict: Needs Improvement
-      max_score: 250
+      max_score: 500
       max_score_by_k:
         25: 63
         50: 125
@@ -117,13 +107,13 @@ normative:
       label: EXCELLENT
       logic: ANY
       conditions:
-      - Total performance score is 1200 or higher (after recency weighting)
+      - Total performance score is 1200 or higher
     - verdict: Needs Improvement
       label: NEEDS_IMPROVEMENT
       precondition: Excellent does not apply
       logic: ANY
       conditions:
-      - Total performance score is 500 or lower (after recency weighting)
+      - Total performance score is 500 or lower
     - verdict: Satisfactory
       label: SATISFACTORY
       default: true
@@ -144,7 +134,7 @@ normative:
     justification:
       type: string
       required: true
-      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
       values:

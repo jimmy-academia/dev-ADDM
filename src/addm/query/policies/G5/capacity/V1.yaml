@@ -1,8 +1,8 @@
-# G5_capacity_V1: Capacity Management with Override Triggers
-# V1 = Extended: Multiple conditions per verdict (ANY triggers) for exceptional/poor capacity
+# G5_capacity_V1: Base Capacity Management Assessment
+# V1 = Base: Simple per-instance reasoning, basic thresholds
+# Owner perspective: Evaluating staffing and volume handling
 
-policy_id: "G5_capacity_V1"
-extends: "G5_capacity_V0"
+policy_id: G5_capacity_V1
 version: "1.0"
 
 # === OVERVIEW (generates Overview section) ===
@@ -36,15 +36,13 @@ normative:
   # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
-    ordered: true
+    ordered: true  # Higher = better performance
 
     rules:
-      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Excellent"
         label: "EXCELLENT"
         logic: ANY
         conditions:
-          # V0 conditions (combined filters for selectivity)
           - text: "Reviews praise volume handling during busy periods"
             type: count_threshold
             filter:
@@ -65,24 +63,12 @@ normative:
               25: 6
               50: 10
               100: 18
-          # V1 additional: handles packed conditions exceptionally
-          - text: "Reviews praise handling when packed"
-            type: count_threshold
-            filter:
-              volume_handling: handled_well
-              crowd_level: packed
-            min_count: 20
-            min_count_by_k:
-              25: 4
-              50: 6
-              100: 10
 
       - verdict: "Needs Improvement"
         label: "NEEDS_IMPROVEMENT"
         precondition: "Excellent does not apply"
         logic: ANY
         conditions:
-          # V0 conditions (calibrated thresholds)
           - text: "40 or more reviews describe understaffing"
             type: count_threshold
             filter:
@@ -110,33 +96,14 @@ normative:
               25: 4
               50: 8
               100: 16
-          # V1 additional conditions (calibrated thresholds)
-          - text: "15 or more reviews describe severely understaffed situation"
-            type: count_threshold
-            filter:
-              staffing_level: severely_understaffed
-            min_count: 15
-            min_count_by_k:
-              25: 2
-              50: 4
-              100: 6
-          - text: "25 or more reviews describe complete service degradation"
-            type: count_threshold
-            filter:
-              service_degradation: complete
-            min_count: 25
-            min_count_by_k:
-              25: 3
-              50: 5
-              100: 9
 
       - verdict: "Satisfactory"
         label: "SATISFACTORY"
         default: true
         especially_when:
-          - "Adequate handling most of the time"
-          - "Occasional peak-time struggles"
-          - "Generally manages volume acceptably"
+          - "Handles normal volume adequately"
+          - "Some struggles during peak times but manages"
+          - "Mixed reports on busy-time handling"
 
   # Output format
   output:

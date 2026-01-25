@@ -7,7 +7,7 @@ overview:
     Help assess whether waiting at this restaurant is worth it using customer reviews as evidence.
     Assign a verdict: Not Worth Waiting, Worth Waiting, or Definitely Worth Waiting.
 
-    This assessment uses a point-based scoring system with recency weighting.
+    This assessment uses a point-based scoring system to quantify time-value.
   incident_definition: |
     Consider reviews that mention any of the following:
     - wait times for seating, food, or service
@@ -45,9 +45,8 @@ normative:
         value: never
         label: Would not wait again
     description: |
-      Calculate a time-value score by summing points from relevant reviews,
-      with recency weighting applied. Popularity and wait times can change,
-      so recent reviews are weighted more heavily.
+      Calculate a time-value score by summing points from relevant reviews.
+      Positive points indicate worth waiting, negative points indicate not worth it.
     severity_points:
     - label: Exceptional - worth any wait
       points: 10
@@ -77,15 +76,6 @@ normative:
     - label: Would not wait again
       description: reviewer explicitly wouldn't wait again
       points: -3
-    recency_rules:
-    - age: Within 6 months
-      weight: full point value
-    - age: 6 months to 1 year
-      weight: three-quarter point value (multiply by 0.75)
-    - age: 1-2 years old
-      weight: half point value (multiply by 0.5)
-    - age: Over 2 years old
-      weight: quarter point value (multiply by 0.25) - popularity/wait times may have changed
     thresholds:
     - verdict: Definitely Worth Waiting
       min_score: 1400
@@ -110,13 +100,13 @@ normative:
       label: DEFINITELY
       logic: ANY
       conditions:
-      - Total time-value score is 1400 or higher (after recency weighting)
+      - Total time-value score is 1400 or higher
     - verdict: Not Worth Waiting
       label: NOT_WORTH
       precondition: Definitely Worth Waiting does not apply
       logic: ANY
       conditions:
-      - Total time-value score is 500 or lower (after recency weighting)
+      - Total time-value score is 500 or lower
     - verdict: Worth Waiting
       label: WORTH
       default: true
@@ -137,7 +127,7 @@ normative:
     justification:
       type: string
       required: true
-      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
+      description: Explain how the evidence was used to arrive at the final verdict
     confidence:
       type: enum
       values:

@@ -3,7 +3,7 @@
 Help assess whether waiting at this restaurant is worth it using customer reviews as evidence.
 Assign a verdict: Not Worth Waiting, Worth Waiting, or Definitely Worth Waiting.
 
-This assessment uses a point-based scoring system with recency weighting.
+This assessment uses a point-based scoring system to quantify time-value.
 
 ## Definitions of Terms
 
@@ -60,9 +60,8 @@ Would customer wait again for this restaurant
 
 ## Scoring System
 
-Calculate a time-value score by summing points from relevant reviews,
-with recency weighting applied. Popularity and wait times can change,
-so recent reviews are weighted more heavily.
+Calculate a time-value score by summing points from relevant reviews.
+Positive points indicate worth waiting, negative points indicate not worth it.
 
 For each firsthand incident, assign points based on severity:
 - Exceptional - worth any wait: 10 points
@@ -79,19 +78,13 @@ Additional modifiers:
 - Reservations not honored (had reservation but still waited long): -5 points
 - Would not wait again (reviewer explicitly wouldn't wait again): -3 points
 
-Recency weighting:
-- Within 6 months: full point value
-- 6 months to 1 year: three-quarter point value (multiply by 0.75)
-- 1-2 years old: half point value (multiply by 0.5)
-- Over 2 years old: quarter point value (multiply by 0.25) - popularity/wait times may have changed
-
 
 ## Verdict Rules
 
 A restaurant is considered **Definitely Worth Waiting** if any of the following is true:
-- Total time-value score is 700 or higher (after recency weighting)
+- Total time-value score is 700 or higher
 
 **Not Worth Waiting** if Definitely Worth Waiting does not apply, but any of the following is true:
-- Total time-value score is 250 or lower (after recency weighting)
+- Total time-value score is 250 or lower
 
 **Worth Waiting** otherwise

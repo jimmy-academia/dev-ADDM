@@ -3,7 +3,7 @@
   "topic": "G6_uniqueness",
   "domain": "yelp",
   "k": 25,
-  "computed_at": "2026-01-23T19:09:49.874553",
+  "computed_at": "2026-01-24T20:17:15.447606",
   "has_scoring": false,
   "restaurants": {
     "eZ-t73r7ETHjyclRB7SnwQ": {
@@ -15,7 +15,7 @@
         "verdict": "Generic",
         "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 22,
+        "n_incidents": 23,
         "incidents": [
           {
             "review_id": "Hg-uI07Uh-ydKTQFIUYC1Q",
@@ -130,6 +130,13 @@
             "modifiers": []
           },
           {
+            "review_id": "77TFze35Z92hzxwcRlEHjw",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "P9YmbRug9f8DY_JPII7Xng",
             "severity_field": "memorability",
             "severity_value": "forgettable",
@@ -183,7 +190,7 @@
         "verdict": "Generic",
         "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 20,
+        "n_incidents": 21,
         "incidents": [
           {
             "review_id": "fXNi_kvxvRGAhoKczf_2uw",
@@ -196,6 +203,13 @@
             "review_id": "_0hK9x4hyOV8VoE4a4L6Rg",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "mHTb1ONJiFRRtfBOp1D0Ow",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -337,7 +351,7 @@
         "verdict": "Differentiated",
         "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 22,
+        "n_incidents": 23,
         "incidents": [
           {
             "review_id": "jl0gQGfbzN3Q0JiEE5GGJQ",
@@ -357,6 +371,13 @@
             "review_id": "sNjLJyp9gauZ5gZK2a2YoQ",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "GYh3-rc5yIyWnLG_yIvzfw",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -659,7 +680,7 @@
         "verdict": "Generic",
         "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 21,
+        "n_incidents": 22,
         "incidents": [
           {
             "review_id": "NihdA_ouKUojt5LrZQQzqA",
@@ -707,6 +728,13 @@
             "review_id": "Au0h-Ixtt8jztmmOqTFF-g",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "aXovyTYgw0be84VLTYc_Gw",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -820,7 +848,7 @@
         "verdict": "Differentiated",
         "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 22,
+        "n_incidents": 23,
         "incidents": [
           {
             "review_id": "du-KcU3422VJx6e9QlkkGA",
@@ -875,6 +903,13 @@
             "review_id": "r3jTgIJ2lpxosRrXczDkJA",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "HEEnvEOB2sZgUoEoaeQt1w",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -2626,8 +2661,15 @@
         "verdict": "Generic",
         "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 23,
+        "n_incidents": 25,
         "incidents": [
+          {
+            "review_id": "fS8QVcQ4OQcwupogEP3K6g",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "svdczN1KKj_APLUCOGwRuA",
             "severity_field": "memorability",
@@ -2765,6 +2807,13 @@
             "review_id": "vdV7ZkOFOktDbVtWC7nZHw",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "n08peLpJWgE0vmcgvVEG-Q",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -3288,8 +3337,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 25,
         "incidents": [
@@ -3809,8 +3858,15 @@
         "verdict": "Differentiated",
         "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 21,
+        "n_incidents": 23,
         "incidents": [
+          {
+            "review_id": "77Ym_bBI7sLbFcStot7NVA",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "0H8KiqAsO5wVDInD-7X0kw",
             "severity_field": "memorability",
@@ -3924,6 +3980,13 @@
             "modifiers": []
           },
           {
+            "review_id": "xi392eLpV7pneWfk-jLnfw",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "JJqqe2n1ThnAAtNit2skBg",
             "severity_field": "memorability",
             "severity_value": "memorable",
@@ -3970,7 +4033,7 @@
         "verdict": "Generic",
         "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 21,
+        "n_incidents": 22,
         "incidents": [
           {
             "review_id": "cMpYa_xLi_2poZTI74F-mg",
@@ -4032,6 +4095,13 @@
             "review_id": "wJVgZmtkZW4UpldKYIlh5w",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "87FcD_eEofxoh9TTCvnCWw",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -4450,8 +4520,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 25,
         "incidents": [
@@ -5265,7 +5335,7 @@
         "verdict": "Differentiated",
         "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 20,
+        "n_incidents": 21,
         "incidents": [
           {
             "review_id": "gYS_GE_1QKBfrIGknLWW0Q",
@@ -5299,6 +5369,13 @@
             "review_id": "antZdlv77TgDKXelo5lXbQ",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "hfOdeXSal-JF-AkQYwYUPg",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -5419,7 +5496,7 @@
         "verdict": "Generic",
         "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 20,
+        "n_incidents": 21,
         "incidents": [
           {
             "review_id": "_WiqQF-zQ9Ou3RuKu6Sc3w",
@@ -5432,6 +5509,13 @@
             "review_id": "zdOb2lBYgoG2nxoH9gng1A",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "J91xJiDM8k-P410yZe52Ww",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -5573,7 +5657,7 @@
         "verdict": "Differentiated",
         "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 22,
+        "n_incidents": 23,
         "incidents": [
           {
             "review_id": "YuTswFRG6Ljl4HPRFN3ILw",
@@ -5726,6 +5810,13 @@
             "review_id": "s3lNcgbQPGWNNCCMqJYfVw",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "4_R2UqR_2lpK_mOrFmAMeQ",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           }
@@ -6553,7 +6644,7 @@
         "verdict": "Differentiated",
         "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 20,
+        "n_incidents": 21,
         "incidents": [
           {
             "review_id": "udoXlfT8CHdXkCMxST1PgQ",
@@ -6622,6 +6713,13 @@
             "review_id": "97AFlFMaPA9D57dd5DPA6w",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "MFzzWQ4QwHpE3yrqsDtPvQ",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -6707,7 +6805,7 @@
         "verdict": "Generic",
         "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 23,
+        "n_incidents": 24,
         "incidents": [
           {
             "review_id": "wJnZvCragM0d7-FWlgbEug",
@@ -6769,6 +6867,13 @@
             "review_id": "lMkkvGqdUKCE7-9cfuETow",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "ebg-_yB_IRAnWPTZd-HPhQ",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -6882,7 +6987,7 @@
         "verdict": "Generic",
         "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 18,
+        "n_incidents": 19,
         "incidents": [
           {
             "review_id": "6Oc0S12zRJweXaRUJgKitg",
@@ -6916,6 +7021,13 @@
             "review_id": "uH_XDW2LmqWAptmZwOhExg",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "5Wms3iWix1hgaAbs_QN4Pg",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -7484,7 +7596,7 @@
         "verdict": "Generic",
         "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 20,
+        "n_incidents": 21,
         "incidents": [
           {
             "review_id": "2hqG212BpvOpzx5xh-pS2w",
@@ -7606,6 +7718,13 @@
             "modifiers": []
           },
           {
+            "review_id": "GdmJJ8O9rDgZrOC6sQ47cA",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "oglnFwPoRJABikC6zQyF_A",
             "severity_field": "memorability",
             "severity_value": "memorable",
@@ -7635,15 +7754,22 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Differentiated",
-        "matched_rule": "DIFFERENTIATED",
+        "verdict": "Highly Unique",
+        "matched_rule": "HIGHLY_UNIQUE",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 20,
+        "n_incidents": 22,
         "incidents": [
           {
             "review_id": "wuUYnX0XVhV9gXONuQv0xw",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "5CAg_ojiSW0pcvwoQFIBWQ",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -7686,6 +7812,13 @@
             "review_id": "fDG5f0wYTpSMdXAhwYeJFA",
             "severity_field": "memorability",
             "severity_value": "forgettable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "WP8sJYWInSwtZk8sTJsegA",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -8111,10 +8244,10 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Generic",
-        "matched_rule": "GENERIC",
+        "verdict": "Highly Unique",
+        "matched_rule": "HIGHLY_UNIQUE",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 19,
+        "n_incidents": 22,
         "incidents": [
           {
             "review_id": "j8E3-MmsQi2eqwsiA1-H5Q",
@@ -8134,6 +8267,13 @@
             "review_id": "6wpbNPiLfZ-4Tg1KwEEK6Q",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "oo5053J3YVHtvslA-7ymHA",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -8187,6 +8327,13 @@
             "modifiers": []
           },
           {
+            "review_id": "g6qolKBdRBq2yyvc7Ac7Kw",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "nYfDIUBmloFOUDrLbV1Vmw",
             "severity_field": "memorability",
             "severity_value": "memorable",
@@ -8232,6 +8379,13 @@
             "review_id": "hWNlileKZLZNCUr5KbCBFg",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "_Z1KNbV5PZPbj7tVOka4Jw",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -8419,11 +8573,18 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Differentiated",
-        "matched_rule": "DIFFERENTIATED",
+        "verdict": "Highly Unique",
+        "matched_rule": "HIGHLY_UNIQUE",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 22,
+        "n_incidents": 24,
         "incidents": [
+          {
+            "review_id": "EdFRNyKG1Uur-ScEOAGsZg",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "jYznJ3uLEoVryFrDvs8ioA",
             "severity_field": "memorability",
@@ -8456,6 +8617,13 @@
             "review_id": "2bArTNbxoclGtxQOK7WvLg",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "4a3MUljz9u7QqH7-bhk9tQ",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -9066,7 +9234,7 @@
         "verdict": "Generic",
         "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 20,
+        "n_incidents": 22,
         "incidents": [
           {
             "review_id": "20ajW0e-oNPkVwZryJpCIw",
@@ -9174,6 +9342,13 @@
             "modifiers": []
           },
           {
+            "review_id": "j7zT_HGN2OqQdBpJsn_QVA",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "O8vKCkasH_gsJzhZeYYhIg",
             "severity_field": "memorability",
             "severity_value": "memorable",
@@ -9184,6 +9359,13 @@
             "review_id": "ERgL_jc3Ecl79P8NdgmbZw",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "mHUs4rHL6hQWs2AvLXLE3w",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -9385,8 +9567,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Differentiated",
-        "matched_rule": "DIFFERENTIATED",
+        "verdict": "Highly Unique",
+        "matched_rule": "HIGHLY_UNIQUE",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 24,
         "incidents": [
@@ -11936,7 +12118,7 @@
         "verdict": "Differentiated",
         "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 22,
+        "n_incidents": 23,
         "incidents": [
           {
             "review_id": "hwJ4fd-HwQ6eqOdrM_2Ukg",
@@ -12005,6 +12187,13 @@
             "review_id": "m3dSpdl5xa021xzEDAGBmw",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "4nuOpPJhMWTUP8aYze2Sww",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -12601,7 +12790,7 @@
         "verdict": "Generic",
         "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 22,
+        "n_incidents": 23,
         "incidents": [
           {
             "review_id": "rM7xI6wJgTKF1fv3-uCMRQ",
@@ -12656,6 +12845,13 @@
             "review_id": "CB4s8EByBtrFbmRXzETRzQ",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "jQknLkv44vnXlLYwxS5ALg",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -12769,7 +12965,7 @@
         "verdict": "Differentiated",
         "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 19,
+        "n_incidents": 20,
         "incidents": [
           {
             "review_id": "6m30HOcJRxCmoIffIH8ibA",
@@ -12831,6 +13027,13 @@
             "review_id": "5cpDOyMB_BjwjSI_nmPt0Q",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "tjo_ka0Y5Y2gciwh1Zrdqw",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -12913,8 +13116,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Highly Unique",
-        "matched_rule": "HIGHLY_UNIQUE",
+        "verdict": "Differentiated",
+        "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 25,
         "incidents": [
@@ -13105,7 +13308,7 @@
         "verdict": "Generic",
         "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 17,
+        "n_incidents": 18,
         "incidents": [
           {
             "review_id": "PaFWN9OYl7jQL7N0OR6Kuw",
@@ -13153,6 +13356,13 @@
             "review_id": "6uWzaKULP9xWolk6nPADPQ",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "iG86hn9wnyTsJ8rcsOX-Jw",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -13238,7 +13448,7 @@
         "verdict": "Generic",
         "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 20,
+        "n_incidents": 21,
         "incidents": [
           {
             "review_id": "WsE19SWrI4iyG9c74DjvjQ",
@@ -13321,6 +13531,13 @@
             "review_id": "sm1gUPF7rf2i26HZQQ_l8Q",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "PIbzjMj4mfU53IUiCHCf-w",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -13826,7 +14043,7 @@
         "verdict": "Differentiated",
         "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 22,
+        "n_incidents": 24,
         "incidents": [
           {
             "review_id": "n90FHRnLDnpYfdKZQTzGdA",
@@ -13899,6 +14116,13 @@
             "modifiers": []
           },
           {
+            "review_id": "VeDiSN_AzIACsEVTWtR2ww",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "4KB16yYNyyfxISxqKrev4w",
             "severity_field": "memorability",
             "severity_value": "memorable",
@@ -13930,6 +14154,13 @@
             "review_id": "bQYf7EoU7mvLL9qmeIikbA",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "qz-csYJvKSdZVJWqliJCXw",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -14152,8 +14383,8 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Differentiated",
-        "matched_rule": "DIFFERENTIATED",
+        "verdict": "Highly Unique",
+        "matched_rule": "HIGHLY_UNIQUE",
         "policy_id": "G6_uniqueness_V1",
         "n_incidents": 21,
         "incidents": [
@@ -14484,8 +14715,15 @@
         "verdict": "Differentiated",
         "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 18,
+        "n_incidents": 20,
         "incidents": [
+          {
+            "review_id": "y_e0z3XxHRssJCH99PDGBw",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
           {
             "review_id": "X2cHT-Mmkq7eiFTlMltbKg",
             "severity_field": "memorability",
@@ -14574,6 +14812,13 @@
             "review_id": "g8PLHQuZ5TZctWDn18VSWg",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "9eDaI90tkTO1AUTJFhDwNQ",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -14988,7 +15233,7 @@
         "verdict": "Differentiated",
         "matched_rule": "DIFFERENTIATED",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 21,
+        "n_incidents": 22,
         "incidents": [
           {
             "review_id": "Z_fmhKe75ScFCkFZ8nl4oA",
@@ -15134,6 +15379,13 @@
             "review_id": "tUYKFO1I9vstl-17pfKxhA",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "zaa5EzU8GCT_77DoTGs33A",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           }
@@ -15324,7 +15576,7 @@
         "verdict": "Generic",
         "matched_rule": "GENERIC",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 17,
+        "n_incidents": 18,
         "incidents": [
           {
             "review_id": "kfDnNNmEI10Z6Lc4bPbRwA",
@@ -15411,6 +15663,13 @@
             "modifiers": []
           },
           {
+            "review_id": "DZYguu6eEzTx_F3TihTDSA",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "z8DY95SXx0-RaMYjd9fZWQ",
             "severity_field": "memorability",
             "severity_value": "forgettable",
@@ -15454,10 +15713,10 @@
       "n_reviews": 25,
       "n_judgments": 25,
       "ground_truth": {
-        "verdict": "Differentiated",
-        "matched_rule": "DIFFERENTIATED",
+        "verdict": "Highly Unique",
+        "matched_rule": "HIGHLY_UNIQUE",
         "policy_id": "G6_uniqueness_V1",
-        "n_incidents": 19,
+        "n_incidents": 21,
         "incidents": [
           {
             "review_id": "mWnfAVBcAD-A-mfaiCKpfQ",
@@ -15530,6 +15789,13 @@
             "modifiers": []
           },
           {
+            "review_id": "y_QJRxX6QRbZX93P9jvHRA",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
             "review_id": "7Xbij51AGNQBFpH4GjcPCA",
             "severity_field": "memorability",
             "severity_value": "memorable",
@@ -15568,6 +15834,13 @@
             "review_id": "cgSDuIMnxAHgTInf4ILU3g",
             "severity_field": "memorability",
             "severity_value": "memorable",
+            "account_type": "firsthand",
+            "modifiers": []
+          },
+          {
+            "review_id": "5gPa7iuW-Ckhs-SS-0bp3A",
+            "severity_field": "memorability",
+            "severity_value": "unforgettable",
             "account_type": "firsthand",
             "modifiers": []
           },
@@ -16250,9 +16523,9 @@
   "summary": {
     "total_restaurants": 100,
     "verdict_distribution": {
-      "Generic": 43,
-      "Differentiated": 54,
-      "Highly Unique": 3
+      "Generic": 42,
+      "Differentiated": 52,
+      "Highly Unique": 6
     },
     "missing_judgments": 0
   }

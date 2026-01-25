@@ -1,8 +1,8 @@
-# G6_comparison_V1: Comparison with Override Triggers
-# V1 = Extended: Multiple conditions per verdict (ANY triggers) for strong competitive signals
+# G6_comparison_V1: Base Competitive Comparison Assessment
+# V1 = Base: Simple per-instance reasoning, basic thresholds
+# Owner perspective: Evaluating competitive position
 
-policy_id: "G6_comparison_V1"
-extends: "G6_comparison_V0"
+policy_id: G6_comparison_V1
 version: "1.0"
 
 # === OVERVIEW (generates Overview section) ===
@@ -36,54 +36,39 @@ normative:
   # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Weaker", "Comparable", "Stronger"]
-    ordered: true
+    ordered: true  # Higher = better competitive position
 
     rules:
-      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Stronger"
         label: "STRONGER"
         logic: ANY
         conditions:
-          # V0 conditions (combined filters for selectivity)
           - text: "Reviews favorably compare overall quality"
             type: count_threshold
             filter:
               comparison_outcome: favorable
               compared_aspect: overall
-            min_count: 50
+            min_count: 25
             min_count_by_k:
-              25: 7
-              50: 14
-              100: 26
+              25: 4
+              50: 7
+              100: 12
           - text: "Reviews show preference and switching to this restaurant"
             type: count_threshold
             filter:
               preference_stated: prefer_this
               switching_intent: switching_to
-            min_count: 40
+            min_count: 20
             min_count_by_k:
-              25: 6
-              50: 11
-              100: 20
-          # V1 additional: favorable quality comparison with preference
-          - text: "Reviews favorably compare quality with stated preference"
-            type: count_threshold
-            filter:
-              comparison_outcome: favorable
-              compared_aspect: quality
-              preference_stated: prefer_this
-            min_count: 30
-            min_count_by_k:
-              25: 5
-              50: 9
-              100: 16
+              25: 3
+              50: 5
+              100: 8
 
       - verdict: "Weaker"
         label: "WEAKER"
         precondition: "Stronger does not apply"
         logic: ANY
         conditions:
-          # V0 conditions (raised thresholds)
           - text: "35 or more reviews prefer competitors"
             type: count_threshold
             filter:
@@ -111,24 +96,14 @@ normative:
               25: 10
               50: 18
               100: 38
-          # V1 additional conditions (raised thresholds)
-          - text: "25 or more reviews describe strongly unfavorable comparison"
-            type: count_threshold
-            filter:
-              comparison_outcome: strongly_unfavorable
-            min_count: 25
-            min_count_by_k:
-              25: 5
-              50: 9
-              100: 16
 
       - verdict: "Comparable"
         label: "COMPARABLE"
         default: true
         especially_when:
-          - "Similar quality to nearby competitors"
-          - "Trade-offs between restaurants"
-          - "No clear winner in comparisons"
+          - "Mixed comparisons"
+          - "Similar to competitors"
+          - "Different strengths and weaknesses"
 
   # Output format
   output:

@@ -162,6 +162,9 @@ class LLMService:
         # Hard timeout margin beyond SDK timeout (safety net for hung connections)
         hard_timeout = timeout + 30
 
+        # Track throttle delay (applied before first attempt)
+        throttle_delay_ms = request_delay * 1000 if request_delay > 0 else 0.0
+
         for attempt in range(max_retries + 1):
             # Rate limit mitigation: small delay before first attempt (not retries)
             # Retries already have exponential backoff
@@ -182,6 +185,7 @@ class LLMService:
                         "prompt_tokens": prompt_chars // 4,  # rough estimate
                         "completion_tokens": len(response) // 4,
                         "latency_ms": latency_ms,
+                        "throttle_delay_ms": throttle_delay_ms,
                         "cost_usd": 0.0,
                     }
                     return response, usage
@@ -238,6 +242,10 @@ class LLMService:
                             response=response or "",
                             model=model,
                             latency_ms=latency_ms,
+                            throttle_delay_ms=throttle_delay_ms,
+                            prompt_tokens=prompt_tokens,
+                            completion_tokens=completion_tokens,
+                            cost_usd=cost_usd,
                             metadata=context,
                         )
 
@@ -245,6 +253,7 @@ class LLMService:
                         "prompt_tokens": prompt_tokens,
                         "completion_tokens": completion_tokens,
                         "latency_ms": latency_ms,
+                        "throttle_delay_ms": throttle_delay_ms,
                         "cost_usd": cost_usd,
                     }
                     return response, usage
@@ -299,6 +308,10 @@ class LLMService:
                             response=response or "",
                             model=model,
                             latency_ms=latency_ms,
+                            throttle_delay_ms=throttle_delay_ms,
+                            prompt_tokens=prompt_tokens,
+                            completion_tokens=completion_tokens,
+                            cost_usd=cost_usd,
                             metadata=context,
                         )
 
@@ -306,6 +319,7 @@ class LLMService:
                         "prompt_tokens": prompt_tokens,
                         "completion_tokens": completion_tokens,
                         "latency_ms": latency_ms,
+                        "throttle_delay_ms": throttle_delay_ms,
                         "cost_usd": cost_usd,
                     }
                     return response, usage

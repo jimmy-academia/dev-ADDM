@@ -100,10 +100,16 @@ class ScoringThreshold:
 
 @dataclass
 class RecencyRule:
-    """A recency weighting rule."""
+    """A recency weighting rule.
 
-    age: str  # Age description (e.g., "within 2 years")
-    weight: str  # Weight description (e.g., "full point value")
+    Supports both human-readable (age, weight) and machine-readable
+    (max_age_years, weight_multiplier) fields for V3 recency weighting.
+    """
+
+    age: str  # Human-readable age description (e.g., "Within 6 months")
+    weight: str  # Human-readable weight description (e.g., "full point value")
+    max_age_years: Optional[float] = None  # Machine-readable: max age in years (e.g., 0.5)
+    weight_multiplier: Optional[float] = None  # Machine-readable: weight multiplier (e.g., 1.0)
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "RecencyRule":
@@ -111,6 +117,8 @@ class RecencyRule:
         return cls(
             age=data.get("age", ""),
             weight=data.get("weight", ""),
+            max_age_years=data.get("max_age_years"),
+            weight_multiplier=data.get("weight_multiplier"),
         )
 
 
@@ -178,6 +186,7 @@ class ScoringSystem:
     - Recency rules: how incident age affects scoring
     - Thresholds: score thresholds for each verdict
     - Field mapping: how judgment fields map to severity labels
+    - Reference date: date from which to calculate review age (V3)
     """
 
     severity_points: List[ScoringPoint]  # Points by severity
@@ -185,6 +194,7 @@ class ScoringSystem:
     thresholds: List[ScoringThreshold]  # Score thresholds for verdicts
     description: Optional[str] = None  # Intro text for scoring section
     recency_rules: List[RecencyRule] = field(default_factory=list)  # Recency weighting
+    reference_date: Optional[str] = None  # Reference date for V3 recency (e.g., "2022-01-01")
     field_mapping: Optional[FieldMapping] = None  # Maps judgment fields to severity labels
 
     @classmethod
@@ -206,6 +216,7 @@ class ScoringSystem:
             recency_rules=[
                 RecencyRule.from_dict(r) for r in data.get("recency_rules", [])
             ],
+            reference_date=data.get("reference_date"),
             field_mapping=field_mapping,
         )
 

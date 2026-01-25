@@ -420,11 +420,16 @@ WHEN TO SET is_relevant: false
 - If the review does NOT contain any ACTUAL evidence related to {task_name}
 - If the review only mentions ingredients, menu items, or general topics without describing an actual incident or relevant experience
 - If you cannot find a direct quote that demonstrates evidence for the task
+- If the review is just a general quality statement without the specific type of evidence this task requires
+- For COMPARISON tasks: the review must EXPLICITLY mention another restaurant/competitor by name or reference (e.g., "better than X", "compared to the place down the street"). Generic negative/positive reviews are NOT comparisons.
+- For LOYALTY tasks: the review must mention return visits, regular customer status, or intentions to return. One-time visits are NOT loyalty signals.
+- For UNIQUENESS tasks: the review must describe distinctive features. Generic praise/criticism is NOT uniqueness evidence.
 - When in doubt, set is_relevant: false
 
 WHEN TO SET is_relevant: true
 - ONLY if the review contains ACTUAL evidence (a real incident, experience, or observation directly related to {task_name})
 - You must be able to quote specific text that demonstrates the evidence
+- The quoted text must DIRECTLY support the task type, not just be related to the general topic
 
 CRITICAL - EVIDENCE REQUIREMENT:
 You MUST include a "supporting_quote" field with the EXACT text from the review that supports your extraction.

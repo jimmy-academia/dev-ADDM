@@ -1,8 +1,8 @@
-# G4_environment_V1: Environment with Override Triggers
-# V1 = Extended: Multiple conditions per verdict (ANY triggers) for exceptional/poor environment
+# G4_environment_V1: Base Environment Quality Assessment
+# V1 = Base: Simple per-instance reasoning, basic thresholds
+# Owner perspective: Evaluating physical environment quality
 
-policy_id: "G4_environment_V1"
-extends: "G4_environment_V0"
+policy_id: G4_environment_V1
 version: "1.0"
 
 # === OVERVIEW (generates Overview section) ===
@@ -38,10 +38,9 @@ normative:
   # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
-    ordered: true
+    ordered: true  # Higher = better quality
 
     rules:
-      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Excellent"
         label: "EXCELLENT"
         logic: ANY
@@ -102,9 +101,9 @@ normative:
         label: "SATISFACTORY"
         default: true
         especially_when:
-          - "Environment is pleasant but not remarkable"
-          - "Minor issues but overall acceptable"
-          - "Gets the job done without standing out"
+          - "Environment is acceptable but unremarkable"
+          - "Some positive and some negative comments"
+          - "Basic expectations met but not exceeded"
 
   # Output format
   output:

@@ -57,31 +57,20 @@ Staff knowledge about ingredients and dietary accommodations
 - **Adequate knowledge**: Staff knew basics, checked with kitchen when unsure
 - **Excellent knowledge**: Staff was highly knowledgeable about all ingredients
 
-### Staff Response
-How staff responded when the concern was raised
-
-- **Accommodated**: Staff took the concern seriously and successfully accommodated (ingredient check, substitution, separate preparation, clear warnings)
-- **Refused**: Staff stated they could not or would not accommodate
-- **Dismissive**: Staff minimized the concern or did not take it seriously
-- **Not described**: No staff interaction about the concern is described
-- **Unknown**: Unclear from the review
-
 
 ## Verdict Rules
 
 A restaurant is considered **Critical Risk** if any of the following is true:
-- 1 or more severe dietary incidents (restricted food served, person got sick)
-- 1 or more reviews report staff providing incorrect ingredient information
-- 1 or more severe dietary incident with firsthand account
+- 1 or more severe dietary incidents (restricted food served, person got sick) [filter: incident_severity=severe, account_type=firsthand]
+- 1 or more reviews report staff providing incorrect ingredient information [filter: staff_knowledge=incorrect, account_type=firsthand]
+- 3 or more moderate dietary incidents [filter: incident_severity=moderate, account_type=firsthand]
 
 **High Risk** if Critical Risk does not apply, but any of the following is true:
-- 1 or more moderate dietary incidents
-- 1 or more reviews describe poor accommodation despite clear requests
-- 1 or more reviews describe staff as unknowledgeable about ingredients
-- 1 or more reviews describe staff refusing accommodation
-- 2 or more reviews describe staff being dismissive
+- 2 or more moderate dietary incidents [filter: incident_severity=moderate, account_type=firsthand]
+- 2 or more reviews describe poor accommodation despite clear requests [filter: accommodation_level=poor, account_type=firsthand]
+- 2 or more reviews describe staff as unknowledgeable about ingredients [filter: staff_knowledge=unknowledgeable]
 
 **Low Risk** otherwise, especially when:
 - No dietary incidents are reported
-- Reviews describe knowledgeable staff and successful accommodation
+- Reviews describe consistent and knowledgeable accommodation
 - Menu clearly labels dietary options

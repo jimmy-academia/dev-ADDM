@@ -59,19 +59,15 @@ How well they handled customer volume
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- 15 or more reviews praise volume handling
-- 8 or more reviews observe the restaurant as well-staffed
-- 1 or more reviews praise handling when packed
-- 5 or more reviews praise smoothly run operations
+- Reviews praise volume handling during busy periods [filter: volume_handling=handled_well, crowd_level=busy]
+- Reviews show well-staffed with no service degradation [filter: staffing_level=well_staffed, service_degradation=none]
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- 5 or more reviews describe understaffing
-- 6 or more reviews describe significant service degradation
-- 6 or more reviews report volume handling struggles
-- 1 or more reviews describe severely understaffed situation
-- 3 or more reviews describe complete service degradation
+- 8 or more reviews describe understaffing [filter: staffing_level=understaffed]
+- 8 or more reviews describe significant service degradation [filter: service_degradation=significant]
+- 8 or more reviews report volume handling struggles [filter: volume_handling=struggled]
 
 **Satisfactory** otherwise, especially when:
-- Adequate handling most of the time
-- Occasional peak-time struggles
-- Generally manages volume acceptably
+- Handles normal volume adequately
+- Some struggles during peak times but manages
+- Mixed reports on busy-time handling

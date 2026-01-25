@@ -1,0 +1,94 @@
+# Competitive Comparison Assessment
+
+Help assess how this restaurant compares to competitors using reviews as evidence.
+This is from the perspective of a business owner evaluating competitive position.
+Assign a label: Weaker, Comparable, or Stronger.
+
+This assessment uses a point-based scoring system with recency weighting.
+
+## Definitions of Terms
+
+### Incident
+
+Consider reviews that mention any of the following:
+- comparisons to other restaurants
+- preferences between this and competitors
+- switching behavior (to or from)
+- relative strengths and weaknesses
+
+Reviews that don't mention competitors or comparisons carry less weight.
+
+### Account Type
+How the reviewer relates to the described event
+
+- **Firsthand**: The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")
+- **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
+- **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
+
+### Comparison Outcome
+How this restaurant compares to named competitors
+
+- **Unfavorable**: Competitor is better
+- **Neutral**: About the same as competitors
+- **Favorable**: Better than competitors
+
+### Compared Aspect
+What aspect is being compared
+
+- **Price**: Price comparison
+- **Quality**: Food quality comparison
+- **Service**: Service comparison
+- **Atmosphere**: Ambiance comparison
+- **Overall**: Overall comparison
+
+### Preference Stated
+Whether a preference is stated
+
+- **Prefer Other**: Prefers the competitor
+- **No Preference**: No clear preference
+- **Prefer This**: Prefers this restaurant
+
+### Switching Intent
+Intent to switch to/from this restaurant
+
+- **Switching Away**: Will go to competitor instead
+- **Considering**: Considering switching
+- **Staying**: Will stay with this restaurant
+- **Switching To**: Switching to this restaurant from competitor
+
+
+## Scoring System
+
+Calculate a competitive position score by summing points from relevant reviews,
+with recency weighting. Competition can change as restaurants improve or decline,
+so recent reviews are weighted more heavily.
+
+For each firsthand incident, assign points based on severity:
+- Best in area: 10 points
+- Better than competitor: 5 points
+- Comparable: 0 points
+- Worse than competitor: -5 points
+- Much worse: -10 points
+
+Additional modifiers:
+- Customer switched here (won customer from competitor): +5 points
+- Recommended over competitor (explicitly preferred): +3 points
+- Customer switched away (lost customer to competitor): -5 points
+- Warned to go elsewhere (told to go to competitor instead): -3 points
+
+Recency weighting (reference date: 2022-01-01):
+- Within 6 months: full point value
+- 6 months to 1 year: three-quarter point value (multiply by 0.75)
+- 1-2 years old: half point value (multiply by 0.5)
+- Over 2 years old: quarter point value (multiply by 0.25)
+
+
+## Verdict Rules
+
+A restaurant is considered **Stronger** if any of the following is true:
+- Total score is 125 or higher (after recency weighting)
+
+**Weaker** if Stronger does not apply, but any of the following is true:
+- Total score is -50 or lower (after recency weighting)
+
+**Comparable** otherwise

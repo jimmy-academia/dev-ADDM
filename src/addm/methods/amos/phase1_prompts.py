@@ -64,10 +64,53 @@ Extract the scoring rules using ONLY the field names and values listed above.
 
 1. Base points: What points are assigned for each value of the outcome field
 2. Modifiers: Additional points for other field values
+3. Recency rules: If the query mentions recency weighting, extract the time thresholds and weights
 
 CRITICAL: The outcome_field MUST be one of the Available Terms above.
 CRITICAL: base_points keys MUST use EXACT values from that term's value list.
 CRITICAL: modifier field/value pairs MUST use EXACT terms and values from above.
+
+## IMPORTANT: VALUE MAPPINGS
+
+Many policies use a TWO-STEP mapping:
+1. The policy defines term VALUES (e.g., favorable, unfavorable, neutral)
+2. Then maps those values to LABELS (e.g., favorable → "Better than competitor")
+3. Finally assigns POINTS to each LABEL
+
+When extracting points, follow this chain:
+- Find the severity/points table in the query
+- Match each term VALUE to its corresponding LABEL
+- Use the points for THAT LABEL
+
+Example: If the query says:
+  "Comparison Outcome: favorable, unfavorable, neutral"
+  "Better than competitor: +5 points"
+  "Worse than competitor: -5 points"
+
+Then base_points should be:
+  favorable: 5    # "favorable" maps to "Better than competitor" → 5 points
+  unfavorable: -5 # "unfavorable" maps to "Worse than competitor" → -5 points
+  neutral: 0
+
+DO NOT use extreme values (like 10/-10) unless those are EXPLICITLY the points
+for the standard/middle-tier outcomes. Check value_mappings carefully.
+
+## RECENCY WEIGHTING
+
+If the query has a "Recency weighting" section, extract it as structured rules.
+Convert the natural language time periods to numeric values:
+- "Within 6 months" → max_age_years: 0.5
+- "Within 1 year" → max_age_years: 1.0
+- "6 months to 1 year" → max_age_years: 1.0 (use upper bound)
+- "1-2 years old" → max_age_years: 2.0
+- "2-3 years old" → max_age_years: 3.0
+- "Over X years" → max_age_years: 999 (catch-all)
+
+Convert weight descriptions to numeric multipliers:
+- "full point value" → weight: 1.0
+- "three-quarter point value" or "multiply by 0.75" → weight: 0.75
+- "half point value" or "multiply by 0.5" → weight: 0.5
+- "quarter point value" or "multiply by 0.25" → weight: 0.25
 
 ## OUTPUT FORMAT (YAML)
 
@@ -85,15 +128,27 @@ scoring:
     - field: OTHER_FIELD  # MUST be from Available Terms
       value: some_value   # MUST be from that field's values
       points: 3
+  recency_rules:  # ONLY include if recency weighting is mentioned in the query
+    reference_date: "2022-01-01"  # Extract from query or use default
+    rules:
+      - max_age_years: 0.5
+        weight: 1.0
+      - max_age_years: 1.0
+        weight: 0.75
+      - max_age_years: 2.0
+        weight: 0.5
+      - max_age_years: 999
+        weight: 0.25
 ```
 
 ## RULES
 
-1. Extract EXACT point values from the query (e.g., "+10 points", "-5 points")
+1. Extract EXACT point values from the query - follow value_mappings if present
 2. outcome_field: Pick the MAIN outcome field from Available Terms (usually has severity-like values)
-3. base_points: Map the outcome field's VALUES to points
-4. modifiers: Use OTHER field+value pairs from Available Terms
-5. If no scoring system exists, output: `policy_type: count_rule_based`
+3. base_points: Map the outcome field's VALUES to their corresponding points
+4. modifiers: Use OTHER field+value pairs from Available Terms (field MUST be a term name you extracted)
+5. recency_rules: ONLY include if the query has recency weighting. Extract the reference_date and all time/weight rules.
+6. If no scoring system exists, output: `policy_type: count_rule_based`
 
 Output ONLY the YAML, no explanation:
 
@@ -114,8 +169,18 @@ EXTRACT_VERDICTS_PROMPT = '''You are extracting verdict rules from a policy quer
 
 Extract the verdict rules that determine the final outcome.
 
-CRITICAL: You may ONLY use field names listed in "Available Terms" above.
-Do NOT invent new field names.
+CRITICAL INSTRUCTIONS:
+
+1. Look for [filter: field=value] annotations in the condition text. These EXPLICITLY tell you which field and values to use.
+   Example: "15 or more reviews mention successful dates [filter: date_outcome=positive]"
+   → field: DATE_OUTCOME, values: [positive], min_count: 15
+
+2. When a [filter: ...] annotation exists, ALWAYS use the field name from the annotation (converted to UPPERCASE).
+   DO NOT try to interpret the descriptive text - use the filter annotation directly.
+
+3. If no [filter: ...] annotation exists, use context from "Available Terms" to determine the correct field.
+
+4. Only use field names from "Available Terms" or filter annotations.
 
 ## OUTPUT FORMAT (YAML)
 
@@ -159,8 +224,9 @@ rules:
 2. Extract EXACT threshold numbers (e.g., "44 or higher" → >= 44)
 3. For count-based: min_count is how many reviews needed
 4. Exactly ONE rule must have `default: true`
-5. Default rule should be the "neutral" or "middle" verdict
-6. ONLY use field names from "Available Terms" - NEVER invent new names
+5. Default rule is indicated by words like "otherwise", "else", "by default", or "if none of the above apply". Look for these keywords to identify which verdict is the default.
+6. Phrases like "especially when" or "particularly if" are HINTS, not hard conditions. The default rule should have NO conditions - just `default: true`.
+7. ONLY use field names from "Available Terms" - NEVER invent new names
 
 Output ONLY the YAML, no explanation:
 

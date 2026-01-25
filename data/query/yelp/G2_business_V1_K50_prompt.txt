@@ -24,6 +24,13 @@ How the reviewer relates to the described event
 - **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
 - **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
 
+### Meeting Outcome
+How the business meal/meeting went
+
+- **Negative**: Restaurant negatively impacted the meeting
+- **Neutral**: Restaurant was adequate, didn't stand out
+- **Positive**: Restaurant contributed positively to the meeting
+
 ### Professionalism
 Overall professional atmosphere
 
@@ -56,29 +63,20 @@ Privacy available for business discussions
 - **Moderate**: Reasonable privacy for most business talk
 - **High**: Private rooms or very secluded tables available
 
-### Meeting Outcome
-How the business meal/meeting went
-
-- **Negative**: Restaurant negatively impacted the meeting
-- **Neutral**: Restaurant was adequate, didn't stand out
-- **Positive**: Restaurant contributed positively to the meeting
-
 
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- 25 or more reviews describe successful business meals or client meetings
-- 5 or more reviews describe it as professional, quiet, or suitable for meetings
-- 8 or more reviews describe efficient service that respects busy schedules
-- 1 or more reviews describe excellent conversation suitability
-- 1 or more reviews describe high privacy level
+- 25 or more reviews describe successful business meals or client meetings [filter: meeting_outcome=positive]
+- 5 or more reviews describe it as professional, quiet, or suitable for meetings [filter: professionalism=['professional', 'excellent']]
+- 8 or more reviews describe efficient service that respects busy schedules [filter: service_efficiency=efficient]
 
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- 3 or more reviews describe it as too loud for conversation
-- 5 or more reviews describe service as too slow for business meals
-- 4 or more reviews describe negative meeting outcomes
+- 5 or more reviews describe it as too loud for conversation [filter: conversation_suitability=poor]
+- 8 or more reviews describe service as too slow for business meals [filter: service_efficiency=slow]
+- 4 or more reviews describe atmosphere as too casual or unprofessional [filter: professionalism=unprofessional]
 
 **Acceptable** otherwise, especially when:
-- Suitable for internal team lunches but not client entertainment
-- Professional enough for casual business dining
-- Mixed reviews about noise or service speed
+- Suitable for casual business but not formal client entertainment
+- Adequate noise level and service speed
+- Mixed reviews about business suitability

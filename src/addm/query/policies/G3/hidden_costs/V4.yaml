@@ -1,0 +1,148 @@
+policy_id: G3_hidden_costs_V4
+extends: G3_hidden_costs_V3
+version: '1.0'
+overview:
+  title: Hidden Costs Risk Assessment
+  purpose: |
+    Help assess the risk of unexpected charges at this restaurant using customer reviews as evidence.
+    Assign a risk label: Low Risk, High Risk, or Critical Risk.
+
+    This assessment uses a point-based scoring system with recency weighting.
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - unexpected charges on the bill
+    - mandatory service charges or auto-gratuity
+    - corkage fees, split fees, or other surcharges
+    - bill surprises or lack of price transparency
+    - fine print charges
+
+    Reviews that only discuss food without mentioning billing carry less weight.
+normative:
+  terms:
+  - ref: shared:ACCOUNT_TYPE
+  - ref: hidden_costs:COST_TYPE
+  - ref: hidden_costs:DISCLOSURE_LEVEL
+  - ref: hidden_costs:IMPACT_SEVERITY
+  - ref: hidden_costs:CUSTOMER_REACTION
+  scoring:
+    field_mapping:
+      severity_field: impact_severity
+      value_mappings:
+        minor: Minor hidden cost (<5% impact)
+        moderate: Moderate hidden cost (5-15% impact)
+        significant: Significant hidden cost (>15% impact)
+      modifier_mappings:
+      - field: disclosure_level
+        value: none
+        label: No disclosure
+      - field: disclosure_level
+        value: fine_print
+        label: Fine print only
+      - field: customer_reaction
+        value: upset
+        label: Customer very upset
+    description: |
+      Calculate a risk score by summing points from hidden cost incidents,
+      with recency weighting. Pricing policies can change, so recent reviews
+      are weighted more heavily.
+    severity_points:
+    - label: Minor hidden cost (<5% impact)
+      points: 2
+    - label: Moderate hidden cost (5-15% impact)
+      points: 5
+    - label: Significant hidden cost (>15% impact)
+      points: 10
+    modifiers:
+    - label: No disclosure
+      description: charge was not disclosed until bill arrived
+      points: 5
+    - label: Fine print only
+      description: charge mentioned only in small print
+      points: 3
+    - label: Multiple hidden charges
+      description: more than one type of hidden charge reported
+      points: 3
+    - label: Customer very upset
+      description: reviewer expressed strong negative reaction
+      points: 2
+    reference_date: "2022-01-01"
+    recency_rules:
+    - age: Within 6 months
+      weight: full point value
+      max_age_years: 0.5
+      weight_multiplier: 1.0
+    - age: 6 months to 1 year
+      weight: three-quarter point value (multiply by 0.75)
+      max_age_years: 1.0
+      weight_multiplier: 0.75
+    - age: 1-2 years old
+      weight: half point value (multiply by 0.5)
+      max_age_years: 2.0
+      weight_multiplier: 0.5
+    - age: Over 2 years old
+      weight: quarter point value (multiply by 0.25)
+      max_age_years: 999
+      weight_multiplier: 0.25
+    thresholds:
+    - verdict: Critical Risk
+      min_score: 340
+      min_score_by_k:
+        25: 85
+        50: 150
+        100: 290
+    - verdict: High Risk
+      min_score: 210
+      min_score_by_k:
+        25: 65
+        50: 125
+        100: 230
+  decision:
+    verdicts:
+    - Low Risk
+    - High Risk
+    - Critical Risk
+    ordered: true
+    rules:
+    - verdict: Critical Risk
+      label: CRITICAL
+      logic: ANY
+      conditions:
+      - Total risk score is 500 or higher (after recency weighting)
+    - verdict: High Risk
+      label: HIGH
+      precondition: Critical Risk does not apply
+      logic: ANY
+      conditions:
+      - Total risk score is 200 or higher (after recency weighting)
+    - verdict: Low Risk
+      label: LOW
+      default: true
+  output:
+    verdict:
+      type: enum
+      values:
+      - Low Risk
+      - High Risk
+      - Critical Risk
+      required: true
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: Relevant quotes supporting the verdict
+    justification:
+      type: string
+      required: true
+      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
+    confidence:
+      type: enum
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
+    other_notes:
+      type: string
+      optional: true
+      description: Any other relevant observations or caveats

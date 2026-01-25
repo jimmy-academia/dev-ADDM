@@ -24,6 +24,14 @@ How the reviewer relates to the described event
 - **Secondhand**: The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")
 - **Hypothetical**: Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")
 
+### Group Outcome
+Overall success of the group dining experience
+
+- **Disaster**: Group experience was a disaster
+- **Mixed**: Some issues but overall acceptable
+- **Success**: Group had a good experience
+- **Great**: Exceptional group experience
+
 ### Group Size
 Size of the dining group
 
@@ -62,30 +70,20 @@ How family-friendly the restaurant is
 - **Friendly**: Welcoming to families, kids menu available
 - **Exceptional**: Designed for families, activities for kids
 
-### Group Outcome
-Overall success of the group dining experience
-
-- **Disaster**: Group experience was a disaster
-- **Mixed**: Some issues but overall acceptable
-- **Success**: Group had a good experience
-- **Great**: Exceptional group experience
-
 
 ## Verdict Rules
 
 A restaurant is considered **Recommended** if any of the following is true:
-- 3 or more reviews describe successful large group events
-- 10 or more reviews mention private rooms or dedicated group areas positively
-- 35 or more reviews praise the handling of groups
-- 3 or more reviews describe exceptional family friendliness
+- 3 or more reviews describe successful large group events [filter: group_outcome=positive, group_size=large]
+- 12 or more reviews mention private rooms or dedicated group areas positively [filter: accommodation_quality=excellent]
+- 40 or more reviews praise the handling of groups [filter: accommodation_quality=['good', 'excellent']]
 
 **Not Recommended** if Recommended does not apply, but any of the following is true:
-- 15 or more reviews describe groups being turned away or poorly handled
-- 8 or more complaints about long waits despite reservations
-- 5 or more reviews report refused check splitting for groups
-- 5 or more reviews describe disaster group outcomes
+- 18 or more reviews describe groups being turned away or poorly handled [filter: accommodation_quality=poor]
+- 9 or more complaints about long waits despite reservations [filter: wait_time=excessive]
+- 6 or more reviews report refused check splitting for groups [filter: check_splitting=refused]
 
 **Acceptable** otherwise, especially when:
-- Handles groups adequately but not exceptionally
-- Suitable for medium groups but struggles with large ones
-- Mixed experiences reported
+- Can accommodate groups with advance notice
+- Mixed reviews about group experiences
+- Suitable for small groups but not large parties

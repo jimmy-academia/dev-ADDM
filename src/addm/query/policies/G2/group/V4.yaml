@@ -1,0 +1,168 @@
+policy_id: G2_group_V4
+extends: G2_group_V3
+version: '1.0'
+overview:
+  title: Group Dining Suitability Assessment
+  purpose: |
+    Help assess how suitable this restaurant is for group dining (large parties, celebrations, family gatherings)
+    using customer reviews as evidence.
+    Assign a suitability label: Not Recommended, Acceptable, or Recommended.
+
+    This assessment uses a point-based scoring system with recency weighting.
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - large group dining, parties, celebrations, birthday dinners
+    - ability to accommodate large parties
+    - wait times for groups, reservation handling
+    - check splitting, group service coordination
+    - family-friendliness (if relevant)
+
+    Reviews from solo diners or couples carry less weight unless they comment on observed group experiences.
+normative:
+  terms:
+  - ref: shared:ACCOUNT_TYPE
+  - ref: group:GROUP_SIZE
+  - ref: group:ACCOMMODATION_QUALITY
+  - ref: group:CHECK_SPLITTING
+  - ref: group:WAIT_TIME
+  - ref: group:FAMILY_FRIENDLINESS
+  - ref: group:GROUP_OUTCOME
+  scoring:
+    field_mapping:
+      severity_field: group_outcome
+      value_mappings:
+        great: Perfect group event
+        success: Positive group experience
+        mixed: Neutral mention
+        disaster: Group disaster
+      modifier_mappings:
+      - field: accommodation_quality
+        value: excellent
+        label: Private room available
+      - field: check_splitting
+        value: easy
+        label: Easy check splitting
+      - field: family_friendliness
+        value: friendly
+        label: Family-friendly
+      - field: check_splitting
+        value: refused
+        label: Refused check split
+      - field: wait_time
+        value: excessive
+        label: Long wait despite reservation
+      - field: accommodation_quality
+        value: poor
+        label: Group split across tables
+    description: |
+      Calculate a group suitability score by summing points from relevant reviews,
+      with recency weighting applied.
+    severity_points:
+    - label: Perfect group event
+      points: 15
+    - label: Positive group experience
+      points: 5
+    - label: Neutral mention
+      points: 0
+    - label: Minor group issue
+      points: -2
+    - label: Major group issue
+      points: -5
+    - label: Group disaster
+      points: -15
+    modifiers:
+    - label: Private room available
+      description: private dining space for groups
+      points: 5
+    - label: Easy check splitting
+      description: no issues splitting checks
+      points: 3
+    - label: Family-friendly
+      description: kids menu, high chairs, family welcoming
+      points: 3
+    - label: Refused check split
+      description: would not split the check
+      points: -5
+    - label: Long wait despite reservation
+      description: waited excessively despite having reservation
+      points: -5
+    - label: Group split across tables
+      description: party was not seated together
+      points: -3
+    reference_date: "2022-01-01"
+    recency_rules:
+    - age: Within 1 year
+      weight: full point value
+      max_age_years: 1.0
+      weight_multiplier: 1.0
+    - age: 1-2 years old
+      weight: half point value (multiply by 0.5)
+      max_age_years: 2.0
+      weight_multiplier: 0.5
+    - age: Over 2 years old
+      weight: quarter point value (multiply by 0.25)
+      max_age_years: 999
+      weight_multiplier: 0.25
+    thresholds:
+    - verdict: Recommended
+      min_score: 2000
+      min_score_by_k:
+        25: 250
+        50: 500
+        100: 1000
+    - verdict: Not Recommended
+      max_score: 600
+      max_score_by_k:
+        25: 75
+        50: 150
+        100: 300
+  decision:
+    verdicts:
+    - Not Recommended
+    - Acceptable
+    - Recommended
+    ordered: true
+    rules:
+    - verdict: Recommended
+      label: RECOMMENDED
+      logic: ANY
+      conditions:
+      - Total suitability score is 2000 or higher (after recency weighting)
+    - verdict: Not Recommended
+      label: NOT_RECOMMENDED
+      precondition: Recommended does not apply
+      logic: ANY
+      conditions:
+      - Total suitability score is 600 or lower (after recency weighting)
+    - verdict: Acceptable
+      label: ACCEPTABLE
+      default: true
+  output:
+    verdict:
+      type: enum
+      values:
+      - Not Recommended
+      - Acceptable
+      - Recommended
+      required: true
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: Relevant quotes supporting the verdict
+    justification:
+      type: string
+      required: true
+      description: Explain how the evidence and recency weighting were used to arrive at the final verdict
+    confidence:
+      type: enum
+      values:
+      - low
+      - medium
+      - high
+      note: 'Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews'
+    other_notes:
+      type: string
+      optional: true
+      description: Any other relevant observations or caveats

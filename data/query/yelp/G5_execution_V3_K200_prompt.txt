@@ -4,7 +4,7 @@ Help assess how well this restaurant executes orders and keeps promises using re
 This is from the perspective of a business owner diagnosing operational issues.
 Assign a label: Needs Improvement, Satisfactory, or Excellent.
 
-This assessment uses a point-based scoring system with recency weighting.
+This assessment uses a point-based scoring system to quantify performance.
 
 ## Definitions of Terms
 
@@ -59,9 +59,8 @@ How well problems were resolved
 
 ## Scoring System
 
-Calculate an execution score by summing points from relevant reviews,
-with recency weighting. Execution processes can improve or degrade,
-so recent reviews are weighted more heavily.
+Calculate an execution score by summing points from relevant reviews.
+Positive points indicate good execution, negative points indicate issues.
 
 For each firsthand incident, assign points based on severity:
 - Perfect execution: 10 points
@@ -77,19 +76,13 @@ Additional modifiers:
 - Modification ignored (special request not honored): -5 points
 - No resolution attempt (issue not addressed): -5 points
 
-Recency weighting:
-- Within 6 months: full point value
-- 6 months to 1 year: three-quarter point value (multiply by 0.75)
-- 1-2 years old: half point value (multiply by 0.5)
-- Over 2 years old: quarter point value (multiply by 0.25) - processes likely changed
-
 
 ## Verdict Rules
 
 A restaurant is considered **Excellent** if any of the following is true:
-- Total score is 500 or higher (after recency weighting)
+- Total score is 500 or higher
 
 **Needs Improvement** if Excellent does not apply, but any of the following is true:
-- Total score is -100 or lower (after recency weighting)
+- Total score is -100 or lower
 
 **Satisfactory** otherwise

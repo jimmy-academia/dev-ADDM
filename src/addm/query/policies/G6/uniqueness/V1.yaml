@@ -1,8 +1,8 @@
-# G6_uniqueness_V1: Uniqueness with Override Triggers
-# V1 = Extended: Multiple conditions per verdict (ANY triggers) for exceptional/poor uniqueness
+# G6_uniqueness_V1: Base Uniqueness Assessment
+# V1 = Base: Simple per-instance reasoning, basic thresholds
+# Owner perspective: Evaluating market differentiation
 
-policy_id: "G6_uniqueness_V1"
-extends: "G6_uniqueness_V0"
+policy_id: G6_uniqueness_V1
 version: "1.0"
 
 # === OVERVIEW (generates Overview section) ===
@@ -36,68 +36,39 @@ normative:
   # Decision policy -> generates Verdict Rules section
   decision:
     verdicts: ["Generic", "Differentiated", "Highly Unique"]
-    ordered: true
+    ordered: true  # Higher = more unique
 
     rules:
-      # V1 includes V0 conditions PLUS additional conditions
       - verdict: "Highly Unique"
         label: "HIGHLY_UNIQUE"
         logic: ANY
         conditions:
-          # Calibrated thresholds (~5-15% Highly Unique)
-          - text: "45 or more reviews describe it as 'one of a kind'"
+          - text: "Reviews describe unique food with unforgettable experience"
+            type: count_threshold
+            filter:
+              unique_aspect: food
+              memorability: unforgettable
+            min_count: 8
+            min_count_by_k:
+              25: 2
+              50: 3
+              100: 5
+          - text: "Reviews describe one-of-a-kind differentiation"
             type: count_threshold
             filter:
               differentiation_level: one_of_a_kind
-            min_count: 45
-            min_count_by_k:
-              25: 4
-              50: 8
-              100: 18
-          - text: "150 or more reviews mention signature items"
-            type: count_threshold
-            filter:
-              signature_item: "true"
-            min_count: 150
-            min_count_by_k:
-              25: 18
-              50: 38
-              100: 78
-          - text: "45 or more reviews describe it as unforgettable"
-            type: count_threshold
-            filter:
-              memorability: unforgettable
-            min_count: 45
-            min_count_by_k:
-              25: 4
-              50: 8
-              100: 18
-          # V1 additional conditions
-          - text: "175 or more reviews describe it as memorable"
-            type: count_threshold
-            filter:
               memorability: memorable
-            min_count: 175
+            min_count: 6
             min_count_by_k:
-              25: 22
-              50: 44
-              100: 90
-          - text: "160 or more reviews describe it as unique"
-            type: count_threshold
-            filter:
-              differentiation_level: unique
-            min_count: 160
-            min_count_by_k:
-              25: 21
-              50: 42
-              100: 85
+              25: 1
+              50: 2
+              100: 4
 
       - verdict: "Generic"
         label: "GENERIC"
         precondition: "Highly Unique does not apply"
         logic: ANY
         conditions:
-          # Raise Generic thresholds to get more Differentiated
           - text: "40 or more reviews describe it as 'nothing special'"
             type: count_threshold
             filter:
@@ -116,33 +87,23 @@ normative:
               25: 8
               50: 14
               100: 26
-          # V1 additional conditions
-          - text: "35 or more reviews describe forgettable experience"
+          - text: "30 or more reviews describe it as easily confused with competitors"
             type: count_threshold
             filter:
-              memorability: forgettable
-            min_count: 35
+              differentiation_level: interchangeable
+            min_count: 30
             min_count_by_k:
-              25: 7
-              50: 12
-              100: 24
-          - text: "50 or more reviews describe average experience"
-            type: count_threshold
-            filter:
-              memorability: average
-            min_count: 50
-            min_count_by_k:
-              25: 10
-              50: 18
-              100: 34
+              25: 6
+              50: 10
+              100: 20
 
       - verdict: "Differentiated"
         label: "DIFFERENTIATED"
         default: true
         especially_when:
-          - "Some unique elements noted"
-          - "Has character but not irreplaceable"
-          - "Memorable aspects mentioned"
+          - "Has some unique elements"
+          - "Memorable but not irreplaceable"
+          - "Some signature items"
 
   # Output format
   output:

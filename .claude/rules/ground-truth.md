@@ -22,11 +22,11 @@ Multi-model ensemble extraction (default: gpt-5-mini:1, gpt-5-nano:3)
 
 ```bash
 # Single policy
-.venv/bin/python -m addm.tasks.cli.compute_gt --policy G1_allergy_V2 --k 200
+.venv/bin/python -m addm.tasks.cli.compute_gt --policy G1_allergy_V4 --k 200
 
 # Multiple policies
 .venv/bin/python -m addm.tasks.cli.compute_gt \
-    --policy G1_allergy_V0,G1_allergy_V1,G1_allergy_V2,G1_allergy_V3 --k 200
+    --policy G1_allergy_V2,G1_allergy_V2,G1_allergy_V4,G1_allergy_V4 --k 200
 
 # All 72 policies
 .venv/bin/python -m addm.tasks.cli.compute_gt --k 200
@@ -53,7 +53,7 @@ Overrides correct LLM judgment errors at the aggregated level.
 
 **Behavior**:
 - Auto-loaded during `compute_gt.py` (logged if found)
-- One override applies to all variants (V0-V3) and K values for the topic
+- One override applies to all variants (V1-V4) and K values for the topic
 
 ## Key Files
 

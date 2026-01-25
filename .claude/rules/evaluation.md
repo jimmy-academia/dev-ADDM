@@ -1,23 +1,30 @@
 # Evaluation Metrics
 
-8 separate metrics (no weighted composites). See full docs: [docs/specs/evaluation.md](../../docs/specs/evaluation.md)
+7 separate metrics (no weighted composites). See full docs: [docs/specs/evaluation.md](../../docs/specs/evaluation.md)
 
-## The 8 Metrics
+## The 7 Metrics
 
 | Metric | What It Measures | Good Target |
 |--------|------------------|-------------|
-| **AUPRC** | Ranking quality of verdicts | 85%+ |
-| **Macro F1** | Classification quality (skew-resistant) | 60%+ |
+| **AUPRC** | Ranking quality (are risky items ranked higher?) | 85%+ |
+| **Macro F1** | Classification quality (are predictions correct?) | 60%+ |
 | **Evidence Precision** | % claimed evidences exist in GT | 80%+ |
 | **Evidence Recall** | % GT evidences found by method | 60%+ |
 | **Snippet Validity** | % quotes match source text | 95%+ |
 | **Judgement Accuracy** | % correct field values | 70%+ |
-| **Score Accuracy** | Score matches GT (V2/V3 only) | 90%+ |
 | **Verdict Consistency** | Evidence+rule → verdict | 90%+ |
 
-**AUPRC vs Macro F1:**
-- AUPRC: "Can we rank/prioritize?" (triage workflows)
-- Macro F1: "Can we classify correctly?" (skew-resistant, penalizes missing classes)
+## AUPRC vs Macro F1
+
+**AUPRC** measures **ranking quality**: "Are high-risk items ranked above low-risk items?"
+- Can be high (even 100%) if the *order* is correct, even with wrong classifications
+- Example: GT=[Low,High], Pred=[High,Critical], Scores=[1,2] → AUPRC=1.0 but Accuracy=0%
+- Use case: triage/prioritization workflows
+
+**Macro F1** measures **classification quality**: "Are the predictions actually correct?"
+- Averages F1 across all classes (Low, High, Critical)
+- Resistant to class imbalance (penalizes missing classes equally)
+- Use case: decision-making where correct labels matter
 
 ## Quick Reference
 
@@ -30,24 +37,23 @@ metrics = compute_evaluation_metrics(
     gt_verdicts=gt_verdicts,
     method="amos",
     reviews_data=reviews_data,  # For snippet validation
-    policy_id="G1_allergy_V2",  # For score accuracy
+    policy_id="G1_allergy_V2",
 )
 
-# All 8 metrics
+# All 7 metrics
 print(metrics["auprc"])
 print(metrics["macro_f1"])
 print(metrics["evidence_precision"])
 print(metrics["evidence_recall"])
 print(metrics["snippet_validity"])
 print(metrics["judgement_accuracy"])
-print(metrics["score_accuracy"])      # None for V0/V1
 print(metrics["verdict_consistency"])
 ```
 
 ## Console Output
 
 ```
-EVALUATION METRICS (8 total)
+EVALUATION METRICS (7 total)
 ┌─────────────────────┬─────────┬─────────────────────────────┐
 │ Metric              │ Score   │ Notes                       │
 ├─────────────────────┼─────────┼─────────────────────────────┤
@@ -57,7 +63,6 @@ EVALUATION METRICS (8 total)
 │ Evidence Recall     │ 60.0%   │ (12/20 GT evidences found)  │
 │ Snippet Validity    │ 95.0%   │ (19/20 quotes match source) │
 │ Judgement Accuracy  │ 68.5%   │ (field correctness)         │
-│ Score Accuracy      │ 90.0%   │ (9/10 scores match GT)      │
 │ Verdict Consistency │ 91.2%   │ (evidence+rule→verdict)     │
 └─────────────────────┴─────────┴─────────────────────────────┘
 ```
@@ -77,9 +82,9 @@ EVALUATION METRICS (8 total)
 
 | File | Purpose |
 |------|---------|
-| `src/addm/eval/metrics.py` | AUPRC, Score Accuracy, Verdict Consistency |
+| `src/addm/eval/metrics.py` | AUPRC, Macro F1, Verdict Consistency |
 | `src/addm/eval/intermediate_metrics.py` | Evidence Precision/Recall, Snippet Validity, Judgement Accuracy |
-| `src/addm/eval/constants.py` | Scoring rules (V2 policy), EVIDENCE_FIELDS |
+| `src/addm/eval/constants.py` | Scoring rules, EVIDENCE_FIELDS |
 | `src/addm/eval/__init__.py` | Public exports |
 
 ---
