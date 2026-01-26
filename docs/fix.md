@@ -104,3 +104,61 @@ Also, "poorly handled" was mapping to `GROUP_OUTCOME: disaster` instead of `ACCO
 - **G4 (Owner Operations)**: 2/3 passing - kitchen policy needs investigation
 - **G5 (Owner Performance)**: 2/3 passing - capacity policy inconsistent
 - **G6 (Owner Strategy)**: 0/3 passing - ALL G6 policies failing at 33%
+
+---
+
+## Root Cause Analysis
+
+### Why G6 Policies All Fail
+
+All three G6 policies (uniqueness, comparison, loyalty) consistently fail at 33% across 3 attempts each. This suggests a systematic issue, not random variance.
+
+**Hypothesis**: G6 policies assess subjective/strategic qualities that are harder to extract from reviews:
+- **Uniqueness**: "What makes this restaurant stand out?"
+- **Comparison**: "How does it compare to competitors?"
+- **Loyalty**: "Would customers return?"
+
+These require synthesizing overall sentiment rather than counting specific incidents.
+
+### Why G3_hidden_costs and G3_time_value Fail
+
+These policies require extracting nuanced value assessments:
+- **Hidden costs**: Unexpected fees, mandatory tips, price increases
+- **Time value**: Whether wait times were justified by the experience
+
+The verdict rules may not align well with how AMOS extracts evidence.
+
+### Why G4_kitchen Fails
+
+Kitchen-related issues (food quality, preparation) may overlap with other fields, causing extraction confusion.
+
+### Why G5_capacity Fails
+
+Capacity assessment (handling busy periods, wait management) is inconsistent - sometimes 0%, sometimes 33%. The extraction may be sensitive to sampling.
+
+---
+
+## Recommendations for Next Steps
+
+1. **G6 Investigation**: Examine formula seeds for G6 policies to understand what AMOS is extracting vs. what GT expects
+
+2. **Policy IR Alignment**: Check if G3/G4/G5 failing policies have similar issues to G2_group (invalid enum values, ambiguous wording)
+
+3. **V2/V3 Testing**: V2/V3 may perform differently since they have more complex verdict rules that might align better with AMOS's extraction approach
+
+4. **GT Coverage**: Verify that L0 extractions include all fields needed by verdict rules (the G2_group issue revealed this gap)
+
+---
+
+## Session Metadata
+
+- **Date**: 2026-01-25
+- **Duration**: ~2 hours
+- **Experiments Run**: 54 (18 policies × 3 attempts max)
+- **Fixes Applied**: 3
+- **Files Modified**:
+  - `src/addm/methods/amos/phase1_helpers.py` (Fix 1)
+  - `src/addm/query/policies/G1/hygiene/V1.yaml` (Fix 2)
+  - `src/addm/query/policies/G1/hygiene/V2.yaml` (Fix 2)
+  - `src/addm/query/policies/G2/group/V1.yaml` (Fix 3)
+  - `src/addm/query/policies/G2/group/V2.yaml` (Fix 3)
