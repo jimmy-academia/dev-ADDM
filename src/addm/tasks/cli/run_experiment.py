@@ -1065,48 +1065,45 @@ Let's think through this step-by-step:"""
                 for r in restaurants
             ]
 
-            # Handle phase control
+            # Handle phase control (Phase 1 only for now)
             if phase == "2":
-                # Phase 2 only: Load pre-generated seed
-                seed = load_formula_seed(seed_path, run_id)
-                amos_method.set_formula_seed(seed)
-                output.info(f"Loaded Formula Seed from: {seed_path}")
-            else:
-                # Phase 1 or both: Generate seed
-                seed = await amos_method._get_formula_seed(agenda, llm)
+                raise ValueError("AMOS Phase 2 is not wired yet. Use --phase 1.")
+
+            # Phase 1: Extract verdict rules + term definitions
+            phase1_spec = await amos_method.generate_phase1(agenda, llm)
 
             # Handle phase=1: exit after Phase 1 without running samples
             if phase == "1":
-                # Save Formula Seed to run directory with policy-level naming
-                seed_output_path = output_dir / f"{run_id}.json"
-                with open(seed_output_path, "w") as f:
-                    json.dump(seed, f, indent=2)
-                # Also save as formula_seed.json for backwards compatibility
-                amos_method.save_formula_seed_to_run_dir(output_dir)
+                # Save Phase 1 outputs
+                amos_method.save_phase1_outputs_to_run_dir(output_dir)
+                phase1_output_path = output_dir / "phase1_outputs.json"
 
                 # Print summary
-                filter_spec = seed.get("filter", {})
-                extract_spec = seed.get("extract", {})
-                compute_spec = seed.get("compute", [])
+                terms = phase1_spec.get("terms", [])
+                verdict_spec = phase1_spec.get("verdict", {})
+                verdicts = verdict_spec.get("verdicts", [])
+                rules = verdict_spec.get("rules", [])
 
-                output.success(f"Phase 1 complete: {seed.get('task_name', run_id)}")
-                output.print(f"  Keywords: {len(filter_spec.get('keywords', []))}")
-                output.print(f"  Fields: {len(extract_spec.get('fields', []))}")
-                output.print(f"  Compute ops: {len(compute_spec)}")
-                output.print(f"  Saved to: {seed_output_path}")
+                output.success(f"Phase 1 complete: {run_id}")
+                output.print(f"  Terms: {len(terms)}")
+                output.print(f"  Verdicts: {len(verdicts)}")
+                output.print(f"  Rules: {len(rules)}")
+                output.print(f"  Saved to: {phase1_output_path}")
 
                 return {
                     "phase": "1",
                     "policy_id": run_id,
                     "output_dir": str(output_dir),
-                    "seed": seed,
+                    "phase1": phase1_spec,
                     "seed_summary": {
-                        "task_name": seed.get("task_name"),
-                        "keywords": len(filter_spec.get("keywords", [])),
-                        "fields": len(extract_spec.get("fields", [])),
-                        "compute_ops": len(compute_spec),
+                        "terms": len(terms),
+                        "verdicts": len(verdicts),
+                        "rules": len(rules),
                     },
                 }
+
+            # Phase 2 not implemented yet
+            raise ValueError("AMOS Phase 2 is not wired yet. Use --phase 1.")
 
             # Run all samples in parallel (Phase 2 only)
             async def process_amos_sample(sample: Sample) -> Dict[str, Any]:
