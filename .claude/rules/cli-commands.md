@@ -4,55 +4,52 @@
 
 ```bash
 # Default: benchmark mode (quota-controlled)
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V3 -n 100
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1 -n 100
 
 # Dev mode (no quota, saves to results/dev/)
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V3 -n 5 --dev
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1 -n 5 --dev
+
+# All variants for a tier
+.venv/bin/python -m addm.tasks.cli.run_experiment --tier T1 --dev
 
 # Force run even if quota is met
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V3 -n 100 --force
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1 -n 100 --force
 
 # Specific method
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V3 -n 1 --method rlm
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1 -n 1 --method rlm
 
 # AMOS Phase Control
 # Phase 1 only: generate Formula Seed
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V3 --phase 1 --method amos --dev
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1 --phase 1 --method amos --dev
 
 # Phase 2 only: use pre-generated seed (file path)
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V3 --phase 2 --seed path/to/G1_allergy_V3.json -n 5 --method amos --dev
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1 --phase 2 --seed path/to/T1P1.json -n 5 --method amos --dev
 
 # Phase 2 with seed directory (auto-finds {policy_id}.json)
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V3 --phase 2 --seed results/dev/seeds/ -n 5 --method amos --dev
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1 --phase 2 --seed results/dev/seeds/ -n 5 --method amos --dev
 
 # Batch mode (24hr async)
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V3 -n 100 --mode batch
-
-# Legacy task ID (still works)
-.venv/bin/python -m addm.tasks.cli.run_experiment --task G1a -n 5
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1 -n 100 --mode batch
 ```
 
 ## Ground Truth Pipeline
 
 ```bash
-# Step 1: Extract L0 judgments
+# Step 1: Extract L0 judgments (uses G* topics)
 .venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode batch
 
 # Step 2: Compute GT from extractions
-.venv/bin/python -m addm.tasks.cli.compute_gt --policy G1_allergy_V3 --k 200
-
-# All 72 policies at once
-.venv/bin/python -m addm.tasks.cli.compute_gt --k 200
+.venv/bin/python -m addm.tasks.cli.compute_gt --policy G1_allergy_V1 --k 200
 ```
 
 ## Prompt Generation
 
 ```bash
-# Generate all 72 policy prompts (default)
+# Generate all 35 policy prompts (default)
 .venv/bin/python -m addm.query.cli.generate
 
 # Generate single policy
-.venv/bin/python -m addm.query.cli.generate --policy G1/allergy/V3
+.venv/bin/python -m addm.query.cli.generate --policy T1P1
 ```
 
 ## Useful Flags
@@ -65,13 +62,10 @@
 | `--phase` | run_experiment | AMOS phase: '1' (seed only), '2' (use seed), '1,2' or omit (both) |
 | `--batch-size` | run_experiment | AMOS: Reviews per LLM call (default: 10) |
 | `--seed` | run_experiment | Path to Formula Seed file/dir for --phase 2 |
-| `--models` | extract | Custom model config (e.g., "gpt-5-nano:3,gpt-5-mini:1") |
+| `--tier` | run_experiment | Run all P1-P7 variants for a tier (e.g., T1) |
 | `--k` | all | Context size (25/50/100/200) |
 | `-n` | run_experiment | Number of samples |
 | `--token-limit` | run_experiment | RLM token budget |
-| `--dry-run` | extract | Test without API calls |
-| `--aggregate` | extract | Run aggregation only (skip extraction) |
-| `--verbose` | extract, compute_gt | Detailed output |
 
 ## Benchmark Quota
 

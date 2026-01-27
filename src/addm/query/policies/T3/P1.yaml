@@ -1,0 +1,130 @@
+# T3_environment_P1: Base Environment Quality Assessment
+# P1 = Base: Simple per-instance reasoning, basic thresholds (standard markdown format)
+
+policy_id: T3P1
+version: "1.0"
+format: markdown
+
+overview:
+  title: "Environment Quality Assessment"
+
+  purpose: |
+    Help assess the physical environment quality at this restaurant using customer reviews as evidence.
+    This is from the perspective of a business owner evaluating ambiance and comfort.
+    Assign a quality label: Needs Improvement, Satisfactory, or Excellent.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - cleanliness of the space
+    - noise level
+    - seating comfort
+    - temperature comfort (AC, heating)
+    - ambiance and decor fit with concept
+
+    Reviews that only discuss food or service without mentioning environment carry less weight.
+
+normative:
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "environment:CLEANLINESS"
+    - ref: "environment:NOISE_LEVEL"
+    - ref: "environment:COMFORT"
+    - ref: "environment:TEMPERATURE"
+    - ref: "environment:AMBIANCE_FIT"
+
+  decision:
+    verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
+    ordered: true
+
+    rules:
+      - verdict: "Excellent"
+        label: "EXCELLENT"
+        logic: ANY
+        conditions:
+          - text: "100 or more reviews praise excellent atmosphere"
+            type: count_threshold
+            filter:
+              ambiance_fit: excellent
+            min_count: 100
+            min_count_by_k:
+              25: 15
+              50: 28
+              100: 55
+          - text: "190 or more reviews describe it as spotless"
+            type: count_threshold
+            filter:
+              cleanliness: spotless
+            min_count: 190
+            min_count_by_k:
+              25: 24
+              50: 48
+              100: 95
+
+      - verdict: "Needs Improvement"
+        label: "NEEDS_IMPROVEMENT"
+        precondition: "Excellent does not apply"
+        logic: ANY
+        conditions:
+          - text: "25 or more reviews describe cleanliness issues"
+            type: count_threshold
+            filter:
+              cleanliness: dirty
+            min_count: 25
+            min_count_by_k:
+              25: 5
+              50: 8
+              100: 15
+          - text: "25 or more reviews report poor ambiance fit"
+            type: count_threshold
+            filter:
+              ambiance_fit: poor
+            min_count: 25
+            min_count_by_k:
+              25: 5
+              50: 8
+              100: 15
+          - text: "15 or more reviews complain about deafening noise"
+            type: count_threshold
+            filter:
+              noise_level: deafening
+            min_count: 15
+            min_count_by_k:
+              25: 3
+              50: 5
+              100: 9
+
+      - verdict: "Satisfactory"
+        label: "SATISFACTORY"
+        default: true
+        especially_when:
+          - "Environment is acceptable but unremarkable"
+          - "Some positive and some negative comments"
+          - "Basic expectations met but not exceeded"
+
+  output:
+    verdict:
+      type: enum
+      values: ["Needs Improvement", "Satisfactory", "Excellent"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

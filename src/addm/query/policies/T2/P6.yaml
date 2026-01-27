@@ -1,0 +1,16 @@
+# T2_price_worth_P6: Price-Worth Value Assessment - XML Format
+# P6 = Same decision logic as P1, xml format
+
+policy_id: T2P6
+extends: T2_P1
+version: "1.0"
+format: xml
+
+# Ground truth: Use same GT as P1 (identical decision logic)
+gt_source: T2_P1
+
+# Pre-rendered agenda in xml format
+# TODO: Generate from P1 when OBSERVE testing needed
+agenda_override: |
+  # Placeholder for xml format
+  # See T1/allergy/P6.yaml for example structure

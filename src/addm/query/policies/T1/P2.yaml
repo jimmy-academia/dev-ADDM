@@ -1,0 +1,136 @@
+# T1_allergy_P2: Allergy Safety with Extended Conditions
+# P2 = Extended: Multiple conditions per verdict (ANY triggers) (standard markdown format)
+
+policy_id: T1P2
+extends: T1_P1
+version: "1.0"
+format: markdown  # Standard markdown format (default)
+
+# === OVERVIEW (generates Overview section) ===
+overview:
+  title: "Allergy Safety Risk Assessment"
+
+  purpose: |
+    Help assess the allergy safety risk for this restaurant using customer reviews as evidence.
+    Assign a risk label: Low Risk, High Risk, or Critical Risk.
+
+  incident_definition: |
+    Only firsthand accounts are treated as confirmed incident evidence. An account is
+    considered an incident if it meaningfully discusses any of the following:
+    - an allergic reaction or suspected cross-contact
+    - requesting allergy accommodation (e.g., "peanut allergy", "nut-free")
+    - staff communication about allergy safety
+    - explicit statements about allergy safety guarantees (e.g., "they assured it was nut-free")
+
+    Ingredient mentions without allergy context (e.g., "peanut sauce is great") are
+    NOT considered incidents but ARE considered allergy-relevant.
+
+# === NORMATIVE (generates Definitions + Verdict Rules) ===
+normative:
+  # Terms -> auto-generates Definitions section
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "allergy:INCIDENT_SEVERITY"
+    - ref: "allergy:ASSURANCE_CLAIM"
+    - ref: "shared:STAFF_RESPONSE"
+
+  # Decision policy -> generates Verdict Rules section
+  decision:
+    verdicts: ["Low Risk", "High Risk", "Critical Risk"]
+    ordered: true
+
+    rules:
+      # P2 includes P1 conditions PLUS additional compound conditions
+      - verdict: "Critical Risk"
+        label: "CRITICAL"
+        logic: ANY
+        conditions:
+          # P1 conditions (same thresholds)
+          - text: "1 or more severe firsthand incidents are reported"
+            type: count_threshold
+            filter:
+              incident_severity: severe
+              account_type: firsthand
+            min_count: 1
+          - text: "2 or more moderate firsthand incidents are reported"
+            type: count_threshold
+            filter:
+              incident_severity: moderate
+              account_type: firsthand
+            min_count: 2
+          # P2 additional conditions
+          - text: "1 or more reviews report a moderate or severe incident after an explicit assurance of safety"
+            type: compound
+            filter:
+              incident_severity: [moderate, severe]
+              account_type: firsthand
+            requires:
+              assurance_claim: "true"
+            min_count: 1
+
+      - verdict: "High Risk"
+        label: "HIGH"
+        precondition: "Critical Risk does not apply"
+        logic: ANY
+        conditions:
+          # P1 conditions (same thresholds)
+          - text: "1 or more moderate firsthand incidents are reported"
+            type: count_threshold
+            filter:
+              incident_severity: moderate
+              account_type: firsthand
+            min_count: 1
+          - text: "2 or more reviews describe staff as refusing or being dismissive about allergy concerns"
+            type: count_threshold
+            filter:
+              staff_response: [refused, dismissive]
+            min_count: 2
+            min_count_by_k:
+              25: 1
+              50: 1
+              100: 1
+          # P2 additional conditions
+          - text: "1 or more reviews report a mild incident after an explicit assurance of safety"
+            type: compound
+            filter:
+              incident_severity: mild
+              account_type: firsthand
+            requires:
+              assurance_claim: "true"
+            min_count: 1
+
+      - verdict: "Low Risk"
+        label: "LOW"
+        default: true
+        especially_when:
+          - "No firsthand incidents are reported"
+          - "Allergy-relevant reviews describe consistent accommodation behavior"
+
+  # Output format
+  output:
+    verdict:
+      type: enum
+      values: ["Low Risk", "High Risk", "Critical Risk"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

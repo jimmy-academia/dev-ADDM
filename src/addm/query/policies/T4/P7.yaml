@@ -1,0 +1,16 @@
+# T4_execution_P7: Execution Quality Assessment - Prose Format
+# P7 = Same decision logic as P1, prose format
+
+policy_id: T4P7
+extends: T4_P1
+version: "1.0"
+format: prose
+
+# Ground truth: Use same GT as P1 (identical decision logic)
+gt_source: T4_P1
+
+# Pre-rendered agenda in prose format
+# TODO: Generate from P1 when OBSERVE testing needed
+agenda_override: |
+  # Placeholder for prose format
+  # See T1/allergy/P7.yaml for example structure

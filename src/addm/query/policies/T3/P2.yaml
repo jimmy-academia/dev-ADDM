@@ -1,0 +1,12 @@
+# T3_environment_P2: Environment Quality Assessment - Extended Conditions
+# P2 = Extended: Multiple conditions per verdict (ANY triggers)
+
+policy_id: T3P2
+extends: T3_P1
+version: "1.0"
+format: markdown
+
+# Placeholder - P2 adds compound conditions to P1 rules
+# To be migrated from G*_environment_V2 when finalized
+
+# For now, inherits P1 structure - see P1.yaml for full spec

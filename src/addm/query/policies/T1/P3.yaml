@@ -1,0 +1,113 @@
+# T1_allergy_P3: Allergy Safety - ALL Logic Rule Variation
+# P3 = ALL Logic: Requires multiple conditions to ALL be true (stricter than P1/P2)
+# Key difference: P1/P2 use ANY (one condition triggers), P3 uses ALL (all conditions must apply)
+
+policy_id: T1P3
+extends: T1_P1
+version: "1.0"
+format: markdown
+
+overview:
+  title: "Allergy Safety Risk Assessment (Strict)"
+
+  purpose: |
+    Help assess the allergy safety risk for this restaurant using customer reviews as evidence.
+    Assign a risk label: Low Risk, High Risk, or Critical Risk.
+
+    This policy uses strict ALL logic: multiple factors must ALL be present to trigger
+    higher risk verdicts. A severe incident alone is not sufficient for Critical Risk;
+    it must be accompanied by poor staff response.
+
+  incident_definition: |
+    Only firsthand accounts are treated as confirmed incident evidence. An account is
+    considered an incident if it meaningfully discusses any of the following:
+    - an allergic reaction or suspected cross-contact
+    - requesting allergy accommodation (e.g., "peanut allergy", "nut-free")
+    - staff communication about allergy safety
+    - explicit statements about allergy safety guarantees (e.g., "they assured it was nut-free")
+
+    Ingredient mentions without allergy context (e.g., "peanut sauce is great") are
+    NOT considered incidents but ARE considered allergy-relevant.
+
+normative:
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "allergy:INCIDENT_SEVERITY"
+    - ref: "allergy:ASSURANCE_CLAIM"
+    - ref: "shared:STAFF_RESPONSE"
+
+  decision:
+    verdicts: ["Low Risk", "High Risk", "Critical Risk"]
+    ordered: true
+
+    rules:
+      # Critical Risk requires ALL conditions to be met (not just one)
+      - verdict: "Critical Risk"
+        label: "CRITICAL"
+        logic: ALL
+        conditions:
+          - text: "1 or more severe firsthand incidents are reported"
+            type: count_threshold
+            filter:
+              incident_severity: severe
+              account_type: firsthand
+            min_count: 1
+          - text: "Staff response to the incident was poor (refused, dismissive, or no accommodation)"
+            type: count_threshold
+            filter:
+              staff_response: [refused, dismissive, none]
+            min_count: 1
+
+      # High Risk also requires ALL conditions to be met
+      - verdict: "High Risk"
+        label: "HIGH"
+        precondition: "Critical Risk does not apply"
+        logic: ALL
+        conditions:
+          - text: "1 or more moderate firsthand incidents are reported"
+            type: count_threshold
+            filter:
+              incident_severity: moderate
+              account_type: firsthand
+            min_count: 1
+          - text: "No evidence of staff accommodation (accommodation not mentioned or staff unresponsive)"
+            type: count_threshold
+            filter:
+              staff_response: [none, dismissive, refused]
+            min_count: 1
+
+      - verdict: "Low Risk"
+        label: "LOW"
+        default: true
+        especially_when:
+          - "No firsthand incidents are reported"
+          - "Incidents occurred but staff provided appropriate accommodation"
+          - "Allergy-relevant reviews describe consistent accommodation behavior"
+
+  output:
+    verdict:
+      type: enum
+      values: ["Low Risk", "High Risk", "Critical Risk"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence was used to arrive at the final verdict, noting which ALL conditions were met"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

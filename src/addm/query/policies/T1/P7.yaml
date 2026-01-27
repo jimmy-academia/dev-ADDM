@@ -1,0 +1,55 @@
+# T1_allergy_P7: Allergy Safety - Prose Format
+# P7 = Same decision logic as P1, flowing prose narrative
+# Tests OBSERVE's ability to extract rules from unstructured text
+
+policy_id: T1P7
+extends: T1_P1
+version: "1.0"
+format: prose
+
+# Ground truth: Use same GT as P1 (identical decision logic)
+gt_source: T1_P1
+
+# Pre-rendered agenda in prose format
+# No headers, bullets, or structured formatting - just flowing paragraphs
+agenda_override: |
+  ALLERGY SAFETY RISK ASSESSMENT
+
+  This assessment helps evaluate allergy safety risk for restaurants using customer reviews
+  as evidence. The goal is to assign one of three risk labels: Low Risk, High Risk, or
+  Critical Risk.
+
+  When analyzing reviews, we focus on firsthand accounts as confirmed incident evidence.
+  A firsthand account is when the reviewer or their dining party directly experienced the
+  event, such as saying "I had an allergic reaction" or "my child broke out in hives."
+  Secondhand reports where the reviewer describes someone else's experience do not count
+  as confirmed evidence. Hypothetical concerns without describing an actual incident are
+  also not counted.
+
+  An account is considered an incident if it meaningfully discusses any of the following:
+  an allergic reaction or suspected cross-contact, requesting allergy accommodation such
+  as mentioning a peanut allergy or asking for nut-free options, staff communication about
+  allergy safety, or explicit statements about allergy safety guarantees. Ingredient
+  mentions without allergy context, such as praising the peanut sauce, are not considered
+  incidents but are still considered allergy-relevant.
+
+  When analyzing incident severity, we consider multiple levels. Severe incidents involve
+  life-threatening reactions such as anaphylaxis, EpiPen use, emergency room visits, or
+  hospitalization. Moderate incidents show visible symptoms like hives or swelling and
+  may require medication such as antihistamines, but are not life-threatening. Mild
+  incidents cause discomfort or minor symptoms without visible swelling, hives, or the
+  need for urgent medical care. If no allergic reaction is described, the severity is none.
+
+  We also track staff response to allergy concerns. Staff may have accommodated by taking
+  the concern seriously with ingredient checks, substitutions, or separate preparation.
+  They may have refused to accommodate, been dismissive by minimizing the concern, or
+  there may be no staff interaction described. Additionally, we note whether staff
+  explicitly assured the food was safe for the allergy, such as guaranteeing it was
+  nut-free or confirming no peanuts were used.
+
+  The verdict rules work as follows. A restaurant receives Critical Risk when at least
+  one severe firsthand incident is reported, or when two or more moderate firsthand
+  incidents are reported. High Risk applies when Critical Risk does not apply but at
+  least one mild or moderate firsthand incident is reported. Otherwise, the default
+  verdict is Low Risk, which is especially appropriate when no firsthand incidents are
+  reported or when allergy-relevant reviews describe consistent accommodation behavior.

@@ -1,0 +1,16 @@
+# T5_server_P7: Server Performance Assessment - Prose Format
+# P7 = Same decision logic as P1, prose format
+
+policy_id: T5P7
+extends: T5_P1
+version: "1.0"
+format: prose
+
+# Ground truth: Use same GT as P1 (identical decision logic)
+gt_source: T5_P1
+
+# Pre-rendered agenda in prose format
+# TODO: Generate from P1 when OBSERVE testing needed
+agenda_override: |
+  # Placeholder for prose format
+  # See T1/allergy/P7.yaml for example structure

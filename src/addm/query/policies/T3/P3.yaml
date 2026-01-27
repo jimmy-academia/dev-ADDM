@@ -1,0 +1,15 @@
+# T3_environment_P3: Environment Quality Assessment - TBD Rule Variation
+# P3 = TBD: Rule variation to be defined (stricter thresholds, ALL logic, etc.)
+
+policy_id: T3P3
+extends: T3_P1
+version: "1.0"
+format: markdown
+
+# Placeholder - rule variation to be defined later
+# Options to consider:
+# - ALL logic instead of ANY for conditions
+# - Stricter thresholds
+# - Additional contextual factors
+
+# For now, inherits P1 structure - see P1.yaml for full spec

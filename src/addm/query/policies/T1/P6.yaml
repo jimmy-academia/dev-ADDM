@@ -1,0 +1,76 @@
+# T1_allergy_P6: Allergy Safety - XML Format
+# P6 = Same decision logic as P1, XML structured format
+# Tests OBSERVE's ability to parse XML-structured agendas
+
+policy_id: T1P6
+extends: T1_P1
+version: "1.0"
+format: xml
+
+# Ground truth: Use same GT as P1 (identical decision logic)
+gt_source: T1_P1
+
+# Pre-rendered agenda in XML format
+agenda_override: |
+  <policy id="T1_allergy_P6">
+    <overview>
+      <title>Allergy Safety Risk Assessment</title>
+      <purpose>Help assess the allergy safety risk for this restaurant using customer reviews as evidence. Assign a risk label: Low Risk, High Risk, or Critical Risk.</purpose>
+      <guidance>
+        Only firsthand accounts are treated as confirmed incident evidence. An account is
+        considered an incident if it meaningfully discusses any of the following:
+        - an allergic reaction or suspected cross-contact
+        - requesting allergy accommodation (e.g., "peanut allergy", "nut-free")
+        - staff communication about allergy safety
+        - explicit statements about allergy safety guarantees
+
+        Ingredient mentions without allergy context (e.g., "peanut sauce is great") are
+        NOT considered incidents but ARE considered allergy-relevant.
+      </guidance>
+    </overview>
+
+    <definitions>
+      <term name="ACCOUNT_TYPE" description="How the reviewer relates to the described event">
+        <value id="firsthand">The reviewer or their dining party experienced the event directly</value>
+        <value id="secondhand">The reviewer reports someone else's experience</value>
+        <value id="hypothetical">Concern or preference without describing an actual incident</value>
+      </term>
+
+      <term name="INCIDENT_SEVERITY" description="Severity of allergic reaction if one occurred">
+        <value id="none">No allergic reaction described</value>
+        <value id="mild">Discomfort or minor symptoms, no visible swelling/hives, no urgent care</value>
+        <value id="moderate">Visible symptoms (hives/swelling), medication needed, not life-threatening</value>
+        <value id="severe">Life-threatening reaction: anaphylaxis, EpiPen, ER visit, hospitalization</value>
+      </term>
+
+      <term name="ASSURANCE_CLAIM" description="Whether staff explicitly assured the food was safe">
+        <value id="true">Explicit assurance of safety given</value>
+        <value id="false">No explicit assurance claim</value>
+        <value id="unknown">Text is too vague to determine</value>
+      </term>
+
+      <term name="STAFF_RESPONSE" description="How staff responded when the concern was raised">
+        <value id="accommodated">Staff took concern seriously and accommodated</value>
+        <value id="refused">Staff could not or would not accommodate</value>
+        <value id="dismissive">Staff minimized or did not take concern seriously</value>
+        <value id="none">No staff interaction described</value>
+        <value id="unknown">Unclear from the review</value>
+      </term>
+    </definitions>
+
+    <verdict_rules>
+      <rule verdict="Critical Risk" logic="ANY">
+        <condition>1 or more severe firsthand incidents are reported</condition>
+        <condition>2 or more moderate firsthand incidents are reported</condition>
+      </rule>
+
+      <rule verdict="High Risk" precondition="Critical Risk does not apply" logic="ANY">
+        <condition>1 or more mild or moderate firsthand incidents are reported</condition>
+      </rule>
+
+      <rule verdict="Low Risk" default="true">
+        <especially_when>No firsthand incidents are reported</especially_when>
+        <especially_when>Allergy-relevant reviews describe consistent accommodation behavior</especially_when>
+      </rule>
+    </verdict_rules>
+  </policy>

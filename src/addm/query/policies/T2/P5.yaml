@@ -1,0 +1,16 @@
+# T2_price_worth_P5: Price-Worth Value Assessment - Reorder v2 (Interleaved Structure)
+# P5 = Same decision logic as P1, reorder_v2 format
+
+policy_id: T2P5
+extends: T2_P1
+version: "1.0"
+format: reorder_v2
+
+# Ground truth: Use same GT as P1 (identical decision logic)
+gt_source: T2_P1
+
+# Pre-rendered agenda in reorder_v2 format
+# TODO: Generate from P1 when OBSERVE testing needed
+agenda_override: |
+  # Placeholder for reorder_v2 format
+  # See T1/allergy/P5.yaml for example structure

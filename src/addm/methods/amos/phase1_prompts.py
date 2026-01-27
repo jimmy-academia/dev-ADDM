@@ -1,12 +1,113 @@
 """Phase 1 Prompts: Prompts for Formula Seed generation.
 
 Contains prompts for part-by-part extraction:
+- OBSERVE: Format-agnostic semantic analysis (Step 0)
 - EXTRACT_TERMS: Extract field/term definitions
 - EXTRACT_SCORING: Extract scoring system (V2/V3 policies)
 - EXTRACT_VERDICTS: Extract verdict rules
 
 Deprecated TEXT2YAML prompt moved to: backup/phase1_hybrid.py
 """
+
+# =============================================================================
+# OBSERVE Prompt: Format-Agnostic Semantic Analysis (Step 0)
+# =============================================================================
+
+OBSERVE_PROMPT = '''You are analyzing a policy agenda to understand its structure and content.
+The agenda may be in any format: markdown, XML, prose, or other structured text.
+
+## POLICY AGENDA
+
+{agenda}
+
+## YOUR TASK
+
+Analyze this policy agenda and extract its semantic structure, regardless of format.
+Output a structured analysis that downstream processing can use.
+
+## OUTPUT FORMAT (JSON)
+
+```json
+{{
+  "policy_type": "count_rule_based",
+  "core_topic": "allergy safety",
+  "verdicts": ["Low Risk", "High Risk", "Critical Risk"],
+  "verdict_order": "ascending",
+  "extraction_fields": [
+    {{
+      "name": "INCIDENT_SEVERITY",
+      "description": "Severity of incident",
+      "values": ["none", "mild", "moderate", "severe"]
+    }},
+    {{
+      "name": "ACCOUNT_TYPE",
+      "description": "How reviewer relates to event",
+      "values": ["firsthand", "secondhand", "hypothetical"]
+    }}
+  ],
+  "verdict_rules": [
+    {{
+      "verdict": "Critical Risk",
+      "logic": "ANY",
+      "conditions": [
+        "1+ severe firsthand incidents",
+        "2+ moderate firsthand incidents"
+      ]
+    }},
+    {{
+      "verdict": "High Risk",
+      "precondition": "Critical Risk does not apply",
+      "logic": "ANY",
+      "conditions": [
+        "1+ mild or moderate firsthand incidents"
+      ]
+    }},
+    {{
+      "verdict": "Low Risk",
+      "default": true
+    }}
+  ],
+  "has_scoring": false,
+  "key_concepts": ["allergy", "incident", "firsthand account", "severity"]
+}}
+```
+
+## ANALYSIS GUIDELINES
+
+1. **policy_type**: Determine from the rules:
+   - "count_rule_based" - Rules use counts (e.g., "1 or more", "2+ reviews")
+   - "scoring" - Rules use point totals (e.g., "score >= 44")
+   - "signal_rule_based" - Rules use presence/absence without counts
+
+2. **verdicts**: List ALL verdict labels exactly as written (case-sensitive)
+
+3. **verdict_order**: "ascending" if higher is better/worse in sequence, "descending" otherwise
+
+4. **extraction_fields**: ALL fields that need to be extracted from reviews
+   - Include both explicitly defined fields AND fields implied by rules
+   - Use UPPERCASE_WITH_UNDERSCORES for names
+   - List all possible values for each field
+
+5. **verdict_rules**: Capture the decision logic
+   - Include conditions in natural language (will be parsed later)
+   - Note preconditions like "if X does not apply"
+   - Mark exactly one rule as "default": true
+
+6. **has_scoring**: true if policy uses point-based scoring system
+
+7. **key_concepts**: Main themes and keywords relevant to this policy
+
+## IMPORTANT
+
+- Be format-agnostic: extract the same information whether input is markdown, XML, or prose
+- If the format uses XML tags, interpret their semantic meaning
+- If the format is prose, identify structure from language patterns
+- Extract EXACT verdict names and field values (case-sensitive for verdicts)
+
+Output ONLY the JSON, no explanation:
+
+```json
+'''
 
 # =============================================================================
 # Part-by-Part Prompts for Structured Extraction

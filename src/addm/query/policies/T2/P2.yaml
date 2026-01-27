@@ -1,0 +1,12 @@
+# T2_price_worth_P2: Price-Worth Value Assessment - Extended Conditions
+# P2 = Extended: Multiple conditions per verdict (ANY triggers)
+
+policy_id: T2P2
+extends: T2_P1
+version: "1.0"
+format: markdown
+
+# Placeholder - P2 adds compound conditions to P1 rules
+# To be migrated from G*_price_worth_V2 when finalized
+
+# For now, inherits P1 structure - see P1.yaml for full spec

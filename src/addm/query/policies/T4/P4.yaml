@@ -1,0 +1,16 @@
+# T4_execution_P4: Execution Quality Assessment - Reorder v1 (Verdicts before Definitions)
+# P4 = Same decision logic as P1, reorder_v1 format
+
+policy_id: T4P4
+extends: T4_P1
+version: "1.0"
+format: reorder_v1
+
+# Ground truth: Use same GT as P1 (identical decision logic)
+gt_source: T4_P1
+
+# Pre-rendered agenda in reorder_v1 format
+# TODO: Generate from P1 when OBSERVE testing needed
+agenda_override: |
+  # Placeholder for reorder_v1 format
+  # See T1/allergy/P4.yaml for example structure

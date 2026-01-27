@@ -1,27 +1,26 @@
 """
 CLI: Run experiment evaluation (all methods: direct, rlm, rag, amos).
 
+T* System: 5 tiers × 7 variants = 35 policies (T1P1, T1P2, ..., T5P7)
+
 Usage:
-    # Run ALL 72 policies (omit --policy)
+    # Run ALL 35 policies (omit --policy)
     .venv/bin/python -m addm.tasks.cli.run_experiment --k 25 --method amos --dev
 
-    # Run ALL 72 policies with verdict samples
-    .venv/bin/python -m addm.tasks.cli.run_experiment --k 25 --method amos --dev --sample
-
     # Single policy
-    .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100
+    .venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1 -n 100
 
     # Multiple policies (comma-separated)
-    .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V1,G1_allergy_V2 --dev
+    .venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1,T1P2 --dev
+
+    # All variants for a tier
+    .venv/bin/python -m addm.tasks.cli.run_experiment --tier T1 --dev
 
     # Dev mode (saves to results/dev/, no quota)
-    .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 5 --dev
+    .venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1 -n 5 --dev
 
     # Force run even if quota is met
-    .venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V2 -n 100 --force
-
-    # Legacy task-based (loads from data/answers/yelp/G1a_prompt.txt)
-    .venv/bin/python -m addm.tasks.cli.run_experiment --task G1a -n 5
+    .venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1 -n 100 --force
 
 Output directories:
     (default):   results/{method}/{policy_id}_K{k}/run_N/results.json (benchmark mode)
@@ -31,6 +30,7 @@ Output directories:
 import argparse
 import asyncio
 import json
+import logging
 import re
 import shlex
 import sys
@@ -39,6 +39,8 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
 import numpy as np
+
+logger = logging.getLogger(__name__)
 
 from addm.eval import (
     VERDICT_TO_ORDINAL,
@@ -64,13 +66,14 @@ from addm.utils.usage import compute_cost
 # Import ALL_POLICIES and expand_policies from shared constants
 from addm.tasks.constants import ALL_POLICIES, expand_policies
 
-# Mapping from policy topic to legacy task ID for ground truth comparison
-# Policy naming: G{group}_{topic}_V{version} -> Task: G{group}{variant}
-POLICY_TO_TASK = {
-    "allergy": "a",    # G1_allergy_V* -> G1a
-    "dietary": "e",    # G1_dietary_V* -> G1e
-    "hygiene": "i",    # G1_hygiene_V* -> G1i
-    # Add more mappings as policies are developed
+# Mapping from T* tier to G* topic for ground truth lookup
+# T* policies reuse G* GT files from previous benchmark
+TIER_TO_GT_TOPIC = {
+    "T1": "G1_allergy",
+    "T2": "G3_price_worth",
+    "T3": "G4_environment",
+    "T4": "G5_execution",
+    "T5": "G4_server",
 }
 
 
@@ -155,64 +158,106 @@ def _get_batch_usage(item: Dict[str, Any], model: str) -> Dict[str, Any]:
     }
 
 
-def policy_to_task_id(policy_id: str) -> Optional[str]:
-    """Convert policy ID to legacy task ID for ground truth lookup.
+def get_gt_policy_id(policy_id: str) -> str:
+    """Map T* policy ID to G* GT file ID.
+
+    T* policies use GT from their G* counterparts:
+    - P1, P3, P4, P5, P6, P7 → V1 GT (base rules)
+    - P2 → V2 GT (extended rules)
 
     Args:
-        policy_id: Policy ID like "G1_allergy_V2" or path like "G1/allergy/V2"
+        policy_id: T* policy ID like "T1P1"
 
     Returns:
-        Task ID like "G1a" or None if no mapping exists
+        G* policy ID for GT lookup like "G1_allergy_V1"
     """
-    # Normalize: "G1/allergy/V2" -> "G1_allergy_V2"
-    normalized = policy_id.replace("/", "_")
+    # Extract tier: "T1P1" -> "T1"
+    if len(policy_id) >= 2 and policy_id[0] == "T" and policy_id[1].isdigit():
+        tier = policy_id[:2]
+        variant = policy_id[2:] if len(policy_id) > 2 else "P1"  # e.g., "P1"
+    else:
+        return policy_id  # Not a T* policy
 
-    # Parse: G{group}_{topic}_V{version}
-    parts = normalized.split("_")
-    if len(parts) < 3:
-        return None
+    g_topic = TIER_TO_GT_TOPIC.get(tier, tier)
 
-    group = parts[0]  # e.g., "G1"
-    topic = parts[1]  # e.g., "allergy"
+    # Map variant: P2 → V2, all others → V1
+    if variant == "P2":
+        g_variant = "V2"
+    else:
+        g_variant = "V1"
 
-    variant = POLICY_TO_TASK.get(topic)
-    if variant is None:
-        return None
-
-    return f"{group}{variant}"  # e.g., "G1a"
+    return f"{g_topic}_{g_variant}"
 
 
 def load_policy_prompt(policy_id: str, domain: str = "yelp", k: int = 200) -> str:
-    """Load prompt from policy-generated file.
+    """Load prompt from policy-generated file or YAML agenda_override.
 
     Args:
-        policy_id: Policy ID like "G1_allergy_V2" or "G1/allergy/V2"
+        policy_id: Policy ID like "T1P1", "T2P3"
         domain: Domain (default: yelp)
         k: Context size (25, 50, 100, 200) - prompts are K-specific
 
     Returns:
         Prompt text
     """
-    # Normalize policy ID: "G1/allergy/V2" -> "G1_allergy_V2"
-    normalized = policy_id.replace("/", "_")
+    import yaml
 
-    # Try K-specific prompt first
-    prompt_path = Path(f"data/query/{domain}/{normalized}_K{k}_prompt.txt")
-    if not prompt_path.exists():
-        # Fallback to old format without K
-        prompt_path = Path(f"data/query/{domain}/{normalized}_prompt.txt")
-        if not prompt_path.exists():
-            raise FileNotFoundError(f"Policy prompt not found: {prompt_path}")
+    # Try K-specific prompt file first
+    prompt_path = Path(f"data/query/{domain}/{policy_id}_K{k}_prompt.txt")
+    if prompt_path.exists():
+        return prompt_path.read_text()
 
-    return prompt_path.read_text()
+    # Fallback to old format without K
+    prompt_path = Path(f"data/query/{domain}/{policy_id}_prompt.txt")
+    if prompt_path.exists():
+        return prompt_path.read_text()
+
+    # For T* policies, try loading agenda_override from YAML
+    # Parse T1P1 -> T1/P1.yaml
+    if len(policy_id) >= 4 and policy_id[0] == "T" and policy_id[1].isdigit() and "P" in policy_id:
+        tier = policy_id[:2]  # T1
+        variant = policy_id[2:]  # P1
+        yaml_path = Path(f"src/addm/query/policies/{tier}/{variant}.yaml")
+
+        if yaml_path.exists():
+            with open(yaml_path) as f:
+                policy_data = yaml.safe_load(f)
+
+            # Check for agenda_override (used in P4-P7 format variants)
+            if "agenda_override" in policy_data:
+                return policy_data["agenda_override"].strip()
+
+            # For P1-P3, we need to generate the prompt
+            raise FileNotFoundError(
+                f"Policy {policy_id} has no agenda_override. "
+                f"Run prompt generation first: .venv/bin/python -m addm.query.cli.generate --policy {policy_id}"
+            )
+
+    raise FileNotFoundError(f"Policy prompt not found: {prompt_path}")
 
 
 def load_ground_truth(task_id: str, domain: str, k: int) -> Dict[str, str]:
-    """Load ground truth verdicts by business_id."""
-    gt_path = Path(f"data/answers/{domain}/{task_id}_K{k}_groundtruth.json")
+    """Load ground truth verdicts by business_id.
+
+    T* policies are mapped to their G* GT counterparts.
+
+    Args:
+        task_id: Policy ID like "T1P1", "T2P3"
+        domain: Domain (default: yelp)
+        k: Context size
+
+    Returns:
+        Dict mapping business_id to verdict string
+    """
+    # Map T* policies to G* GT files
+    gt_task_id = get_gt_policy_id(task_id)
+    if gt_task_id != task_id:
+        logger.info(f"Mapped GT: {task_id} -> {gt_task_id}")
+
+    gt_path = Path(f"data/answers/{domain}/{gt_task_id}_K{k}_groundtruth.json")
     if not gt_path.exists():
         # Fallback to old format without K
-        gt_path = Path(f"data/answers/{domain}/{task_id}_groundtruth.json")
+        gt_path = Path(f"data/answers/{domain}/{gt_task_id}_groundtruth.json")
         if not gt_path.exists():
             return {}
 
@@ -1656,23 +1701,17 @@ def main() -> None:
     """CLI entry point."""
     parser = argparse.ArgumentParser(description="Run experiment evaluation")
 
-    # Task or policy targeting (mutually exclusive, optional - omit to run all 72 policies)
+    # Policy targeting (mutually exclusive, optional - omit to run all 35 policies)
     target_group = parser.add_mutually_exclusive_group(required=False)
-    target_group.add_argument("--task", type=str, help="Legacy task ID (e.g., G1a)")
     target_group.add_argument(
         "--policy",
         type=str,
-        help="Policy ID (e.g., G1_allergy_V2) or comma-separated list. Omit to run all 72 policies.",
+        help="Policy ID (e.g., T1P1) or comma-separated list. Omit to run all 35 policies.",
     )
     target_group.add_argument(
-        "--topic",
+        "--tier",
         type=str,
-        help="Topic (e.g., G1_allergy) - runs all V1-V4 variants (4 policies)",
-    )
-    target_group.add_argument(
-        "--group",
-        type=str,
-        help="Group (e.g., G1) - runs all topics × variants (12 policies)",
+        help="Tier (e.g., T1) - runs all P1-P7 variants (7 policies)",
     )
 
     parser.add_argument("--domain", type=str, default="yelp", help="Domain")
@@ -1788,38 +1827,22 @@ def main() -> None:
                 sys.exit(1)
             sample_ids = [s.strip() for s in ids_str.split(",") if s.strip()]
             output.info(f"Using {len(sample_ids)} verdict samples for {policy_key} K={args.k}")
-        elif args.task:
-            policy_key = args.task
-            k_key = f"K{args.k}"
-            if policy_key not in all_sample_ids_data:
-                output.error(f"Task {policy_key} not found in verdict samples")
-                sys.exit(1)
-            ids_str = all_sample_ids_data[policy_key].get(k_key, "")
-            if not ids_str:
-                output.error(f"No sample IDs for {policy_key} K={args.k}")
-                sys.exit(1)
-            sample_ids = [s.strip() for s in ids_str.split(",") if s.strip()]
-            output.info(f"Using {len(sample_ids)} verdict samples for {policy_key} K={args.k}")
         # else: multi-policy mode - sample_ids resolved per-policy in the loop
 
     # Parse policies using centralized expand_policies()
     policies = []
-    if not args.task:
-        try:
-            policies = expand_policies(
-                policy=args.policy,
-                topic=args.topic,
-                group=args.group,
-            )
-        except ValueError as e:
-            output.error(str(e))
-            sys.exit(1)
-        if not args.policy and not args.topic and not args.group:
-            output.info(f"Running all {len(policies)} policies")
-        elif args.topic:
-            output.info(f"Running topic {args.topic}: {len(policies)} policies")
-        elif args.group:
-            output.info(f"Running group {args.group}: {len(policies)} policies")
+    try:
+        policies = expand_policies(
+            policy=args.policy,
+            tier=args.tier,
+        )
+    except ValueError as e:
+        output.error(str(e))
+        sys.exit(1)
+    if not args.policy and not args.tier:
+        output.info(f"Running all {len(policies)} policies")
+    elif args.tier:
+        output.info(f"Running tier {args.tier}: {len(policies)} policies")
 
     if len(policies) > 1:
         # Multiple policies - run with progress tracking
@@ -1852,7 +1875,7 @@ def main() -> None:
                 callback = progress_tracker.get_callback(policy) if is_amos else None
 
                 result = await run_experiment(
-                    task_id=args.task,
+                    task_id=None,
                     policy_id=policy,
                     domain=args.domain,
                     k=args.k,
@@ -1942,7 +1965,7 @@ def main() -> None:
         # Single policy (or task)
         run_result = asyncio.run(
             run_experiment(
-                task_id=args.task,
+                task_id=None,
                 policy_id=policies[0] if policies else None,
                 domain=args.domain,
                 k=args.k,

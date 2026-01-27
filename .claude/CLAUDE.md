@@ -1,6 +1,8 @@
 # ADDM - Adaptive Decision-Making with LLMs
 
-Research benchmark: 72 policy evaluation tasks across restaurant reviews (Yelp).
+Research benchmark for policy evaluation tasks across restaurant reviews (Yelp).
+
+**T* System**: 5 tiers × 7 variants = 35 policies (T1P1, T1P2, ..., T5P7)
 
 ---
 
@@ -27,8 +29,11 @@ Research benchmark: 72 policy evaluation tasks across restaurant reviews (Yelp).
 **First time?** See the full [Quickstart Guide](../docs/quickstart.md) for step-by-step setup.
 
 ```bash
-# Run experiment
-.venv/bin/python -m addm.tasks.cli.run_experiment --policy G1_allergy_V3 -n 5 --dev
+# Run experiment (single policy)
+.venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1 -n 5 --dev
+
+# Run experiment (all variants for tier)
+.venv/bin/python -m addm.tasks.cli.run_experiment --tier T1 --dev
 
 # Extract ground truth
 .venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode batch
@@ -43,10 +48,10 @@ Research benchmark: 72 policy evaluation tasks across restaurant reviews (Yelp).
 |-------|----------|
 | Project Status & Timeline | [docs/ROADMAP.md](../docs/ROADMAP.md) |
 | Architecture & Structure | [docs/architecture.md](../docs/architecture.md) |
-| Benchmark (72 Tasks) | [.claude/rules/benchmark.md](rules/benchmark.md) |
+| **Benchmark (T* System)** | [.claude/rules/benchmark.md](rules/benchmark.md) |
 | CLI Commands | [.claude/rules/cli-commands.md](rules/cli-commands.md) |
 | Ground Truth Pipeline | [.claude/rules/ground-truth.md](rules/ground-truth.md) |
-| **Evaluation Metrics (8)** | [.claude/rules/evaluation.md](rules/evaluation.md) |
+| **Evaluation Metrics (7)** | [.claude/rules/evaluation.md](rules/evaluation.md) |
 | Methods (direct/rlm/rag/amos) | [.claude/rules/methods.md](rules/methods.md) |
 | AMOS Phase 1 | [docs/specs/phase1_formula_seed_generation.md](../docs/specs/phase1_formula_seed_generation.md) |
 | Data Pipeline | [.claude/rules/data-pipeline.md](rules/data-pipeline.md) |

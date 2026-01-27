@@ -2,12 +2,17 @@
 
 LLM reads agenda/query and produces a Formula Seed (executable JSON specification).
 
-Uses part-by-part extraction with 3 focused LLM calls:
+Uses part-by-part extraction with up to 4 focused LLM calls:
+0. OBSERVE - Format-agnostic semantic analysis (guides downstream steps)
 1. Extract terms/field definitions
-2. Extract scoring system (if present)
+2. Extract scoring system (if present, skipped when OBSERVE says no scoring)
 3. Extract verdict rules
 
 Entry point: generate_formula_seed()
+
+The OBSERVE step (Step 0) enables format-agnostic parsing - it can handle
+markdown, XML, prose, or other structured formats and extract semantic
+information to guide the downstream extraction steps.
 
 Helper functions in phase1_helpers.py:
 - extract_yaml_from_response(), parse_yaml_safely()
@@ -25,6 +30,7 @@ from addm.utils.debug_logger import get_debug_logger
 from addm.utils.output import output
 
 from .phase1_prompts import (
+    OBSERVE_PROMPT,
     EXTRACT_TERMS_PROMPT,
     EXTRACT_SCORING_PROMPT,
     EXTRACT_VERDICTS_PROMPT,
@@ -38,6 +44,80 @@ from .phase1_helpers import (
 from .seed_compiler import compile_yaml_to_seed, validate_policy_yaml, PolicyYAMLValidationError
 
 logger = logging.getLogger(__name__)
+
+
+# =============================================================================
+# OBSERVE: Format-Agnostic Semantic Analysis (Step 0)
+# =============================================================================
+
+async def _observe(
+    agenda: str,
+    llm: "LLMService",
+    policy_id: str,
+) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    """Analyze agenda structure format-agnostically.
+
+    This is Step 0 of Phase 1. It analyzes the agenda (in any format: markdown,
+    XML, prose) and extracts semantic information to guide downstream extraction.
+
+    Args:
+        agenda: The task agenda (policy description in any format)
+        llm: LLM service for API calls
+        policy_id: Policy identifier for logging
+
+    Returns:
+        Tuple of (observations_dict, usage_dict)
+        observations_dict contains:
+        - policy_type: "count_rule_based" | "scoring" | "signal_rule_based"
+        - extraction_fields: List of {name, description, values}
+        - verdict_rules: List of rule dicts
+        - verdicts: List of verdict labels
+        - has_scoring: bool
+        - key_concepts: List of relevant terms
+    """
+    import json
+
+    prompt = OBSERVE_PROMPT.format(agenda=agenda)
+    messages = [{"role": "user", "content": prompt}]
+
+    start_time = time.time()
+    response, usage = await llm.call_async_with_usage(
+        messages,
+        context={
+            "sample_id": policy_id,
+            "phase": "phase1_observe",
+            "step": "observe",
+            "policy_id": policy_id,
+        },
+    )
+    usage["latency_ms"] = (time.time() - start_time) * 1000
+
+    # Extract JSON from response
+    json_str = response
+    if "```json" in response:
+        json_str = response.split("```json")[1].split("```")[0].strip()
+    elif "```" in response:
+        json_str = response.split("```")[1].split("```")[0].strip()
+
+    try:
+        observations = json.loads(json_str)
+    except json.JSONDecodeError as e:
+        logger.warning(f"OBSERVE JSON parse failed: {e}")
+        # Return minimal observations on parse failure
+        observations = {
+            "policy_type": "count_rule_based",
+            "extraction_fields": [],
+            "verdict_rules": [],
+            "verdicts": [],
+            "has_scoring": False,
+            "key_concepts": [],
+        }
+
+    logger.info(f"OBSERVE: policy_type={observations.get('policy_type')}, "
+                f"{len(observations.get('extraction_fields', []))} fields, "
+                f"{len(observations.get('verdicts', []))} verdicts")
+
+    return observations, usage
 
 # Type alias for progress callback
 ProgressCallback = Callable[[int, str, float, str], None]
@@ -85,8 +165,22 @@ async def generate_formula_seed(
         if progress_callback:
             progress_callback(1, step, progress, detail)
 
-    # Step 0: Parse query into sections
-    report("PARSE", 5, "parsing query sections")
+    # Step 0: OBSERVE - Format-agnostic semantic analysis
+    report("OBSERVE", 3, "analyzing agenda structure")
+    output.status(f"[Phase 1] Step 0/4: Analyzing agenda structure (OBSERVE)...")
+
+    observations, usage0 = await _observe(agenda, llm, policy_id)
+    all_usages.append(usage0)
+
+    policy_type_hint = observations.get("policy_type", "count_rule_based")
+    known_fields = {f["name"].upper() for f in observations.get("extraction_fields", [])}
+    has_scoring_hint = observations.get("has_scoring", False)
+
+    output.status(f"[Phase 1] OBSERVE: {policy_type_hint}, {len(known_fields)} fields identified")
+    logger.info(f"OBSERVE hints: policy_type={policy_type_hint}, known_fields={known_fields}")
+
+    # Step 1: Parse query into sections (using observations as hints)
+    report("PARSE", 8, "parsing query sections")
     output.status(f"[Phase 1] Parsing query sections...")
 
     sections = _parse_query_sections(agenda)
@@ -97,9 +191,9 @@ async def generate_formula_seed(
     task_name_match = re.search(r'^#\s*(.+?)(?:\n|$)', header)
     task_name = task_name_match.group(1).strip() if task_name_match else policy_id
 
-    # Step 1: Extract terms
-    report("TERMS", 10, "extracting terms")
-    output.status(f"[Phase 1] Step 1/3: Extracting terms...")
+    # Step 2: Extract terms (guided by OBSERVE hints)
+    report("TERMS", 12, "extracting terms")
+    output.status(f"[Phase 1] Step 1/4: Extracting terms...")
 
     terms_section = sections.get("terms", "")
     if not terms_section:
@@ -111,24 +205,31 @@ async def generate_formula_seed(
     output.status(f"[Phase 1] Extracted {len(terms)} terms")
     report("TERMS", 30, f"{len(terms)} terms")
 
-    # Step 2: Extract scoring (if present)
+    # Step 3: Extract scoring (if present, guided by OBSERVE hints)
     report("SCORING", 35, "checking for scoring")
-    output.status(f"[Phase 1] Step 2/3: Checking for scoring system...")
+    output.status(f"[Phase 1] Step 2/4: Checking for scoring system...")
 
     scoring_section = sections.get("scoring", "")
-    if scoring_section:
+    # Use OBSERVE hint to skip scoring extraction if not needed
+    if scoring_section and (has_scoring_hint or policy_type_hint == "scoring"):
         scoring, usage2 = await _extract_scoring_from_section(scoring_section, terms, llm, policy_id)
         all_usages.append(usage2)
         is_scoring = scoring.get("policy_type") == "scoring"
         output.status(f"[Phase 1] Scoring: {'yes' if is_scoring else 'no'}")
+    elif has_scoring_hint:
+        # OBSERVE detected scoring but no explicit section - try extracting from full agenda
+        scoring, usage2 = await _extract_scoring_from_section(agenda, terms, llm, policy_id)
+        all_usages.append(usage2)
+        is_scoring = scoring.get("policy_type") == "scoring"
+        output.status(f"[Phase 1] Scoring (from full agenda): {'yes' if is_scoring else 'no'}")
     else:
-        scoring = {"policy_type": "count_rule_based"}
-        output.status(f"[Phase 1] No scoring section found")
+        scoring = {"policy_type": policy_type_hint}
+        output.status(f"[Phase 1] No scoring (OBSERVE hint: {policy_type_hint})")
     report("SCORING", 50, scoring.get("policy_type", "unknown"))
 
-    # Step 3: Extract verdicts and rules
+    # Step 4: Extract verdicts and rules (guided by OBSERVE hints)
     report("VERDICTS", 55, "extracting verdicts")
-    output.status(f"[Phase 1] Step 3/3: Extracting verdict rules...")
+    output.status(f"[Phase 1] Step 3/4: Extracting verdict rules...")
 
     verdicts_section = sections.get("verdicts", "")
     if not verdicts_section:
@@ -149,9 +250,9 @@ async def generate_formula_seed(
         output.status(f"[Phase 1] Discovered {len(discovered_terms)} additional fields from verdict rules")
         terms = terms + discovered_terms
 
-    # Step 4: Combine parts
+    # Step 5: Combine parts
     report("COMBINE", 75, "combining parts")
-    output.status(f"[Phase 1] Combining extracted parts...")
+    output.status(f"[Phase 1] Step 4/4: Combining extracted parts...")
 
     yaml_data = _combine_parts_to_yaml(terms, scoring, verdicts_data, task_name)
     logger.info(f"Combined PolicyYAML: {yaml_data.get('policy_type')}, {len(yaml_data.get('terms', []))} terms")

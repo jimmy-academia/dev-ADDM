@@ -1,0 +1,123 @@
+# T5_server_P1: Base Server Performance Assessment
+# P1 = Base: Simple per-instance reasoning, basic thresholds (standard markdown format)
+
+policy_id: T5P1
+version: "1.0"
+format: markdown
+
+overview:
+  title: "Server Performance Assessment"
+
+  purpose: |
+    Help assess the front-of-house staff performance at this restaurant using customer reviews as evidence.
+    This is from the perspective of a business owner evaluating their service team.
+    Assign a performance label: Needs Improvement, Satisfactory, or Excellent.
+
+  incident_definition: |
+    Consider reviews that mention any of the following:
+    - server attentiveness and responsiveness
+    - friendliness and demeanor
+    - menu knowledge and recommendations
+    - service errors and how they were handled
+    - exceptional servers mentioned by name
+
+    Reviews that only discuss food without mentioning service carry less weight.
+
+normative:
+  terms:
+    - ref: "shared:ACCOUNT_TYPE"
+    - ref: "server:ATTENTIVENESS"
+    - ref: "server:FRIENDLINESS"
+    - ref: "server:MENU_KNOWLEDGE"
+    - ref: "server:SERVICE_ERRORS"
+    - ref: "server:NAMED_POSITIVELY"
+
+  decision:
+    verdicts: ["Needs Improvement", "Satisfactory", "Excellent"]
+    ordered: true
+
+    rules:
+      - verdict: "Excellent"
+        label: "EXCELLENT"
+        logic: ANY
+        conditions:
+          - text: "40 or more reviews praise server attentiveness and friendliness"
+            type: count_threshold
+            filter:
+              attentiveness: excellent
+              friendliness: warm
+            min_count: 40
+            min_count_by_k:
+              25: 6
+              50: 12
+              100: 22
+          - text: "35 or more reviews mention servers by name with exceptional praise"
+            type: count_threshold
+            filter:
+              named_positively: "true"
+              attentiveness: excellent
+            min_count: 35
+            min_count_by_k:
+              25: 5
+              50: 10
+              100: 18
+
+      - verdict: "Needs Improvement"
+        label: "NEEDS_IMPROVEMENT"
+        precondition: "Excellent does not apply"
+        logic: ANY
+        conditions:
+          - text: "35 or more reviews describe inattentive or absent servers"
+            type: count_threshold
+            filter:
+              attentiveness: poor
+            min_count: 35
+            min_count_by_k:
+              25: 9
+              50: 14
+              100: 24
+          - text: "20 or more reviews complain about rude service"
+            type: count_threshold
+            filter:
+              friendliness: rude
+            min_count: 20
+            min_count_by_k:
+              25: 6
+              50: 9
+              100: 15
+
+      - verdict: "Satisfactory"
+        label: "SATISFACTORY"
+        default: true
+        especially_when:
+          - "Service is acceptable but not exceptional"
+          - "Mixed reviews about server quality"
+          - "Some good experiences, some issues"
+
+  output:
+    verdict:
+      type: enum
+      values: ["Needs Improvement", "Satisfactory", "Excellent"]
+      required: true
+
+    evidence:
+      type: array
+      items:
+        review_id: string
+        quote: string
+      description: "Relevant quotes supporting the verdict"
+
+    justification:
+      type: string
+      required: true
+      description: "Explain how the evidence was used to arrive at the final verdict"
+
+    confidence:
+      type: enum
+      values: ["low", "medium", "high"]
+      note: "Based on evidence volume: low=1-2, medium=3-5, high=6+ relevant reviews"
+
+    other_notes:
+      type: string
+      optional: true
+      description: "Any other relevant observations or caveats"

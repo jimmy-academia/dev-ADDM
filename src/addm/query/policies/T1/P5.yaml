@@ -1,0 +1,59 @@
+# T1_allergy_P5: Allergy Safety - Reorder v2 (Interleaved Structure)
+# P5 = Same decision logic as P1, interleaved verdicts with inline definitions
+# Tests OBSERVE's ability to handle interleaved content
+
+policy_id: T1P5
+extends: T1_P1
+version: "1.0"
+format: reorder_v2  # Interleaved structure
+
+# Ground truth: Use same GT as P1 (identical decision logic)
+gt_source: T1_P1
+
+# Pre-rendered agenda in interleaved format
+# Each verdict section includes relevant term definitions inline
+agenda_override: |
+  # Allergy Safety Risk Assessment
+
+  Help assess the allergy safety risk for this restaurant using customer reviews as evidence.
+  Assign a risk label: Low Risk, High Risk, or Critical Risk.
+
+  Only firsthand accounts count as confirmed evidence. Firsthand means the reviewer or their
+  dining party experienced the event directly. Secondhand reports are not counted.
+
+  ## Critical Risk
+
+  Assign **Critical Risk** if ANY of the following:
+  - 1+ severe incidents (life-threatening reactions, anaphylaxis, EpiPen use, ER visits)
+  - 2+ moderate incidents (visible symptoms like hives/swelling, medication needed)
+
+  *Only firsthand accounts count as evidence.*
+
+  ## High Risk
+
+  Assign **High Risk** if Critical Risk does not apply AND:
+  - 1+ mild or moderate incidents (minor discomfort to visible symptoms)
+
+  *Only firsthand accounts count as evidence.*
+
+  ## Low Risk
+
+  Assign **Low Risk** otherwise (default), especially when:
+  - No firsthand incidents are reported
+  - Reviews describe consistent accommodation behavior
+
+  ## Term Definitions
+
+  For reference, here are the complete definitions:
+
+  **Account Type**: firsthand (reviewer experienced it), secondhand (heard from others), hypothetical (concern without incident)
+
+  **Incident Severity**:
+  - none: No reaction described
+  - mild: Minor discomfort, no visible symptoms, no urgent care
+  - moderate: Visible symptoms (hives, swelling), medication needed, not life-threatening
+  - severe: Life-threatening, anaphylaxis, EpiPen, ER visit, hospitalization
+
+  **Assurance of Safety**: true (explicit assurance given), false (no assurance), unknown (unclear)
+
+  **Staff Response**: accommodated, refused, dismissive, none, unknown
