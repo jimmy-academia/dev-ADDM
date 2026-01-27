@@ -423,6 +423,13 @@ class PolicyIR:
     - The NL agenda prompt (Overview + Definitions + Verdict Rules)
     - Evaluation metrics
     - Validation scripts
+
+    Format options:
+    - markdown (default): Definitions → Verdict Rules
+    - reorder_v1: Verdict Rules → Definitions
+    - reorder_v2: Interleaved structure
+    - xml: XML-structured format
+    - prose: Flowing narrative format
     """
 
     policy_id: str  # Unique ID (e.g., "G1_allergy_V1")
@@ -430,6 +437,7 @@ class PolicyIR:
     normative: NormativeCore
     extends: Optional[str] = None  # Parent policy for inheritance
     version: str = "1.0"
+    format: str = "markdown"  # Output format (markdown, reorder_v1, reorder_v2, xml, prose)
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "PolicyIR":
@@ -440,14 +448,98 @@ class PolicyIR:
             normative=NormativeCore.from_dict(data.get("normative", {})),
             extends=data.get("extends"),
             version=data.get("version", "1.0"),
+            format=data.get("format", "markdown"),
         )
 
     @classmethod
     def load(cls, yaml_path: Path) -> "PolicyIR":
-        """Load PolicyIR from a YAML file."""
+        """Load PolicyIR from a YAML file, handling inheritance via 'extends'.
+
+        If the policy has 'extends: T1_P1', it will load T1/P1.yaml as the base
+        and merge the child's overrides on top.
+        """
         with open(yaml_path) as f:
             data = yaml.safe_load(f)
+
+        # Handle inheritance
+        extends = data.get("extends")
+        if extends:
+            # Parse extends reference: "T1_P1" -> T1/P1.yaml
+            # Format: T{n}_P{m} or T{n}P{m}
+            extends_clean = extends.replace("_", "")  # T1_P1 -> T1P1
+            if len(extends_clean) >= 4 and extends_clean[0] == "T":
+                tier = extends_clean[:2]  # T1
+                variant = extends_clean[2:]  # P1
+                parent_path = yaml_path.parent / f"../{tier}/{variant}.yaml"
+                parent_path = parent_path.resolve()
+
+                if parent_path.exists() and parent_path != yaml_path.resolve():
+                    # Load parent (recursively handles nested inheritance)
+                    parent_policy = cls.load(parent_path)
+
+                    # Merge: child overrides parent
+                    merged_data = cls._merge_policy_data(parent_policy, data)
+                    return cls.from_dict(merged_data)
+
         return cls.from_dict(data)
+
+    @classmethod
+    def _merge_policy_data(cls, parent: "PolicyIR", child_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Merge child policy data with parent PolicyIR.
+
+        Child values override parent. Missing sections inherit from parent.
+        """
+        # Start with parent data converted to dict
+        merged = {
+            "policy_id": child_data.get("policy_id", parent.policy_id),
+            "version": child_data.get("version", parent.version),
+            "format": child_data.get("format", parent.format),
+            "extends": child_data.get("extends"),
+            "overview": {
+                "title": parent.overview.title,
+                "purpose": parent.overview.purpose,
+                "incident_definition": parent.overview.incident_definition,
+            },
+            "normative": {
+                "terms": parent.normative.terms.copy() if parent.normative.terms else [],
+                "decision": {
+                    "verdicts": parent.normative.decision.verdicts.copy(),
+                    "ordered": parent.normative.decision.ordered,
+                    "rules": [
+                        {
+                            "verdict": r.verdict,
+                            "label": r.label,
+                            "logic": r.logic.value if hasattr(r.logic, 'value') else str(r.logic),
+                            "conditions": list(r.conditions) if r.conditions else [],
+                            "precondition": r.precondition,
+                            "default": r.default,
+                            "especially_when": list(r.especially_when) if r.especially_when else [],
+                        }
+                        for r in parent.normative.decision.rules
+                    ],
+                },
+                "output": {
+                    "fields": parent.normative.output.fields.copy() if parent.normative.output.fields else {},
+                } if parent.normative.output else {},
+            },
+        }
+
+        # Override with child data where present
+        if "overview" in child_data:
+            for key in ["title", "purpose", "incident_definition"]:
+                if key in child_data["overview"]:
+                    merged["overview"][key] = child_data["overview"][key]
+
+        if "normative" in child_data:
+            if "terms" in child_data["normative"]:
+                merged["normative"]["terms"] = child_data["normative"]["terms"]
+            if "decision" in child_data["normative"]:
+                # Full override of decision section if provided
+                merged["normative"]["decision"] = child_data["normative"]["decision"]
+            if "output" in child_data["normative"]:
+                merged["normative"]["output"] = child_data["normative"]["output"]
+
+        return merged
 
     def get_term_refs(self) -> List[str]:
         """Get all term references from this policy."""

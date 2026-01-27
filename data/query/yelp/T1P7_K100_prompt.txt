@@ -1,0 +1,33 @@
+# Allergy Safety Risk Assessment
+
+Help assess the allergy safety risk for this restaurant using customer reviews as evidence.
+Assign a risk label: Low Risk, High Risk, or Critical Risk.
+
+Only firsthand accounts are treated as confirmed incident evidence. An account is
+considered an incident if it meaningfully discusses any of the following:
+- an allergic reaction or suspected cross-contact
+- requesting allergy accommodation (e.g., "peanut allergy", "nut-free")
+- staff communication about allergy safety
+- explicit statements about allergy safety guarantees (e.g., "they assured it was nut-free")
+
+Ingredient mentions without allergy context (e.g., "peanut sauce is great") are
+NOT considered incidents but ARE considered allergy-relevant.
+
+## Understanding the Terms
+
+**Account Type** refers to how the reviewer relates to the described event The possible values are: "Firsthand" means the reviewer or their dining party experienced the event directly (e.g., "i had...", "my child..."); "Secondhand" means the reviewer reports someone else's experience (e.g., "my friend...", "i heard..."); "Hypothetical" means concern or preference without describing an actual incident (e.g., "i'm allergic so i worry...").
+
+**Incident Severity** refers to severity of allergic reaction if one occurred The possible values are: "No reaction" means no allergic reaction described; "Mild incident" means discomfort or minor symptoms that do not include visible swelling/hives and do not require urgent medical care; "Moderate incident" means visible symptoms (e.g., hives or swelling) and/or symptoms that required medication (e.g., antihistamine), but not life-threatening; "Severe incident" means life-threatening reaction, including any mention of anaphylaxis, epipen use, emergency room visit, hospitalization, or explicitly described medical emergency.
+
+**Assurance of Safety** refers to whether staff explicitly assured the food was safe for the allergy The possible values are: "Assurance given" means review states an explicit assurance of safety (e.g., "guaranteed nut-free", "confirmed no peanuts", "assured it was safe for my allergy"); "No assurance" means review discusses allergy but contains no explicit assurance claim; "Unknown" means text is too vague to determine.
+
+**Staff Response** refers to how staff responded when the concern was raised The possible values are: "Accommodated" means staff took the concern seriously and successfully accommodated (ingredient check, substitution, separate preparation, clear warnings); "Refused" means staff stated they could not or would not accommodate; "Dismissive" means staff minimized the concern or did not take it seriously; "Not described" means no staff interaction about the concern is described; "Unknown" means unclear from the review.
+
+## Making the Assessment
+
+A restaurant should be classified as **Critical Risk** when 1 or more severe firsthand incidents are reported or 2 or more moderate firsthand incidents are reported.
+
+A restaurant should be classified as **High Risk** when 1 or more mild or moderate firsthand incidents are reported.
+
+If none of the above conditions apply, the restaurant is classified as **Low Risk**.
+This is especially appropriate when no firsthand incidents are reported, allergy-relevant reviews describe consistent accommodation behavior.

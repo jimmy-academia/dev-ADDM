@@ -1,0 +1,66 @@
+<policy id="T1P6">
+  <overview>
+    <title>Allergy Safety Risk Assessment</title>
+    <purpose>Help assess the allergy safety risk for this restaurant using customer reviews as evidence.
+Assign a risk label: Low Risk, High Risk, or Critical Risk.</purpose>
+    <incident_definition>Only firsthand accounts are treated as confirmed incident evidence. An account is
+considered an incident if it meaningfully discusses any of the following:
+- an allergic reaction or suspected cross-contact
+- requesting allergy accommodation (e.g., "peanut allergy", "nut-free")
+- staff communication about allergy safety
+- explicit statements about allergy safety guarantees (e.g., "they assured it was nut-free")
+
+Ingredient mentions without allergy context (e.g., "peanut sauce is great") are
+NOT considered incidents but ARE considered allergy-relevant.</incident_definition>
+  </overview>
+  <definitions>
+    <term name="Account Type">
+      <description>How the reviewer relates to the described event</description>
+      <options>
+        <option value="Firsthand">The reviewer or their dining party experienced the event directly (e.g., "I had...", "my child...")</option>
+        <option value="Secondhand">The reviewer reports someone else's experience (e.g., "my friend...", "I heard...")</option>
+        <option value="Hypothetical">Concern or preference without describing an actual incident (e.g., "I'm allergic so I worry...")</option>
+      </options>
+    </term>
+    <term name="Incident Severity">
+      <description>Severity of allergic reaction if one occurred</description>
+      <options>
+        <option value="No reaction">No allergic reaction described</option>
+        <option value="Mild incident">Discomfort or minor symptoms that do not include visible swelling/hives and do not require urgent medical care</option>
+        <option value="Moderate incident">Visible symptoms (e.g., hives or swelling) and/or symptoms that required medication (e.g., antihistamine), but not life-threatening</option>
+        <option value="Severe incident">Life-threatening reaction, including any mention of anaphylaxis, EpiPen use, emergency room visit, hospitalization, or explicitly described medical emergency</option>
+      </options>
+    </term>
+    <term name="Assurance of Safety">
+      <description>Whether staff explicitly assured the food was safe for the allergy</description>
+      <options>
+        <option value="Assurance given">Review states an explicit assurance of safety (e.g., "guaranteed nut-free", "confirmed no peanuts", "assured it was safe for my allergy")</option>
+        <option value="No assurance">Review discusses allergy but contains no explicit assurance claim</option>
+        <option value="Unknown">Text is too vague to determine</option>
+      </options>
+    </term>
+    <term name="Staff Response">
+      <description>How staff responded when the concern was raised</description>
+      <options>
+        <option value="Accommodated">Staff took the concern seriously and successfully accommodated (ingredient check, substitution, separate preparation, clear warnings)</option>
+        <option value="Refused">Staff stated they could not or would not accommodate</option>
+        <option value="Dismissive">Staff minimized the concern or did not take it seriously</option>
+        <option value="Not described">No staff interaction about the concern is described</option>
+        <option value="Unknown">Unclear from the review</option>
+      </options>
+    </term>
+  </definitions>
+  <verdict_rules>
+    <rule verdict="Critical Risk" logic="ANY">
+      <condition>1 or more severe firsthand incidents are reported</condition>
+      <condition>2 or more moderate firsthand incidents are reported</condition>
+    </rule>
+    <rule verdict="High Risk" logic="ANY">
+      <condition>1 or more mild or moderate firsthand incidents are reported</condition>
+    </rule>
+    <rule verdict="Low Risk" default="true">
+      <especially_when>No firsthand incidents are reported</especially_when>
+      <especially_when>Allergy-relevant reviews describe consistent accommodation behavior</especially_when>
+    </rule>
+  </verdict_rules>
+</policy>

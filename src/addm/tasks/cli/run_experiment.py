@@ -159,17 +159,18 @@ def _get_batch_usage(item: Dict[str, Any], model: str) -> Dict[str, Any]:
 
 
 def get_gt_policy_id(policy_id: str) -> str:
-    """Map T* policy ID to G* GT file ID.
+    """Map T* policy ID to GT file ID.
 
-    T* policies use GT from their G* counterparts:
-    - P1, P3, P4, P5, P6, P7 → V1 GT (base rules)
-    - P2 → V2 GT (extended rules)
+    T* policies use GT from their G* counterparts, except P3 which has its own:
+    - P1, P4, P5, P6, P7 → G*_V1 GT (base rules, format variants)
+    - P2 → G*_V2 GT (extended rules)
+    - P3 → T*P3 GT (ALL logic, needs own GT file)
 
     Args:
         policy_id: T* policy ID like "T1P1"
 
     Returns:
-        G* policy ID for GT lookup like "G1_allergy_V1"
+        Policy ID for GT lookup (e.g., "G1_allergy_V1" or "T1P3")
     """
     # Extract tier: "T1P1" -> "T1"
     if len(policy_id) >= 2 and policy_id[0] == "T" and policy_id[1].isdigit():
@@ -177,6 +178,10 @@ def get_gt_policy_id(policy_id: str) -> str:
         variant = policy_id[2:] if len(policy_id) > 2 else "P1"  # e.g., "P1"
     else:
         return policy_id  # Not a T* policy
+
+    # P3 has its own GT (ALL logic - different rules)
+    if variant == "P3":
+        return policy_id  # Use T1P3, T2P3, etc.
 
     g_topic = TIER_TO_GT_TOPIC.get(tier, tier)
 
@@ -190,7 +195,10 @@ def get_gt_policy_id(policy_id: str) -> str:
 
 
 def load_policy_prompt(policy_id: str, domain: str = "yelp", k: int = 200) -> str:
-    """Load prompt from policy-generated file or YAML agenda_override.
+    """Load prompt from data/query/{domain}/ directory.
+
+    All prompts must be pre-generated using:
+        .venv/bin/python -m addm.query.cli.generate --policy {policy_id} --k {k}
 
     Args:
         policy_id: Policy ID like "T1P1", "T2P3"
@@ -200,40 +208,21 @@ def load_policy_prompt(policy_id: str, domain: str = "yelp", k: int = 200) -> st
     Returns:
         Prompt text
     """
-    import yaml
-
-    # Try K-specific prompt file first
+    # K-specific prompt file (standard format)
     prompt_path = Path(f"data/query/{domain}/{policy_id}_K{k}_prompt.txt")
     if prompt_path.exists():
         return prompt_path.read_text()
 
-    # Fallback to old format without K
-    prompt_path = Path(f"data/query/{domain}/{policy_id}_prompt.txt")
-    if prompt_path.exists():
-        return prompt_path.read_text()
+    # Fallback to old format without K (legacy)
+    legacy_path = Path(f"data/query/{domain}/{policy_id}_prompt.txt")
+    if legacy_path.exists():
+        return legacy_path.read_text()
 
-    # For T* policies, try loading agenda_override from YAML
-    # Parse T1P1 -> T1/P1.yaml
-    if len(policy_id) >= 4 and policy_id[0] == "T" and policy_id[1].isdigit() and "P" in policy_id:
-        tier = policy_id[:2]  # T1
-        variant = policy_id[2:]  # P1
-        yaml_path = Path(f"src/addm/query/policies/{tier}/{variant}.yaml")
-
-        if yaml_path.exists():
-            with open(yaml_path) as f:
-                policy_data = yaml.safe_load(f)
-
-            # Check for agenda_override (used in P4-P7 format variants)
-            if "agenda_override" in policy_data:
-                return policy_data["agenda_override"].strip()
-
-            # For P1-P3, we need to generate the prompt
-            raise FileNotFoundError(
-                f"Policy {policy_id} has no agenda_override. "
-                f"Run prompt generation first: .venv/bin/python -m addm.query.cli.generate --policy {policy_id}"
-            )
-
-    raise FileNotFoundError(f"Policy prompt not found: {prompt_path}")
+    # Prompt not found - provide helpful error
+    raise FileNotFoundError(
+        f"Prompt not found: {prompt_path}\n"
+        f"Generate it first: .venv/bin/python -m addm.query.cli.generate --policy {policy_id.replace('P', '/P')} --k {k}"
+    )
 
 
 def load_ground_truth(task_id: str, domain: str, k: int) -> Dict[str, str]:

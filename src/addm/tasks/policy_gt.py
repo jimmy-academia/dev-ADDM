@@ -794,8 +794,9 @@ def load_policy(policy_id: str) -> PolicyIR:
     """
     Load a policy by ID.
 
-    Policy ID format: "G1_allergy_V3" -> policies/G1/allergy/V3.yaml
-                      "G3_price_worth_V1" -> policies/G3/price_worth/V1.yaml
+    Policy ID formats:
+        T* format: "T1P1" -> policies/T1/P1.yaml
+        G* format: "G1_allergy_V3" -> policies/G1/allergy/V3.yaml
 
     Args:
         policy_id: Policy identifier
@@ -803,9 +804,23 @@ def load_policy(policy_id: str) -> PolicyIR:
     Returns:
         Loaded PolicyIR
     """
+    policies_dir = Path("src/addm/query/policies")
+
+    # T* policy format: T1P1, T2P3, etc.
+    if len(policy_id) >= 4 and policy_id[0] == "T" and policy_id[1].isdigit() and "P" in policy_id:
+        tier = policy_id[:2]  # T1
+        variant = policy_id[2:]  # P1
+        policy_path = policies_dir / tier / f"{variant}.yaml"
+
+        if not policy_path.exists():
+            raise FileNotFoundError(f"Policy not found: {policy_path}")
+
+        return PolicyIR.load(policy_path)
+
+    # G* policy format: G1_allergy_V3 -> policies/G1/allergy/V3.yaml
     parts = policy_id.split("_")
     if len(parts) < 3:
-        raise ValueError(f"Invalid policy_id format: {policy_id} (expected G1_allergy_V3)")
+        raise ValueError(f"Invalid policy_id format: {policy_id} (expected G1_allergy_V3 or T1P1)")
 
     # First part is group (G1, G2, ...), last part is version (V1, V2, ...)
     # Everything in between is the topic (may contain underscores)
@@ -813,7 +828,6 @@ def load_policy(policy_id: str) -> PolicyIR:
     version = parts[-1]
     topic = "_".join(parts[1:-1])
 
-    policies_dir = Path("src/addm/query/policies")
     policy_path = policies_dir / group / topic / f"{version}.yaml"
 
     if not policy_path.exists():

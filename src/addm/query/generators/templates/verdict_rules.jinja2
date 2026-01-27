@@ -13,11 +13,17 @@
 {% endif %}
 {% else %}
 {% if loop.first %}
-
-A restaurant is considered **{{ rule.verdict }}** if any of the following is true:
+{% if rule.logic == 'ALL' %}
+A restaurant is considered **{{ rule.verdict }}** if **all** of the following are true:
 {% else %}
-
+A restaurant is considered **{{ rule.verdict }}** if any of the following is true:
+{% endif %}
+{% else %}
+{% if rule.logic == 'ALL' %}
+**{{ rule.verdict }}**{% if rule.precondition %} if {{ rule.precondition }}, but {% else %} if {% endif %}**all** of the following are true:
+{% else %}
 **{{ rule.verdict }}**{% if rule.precondition %} if {{ rule.precondition }}, but {% else %} if {% endif %}any of the following is true:
+{% endif %}
 {% endif %}
 {% for condition in rule.conditions %}
 {% if condition is mapping %}

@@ -234,7 +234,29 @@ class PromptGenerator:
 
         Returns:
             Complete NL agenda prompt as string
+
+        Supported formats:
+        - markdown (default): Overview → Definitions → Verdict Rules
+        - reorder_v1: Overview → Verdict Rules → Definitions
+        - reorder_v2: Overview → Interleaved (Definition + Rule pairs)
+        - xml: XML-structured format
+        - prose: Flowing narrative format
         """
+        fmt = getattr(policy, 'format', 'markdown') or 'markdown'
+
+        if fmt == "reorder_v1":
+            return self._generate_reorder_v1(policy)
+        elif fmt == "reorder_v2":
+            return self._generate_reorder_v2(policy)
+        elif fmt == "xml":
+            return self._generate_xml(policy)
+        elif fmt == "prose":
+            return self._generate_prose(policy)
+        else:
+            return self._generate_markdown(policy)
+
+    def _generate_markdown(self, policy: PolicyIR) -> str:
+        """Standard markdown format: Overview → Definitions → Verdict Rules."""
         sections = []
 
         # 1. Overview section
@@ -252,6 +274,200 @@ class PromptGenerator:
         sections.append(self._render_verdict_rules(policy))
 
         return "\n\n".join(sections)
+
+    def _generate_reorder_v1(self, policy: PolicyIR) -> str:
+        """Reorder v1: Overview → Verdict Rules → Definitions."""
+        sections = []
+
+        # 1. Overview
+        sections.append(self._render_overview(policy))
+
+        # 2. Verdict Rules (before Definitions)
+        sections.append(self._render_verdict_rules(policy))
+
+        # 3. Definitions (after Verdict Rules)
+        terms = self._resolve_terms(policy.normative.terms)
+        sections.append(self._render_definitions(policy, terms))
+
+        return "\n\n".join(sections)
+
+    def _generate_reorder_v2(self, policy: PolicyIR) -> str:
+        """Reorder v2: Overview → Interleaved structure (each verdict with its relevant terms)."""
+        sections = []
+
+        # 1. Overview
+        sections.append(self._render_overview(policy))
+
+        # 2. Interleaved: For each verdict rule, show relevant definitions then the rule
+        terms = self._resolve_terms(policy.normative.terms)
+        decision = policy.normative.decision
+
+        sections.append("## Assessment Framework")
+
+        for rule in decision.rules:
+            if rule.default:
+                continue  # Skip default rule, handle at end
+
+            # Add verdict header
+            verdict_section = f"### {rule.verdict}\n"
+
+            # Add relevant term definitions inline
+            verdict_section += "\n**Relevant Definitions:**\n"
+            for term in terms:
+                verdict_section += f"- **{term.name}**: {term.description}\n"
+                if term.values:
+                    for opt in term.values:
+                        verdict_section += f"  - {opt.label}: {opt.description}\n"
+
+            # Add the rule conditions
+            verdict_section += f"\n**Applies when:**\n"
+            conditions = getattr(rule, 'conditions', []) or []
+            for cond in conditions:
+                if isinstance(cond, dict):
+                    verdict_section += f"- {cond.get('text', str(cond))}\n"
+                else:
+                    verdict_section += f"- {cond}\n"
+
+            sections.append(verdict_section)
+
+        # Add default verdict
+        for rule in decision.rules:
+            if rule.default:
+                default_section = f"### {rule.verdict} (Default)\n"
+                default_section += "Applies when no other verdict conditions are met."
+                if hasattr(rule, 'especially_when') and rule.especially_when:
+                    default_section += "\n\n**Especially when:**\n"
+                    for cond in rule.especially_when:
+                        default_section += f"- {cond}\n"
+                sections.append(default_section)
+
+        return "\n\n".join(sections)
+
+    def _generate_xml(self, policy: PolicyIR) -> str:
+        """XML-structured format."""
+        terms = self._resolve_terms(policy.normative.terms)
+        decision = policy.normative.decision
+
+        xml_parts = []
+        xml_parts.append(f"<policy id=\"{policy.policy_id}\">")
+
+        # Overview
+        xml_parts.append("  <overview>")
+        xml_parts.append(f"    <title>{policy.overview.title}</title>")
+        xml_parts.append(f"    <purpose>{policy.overview.purpose.strip()}</purpose>")
+        if policy.overview.incident_definition:
+            xml_parts.append(f"    <incident_definition>{policy.overview.incident_definition.strip()}</incident_definition>")
+        xml_parts.append("  </overview>")
+
+        # Definitions
+        xml_parts.append("  <definitions>")
+        for term in terms:
+            xml_parts.append(f"    <term name=\"{term.name}\">")
+            xml_parts.append(f"      <description>{term.description}</description>")
+            if term.values:
+                xml_parts.append("      <options>")
+                for opt in term.values:
+                    xml_parts.append(f"        <option value=\"{opt.label}\">{opt.description}</option>")
+                xml_parts.append("      </options>")
+            xml_parts.append("    </term>")
+        xml_parts.append("  </definitions>")
+
+        # Verdict Rules
+        xml_parts.append("  <verdict_rules>")
+        for rule in decision.rules:
+            if rule.default:
+                xml_parts.append(f"    <rule verdict=\"{rule.verdict}\" default=\"true\">")
+            else:
+                logic = getattr(rule, 'logic', None)
+                logic_str = logic.value if hasattr(logic, 'value') else str(logic)
+                xml_parts.append(f"    <rule verdict=\"{rule.verdict}\" logic=\"{logic_str}\">")
+
+            conditions = getattr(rule, 'conditions', []) or []
+            for cond in conditions:
+                if isinstance(cond, dict):
+                    xml_parts.append(f"      <condition>{cond.get('text', str(cond))}</condition>")
+                else:
+                    xml_parts.append(f"      <condition>{cond}</condition>")
+
+            if hasattr(rule, 'especially_when') and rule.especially_when:
+                for cond in rule.especially_when:
+                    xml_parts.append(f"      <especially_when>{cond}</especially_when>")
+
+            xml_parts.append("    </rule>")
+        xml_parts.append("  </verdict_rules>")
+
+        xml_parts.append("</policy>")
+
+        return "\n".join(xml_parts)
+
+    def _generate_prose(self, policy: PolicyIR) -> str:
+        """Prose format: flowing narrative without bullet points."""
+        terms = self._resolve_terms(policy.normative.terms)
+        decision = policy.normative.decision
+
+        prose_parts = []
+
+        # Title and purpose as flowing text
+        prose_parts.append(f"# {policy.overview.title}")
+        prose_parts.append("")
+        prose_parts.append(policy.overview.purpose.strip())
+
+        # Incident definition
+        if policy.overview.incident_definition:
+            prose_parts.append("")
+            prose_parts.append(policy.overview.incident_definition.strip())
+
+        # Terms as prose paragraphs
+        prose_parts.append("")
+        prose_parts.append("## Understanding the Terms")
+        prose_parts.append("")
+
+        for term in terms:
+            term_prose = f"**{term.name}** refers to {term.description.lower()}"
+            if term.values:
+                options_text = "; ".join([f"\"{opt.label}\" means {opt.description.lower()}" for opt in term.values])
+                term_prose += f" The possible values are: {options_text}."
+            else:
+                term_prose += "."
+            prose_parts.append(term_prose)
+            prose_parts.append("")
+
+        # Verdict rules as prose
+        prose_parts.append("## Making the Assessment")
+        prose_parts.append("")
+
+        for rule in decision.rules:
+            if rule.default:
+                continue
+
+            logic = getattr(rule, 'logic', None)
+            logic_str = "all" if (hasattr(logic, 'value') and logic.value == 'ALL') else "any"
+
+            conditions = getattr(rule, 'conditions', []) or []
+            cond_texts = []
+            for cond in conditions:
+                if isinstance(cond, dict):
+                    cond_texts.append(cond.get('text', str(cond)).lower())
+                else:
+                    cond_texts.append(str(cond).lower())
+
+            if len(cond_texts) == 1:
+                prose_parts.append(f"A restaurant should be classified as **{rule.verdict}** when {cond_texts[0]}.")
+            else:
+                joiner = " and " if logic_str == "all" else " or "
+                prose_parts.append(f"A restaurant should be classified as **{rule.verdict}** when {joiner.join(cond_texts)}.")
+            prose_parts.append("")
+
+        # Default verdict
+        for rule in decision.rules:
+            if rule.default:
+                prose_parts.append(f"If none of the above conditions apply, the restaurant is classified as **{rule.verdict}**.")
+                if hasattr(rule, 'especially_when') and rule.especially_when:
+                    especially = ", ".join([e.lower() for e in rule.especially_when])
+                    prose_parts.append(f"This is especially appropriate when {especially}.")
+                prose_parts.append("")
+
+        return "\n".join(prose_parts)
 
     def _resolve_terms(self, term_refs: List[str]) -> List[Term]:
         """Resolve term references to Term objects."""
@@ -317,6 +533,10 @@ class PromptGenerator:
                 processed_rule = dict(rule.__dict__)
             else:
                 processed_rule = dict(rule)
+
+            # Convert logic enum to string for template comparison
+            if 'logic' in processed_rule and hasattr(processed_rule['logic'], 'value'):
+                processed_rule['logic'] = processed_rule['logic'].value
 
             # Process conditions list
             conditions = getattr(rule, 'conditions', None) or processed_rule.get('conditions', [])
