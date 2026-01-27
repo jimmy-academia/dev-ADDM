@@ -292,54 +292,73 @@ class PromptGenerator:
         return "\n\n".join(sections)
 
     def _generate_reorder_v2(self, policy: PolicyIR) -> str:
-        """Reorder v2: Overview → Interleaved structure (each verdict with its relevant terms)."""
+        """Reorder v2: First rule → Definitions → Remaining rules.
+
+        Structure:
+        - Overview
+        - First verdict rule (e.g., Critical Risk)
+        - Definitions (inserted once between first and second rule)
+        - Second verdict rule (e.g., High Risk)
+        - Default verdict rule (e.g., Low Risk)
+        """
         sections = []
 
         # 1. Overview
         sections.append(self._render_overview(policy))
 
-        # 2. Interleaved: For each verdict rule, show relevant definitions then the rule
+        # Get non-default rules and default rule
         terms = self._resolve_terms(policy.normative.terms)
         decision = policy.normative.decision
 
-        sections.append("## Assessment Framework")
+        non_default_rules = [r for r in decision.rules if not r.default]
+        default_rules = [r for r in decision.rules if r.default]
 
-        for rule in decision.rules:
-            if rule.default:
-                continue  # Skip default rule, handle at end
+        sections.append("## Verdict Rules")
 
-            # Add verdict header
-            verdict_section = f"### {rule.verdict}\n"
+        # 2. First rule (e.g., Critical Risk)
+        if non_default_rules:
+            rule = non_default_rules[0]
+            logic = getattr(rule, 'logic', None)
+            logic_str = "all" if (hasattr(logic, 'value') and logic.value == 'ALL') else "any"
 
-            # Add relevant term definitions inline
-            verdict_section += "\n**Relevant Definitions:**\n"
-            for term in terms:
-                verdict_section += f"- **{term.name}**: {term.description}\n"
-                if term.values:
-                    for opt in term.values:
-                        verdict_section += f"  - {opt.label}: {opt.description}\n"
-
-            # Add the rule conditions
-            verdict_section += f"\n**Applies when:**\n"
+            rule_text = f"A restaurant is considered **{rule.verdict}** if {logic_str} of the following is true:\n"
             conditions = getattr(rule, 'conditions', []) or []
             for cond in conditions:
                 if isinstance(cond, dict):
-                    verdict_section += f"- {cond.get('text', str(cond))}\n"
+                    rule_text += f"- {cond.get('text', str(cond))}\n"
                 else:
-                    verdict_section += f"- {cond}\n"
+                    rule_text += f"- {cond}\n"
+            sections.append(rule_text.strip())
 
-            sections.append(verdict_section)
+        # 3. Definitions (inserted between first and second rule)
+        sections.append(self._render_definitions(policy, terms))
 
-        # Add default verdict
-        for rule in decision.rules:
-            if rule.default:
-                default_section = f"### {rule.verdict} (Default)\n"
-                default_section += "Applies when no other verdict conditions are met."
-                if hasattr(rule, 'especially_when') and rule.especially_when:
-                    default_section += "\n\n**Especially when:**\n"
-                    for cond in rule.especially_when:
-                        default_section += f"- {cond}\n"
-                sections.append(default_section)
+        # 4. Remaining non-default rules (e.g., High Risk)
+        if non_default_rules[1:] or default_rules:
+            sections.append("## Verdict Rules (Continued)")
+
+        for rule in non_default_rules[1:]:
+            logic = getattr(rule, 'logic', None)
+            logic_str = "all" if (hasattr(logic, 'value') and logic.value == 'ALL') else "any"
+
+            precond = f" if {rule.precondition}, but" if rule.precondition else ""
+            rule_text = f"**{rule.verdict}**{precond} {logic_str} of the following is true:\n"
+            conditions = getattr(rule, 'conditions', []) or []
+            for cond in conditions:
+                if isinstance(cond, dict):
+                    rule_text += f"- {cond.get('text', str(cond))}\n"
+                else:
+                    rule_text += f"- {cond}\n"
+            sections.append(rule_text.strip())
+
+        # 5. Default verdict
+        for rule in default_rules:
+            default_text = f"**{rule.verdict}** otherwise"
+            if hasattr(rule, 'especially_when') and rule.especially_when:
+                default_text += ", especially when:\n"
+                for cond in rule.especially_when:
+                    default_text += f"- {cond}\n"
+            sections.append(default_text.strip())
 
         return "\n\n".join(sections)
 
