@@ -1,11 +1,9 @@
-# Allergy Safety Risk Assessment (Strict)
+# Allergy Safety Risk Assessment (Compounded Factors)
 
 Help assess the allergy safety risk for this restaurant using customer reviews as evidence.
 Assign a risk label: Low Risk, High Risk, or Critical Risk.
-
-This policy uses strict ALL logic: multiple factors must ALL be present to trigger
-higher risk verdicts. A severe incident alone is not sufficient for Critical Risk;
-it must be accompanied by poor staff response.
+This policy requires BOTH the incident severity threshold AND an aggravating factor
+(poor staff response or broken assurance).
 
 ## Definitions of Terms
 
@@ -57,13 +55,14 @@ How staff responded when the concern was raised
 
 ## Verdict Rules
 A restaurant is considered **Critical Risk** if **all** of the following are true:
-- 1 or more severe firsthand incidents are reported
-- Staff response to the incident was poor (refused, dismissive, or no accommodation)
+- 2 or more moderate firsthand incidents are reported
+- staff response was dismissive when the allergy concern was raised
+
 **High Risk** if Critical Risk does not apply, but **all** of the following are true:
-- 1 or more moderate firsthand incidents are reported
-- No evidence of staff accommodation (accommodation not mentioned or staff unresponsive)
+- 1 or more mild or moderate firsthand incidents are reported
+- an assurance of safety was given (staff claimed the food was safe)
 
 **Low Risk** otherwise, especially when:
 - No firsthand incidents are reported
-- Incidents occurred but staff provided appropriate accommodation
-- Allergy-relevant reviews describe consistent accommodation behavior
+- Incidents occurred without prior assurance being given
+- Staff response was accommodating

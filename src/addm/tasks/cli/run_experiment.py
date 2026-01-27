@@ -659,7 +659,7 @@ async def run_experiment(
         agenda = load_policy_prompt(policy_id, domain, k=k)
         system_prompt = load_system_prompt()
         run_id = policy_id.replace("/", "_")
-        # Use policy ID directly for ground truth (policy-based GT files)
+        # Use policy ID directly for ground truth (T* GT files exist)
         gt_task_id = run_id
     else:
         # Legacy task mode: load from data/answers/ (no system prompt)
@@ -697,8 +697,8 @@ async def run_experiment(
 
     # Determine output directory based on run type
     if dev:
-        # Dev mode: results/dev/{YYYYMMDD}_{run_name}/
-        output_dir = results_manager.create_dev_run_dir(run_id, timestamp)
+        # Dev mode: results/dev/{YYYYMMDD}_{dataset}_{run_name}_K{k}/
+        output_dir = results_manager.create_dev_run_dir(run_id, dataset=domain, k=k, timestamp=timestamp)
 
         # Default to ondemand for dev runs
         if effective_mode is None:
@@ -720,26 +720,26 @@ async def run_experiment(
                 effective_mode = "ondemand" if run_number == 1 else "batch"
 
             # Create run directory with explicit number
-            output_dir = results_manager.get_benchmark_dir(method, benchmark_id) / f"run_{run_number}"
+            output_dir = results_manager.get_benchmark_dir(method, benchmark_id, dataset=domain) / f"run_{run_number}"
             output_dir.mkdir(parents=True, exist_ok=True)
             (output_dir / "item_logs").mkdir(exist_ok=True)
         else:
             # Auto-select mode based on quota state
             if effective_mode is None:
-                effective_mode = results_manager.get_next_mode(method, benchmark_id)
+                effective_mode = results_manager.get_next_mode(method, benchmark_id, dataset=domain)
 
                 if effective_mode is None and not force:
                     # Quota met - print aggregate and exit
                     output.info(f"Benchmark quota met for {method}/{benchmark_id}")
-                    results_manager.print_aggregate_summary(method, benchmark_id, output.print)
+                    results_manager.print_aggregate_summary(method, benchmark_id, dataset=domain, output_fn=output.print)
                     return {"quota_met": True, "method": method, "policy_id": run_id, "k": k}
 
             # Create run directory
-            output_dir = results_manager.get_or_create_run_dir(method, benchmark_id, force=force)
+            output_dir = results_manager.get_or_create_run_dir(method, benchmark_id, dataset=domain, force=force)
             if output_dir is None and not force:
                 # Quota met
                 output.info(f"Benchmark quota met for {method}/{benchmark_id}")
-                results_manager.print_aggregate_summary(method, benchmark_id, output.print)
+                results_manager.print_aggregate_summary(method, benchmark_id, dataset=domain, output_fn=output.print)
                 return {"quota_met": True, "method": method, "policy_id": run_id, "k": k}
 
     else:
@@ -1700,7 +1700,7 @@ def main() -> None:
     target_group.add_argument(
         "--tier",
         type=str,
-        help="Tier (e.g., T1) - runs all P1-P7 variants (7 policies)",
+        help="Tier (e.g., T1) or comma-separated tiers (e.g., T1,T2) - runs all P1-P7 variants per tier",
     )
 
     parser.add_argument("--domain", type=str, default="yelp", help="Domain")
@@ -1774,7 +1774,7 @@ def main() -> None:
     parser.add_argument(
         "--sample",
         action="store_true",
-        help="Use pre-computed verdict samples (1 per verdict category) from data/answers/yelp/verdict_sample_ids.json",
+        help="Use pre-computed verdict samples (2 per category, 6 total) from data/answers/yelp/verdict_sample_ids.json",
     )
     parser.add_argument(
         "--run",

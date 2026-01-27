@@ -3,10 +3,7 @@
 Contains prompts for part-by-part extraction:
 - OBSERVE: Format-agnostic semantic analysis (Step 0)
 - EXTRACT_TERMS: Extract field/term definitions
-- EXTRACT_SCORING: Extract scoring system (V2/V3 policies)
 - EXTRACT_VERDICTS: Extract verdict rules
-
-Deprecated TEXT2YAML prompt moved to: backup/phase1_hybrid.py
 """
 
 # =============================================================================
@@ -67,17 +64,13 @@ Output a structured analysis that downstream processing can use.
       "default": true
     }}
   ],
-  "has_scoring": false,
   "key_concepts": ["allergy", "incident", "firsthand account", "severity"]
 }}
 ```
 
 ## ANALYSIS GUIDELINES
 
-1. **policy_type**: Determine from the rules:
-   - "count_rule_based" - Rules use counts (e.g., "1 or more", "2+ reviews")
-   - "scoring" - Rules use point totals (e.g., "score >= 44")
-   - "signal_rule_based" - Rules use presence/absence without counts
+1. **policy_type**: Always "count_rule_based" - rules use counts (e.g., "1 or more", "2+ reviews")
 
 2. **verdicts**: List ALL verdict labels exactly as written (case-sensitive)
 
@@ -93,9 +86,7 @@ Output a structured analysis that downstream processing can use.
    - Note preconditions like "if X does not apply"
    - Mark exactly one rule as "default": true
 
-6. **has_scoring**: true if policy uses point-based scoring system
-
-7. **key_concepts**: Main themes and keywords relevant to this policy
+6. **key_concepts**: Main themes and keywords relevant to this policy
 
 ## IMPORTANT
 
@@ -157,113 +148,6 @@ Output ONLY the YAML, no explanation:
 ```yaml
 '''
 
-EXTRACT_SCORING_PROMPT = '''You are extracting a scoring system from a policy query.
-
-## QUERY SECTION
-
-{section}
-
-## AVAILABLE TERMS AND VALUES (USE ONLY THESE)
-
-{terms_summary}
-
-## YOUR TASK
-
-Extract the scoring rules using ONLY the field names and values listed above.
-
-1. Base points: What points are assigned for each value of the outcome field
-2. Modifiers: Additional points for other field values
-3. Recency rules: If the query mentions recency weighting, extract the time thresholds and weights
-
-CRITICAL: The outcome_field MUST be one of the Available Terms above.
-CRITICAL: base_points keys MUST use EXACT values from that term's value list.
-CRITICAL: modifier field/value pairs MUST use EXACT terms and values from above.
-
-## IMPORTANT: VALUE MAPPINGS
-
-Many policies use a TWO-STEP mapping:
-1. The policy defines term VALUES (e.g., favorable, unfavorable, neutral)
-2. Then maps those values to LABELS (e.g., favorable → "Better than competitor")
-3. Finally assigns POINTS to each LABEL
-
-When extracting points, follow this chain:
-- Find the severity/points table in the query
-- Match each term VALUE to its corresponding LABEL
-- Use the points for THAT LABEL
-
-Example: If the query says:
-  "Comparison Outcome: favorable, unfavorable, neutral"
-  "Better than competitor: +5 points"
-  "Worse than competitor: -5 points"
-
-Then base_points should be:
-  favorable: 5    # "favorable" maps to "Better than competitor" → 5 points
-  unfavorable: -5 # "unfavorable" maps to "Worse than competitor" → -5 points
-  neutral: 0
-
-DO NOT use extreme values (like 10/-10) unless those are EXPLICITLY the points
-for the standard/middle-tier outcomes. Check value_mappings carefully.
-
-## RECENCY WEIGHTING
-
-If the query has a "Recency weighting" section, extract it as structured rules.
-Convert the natural language time periods to numeric values:
-- "Within 6 months" → max_age_years: 0.5
-- "Within 1 year" → max_age_years: 1.0
-- "6 months to 1 year" → max_age_years: 1.0 (use upper bound)
-- "1-2 years old" → max_age_years: 2.0
-- "2-3 years old" → max_age_years: 3.0
-- "Over X years" → max_age_years: 999 (catch-all)
-
-Convert weight descriptions to numeric multipliers:
-- "full point value" → weight: 1.0
-- "three-quarter point value" or "multiply by 0.75" → weight: 0.75
-- "half point value" or "multiply by 0.5" → weight: 0.5
-- "quarter point value" or "multiply by 0.25" → weight: 0.25
-
-## OUTPUT FORMAT (YAML)
-
-```yaml
-policy_type: scoring
-
-scoring:
-  outcome_field: FIELD_NAME  # MUST be from Available Terms
-  base_points:  # Keys MUST be exact values from that field
-    value1: 10
-    value2: 5
-    value3: 0
-    value4: -5
-  modifiers:
-    - field: OTHER_FIELD  # MUST be from Available Terms
-      value: some_value   # MUST be from that field's values
-      points: 3
-  recency_rules:  # ONLY include if recency weighting is mentioned in the query
-    reference_date: "2022-01-01"  # Extract from query or use default
-    rules:
-      - max_age_years: 0.5
-        weight: 1.0
-      - max_age_years: 1.0
-        weight: 0.75
-      - max_age_years: 2.0
-        weight: 0.5
-      - max_age_years: 999
-        weight: 0.25
-```
-
-## RULES
-
-1. Extract EXACT point values from the query - follow value_mappings if present
-2. outcome_field: Pick the MAIN outcome field from Available Terms (usually has severity-like values)
-3. base_points: Map the outcome field's VALUES to their corresponding points
-4. modifiers: Use OTHER field+value pairs from Available Terms (field MUST be a term name you extracted)
-5. recency_rules: ONLY include if the query has recency weighting. Extract the reference_date and all time/weight rules.
-6. If no scoring system exists, output: `policy_type: count_rule_based`
-
-Output ONLY the YAML, no explanation:
-
-```yaml
-'''
-
 EXTRACT_VERDICTS_PROMPT = '''You are extracting verdict rules from a policy query.
 
 ## QUERY SECTION
@@ -280,9 +164,12 @@ Extract the verdict rules that determine the final outcome.
 
 CRITICAL INSTRUCTIONS:
 
-1. Parse each condition to identify the field and values being checked.
-   Example: "1 or more severe dietary incidents"
-   → field: INCIDENT_SEVERITY, values: [severe], min_count: 1
+1. Parse each condition to identify the field, values, and COUNT from the text.
+   Examples of count extraction:
+   - "1 or more severe incidents" → min_count: 1
+   - "2 or more moderate incidents" → min_count: 2
+   - "3+ negative reviews" → min_count: 3
+   - "at least 5 complaints" → min_count: 5
 
 2. Match field names to "Available Terms" above (convert to UPPERCASE_WITH_UNDERSCORES).
    Example: "dietary incidents" relates to INCIDENT_SEVERITY
@@ -296,36 +183,32 @@ CRITICAL INSTRUCTIONS:
 
 ## OUTPUT FORMAT (YAML)
 
-For SCORING policies (point-based):
 ```yaml
 verdicts: [Verdict1, Verdict2, Verdict3]
 
 rules:
-  - verdict: Verdict1
-    condition: score >= 44
-  - verdict: Verdict2
-    condition: score <= -13
-  - verdict: Verdict3
-    default: true
-```
-
-For COUNT-BASED policies:
-```yaml
-verdicts: [Verdict1, Verdict2, Verdict3]
-
-rules:
+  # Example with ANY logic (OR conditions - at least ONE must be true)
   - verdict: Verdict1
     logic: ANY
     conditions:
-      - field: FIELD_NAME
-        values: [value1, value2]
-        min_count: 10
+      - field: INCIDENT_SEVERITY
+        values: [severe]
+        min_count: 1
+      - field: INCIDENT_SEVERITY
+        values: [moderate]
+        min_count: 2
+
+  # Example with ALL logic (AND conditions - ALL must be true simultaneously)
   - verdict: Verdict2
     logic: ALL
     conditions:
-      - field: FIELD_NAME
-        values: [value3]
-        min_count: 5
+      - field: INCIDENT_SEVERITY
+        values: [severe]
+        min_count: 1
+      - field: INCIDENT_SEVERITY
+        values: [moderate]
+        min_count: 1
+
   - verdict: Verdict3
     default: true
 ```
@@ -333,12 +216,18 @@ rules:
 ## RULES
 
 1. Use EXACT verdict labels from the query (copy character-for-character)
-2. Extract EXACT threshold numbers (e.g., "44 or higher" → >= 44)
-3. For count-based: min_count is how many reviews needed
-4. Exactly ONE rule must have `default: true`
-5. Default rule is indicated by words like "otherwise", "else", "by default", or "if none of the above apply". Look for these keywords to identify which verdict is the default.
-6. Phrases like "especially when" or "particularly if" are HINTS, not hard conditions. The default rule should have NO conditions - just `default: true`.
-7. ONLY use field names from "Available Terms" - NEVER invent new names
+2. Extract EXACT count numbers from the text - do NOT default to 1
+   - "1 or more" → min_count: 1
+   - "2 or more" → min_count: 2
+   - Read the actual number from the condition text
+3. Exactly ONE rule must have `default: true`
+4. Default rule is indicated by words like "otherwise", "else", "by default", or "if none of the above apply". Look for these keywords to identify which verdict is the default.
+5. Phrases like "especially when" or "particularly if" are HINTS, not hard conditions. The default rule should have NO conditions - just `default: true`.
+6. ONLY use field names from "Available Terms" - NEVER invent new names
+7. LOGIC DETECTION:
+   - If text says "if **all** of the following are true", "AND", or "both...and" → use `logic: ALL`
+   - If text says "if **any** of the following is true", "OR", or "either...or" → use `logic: ANY`
+   - Default to `logic: ANY` if not specified
 
 Output ONLY the YAML, no explanation:
 

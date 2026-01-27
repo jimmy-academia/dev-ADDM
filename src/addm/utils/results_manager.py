@@ -1,8 +1,8 @@
 """Results directory management for ADDM experiments.
 
 Handles the directory structure for dev vs benchmark runs:
-- Dev: results/dev/{YYYYMMDD}_{run_name}/
-- Benchmark: results/{method}/{policy_id}/run_N/
+- Dev: results/dev/{YYYYMMDD}_{dataset}_{run_name}_K{k}/ (run_name, k optional)
+- Benchmark: results/{dataset}/{method}/{policy_id}/run_N/
 
 Includes quota system for benchmark runs (5 total: 1 ondemand + 4 batch).
 """
@@ -39,30 +39,53 @@ class ResultsManager:
     # Dev mode
     # -------------------------------------------------------------------------
 
-    def get_dev_run_dir(self, run_name: str, timestamp: Optional[str] = None) -> Path:
+    def get_dev_run_dir(
+        self,
+        run_name: str = "",
+        dataset: str = "yelp",
+        k: Optional[int] = None,
+        timestamp: Optional[str] = None,
+    ) -> Path:
         """Get directory for a dev run.
 
         Args:
-            run_name: Run identifier (e.g., policy_id)
+            run_name: Run identifier (e.g., policy_id), optional
+            dataset: Dataset name (default: "yelp")
+            k: Context size (e.g., 50, 200), optional
             timestamp: Optional timestamp (default: current time YYYYMMDD_HHMMSS)
 
         Returns:
-            Path to dev run directory: results/dev/{YYYYMMDD_HHMMSS}_{run_name}/
+            Path to dev run directory: results/dev/{YYYYMMDD}_{dataset}_{run_name}_K{k}/
         """
         if timestamp is None:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-        # Use full timestamp for unique directories (prevents overwrites)
-        run_dir = self.results_root / "dev" / f"{timestamp}_{run_name}"
+        # Build folder name: timestamp_dataset[_run_name][_K{k}]
+        parts = [timestamp, dataset]
+        if run_name:
+            parts.append(run_name)
+        if k is not None:
+            parts.append(f"K{k}")
+        folder_name = "_".join(parts)
+
+        run_dir = self.results_root / "dev" / folder_name
         return run_dir
 
-    def create_dev_run_dir(self, run_name: str, timestamp: Optional[str] = None) -> Path:
+    def create_dev_run_dir(
+        self,
+        run_name: str = "",
+        dataset: str = "yelp",
+        k: Optional[int] = None,
+        timestamp: Optional[str] = None,
+    ) -> Path:
         """Create directory for a dev run.
 
         If directory already exists, adds serial suffix (_1, _2, etc.)
 
         Args:
-            run_name: Run identifier (e.g., policy_id)
+            run_name: Run identifier (e.g., policy_id), optional
+            dataset: Dataset name (default: "yelp")
+            k: Context size (e.g., 50, 200), optional
             timestamp: Optional timestamp (default: current time)
 
         Returns:
@@ -71,7 +94,14 @@ class ResultsManager:
         if timestamp is None:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-        base_name = f"{timestamp}_{run_name}"
+        # Build folder name: timestamp_dataset[_run_name][_K{k}]
+        parts = [timestamp, dataset]
+        if run_name:
+            parts.append(run_name)
+        if k is not None:
+            parts.append(f"K{k}")
+        base_name = "_".join(parts)
+
         run_dir = self.results_root / "dev" / base_name
 
         # If exists, add serial suffix
@@ -91,29 +121,35 @@ class ResultsManager:
     # Benchmark mode
     # -------------------------------------------------------------------------
 
-    def get_benchmark_dir(self, method: str, policy_id: str) -> Path:
+    def get_benchmark_dir(
+        self, method: str, policy_id: str, dataset: str = "yelp"
+    ) -> Path:
         """Get base directory for benchmark runs.
 
         Args:
             method: Method name (e.g., "direct", "amos", "rag")
             policy_id: Policy identifier (e.g., "G1_allergy_V2")
+            dataset: Dataset name (default: "yelp")
 
         Returns:
-            Path to benchmark directory: results/{method}/{policy_id}/
+            Path to benchmark directory: results/{dataset}/{method}/{policy_id}/
         """
-        return self.results_root / method / policy_id
+        return self.results_root / dataset / method / policy_id
 
-    def get_completed_runs(self, method: str, policy_id: str) -> Dict[str, Any]:
+    def get_completed_runs(
+        self, method: str, policy_id: str, dataset: str = "yelp"
+    ) -> Dict[str, Any]:
         """Count valid completed runs by mode.
 
         Args:
             method: Method name
             policy_id: Policy identifier
+            dataset: Dataset name (default: "yelp")
 
         Returns:
             Dict with counts: {"ondemand": int, "batch": int, "total": int, "runs": list}
         """
-        benchmark_dir = self.get_benchmark_dir(method, policy_id)
+        benchmark_dir = self.get_benchmark_dir(method, policy_id, dataset)
 
         ondemand_count = 0
         batch_count = 0
@@ -161,7 +197,9 @@ class ResultsManager:
             "runs": runs,
         }
 
-    def get_next_mode(self, method: str, policy_id: str) -> Optional[str]:
+    def get_next_mode(
+        self, method: str, policy_id: str, dataset: str = "yelp"
+    ) -> Optional[str]:
         """Determine mode for next run, or None if quota met.
 
         Logic:
@@ -172,11 +210,12 @@ class ResultsManager:
         Args:
             method: Method name
             policy_id: Policy identifier
+            dataset: Dataset name (default: "yelp")
 
         Returns:
             "ondemand", "batch", or None if quota met
         """
-        completed = self.get_completed_runs(method, policy_id)
+        completed = self.get_completed_runs(method, policy_id, dataset)
 
         if completed["total"] >= self.DEFAULT_QUOTA:
             return None  # Quota met
@@ -186,29 +225,35 @@ class ResultsManager:
 
         return "batch"  # Remaining runs are batch
 
-    def needs_more_runs(self, method: str, policy_id: str) -> bool:
+    def needs_more_runs(
+        self, method: str, policy_id: str, dataset: str = "yelp"
+    ) -> bool:
         """Check if more runs are needed.
 
         Args:
             method: Method name
             policy_id: Policy identifier
+            dataset: Dataset name (default: "yelp")
 
         Returns:
             True if under quota
         """
-        return self.get_next_mode(method, policy_id) is not None
+        return self.get_next_mode(method, policy_id, dataset) is not None
 
-    def get_next_run_number(self, method: str, policy_id: str) -> int:
+    def get_next_run_number(
+        self, method: str, policy_id: str, dataset: str = "yelp"
+    ) -> int:
         """Get the next run number.
 
         Args:
             method: Method name
             policy_id: Policy identifier
+            dataset: Dataset name (default: "yelp")
 
         Returns:
             Next run number (1-indexed)
         """
-        benchmark_dir = self.get_benchmark_dir(method, policy_id)
+        benchmark_dir = self.get_benchmark_dir(method, policy_id, dataset)
 
         if not benchmark_dir.exists():
             return 1
@@ -225,6 +270,7 @@ class ResultsManager:
         self,
         method: str,
         policy_id: str,
+        dataset: str = "yelp",
         force: bool = False,
     ) -> Optional[Path]:
         """Get next run_N directory, creating if needed.
@@ -232,16 +278,17 @@ class ResultsManager:
         Args:
             method: Method name
             policy_id: Policy identifier
+            dataset: Dataset name (default: "yelp")
             force: If True, create even if quota met
 
         Returns:
             Path to run directory, or None if quota met (and not force)
         """
-        if not force and not self.needs_more_runs(method, policy_id):
+        if not force and not self.needs_more_runs(method, policy_id, dataset):
             return None
 
-        run_num = self.get_next_run_number(method, policy_id)
-        run_dir = self.get_benchmark_dir(method, policy_id) / f"run_{run_num}"
+        run_num = self.get_next_run_number(method, policy_id, dataset)
+        run_dir = self.get_benchmark_dir(method, policy_id, dataset) / f"run_{run_num}"
 
         run_dir.mkdir(parents=True, exist_ok=True)
         (run_dir / "debug").mkdir(exist_ok=True)
@@ -256,12 +303,14 @@ class ResultsManager:
         self,
         method: str,
         policy_id: str,
+        dataset: str = "yelp",
     ) -> Dict[str, Any]:
         """Aggregate results across all benchmark runs.
 
         Args:
             method: Method name
             policy_id: Policy identifier
+            dataset: Dataset name (default: "yelp")
 
         Returns:
             Dict with aggregated metrics:
@@ -273,7 +322,7 @@ class ResultsManager:
                 "total_runs": int,
             }
         """
-        completed = self.get_completed_runs(method, policy_id)
+        completed = self.get_completed_runs(method, policy_id, dataset)
         runs = completed["runs"]
 
         if not runs:
@@ -286,7 +335,7 @@ class ResultsManager:
             }
 
         # Load full results for detailed metrics
-        benchmark_dir = self.get_benchmark_dir(method, policy_id)
+        benchmark_dir = self.get_benchmark_dir(method, policy_id, dataset)
         accuracies = []
         auprcs = []
         latencies_p50 = []
@@ -353,6 +402,7 @@ class ResultsManager:
         self,
         method: str,
         policy_id: str,
+        dataset: str = "yelp",
         output_fn=None,
     ) -> None:
         """Print aggregated summary across benchmark runs.
@@ -360,12 +410,13 @@ class ResultsManager:
         Args:
             method: Method name
             policy_id: Policy identifier
+            dataset: Dataset name (default: "yelp")
             output_fn: Output function (default: print)
         """
         if output_fn is None:
             output_fn = print
 
-        agg = self.aggregate_benchmark_runs(method, policy_id)
+        agg = self.aggregate_benchmark_runs(method, policy_id, dataset)
 
         output_fn(f"\n{'='*60}")
         output_fn(f"BENCHMARK AGGREGATE: {method}/{policy_id}")
@@ -424,23 +475,29 @@ class ResultsManager:
     # Shared cache
     # -------------------------------------------------------------------------
 
-    def get_shared_cache_dir(self) -> Path:
-        """Get path to shared cache directory.
+    def get_shared_cache_dir(self, dataset: str = "yelp") -> Path:
+        """Get path to shared cache directory for a dataset.
+
+        Args:
+            dataset: Dataset name (default: "yelp")
 
         Returns:
-            Path to results/shared/
+            Path to results/shared/{dataset}/
         """
-        shared_dir = self.results_root / "shared"
+        shared_dir = self.results_root / "shared" / dataset
         shared_dir.mkdir(parents=True, exist_ok=True)
         return shared_dir
 
-    def get_shared_embeddings_path(self) -> Path:
-        """Get path to shared embeddings file.
+    def get_shared_embeddings_path(self, dataset: str = "yelp") -> Path:
+        """Get path to shared embeddings file for a dataset.
+
+        Args:
+            dataset: Dataset name (default: "yelp")
 
         Returns:
-            Path to results/shared/yelp_embeddings.json
+            Path to results/shared/{dataset}/embeddings.json
         """
-        return self.get_shared_cache_dir() / "yelp_embeddings.json"
+        return self.get_shared_cache_dir(dataset) / "embeddings.json"
 
 
 # Global instance for convenience

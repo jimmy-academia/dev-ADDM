@@ -241,7 +241,13 @@ class PromptGenerator:
         - reorder_v2: Overview → Interleaved (Definition + Rule pairs)
         - xml: XML-structured format
         - prose: Flowing narrative format
+
+        If policy has agenda_override, returns that directly instead of generating.
         """
+        # If policy has pre-rendered agenda, use it directly
+        if policy.agenda_override:
+            return policy.agenda_override.strip()
+
         fmt = getattr(policy, 'format', 'markdown') or 'markdown'
 
         if fmt == "reorder_v1":

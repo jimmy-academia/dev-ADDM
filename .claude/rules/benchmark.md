@@ -63,12 +63,15 @@ Tier → G* topic mapping:
 # Single policy
 .venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1 -n 5 --dev
 
-# All variants for a tier
-.venv/bin/python -m addm.tasks.cli.run_experiment --tier T1 --dev
-
-# Multiple policies
+# Multiple policies (comma-separated)
 .venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1,T1P6 --method amos --dev
 
-# All 35 policies
+# All variants for a tier (7 policies)
+.venv/bin/python -m addm.tasks.cli.run_experiment --tier T1 --dev
+
+# Multiple tiers (comma-separated, 14 policies)
+.venv/bin/python -m addm.tasks.cli.run_experiment --tier T1,T2 --dev
+
+# All 35 policies (omit --policy and --tier)
 .venv/bin/python -m addm.tasks.cli.run_experiment --dev
 ```

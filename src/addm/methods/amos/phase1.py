@@ -2,11 +2,10 @@
 
 LLM reads agenda/query and produces a Formula Seed (executable JSON specification).
 
-Uses part-by-part extraction with up to 4 focused LLM calls:
+Uses part-by-part extraction with 3 focused LLM calls:
 0. OBSERVE - Format-agnostic semantic analysis (guides downstream steps)
 1. Extract terms/field definitions
-2. Extract scoring system (if present, skipped when OBSERVE says no scoring)
-3. Extract verdict rules
+2. Extract verdict rules
 
 Entry point: generate_formula_seed()
 
@@ -32,7 +31,6 @@ from addm.utils.output import output
 from .phase1_prompts import (
     OBSERVE_PROMPT,
     EXTRACT_TERMS_PROMPT,
-    EXTRACT_SCORING_PROMPT,
     EXTRACT_VERDICTS_PROMPT,
 )
 from .phase1_helpers import (
@@ -166,21 +164,20 @@ async def generate_formula_seed(
             progress_callback(1, step, progress, detail)
 
     # Step 0: OBSERVE - Format-agnostic semantic analysis
-    report("OBSERVE", 3, "analyzing agenda structure")
-    output.status(f"[Phase 1] Step 0/4: Analyzing agenda structure (OBSERVE)...")
+    report("OBSERVE", 5, "analyzing agenda structure")
+    output.status(f"[Phase 1] Step 0/3: Analyzing agenda structure (OBSERVE)...")
 
     observations, usage0 = await _observe(agenda, llm, policy_id)
     all_usages.append(usage0)
 
     policy_type_hint = observations.get("policy_type", "count_rule_based")
     known_fields = {f["name"].upper() for f in observations.get("extraction_fields", [])}
-    has_scoring_hint = observations.get("has_scoring", False)
 
     output.status(f"[Phase 1] OBSERVE: {policy_type_hint}, {len(known_fields)} fields identified")
     logger.info(f"OBSERVE hints: policy_type={policy_type_hint}, known_fields={known_fields}")
 
-    # Step 1: Parse query into sections (using observations as hints)
-    report("PARSE", 8, "parsing query sections")
+    # Parse query into sections (using observations as hints)
+    report("PARSE", 10, "parsing query sections")
     output.status(f"[Phase 1] Parsing query sections...")
 
     sections = _parse_query_sections(agenda)
@@ -191,9 +188,9 @@ async def generate_formula_seed(
     task_name_match = re.search(r'^#\s*(.+?)(?:\n|$)', header)
     task_name = task_name_match.group(1).strip() if task_name_match else policy_id
 
-    # Step 2: Extract terms (guided by OBSERVE hints)
-    report("TERMS", 12, "extracting terms")
-    output.status(f"[Phase 1] Step 1/4: Extracting terms...")
+    # Step 1: Extract terms (guided by OBSERVE hints)
+    report("TERMS", 15, "extracting terms")
+    output.status(f"[Phase 1] Step 1/3: Extracting terms...")
 
     terms_section = sections.get("terms", "")
     if not terms_section:
@@ -203,43 +200,21 @@ async def generate_formula_seed(
     terms, usage1 = await _extract_terms_from_section(terms_section, llm, policy_id)
     all_usages.append(usage1)
     output.status(f"[Phase 1] Extracted {len(terms)} terms")
-    report("TERMS", 30, f"{len(terms)} terms")
+    report("TERMS", 40, f"{len(terms)} terms")
 
-    # Step 3: Extract scoring (if present, guided by OBSERVE hints)
-    report("SCORING", 35, "checking for scoring")
-    output.status(f"[Phase 1] Step 2/4: Checking for scoring system...")
-
-    scoring_section = sections.get("scoring", "")
-    # Use OBSERVE hint to skip scoring extraction if not needed
-    if scoring_section and (has_scoring_hint or policy_type_hint == "scoring"):
-        scoring, usage2 = await _extract_scoring_from_section(scoring_section, terms, llm, policy_id)
-        all_usages.append(usage2)
-        is_scoring = scoring.get("policy_type") == "scoring"
-        output.status(f"[Phase 1] Scoring: {'yes' if is_scoring else 'no'}")
-    elif has_scoring_hint:
-        # OBSERVE detected scoring but no explicit section - try extracting from full agenda
-        scoring, usage2 = await _extract_scoring_from_section(agenda, terms, llm, policy_id)
-        all_usages.append(usage2)
-        is_scoring = scoring.get("policy_type") == "scoring"
-        output.status(f"[Phase 1] Scoring (from full agenda): {'yes' if is_scoring else 'no'}")
-    else:
-        scoring = {"policy_type": policy_type_hint}
-        output.status(f"[Phase 1] No scoring (OBSERVE hint: {policy_type_hint})")
-    report("SCORING", 50, scoring.get("policy_type", "unknown"))
-
-    # Step 4: Extract verdicts and rules (guided by OBSERVE hints)
-    report("VERDICTS", 55, "extracting verdicts")
-    output.status(f"[Phase 1] Step 3/4: Extracting verdict rules...")
+    # Step 2: Extract verdicts and rules (guided by OBSERVE hints)
+    report("VERDICTS", 45, "extracting verdicts")
+    output.status(f"[Phase 1] Step 2/3: Extracting verdict rules...")
 
     verdicts_section = sections.get("verdicts", "")
     if not verdicts_section:
         verdicts_section = header
         logger.warning("No explicit verdicts section found, using header")
 
-    verdicts_data, usage3 = await _extract_verdicts_from_section(
-        verdicts_section, terms, scoring, llm, policy_id
+    verdicts_data, usage2 = await _extract_verdicts_from_section(
+        verdicts_section, terms, llm, policy_id
     )
-    all_usages.append(usage3)
+    all_usages.append(usage2)
     output.status(f"[Phase 1] Extracted {len(verdicts_data.get('verdicts', []))} verdicts")
     report("VERDICTS", 70, f"{len(verdicts_data.get('rules', []))} rules")
 
@@ -250,12 +225,12 @@ async def generate_formula_seed(
         output.status(f"[Phase 1] Discovered {len(discovered_terms)} additional fields from verdict rules")
         terms = terms + discovered_terms
 
-    # Step 5: Combine parts
+    # Step 3: Combine parts
     report("COMBINE", 75, "combining parts")
-    output.status(f"[Phase 1] Step 4/4: Combining extracted parts...")
+    output.status(f"[Phase 1] Step 3/3: Combining extracted parts...")
 
-    yaml_data = _combine_parts_to_yaml(terms, scoring, verdicts_data, task_name)
-    logger.info(f"Combined PolicyYAML: {yaml_data.get('policy_type')}, {len(yaml_data.get('terms', []))} terms")
+    yaml_data = _combine_parts_to_yaml(terms, verdicts_data, task_name)
+    logger.info(f"Combined PolicyYAML: {len(yaml_data.get('terms', []))} terms")
 
     # Step 5: Validate PolicyYAML
     report("VALIDATE_YAML", 80, "validating yaml")
@@ -332,8 +307,6 @@ def _parse_query_sections(query: str) -> Dict[str, str]:
 
             if "definition" in section_name or "term" in section_name:
                 sections["terms"] = section_content
-            elif "scoring" in section_name or "point" in section_name:
-                sections["scoring"] = section_content
             elif "verdict" in section_name or "rule" in section_name:
                 sections["verdicts"] = section_content
             else:
@@ -456,67 +429,14 @@ async def _extract_terms_from_section(
     return terms, usage
 
 
-async def _extract_scoring_from_section(
-    section: str,
-    terms: List[Dict[str, Any]],
-    llm: LLMService,
-    policy_id: str,
-) -> Tuple[Optional[Dict[str, Any]], Dict[str, Any]]:
-    """Extract scoring system from the Scoring section."""
-    # Build terms summary
-    terms_parts = []
-    for t in terms:
-        name = t.get('name', 'UNKNOWN')
-        values = t.get('values', [])
-        terms_parts.append(f"- {name}:")
-        if isinstance(values, dict):
-            for v in values.keys():
-                terms_parts.append(f"    * {v}")
-        elif isinstance(values, list):
-            for v in values:
-                terms_parts.append(f"    * {v}")
-    terms_summary = "\n".join(terms_parts)
-
-    prompt = EXTRACT_SCORING_PROMPT.format(section=section, terms_summary=terms_summary)
-    messages = [{"role": "user", "content": prompt}]
-
-    start_time = time.time()
-    response, usage = await llm.call_async_with_usage(
-        messages,
-        context={
-            "sample_id": policy_id,
-            "phase": "phase1_extract_scoring",
-            "step": "extract_scoring",
-            "policy_id": policy_id,
-        },
-    )
-    usage["latency_ms"] = (time.time() - start_time) * 1000
-
-    # Note: LLMService handles debug logging automatically
-
-    yaml_str = extract_yaml_from_response(response)
-    data = parse_yaml_safely(yaml_str)
-
-    policy_type = data.get("policy_type", "count_rule_based")
-
-    if policy_type == "scoring":
-        scoring = data.get("scoring", {})
-        logger.info(f"Extracted scoring system: {len(scoring.get('modifiers', []))} modifiers")
-        return {"policy_type": "scoring", "scoring": scoring}, usage
-    else:
-        logger.info("No scoring system found, using count_rule_based")
-        return {"policy_type": "count_rule_based"}, usage
-
-
 async def _extract_verdicts_from_section(
     section: str,
     terms: List[Dict[str, Any]],
-    scoring: Optional[Dict[str, Any]],
     llm: LLMService,
     policy_id: str,
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """Extract verdict rules from the Verdict Rules section."""
-    # Build context from terms and scoring
+    # Build context from terms
     context_parts = ["## Available Terms and Values (USE ONLY THESE):"]
     for t in terms:
         name = t.get('name', 'UNKNOWN')
@@ -529,15 +449,7 @@ async def _extract_verdicts_from_section(
             for v in values:
                 context_parts.append(f"    * {v}")
 
-    if scoring and scoring.get("policy_type") == "scoring":
-        context_parts.append("\n## Scoring:")
-        context_parts.append(f"- Policy type: scoring")
-        s = scoring.get("scoring", {})
-        context_parts.append(f"- Outcome field: {s.get('outcome_field', 'unknown')}")
-        context_parts.append(f"- Base points: {s.get('base_points', {})}")
-    else:
-        context_parts.append("\n## Policy type: count_rule_based")
-
+    context_parts.append("\n## Policy type: count_rule_based")
     context = "\n".join(context_parts)
 
     prompt = EXTRACT_VERDICTS_PROMPT.format(section=section, context=context)
@@ -685,46 +597,19 @@ async def _extract_verdicts_from_section(
 
 def _combine_parts_to_yaml(
     terms: List[Dict[str, Any]],
-    scoring: Optional[Dict[str, Any]],
     verdicts_data: Dict[str, Any],
     task_name: str,
 ) -> Dict[str, Any]:
     """Combine extracted parts into a complete PolicyYAML structure."""
-    policy_type = scoring.get("policy_type", "count_rule_based") if scoring else "count_rule_based"
     rules = verdicts_data.get("rules", [])
-
-    if policy_type == "scoring":
-        # Preserve score-based conditions for seed_compiler
-        processed_rules = []
-        for rule in rules:
-            new_rule = {"verdict": rule.get("verdict", "")}
-
-            if rule.get("default"):
-                new_rule["default"] = True
-            elif "condition" in rule:
-                new_rule["condition"] = rule.get("condition")
-            elif "conditions" in rule:
-                new_rule["logic"] = rule.get("logic", "ANY")
-                new_rule["conditions"] = rule.get("conditions", [])
-
-            if new_rule.get("default") or new_rule.get("condition") or new_rule.get("conditions"):
-                processed_rules.append(new_rule)
-            else:
-                logger.warning(f"Skipping rule without conditions: {rule}")
-
-        rules = processed_rules
-
     filtered_terms = [t for t in terms if t.get("values")]
 
     yaml_data = {
-        "policy_type": policy_type,
+        "policy_type": "count_rule_based",
         "task_name": task_name,
         "terms": filtered_terms,
         "verdicts": verdicts_data.get("verdicts", []),
         "rules": rules,
     }
-
-    if scoring and scoring.get("policy_type") == "scoring":
-        yaml_data["scoring"] = scoring.get("scoring", {})
 
     return yaml_data

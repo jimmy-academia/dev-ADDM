@@ -19,6 +19,7 @@ A restaurant is considered **{{ rule.verdict }}** if **all** of the following ar
 A restaurant is considered **{{ rule.verdict }}** if any of the following is true:
 {% endif %}
 {% else %}
+
 {% if rule.logic == 'ALL' %}
 **{{ rule.verdict }}**{% if rule.precondition %} if {{ rule.precondition }}, but {% else %} if {% endif %}**all** of the following are true:
 {% else %}

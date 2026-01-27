@@ -74,16 +74,16 @@ K_VALUES = [25, 50, 100, 200]
 def expand_policies(
     policy: Optional[str] = None,
     tier: Optional[str] = None,
-    topic: Optional[str] = None,
-    group: Optional[str] = None,
+    topic: Optional[str] = None,  # Legacy, ignored
+    group: Optional[str] = None,  # Legacy, ignored
 ) -> List[str]:
     """Expand policy specifier to list of policy IDs.
 
     Args:
         policy: Comma-separated policy IDs (e.g., "T1P1,T1P2")
-        tier: Tier ID (e.g., "T1") - expands to all 7 variants
-        topic: Legacy G* topic (ignored for T* system)
-        group: Legacy G* group (ignored for T* system)
+        tier: Tier ID (e.g., "T1") or comma-separated tiers (e.g., "T1,T2")
+        topic: Legacy G* topic (ignored, kept for backward compatibility)
+        group: Legacy G* group (ignored, kept for backward compatibility)
 
     Returns:
         List of policy IDs. Returns ALL_POLICIES if no argument specified.
@@ -95,14 +95,17 @@ def expand_policies(
         return [p.strip() for p in policy.split(",") if p.strip()]
 
     if tier:
-        tier_upper = tier.upper()
-        if tier_upper not in TIERS:
-            raise ValueError(f"Unknown tier: {tier}. Valid: {TIERS}")
-        return [f"{tier_upper}P{v}" for v in range(1, 8)]
+        # Support comma-separated tiers (e.g., "T1,T2")
+        result = []
+        for t in tier.split(","):
+            t_upper = t.strip().upper()
+            if t_upper not in TIERS:
+                raise ValueError(f"Unknown tier: {t}. Valid: {TIERS}")
+            result.extend([f"{t_upper}P{v}" for v in range(1, 8)])
+        return result
 
     # Legacy: topic/group are ignored for T* system
     if topic or group:
-        # For backward compatibility, return empty list (caller should handle)
         return []
 
     return ALL_POLICIES.copy()

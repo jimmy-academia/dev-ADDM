@@ -9,8 +9,14 @@
 # Dev mode (no quota, saves to results/dev/)
 .venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1 -n 5 --dev
 
-# All variants for a tier
+# All variants for a tier (7 policies)
 .venv/bin/python -m addm.tasks.cli.run_experiment --tier T1 --dev
+
+# Multiple tiers (14 policies)
+.venv/bin/python -m addm.tasks.cli.run_experiment --tier T1,T2 --dev
+
+# All 35 policies (omit --policy and --tier)
+.venv/bin/python -m addm.tasks.cli.run_experiment --dev
 
 # Force run even if quota is met
 .venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1 -n 100 --force
@@ -62,7 +68,7 @@
 | `--phase` | run_experiment | AMOS phase: '1' (seed only), '2' (use seed), '1,2' or omit (both) |
 | `--batch-size` | run_experiment | AMOS: Reviews per LLM call (default: 10) |
 | `--seed` | run_experiment | Path to Formula Seed file/dir for --phase 2 |
-| `--tier` | run_experiment | Run all P1-P7 variants for a tier (e.g., T1) |
+| `--tier` | run_experiment | Run all P1-P7 variants for tier(s) (e.g., T1 or T1,T2) |
 | `--k` | all | Context size (25/50/100/200) |
 | `-n` | run_experiment | Number of samples |
 | `--token-limit` | run_experiment | RLM token budget |

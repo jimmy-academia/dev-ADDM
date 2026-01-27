@@ -1,22 +1,20 @@
-# T1_allergy_P3: Allergy Safety - ALL Logic Rule Variation
-# P3 = ALL Logic: Requires multiple conditions to ALL be true (stricter than P1/P2)
-# Key difference: P1/P2 use ANY (one condition triggers), P3 uses ALL (all conditions must apply)
+# T1_allergy_P3: Allergy Safety - ALL Logic
+# P3 = ALL Logic: P1's thresholds + additional condition from sample restaurants
+# Tests LLM's ability to apply AND logic correctly
 
 policy_id: T1P3
 extends: T1_P1
-version: "1.0"
+version: "1.6"
 format: markdown
 
 overview:
-  title: "Allergy Safety Risk Assessment (Strict)"
+  title: "Allergy Safety Risk Assessment (Compounded Factors)"
 
   purpose: |
     Help assess the allergy safety risk for this restaurant using customer reviews as evidence.
     Assign a risk label: Low Risk, High Risk, or Critical Risk.
-
-    This policy uses strict ALL logic: multiple factors must ALL be present to trigger
-    higher risk verdicts. A severe incident alone is not sufficient for Critical Risk;
-    it must be accompanied by poor staff response.
+    This policy requires BOTH the incident severity threshold AND an aggravating factor
+    (poor staff response or broken assurance).
 
   incident_definition: |
     Only firsthand accounts are treated as confirmed incident evidence. An account is
@@ -41,39 +39,43 @@ normative:
     ordered: true
 
     rules:
-      # Critical Risk requires ALL conditions to be met (not just one)
+      # Critical Risk: Multiple moderate incidents + dismissive staff
       - verdict: "Critical Risk"
         label: "CRITICAL"
         logic: ALL
         conditions:
-          - text: "1 or more severe firsthand incidents are reported"
+          # P1's second Critical condition
+          - text: "2 or more moderate firsthand incidents are reported"
             type: count_threshold
             filter:
-              incident_severity: severe
+              incident_severity: moderate
               account_type: firsthand
-            min_count: 1
-          - text: "Staff response to the incident was poor (refused, dismissive, or no accommodation)"
+            min_count: 2
+          # Staff was dismissive about the concern
+          - text: "staff response was dismissive when the allergy concern was raised"
             type: count_threshold
             filter:
-              staff_response: [refused, dismissive, none]
+              staff_response: dismissive
             min_count: 1
 
-      # High Risk also requires ALL conditions to be met
+      # High Risk: Incident occurred despite assurance
       - verdict: "High Risk"
         label: "HIGH"
         precondition: "Critical Risk does not apply"
         logic: ALL
         conditions:
-          - text: "1 or more moderate firsthand incidents are reported"
+          # P1's High condition
+          - text: "1 or more mild or moderate firsthand incidents are reported"
             type: count_threshold
             filter:
-              incident_severity: moderate
+              incident_severity: [mild, moderate]
               account_type: firsthand
             min_count: 1
-          - text: "No evidence of staff accommodation (accommodation not mentioned or staff unresponsive)"
+          # Assurance was given but incident still happened
+          - text: "an assurance of safety was given (staff claimed the food was safe)"
             type: count_threshold
             filter:
-              staff_response: [none, dismissive, refused]
+              assurance_claim: "true"
             min_count: 1
 
       - verdict: "Low Risk"
@@ -81,8 +83,8 @@ normative:
         default: true
         especially_when:
           - "No firsthand incidents are reported"
-          - "Incidents occurred but staff provided appropriate accommodation"
-          - "Allergy-relevant reviews describe consistent accommodation behavior"
+          - "Incidents occurred without prior assurance being given"
+          - "Staff response was accommodating"
 
   output:
     verdict:
@@ -100,7 +102,7 @@ normative:
     justification:
       type: string
       required: true
-      description: "Explain how the evidence was used to arrive at the final verdict, noting which ALL conditions were met"
+      description: "Explain which conditions were ALL met to arrive at the verdict"
 
     confidence:
       type: enum

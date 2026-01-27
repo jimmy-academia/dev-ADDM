@@ -438,6 +438,7 @@ class PolicyIR:
     extends: Optional[str] = None  # Parent policy for inheritance
     version: str = "1.0"
     format: str = "markdown"  # Output format (markdown, reorder_v1, reorder_v2, xml, prose)
+    agenda_override: Optional[str] = None  # Pre-rendered agenda to use instead of generating
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "PolicyIR":
@@ -449,6 +450,7 @@ class PolicyIR:
             extends=data.get("extends"),
             version=data.get("version", "1.0"),
             format=data.get("format", "markdown"),
+            agenda_override=data.get("agenda_override"),
         )
 
     @classmethod
