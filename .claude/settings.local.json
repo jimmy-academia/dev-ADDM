@@ -79,7 +79,9 @@
       "Bash(for k in 25 50 100 200)",
       "Bash(do echo \"=== K=$k ===\")",
       "Bash(git ls-tree:*)",
-      "Bash(sort:*)"
+      "Bash(sort:*)",
+      "Bash(# Verify key documentation claims echo \"\"=== Verifying benchmark.md claims ===\"\" # Check T1P3 GT files exist echo -e \"\"\\\\n1. T1P3 GT files:\"\" ls -la data/answers/yelp/T1P3_K*_groundtruth.json)",
+      "Skill(dogit)"
     ]
   }
 }

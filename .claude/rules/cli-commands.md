@@ -41,11 +41,16 @@
 ## Ground Truth Pipeline
 
 ```bash
-# Step 1: Extract L0 judgments (uses G* topics)
+# Step 1: Extract L0 judgments (uses G* topics for raw extractions)
 .venv/bin/python -m addm.tasks.cli.extract --topic G1_allergy --k 200 --mode batch
 
-# Step 2: Compute GT from extractions
-.venv/bin/python -m addm.tasks.cli.compute_gt --policy G1_allergy_V1 --k 200
+# Step 2: Compute GT for T* policies
+.venv/bin/python -m addm.tasks.cli.compute_gt --policy T1P3 --k 200
+
+# Compute GT for all K values
+for k in 25 50 100 200; do
+  .venv/bin/python -m addm.tasks.cli.compute_gt --policy T1P3 --k $k
+done
 ```
 
 ## Prompt Generation
@@ -86,12 +91,26 @@ DEFAULT_QUOTA = 5  # Adjust this constant to change quota
 
 ```
 scripts/
-├── data/                      # Data pipeline (production)
+├── data/                           # Data pipeline (production)
 │   ├── build_topic_selection.py
 │   ├── select_topic_restaurants.py
 │   └── build_dataset.py
-├── select_diverse_samples.py  # Sample selection utility
-└── debug/                     # One-off debugging scripts
+├── select_diverse_samples.py       # Sample selection utility
+├── generate_evidence_fields.py     # Sync EVIDENCE_FIELDS with term libraries
+└── debug/                          # One-off debugging scripts
+```
+
+### Utility Scripts
+
+```bash
+# Update verdict samples after GT changes
+.venv/bin/python scripts/select_diverse_samples.py --all --output data/answers/yelp/verdict_sample_ids.json
+
+# Check EVIDENCE_FIELDS matches term libraries (run before releases)
+.venv/bin/python scripts/generate_evidence_fields.py --check
+
+# Regenerate EVIDENCE_FIELDS from term libraries
+.venv/bin/python scripts/generate_evidence_fields.py --write
 ```
 
 ---

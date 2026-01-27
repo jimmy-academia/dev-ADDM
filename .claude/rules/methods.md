@@ -22,11 +22,11 @@ Uses [recursive-llm](https://github.com/ysz/recursive-llm) (forked to `lib/recur
 ```bash
 # Basic RLM
 .venv/bin/python -m addm.tasks.cli.run_experiment \
-    --policy G1_allergy_V3 -n 1 --k 50 --dev --method rlm
+    --policy T1P1 -n 1 --k 50 --dev --method rlm
 
 # Custom token limit
 .venv/bin/python -m addm.tasks.cli.run_experiment \
-    --policy G1_allergy_V3 -n 1 --k 50 --dev --method rlm --token-limit 30000
+    --policy T1P1 -n 1 --k 50 --dev --method rlm --token-limit 30000
 ```
 
 ## AMOS Method
@@ -39,15 +39,15 @@ Two-phase method for comprehensive review analysis:
 ```bash
 # Run AMOS (both phases)
 .venv/bin/python -m addm.tasks.cli.run_experiment \
-    --policy G1_allergy_V3 -n 10 --method amos --dev
+    --policy T1P1 -n 10 --method amos --dev
 
 # Phase 1 only (generate seed)
 .venv/bin/python -m addm.tasks.cli.run_experiment \
-    --policy G1_allergy_V3 --phase 1 --method amos --dev
+    --policy T1P1 --phase 1 --method amos --dev
 
 # Phase 2 only (use pre-generated seed)
 .venv/bin/python -m addm.tasks.cli.run_experiment \
-    --policy G1_allergy_V3 --phase 2 --seed results/dev/seeds/ -n 5 --method amos --dev
+    --policy T1P1 --phase 2 --seed results/dev/seeds/ -n 5 --method amos --dev
 ```
 
 ### AMOS Flow
@@ -55,8 +55,8 @@ Two-phase method for comprehensive review analysis:
 ```
 ┌─────────────────────────────────────────────────────┐
 │ Phase 1: Generate Formula Seed                      │
-│   OBSERVE → PLAN → ACT pipeline                     │
-│   Produces extraction spec (keywords, fields, rules)│
+│   OBSERVE → EXTRACT_TERMS → EXTRACT_VERDICTS        │
+│   Produces extraction spec (fields, rules, logic)   │
 └─────────────────────────────────────────────────────┘
                         │
                         ▼
@@ -66,6 +66,22 @@ Two-phase method for comprehensive review analysis:
 │   Extract signals, compute verdict                  │
 └─────────────────────────────────────────────────────┘
 ```
+
+### Phase 1 Pipeline
+
+OBSERVE extracts content for downstream processing:
+- `terms_content`: Raw text defining fields/terms (passed to EXTRACT_TERMS)
+- `verdicts_content`: Raw text defining verdict rules (passed to EXTRACT_VERDICTS)
+
+This enables format-agnostic parsing (markdown, XML, prose → same output).
+
+### Logic Support
+
+Phase 1 supports both ANY (OR) and ALL (AND) logic in verdict rules:
+- `logic: ANY` - At least one condition must be true
+- `logic: ALL` - All conditions must be true simultaneously
+
+See P3 variants for ALL logic examples.
 
 ## AMOS File Structure
 

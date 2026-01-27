@@ -1,16 +1,16 @@
 """Phase 1 Prompts: Prompts for Formula Seed generation.
 
 Contains prompts for part-by-part extraction:
-- OBSERVE: Format-agnostic semantic analysis (Step 0)
-- EXTRACT_TERMS: Extract field/term definitions
-- EXTRACT_VERDICTS: Extract verdict rules
+- OBSERVE: Format-agnostic parsing - extracts terms_content and verdicts_content
+- EXTRACT_TERMS: Extract field/term definitions from terms_content
+- EXTRACT_VERDICTS: Extract verdict rules from verdicts_content
 """
 
 # =============================================================================
 # OBSERVE Prompt: Format-Agnostic Semantic Analysis (Step 0)
 # =============================================================================
 
-OBSERVE_PROMPT = '''You are analyzing a policy agenda to understand its structure and content.
+OBSERVE_PROMPT = '''You are analyzing a policy agenda to understand its structure and extract content for downstream processing.
 The agenda may be in any format: markdown, XML, prose, or other structured text.
 
 ## POLICY AGENDA
@@ -19,8 +19,8 @@ The agenda may be in any format: markdown, XML, prose, or other structured text.
 
 ## YOUR TASK
 
-Analyze this policy agenda and extract its semantic structure, regardless of format.
-Output a structured analysis that downstream processing can use.
+1. Analyze this policy agenda and extract its semantic structure, regardless of format.
+2. Extract the ACTUAL TEXT content for definitions and verdict rules sections.
 
 ## OUTPUT FORMAT (JSON)
 
@@ -30,43 +30,42 @@ Output a structured analysis that downstream processing can use.
   "core_topic": "allergy safety",
   "verdicts": ["Low Risk", "High Risk", "Critical Risk"],
   "verdict_order": "ascending",
+
+  "terms_content": "COPY THE ACTUAL TEXT from the agenda that defines terms/fields.\nInclude the full definitions section with all field names, values, and descriptions.\nPreserve formatting (bullets, etc.) but convert XML tags to readable text.",
+
+  "verdicts_content": "COPY THE ACTUAL TEXT from the agenda that defines verdict rules.\nInclude the full verdict rules section with conditions and thresholds.\nPreserve formatting but convert XML tags to readable text.",
+
   "extraction_fields": [
     {{
       "name": "INCIDENT_SEVERITY",
       "description": "Severity of incident",
       "values": ["none", "mild", "moderate", "severe"]
-    }},
-    {{
-      "name": "ACCOUNT_TYPE",
-      "description": "How reviewer relates to event",
-      "values": ["firsthand", "secondhand", "hypothetical"]
     }}
   ],
   "verdict_rules": [
     {{
       "verdict": "Critical Risk",
       "logic": "ANY",
-      "conditions": [
-        "1+ severe firsthand incidents",
-        "2+ moderate firsthand incidents"
-      ]
-    }},
-    {{
-      "verdict": "High Risk",
-      "precondition": "Critical Risk does not apply",
-      "logic": "ANY",
-      "conditions": [
-        "1+ mild or moderate firsthand incidents"
-      ]
-    }},
-    {{
-      "verdict": "Low Risk",
-      "default": true
+      "conditions": ["1+ severe firsthand incidents"]
     }}
   ],
-  "key_concepts": ["allergy", "incident", "firsthand account", "severity"]
+  "key_concepts": ["allergy", "incident", "severity"]
 }}
 ```
+
+## CRITICAL: terms_content and verdicts_content
+
+These fields must contain the ACTUAL TEXT extracted from the agenda:
+
+- **terms_content**: Copy the section(s) that define fields/terms (e.g., "Definitions", "Terms", field descriptions)
+  - For markdown: copy the definitions section with bullets
+  - For XML: extract content from definition tags, convert to readable format
+  - For prose: extract sentences that define terms and their values
+
+- **verdicts_content**: Copy the section(s) that define verdict rules (e.g., "Verdict Rules", "Classification Rules")
+  - For markdown: copy the rules section with conditions
+  - For XML: extract content from verdict/rule tags, convert to readable format
+  - For prose: extract sentences that specify when each verdict applies
 
 ## ANALYSIS GUIDELINES
 
@@ -74,26 +73,20 @@ Output a structured analysis that downstream processing can use.
 
 2. **verdicts**: List ALL verdict labels exactly as written (case-sensitive)
 
-3. **verdict_order**: "ascending" if higher is better/worse in sequence, "descending" otherwise
-
-4. **extraction_fields**: ALL fields that need to be extracted from reviews
-   - Include both explicitly defined fields AND fields implied by rules
+3. **extraction_fields**: Summary of fields found (for validation)
    - Use UPPERCASE_WITH_UNDERSCORES for names
    - List all possible values for each field
 
-5. **verdict_rules**: Capture the decision logic
-   - Include conditions in natural language (will be parsed later)
-   - Note preconditions like "if X does not apply"
+4. **verdict_rules**: Summary of rules found (for validation)
+   - Include conditions in natural language
    - Mark exactly one rule as "default": true
-
-6. **key_concepts**: Main themes and keywords relevant to this policy
 
 ## IMPORTANT
 
 - Be format-agnostic: extract the same information whether input is markdown, XML, or prose
-- If the format uses XML tags, interpret their semantic meaning
-- If the format is prose, identify structure from language patterns
-- Extract EXACT verdict names and field values (case-sensitive for verdicts)
+- For XML/prose: CONVERT to readable text format in terms_content and verdicts_content
+- Extract EXACT verdict names (case-sensitive)
+- The terms_content and verdicts_content will be passed to downstream LLM calls
 
 Output ONLY the JSON, no explanation:
 

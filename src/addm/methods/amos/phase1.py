@@ -3,15 +3,16 @@
 LLM reads agenda/query and produces a Formula Seed (executable JSON specification).
 
 Uses part-by-part extraction with 3 focused LLM calls:
-0. OBSERVE - Format-agnostic semantic analysis (guides downstream steps)
-1. Extract terms/field definitions
-2. Extract verdict rules
+0. OBSERVE - Format-agnostic parsing (extracts terms_content and verdicts_content)
+1. EXTRACT_TERMS - Extract field definitions from terms_content
+2. EXTRACT_VERDICTS - Extract verdict rules from verdicts_content
 
 Entry point: generate_formula_seed()
 
 The OBSERVE step (Step 0) enables format-agnostic parsing - it can handle
-markdown, XML, prose, or other structured formats and extract semantic
-information to guide the downstream extraction steps.
+markdown, XML, prose, or other structured formats. It extracts the actual
+text content for definitions and verdict rules, which is then passed to
+the downstream extraction steps.
 
 Helper functions in phase1_helpers.py:
 - extract_yaml_from_response(), parse_yaml_safely()
@@ -53,10 +54,10 @@ async def _observe(
     llm: "LLMService",
     policy_id: str,
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    """Analyze agenda structure format-agnostically.
+    """Format-agnostic parsing of agenda structure.
 
     This is Step 0 of Phase 1. It analyzes the agenda (in any format: markdown,
-    XML, prose) and extracts semantic information to guide downstream extraction.
+    XML, prose) and extracts the actual text content for downstream extraction.
 
     Args:
         agenda: The task agenda (policy description in any format)
@@ -66,11 +67,12 @@ async def _observe(
     Returns:
         Tuple of (observations_dict, usage_dict)
         observations_dict contains:
+        - terms_content: Extracted text for definitions section
+        - verdicts_content: Extracted text for verdict rules section
         - policy_type: "count_rule_based" | "scoring" | "signal_rule_based"
-        - extraction_fields: List of {name, description, values}
-        - verdict_rules: List of rule dicts
+        - extraction_fields: List of {name, description, values} (for validation)
+        - verdict_rules: List of rule dicts (for validation)
         - verdicts: List of verdict labels
-        - has_scoring: bool
         - key_concepts: List of relevant terms
     """
     import json
@@ -163,56 +165,53 @@ async def generate_formula_seed(
         if progress_callback:
             progress_callback(1, step, progress, detail)
 
-    # Step 0: OBSERVE - Format-agnostic semantic analysis
-    report("OBSERVE", 5, "analyzing agenda structure")
-    output.status(f"[Phase 1] Step 0/3: Analyzing agenda structure (OBSERVE)...")
+    # Step 0: OBSERVE - Format-agnostic parsing
+    report("OBSERVE", 5, "parsing agenda (format-agnostic)")
+    output.status(f"[Phase 1] Step 0/3: Parsing agenda (OBSERVE)...")
 
     observations, usage0 = await _observe(agenda, llm, policy_id)
     all_usages.append(usage0)
 
+    # OBSERVE extracts the actual text content for downstream processing
+    terms_content = observations.get("terms_content", "")
+    verdicts_content = observations.get("verdicts_content", "")
     policy_type_hint = observations.get("policy_type", "count_rule_based")
     known_fields = {f["name"].upper() for f in observations.get("extraction_fields", [])}
 
     output.status(f"[Phase 1] OBSERVE: {policy_type_hint}, {len(known_fields)} fields identified")
-    logger.info(f"OBSERVE hints: policy_type={policy_type_hint}, known_fields={known_fields}")
+    logger.info(f"OBSERVE: policy_type={policy_type_hint}, known_fields={known_fields}")
+    logger.info(f"OBSERVE: terms_content length={len(terms_content)}, verdicts_content length={len(verdicts_content)}")
 
-    # Parse query into sections (using observations as hints)
-    report("PARSE", 10, "parsing query sections")
-    output.status(f"[Phase 1] Parsing query sections...")
+    # Validate OBSERVE extracted content
+    if not terms_content:
+        logger.warning("OBSERVE did not extract terms_content, falling back to full agenda")
+        terms_content = agenda
+    if not verdicts_content:
+        logger.warning("OBSERVE did not extract verdicts_content, falling back to full agenda")
+        verdicts_content = agenda
 
-    sections = _parse_query_sections(agenda)
-    logger.info(f"Parsed query into sections: {list(sections.keys())}")
-
-    # Extract task name from header
-    header = sections.get("header", "")
-    task_name_match = re.search(r'^#\s*(.+?)(?:\n|$)', header)
+    # Extract task name from agenda header (simple regex, format-agnostic)
+    task_name_match = re.search(r'^#\s*(.+?)(?:\n|$)', agenda)
+    if not task_name_match:
+        # Try XML-style title
+        task_name_match = re.search(r'<title>(.+?)</title>', agenda, re.IGNORECASE)
     task_name = task_name_match.group(1).strip() if task_name_match else policy_id
 
-    # Step 1: Extract terms (guided by OBSERVE hints)
+    # Step 1: Extract terms from OBSERVE's terms_content
     report("TERMS", 15, "extracting terms")
     output.status(f"[Phase 1] Step 1/3: Extracting terms...")
 
-    terms_section = sections.get("terms", "")
-    if not terms_section:
-        terms_section = header
-        logger.warning("No explicit terms section found, using header")
-
-    terms, usage1 = await _extract_terms_from_section(terms_section, llm, policy_id)
+    terms, usage1 = await _extract_terms_from_section(terms_content, llm, policy_id)
     all_usages.append(usage1)
     output.status(f"[Phase 1] Extracted {len(terms)} terms")
     report("TERMS", 40, f"{len(terms)} terms")
 
-    # Step 2: Extract verdicts and rules (guided by OBSERVE hints)
+    # Step 2: Extract verdicts from OBSERVE's verdicts_content
     report("VERDICTS", 45, "extracting verdicts")
     output.status(f"[Phase 1] Step 2/3: Extracting verdict rules...")
 
-    verdicts_section = sections.get("verdicts", "")
-    if not verdicts_section:
-        verdicts_section = header
-        logger.warning("No explicit verdicts section found, using header")
-
     verdicts_data, usage2 = await _extract_verdicts_from_section(
-        verdicts_section, terms, llm, policy_id
+        verdicts_content, terms, llm, policy_id
     )
     all_usages.append(usage2)
     output.status(f"[Phase 1] Extracted {len(verdicts_data.get('verdicts', []))} verdicts")
@@ -283,16 +282,17 @@ async def generate_formula_seed(
     return seed_clean, total_usage
 
 
-# Backward compatibility alias
-generate_formula_seed_with_config = generate_formula_seed
-
-
 # =============================================================================
-# Query Parsing Helpers
+# Query Parsing Helpers (DEPRECATED - use OBSERVE instead)
 # =============================================================================
 
 def _parse_query_sections(query: str) -> Dict[str, str]:
-    """Parse query into sections based on markdown headers."""
+    """Parse query into sections based on markdown headers.
+
+    DEPRECATED: This function is brittle (assumes markdown with ## headers).
+    The main flow now uses OBSERVE for format-agnostic parsing.
+    Kept for backward compatibility with debug scripts.
+    """
     sections = {}
     parts = re.split(r'\n##\s+', query)
 
