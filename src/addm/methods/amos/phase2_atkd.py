@@ -7,7 +7,9 @@ import json
 import math
 import random
 import re
+import sys
 import time
+from datetime import datetime
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
@@ -16,6 +18,8 @@ import numpy as np
 
 from addm.llm import LLMService
 from addm.utils.async_utils import gather_with_concurrency
+from addm.utils.debug_logger import get_debug_logger
+from addm.utils.output import output
 
 from .phase1_helpers import extract_json_from_response, parse_json_safely
 from .phase2_prompts import (
@@ -190,6 +194,7 @@ class ATKDConfig:
     bm25_b: float = 0.75
     embedding_model: str = "text-embedding-3-large"
     max_concurrent: int = 32
+    pause: bool = False
 
 
 class GateLibrary:
@@ -519,6 +524,7 @@ class ATKDEngine:
         self.config = config
         self.cache_dir = cache_dir
         self.rng = random.Random(rng_seed)
+        self._debug_logger = get_debug_logger()
 
         (
             self.primitives,
@@ -542,6 +548,160 @@ class ATKDEngine:
         self._restaurant_to_reviews: Dict[int, List[int]] = {}
         for idx, r in enumerate(self.review_pool):
             self._restaurant_to_reviews.setdefault(r["restaurant_index"], []).append(idx)
+
+    def _log_event(self, event_type: str, data: Dict[str, Any], sample_id: Optional[str] = None) -> None:
+        if not self._debug_logger or not self._debug_logger.enabled:
+            return
+        try:
+            self._debug_logger.log_event(sample_id or self.policy_id, event_type, data)
+        except Exception:
+            return
+
+    def _pause(self, label: str) -> None:
+        output.status(f"ATKD step: {label}")
+        if not self.config.pause:
+            return
+        if not sys.stdin.isatty():
+            return
+        self._log_event("phase2_pause", {"label": label})
+        try:
+            input(f"[ATKD] {label} - press Enter to continue...")
+        except EOFError:
+            return
+
+    def _dump_state(
+        self,
+        label: str,
+        *,
+        save_arrays: bool = False,
+        batch: Optional[List[Tuple[int, str]]] = None,
+        iteration: Optional[int] = None,
+    ) -> None:
+        if not self._debug_logger or not self._debug_logger.enabled:
+            return
+        def _to_list(value: Any) -> List[Any]:
+            if value is None:
+                return []
+            if hasattr(value, "tolist"):
+                return value.tolist()
+            if isinstance(value, (list, tuple)):
+                return list(value)
+            return [value]
+        dump_dir = self.cache_dir / "debug_state"
+        dump_dir.mkdir(parents=True, exist_ok=True)
+        stamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+        safe_label = label.replace(" ", "_")
+        name = f"{safe_label}_{stamp}"
+        if iteration is not None:
+            name = f"{safe_label}_iter{iteration}_{stamp}"
+        payload: Dict[str, Any] = {
+            "label": label,
+            "policy_id": self.policy_id,
+            "timestamp": stamp,
+            "primitives": [p.__dict__ for p in self.primitives],
+            "gate_counts": {
+                p.primitive_id: {
+                    f"{modality}_{polarity}": len(
+                        self.gate_library.by_filter(p.primitive_id, modality, polarity)
+                    )
+                    for modality in ("bm25", "emb")
+                    for polarity in ("pos", "neg")
+                }
+                for p in self.primitives
+            },
+            "tag_counts": {
+                p.primitive_id: {
+                    "total": len(self.tag_store.records_for_primitive(p.primitive_id)),
+                    "pos": sum(
+                        1
+                        for r in self.tag_store.records_for_primitive(p.primitive_id)
+                        if r.y == 1
+                    ),
+                    "neg": sum(
+                        1
+                        for r in self.tag_store.records_for_primitive(p.primitive_id)
+                        if r.y == 0
+                    ),
+                }
+                for p in self.primitives
+            },
+        }
+        if batch is not None:
+            batch_rows = []
+            for review_idx, primitive_id in batch:
+                review = self.review_pool[review_idx]
+                z = None
+                bin_idx = None
+                if self.score_store and primitive_id in self.score_store.z_scores:
+                    z = float(self.score_store.z_scores[primitive_id][review_idx])
+                    bin_idx = int(self.score_store.z_bins[primitive_id][review_idx])
+                batch_rows.append(
+                    {
+                        "review_id": review.get("review_id"),
+                        "business_id": review.get("business_id"),
+                        "primitive_id": primitive_id,
+                        "z": z,
+                        "bin": bin_idx,
+                    }
+                )
+            payload["batch"] = batch_rows
+
+        if self.score_store:
+            payload["z_stats"] = {
+                p.primitive_id: {
+                    "min": float(np.min(self.score_store.z_scores[p.primitive_id])),
+                    "max": float(np.max(self.score_store.z_scores[p.primitive_id])),
+                    "mean": float(np.mean(self.score_store.z_scores[p.primitive_id])),
+                }
+                for p in self.primitives
+                if p.primitive_id in self.score_store.z_scores
+            }
+            payload["z_bin_edges"] = {
+                p.primitive_id: self.score_store.z_bin_edges[p.primitive_id].tolist()
+                for p in self.primitives
+                if p.primitive_id in self.score_store.z_bin_edges
+            }
+            if save_arrays:
+                arrays = {}
+                for p in self.primitives:
+                    pid = p.primitive_id
+                    if pid not in self.score_store.z_scores:
+                        continue
+                    z_path = dump_dir / f"{name}_{pid}_z.npy"
+                    b_path = dump_dir / f"{name}_{pid}_bins.npy"
+                    np.save(z_path, self.score_store.z_scores[pid])
+                    np.save(b_path, self.score_store.z_bins[pid])
+                    arrays[pid] = {
+                        "z_scores": str(z_path),
+                        "z_bins": str(b_path),
+                    }
+                payload["z_arrays"] = arrays
+
+        if self.calibration:
+            payload["theta_hat"] = {
+                p.primitive_id: _to_list(self.calibration.theta_hat.get(p.primitive_id))
+                for p in self.primitives
+            }
+            payload["upper_bound"] = {
+                p.primitive_id: _to_list(self.calibration.upper_bound.get(p.primitive_id))
+                for p in self.primitives
+            }
+
+        gate_list_path = dump_dir / f"{name}_gates.json"
+        gate_list_path.write_text(json.dumps(self.gate_library.to_dict(), indent=2))
+        payload["gate_list_path"] = str(gate_list_path)
+
+        state_path = dump_dir / f"{name}.json"
+        state_path.write_text(json.dumps(payload, indent=2))
+        self._log_event(
+            "phase2_state",
+            {
+                "label": label,
+                "iteration": iteration,
+                "state_path": str(state_path),
+                "gate_list_path": str(gate_list_path),
+            },
+        )
 
     # ---------------------------------------------------------------------
     # Compilation
@@ -629,16 +789,29 @@ class ATKDEngine:
         prompt = build_gate_init_prompt(primitives_payload)
         response, usage = await self.llm.call_async_with_usage(
             [{"role": "user", "content": prompt}],
-            context={"phase": "gate_init", "policy_id": self.policy_id},
+            context={
+                "phase": "gate_init",
+                "policy_id": self.policy_id,
+                "sample_id": self.policy_id,
+            },
         )
         self._usage_records.append(usage)
         try:
             data = parse_json_safely(extract_json_from_response(response))
         except Exception:
             data = {}
+        added = 0
         for item in data.get("primitives", []):
-            self._add_gates_from_payload(item, created_by="llm_init")
+            added += self._add_gates_from_payload(item, created_by="llm_init")
         self._ensure_min_gates()
+        self._log_event(
+            "phase2_gate_init",
+            {
+                "baseline_gates": len(baseline_gates),
+                "llm_added": added,
+                "total_gates": len(self.gate_library.list()),
+            },
+        )
 
     def _baseline_gates(self) -> List[Gate]:
         gates: List[Gate] = []
@@ -671,10 +844,11 @@ class ATKDEngine:
             )
         return gates
 
-    def _add_gates_from_payload(self, payload: Dict[str, Any], created_by: str) -> None:
+    def _add_gates_from_payload(self, payload: Dict[str, Any], created_by: str) -> int:
         primitive_id = payload.get("primitive_id")
         if not primitive_id:
-            return
+            return 0
+        added = 0
         for gate_list, modality, polarity in [
             (payload.get("pos_bm25_gates", []), "bm25", "pos"),
             (payload.get("neg_bm25_gates", []), "bm25", "neg"),
@@ -683,9 +857,11 @@ class ATKDEngine:
         ]:
             for g in gate_list:
                 query = " ".join(g) if isinstance(g, list) else str(g)
-                self.gate_library.add_gate(
+                if self.gate_library.add_gate(
                     self._make_gate([primitive_id], modality, polarity, query, created_by)
-                )
+                ):
+                    added += 1
+        return added
 
     def _ensure_min_gates(self) -> None:
         for p in self.primitives:
@@ -895,9 +1071,36 @@ class ATKDEngine:
         if not tasks:
             return
         results = await gather_with_concurrency(self.config.max_concurrent, tasks)
+        added_records: List[TagRecord] = []
         for record in results:
             if record:
                 self.tag_store.add(record)
+                added_records.append(record)
+        if added_records:
+            # Log per-item verdict evidence for inspection
+            for record in added_records:
+                review_idx = record.fields.get("_review_index")
+                business_id = None
+                if review_idx is not None and 0 <= int(review_idx) < len(self.review_pool):
+                    business_id = self.review_pool[int(review_idx)].get("business_id")
+                self._log_event(
+                    "phase2_verifier_result",
+                    {
+                        "review_id": record.review_id,
+                        "primitive_id": record.primitive_id,
+                        "y": record.y,
+                        "evidence_snippets": record.evidence_snippets,
+                        "fields": record.fields,
+                    },
+                    sample_id=business_id or self.policy_id,
+                )
+            self._log_event(
+                "phase2_verifier_batch",
+                {
+                    "batch_size": len(batch),
+                    "added": len(added_records),
+                },
+            )
 
     async def _call_verifier(
         self,
@@ -908,7 +1111,13 @@ class ATKDEngine:
     ) -> Optional[TagRecord]:
         response, usage = await self.llm.call_async_with_usage(
             [{"role": "user", "content": prompt}],
-            context={"phase": "verifier", "policy_id": self.policy_id},
+            context={
+                "phase": "verifier",
+                "policy_id": self.policy_id,
+                "sample_id": review.get("business_id", self.policy_id),
+                "review_id": review.get("review_id"),
+                "primitive_id": primitive.primitive_id,
+            },
         )
         self._usage_records.append(usage)
         try:
@@ -933,6 +1142,7 @@ class ATKDEngine:
     async def _gate_discover(self) -> None:
         if self.config.gate_discover_period <= 0:
             return
+        total_added = 0
         for p in self.primitives:
             records = self.tag_store.records_for_primitive(p.primitive_id)
             positives = [
@@ -960,23 +1170,43 @@ class ATKDEngine:
             prompt = build_gate_discover_prompt(p.__dict__, positives[:5], negatives[:5])
             response, usage = await self.llm.call_async_with_usage(
                 [{"role": "user", "content": prompt}],
-                context={"phase": "gate_discover", "policy_id": self.policy_id},
+                context={
+                    "phase": "gate_discover",
+                    "policy_id": self.policy_id,
+                    "sample_id": self.policy_id,
+                },
             )
             self._usage_records.append(usage)
             try:
                 data = parse_json_safely(extract_json_from_response(response))
             except Exception:
                 data = {}
-            self._add_gates_from_payload(data, created_by="llm_discover")
+            total_added += self._add_gates_from_payload(data, created_by="llm_discover")
+        if total_added > 0:
+            self._log_event(
+                "phase2_gate_discover",
+                {
+                    "added": total_added,
+                    "total_gates": len(self.gate_library.list()),
+                },
+            )
 
     # ---------------------------------------------------------------------
     # Main loop
     # ---------------------------------------------------------------------
 
     async def run(self) -> Dict[str, Any]:
+        self._pause("Before GateInit")
         await self.initialize_gates()
+        self._dump_state("after_gate_init")
+
+        self._pause("Before GateScan")
         self.scan_gates()
+        self._dump_state("after_gate_scan", save_arrays=True)
+
+        self._pause("Before Calibration")
         self._recompute_calibration()
+        self._dump_state("after_calibration")
 
         active_restaurants = list(range(len(self.restaurants)))
         per_restaurant_counts: Dict[int, Dict[str, int]] = {}
@@ -985,17 +1215,28 @@ class ATKDEngine:
         iteration = 0
         while active_restaurants:
             iteration += 1
+            self._log_event(
+                "phase2_iteration_start",
+                {"iteration": iteration, "active_restaurants": len(active_restaurants)},
+            )
             restaurant_batch = active_restaurants[: self.config.batch_size]
+            self._pause(f"Before BatchSelect iter={iteration}")
             batch = self._select_batch(
                 restaurant_batch,
                 per_restaurant_counts,
                 self.config.explore_frac,
                 self.config.verifier_batch_size,
             )
+            self._dump_state("batch_selected", batch=batch, iteration=iteration)
             if not batch:
                 break
+            self._pause(f"Before Verify iter={iteration}")
             await self._verify_batch(batch)
+            self.tag_store.save()
+            self._dump_state("after_verify", iteration=iteration)
+            self._pause(f"Before Calibration iter={iteration}")
             self._recompute_calibration()
+            self._dump_state("after_calibration_iter", iteration=iteration)
 
             # Recompute counts to avoid double counting
             per_restaurant_counts = {}
@@ -1009,6 +1250,7 @@ class ATKDEngine:
                 )
 
             # Check stopping for each restaurant
+            self._pause(f"Before StopCheck iter={iteration}")
             still_active = []
             for ridx in active_restaurants:
                 counts = per_restaurant_counts.get(ridx, {})
@@ -1018,6 +1260,16 @@ class ATKDEngine:
                         "verdict": verdict,
                         "stop_reason": "rule_satisfied",
                     }
+                    business_id = self.restaurants[ridx].get("business", {}).get("business_id", "")
+                    self._log_event(
+                        "phase2_stop",
+                        {
+                            "verdict": verdict,
+                            "stop_reason": "rule_satisfied",
+                            "counts": counts,
+                        },
+                        sample_id=business_id or self.policy_id,
+                    )
                     continue
                 review_indices = self._restaurant_review_indices(ridx)
                 rho = self._compute_default_bound(review_indices, counts)
@@ -1027,19 +1279,36 @@ class ATKDEngine:
                         "stop_reason": "bound",
                         "rho": rho,
                     }
+                    business_id = self.restaurants[ridx].get("business", {}).get("business_id", "")
+                    self._log_event(
+                        "phase2_stop",
+                        {
+                            "verdict": self.default_label or "Default",
+                            "stop_reason": "bound",
+                            "rho": rho,
+                            "counts": counts,
+                        },
+                        sample_id=business_id or self.policy_id,
+                    )
                     continue
                 still_active.append(ridx)
             active_restaurants = still_active
+            self._dump_state("after_stop_check", iteration=iteration)
 
             if (
                 self.config.gate_discover_period > 0
                 and iteration % self.config.gate_discover_period == 0
             ):
+                self._pause(f"Before GateDiscover iter={iteration}")
                 await self._gate_discover()
                 # Only scan new gates
                 if self.score_store:
+                    self._pause(f"Before GateScan (discover) iter={iteration}")
                     self.scan_gates()
+                    self._dump_state("after_gate_scan_discover", save_arrays=True, iteration=iteration)
+                    self._pause(f"Before Calibration (discover) iter={iteration}")
                     self._recompute_calibration()
+                    self._dump_state("after_calibration_discover", iteration=iteration)
 
         # Any remaining restaurants default out
         for ridx in active_restaurants:
@@ -1047,6 +1316,15 @@ class ATKDEngine:
                 "verdict": self.default_label or "Default",
                 "stop_reason": "exhausted",
             }
+            business_id = self.restaurants[ridx].get("business", {}).get("business_id", "")
+            self._log_event(
+                "phase2_stop",
+                {
+                    "verdict": self.default_label or "Default",
+                    "stop_reason": "exhausted",
+                },
+                sample_id=business_id or self.policy_id,
+            )
 
         results = []
         for idx, restaurant in enumerate(self.restaurants):
@@ -1079,6 +1357,7 @@ class ATKDEngine:
 
         aggregated_usage = self._aggregate_usage()
         self.tag_store.save()
+        self._dump_state("final")
 
         return {
             "results": results,

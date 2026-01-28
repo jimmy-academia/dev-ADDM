@@ -11,7 +11,7 @@ from typing import Any, Dict, List, Optional
 import numpy as np
 
 from addm.llm import LLMService
-from addm.methods.amos.phase2_atkd import ATKDEngine, ATKDConfig
+from addm.methods.amos.phase2_atkd import ATKDEngine, ATKDConfig, GateLibrary
 from addm.utils.output import output
 
 
@@ -83,8 +83,8 @@ def summarize_z(engine: ATKDEngine) -> None:
         if z is None:
             continue
         output.print(
-            f"{p.primitive_id}: z[min={float(np.min(z)):.3f}, "
-            f"max={float(np.max(z)):.3f}, mean={float(np.mean(z)):.3f}]"
+            f"{p.primitive_id}: z(min={float(np.min(z)):.3f}, "
+            f"max={float(np.max(z)):.3f}, mean={float(np.mean(z)):.3f})"
         )
 
 
@@ -96,6 +96,126 @@ def summarize_calibration(engine: ATKDEngine) -> None:
             output.print(f"{p.primitive_id}: no calibration yet")
             continue
         output.print(f"{p.primitive_id}: theta_mean={float(np.mean(theta)):.3f}")
+
+
+def dump_state(
+    engine: ATKDEngine,
+    label: str,
+    out_dir: Path,
+    batch: Optional[List[Dict[str, Any]]] = None,
+) -> None:
+    def _to_list(value: Any) -> List[Any]:
+        if value is None:
+            return []
+        if hasattr(value, "tolist"):
+            return value.tolist()
+        if isinstance(value, (list, tuple)):
+            return list(value)
+        return [value]
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+    payload: Dict[str, Any] = {
+        "label": label,
+        "policy_id": engine.policy_id,
+        "primitives": [p.__dict__ for p in engine.primitives],
+        "gate_counts": {
+            p.primitive_id: {
+                f"{modality}_{polarity}": len(
+                    engine.gate_library.by_filter(p.primitive_id, modality, polarity)
+                )
+                for modality in ("bm25", "emb")
+                for polarity in ("pos", "neg")
+            }
+            for p in engine.primitives
+        },
+        "tag_counts": {
+            p.primitive_id: {
+                "total": len(engine.tag_store.records_for_primitive(p.primitive_id)),
+                "pos": sum(
+                    1
+                    for r in engine.tag_store.records_for_primitive(p.primitive_id)
+                    if r.y == 1
+                ),
+                "neg": sum(
+                    1
+                    for r in engine.tag_store.records_for_primitive(p.primitive_id)
+                    if r.y == 0
+                ),
+            }
+            for p in engine.primitives
+        },
+    }
+    if engine.score_store:
+        payload["z_stats"] = {
+            p.primitive_id: {
+                "min": float(np.min(engine.score_store.z_scores[p.primitive_id])),
+                "max": float(np.max(engine.score_store.z_scores[p.primitive_id])),
+                "mean": float(np.mean(engine.score_store.z_scores[p.primitive_id])),
+            }
+            for p in engine.primitives
+            if p.primitive_id in engine.score_store.z_scores
+        }
+        payload["z_bin_edges"] = {
+            p.primitive_id: engine.score_store.z_bin_edges[p.primitive_id].tolist()
+            for p in engine.primitives
+            if p.primitive_id in engine.score_store.z_bin_edges
+        }
+    if engine.calibration:
+        payload["theta_hat"] = {
+            p.primitive_id: _to_list(engine.calibration.theta_hat.get(p.primitive_id))
+            for p in engine.primitives
+        }
+        payload["upper_bound"] = {
+            p.primitive_id: _to_list(engine.calibration.upper_bound.get(p.primitive_id))
+            for p in engine.primitives
+        }
+    if batch is not None:
+        normalized = []
+        for item in batch:
+            if isinstance(item, tuple):
+                normalized.append({"review_index": item[0], "primitive_id": item[1]})
+            else:
+                normalized.append(item)
+        payload["selected_batch"] = normalized
+    (out_dir / f"{label}.json").write_text(json.dumps(payload, indent=2))
+
+
+def summarize_batch(engine: ATKDEngine, batch: List[Any], max_rows: int = 10) -> None:
+    output.rule()
+    output.print(f"Batch preview (showing up to {max_rows})")
+    if not engine.score_store:
+        output.print("No score store yet.")
+        return
+    rows = []
+    for item in batch[:max_rows]:
+        if isinstance(item, tuple):
+            review_idx, primitive_id = item
+        else:
+            review_idx = item.get("review_index")
+            primitive_id = item.get("primitive_id")
+        if review_idx is None or primitive_id is None:
+            continue
+        z = float(engine.score_store.z_scores[primitive_id][review_idx])
+        bin_idx = int(engine.score_store.z_bins[primitive_id][review_idx])
+        review = engine.review_pool[review_idx]
+        snippet = review["text"].strip().replace("\n", " ")
+        if len(snippet) > 120:
+            snippet = snippet[:117] + "..."
+        rows.append(
+            [
+                review.get("review_id"),
+                primitive_id,
+                f"{z:.3f}",
+                str(bin_idx),
+                review.get("business_id"),
+                snippet,
+            ]
+        )
+    output.print_table(
+        "Verifier Batch",
+        ["review_id", "primitive_id", "z", "bin", "business_id", "snippet"],
+        rows,
+    )
 
 
 async def run_stepwise(args: argparse.Namespace) -> None:
@@ -140,24 +260,44 @@ async def run_stepwise(args: argparse.Namespace) -> None:
     output.rule()
     output.print("Step 0: Compile primitives")
     summarize_primitives(engine)
+    if args.dump_state_dir:
+        dump_state(engine, "step0_compile", Path(args.dump_state_dir))
     pause_if(args.pause)
 
     output.rule()
     output.print("Step 1: Gate initialization")
-    await engine.initialize_gates()
+    gate_cache_path = Path(args.gate_cache_path) if args.gate_cache_path else None
+    if gate_cache_path and gate_cache_path.exists():
+        data = json.loads(gate_cache_path.read_text())
+        engine.gate_library = GateLibrary.from_dict(data)
+        engine.config.gate_init = False
+        engine._ensure_min_gates()
+        output.print(f"Loaded gates from cache: {gate_cache_path}")
+    else:
+        await engine.initialize_gates()
+        if gate_cache_path and args.save_gate_cache:
+            gate_cache_path.parent.mkdir(parents=True, exist_ok=True)
+            gate_cache_path.write_text(json.dumps(engine.gate_library.to_dict(), indent=2))
+            output.print(f"Saved gate cache to: {gate_cache_path}")
     summarize_gates(engine)
+    if args.dump_state_dir:
+        dump_state(engine, "step1_gates", Path(args.dump_state_dir))
     pause_if(args.pause)
 
     output.rule()
     output.print("Step 2: Gate scan (BM25 + embeddings)")
     engine.scan_gates()
     summarize_z(engine)
+    if args.dump_state_dir:
+        dump_state(engine, "step2_scan", Path(args.dump_state_dir))
     pause_if(args.pause)
 
     output.rule()
     output.print("Step 3: Initial calibration")
     engine._recompute_calibration()
     summarize_calibration(engine)
+    if args.dump_state_dir:
+        dump_state(engine, "step3_calibration", Path(args.dump_state_dir))
     pause_if(args.pause)
 
     active_restaurants = list(range(len(restaurants)))
@@ -178,10 +318,22 @@ async def run_stepwise(args: argparse.Namespace) -> None:
             config.verifier_batch_size,
         )
         output.print(f"Verifier batch size: {len(batch)}")
+        summarize_batch(engine, batch, max_rows=args.preview_rows)
+        if args.dump_state_dir:
+            dump_state(
+                engine,
+                f"iter{iteration}_selected",
+                Path(args.dump_state_dir),
+                batch=batch,
+            )
         pause_if(args.pause)
 
-        await engine._verify_batch(batch)
-        engine._recompute_calibration()
+        if not args.skip_verify:
+            await engine._verify_batch(batch)
+            engine.tag_store.save()
+            engine._recompute_calibration()
+            if args.dump_state_dir:
+                dump_state(engine, f"iter{iteration}_verified", Path(args.dump_state_dir))
 
         # Recompute counts (same logic as engine.run)
         per_restaurant_counts = {}
@@ -219,6 +371,8 @@ async def run_stepwise(args: argparse.Namespace) -> None:
 
         output.print(f"Active restaurants remaining: {len(active_restaurants)}")
         summarize_calibration(engine)
+        if args.dump_state_dir:
+            dump_state(engine, f"iter{iteration}_postcheck", Path(args.dump_state_dir))
         pause_if(args.pause)
 
         if config.gate_discover_period > 0 and iteration % config.gate_discover_period == 0:
@@ -259,8 +413,13 @@ def main() -> None:
     parser.add_argument("--max_iterations", type=int, default=3)
     parser.add_argument("--sample-ids", type=str, default=None)
     parser.add_argument("--cache-dir", type=str, default="results/dev/atkd_stepwise_cache")
+    parser.add_argument("--gate-cache-path", type=str, default=None)
+    parser.add_argument("--save-gate-cache", action="store_true", default=False)
     parser.add_argument("--pause", action="store_true", default=True)
     parser.add_argument("--no-pause", dest="pause", action="store_false")
+    parser.add_argument("--dump-state-dir", type=str, default=None)
+    parser.add_argument("--preview-rows", type=int, default=8)
+    parser.add_argument("--skip-verify", action="store_true", default=False)
 
     args = parser.parse_args()
     asyncio.run(run_stepwise(args))

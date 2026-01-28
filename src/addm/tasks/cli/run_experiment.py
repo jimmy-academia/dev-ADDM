@@ -608,6 +608,7 @@ async def run_experiment(
     explore_frac: float = 0.1,
     num_bins: int = 10,
     gamma: float = 1.0,
+    debug: bool = False,
     run_number: Optional[int] = None,
     suppress_output: bool = False,
     progress_callback: Optional[ProgressCallback] = None,
@@ -643,6 +644,7 @@ async def run_experiment(
         explore_frac: ATKD exploration fraction
         num_bins: ATKD calibration bins
         gamma: ATKD negative-gate discount
+        debug: Enable AMOS Phase 2 stepwise pauses and expanded debug state dumps
         run_number: Explicit run number (1-5) for benchmark mode. If specified:
             - run 1 = ondemand mode (captures latency)
             - run 2-5 = batch mode (cost efficient)
@@ -1077,6 +1079,7 @@ Let's think through this step-by-step:"""
                 batch_size=batch_size,
                 num_bins=num_bins,
                 gamma=gamma,
+                pause=debug,
             )
             amos_output = await run_amos_policy(
                 run_id=run_id,
@@ -1756,6 +1759,11 @@ def main() -> None:
         help="Global random seed for deterministic ordering and gating decisions",
     )
     parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Enable AMOS Phase 2 stepwise pauses and expanded debug state dumps",
+    )
+    parser.add_argument(
         "--epsilon",
         type=float,
         default=0.01,
@@ -1940,6 +1948,7 @@ def main() -> None:
                     explore_frac=args.explore_frac,
                     num_bins=args.num_bins,
                     gamma=args.gamma,
+                    debug=args.debug,
                     run_number=args.run,
                     suppress_output=True,  # Suppress all output for progress bar
                     progress_callback=callback,
@@ -2039,6 +2048,7 @@ def main() -> None:
                 explore_frac=args.explore_frac,
                 num_bins=args.num_bins,
                 gamma=args.gamma,
+                debug=args.debug,
                 run_number=args.run,
             )
         )
