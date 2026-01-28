@@ -4,7 +4,7 @@
 
 ### Fix 1: YAML Parsing Destroying Enum Values
 
-**Issue**: Formula Seed had corrupted enum values like "v", "a", "l", "u", "e" instead of actual values like "severe", "moderate", "mild", "none".
+**Issue**: Agenda Spec had corrupted enum values like "v", "a", "l", "u", "e" instead of actual values like "severe", "moderate", "mild", "none".
 
 **Root Cause**: In `phase1_helpers.py:parse_yaml_safely()`, the "last resort" fallback was triggered when YAML parsing failed. This fallback replaced ALL values with the literal string `"value"`, destroying data.
 
@@ -140,7 +140,7 @@ Capacity assessment (handling busy periods, wait management) is inconsistent - s
 
 ## Recommendations for Next Steps
 
-1. **G6 Investigation**: Examine formula seeds for G6 policies to understand what AMOS is extracting vs. what GT expects
+1. **G6 Investigation**: Examine agenda specs for G6 policies to understand what AMOS is extracting vs. what GT expects
 
 2. **Policy IR Alignment**: Check if G3/G4/G5 failing policies have similar issues to G2_group (invalid enum values, ambiguous wording)
 

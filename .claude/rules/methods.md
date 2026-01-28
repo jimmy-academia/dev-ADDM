@@ -33,7 +33,7 @@ Uses [recursive-llm](https://github.com/ysz/recursive-llm) (forked to `lib/recur
 
 Two-phase method for comprehensive review analysis:
 
-**Phase 1**: Generate Formula Seed (extraction spec) from agenda
+**Phase 1**: Generate Agenda Spec (extraction spec) from agenda
 **Phase 2**: Process ALL reviews in parallel batches, compute verdict
 
 ```bash
@@ -54,7 +54,7 @@ Two-phase method for comprehensive review analysis:
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│ Phase 1: Generate Formula Seed                      │
+│ Phase 1: Generate Agenda Spec                      │
 │   OBSERVE → EXTRACT_TERMS → EXTRACT_VERDICTS        │
 │   Produces extraction spec (fields, rules, logic)   │
 └─────────────────────────────────────────────────────┘
@@ -90,9 +90,9 @@ AMOS lives entirely in `src/addm/methods/amos/`:
 | File | Purpose |
 |------|---------|
 | `amos/__init__.py` | `AMOSMethod` class + module exports |
-| `amos/phase1.py` | Entry point for Formula Seed generation |
+| `amos/phase1.py` | Entry point for Agenda Spec generation |
 | `amos/phase1_plan_and_act.py` | PLAN_AND_ACT approach (primary) |
-| `amos/phase2.py` | Formula Seed interpreter (extraction) |
+| `amos/phase2.py` | Agenda Spec interpreter (extraction) |
 | `amos/config.py` | `AMOSConfig` configuration |
 
 **Import:** `from addm.methods.amos import AMOSMethod, AMOSConfig`

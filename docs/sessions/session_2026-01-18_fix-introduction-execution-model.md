@@ -54,9 +54,9 @@ and (v) final policy evaluation.
 ```tex
 We instantiate ADDM through a two-phase execution framework:
 Phase~1 (compile-time) interprets the agenda specification once per decision type,
-producing a Formula Seed---a structured program containing filter keywords,
+producing an Agenda Spec---a structured program containing filter keywords,
 extraction field schemas, and deterministic aggregation rules.
-Phase~2 (runtime) executes the Formula Seed for each entity: filtering relevant
+Phase~2 (runtime) executes the Agenda Spec for each entity: filtering relevant
 reviews, extracting primitives via parallel LLM calls, computing aggregates
 deterministically, and applying the final decision policy.
 ```
@@ -84,7 +84,7 @@ from consensus primitives following the same rules as the evaluated methods.
 The introduction previously described a "5-stage execution model" that didn't match the actual AMOS implementation:
 - Claimed stage (iii): "optional semantic grouping over multi-review evidence" - **never implemented**
 - Problem formulation (Section 3) uses L0/L1/L2/FL layered model (conceptually correct)
-- Actual AMOS uses 2-phase approach: Phase 1 (agenda → Formula Seed), Phase 2 (Formula Seed → verdict)
+- Actual AMOS uses 2-phase approach: Phase 1 (agenda → Agenda Spec), Phase 2 (Agenda Spec → verdict)
 - Ground truth uses multi-model ensemble (gpt-5-nano×3, gpt-5-mini×1) with weighted voting - **not mentioned in old version**
 
 The plan from exit plan mode provided detailed analysis and specific text replacements which were all successfully implemented.

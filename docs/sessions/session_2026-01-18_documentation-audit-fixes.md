@@ -40,7 +40,7 @@ Implemented comprehensive documentation audit plan to fix 15 identified issues a
 
 5. **Added AMOS method to BASELINES.md**:
    - Comprehensive specification (75+ lines)
-   - Two-phase architecture (Formula Seed compilation + parallel execution)
+   - Two-phase architecture (Agenda Spec compilation + parallel execution)
    - Comparison table with baselines
    - Token cost analysis
    - Design rationale and expected performance

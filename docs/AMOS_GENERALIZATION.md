@@ -22,7 +22,7 @@ if "low" in verdict.lower():
 
 **Impact**: Would convert G2_romance "Recommended" → "Low Risk" (incorrect)
 
-**Fix**: Removed normalization entirely. AMOS now outputs verdicts directly from Formula Seed.
+**Fix**: Removed normalization entirely. AMOS now outputs verdicts directly from Agenda Spec.
 
 **Files Changed**: `src/addm/tasks/cli/run_experiment.py`
 
@@ -45,7 +45,7 @@ if "low" in verdict.lower():
   - Filters these fields from LLM extraction (no need to extract from text)
   - Makes temporal fields available in computation expressions
 
-**Example Usage** (in Formula Seed):
+**Example Usage** (in Agenda Spec):
 ```json
 {
   "extract": {
@@ -175,7 +175,7 @@ After reading G2_romance_V2, G5_consistency_V2, and G6_comparison_V2 policies, c
 
 **Risk**: Filter recall may be low (misses relevant reviews) or precision may be low (includes irrelevant reviews)
 
-**Validation Needed**: Test Formula Seed generation for these tasks
+**Validation Needed**: Test Agenda Spec generation for these tasks
 
 ---
 
@@ -192,7 +192,7 @@ Test AMOS on at least **5 diverse policies** before production use:
 5. **G1_allergy_V3** (recency weighting validation)
 
 For each test:
-- ✅ Inspect generated Formula Seed for correctness
+- ✅ Inspect generated Agenda Spec for correctness
 - ✅ Check keyword coverage (% of relevant reviews captured)
 - ✅ Measure verdict stability (run 3x, check consistency)
 - ✅ Compare to ground truth (if available)
@@ -249,10 +249,10 @@ Test all 72 policies in batches:
 1. ✅ Fix verdict normalization bug
 2. ✅ Add V3 temporal support
 3. ⏳ Test on 5 diverse policies (validation required)
-4. ⏳ Document Formula Seeds for successful tests
+4. ⏳ Document Agenda Specs for successful tests
 
 ### Short-term (Phase I)
-1. Generate Formula Seeds for all 72 policies
+1. Generate Agenda Specs for all 72 policies
 2. Validate seeds for correctness (manual inspection)
 3. Run small-scale tests (n=5-10 per task)
 4. Identify and fix systematic issues
@@ -260,8 +260,8 @@ Test all 72 policies in batches:
 ### Long-term (Phase II)
 1. Address G5_consistency temporal trends (design decision needed)
 2. Address G6_comparison relational reasoning (design decision needed)
-3. Add automated Formula Seed quality metrics
-4. Add Formula Seed versioning and A/B testing
+3. Add automated Agenda Spec quality metrics
+4. Add Agenda Spec versioning and A/B testing
 
 ---
 

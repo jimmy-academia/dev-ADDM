@@ -9,7 +9,7 @@ This document describes baseline methods and the proposed AMOS method for ADDM e
 ADDM evaluates methods on 72 benchmark tasks requiring analysis of restaurant reviews (K=25/50/100/200).
 
 **Proposed Method:**
-- **AMOS** - Adaptive Multi-Output Sampling: Two-phase approach with cached Formula Seed and parallel extraction
+- **AMOS** - Adaptive Multi-Output Sampling: Two-phase approach with cached Agenda Spec and parallel extraction
 
 **Baseline Methods:**
 - **Direct** - Full-context prompting (all K reviews)
@@ -26,7 +26,7 @@ Methods are categorized by how they handle restaurant review context:
 
 | Mode | Method | Description | Token Cost |
 |------|--------|-------------|------------|
-| **Proposed** | **`amos`** | **Two-phase: Formula Seed generation + two-stage extraction** | **~5-55k tokens** |
+| **Proposed** | **`amos`** | **Two-phase: Agenda Spec generation + two-stage extraction** | **~5-55k tokens** |
 | Full-context | `direct` | All K reviews in prompt | ~K×200 tokens |
 | Reasoning | `cot` | Step-by-step reasoning before answer | ~K×250 tokens |
 | Tool-use | `react` | Interleaved reasoning and tool actions | ~K×300+ tokens |
@@ -43,7 +43,7 @@ Methods are categorized by how they handle restaurant review context:
 |-----------|-------|
 | Method | `amos` |
 | File | `src/addm/methods/amos/__init__.py` |
-| Description | Two-phase method: (1) LLM generates executable Formula Seed from policy, (2) Interpreter executes seed with parallel extraction |
+| Description | Two-phase method: (1) LLM generates executable Agenda Spec from policy, (2) Interpreter executes seed with parallel extraction |
 | Context handling | Two-stage retrieval: Quick Scan (filtered) + Thorough Sweep (all remaining) |
 | Token cost | ~5-55k tokens per restaurant (depends on review count and early exit) |
 | Strengths | Explicit search strategy, parallel extraction, deterministic aggregation, cached compilation |
@@ -68,16 +68,16 @@ Methods are categorized by how they handle restaurant review context:
 
 **How AMOS Works:**
 
-**Phase 1: Formula Seed Generation (once per policy)**
+**Phase 1: Agenda Spec Generation (once per policy)**
 1. LLM reads policy agenda/prompt
-2. LLM produces executable JSON specification (Formula Seed) with:
+2. LLM produces executable JSON specification (Agenda Spec) with:
    - **Filter**: Keywords to identify relevant reviews
    - **Extract**: Structured fields to extract (enum/int/float/bool with possible values)
    - **Compute**: Aggregation rules to calculate verdict
-3. Formula Seed cached to `data/formula_seeds/{policy_id}.json`
+3. Agenda Spec cached to `data/formula_seeds/{policy_id}.json`
 4. Reused for all restaurants in the policy
 
-Example Formula Seed snippet:
+Example Agenda Spec snippet:
 ```json
 {
   "task_name": "G1_allergy_V2",
@@ -114,13 +114,13 @@ Example Formula Seed snippet:
 5. **Compute**: Deterministic aggregation of all extractions → final verdict
 
 **Caching:**
-- Formula Seeds cached in `data/formula_seeds/{policy_id}.json`
+- Agenda Specs cached in `data/formula_seeds/{policy_id}.json`
 - Seeds auto-regenerate when policy changes (hash-based invalidation)
 
 **Design Rationale:**
 
 1. **Compilation model**: Separates policy understanding (expensive, done once) from data processing (cheaper, per-sample)
-2. **Observable steps**: Each phase produces inspectable artifacts (Formula Seed, extracted fields)
+2. **Observable steps**: Each phase produces inspectable artifacts (Agenda Spec, extracted fields)
 3. **Deterministic aggregation**: Computation rules are explicit, not black-box LLM reasoning
 4. **Scalability**: Parallel extraction across reviews enables efficient processing at K=200
 
@@ -129,7 +129,7 @@ Example Formula Seed snippet:
 | Aspect | AMOS | Direct | RAG | RLM |
 |--------|------|--------|-----|-----|
 | **Context strategy** | Keyword filter + parallel extract | Full context | Semantic retrieval | Code execution |
-| **Policy encoding** | Explicit Formula Seed | Implicit in prompt | Implicit in embedding | Implicit in code |
+| **Policy encoding** | Explicit Agenda Spec | Implicit in prompt | Implicit in embedding | Implicit in code |
 | **Aggregation** | Deterministic rules | LLM reasoning | LLM reasoning | LLM reasoning |
 | **Scalability** | Parallel (32 concurrent) | Single call | Single call | Sequential iterations |
 | **Token cost** | ~5-55k | ~K×200 | ~4k + embed | ~50k |
@@ -349,7 +349,7 @@ The guide covers:
 
 | Date | Change |
 |------|--------|
-| 2026-01-18 | **Added AMOS (Adaptive Multi-Output Sampling) as proposed method** - Two-phase approach with Formula Seed compilation and parallel extraction |
+| 2026-01-18 | **Added AMOS (Adaptive Multi-Output Sampling) as proposed method** - Two-phase approach with Agenda Spec compilation and parallel extraction |
 | 2026-01-18 | Reorganized document structure to highlight AMOS as proposed method vs. baselines |
 | 2026-01-18 | Added RAG method with experimental results (75% accuracy, semantic retrieval limitations) |
 | 2026-01-18 | Fixed RAG cache key bug (cross-K contamination) |

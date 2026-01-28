@@ -22,8 +22,8 @@ Based on user feedback, corrected several misconceptions:
 1. **Removed legacy terminology**: Eliminated L0/L1/L2 language (old system). New structure is V0/V1 (Overview→Definitions→Verdict Rules) and V2/V3 (Overview→Definitions→**Scoring System**→Verdict Rules)
 
 2. **Corrected method description**: AMOS is NOT the multi-model ensemble (that's GT generation). AMOS is:
-   - Phase 1: Query-Focused Compilation (agenda → Formula Seed with filter/extract/compute)
-   - Phase 2: Context Operation (interpret Formula Seed against reviews)
+   - Phase 1: Query-Focused Compilation (agenda → Agenda Spec with filter/extract/compute)
+   - Phase 2: Context Operation (interpret Agenda Spec against reviews)
 
 3. **Emphasized versatility**: Not just "allergy safety inspector" - show multiple personas, domains, and aggregation logic types
 
@@ -78,7 +78,7 @@ decision artifacts} with observable intermediate steps...
 ### 6. Polish Pass
 - Removed extra blank lines for consistency
 - Verified smooth paragraph transitions
-- Ensured consistent terminology (ADDM, AMOS, agenda, Formula Seed)
+- Ensured consistent terminology (ADDM, AMOS, agenda, Agenda Spec)
 
 ## Current State
 
@@ -128,7 +128,7 @@ These appear to be experiment runs and can be left running or killed as needed.
 ## Git Status
 
 Uncommitted changes:
-- `M data/formula_seeds/G1_allergy_V2.json` - Formula seed updates
+- `M data/formula_seeds/G1_allergy_V2.json` - Agenda spec updates
 - `M docs/ROADMAP.md` - Updated B1 status
 - `m paper` - LaTeX changes (submodule marker)
 - `M src/addm/tasks/cli/run_baseline.py` - CLI updates

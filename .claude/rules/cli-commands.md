@@ -25,7 +25,7 @@
 .venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1 -n 1 --method rlm
 
 # AMOS Phase Control
-# Phase 1 only: generate Formula Seed
+# Phase 1 only: generate Agenda Spec
 .venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1 --phase 1 --method amos --dev
 
 # Phase 2 only: use pre-generated seed (file path)
@@ -72,7 +72,7 @@ done
 | `--method` | run_experiment | Method (direct/cot/react/rlm/rag/amos) |
 | `--phase` | run_experiment | AMOS phase: '1' (seed only), '2' (use seed), '1,2' or omit (both) |
 | `--batch-size` | run_experiment | AMOS: Reviews per LLM call (default: 10) |
-| `--seed` | run_experiment | Path to Formula Seed file/dir for --phase 2 |
+| `--seed` | run_experiment | Path to Agenda Spec file/dir for --phase 2 |
 | `--tier` | run_experiment | Run all P1-P7 variants for tier(s) (e.g., T1 or T1,T2) |
 | `--k` | all | Context size (25/50/100/200) |
 | `-n` | run_experiment | Number of samples |

@@ -2,7 +2,7 @@
 
 ## Problem
 
-Formula Seeds use uppercase field names (e.g., `INCIDENT_SEVERITY`, `ACCOUNT_TYPE`) while LLM extractions return lowercase keys (e.g., `incident_severity`, `account_type`). The following methods do exact key matching, causing conditions to fail silently:
+Agenda Specs use uppercase field names (e.g., `INCIDENT_SEVERITY`, `ACCOUNT_TYPE`) while LLM extractions return lowercase keys (e.g., `incident_severity`, `account_type`). The following methods do exact key matching, causing conditions to fail silently:
 
 - `_matches_condition()`
 - `_matches_single_condition()`
@@ -29,7 +29,7 @@ Add a helper method `_get_field_value()` that tries multiple case variants, then
     def _get_field_value(self, extraction: Dict[str, Any], field_name: str) -> Any:
         """Get field value from extraction, handling case-insensitive lookup.
 
-        Formula Seeds use uppercase field names (e.g., INCIDENT_SEVERITY) while
+        Agenda Specs use uppercase field names (e.g., INCIDENT_SEVERITY) while
         LLM extractions often return lowercase (e.g., incident_severity). This
         helper tries multiple case variants.
 

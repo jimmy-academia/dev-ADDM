@@ -1,6 +1,6 @@
 # [2026-01-20] AMOS Adaptive Mode Fix ✅
 
-**What**: Fixed adaptive mode verdict issue where `_compute_case()` couldn't evaluate full expressions like `"SCORE >= 8"` from Formula Seed.
+**What**: Fixed adaptive mode verdict issue where `_compute_case()` couldn't evaluate full expressions like `"SCORE >= 8"` from Agenda Spec.
 
 **Impact**: Both Parallel and Adaptive modes now work with 100% accuracy on K=50 (n=20).
 
@@ -12,7 +12,7 @@
 **Next**:
 - Test K=200 to verify early stopping saves tokens with more reviews
 - Compare token costs between Parallel vs Adaptive modes
-- Consider updating early_verdict_expr in formula seed prompt to include Low Risk case
+- Consider updating early_verdict_expr in agenda spec prompt to include Low Risk case
 
 **Status**: Working tree clean
 

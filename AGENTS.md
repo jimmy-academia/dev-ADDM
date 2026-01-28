@@ -71,6 +71,21 @@ src/addm/
 - Extract judgments: `.venv/bin/python -m addm.tasks.cli.extract --task G1a`
 - Run tests: `.venv/bin/python -m pytest`
 
+## AMOS Workflow Notes
+
+- **LLM default**: `gpt-5-nano` (ask before switching models)
+- **Console output**: use the `output` singleton (`src/addm/utils/output.py`), not `print()`
+- **Experiments**: do not run AMOS experiments directly; prepare the command and hand it
+  to the user to run
+
+## AMOS Phase 1 (Agenda Spec)
+
+- **Purpose**: Convert agenda text into an `agenda_spec` (terms + verdict rules)
+- **Entry point**: `src/addm/methods/amos/phase1.py`
+- **Prompts**: `src/addm/methods/amos/phase1_prompts.py`
+- **Output**: `agenda_spec.json` saved in each run directory (see
+  `src/addm/methods/amos/__init__.py`)
+
 ## Coding Style
 
 - Indentation: 4 spaces; UTF-8; keep lines <= 100 chars
