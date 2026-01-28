@@ -92,12 +92,7 @@ async def _call_llm_json_with_retries(
         if not errors:
             return data, usages
 
-        attempt += 1
-        if attempt > max_retries:
-            raise ValueError(
-                f"Validation failed after {max_retries} retries: {errors}"
-            )
-
+        # Record each validation failure attempt.
         if debug_logger := get_debug_logger():
             sample_id = (
                 context.get("policy_id")
@@ -110,11 +105,39 @@ async def _call_llm_json_with_retries(
                 data={
                     "phase": context.get("phase"),
                     "step": context.get("step"),
-                    "attempt": attempt - 1,
+                    "attempt": attempt,
                     "errors": errors,
                 },
             )
 
+        # Give up after the final attempt; proceed best-effort and warn.
+        if attempt >= max_retries:
+            step = context.get("step") or context.get("phase") or "unknown_step"
+            sample_id = (
+                context.get("policy_id")
+                or context.get("sample_id")
+                or "unknown"
+            )
+            if debug_logger := get_debug_logger():
+                debug_logger.log_event(
+                    sample_id=sample_id,
+                    event_type="phase1.validation_giveup",
+                    data={
+                        "phase": context.get("phase"),
+                        "step": step,
+                        "attempts": attempt + 1,
+                        "max_retries": max_retries,
+                        "errors": errors,
+                    },
+                )
+            # NOTE: output.warn is suppressed under suppress_output; output.print is not.
+            output.print(
+                f"  [yellow]⚠[/yellow] {sample_id} P1 {step}: "
+                f"validation failed after {max_retries} retries; continuing"
+            )
+            return data, usages
+
+        attempt += 1
         prompt = _with_errors(base_prompt, errors, data)
 
 
@@ -148,14 +171,57 @@ async def _locate_blocks(
     )
 
     definitions, verdicts = normalize_block_anchors(data)
-    definition_blocks = [
-        slice_block_by_anchors(agenda, b["start_quote"], b["end_quote"])
-        for b in definitions
-    ]
-    verdict_blocks = [
-        slice_block_by_anchors(agenda, b["start_quote"], b["end_quote"])
-        for b in verdicts
-    ]
+    definition_blocks: List[str] = []
+    for idx, b in enumerate(definitions):
+        try:
+            definition_blocks.append(
+                slice_block_by_anchors(agenda, b["start_quote"], b["end_quote"])
+            )
+        except Exception as e:  # noqa: BLE001 - best-effort fallback
+            if debug_logger := get_debug_logger():
+                debug_logger.log_event(
+                    sample_id=policy_id,
+                    event_type="phase1.slice_warning",
+                    data={
+                        "step": "locate_blocks",
+                        "group": "definitions_blocks",
+                        "index": idx,
+                        "error": str(e),
+                    },
+                )
+            output.print(
+                f"  [yellow]⚠[/yellow] {policy_id} P1 locate_blocks: "
+                f"failed to slice definitions_blocks[{idx}]; using full agenda"
+            )
+
+    verdict_blocks: List[str] = []
+    for idx, b in enumerate(verdicts):
+        try:
+            verdict_blocks.append(
+                slice_block_by_anchors(agenda, b["start_quote"], b["end_quote"])
+            )
+        except Exception as e:  # noqa: BLE001 - best-effort fallback
+            if debug_logger := get_debug_logger():
+                debug_logger.log_event(
+                    sample_id=policy_id,
+                    event_type="phase1.slice_warning",
+                    data={
+                        "step": "locate_blocks",
+                        "group": "verdict_blocks",
+                        "index": idx,
+                        "error": str(e),
+                    },
+                )
+            output.print(
+                f"  [yellow]⚠[/yellow] {policy_id} P1 locate_blocks: "
+                f"failed to slice verdict_blocks[{idx}]; using full agenda"
+            )
+
+    # Fallback: if slicing failed completely, pass the full agenda forward.
+    if not definition_blocks:
+        definition_blocks = [agenda]
+    if not verdict_blocks:
+        verdict_blocks = [agenda]
     return definition_blocks, verdict_blocks, usages
 
 
@@ -441,11 +507,28 @@ async def generate_verdict_and_terms(
     term_inputs: List[Tuple[str, str]] = []
     for t in term_blocks:
         term_title = t.get("term_title", "")
-        term_block = slice_block_by_anchors(
-            agenda,
-            t.get("start_quote", ""),
-            t.get("end_quote", ""),
-        )
+        try:
+            term_block = slice_block_by_anchors(
+                agenda,
+                t.get("start_quote", ""),
+                t.get("end_quote", ""),
+            )
+        except Exception as e:  # noqa: BLE001 - best-effort fallback
+            if debug_logger := get_debug_logger():
+                debug_logger.log_event(
+                    sample_id=policy_id,
+                    event_type="phase1.slice_warning",
+                    data={
+                        "step": "term_blocks",
+                        "term_title": term_title,
+                        "error": str(e),
+                    },
+                )
+            output.print(
+                f"  [yellow]⚠[/yellow] {policy_id} P1 term_blocks[{term_title}]: "
+                "failed to slice; using definitions_text"
+            )
+            term_block = definitions_text
         term_inputs.append((term_title, term_block))
 
     if term_inputs:
@@ -607,15 +690,21 @@ async def generate_verdict_and_terms(
         },
     )
 
-    # Final validation: ensure exactly one default rule and all labels covered
+    final_warnings: List[str] = []
+
+    # Final validation (warn-only): ensure exactly one default rule and all labels covered
     default_rules = [r for r in rules_out if r.get("default")]
     if len(default_rules) != 1:
-        raise ValueError("Expected exactly one default rule")
-    rule_labels = [r.get("label") for r in rules_out]
+        final_warnings.append("Expected exactly one default rule")
+    rule_labels = [r.get("label") for r in rules_out if r.get("label")]
     if set(rule_labels) != set(verdict_rules.get("labels", [])):
-        raise ValueError("Rules do not cover all verdict labels")
-    if verdict_rules.get("order") and verdict_rules["order"][-1] != verdict_rules.get("default_label"):
-        raise ValueError("order must end with default_label")
+        final_warnings.append("Rules do not cover all verdict labels")
+    if (
+        verdict_rules.get("order")
+        and verdict_rules.get("default_label")
+        and verdict_rules["order"][-1] != verdict_rules.get("default_label")
+    ):
+        final_warnings.append("order must end with default_label")
 
     # Ensure all conditions reference allowed terms/values after pruning
     term_values_map = {
@@ -626,19 +715,32 @@ async def generate_verdict_and_terms(
         if rule.get("default"):
             continue
         if rule.get("connective") not in ("ANY", "ALL"):
-            raise ValueError("Rule connective must be ANY or ALL")
+            final_warnings.append("Rule connective must be ANY or ALL")
         for clause in rule.get("clauses", []):
             if clause.get("logic") not in ("ANY", "ALL"):
-                raise ValueError("Clause logic must be ANY or ALL")
+                final_warnings.append("Clause logic must be ANY or ALL")
             for cond in clause.get("conditions", []):
                 field_id = cond.get("field_id")
                 if field_id not in term_values_map:
-                    raise ValueError(f"Condition field_id '{field_id}' not in terms")
+                    final_warnings.append(
+                        f"Condition field_id '{field_id}' not in terms"
+                    )
+                    continue
                 for v in cond.get("values", []):
                     if v not in term_values_map[field_id]:
-                        raise ValueError(
+                        final_warnings.append(
                             f"Condition value '{v}' not in {field_id} values"
                         )
+
+    if final_warnings:
+        log_event(
+            "phase1.validation_final_warning",
+            {"warnings": final_warnings},
+        )
+        output.print(
+            f"  [yellow]⚠[/yellow] {policy_id} P1 final validation: "
+            f"{len(final_warnings)} warning(s) (see debug/phase1.jsonl)"
+        )
 
     usage = accumulate_usage(all_usages)
 

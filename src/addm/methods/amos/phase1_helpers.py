@@ -7,6 +7,7 @@ import json
 import re
 from typing import Any, Dict, Iterable, List, Tuple
 
+from addm.utils.text_validation import validate_multi_span_snippet
 
 # =============================================================================
 # JSON Extraction / Parsing
@@ -60,6 +61,7 @@ def parse_json_safely(json_str: str) -> Dict[str, Any]:
 # =============================================================================
 
 _NON_ALNUM = re.compile(r"[^A-Za-z0-9]+")
+_CLEAN_MATCH = re.compile(r"[^A-Za-z0-9\\s.!?]+")
 
 
 def _as_list(value: Any) -> List[Any]:
@@ -103,6 +105,32 @@ def normalize_value_id(value: str) -> str:
     cleaned = _NON_ALNUM.sub("_", value.strip())
     cleaned = re.sub(r"_+", "_", cleaned).strip("_")
     return cleaned.lower()
+
+
+def _clean_text_for_quote_match(text: str) -> str:
+    """Normalize text for quote matching across markup (e.g., markdown bold)."""
+    if not isinstance(text, str):
+        return ""
+    # Preserve sentence punctuation for segmentation; strip markup/symbols.
+    return _CLEAN_MATCH.sub(" ", text)
+
+
+def quote_matches_source(quote: str, source_text: str) -> bool:
+    """Return True if quote can be validated against source_text.
+
+    Uses the same multi-span idea as eval snippet validation, but with an
+    additional cleanup step to ignore markdown/formatting characters.
+    """
+    quote = _as_str(quote)
+    source_text = _as_str(source_text)
+    if not quote or not source_text:
+        return False
+
+    quote_clean = _clean_text_for_quote_match(quote)
+    source_clean = _clean_text_for_quote_match(source_text)
+
+    result = validate_multi_span_snippet(quote_clean, source_clean)
+    return bool(result.get("valid")) and result.get("match_type") in ("exact", "multi_span")
 
 
 def slice_block_by_anchors(agenda: str, start_quote: str, end_quote: str) -> str:
@@ -265,20 +293,20 @@ def validate_verdict_rules(
         if label in seen_labels:
             errors.append(f"rules[{idx}].label duplicated")
         seen_labels.add(label)
-        if label not in agenda:
+        if not quote_matches_source(label, agenda):
             errors.append(f"rules[{idx}].label not found in agenda")
 
         if rule.get("default"):
             default_quote = rule.get("default_quote", "")
             if not default_quote:
                 errors.append("default_rule.default_quote is missing")
-            elif default_quote not in agenda:
+            elif not quote_matches_source(default_quote, agenda):
                 errors.append("default_rule.default_quote not in agenda")
             for h_idx, hint in enumerate(rule.get("hints", [])):
                 hint_quote = hint.get("hint_quote", "")
                 if not hint_quote:
                     errors.append(f"default_rule.hints[{h_idx}] is empty")
-                elif hint_quote not in agenda:
+                elif not quote_matches_source(hint_quote, agenda):
                     errors.append(f"default_rule.hints[{h_idx}] not in agenda")
             if rule.get("clause_quotes"):
                 errors.append("default rule must not include clause_quotes")
@@ -291,7 +319,7 @@ def validate_verdict_rules(
             connective_quote = rule.get("connective_quote", "")
             if not connective_quote:
                 errors.append(f"rules[{idx}].connective_quote is missing")
-            elif connective_quote not in agenda:
+            elif not quote_matches_source(connective_quote, agenda):
                 errors.append(f"rules[{idx}].connective_quote not in agenda")
             clause_quotes = rule.get("clause_quotes", [])
             if not clause_quotes:
@@ -299,7 +327,7 @@ def validate_verdict_rules(
             for c_idx, quote in enumerate(clause_quotes):
                 if not quote:
                     errors.append(f"rules[{idx}].clause_quotes[{c_idx}] is empty")
-                elif quote not in agenda:
+                elif not quote_matches_source(quote, agenda):
                     errors.append(f"rules[{idx}].clause_quotes[{c_idx}] not in agenda")
 
     if labels and seen_labels != set(labels):
@@ -446,16 +474,16 @@ def validate_term_enum(
         value_quote = val.get("value_quote", "")
         if not source_value:
             errors.append(f"values[{idx}].source_value is empty")
-        elif source_value not in term_block:
+        elif not quote_matches_source(source_value, term_block):
             errors.append(f"values[{idx}].source_value not in term_block")
         if not description:
             errors.append(f"values[{idx}].description is empty")
         if not value_quote:
             errors.append(f"values[{idx}].value_quote is empty")
         else:
-            if value_quote not in term_block:
+            if not quote_matches_source(value_quote, term_block):
                 errors.append(f"values[{idx}].value_quote not in term_block")
-            if source_value and source_value not in value_quote:
+            if source_value and not quote_matches_source(source_value, value_quote):
                 errors.append(f"values[{idx}].value_quote must contain source_value")
         source_values.append(source_value)
         value_ids.append(val.get("value_id", ""))

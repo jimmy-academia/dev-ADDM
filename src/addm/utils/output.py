@@ -332,7 +332,11 @@ class MultiPolicyProgress:
                 table.add_row(
                     policy_id,
                     "[green]✓ OK[/green]",
-                    f"Phase 1: terms={summary.get('terms', '?')} verdicts={summary.get('verdicts', '?')} groups={summary.get('groups', '?')} clauses={summary.get('clauses', '?')}",
+                    "Phase 1: "
+                    f"terms={summary.get('terms', '?')} "
+                    f"labels={summary.get('labels', '?')} "
+                    f"rules={summary.get('rules', '?')} "
+                    f"clauses={summary.get('clauses', '?')}",
                 )
             elif isinstance(result, dict):
                 accuracy = result.get("accuracy", 0)

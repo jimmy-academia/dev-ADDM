@@ -61,20 +61,26 @@ async def run_amos_policy(
 
     if phase == "1":
         terms = agenda_spec.get("terms", [])
-        verdict_spec = agenda_spec.get("verdict", {})
-        verdicts = verdict_spec.get("verdicts", [])
-        groups = verdict_spec.get("groups", [])
+        verdict_spec = agenda_spec.get("verdict_rules", {})
+        labels = verdict_spec.get("labels", [])
+        rules = verdict_spec.get("rules", [])
         clauses = sum(
-            len(g.get("clauses", [])) for g in groups if not g.get("default")
+            len(r.get("clauses", [])) for r in rules if not r.get("default")
         )
 
         output.success(f"Phase 1 complete: {run_id}")
-        output.print(f"  Terms: {len(terms)}")
-        output.print(f"  Verdicts: {len(verdicts)}")
-        output.print(f"  Groups: {len(groups)}")
-        output.print(f"  Clauses: {clauses}")
+        summary_parts = [
+            f"Terms: {len(terms)}",
+            f"Labels: {len(labels)}",
+            f"Rules: {len(rules)}",
+            f"Clauses: {clauses}",
+        ]
+        summary = "  " + " | ".join(summary_parts)
         if agenda_spec_path:
-            output.print(f"  Saved to: {agenda_spec_path}")
+            summary += f" | Saved to: {agenda_spec_path}"
+        output.print(summary)
+        if agenda_spec_path:
+            pass
 
         return {
             "phase": "1",
@@ -83,8 +89,8 @@ async def run_amos_policy(
             "agenda_spec": agenda_spec,
             "agenda_spec_summary": {
                 "terms": len(terms),
-                "verdicts": len(verdicts),
-                "groups": len(groups),
+                "labels": len(labels),
+                "rules": len(rules),
                 "clauses": clauses,
             },
         }
