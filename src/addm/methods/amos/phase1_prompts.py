@@ -1,181 +1,180 @@
 """Phase 1 Prompts: Agenda -> Agenda Spec (terms + verdict rules)."""
 
 # =============================================================================
-# Step 0: Segment agenda into blocks
+# Step 0: Locate blocks (anchors only)
 # =============================================================================
 
-SEGMENT_AGENDA_PROMPT = """You are splitting an agenda into term definitions and verdict rules.
+LOCATE_BLOCKS_PROMPT = """Identify blocks in the agenda that contain:
+1) term definitions (fields + allowed values)
+2) verdict labels and verdict rules (classification logic, including any label list)
 
-## AGENDA
+Return JSON ONLY.
+
+AGENDA:
 {agenda}
 
-## OUTPUT (JSON ONLY)
+OUTPUT JSON:
 {{
-  "definitions_blocks": ["<text block>", "<text block>"] ,
-  "verdict_rules_blocks": ["<text block>", "<text block>"]
+  "definitions_blocks": [{{"start_quote":"...","end_quote":"..."}}],
+  "verdict_blocks": [{{"start_quote":"...","end_quote":"..."}}]
 }}
 
-## RULES
-- definitions_blocks: include ONLY parts that define terms/fields and their possible values.
-- verdict_rules_blocks: include ONLY parts that define verdict/classification rules.
-- If verdict rules appear in multiple sections (e.g., "Verdict Rules" and "Verdict Rules (Continued)"), include all blocks in order.
-- If the agenda is XML, extract readable text for <definitions> and <verdict_rules> contents (preserve option/value IDs exactly).
-- Do NOT include guidance text unless it defines enum values.
+RULES:
+- start_quote and end_quote MUST be exact substrings copied from the agenda (verbatim).
+- Choose anchors that appear exactly once in the agenda.
+- Each block is the substring from start_quote to end_quote (inclusive).
+- definitions_blocks: include only blocks needed to define fields + allowed values.
+- verdict_blocks: include only blocks needed to define labels + classification rules.
+- Do NOT paraphrase any agenda text.
 
 Output ONLY the JSON object, no explanation.
 """
 
 
 # =============================================================================
-# Step 1: Extract verdict labels and default
+# Step 1: Extract verdict rules skeleton
 # =============================================================================
 
-EXTRACT_VERDICT_LABELS_PROMPT = """Extract verdict labels and identify the default verdict.
+EXTRACT_VERDICT_RULES_PROMPT = """Extract verdict labels and verdict rules from the text.
 
-## VERDICT RULES TEXT
+VERDICT TEXT:
 {verdict_text}
 
-## OUTPUT (JSON ONLY)
+Return JSON ONLY.
+
+OUTPUT JSON SCHEMA:
 {{
-  "verdicts": ["<label>", "<label>", "<label>"],
-  "default_verdict": "<label>"
-}}
-
-## RULES
-- verdict labels must match the exact labels in the text (case-sensitive).
-- default_verdict is the label used for "otherwise", "if none apply", or "default".
-
-Output ONLY the JSON object, no explanation.
-"""
-
-
-# =============================================================================
-# Step 2: Extract verdict rule outline (per verdict)
-# =============================================================================
-
-EXTRACT_VERDICT_OUTLINE_PROMPT = """Extract the rule outline for ONE verdict label.
-
-## VERDICT RULES TEXT
-{verdict_text}
-
-## TARGET VERDICT
-{target_verdict}
-
-## DEFAULT VERDICT
-{default_verdict}
-
-## OUTPUT (JSON ONLY)
-If target verdict is the default:
-{{
-  "verdict": "<label>",
-  "default": true,
-  "hint_texts": ["<optional hints>"]
-}}
-
-If target verdict is NOT the default:
-{{
-  "verdict": "<label>",
-  "connective": "ANY" | "ALL",
-  "clause_texts": [
-    "<one clause per bullet/condition>",
-    "<one clause per bullet/condition>"
+  "labels": ["..."],
+  "default_label": "...",
+  "order": ["..."],
+  "rules": [
+    {{
+      "label": "...",
+      "default": false,
+      "connective": "ANY" | "ALL",
+      "connective_quote": "...",
+      "clause_quotes": ["..."]
+    }},
+    {{
+      "label": "...",
+      "default": true,
+      "default_quote": "...",
+      "hints": [{{"hint_quote":"..."}}]
+    }}
   ]
 }}
 
-## RULES
-- connective is the BETWEEN-CLAUSES logic derived from "any/all of the following" for this verdict.
-- clause_texts must be literal bullet/condition texts from the verdict rules (no paraphrase).
-- Do NOT include "especially when" hints as clauses; only include them in hint_texts for default verdict.
-- Use the exact verdict label (case-sensitive).
+RULES:
+- All quotes MUST be exact substrings copied from VERDICT TEXT (verbatim).
+- labels must include every verdict label used by the rules (case-sensitive).
+- default_label is the “otherwise / if none apply” label.
+- order is the evaluation order; default_label must be last.
+- For each non-default rule:
+  - connective is the between-clauses connective for that verdict (ANY vs ALL).
+  - connective_quote must be a substring that justifies connective.
+  - clause_quotes are the literal condition/bullet texts for that verdict.
+- For the default rule:
+  - default_quote must be the exact substring indicating default/otherwise.
+  - hints are optional exact substrings; do not treat hints as required clauses.
 
 Output ONLY the JSON object, no explanation.
 """
 
 
 # =============================================================================
-# Step 3: Select required term titles (per non-default verdict)
+# Step 2: Select term blocks (anchors only)
 # =============================================================================
 
-SELECT_REQUIRED_TERMS_PROMPT = """Select which term definitions are required to represent these clauses.
+SELECT_TERM_BLOCKS_PROMPT = """Select the term definitions needed to interpret the NON-DEFAULT verdict rules.
 
-## DEFINITIONS
+DEFINITIONS TEXT:
 {definitions_text}
 
-## VERDICT RULE OUTLINE (JSON)
-{outline_json}
+VERDICT RULES (JSON):
+{verdict_rules_json}
 
-## OUTPUT (JSON ONLY)
+Return JSON ONLY.
+
+OUTPUT JSON:
 {{
-  "required_term_titles": ["<exact term title from definitions>", "<exact term title>"]
+  "terms": [
+    {{"term_title":"...","start_quote":"...","end_quote":"..."}}
+  ]
 }}
 
-## RULES
-- required_term_titles MUST be copied from definition headings/titles (case-sensitive).
-- Include a term if any clause implies it (e.g., "firsthand" => "Account Type").
-- Do not invent terms that are not present in the definitions.
+RULES:
+- term_title must be the name of a FIELD being defined (not an enum option).
+- start_quote and end_quote MUST be exact substrings copied from DEFINITIONS TEXT (verbatim).
+- Choose anchors that appear exactly once in the agenda.
+- Each (start_quote..end_quote) slice must include the term title and all of its allowed values.
+- Only include terms needed by non-default verdict rules.
+- Do NOT invent terms that are not defined in DEFINITIONS TEXT.
 
 Output ONLY the JSON object, no explanation.
 """
 
 
 # =============================================================================
-# Step 4: Extract a term definition (per term)
+# Step 3: Extract term enum (per term)
 # =============================================================================
 
-EXTRACT_TERM_DEF_PROMPT = """Extract ONE term definition as an enum.
+EXTRACT_TERM_ENUM_PROMPT = """Extract ONE term definition as an enum.
 
-## DEFINITIONS
-{definitions_text}
-
-## TARGET TERM TITLE
+TERM TITLE:
 {term_title}
 
-## OUTPUT (JSON ONLY)
+TERM BLOCK (verbatim):
+{term_block}
+
+Return JSON ONLY.
+
+OUTPUT JSON:
 {{
-  "term_title": "<exact title>",
-  "type": "enum",
-  "values": ["<EXACT value IDs as written>", "..."],
-  "descriptions": {{
-    "<value>": "<description>",
-    "<value>": "<description>"
-  }}
+  "term_title": "...",
+  "values": [
+    {{"source_value":"...","description":"...","value_quote":"..."}}
+  ]
 }}
 
-## RULES
-- values must be the exact value IDs from the definition (do not paraphrase).
-- descriptions should be copied or lightly condensed from the definition lines.
-- Only output the target term.
+RULES:
+- source_value MUST be copied exactly from TERM BLOCK (case-sensitive).
+- value_quote MUST be an exact substring copied from TERM BLOCK, and must contain source_value.
+- Include ALL enum options defined for the term.
+- Do NOT invent values or fields.
 
 Output ONLY the JSON object, no explanation.
 """
 
 
 # =============================================================================
-# Step 5: Compile a clause (per clause)
+# Step 4: Compile a clause (per clause)
 # =============================================================================
 
-COMPILE_CLAUSE_PROMPT = """Compile ONE clause into structured conditions using ONLY the allowed enums.
+COMPILE_CLAUSE_PROMPT = """Compile ONE clause into structured conditions.
 
-## CLAUSE TEXT
-{clause_text}
+CLAUSE (verbatim):
+{clause_quote}
 
-## ALLOWED TERMS (JSON)
+ALLOWED TERMS (JSON):
 {terms_json}
 
-## OUTPUT (JSON ONLY)
+Return JSON ONLY.
+
+OUTPUT JSON:
 {{
   "min_count": 1,
+  "logic": "ANY" | "ALL",
   "conditions": [
-    {{"field": "FIELD_NAME", "values": ["enum_id"]}}
+    {{"field_id":"FIELD_ID","values":["value_id"]}}
   ]
 }}
 
-## RULES
-- min_count must reflect the clause count (e.g., "2 or more" -> 2). If no count, use 1.
-- Each condition.field must be one of the provided term fields.
-- Each condition.values[] entry MUST be chosen from the allowed enum IDs for that field.
-- If the clause includes multiple attributes (e.g., "moderate firsthand"), include multiple conditions.
-- Do not invent new fields or values.
+RULES:
+- min_count reflects any explicit count (e.g., "2 or more" -> 2). If no count, use 1.
+- field_id MUST be one of the allowed field_id values.
+- Each values[] entry MUST be one of the allowed value_id values for that field_id.
+- logic describes how to combine multiple conditions inside this clause.
+- Do NOT invent fields or values.
 
 Output ONLY the JSON object, no explanation.
 """

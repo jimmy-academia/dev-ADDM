@@ -749,8 +749,11 @@ async def run_experiment(
 
     # Setup loggers
     # Debug logger writes to debug/ directory with per-item JSONL files
-    debug_logger = DebugLogger(output_dir)
-    set_debug_logger(debug_logger)
+    debug_logger = get_debug_logger()
+    if debug_logger is None:
+        debug_logger = DebugLogger(output_dir)
+        set_debug_logger(debug_logger)
+    debug_logger.set_output_dir(output_dir)
 
     # Item logger writes to item_logs/{sample_id}.json (streaming, per-sample)
     item_logger = ItemLogger(output_dir)

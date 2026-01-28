@@ -8,8 +8,14 @@ Supports directory-based logging with per-item files:
 from pathlib import Path
 from threading import RLock
 from datetime import datetime
+from contextvars import ContextVar
 import json
 from typing import Any, Optional
+
+# Task-local routing context (safe for async concurrency)
+_output_dir_ctx: ContextVar[Optional[Path]] = ContextVar("debug_output_dir", default=None)
+_phase1_mode_ctx: ContextVar[bool] = ContextVar("debug_phase1_mode", default=False)
+_item_id_ctx: ContextVar[Optional[str]] = ContextVar("debug_item_id", default=None)
 
 
 class DebugLogger:
@@ -39,14 +45,9 @@ class DebugLogger:
         self._enabled = output_dir is not None
         self._debug_dir: Optional[Path] = None
 
-        # Context routing: determines which file to write to
-        self._current_context: Optional[str] = None  # item_id for per-item logging
-        self._phase1_mode: bool = False  # True = write to phase1.jsonl
-
-        # Setup debug directory
-        if self._enabled and self.output_dir:
-            self._debug_dir = self.output_dir / "debug"
-            self._debug_dir.mkdir(parents=True, exist_ok=True)
+        # Context routing: kept for backward compatibility but not used for routing.
+        self._current_context: Optional[str] = None
+        self._phase1_mode: bool = False
 
     @property
     def enabled(self) -> bool:
@@ -68,6 +69,12 @@ class DebugLogger:
         """Disable debug logging."""
         self._enabled = False
 
+    def set_output_dir(self, output_dir: Path) -> None:
+        """Set task-local output directory for debug routing."""
+        _output_dir_ctx.set(output_dir)
+        if output_dir:
+            self._enabled = True
+
     def set_context(self, item_id: str) -> None:
         """Set context for per-item logging.
 
@@ -78,6 +85,8 @@ class DebugLogger:
         """
         self._current_context = item_id
         self._phase1_mode = False
+        _item_id_ctx.set(item_id)
+        _phase1_mode_ctx.set(False)
 
     def set_phase1_mode(self) -> None:
         """Set logger to Phase 1 mode.
@@ -86,6 +95,8 @@ class DebugLogger:
         """
         self._phase1_mode = True
         self._current_context = None
+        _phase1_mode_ctx.set(True)
+        _item_id_ctx.set(None)
 
     def clear_context(self) -> None:
         """Clear the current context.
@@ -94,8 +105,16 @@ class DebugLogger:
         """
         self._current_context = None
         self._phase1_mode = False
+        _item_id_ctx.set(None)
+        _phase1_mode_ctx.set(False)
 
-    def _get_output_path(self, sample_id: str) -> Path:
+    def _get_output_path_for(
+        self,
+        output_dir: Path,
+        sample_id: str,
+        phase1_mode: bool,
+        context_item_id: Optional[str],
+    ) -> Path:
         """Get the output file path based on current context.
 
         Args:
@@ -104,18 +123,28 @@ class DebugLogger:
         Returns:
             Path to the JSONL file to write to
         """
-        if not self._debug_dir:
-            raise RuntimeError("Debug directory not initialized")
+        debug_dir = output_dir / "debug"
+        debug_dir.mkdir(parents=True, exist_ok=True)
 
-        if self._phase1_mode:
-            return self._debug_dir / "phase1.jsonl"
+        if phase1_mode:
+            return debug_dir / "phase1.jsonl"
 
         # Use context item_id if set, otherwise use sample_id from the call
-        item_id = self._current_context or sample_id
-
-        # Sanitize for use as filename
+        item_id = context_item_id or sample_id
         safe_id = "".join(c if c.isalnum() or c in "-_" else "_" for c in item_id)
-        return self._debug_dir / f"{safe_id}.jsonl"
+        return debug_dir / f"{safe_id}.jsonl"
+
+    def _get_output_path(self, sample_id: str) -> Path:
+        """Get the output file path based on task-local context."""
+        output_dir = _output_dir_ctx.get() or self.output_dir
+        if not output_dir:
+            raise RuntimeError("Debug output_dir not initialized")
+        return self._get_output_path_for(
+            output_dir=output_dir,
+            sample_id=sample_id,
+            phase1_mode=_phase1_mode_ctx.get(),
+            context_item_id=_item_id_ctx.get(),
+        )
 
     def log_llm_call(
         self,
@@ -165,7 +194,7 @@ class DebugLogger:
             entry["metadata"] = metadata
 
         with self._lock:
-            if self.immediate_write and self._debug_dir:
+            if self.immediate_write:
                 # Write immediately to appropriate file
                 output_path = self._get_output_path(sample_id)
                 with open(output_path, "a") as f:
@@ -173,6 +202,9 @@ class DebugLogger:
             else:
                 # Buffer for later flush
                 entry["_sample_id"] = sample_id  # Store for routing during flush
+                entry["_output_dir"] = str(_output_dir_ctx.get() or self.output_dir or "")
+                entry["_phase1_mode"] = _phase1_mode_ctx.get()
+                entry["_context_item_id"] = _item_id_ctx.get()
                 self._entries.append(entry)
 
     def log_event(
@@ -198,7 +230,7 @@ class DebugLogger:
         }
 
         with self._lock:
-            if self.immediate_write and self._debug_dir:
+            if self.immediate_write:
                 # Write immediately to appropriate file
                 output_path = self._get_output_path(sample_id)
                 with open(output_path, "a") as f:
@@ -206,6 +238,9 @@ class DebugLogger:
             else:
                 # Buffer for later flush
                 entry["_sample_id"] = sample_id
+                entry["_output_dir"] = str(_output_dir_ctx.get() or self.output_dir or "")
+                entry["_phase1_mode"] = _phase1_mode_ctx.get()
+                entry["_context_item_id"] = _item_id_ctx.get()
                 self._entries.append(entry)
 
     def flush(self):
@@ -220,19 +255,38 @@ class DebugLogger:
             entries_to_write = list(self._entries)
             self._entries.clear()
 
-        # Group by sample_id and write to per-item files
-        by_sample: dict[str, list[dict]] = {}
+        # Group by (output_dir, sample_id) and write to per-item files
+        by_sample: dict[tuple[str, str], list[dict]] = {}
         for entry in entries_to_write:
             sid = entry.pop("_sample_id", "unknown")
-            if sid not in by_sample:
-                by_sample[sid] = []
-            by_sample[sid].append(entry)
+            output_dir = entry.pop("_output_dir", "") or ""
+            key = (output_dir, sid)
+            if key not in by_sample:
+                by_sample[key] = []
+            by_sample[key].append(entry)
 
         # Write per-sample files
-        for sample_id, entries in by_sample.items():
-            output_path = self._get_output_path(sample_id)
+        for (output_dir, sample_id), entries in by_sample.items():
+            if not output_dir:
+                # Fallback to default output_dir if missing
+                output_dir = str(self.output_dir or "")
+            if not output_dir:
+                continue
+            phase1_mode = False
+            context_item_id = None
+            if entries:
+                phase1_mode = entries[0].pop("_phase1_mode", False)
+                context_item_id = entries[0].pop("_context_item_id", None)
+            output_path = self._get_output_path_for(
+                output_dir=Path(output_dir),
+                sample_id=sample_id,
+                phase1_mode=phase1_mode,
+                context_item_id=context_item_id,
+            )
             with open(output_path, "a") as f:
                 for entry in entries:
+                    entry.pop("_phase1_mode", None)
+                    entry.pop("_context_item_id", None)
                     f.write(json.dumps(entry) + "\n")
 
     def get_entries(self, sample_id: Optional[str] = None) -> list[dict]:
