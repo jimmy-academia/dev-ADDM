@@ -1,8 +1,8 @@
 """Evaluation constants for ADDM benchmark.
 
-T* System: 5 tiers × 7 variants = 35 policies (T1P1, T1P2, etc.)
+T* System: 5 topics × 7 variants = 35 policies (T1P1, T1P2, etc.)
 
-Each tier has evidence fields and verdict mappings for evaluation.
+Each topic has evidence fields and verdict mappings for evaluation.
 """
 
 # Ordinal mapping for AUPRC computation (T1 default)
@@ -34,8 +34,8 @@ VERDICT_THRESHOLDS = {
 # Class names in order (low to high) - T1 default
 CLASS_NAMES = ["Low Risk", "High Risk", "Critical Risk"]
 
-# Evidence field definitions per tier
-# Each tier has a primary outcome field and values that constitute "evidence"
+# Evidence field definitions per topic
+# Each topic has a primary outcome field and values that constitute "evidence"
 # (non-neutral values that indicate something noteworthy happened)
 EVIDENCE_FIELDS = {
     "T1": {  # Allergy safety
@@ -70,16 +70,16 @@ def get_evidence_config(policy_id: str) -> dict:
     Returns:
         Dict with 'field' and 'evidence_values' keys
     """
-    # Extract tier from policy_id: "T1P1" -> "T1"
+    # Extract topic ID from policy_id: "T1P1" -> "T1"
     if len(policy_id) >= 2 and policy_id[0] == "T" and policy_id[1].isdigit():
-        tier = policy_id[:2]
-        return EVIDENCE_FIELDS.get(tier, EVIDENCE_FIELDS["T1"])
+        topic_id = policy_id[:2]
+        return EVIDENCE_FIELDS.get(topic_id, EVIDENCE_FIELDS["T1"])
 
     # Fallback
     return EVIDENCE_FIELDS["T1"]
 
 
-# Policy tier verdict mappings (ordinal: lowest=0 to highest=n)
+# Policy topic verdict mappings (ordinal: lowest=0 to highest=n)
 POLICY_VERDICTS = {
     "T1": ["Low Risk", "High Risk", "Critical Risk"],
     "T2": ["Poor Value", "Fair Value", "Good Value"],
@@ -98,11 +98,11 @@ def get_verdict_to_ordinal(policy_id: str) -> dict:
     Returns:
         Dict mapping verdict strings to ordinal values (0, 1, 2, ...)
     """
-    # Extract tier: "T1P1" -> "T1"
+    # Extract topic ID: "T1P1" -> "T1"
     if len(policy_id) >= 2 and policy_id[0] == "T" and policy_id[1].isdigit():
-        tier = policy_id[:2]
+        topic_id = policy_id[:2]
     else:
-        tier = "T1"  # fallback
+        topic_id = "T1"  # fallback
 
-    verdicts = POLICY_VERDICTS.get(tier, POLICY_VERDICTS["T1"])
+    verdicts = POLICY_VERDICTS.get(topic_id, POLICY_VERDICTS["T1"])
     return {v: i for i, v in enumerate(verdicts)}

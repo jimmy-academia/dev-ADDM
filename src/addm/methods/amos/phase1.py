@@ -1,9 +1,10 @@
-"""Phase 1: Agenda -> Terms + Verdict Rules.
+"""Phase 1: Agenda -> Agenda Spec (terms + verdict rules).
 
 Input: agenda string (natural language)
-Output: terms + verdict spec (no scoring)
+Output: agenda_spec (no scoring)
 """
 
+import asyncio
 import json
 import logging
 import time
@@ -14,19 +15,29 @@ from addm.utils.debug_logger import get_debug_logger
 from addm.utils.output import output
 
 from .phase1_prompts import (
-    OBSERVE_PROMPT,
-    EXTRACT_TERMS_PROMPT,
-    EXTRACT_VERDICTS_PROMPT,
-    REFINE_VERDICTS_PROMPT,
+    SEGMENT_AGENDA_PROMPT,
+    EXTRACT_VERDICT_LABELS_PROMPT,
+    EXTRACT_VERDICT_OUTLINE_PROMPT,
+    SELECT_REQUIRED_TERMS_PROMPT,
+    EXTRACT_TERM_DEF_PROMPT,
+    COMPILE_CLAUSE_PROMPT,
 )
 from .phase1_helpers import (
     extract_json_from_response,
     parse_json_safely,
-    normalize_terms,
-    normalize_verdict_rules,
-    validate_terms,
-    validate_verdict_spec,
-    referenced_fields_from_rules,
+    normalize_segment_blocks,
+    validate_segment_blocks,
+    normalize_verdict_labels,
+    validate_verdict_labels,
+    normalize_verdict_outline,
+    validate_verdict_outline,
+    normalize_required_terms,
+    validate_required_terms,
+    normalize_term_definition,
+    validate_term_definition,
+    normalize_clause_spec,
+    validate_clause_spec,
+    dedupe_preserve_order,
     accumulate_usage,
 )
 
@@ -37,156 +48,281 @@ ProgressCallback = Callable[[int, str, float, str], None]
 
 
 # =============================================================================
-# Step 0: OBSERVE (locate sections)
+# LLM call helper with validation retries
 # =============================================================================
 
-async def _observe(
+def _with_errors(base_prompt: str, errors: List[str], data: Dict[str, Any]) -> str:
+    error_lines = "\n".join(f"- {e}" for e in errors)
+    data_json = json.dumps(data, indent=2, ensure_ascii=True)
+    return (
+        f"{base_prompt}\n\n"
+        f"VALIDATION ERRORS:\n{error_lines}\n\n"
+        f"CURRENT OUTPUT (JSON):\n{data_json}\n\n"
+        "Fix the output to satisfy the errors. Return JSON ONLY."
+    )
+
+
+async def _call_llm_json_with_retries(
+    prompt: str,
+    llm: LLMService,
+    context: Dict[str, Any],
+    validator: Callable[[Dict[str, Any]], List[str]],
+    max_retries: int,
+) -> Tuple[Dict[str, Any], List[Dict[str, Any]]]:
+    usages: List[Dict[str, Any]] = []
+    base_prompt = prompt
+    attempt = 0
+
+    while True:
+        messages = [{"role": "user", "content": prompt}]
+        start_time = time.time()
+        response, usage = await llm.call_async_with_usage(
+            messages,
+            context={**context, "attempt": attempt},
+        )
+        usage["latency_ms"] = (time.time() - start_time) * 1000
+        usages.append(usage)
+
+        data: Dict[str, Any] = {}
+        errors: List[str] = []
+        try:
+            json_str = extract_json_from_response(response)
+            data = parse_json_safely(json_str)
+            errors = validator(data)
+        except Exception as e:  # noqa: BLE001 - surface error via retries
+            errors = [str(e)]
+
+        if not errors:
+            return data, usages
+
+        attempt += 1
+        if attempt > max_retries:
+            raise ValueError(
+                f"Validation failed after {max_retries} retries: {errors}"
+            )
+
+        prompt = _with_errors(base_prompt, errors, data)
+
+
+# =============================================================================
+# Step 0: Segment agenda
+# =============================================================================
+
+async def _segment_agenda(
     agenda: str,
     llm: LLMService,
     policy_id: str,
-) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    """Locate terms block and verdict rules block."""
-    prompt = OBSERVE_PROMPT.format(agenda=agenda)
-    messages = [{"role": "user", "content": prompt}]
+    max_retries: int,
+) -> Tuple[List[str], List[str], List[Dict[str, Any]]]:
+    prompt = SEGMENT_AGENDA_PROMPT.format(agenda=agenda)
 
-    start_time = time.time()
-    response, usage = await llm.call_async_with_usage(
-        messages,
+    def validator(data: Dict[str, Any]) -> List[str]:
+        definitions, verdicts = normalize_segment_blocks(data)
+        return validate_segment_blocks(definitions, verdicts)
+
+    data, usages = await _call_llm_json_with_retries(
+        prompt,
+        llm,
         context={
             "sample_id": policy_id,
-            "phase": "phase1_observe",
-            "step": "observe",
+            "phase": "phase1_segment",
+            "step": "segment_agenda",
             "policy_id": policy_id,
         },
+        validator=validator,
+        max_retries=max_retries,
     )
-    usage["latency_ms"] = (time.time() - start_time) * 1000
 
-    json_str = extract_json_from_response(response)
-    data = parse_json_safely(json_str)
-
-    return data, usage
+    definitions, verdicts = normalize_segment_blocks(data)
+    return definitions, verdicts, usages
 
 
 # =============================================================================
-# Step 1: Extract Verdict Rules
+# Step 1: Extract verdict labels
 # =============================================================================
 
-async def _extract_verdicts(
-    verdict_rules_block: str,
+async def _extract_verdict_labels(
+    verdict_text: str,
     llm: LLMService,
     policy_id: str,
-) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    """Extract verdict labels and rules from verdict rules block."""
-    prompt = EXTRACT_VERDICTS_PROMPT.format(verdict_rules_block=verdict_rules_block)
-    messages = [{"role": "user", "content": prompt}]
+    max_retries: int,
+) -> Tuple[List[str], str, List[Dict[str, Any]]]:
+    prompt = EXTRACT_VERDICT_LABELS_PROMPT.format(verdict_text=verdict_text)
 
-    start_time = time.time()
-    response, usage = await llm.call_async_with_usage(
-        messages,
+    def validator(data: Dict[str, Any]) -> List[str]:
+        verdicts, default_verdict = normalize_verdict_labels(data)
+        return validate_verdict_labels(verdicts, default_verdict)
+
+    data, usages = await _call_llm_json_with_retries(
+        prompt,
+        llm,
         context={
             "sample_id": policy_id,
-            "phase": "phase1_verdicts",
-            "step": "extract_verdicts",
+            "phase": "phase1_verdict_labels",
+            "step": "extract_verdict_labels",
             "policy_id": policy_id,
         },
+        validator=validator,
+        max_retries=max_retries,
     )
-    usage["latency_ms"] = (time.time() - start_time) * 1000
 
-    json_str = extract_json_from_response(response)
-    data = parse_json_safely(json_str)
-
-    if not data.get("verdicts") or not data.get("rules"):
-        raise ValueError("No verdicts or rules extracted from verdict rules block")
-
-    return data, usage
+    verdicts, default_verdict = normalize_verdict_labels(data)
+    return verdicts, default_verdict, usages
 
 
 # =============================================================================
-# Step 2: Ground / Repair Verdict Rules
+# Step 2: Extract verdict outline (per verdict)
 # =============================================================================
 
-async def _refine_verdicts(
-    verdict_rules_block: str,
-    terms_block: str,
-    verdict_data: Dict[str, Any],
+async def _extract_verdict_outline(
+    verdict_text: str,
+    target_verdict: str,
+    default_verdict: str,
     llm: LLMService,
     policy_id: str,
-) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    """Refine verdict rules using definitions to ground implicit qualifiers."""
-    verdict_json = json.dumps(verdict_data, indent=2, ensure_ascii=True)
-    prompt = REFINE_VERDICTS_PROMPT.format(
-        terms_block=terms_block,
-        verdict_rules_block=verdict_rules_block,
-        verdict_json=verdict_json,
+    max_retries: int,
+) -> Tuple[Dict[str, Any], List[Dict[str, Any]]]:
+    prompt = EXTRACT_VERDICT_OUTLINE_PROMPT.format(
+        verdict_text=verdict_text,
+        target_verdict=target_verdict,
+        default_verdict=default_verdict,
     )
-    messages = [{"role": "user", "content": prompt}]
 
-    start_time = time.time()
-    response, usage = await llm.call_async_with_usage(
-        messages,
+    def validator(data: Dict[str, Any]) -> List[str]:
+        outline = normalize_verdict_outline(data, target_verdict, default_verdict)
+        return validate_verdict_outline(outline, target_verdict, default_verdict)
+
+    data, usages = await _call_llm_json_with_retries(
+        prompt,
+        llm,
         context={
             "sample_id": policy_id,
-            "phase": "phase1_verdicts_refine",
-            "step": "refine_verdicts",
+            "phase": "phase1_verdict_outline",
+            "step": f"outline_{target_verdict}",
             "policy_id": policy_id,
         },
+        validator=validator,
+        max_retries=max_retries,
     )
-    usage["latency_ms"] = (time.time() - start_time) * 1000
 
-    json_str = extract_json_from_response(response)
-    data = parse_json_safely(json_str)
-
-    if not data.get("verdicts") or not data.get("rules"):
-        raise ValueError("No verdicts or rules extracted from refine step")
-
-    return data, usage
+    outline = normalize_verdict_outline(data, target_verdict, default_verdict)
+    return outline, usages
 
 
 # =============================================================================
-# Step 3: Extract Terms
+# Step 3: Select required terms (per non-default verdict)
 # =============================================================================
 
-def _format_required_fields(fields: List[str]) -> str:
-    """Format required fields for prompt readability."""
-    if not fields:
-        return "None"
-    return "\n".join(f"- {f}" for f in fields)
-
-
-async def _extract_terms(
-    terms_block: str,
-    required_fields: List[str],
+async def _select_required_terms(
+    definitions_text: str,
+    outline: Dict[str, Any],
     llm: LLMService,
     policy_id: str,
-) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
-    """Extract term definitions from definitions block."""
-    required_fields_text = _format_required_fields(required_fields)
-    prompt = EXTRACT_TERMS_PROMPT.format(
-        terms_block=terms_block,
-        required_fields=required_fields_text,
+    max_retries: int,
+) -> Tuple[List[str], List[Dict[str, Any]]]:
+    outline_json = json.dumps(outline, indent=2, ensure_ascii=True)
+    prompt = SELECT_REQUIRED_TERMS_PROMPT.format(
+        definitions_text=definitions_text,
+        outline_json=outline_json,
     )
-    messages = [{"role": "user", "content": prompt}]
 
-    start_time = time.time()
-    response, usage = await llm.call_async_with_usage(
-        messages,
+    def validator(data: Dict[str, Any]) -> List[str]:
+        required = normalize_required_terms(data)
+        return validate_required_terms(required, definitions_text)
+
+    data, usages = await _call_llm_json_with_retries(
+        prompt,
+        llm,
         context={
             "sample_id": policy_id,
-            "phase": "phase1_terms",
-            "step": "extract_terms",
+            "phase": "phase1_required_terms",
+            "step": f"required_terms_{outline.get('verdict')}",
             "policy_id": policy_id,
         },
+        validator=validator,
+        max_retries=max_retries,
     )
-    usage["latency_ms"] = (time.time() - start_time) * 1000
 
-    json_str = extract_json_from_response(response)
-    data = parse_json_safely(json_str)
+    required = normalize_required_terms(data)
+    return required, usages
 
-    terms = data.get("terms", [])
-    if not terms:
-        raise ValueError("No terms extracted from definitions block")
 
-    return terms, usage
+# =============================================================================
+# Step 4: Extract term definition (per term)
+# =============================================================================
+
+async def _extract_term_definition(
+    definitions_text: str,
+    term_title: str,
+    llm: LLMService,
+    policy_id: str,
+    max_retries: int,
+) -> Tuple[Dict[str, Any], List[Dict[str, Any]]]:
+    prompt = EXTRACT_TERM_DEF_PROMPT.format(
+        definitions_text=definitions_text,
+        term_title=term_title,
+    )
+
+    def validator(data: Dict[str, Any]) -> List[str]:
+        term = normalize_term_definition(data, term_title)
+        return validate_term_definition(term, term_title)
+
+    data, usages = await _call_llm_json_with_retries(
+        prompt,
+        llm,
+        context={
+            "sample_id": policy_id,
+            "phase": "phase1_term_def",
+            "step": f"term_{term_title}",
+            "policy_id": policy_id,
+        },
+        validator=validator,
+        max_retries=max_retries,
+    )
+
+    term = normalize_term_definition(data, term_title)
+    return term, usages
+
+
+# =============================================================================
+# Step 5: Compile clause (per clause)
+# =============================================================================
+
+async def _compile_clause(
+    clause_text: str,
+    terms_payload: List[Dict[str, Any]],
+    llm: LLMService,
+    policy_id: str,
+    max_retries: int,
+    step_label: str,
+) -> Tuple[Dict[str, Any], List[Dict[str, Any]]]:
+    terms_json = json.dumps(terms_payload, indent=2, ensure_ascii=True)
+    prompt = COMPILE_CLAUSE_PROMPT.format(
+        clause_text=clause_text,
+        terms_json=terms_json,
+    )
+
+    term_values_map = {t["field"]: t["values"] for t in terms_payload}
+
+    def validator(data: Dict[str, Any]) -> List[str]:
+        clause = normalize_clause_spec(data)
+        return validate_clause_spec(clause, term_values_map)
+
+    data, usages = await _call_llm_json_with_retries(
+        prompt,
+        llm,
+        context={
+            "sample_id": policy_id,
+            "phase": "phase1_compile_clause",
+            "step": step_label,
+            "policy_id": policy_id,
+        },
+        validator=validator,
+        max_retries=max_retries,
+    )
+
+    clause = normalize_clause_spec(data)
+    return clause, usages
 
 
 # =============================================================================
@@ -198,17 +334,14 @@ async def generate_verdict_and_terms(
     policy_id: str,
     llm: LLMService,
     progress_callback: Optional[ProgressCallback] = None,
+    max_retries: int = 3,
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    """Generate Phase 1 outputs: verdict spec + term definitions.
+    """Generate Phase 1 agenda spec.
 
     Returns:
-        (spec, usage)
-        spec = {
-          "terms": [TermDef, ...],
-          "verdict": {"verdicts": [...], "rules": [...]}
-        }
+        (agenda_spec, usage)
     """
-    all_usages = []
+    all_usages: List[Dict[str, Any]] = []
 
     # Route debug logs to debug/phase1.jsonl if enabled
     if debug_logger := get_debug_logger():
@@ -218,82 +351,165 @@ async def generate_verdict_and_terms(
         if progress_callback:
             progress_callback(1, step, progress, detail)
 
-    # Step 0: OBSERVE
-    report("OBSERVE", 5, "locating sections")
-    output.status("[Phase 1] Step 0/4: OBSERVE (locating sections)...")
-    observations, usage0 = await _observe(agenda, llm, policy_id)
-    all_usages.append(usage0)
-
-    terms_block = observations.get("terms_block", "") or observations.get("definitions_block", "")
-    verdict_block = observations.get("verdict_rules_block", "") or observations.get("verdicts_block", "")
-    verdict_labels = observations.get("verdict_labels", []) or []
-    if verdict_labels:
-        output.status(f"[Phase 1] OBSERVE: {len(verdict_labels)} verdict labels found")
-
-    if not terms_block:
-        logger.warning("OBSERVE returned empty terms_block; using full agenda")
-        terms_block = agenda
-    if not verdict_block:
-        logger.warning("OBSERVE returned empty verdict_rules_block; using full agenda")
-        verdict_block = agenda
-
-    # Step 1: Verdicts (raw)
-    report("VERDICTS", 25, "extracting verdict rules")
-    output.status("[Phase 1] Step 1/4: Extracting verdict rules...")
-    verdict_data_raw, usage1 = await _extract_verdicts(verdict_block, llm, policy_id)
-    all_usages.append(usage1)
-
-    # Step 2: Ground / Repair Verdicts with definitions
-    report("GROUND_RULES", 50, "grounding verdict rules to definitions")
-    output.status("[Phase 1] Step 2/4: Grounding verdict rules to definitions...")
-    verdict_data, usage2 = await _refine_verdicts(
-        verdict_block,
-        terms_block,
-        verdict_data_raw,
+    # Step 0: Segment
+    report("SEGMENT", 5, "segmenting agenda")
+    output.status("[Phase 1] Step 0/6: Segmenting agenda...")
+    definitions_blocks, verdict_blocks, usages0 = await _segment_agenda(
+        agenda,
         llm,
         policy_id,
+        max_retries,
     )
-    all_usages.append(usage2)
+    all_usages.extend(usages0)
 
-    verdicts = verdict_data.get("verdicts", [])
-    rules = normalize_verdict_rules(verdict_data.get("rules", []))
-    output.status(f"[Phase 1] Extracted {len(verdicts)} verdicts, {len(rules)} rules")
+    definitions_text = "\n\n".join(definitions_blocks)
+    verdict_text = "\n\n".join(verdict_blocks)
 
-    referenced = referenced_fields_from_rules(rules)
-    if not referenced:
-        raise ValueError("No referenced fields found in verdict rules")
-    output.status(f"[Phase 1] Referenced fields: {', '.join(referenced)}")
+    # Step 1: Verdict labels
+    report("VERDICT_LABELS", 15, "extracting verdict labels")
+    output.status("[Phase 1] Step 1/6: Extracting verdict labels...")
+    verdicts, default_verdict, usages1 = await _extract_verdict_labels(
+        verdict_text,
+        llm,
+        policy_id,
+        max_retries,
+    )
+    all_usages.extend(usages1)
+    output.status(
+        f"[Phase 1] Verdicts: {len(verdicts)} (default={default_verdict})"
+    )
 
-    # Step 3: Terms (only those referenced by rules)
-    report("TERMS", 75, "extracting terms")
-    output.status("[Phase 1] Step 3/4: Extracting terms...")
-    raw_terms, usage3 = await _extract_terms(terms_block, referenced, llm, policy_id)
-    all_usages.append(usage3)
-    terms = normalize_terms(raw_terms)
+    # Step 2: Verdict outlines (parallel per verdict)
+    report("VERDICT_OUTLINES", 30, "extracting verdict outlines")
+    output.status("[Phase 1] Step 2/6: Extracting verdict outlines...")
+    outline_tasks = [
+        _extract_verdict_outline(
+            verdict_text,
+            v,
+            default_verdict,
+            llm,
+            policy_id,
+            max_retries,
+        )
+        for v in verdicts
+    ]
+    outline_results = await asyncio.gather(*outline_tasks)
+    outlines = []
+    for outline, usages in outline_results:
+        outlines.append(outline)
+        all_usages.extend(usages)
 
-    # Keep only required fields and ensure all are present
-    terms = [t for t in terms if t.get("name") in referenced]
-    missing_terms = [f for f in referenced if f not in {t.get("name") for t in terms}]
-    if missing_terms:
-        raise ValueError(f"Missing term definitions for: {missing_terms}")
+    # Step 3: Required terms (parallel per non-default verdict)
+    report("REQUIRED_TERMS", 45, "selecting required terms")
+    output.status("[Phase 1] Step 3/6: Selecting required terms...")
+    required_tasks = [
+        _select_required_terms(
+            definitions_text,
+            o,
+            llm,
+            policy_id,
+            max_retries,
+        )
+        for o in outlines
+        if not o.get("default")
+    ]
+    required_results = await asyncio.gather(*required_tasks) if required_tasks else []
+    required_titles: List[str] = []
+    for titles, usages in required_results:
+        required_titles.extend(titles)
+        all_usages.extend(usages)
+    required_titles = dedupe_preserve_order(required_titles)
+    output.status(f"[Phase 1] Required terms: {len(required_titles)}")
 
+    # Step 4: Term definitions (parallel per term)
+    report("TERM_DEFS", 60, "extracting term definitions")
+    output.status("[Phase 1] Step 4/6: Extracting term definitions...")
+    term_tasks = [
+        _extract_term_definition(
+            definitions_text,
+            title,
+            llm,
+            policy_id,
+            max_retries,
+        )
+        for title in required_titles
+    ]
+    term_results = await asyncio.gather(*term_tasks) if term_tasks else []
+    terms: List[Dict[str, Any]] = []
+    for term, usages in term_results:
+        terms.append(term)
+        all_usages.extend(usages)
     output.status(f"[Phase 1] Extracted {len(terms)} terms")
 
-    term_errors = validate_terms(terms)
-    if term_errors:
-        raise ValueError(f"Term validation failed: {term_errors}")
+    # Prepare terms payload for clause compilation
+    terms_payload = [
+        {
+            "field": t.get("field"),
+            "title": t.get("title"),
+            "values": t.get("values", []),
+            "descriptions": t.get("descriptions", {}),
+        }
+        for t in terms
+    ]
 
-    verdict_errors = validate_verdict_spec(verdicts, rules, terms)
-    if verdict_errors:
-        raise ValueError(f"Verdict validation failed: {verdict_errors}")
+    # Step 5: Compile clauses (parallel per clause)
+    report("COMPILE_CLAUSES", 80, "compiling clauses")
+    output.status("[Phase 1] Step 5/6: Compiling clauses...")
+    groups: List[Dict[str, Any]] = []
+    for outline in outlines:
+        if outline.get("default"):
+            groups.append({"verdict": outline["verdict"], "default": True})
+            continue
 
-    spec = {
-        "terms": terms,
-        "verdict": {
-            "verdicts": verdicts,
-            "rules": rules,
-        },
+        clause_texts = outline.get("clause_texts", [])
+        clause_tasks = []
+        for idx, clause_text in enumerate(clause_texts):
+            step_label = f"{outline.get('verdict')}_clause_{idx + 1}"
+            clause_tasks.append(
+                _compile_clause(
+                    clause_text,
+                    terms_payload,
+                    llm,
+                    policy_id,
+                    max_retries,
+                    step_label=step_label,
+                )
+            )
+
+        clause_results = await asyncio.gather(*clause_tasks) if clause_tasks else []
+        clauses: List[Dict[str, Any]] = []
+        for clause, usages in clause_results:
+            clauses.append(clause)
+            all_usages.extend(usages)
+
+        groups.append({
+            "verdict": outline["verdict"],
+            "connective": outline["connective"],
+            "clauses": clauses,
+        })
+
+    # Step 6: Assemble + validate
+    report("ASSEMBLE", 95, "assembling agenda spec")
+    output.status("[Phase 1] Step 6/6: Assembling agenda spec...")
+
+    verdict_spec = {
+        "verdicts": verdicts,
+        "groups": groups,
     }
+
+    agenda_spec = {
+        "terms": terms,
+        "verdict": verdict_spec,
+    }
+
+    # Final validation: ensure exactly one default group and all verdicts covered
+    default_groups = [g for g in groups if g.get("default")]
+    if len(default_groups) != 1:
+        raise ValueError("Expected exactly one default verdict group")
+
+    group_verdicts = [g.get("verdict") for g in groups]
+    if set(group_verdicts) != set(verdicts):
+        raise ValueError("Verdict groups do not cover all verdict labels")
 
     usage = accumulate_usage(all_usages)
 
@@ -301,9 +517,11 @@ async def generate_verdict_and_terms(
     if debug_logger := get_debug_logger():
         debug_logger.clear_context()
 
-    output.status(f"[Phase 1] Complete: {len(terms)} terms, {len(rules)} rules")
+    output.status(
+        f"[Phase 1] Complete: {len(terms)} terms, {len(groups)} groups"
+    )
 
-    return spec, usage
+    return agenda_spec, usage
 
 
 __all__ = [

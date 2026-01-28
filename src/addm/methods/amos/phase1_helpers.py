@@ -60,10 +60,32 @@ def parse_json_safely(json_str: str) -> Dict[str, Any]:
 
 
 # =============================================================================
-# Normalization
+# Normalization helpers
 # =============================================================================
 
 _NON_ALNUM = re.compile(r"[^A-Za-z0-9]+")
+
+
+def _as_list(value: Any) -> List[str]:
+    if value is None:
+        return []
+    if isinstance(value, list):
+        return [str(v).strip() for v in value if str(v).strip()]
+    if isinstance(value, str):
+        value = value.strip()
+        return [value] if value else []
+    return []
+
+
+def dedupe_preserve_order(items: Iterable[str]) -> List[str]:
+    seen = set()
+    output = []
+    for item in items:
+        if item in seen:
+            continue
+        seen.add(item)
+        output.append(item)
+    return output
 
 
 def normalize_term_name(name: str) -> str:
@@ -75,191 +97,240 @@ def normalize_term_name(name: str) -> str:
     return cleaned.upper()
 
 
-def normalize_terms(terms: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """Normalize term list: names + values + descriptions."""
-    normalized = []
-    for term in terms:
-        if not isinstance(term, dict):
-            continue
-        name = normalize_term_name(term.get("name", ""))
-        values = term.get("values", [])
-        descriptions = term.get("descriptions") or {}
-
-        # Allow values to be dict (keys as values)
-        if isinstance(values, dict):
-            values_list = [str(v) for v in values.keys()]
-        elif isinstance(values, list):
-            values_list = [str(v) for v in values]
-        else:
-            values_list = []
-
-        # Normalize descriptions to string keys
-        if not isinstance(descriptions, dict):
-            descriptions = {}
-        descriptions_norm = {str(k): str(v) for k, v in descriptions.items()}
-
-        normalized.append({
-            "name": name,
-            "type": "enum",
-            "values": values_list,
-            "descriptions": descriptions_norm,
-        })
-    return normalized
-
-
-def normalize_verdict_rules(rules: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """Normalize rule fields (logic, field names)."""
-    normalized = []
-    for rule in rules:
-        if not isinstance(rule, dict):
-            continue
-        if rule.get("default"):
-            normalized.append({"verdict": rule.get("verdict"), "default": True})
-            continue
-
-        logic = str(rule.get("logic") or "ANY").upper()
-        if logic not in ("ANY", "ALL"):
-            logic = "ANY"
-
-        conditions = []
-        for cond in rule.get("conditions", []) or []:
-            if not isinstance(cond, dict):
-                continue
-            field = normalize_term_name(cond.get("field", ""))
-            values = cond.get("values", [])
-            if isinstance(values, list):
-                values_list = [str(v) for v in values]
-            elif isinstance(values, dict):
-                values_list = [str(v) for v in values.keys()]
-            else:
-                values_list = []
-            min_count = cond.get("min_count", 1)
-            try:
-                min_count = int(min_count)
-            except (TypeError, ValueError):
-                min_count = 1
-
-            conditions.append({
-                "field": field,
-                "values": values_list,
-                "min_count": min_count,
-            })
-
-        normalized.append({
-            "verdict": rule.get("verdict"),
-            "logic": logic,
-            "conditions": conditions,
-        })
-
-    return normalized
-
-
 # =============================================================================
-# Validation
+# Segment blocks
 # =============================================================================
 
-def validate_terms(terms: List[Dict[str, Any]]) -> List[str]:
-    """Validate term definitions."""
+def normalize_segment_blocks(data: Dict[str, Any]) -> Tuple[List[str], List[str]]:
+    definitions = (
+        data.get("definitions_blocks")
+        or data.get("definitions_block")
+        or data.get("terms_block")
+        or []
+    )
+    verdicts = (
+        data.get("verdict_rules_blocks")
+        or data.get("verdict_rules_block")
+        or data.get("verdicts_block")
+        or []
+    )
+    return _as_list(definitions), _as_list(verdicts)
+
+
+def validate_segment_blocks(definitions: List[str], verdicts: List[str]) -> List[str]:
     errors = []
-    seen = set()
-    for i, term in enumerate(terms):
-        name = term.get("name", "")
-        if not name:
-            errors.append(f"terms[{i}] missing name")
-            continue
-        name_upper = name.upper()
-        if name_upper in seen:
-            errors.append(f"duplicate term name: {name}")
-        seen.add(name_upper)
-
-        values = term.get("values", [])
-        if not isinstance(values, list) or not values:
-            errors.append(f"term '{name}' has no values")
-        else:
-            # Ensure unique values (case-sensitive)
-            if len(values) != len(list(dict.fromkeys(values))):
-                errors.append(f"term '{name}' has duplicate values")
+    if not definitions:
+        errors.append("definitions_blocks is empty")
+    if not verdicts:
+        errors.append("verdict_rules_blocks is empty")
     return errors
 
 
-def validate_verdict_spec(
-    verdicts: List[str],
-    rules: List[Dict[str, Any]],
-    terms: List[Dict[str, Any]],
-) -> List[str]:
-    """Validate verdict labels and rules against terms."""
-    errors = []
+# =============================================================================
+# Verdict labels
+# =============================================================================
 
+def normalize_verdict_labels(data: Dict[str, Any]) -> Tuple[List[str], str]:
+    verdicts = _as_list(data.get("verdicts") or data.get("verdict_labels"))
+    default_verdict = str(
+        data.get("default_verdict")
+        or data.get("default")
+        or ""
+    ).strip()
+    return verdicts, default_verdict
+
+
+def validate_verdict_labels(verdicts: List[str], default_verdict: str) -> List[str]:
+    errors = []
     if not verdicts:
         errors.append("verdicts list is empty")
+    if default_verdict and default_verdict not in verdicts:
+        errors.append("default_verdict not in verdicts list")
+    if not default_verdict:
+        errors.append("default_verdict missing")
+    if len(verdicts) != len(dedupe_preserve_order(verdicts)):
+        errors.append("verdicts list contains duplicates")
+    return errors
 
-    term_map = {t["name"]: set(t.get("values", [])) for t in terms if t.get("name")}
 
-    # Exactly one default rule
-    defaults = [r for r in rules if r.get("default")]
-    if len(defaults) != 1:
-        errors.append(f"expected exactly one default rule, got {len(defaults)}")
+# =============================================================================
+# Verdict outline (per verdict)
+# =============================================================================
 
-    for i, rule in enumerate(rules):
-        verdict = rule.get("verdict")
-        if not verdict:
-            errors.append(f"rules[{i}] missing verdict")
-            continue
-        if verdicts and verdict not in verdicts:
-            errors.append(f"rules[{i}] verdict '{verdict}' not in verdicts list")
+def normalize_verdict_outline(
+    data: Dict[str, Any],
+    target_verdict: str,
+    default_verdict: str,
+) -> Dict[str, Any]:
+    verdict = str(data.get("verdict") or target_verdict).strip()
+    if verdict == default_verdict or data.get("default"):
+        return {
+            "verdict": target_verdict,
+            "default": True,
+            "hint_texts": _as_list(data.get("hint_texts")),
+        }
 
-        if rule.get("default"):
-            if rule.get("conditions"):
-                errors.append(f"default rule '{verdict}' must not have conditions")
-            continue
+    connective = str(data.get("connective") or data.get("logic") or "").upper().strip()
+    clause_texts = _as_list(data.get("clause_texts"))
+    return {
+        "verdict": verdict,
+        "connective": connective,
+        "clause_texts": clause_texts,
+    }
 
-        conditions = rule.get("conditions", [])
-        if not conditions:
-            errors.append(f"rule '{verdict}' has no conditions")
-            continue
 
-        for j, cond in enumerate(conditions):
-            field = cond.get("field")
-            values = cond.get("values", [])
-            min_count = cond.get("min_count", 1)
+def validate_verdict_outline(
+    outline: Dict[str, Any],
+    target_verdict: str,
+    default_verdict: str,
+) -> List[str]:
+    errors = []
+    verdict = outline.get("verdict")
+    if verdict != target_verdict:
+        errors.append("verdict label does not match target_verdict")
 
-            if not field:
-                errors.append(f"rules[{i}].conditions[{j}] missing field")
-                continue
-            if field not in term_map:
-                errors.append(f"rules[{i}].conditions[{j}] field '{field}' not defined in terms")
-                continue
-            if not values:
-                errors.append(f"rules[{i}].conditions[{j}] has no values")
-                continue
+    if outline.get("default"):
+        # Default verdict must not include clauses
+        if outline.get("clause_texts"):
+            errors.append("default verdict must not include clause_texts")
+        return errors
 
-            term_values = term_map[field]
-            for v in values:
-                if v not in term_values:
-                    errors.append(
-                        f"rules[{i}].conditions[{j}] value '{v}' not in term '{field}' values"
-                    )
+    connective = outline.get("connective")
+    if connective not in ("ANY", "ALL"):
+        errors.append("connective must be ANY or ALL")
 
-            try:
-                if int(min_count) < 1:
-                    errors.append(f"rules[{i}].conditions[{j}] min_count must be >= 1")
-            except (TypeError, ValueError):
-                errors.append(f"rules[{i}].conditions[{j}] min_count must be int")
+    clause_texts = outline.get("clause_texts", [])
+    if not isinstance(clause_texts, list) or not clause_texts:
+        errors.append("clause_texts is empty")
 
     return errors
 
 
-def referenced_fields_from_rules(rules: List[Dict[str, Any]]) -> List[str]:
-    """Get unique field names referenced by rules."""
-    fields = []
-    for rule in rules:
-        if rule.get("default"):
+# =============================================================================
+# Required terms
+# =============================================================================
+
+def normalize_required_terms(data: Dict[str, Any]) -> List[str]:
+    titles = _as_list(
+        data.get("required_term_titles")
+        or data.get("required_terms")
+        or data.get("terms")
+    )
+    return dedupe_preserve_order(titles)
+
+
+def validate_required_terms(required: List[str], definitions_text: str) -> List[str]:
+    errors = []
+    if not required:
+        errors.append("required_term_titles is empty")
+        return errors
+    for title in required:
+        if title not in definitions_text:
+            errors.append(f"term title not found in definitions: {title}")
+    return errors
+
+
+# =============================================================================
+# Term definition spec
+# =============================================================================
+
+def normalize_term_definition(
+    data: Dict[str, Any],
+    requested_title: str,
+) -> Dict[str, Any]:
+    title = str(data.get("term_title") or data.get("title") or requested_title).strip()
+    values = _as_list(data.get("values"))
+    descriptions = data.get("descriptions") or {}
+    if not isinstance(descriptions, dict):
+        descriptions = {}
+    descriptions = {str(k): str(v) for k, v in descriptions.items()}
+
+    return {
+        "title": title,
+        "field": normalize_term_name(title),
+        "type": "enum",
+        "values": values,
+        "descriptions": descriptions,
+    }
+
+
+def validate_term_definition(term: Dict[str, Any], requested_title: str) -> List[str]:
+    errors = []
+    title = term.get("title", "")
+    if title != requested_title:
+        errors.append("term_title does not match requested title")
+
+    values = term.get("values", [])
+    if not isinstance(values, list) or not values:
+        errors.append("values must be a non-empty list")
+    elif len(values) != len(dedupe_preserve_order(values)):
+        errors.append("values contains duplicates")
+
+    descriptions = term.get("descriptions", {})
+    if not isinstance(descriptions, dict):
+        errors.append("descriptions must be a dict")
+    else:
+        for k in descriptions.keys():
+            if k not in values:
+                errors.append(f"description key '{k}' not in values")
+
+    return errors
+
+
+# =============================================================================
+# Clause spec (per clause)
+# =============================================================================
+
+def normalize_clause_spec(data: Dict[str, Any]) -> Dict[str, Any]:
+    try:
+        min_count = int(data.get("min_count", 1))
+    except (TypeError, ValueError):
+        min_count = 1
+
+    conditions = []
+    for cond in data.get("conditions", []) or []:
+        if not isinstance(cond, dict):
             continue
-        for cond in rule.get("conditions", []) or []:
-            field = cond.get("field")
-            if field and field not in fields:
-                fields.append(field)
-    return fields
+        field = normalize_term_name(cond.get("field", ""))
+        values = _as_list(cond.get("values"))
+        conditions.append({"field": field, "values": values})
+
+    return {"min_count": min_count, "conditions": conditions}
+
+
+def validate_clause_spec(
+    clause: Dict[str, Any],
+    term_values_map: Dict[str, List[str]],
+) -> List[str]:
+    errors = []
+    min_count = clause.get("min_count")
+    if not isinstance(min_count, int) or min_count < 1:
+        errors.append("min_count must be int >= 1")
+
+    conditions = clause.get("conditions", [])
+    if not isinstance(conditions, list) or not conditions:
+        errors.append("conditions must be a non-empty list")
+        return errors
+
+    for idx, cond in enumerate(conditions):
+        field = cond.get("field")
+        if not field:
+            errors.append(f"conditions[{idx}] missing field")
+            continue
+        if field not in term_values_map:
+            errors.append(f"conditions[{idx}] field '{field}' not in terms")
+            continue
+        values = cond.get("values", [])
+        if not values:
+            errors.append(f"conditions[{idx}] values empty")
+            continue
+        allowed = set(term_values_map[field])
+        for v in values:
+            if v not in allowed:
+                errors.append(
+                    f"conditions[{idx}] value '{v}' not in {field} values"
+                )
+    return errors
 
 
 # =============================================================================

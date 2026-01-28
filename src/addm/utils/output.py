@@ -328,11 +328,11 @@ class MultiPolicyProgress:
                     "Quota met",
                 )
             elif isinstance(result, dict) and result.get("phase") == "1":
-                summary = result.get("seed_summary", {})
+                summary = result.get("agenda_spec_summary", {})
                 table.add_row(
                     policy_id,
                     "[green]✓ OK[/green]",
-                    f"Phase 1: kw={summary.get('keywords', '?')} fld={summary.get('fields', '?')}",
+                    f"Phase 1: terms={summary.get('terms', '?')} verdicts={summary.get('verdicts', '?')} groups={summary.get('groups', '?')} clauses={summary.get('clauses', '?')}",
                 )
             elif isinstance(result, dict):
                 accuracy = result.get("accuracy", 0)

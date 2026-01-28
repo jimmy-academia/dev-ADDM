@@ -1,7 +1,7 @@
 """
 CLI: Run experiment evaluation (all methods: direct, rlm, rag, amos).
 
-T* System: 5 tiers × 7 variants = 35 policies (T1P1, T1P2, ..., T5P7)
+T* System: 5 topics × 7 variants = 35 policies (T1P1, T1P2, ..., T5P7)
 
 Usage:
     # Run ALL 35 policies (omit --policy)
@@ -13,8 +13,8 @@ Usage:
     # Multiple policies (comma-separated)
     .venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1,T1P2 --dev
 
-    # All variants for a tier
-    .venv/bin/python -m addm.tasks.cli.run_experiment --tier T1 --dev
+    # All variants for a topic
+    .venv/bin/python -m addm.tasks.cli.run_experiment --topic T1 --dev
 
     # Dev mode (saves to results/dev/, no quota)
     .venv/bin/python -m addm.tasks.cli.run_experiment --policy T1P1 -n 5 --dev
@@ -64,17 +64,7 @@ from addm.utils.usage import compute_cost
 
 
 # Import ALL_POLICIES and expand_policies from shared constants
-from addm.tasks.constants import ALL_POLICIES, expand_policies
-
-# Mapping from T* tier to G* topic for ground truth lookup
-# T* policies reuse G* GT files from previous benchmark
-TIER_TO_GT_TOPIC = {
-    "T1": "G1_allergy",
-    "T2": "G3_price_worth",
-    "T3": "G4_environment",
-    "T4": "G5_execution",
-    "T5": "G4_server",
-}
+from addm.tasks.constants import ALL_POLICIES, expand_policies, TOPIC_ID_TO_GT_TOPIC
 
 
 # =============================================================================
@@ -172,9 +162,9 @@ def get_gt_policy_id(policy_id: str) -> str:
     Returns:
         Policy ID for GT lookup (e.g., "G1_allergy_V1" or "T1P3")
     """
-    # Extract tier: "T1P1" -> "T1"
+    # Extract topic ID: "T1P1" -> "T1"
     if len(policy_id) >= 2 and policy_id[0] == "T" and policy_id[1].isdigit():
-        tier = policy_id[:2]
+        topic_id = policy_id[:2]
         variant = policy_id[2:] if len(policy_id) > 2 else "P1"  # e.g., "P1"
     else:
         return policy_id  # Not a T* policy
@@ -183,7 +173,7 @@ def get_gt_policy_id(policy_id: str) -> str:
     if variant == "P3":
         return policy_id  # Use T1P3, T2P3, etc.
 
-    g_topic = TIER_TO_GT_TOPIC.get(tier, tier)
+    g_topic = TOPIC_ID_TO_GT_TOPIC.get(topic_id, topic_id)
 
     # Map variant: P2 → V2, all others → V1
     if variant == "P2":
@@ -603,6 +593,7 @@ async def run_experiment(
     batch_id: Optional[str] = None,
     top_k: int = 20,
     batch_size: int = 10,
+    phase1_retries: int = 3,
     sample_ids: Optional[List[str]] = None,
     phase: Optional[str] = None,
     seed_path: Optional[str] = None,
@@ -629,6 +620,7 @@ async def run_experiment(
         mode: Explicit mode override ("ondemand" or "batch").
               In benchmark mode, auto-selected based on quota state if not specified.
         batch_size: AMOS reviews per LLM call
+        phase1_retries: AMOS Phase 1 validation retries per step
         sample_ids: If provided, only run on these specific business IDs (filters dataset)
         phase: AMOS phase control: '1' (generate seed only), '2' (use seed_path), '1,2' or None (both)
         seed_path: Path to Formula Seed file or directory for --phase 2
@@ -1040,114 +1032,21 @@ Let's think through this step-by-step:"""
                         "cache_hit_retrieval": raw_result.get("cache_hit_retrieval", False),
                     })
         elif method == "amos":
-            # AMOS method - Agenda-Driven Mining with Observable Steps
-            from addm.methods import build_method_registry
-            from addm.data.types import Sample
+            # AMOS method - delegate policy-level orchestration
+            from addm.methods.amos_method import run_amos_policy
 
-            registry = build_method_registry()
-            amos_class = registry.get("amos")
-            amos_method = amos_class(
-                policy_id=run_id,
-                max_concurrent=256,
-                batch_size=batch_size,
+            return await run_amos_policy(
+                run_id=run_id,
+                agenda=agenda,
+                restaurants=restaurants,
+                output_dir=output_dir,
+                llm=llm,
                 system_prompt=system_prompt,
+                batch_size=batch_size,
+                phase=phase,
                 progress_callback=progress_callback,
+                phase1_retries=phase1_retries,
             )
-
-            # Convert restaurants to Sample objects
-            samples = [
-                Sample(
-                    sample_id=r["business"]["business_id"],
-                    query=agenda,
-                    context=json.dumps(r),
-                    metadata={"restaurant_name": r["business"]["name"]},
-                )
-                for r in restaurants
-            ]
-
-            # Handle phase control (Phase 1 only for now)
-            if phase == "2":
-                raise ValueError("AMOS Phase 2 is not wired yet. Use --phase 1.")
-
-            # Phase 1: Extract verdict rules + term definitions
-            phase1_spec = await amos_method.generate_phase1(agenda, llm)
-
-            # Handle phase=1: exit after Phase 1 without running samples
-            if phase == "1":
-                # Save Phase 1 outputs
-                amos_method.save_phase1_outputs_to_run_dir(output_dir)
-                phase1_output_path = output_dir / "phase1_outputs.json"
-
-                # Print summary
-                terms = phase1_spec.get("terms", [])
-                verdict_spec = phase1_spec.get("verdict", {})
-                verdicts = verdict_spec.get("verdicts", [])
-                rules = verdict_spec.get("rules", [])
-
-                output.success(f"Phase 1 complete: {run_id}")
-                output.print(f"  Terms: {len(terms)}")
-                output.print(f"  Verdicts: {len(verdicts)}")
-                output.print(f"  Rules: {len(rules)}")
-                output.print(f"  Saved to: {phase1_output_path}")
-
-                return {
-                    "phase": "1",
-                    "policy_id": run_id,
-                    "output_dir": str(output_dir),
-                    "phase1": phase1_spec,
-                    "seed_summary": {
-                        "terms": len(terms),
-                        "verdicts": len(verdicts),
-                        "rules": len(rules),
-                    },
-                }
-
-            # Phase 2 not implemented yet
-            raise ValueError("AMOS Phase 2 is not wired yet. Use --phase 1.")
-
-            # Run all samples in parallel (Phase 2 only)
-            async def process_amos_sample(sample: Sample) -> Dict[str, Any]:
-                raw_result = await amos_method.run_sample(sample, llm)
-                restaurant = next((r for r in restaurants if r["business"]["business_id"] == raw_result["sample_id"]), None)
-                if not restaurant:
-                    return None
-
-                # Extract verdict directly from AMOS output (no normalization)
-                # Each policy defines its own verdict labels (e.g., "Low Risk", "Recommended", "Good Value")
-                # Hardcoded normalization was breaking non-risk tasks (G2-G6)
-                verdict = raw_result.get("verdict")
-
-                # AMOS now returns standard output format in `parsed` field
-                # This matches the output_schema.txt structure
-                parsed = raw_result.get("parsed", {})
-
-                return {
-                    "business_id": raw_result["sample_id"],
-                    "name": restaurant["business"]["name"],
-                    "response": raw_result.get("output", ""),
-                    "parsed": parsed,  # Standard output format: {verdict, evidences, justification}
-                    "verdict": verdict,
-                    "risk_score": raw_result.get("risk_score"),
-                    "prompt_chars": raw_result.get("prompt_tokens", 0) * 4,
-                    # Token and latency metrics
-                    "prompt_tokens": raw_result.get("prompt_tokens", 0),
-                    "completion_tokens": raw_result.get("completion_tokens", 0),
-                    "total_tokens": raw_result.get("total_tokens", 0),
-                    "cost_usd": raw_result.get("cost_usd", 0.0),
-                    "latency_ms": raw_result.get("latency_ms", 0.0),
-                    "llm_calls": raw_result.get("llm_calls", 0),
-                    # AMOS-specific metrics
-                    "stats": raw_result.get("stats", {}),
-                    "extractions_count": raw_result.get("extractions_count", 0),
-                    "phase1_cached": raw_result.get("phase1_cached", False),
-                }
-
-            tasks = [process_amos_sample(s) for s in samples]
-            raw_results = await gather_with_concurrency(100, tasks)  # 100 concurrent restaurants
-            results = [r for r in raw_results if r is not None]
-
-            # Save Formula Seed to run directory for artifact tracking
-            amos_method.save_formula_seed_to_run_dir(output_dir)
         elif method == "cot":
             # CoT method - chain-of-thought reasoning
             from addm.methods import build_method_registry
@@ -1695,9 +1594,9 @@ def main() -> None:
         help="Policy ID (e.g., T1P1) or comma-separated list. Omit to run all 35 policies.",
     )
     target_group.add_argument(
-        "--tier",
+        "--topic",
         type=str,
-        help="Tier (e.g., T1) or comma-separated tiers (e.g., T1,T2) - runs all P1-P7 variants per tier",
+        help="Topic (e.g., T1) or comma-separated topics (e.g., T1,T2) - runs all P1-P7 variants per topic",
     )
 
     parser.add_argument("--domain", type=str, default="yelp", help="Domain")
@@ -1740,6 +1639,12 @@ def main() -> None:
         type=int,
         default=10,
         help="AMOS: Reviews per LLM call (default: 10). Higher=fewer calls, lower=more parallel.",
+    )
+    parser.add_argument(
+        "--phase1-retries",
+        type=int,
+        default=3,
+        help="AMOS: Validation retries per Phase 1 step (default: 3).",
     )
     parser.add_argument(
         "--phase",
@@ -1820,15 +1725,15 @@ def main() -> None:
     try:
         policies = expand_policies(
             policy=args.policy,
-            tier=args.tier,
+            topic=args.topic,
         )
     except ValueError as e:
         output.error(str(e))
         sys.exit(1)
-    if not args.policy and not args.tier:
+    if not args.policy and not args.topic:
         output.info(f"Running all {len(policies)} policies")
-    elif args.tier:
-        output.info(f"Running tier {args.tier}: {len(policies)} policies")
+    elif args.topic:
+        output.info(f"Running topic {args.topic}: {len(policies)} policies")
 
     if len(policies) > 1:
         # Multiple policies - run with progress tracking
@@ -1878,6 +1783,7 @@ def main() -> None:
                     batch_id=args.batch_id,
                     top_k=args.top_k,
                     batch_size=args.batch_size,
+                    phase1_retries=args.phase1_retries,
                     sample_ids=policy_sample_ids,
                     phase=args.phase,
                     seed_path=args.seed,
@@ -1968,6 +1874,7 @@ def main() -> None:
                 batch_id=args.batch_id,
                 top_k=args.top_k,
                 batch_size=args.batch_size,
+                phase1_retries=args.phase1_retries,
                 sample_ids=sample_ids,
                 phase=args.phase,
                 seed_path=args.seed,

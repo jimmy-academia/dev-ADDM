@@ -37,13 +37,14 @@ class AMOSMethod(Method):
         self.system_prompt = system_prompt
         self.progress_callback = progress_callback
 
-        self._phase1_spec: Optional[Dict[str, Any]] = None
+        self._agenda_spec: Optional[Dict[str, Any]] = None
         self._phase1_usage: Dict[str, Any] = {}
 
     async def generate_phase1(
         self,
         agenda: str,
         llm: LLMService,
+        max_retries: int = 3,
     ) -> Dict[str, Any]:
         """Run Phase 1 and cache the result."""
         spec, usage = await generate_verdict_and_terms(
@@ -51,8 +52,9 @@ class AMOSMethod(Method):
             policy_id=self.policy_id,
             llm=llm,
             progress_callback=self.progress_callback,
+            max_retries=max_retries,
         )
-        self._phase1_spec = spec
+        self._agenda_spec = spec
         self._phase1_usage = usage
         return spec
 
@@ -60,13 +62,14 @@ class AMOSMethod(Method):
         """Get Phase 1 usage metrics."""
         return self._phase1_usage
 
-    def save_phase1_outputs_to_run_dir(self, run_dir: Path) -> None:
-        """Save Phase 1 outputs to run directory."""
-        if self._phase1_spec is None:
-            return
-        output_path = run_dir / "phase1_outputs.json"
+    def save_agenda_spec_to_run_dir(self, run_dir: Path) -> Optional[Path]:
+        """Save agenda spec (Phase 1 output) to run directory."""
+        if self._agenda_spec is None:
+            return None
+        output_path = run_dir / "agenda_spec.json"
         with open(output_path, "w") as f:
-            json.dump(self._phase1_spec, f, indent=2)
+            json.dump(self._agenda_spec, f, indent=2)
+        return output_path
 
     async def run_sample(self, sample: Sample, llm: LLMService) -> Dict[str, Any]:
         """Phase 2 not wired yet."""

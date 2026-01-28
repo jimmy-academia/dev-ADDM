@@ -1,194 +1,181 @@
-"""Phase 1 Prompts: Agenda -> Terms + Verdict Rules.
-
-Phase 1 does NOT do scoring. It only extracts:
-1) Verdict labels + count-based rules
-2) Term definitions (fields + enum values) referenced by rules
-"""
+"""Phase 1 Prompts: Agenda -> Agenda Spec (terms + verdict rules)."""
 
 # =============================================================================
-# Step 0: OBSERVE (locate relevant sections)
+# Step 0: Segment agenda into blocks
 # =============================================================================
 
-OBSERVE_PROMPT = """You are extracting structure from a policy agenda.
+SEGMENT_AGENDA_PROMPT = """You are splitting an agenda into term definitions and verdict rules.
 
 ## AGENDA
 {agenda}
 
-## TASK
-1) Locate the section(s) that define terms/fields (definitions of terms).
-2) Locate the section that defines verdict rules.
-3) Extract the verdict labels as they appear in the agenda.
-
 ## OUTPUT (JSON ONLY)
 {{
-  "terms_block": "<COPY the exact text that defines terms/fields. Preserve bullets.>",
-  "verdict_rules_block": "<COPY the exact text that defines verdict rules. Preserve bullets.>",
-  "verdict_labels": ["<Verdict 1>", "<Verdict 2>", "<Verdict 3>"]
+  "definitions_blocks": ["<text block>", "<text block>"] ,
+  "verdict_rules_blocks": ["<text block>", "<text block>"]
 }}
 
 ## RULES
-- terms_block must include only the term definitions (NOT guidance or prose context).
-- verdict_rules_block must include only the verdict rules.
-- verdict_labels must match the exact labels in the agenda (case-sensitive).
-- If the agenda is XML, convert tags to readable text in the blocks.
+- definitions_blocks: include ONLY parts that define terms/fields and their possible values.
+- verdict_rules_blocks: include ONLY parts that define verdict/classification rules.
+- If verdict rules appear in multiple sections (e.g., "Verdict Rules" and "Verdict Rules (Continued)"), include all blocks in order.
+- If the agenda is XML, extract readable text for <definitions> and <verdict_rules> contents (preserve option/value IDs exactly).
+- Do NOT include guidance text unless it defines enum values.
 
 Output ONLY the JSON object, no explanation.
 """
 
 
 # =============================================================================
-# Step 1: Extract Verdict Rules
+# Step 1: Extract verdict labels and default
 # =============================================================================
 
-EXTRACT_VERDICTS_PROMPT = """You are extracting verdict rules from a policy agenda.
+EXTRACT_VERDICT_LABELS_PROMPT = """Extract verdict labels and identify the default verdict.
 
-## VERDICT RULES BLOCK
-{verdict_rules_block}
+## VERDICT RULES TEXT
+{verdict_text}
 
-## TASK
-Extract verdict labels and count-based rules.
+## OUTPUT (JSON ONLY)
+{{
+  "verdicts": ["<label>", "<label>", "<label>"],
+  "default_verdict": "<label>"
+}}
 
-Each rule uses one of these formats:
-- Non-default rule:
-  {{
-    "verdict": "<label>",
-    "logic": "ANY" | "ALL",
-    "conditions": [
-      {{"field": "FIELD_NAME", "values": ["value1", "value2"], "min_count": 2}}
-    ]
+## RULES
+- verdict labels must match the exact labels in the text (case-sensitive).
+- default_verdict is the label used for "otherwise", "if none apply", or "default".
+
+Output ONLY the JSON object, no explanation.
+"""
+
+
+# =============================================================================
+# Step 2: Extract verdict rule outline (per verdict)
+# =============================================================================
+
+EXTRACT_VERDICT_OUTLINE_PROMPT = """Extract the rule outline for ONE verdict label.
+
+## VERDICT RULES TEXT
+{verdict_text}
+
+## TARGET VERDICT
+{target_verdict}
+
+## DEFAULT VERDICT
+{default_verdict}
+
+## OUTPUT (JSON ONLY)
+If target verdict is the default:
+{{
+  "verdict": "<label>",
+  "default": true,
+  "hint_texts": ["<optional hints>"]
+}}
+
+If target verdict is NOT the default:
+{{
+  "verdict": "<label>",
+  "connective": "ANY" | "ALL",
+  "clause_texts": [
+    "<one clause per bullet/condition>",
+    "<one clause per bullet/condition>"
+  ]
+}}
+
+## RULES
+- connective is the BETWEEN-CLAUSES logic derived from "any/all of the following" for this verdict.
+- clause_texts must be literal bullet/condition texts from the verdict rules (no paraphrase).
+- Do NOT include "especially when" hints as clauses; only include them in hint_texts for default verdict.
+- Use the exact verdict label (case-sensitive).
+
+Output ONLY the JSON object, no explanation.
+"""
+
+
+# =============================================================================
+# Step 3: Select required term titles (per non-default verdict)
+# =============================================================================
+
+SELECT_REQUIRED_TERMS_PROMPT = """Select which term definitions are required to represent these clauses.
+
+## DEFINITIONS
+{definitions_text}
+
+## VERDICT RULE OUTLINE (JSON)
+{outline_json}
+
+## OUTPUT (JSON ONLY)
+{{
+  "required_term_titles": ["<exact term title from definitions>", "<exact term title>"]
+}}
+
+## RULES
+- required_term_titles MUST be copied from definition headings/titles (case-sensitive).
+- Include a term if any clause implies it (e.g., "firsthand" => "Account Type").
+- Do not invent terms that are not present in the definitions.
+
+Output ONLY the JSON object, no explanation.
+"""
+
+
+# =============================================================================
+# Step 4: Extract a term definition (per term)
+# =============================================================================
+
+EXTRACT_TERM_DEF_PROMPT = """Extract ONE term definition as an enum.
+
+## DEFINITIONS
+{definitions_text}
+
+## TARGET TERM TITLE
+{term_title}
+
+## OUTPUT (JSON ONLY)
+{{
+  "term_title": "<exact title>",
+  "type": "enum",
+  "values": ["<EXACT value IDs as written>", "..."],
+  "descriptions": {{
+    "<value>": "<description>",
+    "<value>": "<description>"
   }}
-
-- Default rule:
-  {{"verdict": "<label>", "default": true}}
-
-## OUTPUT (JSON ONLY)
-{{
-  "verdicts": ["Low Risk", "High Risk", "Critical Risk"],
-  "rules": [
-    {{
-      "verdict": "Critical Risk",
-      "logic": "ANY",
-      "conditions": [
-        {{"field": "INCIDENT_SEVERITY", "values": ["severe"], "min_count": 1}},
-        {{"field": "INCIDENT_SEVERITY", "values": ["moderate"], "min_count": 2}}
-      ]
-    }},
-    {{"verdict": "Low Risk", "default": true}}
-  ]
 }}
 
 ## RULES
-1) Use EXACT verdict labels from the agenda (case-sensitive).
-2) Extract field names and values exactly as written in the verdict rules section.
-3) Normalize field names to UPPERCASE_WITH_UNDERSCORES.
-4) Extract exact min_count values (e.g., "2 or more" -> 2).
-5) If logic is not explicit, default to "ANY".
-6) Exactly ONE rule must have "default": true.
+- values must be the exact value IDs from the definition (do not paraphrase).
+- descriptions should be copied or lightly condensed from the definition lines.
+- Only output the target term.
 
 Output ONLY the JSON object, no explanation.
 """
 
 
 # =============================================================================
-# Step 2: Ground / Repair Verdict Rules (with definitions)
+# Step 5: Compile a clause (per clause)
 # =============================================================================
 
-REFINE_VERDICTS_PROMPT = """You are verifying and correcting extracted verdict rules.
+COMPILE_CLAUSE_PROMPT = """Compile ONE clause into structured conditions using ONLY the allowed enums.
 
-## DEFINITIONS BLOCK (for mapping field names and values)
-{terms_block}
+## CLAUSE TEXT
+{clause_text}
 
-## VERDICT RULES BLOCK (ground truth text)
-{verdict_rules_block}
-
-## EXTRACTED RULES (JSON)
-{verdict_json}
-
-## TASK
-Fix any missing or incorrect conditions so the rules match the verdict rules text.
-
-Key guidance:
-- If a rule clause includes qualifiers (e.g., "firsthand", "secondhand"), map them to the
-  correct field names and values from DEFINITIONS BLOCK.
-- If a clause combines multiple attributes (e.g., "severe firsthand incidents"), encode
-  them in the SAME rule using logic: "ALL" and include both conditions with the same
-  min_count.
-- If a verdict has multiple bullet clauses, you may output multiple rules for the same
-  verdict label (one rule per clause).
-- Use EXACT verdict labels from the agenda (case-sensitive).
-- Use ONLY field names and values that appear in the definitions.
-- Exactly ONE rule must have "default": true.
-- Phrases like "especially when" are hints, not hard conditions. Do NOT add them as rules.
+## ALLOWED TERMS (JSON)
+{terms_json}
 
 ## OUTPUT (JSON ONLY)
 {{
-  "verdicts": ["Low Risk", "High Risk", "Critical Risk"],
-  "rules": [
-    {{
-      "verdict": "Critical Risk",
-      "logic": "ALL",
-      "conditions": [
-        {{"field": "ACCOUNT_TYPE", "values": ["firsthand"], "min_count": 1}},
-        {{"field": "INCIDENT_SEVERITY", "values": ["severe"], "min_count": 1}}
-      ]
-    }},
-    {{
-      "verdict": "Critical Risk",
-      "logic": "ALL",
-      "conditions": [
-        {{"field": "ACCOUNT_TYPE", "values": ["firsthand"], "min_count": 2}},
-        {{"field": "INCIDENT_SEVERITY", "values": ["moderate"], "min_count": 2}}
-      ]
-    }},
-    {{"verdict": "Low Risk", "default": true}}
-  ]
-}}
-
-Output ONLY the JSON object, no explanation.
-"""
-
-
-# =============================================================================
-# Step 3: Extract Terms
-# =============================================================================
-
-EXTRACT_TERMS_PROMPT = """You are extracting term definitions from a policy agenda.
-
-## DEFINITIONS BLOCK
-{terms_block}
-
-## REQUIRED TERMS
-{required_fields}
-
-## TASK
-Extract ONLY the term definitions listed in REQUIRED TERMS. Each term has:
-- A canonical name (UPPERCASE_WITH_UNDERSCORES)
-- A list of enum values (EXACT IDs as written in the agenda)
-- Optional descriptions for each value
-
-## OUTPUT (JSON ONLY)
-{{
-  "terms": [
-    {{
-      "name": "INCIDENT_SEVERITY",
-      "type": "enum",
-      "values": ["none", "mild", "moderate", "severe"],
-      "descriptions": {{
-        "none": "No allergic reaction described",
-        "mild": "Minor symptoms",
-        "moderate": "Visible symptoms or required medication",
-        "severe": "Life-threatening reaction"
-      }}
-    }}
+  "min_count": 1,
+  "conditions": [
+    {{"field": "FIELD_NAME", "values": ["enum_id"]}}
   ]
 }}
 
 ## RULES
-1) Use UPPERCASE_WITH_UNDERSCORES for term names.
-2) For values, use the EXACT value IDs from the agenda (do not paraphrase).
-3) Do NOT invent values that are not listed.
-4) Skip guidance sections that are not definitions (e.g., "What to Consider").
-5) Only output the terms listed in REQUIRED TERMS (ignore all other terms).
+- min_count must reflect the clause count (e.g., "2 or more" -> 2). If no count, use 1.
+- Each condition.field must be one of the provided term fields.
+- Each condition.values[] entry MUST be chosen from the allowed enum IDs for that field.
+- If the clause includes multiple attributes (e.g., "moderate firsthand"), include multiple conditions.
+- Do not invent new fields or values.
 
 Output ONLY the JSON object, no explanation.
 """

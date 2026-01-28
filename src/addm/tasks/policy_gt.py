@@ -808,9 +808,9 @@ def load_policy(policy_id: str) -> PolicyIR:
 
     # T* policy format: T1P1, T2P3, etc.
     if len(policy_id) >= 4 and policy_id[0] == "T" and policy_id[1].isdigit() and "P" in policy_id:
-        tier = policy_id[:2]  # T1
+        topic_id = policy_id[:2]  # T1
         variant = policy_id[2:]  # P1
-        policy_path = policies_dir / tier / f"{variant}.yaml"
+        policy_path = policies_dir / topic_id / f"{variant}.yaml"
 
         if not policy_path.exists():
             raise FileNotFoundError(f"Policy not found: {policy_path}")

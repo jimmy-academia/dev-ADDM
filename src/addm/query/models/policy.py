@@ -470,9 +470,9 @@ class PolicyIR:
             # Format: T{n}_P{m} or T{n}P{m}
             extends_clean = extends.replace("_", "")  # T1_P1 -> T1P1
             if len(extends_clean) >= 4 and extends_clean[0] == "T":
-                tier = extends_clean[:2]  # T1
+                topic_id = extends_clean[:2]  # T1
                 variant = extends_clean[2:]  # P1
-                parent_path = yaml_path.parent / f"../{tier}/{variant}.yaml"
+                parent_path = yaml_path.parent / f"../{topic_id}/{variant}.yaml"
                 parent_path = parent_path.resolve()
 
                 if parent_path.exists() and parent_path != yaml_path.resolve():

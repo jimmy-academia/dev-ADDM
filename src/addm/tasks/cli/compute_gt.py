@@ -2,14 +2,14 @@
 CLI: Compute ground truth from cached judgments.
 
 Usage:
-    # Compute GT for a topic (all V1-V4 variants)
-    python -m addm.tasks.cli.compute_gt --topic G1_allergy
+    # Compute GT for a topic (all P1-P7 variants)
+    python -m addm.tasks.cli.compute_gt --topic T1
 
     # Compute GT for ALL policies (default)
     python -m addm.tasks.cli.compute_gt
 
     # Single policy
-    python -m addm.tasks.cli.compute_gt --policy G1_allergy_V2
+    python -m addm.tasks.cli.compute_gt --policy T1P1
 
     # Legacy task-based GT (single formula module)
     python -m addm.tasks.cli.compute_gt --task G1a --domain yelp --k 50
@@ -294,20 +294,15 @@ def main() -> None:
     target_group.add_argument(
         "--topic",
         type=str,
-        help="Topic (e.g., G1_allergy) - computes all V1-V4 variants for K=25,50,100,200",
-    )
-    target_group.add_argument(
-        "--group",
-        type=str,
-        help="Group (e.g., G1) - computes all topics × V1-V4 variants (12 policies)",
+        help="Topic (e.g., T1) - computes all P1-P7 variants for K=25,50,100,200",
     )
     target_group.add_argument(
         "--policy",
         type=str,
-        help="Policy ID(s), comma-separated (e.g., G1_allergy_V2 or G1_allergy_V1,V2,V3,V4)",
+        help="Policy ID(s), comma-separated (e.g., T1P1 or T1P1,T1P2,T1P3)",
     )
     target_group.add_argument(
-        "--all", action="store_true", help="Compute GT for ALL policies (72 total) - default"
+        "--all", action="store_true", help="Compute GT for ALL policies (35 total) - default"
     )
 
     # Common options
@@ -319,13 +314,12 @@ def main() -> None:
 
     if args.task:
         main_task(args)
-    elif args.topic or args.group or args.policy or args.all:
+    elif args.topic or args.policy or args.all:
         # Use centralized expand_policies() for all policy-based modes
         try:
             policies = expand_policies(
                 policy=args.policy,
                 topic=args.topic,
-                group=args.group,
             )
         except ValueError as e:
             print(f"[ERROR] {e}")
@@ -347,25 +341,11 @@ def main() -> None:
                 print(f"{'#'*70}\n")
                 args.k = k_value
                 main_policy(args)
-        # For --group, also iterate over all K values
-        elif args.group:
-            print(f"\n{'='*70}")
-            print(f"Generating GT for group: {args.group}")
-            print(f"K values: {K_VALUES}")
-            print(f"Policies ({len(policies)}): {args.policy[:80]}...")
-            print(f"{'='*70}\n")
-
-            for k_value in K_VALUES:
-                print(f"\n{'#'*70}")
-                print(f"# K = {k_value}")
-                print(f"{'#'*70}\n")
-                args.k = k_value
-                main_policy(args)
         else:
             main_policy(args)
     else:
         # Default: compute GT for all policies
-        print("No target specified, defaulting to --all (72 policies)")
+        print("No target specified, defaulting to --all (35 policies)")
         args.policy = ",".join(ALL_POLICIES)
         main_policy(args)
 
