@@ -75,8 +75,8 @@ src/addm/
 
 - **LLM default**: `gpt-5-nano` (ask before switching models)
 - **Console output**: use the `output` singleton (`src/addm/utils/output.py`), not `print()`
-- **Experiments**: do not run AMOS experiments directly; prepare the command and hand it
-  to the user to run
+- **Experiments**: do not run AMOS experiments directly unless explicitly authorized
+  by the user; otherwise prepare the command and hand it to the user to run
 
 ## AMOS Phase 1 (Agenda Spec)
 

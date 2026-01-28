@@ -33,6 +33,7 @@ import json
 import logging
 import re
 import shlex
+import random
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -384,37 +385,39 @@ def extract_risk_score(response: str) -> Optional[float]:
     return None
 
 
-def load_formula_seed(seed_path: str, policy_id: str) -> Dict[str, Any]:
-    """Load Formula Seed from file or directory.
+def load_agenda_spec(agenda_spec_path: str, policy_id: str) -> Dict[str, Any]:
+    """Load agenda spec from file or directory.
 
     Args:
-        seed_path: Path to .json file or directory containing seeds
+        agenda_spec_path: Path to .json file or directory containing specs
         policy_id: Policy identifier (e.g., "G1_allergy_V2")
 
     Returns:
-        Formula Seed dict
+        Agenda spec dict
 
     Raises:
-        FileNotFoundError: If seed file not found
+        FileNotFoundError: If agenda spec file not found
     """
-    path = Path(seed_path)
+    path = Path(agenda_spec_path)
 
     if path.is_file():
         # Direct file path
         with open(path) as f:
             return json.load(f)
     elif path.is_dir():
-        # Directory - look for {policy_id}.json
+        # Directory - look for {policy_id}.json or {policy_id}_agenda_spec.json
         seed_file = path / f"{policy_id}.json"
         if not seed_file.exists():
+            seed_file = path / f"{policy_id}_agenda_spec.json"
+        if not seed_file.exists():
             raise FileNotFoundError(
-                f"Formula Seed not found: {seed_file}\n"
-                f"Expected {policy_id}.json in {path}"
+                f"Agenda spec not found: {seed_file}\n"
+                f"Expected {policy_id}.json or {policy_id}_agenda_spec.json in {path}"
             )
         with open(seed_file) as f:
             return json.load(f)
     else:
-        raise FileNotFoundError(f"Seed path not found: {seed_path}")
+        raise FileNotFoundError(f"Agenda spec path not found: {agenda_spec_path}")
 
 
 def _get_batch_field(batch: Any, key: str) -> Optional[Any]:
@@ -596,7 +599,15 @@ async def run_experiment(
     phase1_retries: int = 3,
     sample_ids: Optional[List[str]] = None,
     phase: Optional[str] = None,
-    seed_path: Optional[str] = None,
+    agenda_spec_path: Optional[str] = None,
+    rng_seed: Optional[int] = None,
+    epsilon: float = 0.01,
+    delta: float = 0.05,
+    gate_init: bool = True,
+    gate_discover_period: int = 5,
+    explore_frac: float = 0.1,
+    num_bins: int = 10,
+    gamma: float = 1.0,
     run_number: Optional[int] = None,
     suppress_output: bool = False,
     progress_callback: Optional[ProgressCallback] = None,
@@ -619,11 +630,19 @@ async def run_experiment(
         token_limit: Token budget for RLM (converts to iterations via ~3000 tokens/iter)
         mode: Explicit mode override ("ondemand" or "batch").
               In benchmark mode, auto-selected based on quota state if not specified.
-        batch_size: AMOS reviews per LLM call
+        batch_size: AMOS restaurants per driver batch
         phase1_retries: AMOS Phase 1 validation retries per step
         sample_ids: If provided, only run on these specific business IDs (filters dataset)
-        phase: AMOS phase control: '1' (generate seed only), '2' (use seed_path), '1,2' or None (both)
-        seed_path: Path to Formula Seed file or directory for --phase 2
+        phase: AMOS phase control: '1' (generate spec only), '2' (use agenda_spec_path), '1,2' or None (both)
+        agenda_spec_path: Path to agenda spec file or directory for --phase 2
+        rng_seed: Global RNG seed for deterministic ordering and scheduling
+        epsilon: ATKD default-bound tolerance
+        delta: ATKD calibration confidence
+        gate_init: ATKD gate initialization on/off
+        gate_discover_period: ATKD gate discovery frequency (iterations)
+        explore_frac: ATKD exploration fraction
+        num_bins: ATKD calibration bins
+        gamma: ATKD negative-gate discount
         run_number: Explicit run number (1-5) for benchmark mode. If specified:
             - run 1 = ondemand mode (captures latency)
             - run 2-5 = batch mode (cost efficient)
@@ -634,11 +653,15 @@ async def run_experiment(
     if not task_id and not policy_id:
         raise ValueError("Either task_id or policy_id must be provided")
 
-    # Validate phase/seed compatibility
-    if phase == "2" and not seed_path:
-        raise ValueError("--phase 2 requires --seed to specify pre-generated Formula Seed")
-    if seed_path and phase != "2":
-        raise ValueError("--seed is only valid with --phase 2")
+    # Validate phase/spec compatibility
+    if phase == "2" and not agenda_spec_path:
+        default_spec_dir = Path("results/agenda_spec_temp")
+        if default_spec_dir.exists():
+            agenda_spec_path = str(default_spec_dir)
+        else:
+            raise ValueError("--phase 2 requires --agenda-spec-path to specify pre-generated agenda spec")
+    if agenda_spec_path and phase != "2":
+        raise ValueError("--agenda-spec-path is only valid with --phase 2")
     if phase and phase not in ("1", "2", "1,2"):
         raise ValueError("--phase must be '1', '2', or '1,2'")
     if phase and method != "amos":
@@ -679,6 +702,10 @@ async def run_experiment(
         restaurants = restaurants[skip : skip + n]
     else:
         restaurants = restaurants[skip:]
+
+    if rng_seed is not None:
+        rng = random.Random(rng_seed)
+        rng.shuffle(restaurants)
 
     # Get results manager
     results_manager = get_results_manager()
@@ -797,7 +824,7 @@ async def run_experiment(
         )
 
     if effective_mode == "batch":
-        if method in ["rlm", "rag", "react"]:
+        if method in ["rlm", "rag", "react", "amos"]:
             raise ValueError("batch mode is only supported for single-call methods (direct, cot)")
 
         batch_client = BatchClient()
@@ -944,6 +971,8 @@ Let's think through this step-by-step:"""
         llm.configure(model=model)
 
         # Run evaluations (with concurrency limit)
+        method_meta = None
+        aggregated_usage_override = None
         if method == "rlm":
             # RLM method - uses recursive exploration
             tasks = [
@@ -1037,8 +1066,19 @@ Let's think through this step-by-step:"""
         elif method == "amos":
             # AMOS method - delegate policy-level orchestration
             from addm.methods.amos_method import run_amos_policy
+            from addm.methods.amos.phase2_atkd import ATKDConfig
 
-            return await run_amos_policy(
+            atkd_config = ATKDConfig(
+                epsilon=epsilon,
+                delta=delta,
+                gate_init=gate_init,
+                gate_discover_period=gate_discover_period,
+                explore_frac=explore_frac,
+                batch_size=batch_size,
+                num_bins=num_bins,
+                gamma=gamma,
+            )
+            amos_output = await run_amos_policy(
                 run_id=run_id,
                 agenda=agenda,
                 restaurants=restaurants,
@@ -1047,9 +1087,17 @@ Let's think through this step-by-step:"""
                 system_prompt=system_prompt,
                 batch_size=batch_size,
                 phase=phase,
+                agenda_spec_path=agenda_spec_path,
+                atkd_config=atkd_config,
+                rng_seed=rng_seed,
                 progress_callback=progress_callback,
                 phase1_retries=phase1_retries,
             )
+            if amos_output.get("phase") == "1":
+                return amos_output
+            results = amos_output.get("results", [])
+            aggregated_usage_override = amos_output.get("aggregated_usage")
+            method_meta = amos_output.get("meta")
         elif method == "cot":
             # CoT method - chain-of-thought reasoning
             from addm.methods import build_method_registry
@@ -1454,6 +1502,9 @@ Let's think through this step-by-step:"""
         aggregated_usage["total_embedding_tokens"] = embedding_tokens
         aggregated_usage["total_embedding_cost_usd"] = embedding_cost
 
+    if aggregated_usage_override:
+        aggregated_usage = aggregated_usage_override
+
     # Display usage summary
     output.rule()
     total_tokens = aggregated_usage["total_tokens"]
@@ -1518,6 +1569,7 @@ Let's think through this step-by-step:"""
             "gt_task_id": gt_task_id,
             "has_latency": effective_mode == "ondemand",
         },
+        "method_meta": method_meta,
 
         # Aggregate scores section (7 metrics)
         "aggregate_scores": {
@@ -1574,6 +1626,40 @@ Let's think through this step-by-step:"""
 
     with open(output_path, "w") as f:
         json.dump(run_output, f, indent=2)
+
+    # Save run manifest for reproducibility
+    manifest = {
+        "policy_id": policy_id or task_id,
+        "method": method,
+        "model": model,
+        "domain": domain,
+        "k": k,
+        "n": n,
+        "skip": skip,
+        "phase": phase,
+        "agenda_spec_path": agenda_spec_path,
+        "rng_seed": rng_seed,
+        "epsilon": epsilon,
+        "delta": delta,
+        "gate_init": gate_init,
+        "gate_discover_period": gate_discover_period,
+        "explore_frac": explore_frac,
+        "num_bins": num_bins,
+        "gamma": gamma,
+        "timestamp": run_output["metadata"]["timestamp"],
+    }
+    with open(output_dir / "run_manifest.json", "w") as f:
+        json.dump(manifest, f, indent=2)
+
+    # Save lightweight summary
+    summary = {
+        "accuracy": accuracy,
+        "n_samples": len(results),
+        "auprc": auprc_metrics.get("auprc") if auprc_metrics else None,
+        "aggregated_usage": aggregated_usage,
+    }
+    with open(output_dir / "summary.json", "w") as f:
+        json.dump(summary, f, indent=2)
 
     # Flush debug logger if enabled
     if debug_logger := get_debug_logger():
@@ -1641,7 +1727,7 @@ def main() -> None:
         "--batch-size",
         type=int,
         default=10,
-        help="AMOS: Reviews per LLM call (default: 10). Higher=fewer calls, lower=more parallel.",
+        help="AMOS: Restaurants per driver batch (default: 10).",
     )
     parser.add_argument(
         "--phase1-retries",
@@ -1653,14 +1739,70 @@ def main() -> None:
         "--phase",
         type=str,
         default=None,
-        help="AMOS phase control: '1' (generate seed only), '2' (use --seed), '1,2' or omit (both phases)",
+        help="AMOS phase control: '1' (generate spec only), '2' (use --agenda-spec-path), "
+             "'1,2' or omit (both phases)",
+    )
+    parser.add_argument(
+        "--agenda-spec-path",
+        type=str,
+        default=None,
+        help="Path to agenda spec file or directory. Required for --phase 2. "
+             "If directory, looks for {policy_id}.json or {policy_id}_agenda_spec.json",
     )
     parser.add_argument(
         "--seed",
-        type=str,
+        type=int,
         default=None,
-        help="Path to Formula Seed file or directory. Required for --phase 2. "
-             "If directory, looks for {policy_id}.json",
+        help="Global random seed for deterministic ordering and gating decisions",
+    )
+    parser.add_argument(
+        "--epsilon",
+        type=float,
+        default=0.01,
+        help="ATKD: default-bound tolerance for early stopping (default: 0.01)",
+    )
+    parser.add_argument(
+        "--delta",
+        type=float,
+        default=0.05,
+        help="ATKD: calibration failure probability (default: 0.05)",
+    )
+    parser.add_argument(
+        "--gate_init",
+        dest="gate_init",
+        action="store_true",
+        help="ATKD: enable gate initialization (default: on)",
+    )
+    parser.add_argument(
+        "--no-gate_init",
+        dest="gate_init",
+        action="store_false",
+        help="ATKD: disable gate initialization",
+    )
+    parser.set_defaults(gate_init=True)
+    parser.add_argument(
+        "--gate_discover_period",
+        type=int,
+        default=5,
+        help="ATKD: run gate discovery every N iterations (default: 5)",
+    )
+    parser.add_argument(
+        "--explore_frac",
+        type=float,
+        default=0.1,
+        help="ATKD: exploration fraction in [0,1] (default: 0.1)",
+    )
+    parser.add_argument(
+        "--num_bins",
+        type=int,
+        default=10,
+        help="ATKD: number of calibration bins (default: 10)",
+    )
+    parser.add_argument(
+        "--gamma",
+        type=float,
+        default=1.0,
+        help="ATKD: negative gate discount (default: 1.0)",
     )
     parser.add_argument(
         "--mode",
@@ -1789,7 +1931,15 @@ def main() -> None:
                     phase1_retries=args.phase1_retries,
                     sample_ids=policy_sample_ids,
                     phase=args.phase,
-                    seed_path=args.seed,
+                    agenda_spec_path=args.agenda_spec_path,
+                    rng_seed=args.seed,
+                    epsilon=args.epsilon,
+                    delta=args.delta,
+                    gate_init=args.gate_init,
+                    gate_discover_period=args.gate_discover_period,
+                    explore_frac=args.explore_frac,
+                    num_bins=args.num_bins,
+                    gamma=args.gamma,
                     run_number=args.run,
                     suppress_output=True,  # Suppress all output for progress bar
                     progress_callback=callback,
@@ -1880,7 +2030,15 @@ def main() -> None:
                 phase1_retries=args.phase1_retries,
                 sample_ids=sample_ids,
                 phase=args.phase,
-                seed_path=args.seed,
+                agenda_spec_path=args.agenda_spec_path,
+                rng_seed=args.seed,
+                epsilon=args.epsilon,
+                delta=args.delta,
+                gate_init=args.gate_init,
+                gate_discover_period=args.gate_discover_period,
+                explore_frac=args.explore_frac,
+                num_bins=args.num_bins,
+                gamma=args.gamma,
                 run_number=args.run,
             )
         )

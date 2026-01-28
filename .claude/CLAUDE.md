@@ -13,7 +13,7 @@ Research benchmark for policy evaluation tasks across restaurant reviews (Yelp).
 - **Console**: Use `output` singleton from `src/addm/utils/output.py`, not `print()`
 - **Git**: See global rules. Additional: NEVER add "Co-Authored-By: Claude" lines.
 - **Docs**: Two-tier system. Details go in `docs/`, `.claude/` links to them. See below.
-- **AMOS Workflow**: Do NOT run experiments directly. Prepare the command and hand it to the user to run. This applies to all AMOS debugging/fixing work.
+- **AMOS Workflow**: Do NOT run experiments directly unless explicitly authorized by the user. Otherwise, prepare the command and hand it to the user to run. This applies to all AMOS debugging/fixing work.
 
 ## Documentation Strategy
 

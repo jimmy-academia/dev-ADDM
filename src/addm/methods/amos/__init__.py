@@ -1,4 +1,4 @@
-"""AMOS method (Phase 1 only for now)."""
+"""AMOS method (Phase 1 compile + Phase 2 ATKD)."""
 
 import json
 from pathlib import Path
@@ -13,10 +13,10 @@ from .phase1 import generate_verdict_and_terms
 
 
 class AMOSMethod(Method):
-    """AMOS method (Phase 1 redesign).
+    """AMOS method (Phase 1 compile + Phase 2 ATKD).
 
     Phase 1: Extract verdict rules + term definitions from agenda.
-    Phase 2: Not wired yet.
+    Phase 2: ATKD (Active Test-time Knowledge Discovery).
     """
 
     name = "amos"
@@ -72,10 +72,8 @@ class AMOSMethod(Method):
         return output_path
 
     async def run_sample(self, sample: Sample, llm: LLMService) -> Dict[str, Any]:
-        """Phase 2 not wired yet."""
-        raise NotImplementedError(
-            "AMOS Phase 2 is not wired yet. Use --phase 1 with run_experiment."
-        )
+        """AMOS Phase 2 is orchestrated at the policy level."""
+        raise NotImplementedError("AMOS Phase 2 is orchestrated via run_amos_policy.")
 
 
 __all__ = [
