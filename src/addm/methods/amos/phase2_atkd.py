@@ -390,10 +390,14 @@ class EmbeddingStore:
         client = openai.OpenAI() if hasattr(openai, "OpenAI") else openai.Client()
         embeddings: List[List[float]] = []
         batch_size = 128
-        for i in range(0, len(texts), batch_size):
-            batch = texts[i:i + batch_size]
-            response = client.embeddings.create(model=self.model, input=batch)
-            embeddings.extend([item.embedding for item in response.data])
+        total_batches = (len(texts) + batch_size - 1) // batch_size
+        with output.progress("Embedding batches") as progress:
+            task_id = progress.add_task("Embedding reviews", total=total_batches)
+            for i in range(0, len(texts), batch_size):
+                batch = texts[i:i + batch_size]
+                response = client.embeddings.create(model=self.model, input=batch)
+                embeddings.extend([item.embedding for item in response.data])
+                progress.advance(task_id, 1)
         return np.array(embeddings, dtype=np.float64)
 
 
@@ -777,16 +781,20 @@ class ATKDEngine:
     # ---------------------------------------------------------------------
 
     async def initialize_gates(self) -> None:
+        output.status("GateInit: building baseline gates")
         # Baseline gates from clause text.
         baseline_gates = self._baseline_gates()
         self.gate_library.add_many(baseline_gates)
+        output.status(f"GateInit: baseline gates={len(baseline_gates)}")
 
         if not self.config.gate_init:
             self._ensure_min_gates()
+            output.status("GateInit: gate_init disabled; ensured minimum gates")
             return
 
         primitives_payload = [p.__dict__ for p in self.primitives]
         prompt = build_gate_init_prompt(primitives_payload)
+        output.status("GateInit: calling LLM for gate proposals")
         response, usage = await self.llm.call_async_with_usage(
             [{"role": "user", "content": prompt}],
             context={
@@ -804,6 +812,9 @@ class ATKDEngine:
         for item in data.get("primitives", []):
             added += self._add_gates_from_payload(item, created_by="llm_init")
         self._ensure_min_gates()
+        output.status(
+            f"GateInit: llm_added={added} total_gates={len(self.gate_library.list())}"
+        )
         self._log_event(
             "phase2_gate_init",
             {
@@ -911,27 +922,40 @@ class ATKDEngine:
     def scan_gates(self) -> None:
         review_count = len(self.review_pool)
         score_store = ScoreStore(review_count, self.cache_dir / "gate_scores")
+        output.status("GateScan: building BM25 index")
         bm25 = BM25Index(
             [r["text"] for r in self.review_pool],
             self.config.bm25_k1,
             self.config.bm25_b,
         )
         emb_store = EmbeddingStore(self.cache_dir / "embeddings", model=self.config.embedding_model)
+        output.status("GateScan: loading/creating embeddings")
         review_embeddings = emb_store.load_or_compute(self.review_pool, self.llm)
 
-        for gate in self.gate_library.list():
-            if score_store.load_gate_scores(gate.gate_id) is not None:
-                continue
-            if gate.modality == "bm25":
-                scores = bm25.score(gate.query)
-            else:
-                query_emb = emb_store.embed_query(gate.query, self.llm)
-                q = query_emb / (np.linalg.norm(query_emb) + 1e-9)
-                r = review_embeddings / (
-                    np.linalg.norm(review_embeddings, axis=1, keepdims=True) + 1e-9
-                )
-                scores = r.dot(q)
-            score_store.add_gate_scores(gate.gate_id, scores)
+        output.status("GateScan: scoring gates")
+        new_gates = [
+            g for g in self.gate_library.list()
+            if score_store.load_gate_scores(g.gate_id) is None
+        ]
+        scored_new = 0
+        if new_gates:
+            with output.progress("Gate scoring") as progress:
+                task_id = progress.add_task("Scoring gates", total=len(new_gates))
+                for gate in new_gates:
+                    if gate.modality == "bm25":
+                        scores = bm25.score(gate.query)
+                    else:
+                        query_emb = emb_store.embed_query(gate.query, self.llm)
+                        q = query_emb / (np.linalg.norm(query_emb) + 1e-9)
+                        r = review_embeddings / (
+                            np.linalg.norm(review_embeddings, axis=1, keepdims=True) + 1e-9
+                        )
+                        scores = r.dot(q)
+                    score_store.add_gate_scores(gate.gate_id, scores)
+                    scored_new += 1
+                    progress.advance(task_id, 1)
+        else:
+            output.status("GateScan: no new gates to score")
 
         score_store.recompute_for_primitives(
             [p.primitive_id for p in self.primitives],
@@ -940,6 +964,9 @@ class ATKDEngine:
             self.config.gamma,
         )
         self.score_store = score_store
+        output.status(
+            f"GateScan: completed (new_scored={scored_new}, total_gates={len(self.gate_library.list())})"
+        )
 
     # ---------------------------------------------------------------------
     # Calibration and scheduling
@@ -948,10 +975,15 @@ class ATKDEngine:
     def _recompute_calibration(self) -> None:
         if not self.score_store:
             return
+        total_tags = sum(
+            len(self.tag_store.records_for_primitive(p.primitive_id)) for p in self.primitives
+        )
+        output.status(f"Calibration: recompute (tags={total_tags})")
         for p in self.primitives:
             bins = self.score_store.z_bins[p.primitive_id]
             tags = self.tag_store.records_for_primitive(p.primitive_id)
             self.calibration.recompute(p.primitive_id, bins, tags)
+        output.status("Calibration: done")
 
     def _rule_satisfied(self, counts: Dict[str, int], rule: CompiledRule) -> bool:
         if rule.connective == "ALL":
@@ -1057,6 +1089,7 @@ class ATKDEngine:
     # ---------------------------------------------------------------------
 
     async def _verify_batch(self, batch: List[Tuple[int, str]]) -> None:
+        output.status(f"Verifier: preparing batch (pairs={len(batch)})")
         tasks = []
         for review_idx, primitive_id in batch:
             review = self.review_pool[review_idx]
@@ -1069,13 +1102,16 @@ class ATKDEngine:
             prompt = build_verifier_prompt(review["text"], primitive.__dict__, self.term_defs)
             tasks.append(self._call_verifier(prompt, review, primitive, review_idx))
         if not tasks:
+            output.status("Verifier: no new tasks (all cached)")
             return
+        output.status(f"Verifier: calling LLM (tasks={len(tasks)})")
         results = await gather_with_concurrency(self.config.max_concurrent, tasks)
         added_records: List[TagRecord] = []
         for record in results:
             if record:
                 self.tag_store.add(record)
                 added_records.append(record)
+        output.status(f"Verifier: completed (added={len(added_records)})")
         if added_records:
             # Log per-item verdict evidence for inspection
             for record in added_records:
@@ -1142,6 +1178,7 @@ class ATKDEngine:
     async def _gate_discover(self) -> None:
         if self.config.gate_discover_period <= 0:
             return
+        output.status("GateDiscover: starting")
         total_added = 0
         for p in self.primitives:
             records = self.tag_store.records_for_primitive(p.primitive_id)
@@ -1182,6 +1219,9 @@ class ATKDEngine:
             except Exception:
                 data = {}
             total_added += self._add_gates_from_payload(data, created_by="llm_discover")
+        output.status(
+            f"GateDiscover: done (added={total_added}, total_gates={len(self.gate_library.list())})"
+        )
         if total_added > 0:
             self._log_event(
                 "phase2_gate_discover",
