@@ -8,22 +8,43 @@ from typing import Any, Dict, List
 def build_gate_init_prompt(
     primitives: List[Dict[str, Any]],
     term_defs: Dict[str, Any],
-    overview_text: str = "",
+    agenda_text: str,
+    num_gates_suggest: int,
 ) -> str:
     """Build GateInit prompt for initial cheap gates per primitive."""
+    primitives_lines: List[str] = []
+    for p in primitives:
+        primitives_lines.append(f"- primitive_id: {p.get('primitive_id')}")
+        if p.get("label"):
+            primitives_lines.append(f"  label: {p.get('label')}")
+        if p.get("clause_quote"):
+            primitives_lines.append(f"  clause_quote: {p.get('clause_quote')}")
+    primitives_text = "\n".join(primitives_lines) if primitives_lines else "(none)"
+
     return (
-        "You are initializing cheap gates for Active Test-time Knowledge Discovery.\n\n"
-        "Given primitives (conditions only), term definitions, and overview guidance,\n"
-        "propose multiple BM25 keyword groups and embedding prototype sentences.\n"
-        "You MUST provide both positive and negative gates.\n\n"
+        "You are initializing cheap gates for Active Test-time Knowledge Discovery (ATKD).\n\n"
+        "Input:\n"
+        "- The full policy agenda (verbatim)\n"
+        "- A list of primitives (each primitive_id corresponds to one condition)\n"
+        "- Term schema (fields + value_ids + descriptions)\n\n"
+        "Goal:\n"
+        f"For EACH primitive, propose up to {num_gates_suggest} gate instances of EACH kind:\n"
+        "- pos_bm25_gates: keyword/phrase groups that tend to appear when the primitive signal is truly present\n"
+        "- neg_bm25_gates: keyword/phrase groups that tend to appear in benign/confuser contexts\n"
+        "- pos_emb_gates: natural-language prototype sentences (write like a real review) that express the primitive signal\n"
+        "- neg_emb_gates: prototype sentences for benign/confuser contexts\n\n"
         "Rules:\n"
         "- Output JSON only.\n"
-        "- Provide MULTIPLE gate instances per primitive for BOTH BM25 and embeddings.\n"
-        "- Focus on review-language phrasing. Use words reviewers actually write.\n"
-        "- Do NOT include verdict logic, thresholds, or rubric phrases (e.g.,\n"
-        "  \"incidents are reported\", \"1 or more\", \"2 or more\", \"min_count\", \"clause\").\n"
-        "- BM25 gates are keyword groups (lists of short keywords/phrases).\n"
-        "- Embedding gates are full natural-language prototype sentences.\n\n"
+        "- Topic-first: use the agenda to understand what signals matter and how reviewers write them.\n"
+        "- Do NOT compute verdicts or apply thresholds.\n"
+        "- Do NOT use verdict/rule/threshold/rubric language (e.g., \"1 or more\", \"2 or more\",\n"
+        "  \"Critical Risk\", \"High Risk\", \"Low Risk\", \"min_count\", \"clause\", \"default\").\n"
+        "- The clause_quote is only a semantic anchor for what the primitive is about; DO NOT reuse its wording.\n"
+        "- Encourage diversity: cover different aspects of the topic (events/symptoms, staff actions,\n"
+        "  safety assurances, cross-contact language, outcomes, abbreviations/misspellings, etc.).\n"
+        "- BM25 keyword groups should be short concrete phrases (1-4 words per phrase).\n"
+        "- Negative gates should capture confusers where topic words appear but the primitive is NOT present.\n"
+        f"- If you cannot think of {num_gates_suggest} good gates for a list, return fewer; do not pad.\n\n"
         "OUTPUT JSON SCHEMA:\n"
         "{\n"
         "  \"primitives\": [\n"
@@ -36,10 +57,10 @@ def build_gate_init_prompt(
         "    }\n"
         "  ]\n"
         "}\n\n"
-        "OVERVIEW (optional):\n"
-        f"{overview_text or '(none)'}\n\n"
+        "AGENDA (verbatim):\n"
+        f"{agenda_text}\n\n"
         "PRIMITIVES:\n"
-        f"{_format_primitives(primitives)}\n\n"
+        f"{primitives_text}\n\n"
         "TERM SCHEMA:\n"
         f"{_format_term_defs(term_defs)}\n"
     )

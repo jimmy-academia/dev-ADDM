@@ -112,6 +112,7 @@ async def run_amos_policy(
         engine = ATKDEngine(
             policy_id=run_id,
             agenda_spec=agenda_spec,
+            agenda_text=agenda,
             restaurants=restaurants,
             llm=llm,
             config=config,

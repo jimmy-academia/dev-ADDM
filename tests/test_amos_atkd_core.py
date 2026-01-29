@@ -154,6 +154,7 @@ def test_default_bound_monotonicity(tmp_path: Path) -> None:
     engine = ATKDEngine(
         policy_id="T1P1",
         agenda_spec=agenda_spec,
+        agenda_text="agenda",
         restaurants=restaurants,
         llm=LLMService(),
         config=ATKDConfig(),

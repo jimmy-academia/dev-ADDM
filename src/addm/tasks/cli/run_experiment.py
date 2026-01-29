@@ -608,6 +608,7 @@ async def run_experiment(
     gate_discover_every: Optional[int] = None,
     explore_frac: float = 0.1,
     num_bins: int = 10,
+    num_gates_suggest: int = 5,
     gamma: float = 1.0,
     lambda_H: float = 1.0,
     lambda_L: float = 1.0,
@@ -651,6 +652,7 @@ async def run_experiment(
         gate_discover_every: ATKD gate discovery frequency (new name, overrides period if set)
         explore_frac: ATKD exploration fraction
         num_bins: ATKD calibration bins
+        num_gates_suggest: GateInit per-kind suggestion count
         gamma: ATKD negative-gate discount
         lambda_H: ATKD hunt weight
         lambda_L: ATKD local dismiss weight
@@ -1093,6 +1095,7 @@ Let's think through this step-by-step:"""
                 explore_frac=explore_frac,
                 batch_size=batch_size,
                 num_bins=num_bins,
+                num_gates_suggest=num_gates_suggest,
                 gamma=gamma,
                 lambda_H=lambda_H,
                 lambda_L=lambda_L,
@@ -1671,6 +1674,7 @@ Let's think through this step-by-step:"""
         "gate_discover_every": gate_discover_every or gate_discover_period,
         "explore_frac": explore_frac,
         "num_bins": num_bins,
+        "num_gates_suggest": num_gates_suggest,
         "gamma": gamma,
         "lambda_H": lambda_H,
         "lambda_L": lambda_L,
@@ -1841,6 +1845,12 @@ def main() -> None:
         type=int,
         default=10,
         help="ATKD: number of calibration bins (default: 10)",
+    )
+    parser.add_argument(
+        "--num_gates_suggest",
+        type=int,
+        default=5,
+        help="ATKD: suggested max gates per kind for GateInit (default: 5)",
     )
     parser.add_argument(
         "--gamma",
@@ -2020,6 +2030,7 @@ def main() -> None:
                     gate_discover_every=args.gate_discover_every,
                     explore_frac=args.explore_frac,
                     num_bins=args.num_bins,
+                    num_gates_suggest=args.num_gates_suggest,
                     gamma=args.gamma,
                     lambda_H=args.lambda_H,
                     lambda_L=args.lambda_L,
@@ -2127,6 +2138,7 @@ def main() -> None:
                 gate_discover_every=args.gate_discover_every,
                 explore_frac=args.explore_frac,
                 num_bins=args.num_bins,
+                num_gates_suggest=args.num_gates_suggest,
                 gamma=args.gamma,
                 lambda_H=args.lambda_H,
                 lambda_L=args.lambda_L,

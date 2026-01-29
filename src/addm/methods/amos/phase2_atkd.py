@@ -266,6 +266,7 @@ class ATKDConfig:
     gate_init: bool = True
     gate_discover_period: int = 5  # legacy alias
     gate_discover_every: int = 5
+    num_gates_suggest: int = 5
     explore_frac: float = 0.1
     batch_size: int = 100  # restaurants per driver iteration
     verifier_batch_size: int = 32
@@ -708,6 +709,7 @@ class ATKDEngine:
         self,
         policy_id: str,
         agenda_spec: Dict[str, Any],
+        agenda_text: str,
         restaurants: List[Dict[str, Any]],
         llm: LLMService,
         config: ATKDConfig,
@@ -716,6 +718,7 @@ class ATKDEngine:
     ) -> None:
         self.policy_id = policy_id
         self.agenda_spec = agenda_spec
+        self.agenda_text = agenda_text
         self.restaurants = restaurants
         self.llm = llm
         self.config = config
@@ -1031,11 +1034,16 @@ class ATKDEngine:
             {
                 "primitive_id": p.primitive_id,
                 "label": p.label,
-                "conditions": p.conditions,
+                "clause_quote": p.clause_quote,
             }
             for p in self.primitives
         ]
-        prompt = build_gate_init_prompt(primitives_payload, self.term_defs, self.overview_text)
+        prompt = build_gate_init_prompt(
+            primitives_payload,
+            self.term_defs,
+            agenda_text=self.agenda_text,
+            num_gates_suggest=self.config.num_gates_suggest,
+        )
         self._status("GateInit: calling LLM for gate proposals")
         response, usage = await self.llm.call_async_with_usage(
             [{"role": "user", "content": prompt}],
