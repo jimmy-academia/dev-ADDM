@@ -18,9 +18,7 @@ from .phase1_prompts import (
     LOCATE_BLOCKS_PROMPT,
     EXTRACT_VERDICT_RULES_PROMPT,
     SELECT_TERM_BLOCKS_PROMPT,
-    SELECT_OVERVIEW_BLOCKS_PROMPT,
     EXTRACT_TERM_ENUM_PROMPT,
-    EXTRACT_OVERVIEW_PROMPT,
     COMPILE_CLAUSE_PROMPT,
 )
 from .phase1_helpers import (
@@ -33,10 +31,6 @@ from .phase1_helpers import (
     validate_verdict_rules,
     normalize_term_blocks,
     validate_term_blocks,
-    normalize_overview_blocks,
-    validate_overview_blocks,
-    normalize_overview_text,
-    validate_overview_text,
     normalize_term_enum,
     validate_term_enum,
     normalize_clause_spec,
@@ -310,85 +304,6 @@ async def _select_term_blocks(
 
 
 # =============================================================================
-# Step 2b: Select overview blocks (anchors only)
-# =============================================================================
-
-async def _select_overview_blocks(
-    definitions_text: str,
-    verdict_rules: Dict[str, Any],
-    agenda: str,
-    llm: LLMService,
-    policy_id: str,
-    max_retries: int,
-) -> Tuple[List[Dict[str, str]], List[Dict[str, Any]]]:
-    verdict_rules_json = json.dumps(verdict_rules, indent=2, ensure_ascii=True)
-    prompt = SELECT_OVERVIEW_BLOCKS_PROMPT.format(
-        definitions_text=definitions_text,
-        verdict_rules_json=verdict_rules_json,
-    )
-
-    def validator(data: Dict[str, Any]) -> List[str]:
-        blocks = normalize_overview_blocks(data)
-        return validate_overview_blocks(blocks, agenda, definitions_text, allow_empty=True)
-
-    data, usages = await _call_llm_json_with_retries(
-        prompt,
-        llm,
-        context={
-            "sample_id": policy_id,
-            "phase": "phase1_overview_blocks",
-            "step": "select_overview_blocks",
-            "policy_id": policy_id,
-        },
-        validator=validator,
-        max_retries=max_retries,
-    )
-
-    blocks = normalize_overview_blocks(data)
-    return blocks, usages
-
-
-# =============================================================================
-# Step 2c: Extract overview text (summary)
-# =============================================================================
-
-async def _extract_overview_text(
-    overview_text: str,
-    terms: List[Dict[str, Any]],
-    llm: LLMService,
-    policy_id: str,
-    max_retries: int,
-) -> Tuple[str, List[Dict[str, Any]]]:
-    if not overview_text.strip():
-        return "", []
-    terms_json = json.dumps(terms, indent=2, ensure_ascii=True)
-    prompt = EXTRACT_OVERVIEW_PROMPT.format(
-        overview_text=overview_text,
-        terms_json=terms_json,
-    )
-
-    def validator(data: Dict[str, Any]) -> List[str]:
-        text = normalize_overview_text(data)
-        return validate_overview_text(text, allow_empty=True)
-
-    data, usages = await _call_llm_json_with_retries(
-        prompt,
-        llm,
-        context={
-            "sample_id": policy_id,
-            "phase": "phase1_overview_text",
-            "step": "extract_overview_text",
-            "policy_id": policy_id,
-        },
-        validator=validator,
-        max_retries=max_retries,
-    )
-
-    text = normalize_overview_text(data)
-    return text, usages
-
-
-# =============================================================================
 # Step 3: Extract term enum (per term)
 # =============================================================================
 
@@ -501,7 +416,7 @@ async def generate_verdict_and_terms(
 
     # Step 0: Locate blocks
     report("LOCATE_BLOCKS", 5, "locating blocks")
-    output.status("[Phase 1] Step 0/7: Locating blocks...")
+    output.status("[Phase 1] Step 0/6: Locating blocks...")
     definitions_blocks, verdict_blocks, usages0 = await _locate_blocks(
         agenda,
         llm,
@@ -524,7 +439,7 @@ async def generate_verdict_and_terms(
 
     # Step 1: Verdict rules skeleton
     report("VERDICT_RULES", 15, "extracting verdict rules")
-    output.status("[Phase 1] Step 1/7: Extracting verdict rules...")
+    output.status("[Phase 1] Step 1/6: Extracting verdict rules...")
     verdict_rules, usages1 = await _extract_verdict_rules(
         verdict_text,
         agenda,
@@ -557,7 +472,7 @@ async def generate_verdict_and_terms(
 
     # Step 2: Select term blocks
     report("TERM_BLOCKS", 35, "selecting term blocks")
-    output.status("[Phase 1] Step 2/7: Selecting term blocks...")
+    output.status("[Phase 1] Step 2/6: Selecting term blocks...")
     non_default_rules = [
         r for r in verdict_rules.get("rules", []) if not r.get("default")
     ]
@@ -629,7 +544,7 @@ async def generate_verdict_and_terms(
 
     # Step 3: Extract term enums (parallel per term)
     report("TERM_ENUMS", 55, "extracting term enums")
-    output.status("[Phase 1] Step 3/7: Extracting term enums...")
+    output.status("[Phase 1] Step 3/6: Extracting term enums...")
     term_tasks = [
         _extract_term_enum(
             title,
@@ -660,73 +575,6 @@ async def generate_verdict_and_terms(
         },
     )
 
-    # Step 4: Overview/guidance extraction
-    report("OVERVIEW_BLOCKS", 65, "selecting overview guidance")
-    output.status("[Phase 1] Step 4/7: Selecting overview guidance...")
-    overview_blocks, usages_overview_blocks = await _select_overview_blocks(
-        definitions_text,
-        verdict_rules,
-        agenda,
-        llm,
-        policy_id,
-        max_retries,
-    )
-    all_usages.extend(usages_overview_blocks)
-    output.status(f"[Phase 1] Overview blocks: {len(overview_blocks)}")
-    log_event(
-        "phase1.overview_blocks.summary",
-        {
-            "blocks": [
-                {
-                    "title": b.get("title"),
-                    "start_len": len(b.get("start_quote", "") or ""),
-                    "end_len": len(b.get("end_quote", "") or ""),
-                }
-                for b in overview_blocks
-            ],
-        },
-    )
-
-    overview_inputs: List[str] = []
-    for idx, b in enumerate(overview_blocks):
-        try:
-            overview_inputs.append(
-                slice_block_by_anchors(agenda, b.get("start_quote", ""), b.get("end_quote", ""))
-            )
-        except Exception as e:  # noqa: BLE001 - best-effort fallback
-            if debug_logger := get_debug_logger():
-                debug_logger.log_event(
-                    sample_id=policy_id,
-                    event_type="phase1.slice_warning",
-                    data={
-                        "step": "overview_blocks",
-                        "index": idx,
-                        "error": str(e),
-                    },
-                )
-            output.print(
-                f"  [yellow]⚠[/yellow] {policy_id} P1 overview_blocks[{idx}]: "
-                "failed to slice; using definitions_text"
-            )
-            overview_inputs.append(definitions_text)
-
-    overview_text_raw = "\n\n".join(overview_inputs) if overview_inputs else ""
-
-    report("OVERVIEW_SUMMARY", 70, "summarizing overview guidance")
-    output.status("[Phase 1] Step 4/7: Summarizing overview guidance...")
-    overview_text, usages_overview_text = await _extract_overview_text(
-        overview_text_raw,
-        terms,
-        llm,
-        policy_id,
-        max_retries,
-    )
-    all_usages.extend(usages_overview_text)
-    log_event(
-        "phase1.overview_text.summary",
-        {"length": len(overview_text)},
-    )
-
     # Prepare allowed terms payload for clause compilation
     allowed_terms = [
         {
@@ -744,8 +592,8 @@ async def generate_verdict_and_terms(
     ]
 
     # Step 4: Compile clauses (parallel per clause)
-    report("COMPILE_CLAUSES", 80, "compiling clauses")
-    output.status("[Phase 1] Step 5/7: Compiling clauses...")
+    report("COMPILE_CLAUSES", 75, "compiling clauses")
+    output.status("[Phase 1] Step 4/6: Compiling clauses...")
     rules_out: List[Dict[str, Any]] = []
     for rule in verdict_rules.get("rules", []):
         if rule.get("default"):
@@ -808,7 +656,7 @@ async def generate_verdict_and_terms(
 
     # Step 5: Assemble + prune + validate
     report("ASSEMBLE", 95, "assembling agenda spec")
-    output.status("[Phase 1] Step 6/7: Assembling agenda spec...")
+    output.status("[Phase 1] Step 5/6: Assembling agenda spec...")
 
     # Prune unused terms (only those referenced by non-default clauses)
     used_fields = set()
@@ -826,10 +674,6 @@ async def generate_verdict_and_terms(
 
     agenda_spec = {
         "terms": pruned_terms,
-        "overview": {
-            "blocks": overview_blocks,
-            "text": overview_text,
-        },
         "verdict_rules": {
             "labels": verdict_rules.get("labels", []),
             "default_label": verdict_rules.get("default_label", ""),
