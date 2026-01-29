@@ -7,9 +7,7 @@ import json
 import math
 import random
 import re
-import sys
 import time
-from datetime import datetime
 import asyncio
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -19,7 +17,6 @@ import numpy as np
 
 from addm.llm import LLMService
 from addm.utils.async_utils import gather_with_concurrency
-from addm.utils.debug_logger import get_debug_logger
 from addm.utils.output import output
 
 from .phase1_helpers import extract_json_from_response, parse_json_safely
@@ -27,6 +24,12 @@ from .phase2_prompts import (
     build_gate_discover_prompt,
     build_gate_init_prompt,
     build_extract_evident_prompt,
+)
+from .phase2_debug import (
+    dump_state as debug_dump_state,
+    log_event as debug_log_event,
+    pause as debug_pause,
+    print_llm_gate_payload,
 )
 
 
@@ -724,7 +727,6 @@ class ATKDEngine:
         self.config = config
         self.cache_dir = cache_dir
         self.rng = random.Random(rng_seed)
-        self._debug_logger = get_debug_logger()
         self._step_prefix = ""
         self._current_iter = 0
         self._last_batch_debug: Dict[str, Any] = {}
@@ -755,14 +757,6 @@ class ATKDEngine:
         for idx, r in enumerate(self.review_pool):
             self._restaurant_to_reviews.setdefault(r["restaurant_index"], []).append(idx)
 
-    def _log_event(self, event_type: str, data: Dict[str, Any], sample_id: Optional[str] = None) -> None:
-        if not self._debug_logger or not self._debug_logger.enabled:
-            return
-        try:
-            self._debug_logger.log_event(sample_id or self.policy_id, event_type, data)
-        except Exception:
-            return
-
     def _set_step_prefix(self, prefix: str) -> None:
         self._step_prefix = prefix
 
@@ -771,189 +765,6 @@ class ATKDEngine:
             output.status(f"{self._step_prefix} - {message}")
         else:
             output.status(message)
-
-    def _print_gate_summary(self, max_per: int = 3) -> None:
-        def _short(text: Any, limit: int = 80) -> str:
-            s = str(text)
-            if len(s) <= limit:
-                return s
-            return s[: limit - 3] + "..."
-
-        output.rule()
-        output.print("Gate summary (sample)")
-        for p in self.primitives:
-            parts = []
-            for modality, polarity, label in [
-                ("bm25", "pos", "bm25+"),
-                ("bm25", "neg", "bm25-"),
-                ("emb", "pos", "emb+"),
-                ("emb", "neg", "emb-"),
-            ]:
-                gates = self.gate_library.by_filter(p.primitive_id, modality, polarity)
-                samples = ", ".join(_short(g.query) for g in gates[:max_per])
-                parts.append(f"{label}[{len(gates)}]: {samples}")
-            output.print(f"- {p.primitive_id}: " + " | ".join(parts))
-
-    def _print_llm_gate_payload(self, label: str, data: Dict[str, Any]) -> None:
-        output.rule()
-        output.print(f"{label}: LLM gate output (full)")
-        if not data:
-            output.print("(empty)")
-            return
-        try:
-            output.print(json.dumps(data, indent=2, ensure_ascii=True))
-        except Exception:
-            output.print(str(data))
-
-    def _pause(self, label: str) -> None:
-        output.status(f"ATKD step: {label}")
-        if not self.config.pause:
-            return
-        if not sys.stdin.isatty():
-            return
-        self._log_event("phase2_pause", {"label": label})
-        try:
-            input(f"[ATKD] {label} - press Enter to continue...")
-        except EOFError:
-            return
-
-    def _dump_state(
-        self,
-        label: str,
-        *,
-        save_arrays: bool = False,
-        batch: Optional[List[int]] = None,
-        iteration: Optional[int] = None,
-    ) -> None:
-        if not self._debug_logger or not self._debug_logger.enabled:
-            return
-        def _to_list(value: Any) -> List[Any]:
-            if value is None:
-                return []
-            if hasattr(value, "tolist"):
-                return value.tolist()
-            if isinstance(value, (list, tuple)):
-                return list(value)
-            return [value]
-        dump_dir = self.cache_dir / "debug_state"
-        dump_dir.mkdir(parents=True, exist_ok=True)
-        stamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
-        safe_label = label.replace(" ", "_")
-        name = f"{safe_label}_{stamp}"
-        if iteration is not None:
-            name = f"{safe_label}_iter{iteration}_{stamp}"
-        payload: Dict[str, Any] = {
-            "label": label,
-            "policy_id": self.policy_id,
-            "timestamp": stamp,
-            "primitives": [p.__dict__ for p in self.primitives],
-            "gate_counts": {
-                p.primitive_id: {
-                    f"{modality}_{polarity}": len(
-                        self.gate_library.by_filter(p.primitive_id, modality, polarity)
-                    )
-                    for modality in ("bm25", "emb")
-                    for polarity in ("pos", "neg")
-                }
-                for p in self.primitives
-            },
-            "tag_counts": {
-                p.primitive_id: {
-                    "total": len(self.tag_store.records_for_primitive(p.primitive_id)),
-                    "pos": sum(
-                        1
-                        for r in self.tag_store.records_for_primitive(p.primitive_id)
-                        if r.tags.get(p.primitive_id, 0) > 0
-                    ),
-                    "neg": sum(
-                        1
-                        for r in self.tag_store.records_for_primitive(p.primitive_id)
-                        if r.tags.get(p.primitive_id, 0) == 0
-                    ),
-                }
-                for p in self.primitives
-            },
-        }
-        if batch is not None:
-            batch_rows = []
-            for review_idx in batch:
-                review = self.review_pool[review_idx]
-                z_by_primitive = {}
-                bin_by_primitive = {}
-                if self.score_store:
-                    for p in self.primitives:
-                        pid = p.primitive_id
-                        z_by_primitive[pid] = float(self.score_store.z_scores[pid][review_idx])
-                        bin_by_primitive[pid] = int(self.score_store.z_bins[pid][review_idx])
-                batch_rows.append(
-                    {
-                        "review_id": review.get("review_id"),
-                        "business_id": review.get("business_id"),
-                        "z_by_primitive": z_by_primitive,
-                        "bin_by_primitive": bin_by_primitive,
-                    }
-                )
-            payload["batch"] = batch_rows
-            if self._last_batch_debug:
-                payload["voi_summary"] = self._last_batch_debug.get("summary", {})
-                payload["voi_selected"] = self._last_batch_debug.get("selected", [])
-
-        if self.score_store:
-            payload["z_stats"] = {
-                p.primitive_id: {
-                    "min": float(np.min(self.score_store.z_scores[p.primitive_id])),
-                    "max": float(np.max(self.score_store.z_scores[p.primitive_id])),
-                    "mean": float(np.mean(self.score_store.z_scores[p.primitive_id])),
-                }
-                for p in self.primitives
-                if p.primitive_id in self.score_store.z_scores
-            }
-            payload["z_bin_edges"] = {
-                p.primitive_id: self.score_store.z_bin_edges[p.primitive_id].tolist()
-                for p in self.primitives
-                if p.primitive_id in self.score_store.z_bin_edges
-            }
-            if save_arrays:
-                arrays = {}
-                for p in self.primitives:
-                    pid = p.primitive_id
-                    if pid not in self.score_store.z_scores:
-                        continue
-                    z_path = dump_dir / f"{name}_{pid}_z.npy"
-                    b_path = dump_dir / f"{name}_{pid}_bins.npy"
-                    np.save(z_path, self.score_store.z_scores[pid])
-                    np.save(b_path, self.score_store.z_bins[pid])
-                    arrays[pid] = {
-                        "z_scores": str(z_path),
-                        "z_bins": str(b_path),
-                    }
-                payload["z_arrays"] = arrays
-
-        if self.calibration:
-            payload["theta_hat"] = {
-                p.primitive_id: _to_list(self.calibration.theta_hat.get(p.primitive_id))
-                for p in self.primitives
-            }
-            payload["upper_bound"] = {
-                p.primitive_id: _to_list(self.calibration.upper_bound.get(p.primitive_id))
-                for p in self.primitives
-            }
-
-        gate_list_path = dump_dir / f"{name}_gates.json"
-        gate_list_path.write_text(json.dumps(self.gate_library.to_dict(), indent=2))
-        payload["gate_list_path"] = str(gate_list_path)
-
-        state_path = dump_dir / f"{name}.json"
-        state_path.write_text(json.dumps(payload, indent=2))
-        self._log_event(
-            "phase2_state",
-            {
-                "label": label,
-                "iteration": iteration,
-                "state_path": str(state_path),
-                "gate_list_path": str(gate_list_path),
-            },
-        )
 
     # ---------------------------------------------------------------------
     # Compilation
@@ -1069,8 +880,9 @@ class ATKDEngine:
             f"GateInit: llm_added={added} total_gates={len(self.gate_library.list())}"
         )
         if self.config.pause:
-            self._print_llm_gate_payload("GateInit", data)
-        self._log_event(
+            print_llm_gate_payload("GateInit", data)
+        debug_log_event(
+            self.policy_id,
             "phase2_gate_init",
             {
                 "baseline_gates": 0,
@@ -1724,7 +1536,8 @@ class ATKDEngine:
         if added_records:
             # Log per-item evidence for inspection
             for record in added_records:
-                self._log_event(
+                debug_log_event(
+                    self.policy_id,
                     "phase2_verifier_result",
                     {
                         "review_id": record.review_id,
@@ -1733,7 +1546,8 @@ class ATKDEngine:
                     },
                     sample_id=record.business_id or self.policy_id,
                 )
-            self._log_event(
+            debug_log_event(
+                self.policy_id,
                 "phase2_verifier_batch",
                 {
                     "batch_size": len(batch),
@@ -1889,9 +1703,10 @@ class ATKDEngine:
             f"GateDiscover: done (added={total_added}, total_gates={len(self.gate_library.list())})"
         )
         if total_added > 0 and self.config.pause:
-            self._print_llm_gate_payload("GateDiscover", {"primitives": gate_discover_payloads})
+            print_llm_gate_payload("GateDiscover", {"primitives": gate_discover_payloads})
         if total_added > 0:
-            self._log_event(
+            debug_log_event(
+                self.policy_id,
                 "phase2_gate_discover",
                 {
                     "added": total_added,
@@ -1904,20 +1719,39 @@ class ATKDEngine:
     # ---------------------------------------------------------------------
 
     async def run(self) -> Dict[str, Any]:
+        def _pause_step(label: str) -> None:
+            debug_log_event(self.policy_id, "phase2_pause", {"label": label})
+            debug_pause(label, self.config.pause)
+
+        def _dump(label: str, **kwargs: Any) -> None:
+            debug_dump_state(
+                self.policy_id,
+                self.cache_dir,
+                self.primitives,
+                self.gate_library,
+                self.tag_store,
+                self.score_store,
+                self.calibration,
+                label,
+                review_pool=self.review_pool,
+                last_batch_debug=self._last_batch_debug,
+                **kwargs,
+            )
+
         self._set_step_prefix("Step 1/3: GateInit")
-        self._pause("Step 1/3: GateInit")
+        _pause_step("Step 1/3: GateInit")
         await self.initialize_gates()
-        self._dump_state("after_gate_init")
+        _dump("after_gate_init")
 
         self._set_step_prefix("Step 2/3: GateScan")
-        self._pause("Step 2/3: GateScan")
+        _pause_step("Step 2/3: GateScan")
         self.scan_gates()
-        self._dump_state("after_gate_scan", save_arrays=True)
+        _dump("after_gate_scan", save_arrays=True)
 
         self._set_step_prefix("Step 3/3: Calibration")
-        self._pause("Step 3/3: Calibration")
+        _pause_step("Step 3/3: Calibration")
         self._recompute_calibration()
-        self._dump_state("after_calibration")
+        _dump("after_calibration")
 
         active_restaurants = list(range(len(self.restaurants)))
         per_restaurant_counts: Dict[int, Dict[str, int]] = self._compute_counts_by_restaurant()
@@ -1929,13 +1763,14 @@ class ATKDEngine:
         while active_restaurants:
             iteration += 1
             self._current_iter = iteration
-            self._log_event(
+            debug_log_event(
+                self.policy_id,
                 "phase2_iteration_start",
                 {"iteration": iteration, "active_restaurants": len(active_restaurants)},
             )
             restaurant_batch = active_restaurants[: self.config.batch_size]
             self._set_step_prefix(f"Iter {iteration} Step 1/4: BatchSelect")
-            self._pause(f"Iter {iteration} Step 1/4: BatchSelect")
+            _pause_step(f"Iter {iteration} Step 1/4: BatchSelect")
             batch = self._select_batch(
                 restaurant_batch,
                 per_restaurant_counts,
@@ -1957,25 +1792,25 @@ class ATKDEngine:
                     f"{summary.get('score_mean', 0.0):.3f}/"
                     f"{summary.get('score_max', 0.0):.3f}"
                 )
-            self._dump_state("batch_selected", batch=batch, iteration=iteration)
+            _dump("batch_selected", batch=batch, iteration=iteration)
             if not batch:
                 break
             self._set_step_prefix(f"Iter {iteration} Step 2/4: Verify")
-            self._pause(f"Iter {iteration} Step 2/4: Verify")
+            _pause_step(f"Iter {iteration} Step 2/4: Verify")
             await self._verify_batch(batch)
             self.tag_store.save()
-            self._dump_state("after_verify", iteration=iteration)
+            _dump("after_verify", iteration=iteration)
             self._set_step_prefix(f"Iter {iteration} Step 3/4: Calibration")
-            self._pause(f"Iter {iteration} Step 3/4: Calibration")
+            _pause_step(f"Iter {iteration} Step 3/4: Calibration")
             self._recompute_calibration()
-            self._dump_state("after_calibration_iter", iteration=iteration)
+            _dump("after_calibration_iter", iteration=iteration)
 
             # Recompute counts to avoid double counting
             per_restaurant_counts = self._compute_counts_by_restaurant()
 
             # Check stopping for each restaurant
             self._set_step_prefix(f"Iter {iteration} Step 4/4: StopCheck")
-            self._pause(f"Iter {iteration} Step 4/4: StopCheck")
+            _pause_step(f"Iter {iteration} Step 4/4: StopCheck")
             still_active = []
             finalized_now = 0
             rho_by_restaurant = {}
@@ -1989,7 +1824,8 @@ class ATKDEngine:
                     }
                     finalized_now += 1
                     business_id = self.restaurants[ridx].get("business", {}).get("business_id", "")
-                    self._log_event(
+                    debug_log_event(
+                        self.policy_id,
                         "phase2_stop",
                         {
                             "verdict": verdict,
@@ -2010,7 +1846,8 @@ class ATKDEngine:
                     }
                     finalized_now += 1
                     business_id = self.restaurants[ridx].get("business", {}).get("business_id", "")
-                    self._log_event(
+                    debug_log_event(
+                        self.policy_id,
                         "phase2_stop",
                         {
                             "verdict": self.default_label or "Default",
@@ -2023,7 +1860,7 @@ class ATKDEngine:
                     continue
                 still_active.append(ridx)
             active_restaurants = still_active
-            self._dump_state("after_stop_check", iteration=iteration)
+            _dump("after_stop_check", iteration=iteration)
             if finalized_now > 0:
                 stall_counter = 0
             else:
@@ -2034,18 +1871,18 @@ class ATKDEngine:
                 and iteration % (self.config.gate_discover_every or self.config.gate_discover_period) == 0
             ):
                 self._set_step_prefix(f"Iter {iteration} Step 5/5: GateDiscover")
-                self._pause(f"Iter {iteration} Step 5/5: GateDiscover")
+                _pause_step(f"Iter {iteration} Step 5/5: GateDiscover")
                 await self._gate_discover()
                 # Only scan new gates
                 if self.score_store:
                     self._set_step_prefix(f"Iter {iteration} Step 5/5: GateDiscover Scan")
-                    self._pause(f"Iter {iteration} Step 5/5: GateDiscover Scan")
+                    _pause_step(f"Iter {iteration} Step 5/5: GateDiscover Scan")
                     self.scan_gates()
-                    self._dump_state("after_gate_scan_discover", save_arrays=True, iteration=iteration)
+                    _dump("after_gate_scan_discover", save_arrays=True, iteration=iteration)
                     self._set_step_prefix(f"Iter {iteration} Step 5/5: GateDiscover Calibration")
-                    self._pause(f"Iter {iteration} Step 5/5: GateDiscover Calibration")
+                    _pause_step(f"Iter {iteration} Step 5/5: GateDiscover Calibration")
                     self._recompute_calibration()
-                    self._dump_state("after_calibration_discover", iteration=iteration)
+                    _dump("after_calibration_discover", iteration=iteration)
 
         # Any remaining restaurants default out
         for ridx in active_restaurants:
@@ -2054,7 +1891,8 @@ class ATKDEngine:
                 "stop_reason": "exhausted",
             }
             business_id = self.restaurants[ridx].get("business", {}).get("business_id", "")
-            self._log_event(
+            debug_log_event(
+                self.policy_id,
                 "phase2_stop",
                 {
                     "verdict": self.default_label or "Default",
@@ -2100,7 +1938,7 @@ class ATKDEngine:
 
         aggregated_usage = self._aggregate_usage()
         self.tag_store.save()
-        self._dump_state("final")
+        _dump("final")
 
         return {
             "results": results,
