@@ -258,6 +258,7 @@ async def run_stepwise(args: argparse.Namespace) -> None:
         stall_iters=args.stall_iters,
         min_bin_coverage=args.min_bin_coverage,
         prompt_version=args.prompt_version,
+        dataset_tag=args.domain,
     )
 
     engine = ATKDEngine(

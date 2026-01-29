@@ -208,6 +208,7 @@ class ATKDConfig:
     stall_iters: int = 3
     min_bin_coverage: int = 5
     prompt_version: str = "extract_evident_v1"
+    dataset_tag: str = "unknown"
 
 
 class GateLibrary:
@@ -345,56 +346,87 @@ class BM25Index:
 
 
 class EmbeddingStore:
-    def __init__(self, cache_dir: Path, model: str = "text-embedding-3-large") -> None:
-        self.cache_dir = cache_dir
+    def __init__(
+        self,
+        cache_root: Path,
+        model: str = "text-embedding-3-large",
+        dataset_tag: str = "unknown",
+    ) -> None:
+        self.cache_root = cache_root
         self.model = model
+        self.dataset_tag = dataset_tag
         self._review_embeddings: Optional[np.ndarray] = None
         self._review_ids: List[str] = []
         self._review_hashes: List[str] = []
         self._query_cache: Dict[str, np.ndarray] = {}
+        self._last_usage: Dict[str, Any] = {}
+        self._active_cache_dir: Optional[Path] = None
 
-    def _meta_path(self) -> Path:
-        return self.cache_dir / "embedding_meta.json"
+    def _cache_dir_for(self, review_ids: List[str], review_hashes: List[str]) -> Path:
+        payload = json.dumps(
+            {"model": self.model, "review_ids": review_ids, "review_hashes": review_hashes},
+            separators=(",", ":"),
+        )
+        signature = hashlib.sha1(payload.encode("utf-8")).hexdigest()[:16]
+        return self.cache_root / self.dataset_tag / self.model / signature
 
-    def _emb_path(self) -> Path:
-        return self.cache_dir / "review_embeddings.npy"
+    def _meta_path(self, cache_dir: Path) -> Path:
+        return cache_dir / "embedding_meta.json"
+
+    def _emb_path(self, cache_dir: Path) -> Path:
+        return cache_dir / "review_embeddings.npy"
 
     def load_or_compute(self, reviews: List[Dict[str, Any]], llm: LLMService) -> np.ndarray:
-        self.cache_dir.mkdir(parents=True, exist_ok=True)
         review_ids = [r["review_id"] for r in reviews]
         review_hashes = [r["review_text_hash"] for r in reviews]
-        if self._emb_path().exists() and self._meta_path().exists():
+        cache_dir = self._cache_dir_for(review_ids, review_hashes)
+        self._active_cache_dir = cache_dir
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        meta_path = self._meta_path(cache_dir)
+        emb_path = self._emb_path(cache_dir)
+        if emb_path.exists() and meta_path.exists():
             try:
-                meta = json.loads(self._meta_path().read_text())
+                meta = json.loads(meta_path.read_text())
                 if (
                     meta.get("review_ids") == review_ids
                     and meta.get("review_hashes") == review_hashes
                     and meta.get("model") == self.model
                 ):
-                    self._review_embeddings = np.load(self._emb_path())
+                    self._review_embeddings = np.load(emb_path)
                     self._review_ids = review_ids
                     self._review_hashes = review_hashes
                     return self._review_embeddings
             except (OSError, json.JSONDecodeError):
                 pass
 
-        embeddings = self._embed_texts([r["text"] for r in reviews], llm)
+        texts = [r["text"] for r in reviews]
+        embeddings = self._embed_texts(texts, llm, track_usage=True)
         self._review_embeddings = embeddings
         self._review_ids = review_ids
         self._review_hashes = review_hashes
-        self._meta_path().write_text(
+        meta_payload = {
+            "review_ids": review_ids,
+            "review_hashes": review_hashes,
+            "model": self.model,
+            "dataset_tag": self.dataset_tag,
+            "created_at": _now_iso(),
+            "review_count": len(review_ids),
+            "total_text_chars": int(sum(len(t) for t in texts)),
+            "usage": self._last_usage,
+        }
+        meta_path.write_text(
             json.dumps(
-                {"review_ids": review_ids, "review_hashes": review_hashes, "model": self.model}
+                meta_payload
             )
         )
-        np.save(self._emb_path(), embeddings)
+        np.save(emb_path, embeddings)
         return embeddings
 
     def embed_query(self, query: str, llm: LLMService) -> np.ndarray:
         key = _text_hash(query)
         if key in self._query_cache:
             return self._query_cache[key]
-        emb = self._embed_texts([query], llm, show_progress=False)[0]
+        emb = self._embed_texts([query], llm, show_progress=False, track_usage=False)[0]
         self._query_cache[key] = emb
         return emb
 
@@ -439,6 +471,7 @@ class EmbeddingStore:
         llm: LLMService,
         *,
         show_progress: bool = True,
+        track_usage: bool = False,
     ) -> np.ndarray:
         # Uses OpenAI embeddings API via LLMService config.
         try:
@@ -450,19 +483,36 @@ class EmbeddingStore:
         embeddings: List[List[float]] = []
         batch_size = 128
         total_batches = (len(texts) + batch_size - 1) // batch_size
+        usage_total_tokens = 0
+        usage_requests = 0
         if show_progress and total_batches > 1:
             with output.progress("Embedding batches") as progress:
                 task_id = progress.add_task("Embedding reviews", total=total_batches)
                 for i in range(0, len(texts), batch_size):
                     batch = texts[i:i + batch_size]
                     response = client.embeddings.create(model=self.model, input=batch)
+                    usage_requests += 1
+                    usage = getattr(response, "usage", None)
+                    if usage and getattr(usage, "total_tokens", None) is not None:
+                        usage_total_tokens += int(usage.total_tokens)
                     embeddings.extend([item.embedding for item in response.data])
                     progress.advance(task_id, 1)
         else:
             for i in range(0, len(texts), batch_size):
                 batch = texts[i:i + batch_size]
                 response = client.embeddings.create(model=self.model, input=batch)
+                usage_requests += 1
+                usage = getattr(response, "usage", None)
+                if usage and getattr(usage, "total_tokens", None) is not None:
+                    usage_total_tokens += int(usage.total_tokens)
                 embeddings.extend([item.embedding for item in response.data])
+        if track_usage:
+            self._last_usage = {
+                "total_tokens": usage_total_tokens or None,
+                "requests": usage_requests,
+                "batch_size": batch_size,
+                "total_batches": total_batches,
+            }
         return np.array(embeddings, dtype=np.float64)
 
 
@@ -1038,7 +1088,11 @@ class ATKDEngine:
             self.config.bm25_k1,
             self.config.bm25_b,
         )
-        emb_store = EmbeddingStore(self.cache_dir / "embeddings", model=self.config.embedding_model)
+        emb_store = EmbeddingStore(
+            Path("results/shared/embeddings"),
+            model=self.config.embedding_model,
+            dataset_tag=self.config.dataset_tag,
+        )
         self._status("GateScan: loading/creating embeddings")
         review_embeddings = emb_store.load_or_compute(self.review_pool, self.llm)
 

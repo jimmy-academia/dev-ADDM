@@ -1100,6 +1100,7 @@ Let's think through this step-by-step:"""
                 stall_iters=stall_iters,
                 min_bin_coverage=min_bin_coverage,
                 prompt_version=prompt_version,
+                dataset_tag=domain,
                 pause=debug,
             )
             amos_output = await run_amos_policy(
@@ -1677,6 +1678,7 @@ Let's think through this step-by-step:"""
         "stall_iters": stall_iters,
         "min_bin_coverage": min_bin_coverage,
         "prompt_version": prompt_version,
+        "dataset_tag": domain,
         "timestamp": run_output["metadata"]["timestamp"],
     }
     with open(output_dir / "run_manifest.json", "w") as f:
