@@ -130,13 +130,40 @@ def _normalize_query(query: Any) -> str:
     return re.sub(r"\s+", " ", joined.strip().lower())
 
 
+def _contains_any_anchor(text: str, anchors: List[str]) -> bool:
+    if not anchors:
+        return True
+    hay = _normalize_query(text)
+    if not hay:
+        return False
+    for a in anchors:
+        needle = _normalize_query(a)
+        if needle and needle in hay:
+            return True
+    return False
+
+
 def rank_normalize(scores: np.ndarray) -> np.ndarray:
     n = len(scores)
     if n == 0:
         return scores
     order = np.argsort(scores, kind="mergesort")
-    ranks = np.empty_like(order, dtype=np.float64)
-    ranks[order] = np.arange(n, dtype=np.float64)
+    sorted_scores = scores[order]
+
+    # Tie-aware ranks: equal scores get the same (average) rank.
+    # Without this, large tie groups (e.g., many zeros) produce arbitrary ordering
+    # and corrupt Z.
+    ranks = np.empty(n, dtype=np.float64)
+    i = 0
+    while i < n:
+        j = i
+        # Note: scores are floats, but ties here are typically exact (BM25 zeros).
+        while j + 1 < n and sorted_scores[j + 1] == sorted_scores[i]:
+            j += 1
+        avg_rank = 0.5 * (i + j)
+        ranks[order[i : j + 1]] = avg_rank
+        i = j + 1
+
     denom = max(n - 1, 1)
     return ranks / denom
 
@@ -410,6 +437,11 @@ class BM25Index:
             return np.zeros(len(self._doc_tokens), dtype=np.float64)
         scores = np.zeros(len(self._doc_tokens), dtype=np.float64)
         for idx, tf in enumerate(self._tf):
+            # IMPORTANT: Treat multi-token BM25 gates as an AND-group.
+            # This prevents high false positives from generic single-token hits
+            # (e.g., "emergency room" matching any review that contains only "room").
+            if len(tokens) > 1 and any(t not in tf for t in tokens):
+                continue
             score = 0.0
             dl = self._doc_len[idx]
             for t in tokens:
@@ -741,6 +773,9 @@ class ATKDEngine:
         self.overview_text = (
             self.agenda_spec.get("overview", {}).get("text", "") if self.agenda_spec else ""
         )
+        self.topic_anchors: List[str] = []
+        self._topic_anchor_tokens: set[str] = set()
+        self._topic_mask: Optional[np.ndarray] = None
         self.gate_library = GateLibrary()
         self.tag_store = TagStore(cache_dir / "verifier_cache.jsonl")
         self.score_store: Optional[ScoreStore] = None
@@ -848,8 +883,7 @@ class ATKDEngine:
         primitives_payload = [
             {
                 "primitive_id": p.primitive_id,
-                "label": p.label,
-                "clause_quote": p.clause_quote,
+                "conditions": p.conditions,
             }
             for p in self.primitives
         ]
@@ -873,9 +907,43 @@ class ATKDEngine:
             data = parse_json_safely(extract_json_from_response(response))
         except Exception:
             data = {}
+        anchors = data.get("topic_anchors") or []
+        if isinstance(anchors, list):
+            self.topic_anchors = [str(a) for a in anchors if str(a).strip()]
+        else:
+            self.topic_anchors = []
         added = 0
         for item in data.get("primitives", []):
-            added += self._add_gates_from_payload(item, created_by="llm_init")
+            added += self._add_gates_from_payload(
+                item,
+                created_by="llm_init",
+                topic_anchors=self.topic_anchors,
+            )
+        # Build a simple lexical topic mask to suppress embedding false positives on topic-irrelevant reviews.
+        # Use both the (optional) topic_anchors and the BM25 positive-gate tokens to avoid over-restricting.
+        self._topic_anchor_tokens = {
+            t
+            for a in self.topic_anchors
+            for t in _tokenize(str(a))
+            if t and t not in _STOPWORDS
+        }
+        for g in self.gate_library.list():
+            if g.modality != "bm25" or g.polarity != "pos":
+                continue
+            for t in _tokenize(str(g.query)):
+                if t and t not in _STOPWORDS:
+                    self._topic_anchor_tokens.add(t)
+
+        if self._topic_anchor_tokens:
+            mask = np.zeros(len(self.review_pool), dtype=np.float64)
+            for i, r in enumerate(self.review_pool):
+                toks = set(_tokenize(r.get("text", "")))
+                hits = len(toks.intersection(self._topic_anchor_tokens))
+                # Soft mask: 0.0 (no hits), 0.5 (one hit), 1.0 (2+ hits).
+                mask[i] = min(1.0, hits / 2.0)
+            self._topic_mask = mask
+        else:
+            self._topic_mask = None
         self._status(
             f"GateInit: llm_added={added} total_gates={len(self.gate_library.list())}"
         )
@@ -1008,11 +1076,18 @@ class ATKDEngine:
                 )
         return gates
 
-    def _add_gates_from_payload(self, payload: Dict[str, Any], created_by: str) -> int:
+    def _add_gates_from_payload(
+        self,
+        payload: Dict[str, Any],
+        created_by: str,
+        *,
+        topic_anchors: Optional[List[str]] = None,
+    ) -> int:
         primitive_id = payload.get("primitive_id")
         if not primitive_id:
             return 0
         added = 0
+        anchors = topic_anchors or []
         for gate_list, modality, polarity in [
             (payload.get("pos_bm25_gates", []), "bm25", "pos"),
             (payload.get("neg_bm25_gates", []), "bm25", "neg"),
@@ -1289,6 +1364,7 @@ class ATKDEngine:
         c: Dict[int, Dict[str, np.ndarray]] = {}
         C: Dict[str, np.ndarray] = {p.primitive_id: np.zeros(self.config.num_bins) for p in self.primitives}
         review_candidates: List[Tuple[int, int]] = []
+        rest_unverified: Dict[int, int] = {}
         for ridx in active_restaurants:
             review_indices = self._restaurant_review_indices(ridx)
             c.setdefault(ridx, {p.primitive_id: np.zeros(self.config.num_bins) for p in self.primitives})
@@ -1296,6 +1372,7 @@ class ATKDEngine:
                 if review_idx in verified:
                     continue
                 review_candidates.append((ridx, review_idx))
+                rest_unverified[ridx] = rest_unverified.get(ridx, 0) + 1
                 for p in self.primitives:
                     pid = p.primitive_id
                     b = int(self.score_store.z_bins[pid][review_idx])
@@ -1318,6 +1395,7 @@ class ATKDEngine:
         }
 
         # Candidate scores
+        total_unverified = max(len(review_candidates), 1)
         scores: Dict[int, float] = {}
         components: Dict[int, Dict[str, Any]] = {}
         for ridx, review_idx in review_candidates:
@@ -1325,21 +1403,27 @@ class ATKDEngine:
             v_hunt = 0.0
             v_local = 0.0
             v_global = 0.0
+            rest_den = max(rest_unverified.get(ridx, 0), 1)
             for p in self.primitives:
                 pid = p.primitive_id
                 b = int(self.score_store.z_bins[pid][review_idx])
-                theta = self.calibration.theta_hat.get(pid, np.full(self.config.num_bins, 0.5))[b]
                 if p.label in top_labels:
                     deficit = max(0, p.min_count - counts.get(pid, 0))
                     if deficit > 0:
-                        v_hunt = max(v_hunt, float(theta) * w_p[pid])
-                v_local += c[ridx][pid][b] * delta_var[pid][b]
-                v_global += C[pid][b] * delta_var[pid][b]
+                        # Hunt uses Z directly so it works before calibration has any supervision.
+                        z_val = float(self.score_store.z_scores[pid][review_idx])
+                        v_hunt = max(v_hunt, max(0.0, z_val) * w_p[pid])
+                # Scale local/global VOI by proportions to keep score magnitudes stable across dataset sizes.
+                v_local += (c[ridx][pid][b] / rest_den) * delta_var[pid][b]
+                v_global += (C[pid][b] / total_unverified) * delta_var[pid][b]
             score = (
                 self.config.lambda_H * v_hunt
                 + self.config.lambda_L * v_local
                 + self.config.lambda_G * v_global
             )
+            if self._topic_mask is not None:
+                topic_weight = 0.1 + 0.9 * float(self._topic_mask[review_idx])
+                score *= topic_weight
             scores[review_idx] = score
             best_pid = None
             best_z = -1e9
@@ -1351,12 +1435,13 @@ class ATKDEngine:
                     best_pid = pid
             components[review_idx] = {
                 "restaurant_index": ridx,
-                "v_hunt": v_hunt,
-                "v_local": v_local,
-                "v_global": v_global,
-                "score": score,
+                "v_hunt": float(v_hunt),
+                "v_local": float(v_local),
+                "v_global": float(v_global),
+                "score": float(score),
+                "topic_weight": float(topic_weight) if self._topic_mask is not None else 1.0,
                 "top_pid": best_pid,
-                "top_z": best_z,
+                "top_z": float(best_z),
                 "top_bin": int(self.score_store.z_bins[best_pid][review_idx]) if best_pid else None,
             }
 
@@ -1473,6 +1558,7 @@ class ATKDEngine:
                     "v_hunt": components.get(r, {}).get("v_hunt"),
                     "v_local": components.get(r, {}).get("v_local"),
                     "v_global": components.get(r, {}).get("v_global"),
+                    "topic_weight": components.get(r, {}).get("topic_weight"),
                     "score": components.get(r, {}).get("score"),
                     "top_pid": components.get(r, {}).get("top_pid"),
                     "top_bin": components.get(r, {}).get("top_bin"),
