@@ -5,17 +5,23 @@ from __future__ import annotations
 from typing import Any, Dict, List
 
 
-def build_gate_init_prompt(primitives: List[Dict[str, Any]], term_defs: Dict[str, Any]) -> str:
+def build_gate_init_prompt(
+    primitives: List[Dict[str, Any]],
+    term_defs: Dict[str, Any],
+    overview_text: str = "",
+) -> str:
     """Build GateInit prompt for initial cheap gates per primitive."""
     return (
         "You are initializing cheap gates for Active Test-time Knowledge Discovery.\n\n"
-        "Given a list of primitives (each is a clause with term/value definitions),\n"
+        "Given primitives (conditions only), term definitions, and overview guidance,\n"
         "propose multiple BM25 keyword groups and embedding prototype sentences.\n"
         "You MUST provide both positive and negative gates.\n\n"
         "Rules:\n"
         "- Output JSON only.\n"
         "- Provide MULTIPLE gate instances per primitive for BOTH BM25 and embeddings.\n"
-        "- Do NOT include verdict logic or label ordering; only focus on the clause meaning.\n"
+        "- Focus on review-language phrasing. Use words reviewers actually write.\n"
+        "- Do NOT include verdict logic, thresholds, or rubric phrases (e.g.,\n"
+        "  \"incidents are reported\", \"1 or more\", \"2 or more\", \"min_count\", \"clause\").\n"
         "- BM25 gates are keyword groups (lists of short keywords/phrases).\n"
         "- Embedding gates are full natural-language prototype sentences.\n\n"
         "OUTPUT JSON SCHEMA:\n"
@@ -30,6 +36,8 @@ def build_gate_init_prompt(primitives: List[Dict[str, Any]], term_defs: Dict[str
         "    }\n"
         "  ]\n"
         "}\n\n"
+        "OVERVIEW (optional):\n"
+        f"{overview_text or '(none)'}\n\n"
         "PRIMITIVES:\n"
         f"{_format_primitives(primitives)}\n\n"
         "TERM SCHEMA:\n"
@@ -50,7 +58,7 @@ def build_gate_discover_prompt(
         "Rules:\n"
         "- Output JSON only.\n"
         "- Provide MULTIPLE gate instances per primitive for BOTH BM25 and embeddings.\n"
-        "- Do NOT include verdict logic or label ordering; only focus on the clause meaning.\n"
+        "- Use review-language phrasing; avoid rubric/verdict phrases.\n"
         "- BM25 gates are keyword groups (lists of short keywords/phrases).\n"
         "- Embedding gates are full natural-language prototype sentences.\n"
         "- Avoid duplicating the exact phrasing from the snippets; generalize.\n\n"
@@ -106,8 +114,8 @@ def _format_primitives(primitives: List[Dict[str, Any]]) -> str:
     lines = []
     for p in primitives:
         lines.append(f"- primitive_id: {p.get('primitive_id')}")
-        lines.append(f"  clause_quote: {p.get('clause_quote')}")
-        lines.append(f"  min_count: {p.get('min_count')}")
+        if p.get("label"):
+            lines.append(f"  label: {p.get('label')}")
         lines.append(f"  conditions: {p.get('conditions')}")
     return "\n".join(lines)
 

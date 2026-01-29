@@ -115,6 +115,41 @@ Output ONLY the JSON object, no explanation.
 
 
 # =============================================================================
+# Step 2b: Select overview/guidance blocks (anchors only)
+# =============================================================================
+
+SELECT_OVERVIEW_BLOCKS_PROMPT = """Select the overview/guidance blocks that describe
+what to consider or what counts as relevant evidence in reviews.
+
+DEFINITIONS TEXT:
+{definitions_text}
+
+VERDICT RULES (JSON):
+{verdict_rules_json}
+
+Return JSON ONLY.
+
+OUTPUT JSON:
+{{
+  "overview_blocks": [
+    {{"title":"...","start_quote":"...","end_quote":"..."}}
+  ]
+}}
+
+RULES:
+- overview_blocks may be empty if no guidance block exists.
+- Choose anchors that appear exactly once in DEFINITIONS TEXT.
+- Each block is the substring from start_quote to end_quote (inclusive).
+- Focus on guidance like "What to Consider", "Guidance", "Relevant signals".
+- EXCLUDE term enum blocks (field/value lists).
+- EXCLUDE verdict rules or label thresholds.
+- start_quote and end_quote MUST be exact substrings copied from DEFINITIONS TEXT (verbatim).
+
+Output ONLY the JSON object, no explanation.
+"""
+
+
+# =============================================================================
 # Step 3: Extract term enum (per term)
 # =============================================================================
 
@@ -141,6 +176,36 @@ RULES:
 - value_quote MUST be an exact substring copied from TERM BLOCK, and must contain source_value.
 - Include ALL enum options defined for the term.
 - Do NOT invent values or fields.
+
+Output ONLY the JSON object, no explanation.
+"""
+
+
+# =============================================================================
+# Step 2c: Extract overview/guidance text (summary)
+# =============================================================================
+
+EXTRACT_OVERVIEW_PROMPT = """Summarize the guidance/overview text into concise,
+review-language signals. Focus on what reviewers actually say.
+
+OVERVIEW TEXT (verbatim):
+{overview_text}
+
+TERM SCHEMA (JSON):
+{terms_json}
+
+Return JSON ONLY.
+
+OUTPUT JSON:
+{{
+  "overview_text": "..."
+}}
+
+RULES:
+- Do NOT include verdict thresholds or label ordering.
+- Do NOT use rubric phrasing like "incidents are reported" or "1 or more".
+- Use review-like phrases and examples from the term schema where helpful.
+- Keep it concise (<= 8 sentences).
 
 Output ONLY the JSON object, no explanation.
 """

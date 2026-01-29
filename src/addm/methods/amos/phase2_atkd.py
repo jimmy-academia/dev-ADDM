@@ -31,10 +31,84 @@ from .phase2_prompts import (
 
 
 _TOKEN_RE = re.compile(r"[A-Za-z0-9]+")
+_STOPWORDS = {
+    "a",
+    "an",
+    "and",
+    "are",
+    "as",
+    "at",
+    "be",
+    "by",
+    "for",
+    "from",
+    "had",
+    "has",
+    "have",
+    "i",
+    "if",
+    "in",
+    "is",
+    "it",
+    "my",
+    "of",
+    "on",
+    "or",
+    "our",
+    "the",
+    "their",
+    "they",
+    "to",
+    "was",
+    "we",
+    "were",
+    "with",
+    "you",
+    "your",
+}
 
 
 def _tokenize(text: str) -> List[str]:
     return [t.lower() for t in _TOKEN_RE.findall(text or "")]
+
+
+def _extract_phrases(text: str, max_tokens: int = 6) -> List[str]:
+    phrases: List[str] = []
+    if not text:
+        return phrases
+    # Quoted phrases
+    for quoted in re.findall(r"\"([^\"]+)\"", text):
+        phrases.append(quoted.strip())
+    for quoted in re.findall(r"'([^']+)'", text):
+        phrases.append(quoted.strip())
+    # Parenthetical examples
+    for paren in re.findall(r"\(([^)]+)\)", text):
+        parts = re.split(r",|;|/|\bor\b|\band\b", paren, flags=re.IGNORECASE)
+        for part in parts:
+            cleaned = part.strip()
+            if cleaned:
+                phrases.append(cleaned)
+    # e.g. / including snippets
+    for m in re.findall(r"(?:e\.g\.|including)\s+([^.;]+)", text, flags=re.IGNORECASE):
+        parts = re.split(r",|;|/|\bor\b|\band\b", m, flags=re.IGNORECASE)
+        for part in parts:
+            cleaned = part.strip()
+            if cleaned:
+                phrases.append(cleaned)
+    # Token-level fallbacks
+    tokens = [t for t in _tokenize(text) if t not in _STOPWORDS and len(t) > 2]
+    for t in tokens[:max_tokens]:
+        phrases.append(t)
+    # Deduplicate while preserving order
+    seen = set()
+    uniq: List[str] = []
+    for p in phrases:
+        key = p.lower().strip()
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        uniq.append(p.strip())
+    return uniq
 
 
 def _text_hash(text: str) -> str:
@@ -659,6 +733,9 @@ class ATKDEngine:
             self.label_order,
         ) = self._compile_primitives()
         self.term_defs = self._build_term_defs()
+        self.overview_text = (
+            self.agenda_spec.get("overview", {}).get("text", "") if self.agenda_spec else ""
+        )
         self.gate_library = GateLibrary()
         self.tag_store = TagStore(cache_dir / "verifier_cache.jsonl")
         self.score_store: Optional[ScoreStore] = None
@@ -691,6 +768,28 @@ class ATKDEngine:
             output.status(f"{self._step_prefix} - {message}")
         else:
             output.status(message)
+
+    def _print_gate_summary(self, max_per: int = 3) -> None:
+        def _short(text: Any, limit: int = 80) -> str:
+            s = str(text)
+            if len(s) <= limit:
+                return s
+            return s[: limit - 3] + "..."
+
+        output.rule()
+        output.print("Gate summary (sample)")
+        for p in self.primitives:
+            parts = []
+            for modality, polarity, label in [
+                ("bm25", "pos", "bm25+"),
+                ("bm25", "neg", "bm25-"),
+                ("emb", "pos", "emb+"),
+                ("emb", "neg", "emb-"),
+            ]:
+                gates = self.gate_library.by_filter(p.primitive_id, modality, polarity)
+                samples = ", ".join(_short(g.query) for g in gates[:max_per])
+                parts.append(f"{label}[{len(gates)}]: {samples}")
+            output.print(f"- {p.primitive_id}: " + " | ".join(parts))
 
     def _pause(self, label: str) -> None:
         output.status(f"ATKD step: {label}")
@@ -928,8 +1027,15 @@ class ATKDEngine:
             self._status("GateInit: gate_init disabled; ensured minimum gates")
             return
 
-        primitives_payload = [p.__dict__ for p in self.primitives]
-        prompt = build_gate_init_prompt(primitives_payload, self.term_defs)
+        primitives_payload = [
+            {
+                "primitive_id": p.primitive_id,
+                "label": p.label,
+                "conditions": p.conditions,
+            }
+            for p in self.primitives
+        ]
+        prompt = build_gate_init_prompt(primitives_payload, self.term_defs, self.overview_text)
         self._status("GateInit: calling LLM for gate proposals")
         response, usage = await self.llm.call_async_with_usage(
             [{"role": "user", "content": prompt}],
@@ -951,6 +1057,8 @@ class ATKDEngine:
         self._status(
             f"GateInit: llm_added={added} total_gates={len(self.gate_library.list())}"
         )
+        if self.config.pause:
+            self._print_gate_summary()
         self._log_event(
             "phase2_gate_init",
             {
@@ -960,42 +1068,121 @@ class ATKDEngine:
             },
         )
 
+    def _value_phrases(self, field_id: str, value_id: str) -> List[str]:
+        phrases: List[str] = []
+        if value_id:
+            phrases.append(value_id.replace("_", " "))
+        for v in self.term_defs.get(field_id, []):
+            if v.get("value_id") == value_id:
+                desc = v.get("description", "")
+                phrases.extend(_extract_phrases(desc))
+                break
+        # Deduplicate while preserving order
+        seen = set()
+        uniq: List[str] = []
+        for p in phrases:
+            key = p.lower().strip()
+            if not key or key in seen:
+                continue
+            seen.add(key)
+            uniq.append(p)
+        return uniq
+
+    def _condition_phrases(self, field_id: str, values: List[str]) -> List[str]:
+        phrases: List[str] = []
+        for value_id in values:
+            phrases.extend(self._value_phrases(field_id, value_id))
+        # Deduplicate while preserving order
+        seen = set()
+        uniq: List[str] = []
+        for p in phrases:
+            key = p.lower().strip()
+            if not key or key in seen:
+                continue
+            seen.add(key)
+            uniq.append(p)
+        return uniq
+
+    def _build_phrase_groups(self, phrase_lists: List[List[str]], max_groups: int = 3) -> List[List[str]]:
+        if not phrase_lists:
+            return []
+        max_len = max((len(lst) for lst in phrase_lists if lst), default=0)
+        if max_len == 0:
+            return []
+        groups: List[List[str]] = []
+        for i in range(min(max_groups, max_len)):
+            group: List[str] = []
+            for lst in phrase_lists:
+                if not lst:
+                    continue
+                group.append(lst[i % len(lst)])
+            if group:
+                groups.append(group)
+        return groups
+
+    def _phrase_sentence(self, phrases: List[str]) -> str:
+        if not phrases:
+            return "Review mentions a relevant incident."
+        if len(phrases) == 1:
+            return f"Review mentions {phrases[0]}."
+        return f"Review mentions {phrases[0]} and {phrases[1]}."
+
     def _baseline_gates(self) -> List[Gate]:
         gates: List[Gate] = []
-        all_value_tokens: List[str] = []
-        for values in self.term_defs.values():
-            for v in values:
-                all_value_tokens.extend(_tokenize(v.get("value_id", "")))
         for p in self.primitives:
-            tokens = _tokenize(p.clause_quote)
-            if not tokens:
-                tokens = all_value_tokens
-            mid = max(1, len(tokens) // 2)
-            groups = [tokens[:mid], tokens[mid:]]
-            for idx, group in enumerate(groups):
-                if not group:
+            cond_phrase_lists: List[List[str]] = []
+            neg_phrase_lists: List[List[str]] = []
+            for cond in p.conditions:
+                field_id = cond.get("field_id")
+                values = cond.get("values", []) or []
+                if not field_id:
                     continue
+                cond_phrase_lists.append(self._condition_phrases(field_id, values))
+                # Negative phrases: other values for same field
+                alt_values = [
+                    v.get("value_id")
+                    for v in self.term_defs.get(field_id, [])
+                    if v.get("value_id") not in values
+                ]
+                neg_phrase_lists.append(self._condition_phrases(field_id, alt_values))
+
+            pos_groups = self._build_phrase_groups(cond_phrase_lists, max_groups=3)
+            neg_groups = self._build_phrase_groups(neg_phrase_lists, max_groups=2)
+
+            for group in pos_groups:
                 query = " ".join(group)
                 gates.append(
                     self._make_gate(
                         [p.primitive_id], "bm25", "pos", query, "baseline", created_iter=0
                     )
                 )
-            gates.append(
-                self._make_gate(
-                    [p.primitive_id], "emb", "pos", p.clause_quote, "baseline", created_iter=0
+                gates.append(
+                    self._make_gate(
+                        [p.primitive_id],
+                        "emb",
+                        "pos",
+                        self._phrase_sentence(group),
+                        "baseline",
+                        created_iter=0,
+                    )
                 )
-            )
-            gates.append(
-                self._make_gate(
-                    [p.primitive_id],
-                    "emb",
-                    "pos",
-                    f"{p.clause_quote} example",
-                    "baseline",
-                    created_iter=0,
+            for group in neg_groups:
+                query = " ".join(group)
+                gates.append(
+                    self._make_gate(
+                        [p.primitive_id], "bm25", "neg", query, "baseline", created_iter=0
+                    )
                 )
-            )
+                gates.append(
+                    self._make_gate(
+                        [p.primitive_id],
+                        "emb",
+                        "neg",
+                        self._phrase_sentence(group),
+                        "baseline",
+                        created_iter=0,
+                    )
+                )
         return gates
 
     def _add_gates_from_payload(self, payload: Dict[str, Any], created_by: str) -> int:
@@ -1031,8 +1218,19 @@ class ATKDEngine:
                     existing = self.gate_library.by_filter(p.primitive_id, modality, polarity)
                     if len(existing) >= 2:
                         continue
-                    # Add a couple baseline-derived gates if missing.
-                    query = p.clause_quote or " ".join(_tokenize(p.clause_quote))
+                    # Add fallback gates derived from term definitions.
+                    fallback = "review"
+                    for cond in p.conditions:
+                        field_id = cond.get("field_id")
+                        values = cond.get("values", []) or []
+                        phrases = self._condition_phrases(field_id, values) if field_id else []
+                        if phrases:
+                            fallback = phrases[0]
+                            break
+                    if modality == "emb":
+                        query = self._phrase_sentence([fallback])
+                    else:
+                        query = fallback
                     self.gate_library.add_gate(
                         self._make_gate(
                             [p.primitive_id],
@@ -1048,7 +1246,7 @@ class ATKDEngine:
                             [p.primitive_id],
                             modality,
                             polarity,
-                            f"{query} context",
+                            f"{query} review",
                             "baseline",
                             created_iter=0,
                         )
@@ -1676,6 +1874,8 @@ class ATKDEngine:
         self._status(
             f"GateDiscover: done (added={total_added}, total_gates={len(self.gate_library.list())})"
         )
+        if total_added > 0 and self.config.pause:
+            self._print_gate_summary()
         if total_added > 0:
             self._log_event(
                 "phase2_gate_discover",
