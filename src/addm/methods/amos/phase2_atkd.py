@@ -794,6 +794,17 @@ class ATKDEngine:
                 parts.append(f"{label}[{len(gates)}]: {samples}")
             output.print(f"- {p.primitive_id}: " + " | ".join(parts))
 
+    def _print_llm_gate_payload(self, label: str, data: Dict[str, Any]) -> None:
+        output.rule()
+        output.print(f"{label}: LLM gate output (full)")
+        if not data:
+            output.print("(empty)")
+            return
+        try:
+            output.print(json.dumps(data, indent=2, ensure_ascii=True))
+        except Exception:
+            output.print(str(data))
+
     def _pause(self, label: str) -> None:
         output.status(f"ATKD step: {label}")
         if not self.config.pause:
@@ -1019,15 +1030,8 @@ class ATKDEngine:
     # ---------------------------------------------------------------------
 
     async def initialize_gates(self) -> None:
-        self._status("GateInit: building baseline gates")
-        # Baseline gates from clause text.
-        baseline_gates = self._baseline_gates()
-        self.gate_library.add_many(baseline_gates)
-        self._status(f"GateInit: baseline gates={len(baseline_gates)}")
-
         if not self.config.gate_init:
-            self._ensure_min_gates()
-            self._status("GateInit: gate_init disabled; ensured minimum gates")
+            output.warn("GateInit disabled and baseline gates removed; no gates will be available.")
             return
 
         primitives_payload = [
@@ -1061,16 +1065,15 @@ class ATKDEngine:
         added = 0
         for item in data.get("primitives", []):
             added += self._add_gates_from_payload(item, created_by="llm_init")
-        self._ensure_min_gates()
         self._status(
             f"GateInit: llm_added={added} total_gates={len(self.gate_library.list())}"
         )
         if self.config.pause:
-            self._print_gate_summary()
+            self._print_llm_gate_payload("GateInit", data)
         self._log_event(
             "phase2_gate_init",
             {
-                "baseline_gates": len(baseline_gates),
+                "baseline_gates": 0,
                 "llm_added": added,
                 "total_gates": len(self.gate_library.list()),
             },
@@ -1836,6 +1839,7 @@ class ATKDEngine:
             return
         self._status("GateDiscover: starting")
         total_added = 0
+        gate_discover_payloads: List[Dict[str, Any]] = []
         for p in self.primitives:
             records = self.tag_store.records_for_primitive(p.primitive_id)
             positives = []
@@ -1878,12 +1882,14 @@ class ATKDEngine:
                 data = parse_json_safely(extract_json_from_response(response))
             except Exception:
                 data = {}
+            if data:
+                gate_discover_payloads.append(data)
             total_added += self._add_gates_from_payload(data, created_by="llm_discover")
         self._status(
             f"GateDiscover: done (added={total_added}, total_gates={len(self.gate_library.list())})"
         )
         if total_added > 0 and self.config.pause:
-            self._print_gate_summary()
+            self._print_llm_gate_payload("GateDiscover", {"primitives": gate_discover_payloads})
         if total_added > 0:
             self._log_event(
                 "phase2_gate_discover",
