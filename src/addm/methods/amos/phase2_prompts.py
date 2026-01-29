@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any, Dict, List
 
 
-def build_gate_init_prompt(primitives: List[Dict[str, Any]]) -> str:
+def build_gate_init_prompt(primitives: List[Dict[str, Any]], term_defs: Dict[str, Any]) -> str:
     """Build GateInit prompt for initial cheap gates per primitive."""
     return (
         "You are initializing cheap gates for Active Test-time Knowledge Discovery.\n\n"
@@ -31,7 +31,9 @@ def build_gate_init_prompt(primitives: List[Dict[str, Any]]) -> str:
         "  ]\n"
         "}\n\n"
         "PRIMITIVES:\n"
-        f"{_format_primitives(primitives)}\n"
+        f"{_format_primitives(primitives)}\n\n"
+        "TERM SCHEMA:\n"
+        f"{_format_term_defs(term_defs)}\n"
     )
 
 
@@ -66,31 +68,36 @@ def build_gate_discover_prompt(
     )
 
 
-def build_verifier_prompt(
+def build_extract_evident_prompt(
     review_text: str,
-    primitive: Dict[str, Any],
     term_defs: Dict[str, Any],
+    review_id: str,
 ) -> str:
-    """Build LLM verifier prompt for a review and primitive clause."""
+    """Build LLM prompt to extract review-level evidents."""
     return (
-        "You are verifying whether a single review satisfies a primitive clause.\n\n"
-        "Return JSON ONLY.\n\n"
+        "You are extracting structured evidents from a single review.\n"
+        "Return STRICT JSON ONLY. Do not include prose.\n\n"
         "OUTPUT JSON SCHEMA:\n"
         "{\n"
-        "  \"is_match\": true | false,\n"
-        "  \"evidence_snippets\": [\"verbatim snippet\"],\n"
-        "  \"fields\": {\n"
-        "    \"FIELD_ID\": [\"value_id\", \"value_id\"]\n"
-        "  }\n"
+        "  \"review_id\": \"...\",\n"
+        "  \"evidents\": [\n"
+        "    {\n"
+        "      \"event_id\": \"...\",\n"
+        "      \"fields\": {\"<term_id>\": \"<value_id>\" OR [\"<value_id>\", ...]},\n"
+        "      \"snippet\": \"exact quote from review supporting this event\",\n"
+        "      \"span\": {\"start_char\": int, \"end_char\": int}\n"
+        "    }\n"
+        "  ],\n"
+        "  \"notes\": \"optional short\"\n"
         "}\n\n"
         "Rules:\n"
-        "- Only mark is_match true if the review satisfies the clause.\n"
-        "- evidence_snippets must be exact substrings from the review.\n"
-        "- fields should include any extracted term values relevant to the clause.\n"
-        "- If no evidence, return is_match=false with empty snippets/fields.\n"
-        "- Do NOT infer verdicts or use any label ordering.\n\n"
-        f"PRIMITIVE:\n{_format_primitives([primitive])}\n\n"
-        f"TERM DEFINITIONS:\n{_format_term_defs(term_defs)}\n\n"
+        "- Only include fields from the term schema below.\n"
+        "- Use value_ids exactly as given.\n"
+        "- Snippet must be an exact substring from the review.\n"
+        "- If no relevant evidence, set \"evidents\": [].\n"
+        "- Do NOT infer verdicts or label ordering.\n\n"
+        f"REVIEW_ID: {review_id}\n\n"
+        f"TERM SCHEMA:\n{_format_term_defs(term_defs)}\n\n"
         f"REVIEW:\n{review_text}\n"
     )
 

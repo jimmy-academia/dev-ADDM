@@ -102,7 +102,7 @@ def dump_state(
     engine: ATKDEngine,
     label: str,
     out_dir: Path,
-    batch: Optional[List[Dict[str, Any]]] = None,
+    batch: Optional[List[Any]] = None,
 ) -> None:
     def _to_list(value: Any) -> List[Any]:
         if value is None:
@@ -134,12 +134,12 @@ def dump_state(
                 "pos": sum(
                     1
                     for r in engine.tag_store.records_for_primitive(p.primitive_id)
-                    if r.y == 1
+                    if r.tags.get(p.primitive_id, 0) > 0
                 ),
                 "neg": sum(
                     1
                     for r in engine.tag_store.records_for_primitive(p.primitive_id)
-                    if r.y == 0
+                    if r.tags.get(p.primitive_id, 0) == 0
                 ),
             }
             for p in engine.primitives
@@ -172,10 +172,10 @@ def dump_state(
     if batch is not None:
         normalized = []
         for item in batch:
-            if isinstance(item, tuple):
-                normalized.append({"review_index": item[0], "primitive_id": item[1]})
-            else:
+            if isinstance(item, dict):
                 normalized.append(item)
+            else:
+                normalized.append({"review_index": item})
         payload["selected_batch"] = normalized
     (out_dir / f"{label}.json").write_text(json.dumps(payload, indent=2))
 
@@ -188,15 +188,21 @@ def summarize_batch(engine: ATKDEngine, batch: List[Any], max_rows: int = 10) ->
         return
     rows = []
     for item in batch[:max_rows]:
-        if isinstance(item, tuple):
-            review_idx, primitive_id = item
-        else:
-            review_idx = item.get("review_index")
-            primitive_id = item.get("primitive_id")
-        if review_idx is None or primitive_id is None:
+        review_idx = item.get("review_index") if isinstance(item, dict) else item
+        if review_idx is None:
             continue
-        z = float(engine.score_store.z_scores[primitive_id][review_idx])
-        bin_idx = int(engine.score_store.z_bins[primitive_id][review_idx])
+        best_pid = None
+        best_z = -1e9
+        for p in engine.primitives:
+            pid = p.primitive_id
+            z_val = float(engine.score_store.z_scores[pid][review_idx])
+            if z_val > best_z:
+                best_z = z_val
+                best_pid = pid
+        if best_pid is None:
+            continue
+        z = best_z
+        bin_idx = int(engine.score_store.z_bins[best_pid][review_idx])
         review = engine.review_pool[review_idx]
         snippet = review["text"].strip().replace("\n", " ")
         if len(snippet) > 120:
@@ -204,7 +210,7 @@ def summarize_batch(engine: ATKDEngine, batch: List[Any], max_rows: int = 10) ->
         rows.append(
             [
                 review.get("review_id"),
-                primitive_id,
+                best_pid,
                 f"{z:.3f}",
                 str(bin_idx),
                 review.get("business_id"),
@@ -240,11 +246,18 @@ async def run_stepwise(args: argparse.Namespace) -> None:
         delta=args.delta,
         gate_init=args.gate_init,
         gate_discover_period=args.gate_discover_period,
+        gate_discover_every=args.gate_discover_every or args.gate_discover_period,
         explore_frac=args.explore_frac,
         batch_size=args.batch_size,
         verifier_batch_size=args.verifier_batch_size,
         num_bins=args.num_bins,
         gamma=args.gamma,
+        lambda_H=args.lambda_H,
+        lambda_L=args.lambda_L,
+        lambda_G=args.lambda_G,
+        stall_iters=args.stall_iters,
+        min_bin_coverage=args.min_bin_coverage,
+        prompt_version=args.prompt_version,
     )
 
     engine = ATKDEngine(
@@ -336,15 +349,7 @@ async def run_stepwise(args: argparse.Namespace) -> None:
                 dump_state(engine, f"iter{iteration}_verified", Path(args.dump_state_dir))
 
         # Recompute counts (same logic as engine.run)
-        per_restaurant_counts = {}
-        for record in engine.tag_store._records.values():
-            ridx = engine._restaurant_index_for_review(record.review_id)
-            if ridx is None:
-                continue
-            per_restaurant_counts.setdefault(ridx, {})
-            per_restaurant_counts[ridx][record.primitive_id] = (
-                per_restaurant_counts[ridx].get(record.primitive_id, 0) + record.y
-            )
+        per_restaurant_counts = engine._compute_counts_by_restaurant()
 
         # Check stopping for each restaurant in batch
         still_active = []
@@ -375,7 +380,8 @@ async def run_stepwise(args: argparse.Namespace) -> None:
             dump_state(engine, f"iter{iteration}_postcheck", Path(args.dump_state_dir))
         pause_if(args.pause)
 
-        if config.gate_discover_period > 0 and iteration % config.gate_discover_period == 0:
+        discover_every = config.gate_discover_every or config.gate_discover_period
+        if discover_every > 0 and iteration % discover_every == 0:
             output.rule()
             output.print("GateDiscover")
             await engine._gate_discover()
@@ -405,9 +411,16 @@ def main() -> None:
     parser.add_argument("--gate_init", action="store_true", default=True)
     parser.add_argument("--no-gate_init", dest="gate_init", action="store_false")
     parser.add_argument("--gate_discover_period", type=int, default=5)
+    parser.add_argument("--gate_discover_every", type=int, default=None)
     parser.add_argument("--explore_frac", type=float, default=0.1)
     parser.add_argument("--num_bins", type=int, default=10)
     parser.add_argument("--gamma", type=float, default=1.0)
+    parser.add_argument("--lambda_H", type=float, default=1.0)
+    parser.add_argument("--lambda_L", type=float, default=1.0)
+    parser.add_argument("--lambda_G", type=float, default=1.0)
+    parser.add_argument("--stall_iters", type=int, default=3)
+    parser.add_argument("--min_bin_coverage", type=int, default=5)
+    parser.add_argument("--prompt_version", type=str, default="extract_evident_v1")
     parser.add_argument("--batch_size", type=int, default=5)
     parser.add_argument("--verifier_batch_size", type=int, default=20)
     parser.add_argument("--max_iterations", type=int, default=3)

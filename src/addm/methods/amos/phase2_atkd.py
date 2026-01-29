@@ -10,6 +10,7 @@ import re
 import sys
 import time
 from datetime import datetime
+import asyncio
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
@@ -25,7 +26,7 @@ from .phase1_helpers import extract_json_from_response, parse_json_safely
 from .phase2_prompts import (
     build_gate_discover_prompt,
     build_gate_init_prompt,
-    build_verifier_prompt,
+    build_extract_evident_prompt,
 )
 
 
@@ -49,7 +50,7 @@ def _normalize_query(query: Any) -> str:
         joined = " ".join(str(q) for q in query)
     else:
         joined = str(query or "")
-    return re.sub(r"\\s+", " ", joined.strip().lower())
+    return re.sub(r"\s+", " ", joined.strip().lower())
 
 
 def rank_normalize(scores: np.ndarray) -> np.ndarray:
@@ -144,6 +145,7 @@ def beta_ppf(q: float, a: float, b: float) -> float:
 @dataclass(frozen=True)
 class Primitive:
     primitive_id: str
+    label: str
     clause_quote: str
     conditions: List[Dict[str, Any]]
     min_count: int
@@ -163,18 +165,22 @@ class Gate:
     primitive_ids: List[str]
     modality: str  # bm25 | emb
     polarity: str  # pos | neg
-    query: str
+    query: Any
     created_by: str
+    created_iter: int = 0
 
 
 @dataclass
-class TagRecord:
+class EvidentRecord:
     review_id: str
-    primitive_id: str
+    business_id: str
     review_text_hash: str
-    y: int
-    evidence_snippets: List[str]
-    fields: Dict[str, Any]
+    prompt_version: str
+    review_index: int
+    evident: Dict[str, Any]
+    tags: Dict[str, int]
+    bins: Dict[str, int]
+    evidence: Dict[str, Any]
     usage: Dict[str, Any]
     created_at: str
 
@@ -184,7 +190,8 @@ class ATKDConfig:
     epsilon: float = 0.01
     delta: float = 0.05
     gate_init: bool = True
-    gate_discover_period: int = 5
+    gate_discover_period: int = 5  # legacy alias
+    gate_discover_every: int = 5
     explore_frac: float = 0.1
     batch_size: int = 10  # restaurants per driver iteration
     verifier_batch_size: int = 32
@@ -195,6 +202,12 @@ class ATKDConfig:
     embedding_model: str = "text-embedding-3-large"
     max_concurrent: int = 32
     pause: bool = False
+    lambda_H: float = 1.0
+    lambda_L: float = 1.0
+    lambda_G: float = 1.0
+    stall_iters: int = 3
+    min_bin_coverage: int = 5
+    prompt_version: str = "extract_evident_v1"
 
 
 class GateLibrary:
@@ -248,8 +261,7 @@ class GateLibrary:
 class TagStore:
     def __init__(self, cache_path: Path) -> None:
         self.cache_path = cache_path
-        self._records: Dict[Tuple[str, str, str], TagRecord] = {}
-        self._by_primitive: Dict[str, List[TagRecord]] = {}
+        self._records: Dict[Tuple[str, str, str], EvidentRecord] = {}
         self._load()
 
     def _load(self) -> None:
@@ -259,10 +271,9 @@ class TagStore:
             with open(self.cache_path) as f:
                 for line in f:
                     data = json.loads(line)
-                    record = TagRecord(**data)
-                    key = (record.review_id, record.primitive_id, record.review_text_hash)
+                    record = EvidentRecord(**data)
+                    key = (record.review_id, record.review_text_hash, record.prompt_version)
                     self._records[key] = record
-                    self._by_primitive.setdefault(record.primitive_id, []).append(record)
         except (OSError, json.JSONDecodeError, TypeError, ValueError):
             return
 
@@ -272,18 +283,25 @@ class TagStore:
             for record in self._records.values():
                 f.write(json.dumps(record.__dict__) + "\n")
 
-    def get(self, review_id: str, primitive_id: str, review_text_hash: str) -> Optional[TagRecord]:
-        return self._records.get((review_id, primitive_id, review_text_hash))
+    def get(
+        self,
+        review_id: str,
+        review_text_hash: str,
+        prompt_version: str,
+    ) -> Optional[EvidentRecord]:
+        return self._records.get((review_id, review_text_hash, prompt_version))
 
-    def add(self, record: TagRecord) -> None:
-        key = (record.review_id, record.primitive_id, record.review_text_hash)
+    def add(self, record: EvidentRecord) -> None:
+        key = (record.review_id, record.review_text_hash, record.prompt_version)
         if key in self._records:
             return
         self._records[key] = record
-        self._by_primitive.setdefault(record.primitive_id, []).append(record)
 
-    def records_for_primitive(self, primitive_id: str) -> List[TagRecord]:
-        return self._by_primitive.get(primitive_id, [])
+    def records(self) -> List[EvidentRecord]:
+        return list(self._records.values())
+
+    def records_for_primitive(self, primitive_id: str) -> List[EvidentRecord]:
+        return [r for r in self._records.values() if primitive_id in r.tags]
 
 
 class BM25Index:
@@ -376,11 +394,52 @@ class EmbeddingStore:
         key = _text_hash(query)
         if key in self._query_cache:
             return self._query_cache[key]
-        emb = self._embed_texts([query], llm)[0]
+        emb = self._embed_texts([query], llm, show_progress=False)[0]
         self._query_cache[key] = emb
         return emb
 
-    def _embed_texts(self, texts: List[str], llm: LLMService) -> np.ndarray:
+    def embed_queries(self, queries: List[str], llm: LLMService) -> Dict[str, np.ndarray]:
+        if not queries:
+            return {}
+        # Uses OpenAI embeddings API via LLMService config.
+        try:
+            import openai  # type: ignore
+        except ImportError as exc:  # pragma: no cover
+            raise RuntimeError("openai package is required for embeddings") from exc
+
+        client = openai.OpenAI() if hasattr(openai, "OpenAI") else openai.Client()
+        batch_size = 128
+        missing_queries: List[str] = []
+        missing_keys: List[str] = []
+        for q in queries:
+            key = _text_hash(q)
+            if key in self._query_cache:
+                continue
+            missing_queries.append(q)
+            missing_keys.append(key)
+
+        if missing_queries:
+            total_batches = (len(missing_queries) + batch_size - 1) // batch_size
+            embeddings: List[List[float]] = []
+            with output.progress("Embedding gate-queries") as progress:
+                task_id = progress.add_task("Embedding gate-queries", total=total_batches)
+                for i in range(0, len(missing_queries), batch_size):
+                    batch = missing_queries[i:i + batch_size]
+                    response = client.embeddings.create(model=self.model, input=batch)
+                    embeddings.extend([item.embedding for item in response.data])
+                    progress.advance(task_id, 1)
+            for key, emb in zip(missing_keys, embeddings):
+                self._query_cache[key] = np.array(emb, dtype=np.float64)
+
+        return {q: self._query_cache[_text_hash(q)] for q in queries}
+
+    def _embed_texts(
+        self,
+        texts: List[str],
+        llm: LLMService,
+        *,
+        show_progress: bool = True,
+    ) -> np.ndarray:
         # Uses OpenAI embeddings API via LLMService config.
         try:
             import openai  # type: ignore
@@ -391,13 +450,19 @@ class EmbeddingStore:
         embeddings: List[List[float]] = []
         batch_size = 128
         total_batches = (len(texts) + batch_size - 1) // batch_size
-        with output.progress("Embedding batches") as progress:
-            task_id = progress.add_task("Embedding reviews", total=total_batches)
+        if show_progress and total_batches > 1:
+            with output.progress("Embedding batches") as progress:
+                task_id = progress.add_task("Embedding reviews", total=total_batches)
+                for i in range(0, len(texts), batch_size):
+                    batch = texts[i:i + batch_size]
+                    response = client.embeddings.create(model=self.model, input=batch)
+                    embeddings.extend([item.embedding for item in response.data])
+                    progress.advance(task_id, 1)
+        else:
             for i in range(0, len(texts), batch_size):
                 batch = texts[i:i + batch_size]
                 response = client.embeddings.create(model=self.model, input=batch)
                 embeddings.extend([item.embedding for item in response.data])
-                progress.advance(task_id, 1)
         return np.array(embeddings, dtype=np.float64)
 
 
@@ -486,19 +551,21 @@ class CalibrationEngine:
         self.delta = delta
         self.theta_hat: Dict[str, np.ndarray] = {}
         self.upper_bound: Dict[str, np.ndarray] = {}
+        self.alpha: Dict[str, np.ndarray] = {}
+        self.beta: Dict[str, np.ndarray] = {}
 
-    def recompute(self, primitive_id: str, z_bins: np.ndarray, tags: List[TagRecord]) -> None:
+    def recompute(self, primitive_id: str, records: List[EvidentRecord]) -> None:
         alpha0, beta0 = 1.0, 1.0
         alpha = np.full(self.num_bins, alpha0, dtype=np.float64)
         beta = np.full(self.num_bins, beta0, dtype=np.float64)
-        for record in tags:
-            review_idx = record.fields.get("_review_index")
-            if review_idx is None:
+        for record in records:
+            bin_idx = record.bins.get(primitive_id)
+            if bin_idx is None:
                 continue
-            bin_idx = int(z_bins[int(review_idx)])
             if bin_idx < 0 or bin_idx >= self.num_bins:
                 continue
-            if record.y == 1:
+            y = record.tags.get(primitive_id, 0)
+            if y > 0:
                 alpha[bin_idx] += 1.0
             else:
                 beta[bin_idx] += 1.0
@@ -508,6 +575,8 @@ class CalibrationEngine:
             u[i] = beta_ppf(1.0 - self.delta, alpha[i], beta[i])
         self.theta_hat[primitive_id] = theta
         self.upper_bound[primitive_id] = u
+        self.alpha[primitive_id] = alpha
+        self.beta[primitive_id] = beta
 
 
 class ATKDEngine:
@@ -529,6 +598,9 @@ class ATKDEngine:
         self.cache_dir = cache_dir
         self.rng = random.Random(rng_seed)
         self._debug_logger = get_debug_logger()
+        self._step_prefix = ""
+        self._current_iter = 0
+        self._last_batch_debug: Dict[str, Any] = {}
 
         (
             self.primitives,
@@ -561,6 +633,15 @@ class ATKDEngine:
         except Exception:
             return
 
+    def _set_step_prefix(self, prefix: str) -> None:
+        self._step_prefix = prefix
+
+    def _status(self, message: str) -> None:
+        if self._step_prefix:
+            output.status(f"{self._step_prefix} - {message}")
+        else:
+            output.status(message)
+
     def _pause(self, label: str) -> None:
         output.status(f"ATKD step: {label}")
         if not self.config.pause:
@@ -578,7 +659,7 @@ class ATKDEngine:
         label: str,
         *,
         save_arrays: bool = False,
-        batch: Optional[List[Tuple[int, str]]] = None,
+        batch: Optional[List[int]] = None,
         iteration: Optional[int] = None,
     ) -> None:
         if not self._debug_logger or not self._debug_logger.enabled:
@@ -619,12 +700,12 @@ class ATKDEngine:
                     "pos": sum(
                         1
                         for r in self.tag_store.records_for_primitive(p.primitive_id)
-                        if r.y == 1
+                        if r.tags.get(p.primitive_id, 0) > 0
                     ),
                     "neg": sum(
                         1
                         for r in self.tag_store.records_for_primitive(p.primitive_id)
-                        if r.y == 0
+                        if r.tags.get(p.primitive_id, 0) == 0
                     ),
                 }
                 for p in self.primitives
@@ -632,23 +713,27 @@ class ATKDEngine:
         }
         if batch is not None:
             batch_rows = []
-            for review_idx, primitive_id in batch:
+            for review_idx in batch:
                 review = self.review_pool[review_idx]
-                z = None
-                bin_idx = None
-                if self.score_store and primitive_id in self.score_store.z_scores:
-                    z = float(self.score_store.z_scores[primitive_id][review_idx])
-                    bin_idx = int(self.score_store.z_bins[primitive_id][review_idx])
+                z_by_primitive = {}
+                bin_by_primitive = {}
+                if self.score_store:
+                    for p in self.primitives:
+                        pid = p.primitive_id
+                        z_by_primitive[pid] = float(self.score_store.z_scores[pid][review_idx])
+                        bin_by_primitive[pid] = int(self.score_store.z_bins[pid][review_idx])
                 batch_rows.append(
                     {
                         "review_id": review.get("review_id"),
                         "business_id": review.get("business_id"),
-                        "primitive_id": primitive_id,
-                        "z": z,
-                        "bin": bin_idx,
+                        "z_by_primitive": z_by_primitive,
+                        "bin_by_primitive": bin_by_primitive,
                     }
                 )
             payload["batch"] = batch_rows
+            if self._last_batch_debug:
+                payload["voi_summary"] = self._last_batch_debug.get("summary", {})
+                payload["voi_selected"] = self._last_batch_debug.get("selected", [])
 
         if self.score_store:
             payload["z_stats"] = {
@@ -730,6 +815,7 @@ class ATKDEngine:
                 primitives.append(
                     Primitive(
                         primitive_id=pid,
+                        label=label,
                         clause_quote=clause.get("clause_quote", ""),
                         conditions=clause.get("conditions", []),
                         min_count=int(clause.get("min_count") or 1),
@@ -781,20 +867,20 @@ class ATKDEngine:
     # ---------------------------------------------------------------------
 
     async def initialize_gates(self) -> None:
-        output.status("GateInit: building baseline gates")
+        self._status("GateInit: building baseline gates")
         # Baseline gates from clause text.
         baseline_gates = self._baseline_gates()
         self.gate_library.add_many(baseline_gates)
-        output.status(f"GateInit: baseline gates={len(baseline_gates)}")
+        self._status(f"GateInit: baseline gates={len(baseline_gates)}")
 
         if not self.config.gate_init:
             self._ensure_min_gates()
-            output.status("GateInit: gate_init disabled; ensured minimum gates")
+            self._status("GateInit: gate_init disabled; ensured minimum gates")
             return
 
         primitives_payload = [p.__dict__ for p in self.primitives]
-        prompt = build_gate_init_prompt(primitives_payload)
-        output.status("GateInit: calling LLM for gate proposals")
+        prompt = build_gate_init_prompt(primitives_payload, self.term_defs)
+        self._status("GateInit: calling LLM for gate proposals")
         response, usage = await self.llm.call_async_with_usage(
             [{"role": "user", "content": prompt}],
             context={
@@ -812,7 +898,7 @@ class ATKDEngine:
         for item in data.get("primitives", []):
             added += self._add_gates_from_payload(item, created_by="llm_init")
         self._ensure_min_gates()
-        output.status(
+        self._status(
             f"GateInit: llm_added={added} total_gates={len(self.gate_library.list())}"
         )
         self._log_event(
@@ -840,9 +926,15 @@ class ATKDEngine:
                 if not group:
                     continue
                 query = " ".join(group)
-                gates.append(self._make_gate([p.primitive_id], "bm25", "pos", query, "baseline"))
+                gates.append(
+                    self._make_gate(
+                        [p.primitive_id], "bm25", "pos", query, "baseline", created_iter=0
+                    )
+                )
             gates.append(
-                self._make_gate([p.primitive_id], "emb", "pos", p.clause_quote, "baseline")
+                self._make_gate(
+                    [p.primitive_id], "emb", "pos", p.clause_quote, "baseline", created_iter=0
+                )
             )
             gates.append(
                 self._make_gate(
@@ -851,6 +943,7 @@ class ATKDEngine:
                     "pos",
                     f"{p.clause_quote} example",
                     "baseline",
+                    created_iter=0,
                 )
             )
         return gates
@@ -869,7 +962,14 @@ class ATKDEngine:
             for g in gate_list:
                 query = " ".join(g) if isinstance(g, list) else str(g)
                 if self.gate_library.add_gate(
-                    self._make_gate([primitive_id], modality, polarity, query, created_by)
+                    self._make_gate(
+                        [primitive_id],
+                        modality,
+                        polarity,
+                        query,
+                        created_by,
+                        created_iter=self._current_iter,
+                    )
                 ):
                     added += 1
         return added
@@ -884,7 +984,14 @@ class ATKDEngine:
                     # Add a couple baseline-derived gates if missing.
                     query = p.clause_quote or " ".join(_tokenize(p.clause_quote))
                     self.gate_library.add_gate(
-                        self._make_gate([p.primitive_id], modality, polarity, query, "baseline")
+                        self._make_gate(
+                            [p.primitive_id],
+                            modality,
+                            polarity,
+                            query,
+                            "baseline",
+                            created_iter=0,
+                        )
                     )
                     self.gate_library.add_gate(
                         self._make_gate(
@@ -893,6 +1000,7 @@ class ATKDEngine:
                             polarity,
                             f"{query} context",
                             "baseline",
+                            created_iter=0,
                         )
                     )
 
@@ -901,8 +1009,9 @@ class ATKDEngine:
         primitive_ids: List[str],
         modality: str,
         polarity: str,
-        query: str,
+        query: Any,
         created_by: str,
+        created_iter: int = 0,
     ) -> Gate:
         base = f"{modality}:{polarity}:{_normalize_query(query)}:{','.join(sorted(primitive_ids))}"
         gate_id = hashlib.sha1(base.encode("utf-8")).hexdigest()[:12]
@@ -913,6 +1022,7 @@ class ATKDEngine:
             polarity=polarity,
             query=query,
             created_by=created_by,
+            created_iter=created_iter,
         )
 
     # ---------------------------------------------------------------------
@@ -922,32 +1032,42 @@ class ATKDEngine:
     def scan_gates(self) -> None:
         review_count = len(self.review_pool)
         score_store = ScoreStore(review_count, self.cache_dir / "gate_scores")
-        output.status("GateScan: building BM25 index")
+        self._status("GateScan: building BM25 index")
         bm25 = BM25Index(
             [r["text"] for r in self.review_pool],
             self.config.bm25_k1,
             self.config.bm25_b,
         )
         emb_store = EmbeddingStore(self.cache_dir / "embeddings", model=self.config.embedding_model)
-        output.status("GateScan: loading/creating embeddings")
+        self._status("GateScan: loading/creating embeddings")
         review_embeddings = emb_store.load_or_compute(self.review_pool, self.llm)
 
-        output.status("GateScan: scoring gates")
+        self._status("GateScan: scoring gates")
         new_gates = [
             g for g in self.gate_library.list()
             if score_store.load_gate_scores(g.gate_id) is None
         ]
         scored_new = 0
         if new_gates:
+            embed_gates = [g for g in new_gates if g.modality == "emb"]
+            query_map: Dict[str, np.ndarray] = {}
+            r_norm = None
+            if embed_gates:
+                query_map = emb_store.embed_queries([g.query for g in embed_gates], self.llm)
+                r_norm = review_embeddings / (
+                    np.linalg.norm(review_embeddings, axis=1, keepdims=True) + 1e-9
+                )
             with output.progress("Gate scoring") as progress:
                 task_id = progress.add_task("Scoring gates", total=len(new_gates))
                 for gate in new_gates:
                     if gate.modality == "bm25":
                         scores = bm25.score(gate.query)
                     else:
-                        query_emb = emb_store.embed_query(gate.query, self.llm)
+                        query_emb = query_map.get(gate.query)
+                        if query_emb is None:
+                            query_emb = emb_store.embed_query(gate.query, self.llm)
                         q = query_emb / (np.linalg.norm(query_emb) + 1e-9)
-                        r = review_embeddings / (
+                        r = r_norm if r_norm is not None else review_embeddings / (
                             np.linalg.norm(review_embeddings, axis=1, keepdims=True) + 1e-9
                         )
                         scores = r.dot(q)
@@ -955,7 +1075,7 @@ class ATKDEngine:
                     scored_new += 1
                     progress.advance(task_id, 1)
         else:
-            output.status("GateScan: no new gates to score")
+            self._status("GateScan: no new gates to score")
 
         score_store.recompute_for_primitives(
             [p.primitive_id for p in self.primitives],
@@ -964,7 +1084,7 @@ class ATKDEngine:
             self.config.gamma,
         )
         self.score_store = score_store
-        output.status(
+        self._status(
             f"GateScan: completed (new_scored={scored_new}, total_gates={len(self.gate_library.list())})"
         )
 
@@ -975,15 +1095,19 @@ class ATKDEngine:
     def _recompute_calibration(self) -> None:
         if not self.score_store:
             return
+        # Refresh bins for all verified records using current z-bins.
+        for record in self.tag_store.records():
+            for p in self.primitives:
+                pid = p.primitive_id
+                record.bins[pid] = int(self.score_store.z_bins[pid][record.review_index])
         total_tags = sum(
             len(self.tag_store.records_for_primitive(p.primitive_id)) for p in self.primitives
         )
-        output.status(f"Calibration: recompute (tags={total_tags})")
+        self._status(f"Calibration: recompute (tags={total_tags})")
         for p in self.primitives:
-            bins = self.score_store.z_bins[p.primitive_id]
-            tags = self.tag_store.records_for_primitive(p.primitive_id)
-            self.calibration.recompute(p.primitive_id, bins, tags)
-        output.status("Calibration: done")
+            records = self.tag_store.records_for_primitive(p.primitive_id)
+            self.calibration.recompute(p.primitive_id, records)
+        self._status("Calibration: done")
 
     def _rule_satisfied(self, counts: Dict[str, int], rule: CompiledRule) -> bool:
         if rule.connective == "ALL":
@@ -1012,74 +1136,278 @@ class ATKDEngine:
     ) -> float:
         if not self.score_store:
             return 1.0
+        verified = self._verified_review_indices()
         rho_total = 0.0
         for rule in self.rules:
             if rule.label == self.default_label:
                 continue
             per_rule = []
             for pid in rule.primitive_ids:
-                deficit = max(1, self._min_count(pid) - counts.get(pid, 0))
+                deficit = max(0, self._min_count(pid) - counts.get(pid, 0))
+                if deficit == 0:
+                    continue
                 bins = self.score_store.z_bins[pid]
                 u = self.calibration.upper_bound.get(pid)
                 if u is None:
                     u = np.ones(self.config.num_bins, dtype=np.float64)
                 mu = 0.0
                 for idx in restaurant_review_indices:
-                    if idx in self._tagged_reviews(pid):
+                    if idx in verified:
                         continue
                     mu += u[int(bins[idx])]
                 per_rule.append(min(1.0, mu / float(deficit)))
             if rule.connective == "ALL":
-                rho_rule = min(per_rule) if per_rule else 1.0
+                rho_rule = min(per_rule) if per_rule else 0.0
             else:
-                rho_rule = min(1.0, sum(per_rule))
+                rho_rule = min(1.0, sum(per_rule)) if per_rule else 0.0
             rho_total += rho_rule
         return min(1.0, rho_total)
 
-    def _tagged_reviews(self, primitive_id: str) -> set[int]:
-        tagged = set()
-        for record in self.tag_store.records_for_primitive(primitive_id):
-            idx = record.fields.get("_review_index")
-            if idx is not None:
-                tagged.add(int(idx))
-        return tagged
+    def _verified_review_indices(self) -> set[int]:
+        return {record.review_index for record in self.tag_store.records()}
+
+    def _compute_counts_by_restaurant(self) -> Dict[int, Dict[str, int]]:
+        counts: Dict[int, Dict[str, int]] = {}
+        for record in self.tag_store.records():
+            ridx = self.review_pool[record.review_index]["restaurant_index"]
+            counts.setdefault(ridx, {})
+            for pid, y in record.tags.items():
+                if y > 0:
+                    counts[ridx][pid] = counts[ridx].get(pid, 0) + int(y)
+        return counts
+
+    def _compute_delta_var(self, primitive_id: str) -> np.ndarray:
+        alpha = self.calibration.alpha.get(
+            primitive_id, np.ones(self.config.num_bins, dtype=np.float64)
+        )
+        beta = self.calibration.beta.get(
+            primitive_id, np.ones(self.config.num_bins, dtype=np.float64)
+        )
+        denom = (alpha + beta)
+        var = (alpha * beta) / (denom * denom * (denom + 1.0))
+        theta = alpha / denom
+        var1 = (alpha + 1.0) * beta / (
+            (denom + 1.0) * (denom + 1.0) * (denom + 2.0)
+        )
+        var0 = alpha * (beta + 1.0) / (
+            (denom + 1.0) * (denom + 1.0) * (denom + 2.0)
+        )
+        e_var_next = theta * var1 + (1.0 - theta) * var0
+        return np.maximum(0.0, var - e_var_next)
 
     def _select_batch(
         self,
         active_restaurants: List[int],
         per_restaurant_counts: Dict[int, Dict[str, int]],
         explore_frac: float,
-        max_pairs: int,
-    ) -> List[Tuple[int, str]]:
+        max_reviews: int,
+        *,
+        stall_mode: bool = False,
+        rho_by_restaurant: Optional[Dict[int, float]] = None,
+    ) -> List[int]:
         if not self.score_store:
             return []
         explore_frac = min(max(explore_frac, 0.0), 1.0)
-        candidates: List[Tuple[float, int, str]] = []
+        verified = self._verified_review_indices()
+
+        # Build bin counts c[i,p,b] and global C[p,b]
+        c: Dict[int, Dict[str, np.ndarray]] = {}
+        C: Dict[str, np.ndarray] = {p.primitive_id: np.zeros(self.config.num_bins) for p in self.primitives}
+        review_candidates: List[Tuple[int, int]] = []
         for ridx in active_restaurants:
             review_indices = self._restaurant_review_indices(ridx)
-            counts = per_restaurant_counts.get(ridx, {})
-            for p in self.primitives:
-                deficit = max(0, p.min_count - counts.get(p.primitive_id, 0))
-                if deficit <= 0:
+            c.setdefault(ridx, {p.primitive_id: np.zeros(self.config.num_bins) for p in self.primitives})
+            for review_idx in review_indices:
+                if review_idx in verified:
                     continue
-                z = self.score_store.z_scores[p.primitive_id]
-                for idx in review_indices:
-                    if idx in self._tagged_reviews(p.primitive_id):
-                        continue
-                    priority = z[idx] * (1.0 + deficit)
-                    candidates.append((priority, idx, p.primitive_id))
-        if not candidates:
+                review_candidates.append((ridx, review_idx))
+                for p in self.primitives:
+                    pid = p.primitive_id
+                    b = int(self.score_store.z_bins[pid][review_idx])
+                    c[ridx][pid][b] += 1
+                    C[pid][b] += 1
+
+        if not review_candidates:
             return []
-        candidates.sort(key=lambda x: x[0], reverse=True)
-        n_explore = int(max_pairs * explore_frac)
-        n_exploit = max(0, max_pairs - n_explore)
-        selected = [(idx, pid) for _, idx, pid in candidates[:n_exploit]]
-        if n_explore > 0:
-            remaining = candidates[n_exploit:]
-            if remaining:
-                sample = self.rng.sample(remaining, k=min(n_explore, len(remaining)))
-                selected.extend([(idx, pid) for _, idx, pid in sample])
-        return selected[:max_pairs]
+
+        # Precompute delta variance per primitive/bin
+        delta_var = {p.primitive_id: self._compute_delta_var(p.primitive_id) for p in self.primitives}
+
+        # Severity weights by label rank
+        label_rank = {label: idx for idx, label in enumerate(self.label_order)}
+        min_rank = min(label_rank.get(p.label, 999) for p in self.primitives)
+        top_labels = {p.label for p in self.primitives if label_rank.get(p.label, 999) == min_rank}
+        w_p = {
+            p.primitive_id: math.exp(-label_rank.get(p.label, 999))
+            for p in self.primitives
+        }
+
+        # Candidate scores
+        scores: Dict[int, float] = {}
+        components: Dict[int, Dict[str, Any]] = {}
+        for ridx, review_idx in review_candidates:
+            counts = per_restaurant_counts.get(ridx, {})
+            v_hunt = 0.0
+            v_local = 0.0
+            v_global = 0.0
+            for p in self.primitives:
+                pid = p.primitive_id
+                b = int(self.score_store.z_bins[pid][review_idx])
+                theta = self.calibration.theta_hat.get(pid, np.full(self.config.num_bins, 0.5))[b]
+                if p.label in top_labels:
+                    deficit = max(0, p.min_count - counts.get(pid, 0))
+                    if deficit > 0:
+                        v_hunt = max(v_hunt, float(theta) * w_p[pid])
+                v_local += c[ridx][pid][b] * delta_var[pid][b]
+                v_global += C[pid][b] * delta_var[pid][b]
+            score = (
+                self.config.lambda_H * v_hunt
+                + self.config.lambda_L * v_local
+                + self.config.lambda_G * v_global
+            )
+            scores[review_idx] = score
+            best_pid = None
+            best_z = -1e9
+            for p in self.primitives:
+                pid = p.primitive_id
+                z_val = float(self.score_store.z_scores[pid][review_idx])
+                if z_val > best_z:
+                    best_z = z_val
+                    best_pid = pid
+            components[review_idx] = {
+                "restaurant_index": ridx,
+                "v_hunt": v_hunt,
+                "v_local": v_local,
+                "v_global": v_global,
+                "score": score,
+                "top_pid": best_pid,
+                "top_z": best_z,
+                "top_bin": int(self.score_store.z_bins[best_pid][review_idx]) if best_pid else None,
+            }
+
+        # Stall mode: focus closeout on restaurant with smallest rho_i
+        selected: List[int] = []
+        selected_set: set[int] = set()
+        stage: Dict[int, str] = {}
+        if stall_mode and rho_by_restaurant:
+            focus_ridx = min(rho_by_restaurant.items(), key=lambda x: x[1])[0]
+            focus_reviews = [
+                review_idx
+                for ridx, review_idx in review_candidates
+                if ridx == focus_ridx
+            ]
+            focus_reviews.sort(key=lambda r: scores.get(r, 0.0), reverse=True)
+            closeout_n = max(1, max_reviews // 4)
+            for review_idx in focus_reviews[:closeout_n]:
+                selected.append(review_idx)
+                selected_set.add(review_idx)
+                stage.setdefault(review_idx, "stall_closeout")
+
+        # Coverage: include top (p,b) by C[p,b]*DeltaVar
+        coverage_added = 0
+        if self.config.min_bin_coverage > 0:
+            bin_scores: List[Tuple[float, str, int]] = []
+            for p in self.primitives:
+                pid = p.primitive_id
+                for b in range(self.config.num_bins):
+                    bin_scores.append((C[pid][b] * delta_var[pid][b], pid, b))
+            bin_scores.sort(key=lambda x: x[0], reverse=True)
+            for _, pid, b in bin_scores:
+                if coverage_added >= self.config.min_bin_coverage:
+                    break
+                # Pick a review with bin b for primitive pid
+                candidates = [
+                    review_idx
+                    for ridx, review_idx in review_candidates
+                    if review_idx not in selected_set
+                    and int(self.score_store.z_bins[pid][review_idx]) == b
+                ]
+                if not candidates:
+                    continue
+                candidates.sort(key=lambda r: scores.get(r, 0.0), reverse=True)
+                selected.append(candidates[0])
+                selected_set.add(candidates[0])
+                coverage_added += 1
+                stage.setdefault(candidates[0], "coverage")
+
+        # Exploit: fill remaining with top scores
+        n_explore = int(max_reviews * explore_frac)
+        n_exploit = max(0, max_reviews - n_explore)
+        ranked = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+        for review_idx, _ in ranked:
+            if len(selected) >= n_exploit:
+                break
+            if review_idx in selected_set:
+                continue
+            selected.append(review_idx)
+            selected_set.add(review_idx)
+            stage.setdefault(review_idx, "exploit")
+
+        # Explore: stratified by low-coverage bins
+        if n_explore > 0 and len(selected) < max_reviews:
+            bin_scores = []
+            for p in self.primitives:
+                pid = p.primitive_id
+                for b in range(self.config.num_bins):
+                    bin_scores.append((C[pid][b], pid, b))
+            bin_scores.sort(key=lambda x: x[0])  # low coverage first
+            for _, pid, b in bin_scores:
+                if len(selected) >= max_reviews:
+                    break
+                candidates = [
+                    review_idx
+                    for ridx, review_idx in review_candidates
+                    if review_idx not in selected_set
+                    and int(self.score_store.z_bins[pid][review_idx]) == b
+                ]
+                if not candidates:
+                    continue
+                pick = self.rng.choice(candidates)
+                selected.append(pick)
+                selected_set.add(pick)
+                stage.setdefault(pick, "explore")
+
+        selected_scores = [scores.get(r, 0.0) for r in selected]
+        top_pid_counts: Dict[str, int] = {}
+        for r in selected:
+            pid = components.get(r, {}).get("top_pid")
+            if pid:
+                top_pid_counts[pid] = top_pid_counts.get(pid, 0) + 1
+        summary = {
+            "candidates": len(review_candidates),
+            "selected": len(selected),
+            "coverage_added": coverage_added,
+            "explore_target": n_explore,
+            "exploit_target": n_exploit,
+            "stall_mode": stall_mode,
+            "stall_focus_ridx": min(rho_by_restaurant.items(), key=lambda x: x[1])[0]
+            if stall_mode and rho_by_restaurant
+            else None,
+            "score_min": float(min(selected_scores)) if selected_scores else 0.0,
+            "score_mean": float(sum(selected_scores) / len(selected_scores)) if selected_scores else 0.0,
+            "score_max": float(max(selected_scores)) if selected_scores else 0.0,
+            "top_pid_counts": top_pid_counts,
+        }
+        self._last_batch_debug = {
+            "summary": summary,
+            "selected": [
+                {
+                    "review_index": r,
+                    "restaurant_index": components.get(r, {}).get("restaurant_index"),
+                    "stage": stage.get(r),
+                    "v_hunt": components.get(r, {}).get("v_hunt"),
+                    "v_local": components.get(r, {}).get("v_local"),
+                    "v_global": components.get(r, {}).get("v_global"),
+                    "score": components.get(r, {}).get("score"),
+                    "top_pid": components.get(r, {}).get("top_pid"),
+                    "top_bin": components.get(r, {}).get("top_bin"),
+                    "top_z": components.get(r, {}).get("top_z"),
+                }
+                for r in selected
+            ],
+        }
+
+        return selected[:max_reviews]
 
     def _restaurant_review_indices(self, restaurant_index: int) -> List[int]:
         return self._restaurant_to_reviews.get(restaurant_index, [])
@@ -1088,47 +1416,59 @@ class ATKDEngine:
     # Verifier + discovery
     # ---------------------------------------------------------------------
 
-    async def _verify_batch(self, batch: List[Tuple[int, str]]) -> None:
-        output.status(f"Verifier: preparing batch (pairs={len(batch)})")
+    async def _verify_batch(self, batch: List[int]) -> None:
+        self._status(f"Verifier: preparing batch (reviews={len(batch)})")
         tasks = []
-        for review_idx, primitive_id in batch:
+        for review_idx in batch:
             review = self.review_pool[review_idx]
-            primitive = next(p for p in self.primitives if p.primitive_id == primitive_id)
             cached = self.tag_store.get(
-                review["review_id"], primitive_id, review["review_text_hash"]
+                review["review_id"],
+                review["review_text_hash"],
+                self.config.prompt_version,
             )
             if cached:
                 continue
-            prompt = build_verifier_prompt(review["text"], primitive.__dict__, self.term_defs)
-            tasks.append(self._call_verifier(prompt, review, primitive, review_idx))
+            prompt = build_extract_evident_prompt(
+                review["text"],
+                self.term_defs,
+                review["review_id"],
+            )
+            tasks.append(self._call_evident(prompt, review, review_idx))
         if not tasks:
-            output.status("Verifier: no new tasks (all cached)")
+            self._status("Verifier: no new tasks (all cached)")
             return
-        output.status(f"Verifier: calling LLM (tasks={len(tasks)})")
-        results = await gather_with_concurrency(self.config.max_concurrent, tasks)
-        added_records: List[TagRecord] = []
+        self._status(f"Verifier: calling LLM (tasks={len(tasks)})")
+        results: List[Optional[EvidentRecord]] = [None] * len(tasks)
+        sem = asyncio.Semaphore(self.config.max_concurrent)
+
+        async def runner(idx: int, coro):
+            async with sem:
+                return idx, await coro
+
+        with output.progress("Verifier progress") as progress:
+            task_id = progress.add_task("Verifying reviews", total=len(tasks))
+            pending = [asyncio.create_task(runner(i, t)) for i, t in enumerate(tasks)]
+            for fut in asyncio.as_completed(pending):
+                idx, res = await fut
+                results[idx] = res
+                progress.advance(task_id, 1)
+        added_records: List[EvidentRecord] = []
         for record in results:
             if record:
                 self.tag_store.add(record)
                 added_records.append(record)
-        output.status(f"Verifier: completed (added={len(added_records)})")
+        self._status(f"Verifier: completed (added={len(added_records)})")
         if added_records:
-            # Log per-item verdict evidence for inspection
+            # Log per-item evidence for inspection
             for record in added_records:
-                review_idx = record.fields.get("_review_index")
-                business_id = None
-                if review_idx is not None and 0 <= int(review_idx) < len(self.review_pool):
-                    business_id = self.review_pool[int(review_idx)].get("business_id")
                 self._log_event(
                     "phase2_verifier_result",
                     {
                         "review_id": record.review_id,
-                        "primitive_id": record.primitive_id,
-                        "y": record.y,
-                        "evidence_snippets": record.evidence_snippets,
-                        "fields": record.fields,
+                        "tags": record.tags,
+                        "evidence": record.evidence,
                     },
-                    sample_id=business_id or self.policy_id,
+                    sample_id=record.business_id or self.policy_id,
                 )
             self._log_event(
                 "phase2_verifier_batch",
@@ -1138,21 +1478,19 @@ class ATKDEngine:
                 },
             )
 
-    async def _call_verifier(
+    async def _call_evident(
         self,
         prompt: str,
         review: Dict[str, Any],
-        primitive: Primitive,
         review_idx: int,
-    ) -> Optional[TagRecord]:
+    ) -> Optional[EvidentRecord]:
         response, usage = await self.llm.call_async_with_usage(
             [{"role": "user", "content": prompt}],
             context={
-                "phase": "verifier",
+                "phase": "extract_evident",
                 "policy_id": self.policy_id,
                 "sample_id": review.get("business_id", self.policy_id),
                 "review_id": review.get("review_id"),
-                "primitive_id": primitive.primitive_id,
             },
         )
         self._usage_records.append(usage)
@@ -1160,48 +1498,110 @@ class ATKDEngine:
             data = parse_json_safely(extract_json_from_response(response))
         except Exception:
             data = {}
-        is_match = bool(data.get("is_match"))
-        evidence_snippets = data.get("evidence_snippets") or []
-        fields = data.get("fields") or {}
-        fields["_review_index"] = review_idx
-        return TagRecord(
+        evidents = data.get("evidents", [])
+        if not isinstance(evidents, list):
+            evidents = []
+        data["evidents"] = evidents
+        tags, evidence = self._derive_tags(data)
+        bins = {}
+        if self.score_store:
+            for p in self.primitives:
+                pid = p.primitive_id
+                bins[pid] = int(self.score_store.z_bins[pid][review_idx])
+        return EvidentRecord(
             review_id=review["review_id"],
-            primitive_id=primitive.primitive_id,
+            business_id=review.get("business_id", ""),
             review_text_hash=review["review_text_hash"],
-            y=1 if is_match else 0,
-            evidence_snippets=evidence_snippets,
-            fields=fields,
+            prompt_version=self.config.prompt_version,
+            review_index=review_idx,
+            evident=data,
+            tags=tags,
+            bins=bins,
+            evidence=evidence,
             usage=usage,
             created_at=_now_iso(),
         )
 
+    def _derive_tags(self, evident: Dict[str, Any]) -> Tuple[Dict[str, int], Dict[str, Any]]:
+        evidents = evident.get("evidents") or []
+        tags: Dict[str, int] = {}
+        evidence: Dict[str, Any] = {}
+        for p in self.primitives:
+            matched_events: List[Dict[str, Any]] = []
+            count = 0
+            for event in evidents:
+                fields = event.get("fields", {}) or {}
+                if self._event_matches(p, fields):
+                    count += 1
+                    matched_events.append(
+                        {
+                            "event_id": event.get("event_id"),
+                            "snippet": event.get("snippet"),
+                            "fields": event.get("fields", {}),
+                            "span": event.get("span"),
+                        }
+                    )
+            tags[p.primitive_id] = count
+            if matched_events:
+                evidence[p.primitive_id] = matched_events
+        return tags, evidence
+
+    def _event_matches(self, primitive: Primitive, fields: Dict[str, Any]) -> bool:
+        if not primitive.conditions:
+            return False
+        results = []
+        for cond in primitive.conditions:
+            field_id = cond.get("field_id")
+            allowed = cond.get("values", [])
+            if not field_id:
+                continue
+            value = fields.get(field_id)
+            if value is None:
+                results.append(False)
+                continue
+            if isinstance(value, list):
+                match = any(v in allowed for v in value)
+            else:
+                match = value in allowed
+            results.append(match)
+        if not results:
+            return False
+        if primitive.logic == "ANY":
+            return any(results)
+        return all(results)
+
     async def _gate_discover(self) -> None:
-        if self.config.gate_discover_period <= 0:
+        period = self.config.gate_discover_every or self.config.gate_discover_period
+        if period <= 0:
             return
-        output.status("GateDiscover: starting")
+        self._status("GateDiscover: starting")
         total_added = 0
         for p in self.primitives:
             records = self.tag_store.records_for_primitive(p.primitive_id)
-            positives = [
-                r.evidence_snippets[0]
-                for r in records
-                if r.y == 1 and r.evidence_snippets
-            ]
+            positives = []
+            for r in records:
+                if r.tags.get(p.primitive_id, 0) > 0:
+                    ev_list = r.evidence.get(p.primitive_id, [])
+                    if isinstance(ev_list, dict):
+                        ev_list = [ev_list]
+                    for ev in ev_list:
+                        if ev.get("snippet"):
+                            positives.append(ev["snippet"])
             negatives = []
             if self.score_store and p.primitive_id in self.score_store.z_scores:
                 z = self.score_store.z_scores[p.primitive_id]
                 thresh = float(np.quantile(z, 0.7))
                 for r in records:
-                    if r.y == 0 and r.evidence_snippets:
-                        review_idx = r.fields.get("_review_index")
-                        if review_idx is not None and z[int(review_idx)] >= thresh:
-                            negatives.append(r.evidence_snippets[0])
+                    if r.tags.get(p.primitive_id, 0) == 0:
+                        review_idx = r.review_index
+                        if z[int(review_idx)] >= thresh:
+                            snippet = self.review_pool[review_idx]["text"][:200]
+                            negatives.append(snippet)
             else:
-                negatives = [
-                    r.evidence_snippets[0]
-                    for r in records
-                    if r.y == 0 and r.evidence_snippets
-                ]
+                for r in records:
+                    if r.tags.get(p.primitive_id, 0) == 0:
+                        snippet = self.review_pool[r.review_index]["text"][:200]
+                        negatives.append(snippet)
             if len(positives) < 1 or len(negatives) < 1:
                 continue
             prompt = build_gate_discover_prompt(p.__dict__, positives[:5], negatives[:5])
@@ -1219,7 +1619,7 @@ class ATKDEngine:
             except Exception:
                 data = {}
             total_added += self._add_gates_from_payload(data, created_by="llm_discover")
-        output.status(
+        self._status(
             f"GateDiscover: done (added={total_added}, total_gates={len(self.gate_library.list())})"
         )
         if total_added > 0:
@@ -1236,62 +1636,81 @@ class ATKDEngine:
     # ---------------------------------------------------------------------
 
     async def run(self) -> Dict[str, Any]:
-        self._pause("Before GateInit")
+        self._set_step_prefix("Step 1/3: GateInit")
+        self._pause("Step 1/3: GateInit")
         await self.initialize_gates()
         self._dump_state("after_gate_init")
 
-        self._pause("Before GateScan")
+        self._set_step_prefix("Step 2/3: GateScan")
+        self._pause("Step 2/3: GateScan")
         self.scan_gates()
         self._dump_state("after_gate_scan", save_arrays=True)
 
-        self._pause("Before Calibration")
+        self._set_step_prefix("Step 3/3: Calibration")
+        self._pause("Step 3/3: Calibration")
         self._recompute_calibration()
         self._dump_state("after_calibration")
 
         active_restaurants = list(range(len(self.restaurants)))
-        per_restaurant_counts: Dict[int, Dict[str, int]] = {}
+        per_restaurant_counts: Dict[int, Dict[str, int]] = self._compute_counts_by_restaurant()
         restaurant_verdicts: Dict[int, Dict[str, Any]] = {}
+        rho_by_restaurant: Dict[int, float] = {}
+        stall_counter = 0
 
         iteration = 0
         while active_restaurants:
             iteration += 1
+            self._current_iter = iteration
             self._log_event(
                 "phase2_iteration_start",
                 {"iteration": iteration, "active_restaurants": len(active_restaurants)},
             )
             restaurant_batch = active_restaurants[: self.config.batch_size]
-            self._pause(f"Before BatchSelect iter={iteration}")
+            self._set_step_prefix(f"Iter {iteration} Step 1/4: BatchSelect")
+            self._pause(f"Iter {iteration} Step 1/4: BatchSelect")
             batch = self._select_batch(
                 restaurant_batch,
                 per_restaurant_counts,
                 self.config.explore_frac,
                 self.config.verifier_batch_size,
+                stall_mode=stall_counter >= self.config.stall_iters,
+                rho_by_restaurant=rho_by_restaurant,
             )
+            if self._last_batch_debug:
+                summary = self._last_batch_debug.get("summary", {})
+                self._status(
+                    "BatchSelect: "
+                    f"candidates={summary.get('candidates', 0)} "
+                    f"selected={summary.get('selected', 0)} "
+                    f"coverage={summary.get('coverage_added', 0)} "
+                    f"explore_target={summary.get('explore_target', 0)} "
+                    f"score[min/mean/max]="
+                    f"{summary.get('score_min', 0.0):.3f}/"
+                    f"{summary.get('score_mean', 0.0):.3f}/"
+                    f"{summary.get('score_max', 0.0):.3f}"
+                )
             self._dump_state("batch_selected", batch=batch, iteration=iteration)
             if not batch:
                 break
-            self._pause(f"Before Verify iter={iteration}")
+            self._set_step_prefix(f"Iter {iteration} Step 2/4: Verify")
+            self._pause(f"Iter {iteration} Step 2/4: Verify")
             await self._verify_batch(batch)
             self.tag_store.save()
             self._dump_state("after_verify", iteration=iteration)
-            self._pause(f"Before Calibration iter={iteration}")
+            self._set_step_prefix(f"Iter {iteration} Step 3/4: Calibration")
+            self._pause(f"Iter {iteration} Step 3/4: Calibration")
             self._recompute_calibration()
             self._dump_state("after_calibration_iter", iteration=iteration)
 
             # Recompute counts to avoid double counting
-            per_restaurant_counts = {}
-            for record in self.tag_store._records.values():
-                ridx = self._restaurant_index_for_review(record.review_id)
-                if ridx is None:
-                    continue
-                per_restaurant_counts.setdefault(ridx, {})
-                per_restaurant_counts[ridx][record.primitive_id] = (
-                    per_restaurant_counts[ridx].get(record.primitive_id, 0) + record.y
-                )
+            per_restaurant_counts = self._compute_counts_by_restaurant()
 
             # Check stopping for each restaurant
-            self._pause(f"Before StopCheck iter={iteration}")
+            self._set_step_prefix(f"Iter {iteration} Step 4/4: StopCheck")
+            self._pause(f"Iter {iteration} Step 4/4: StopCheck")
             still_active = []
+            finalized_now = 0
+            rho_by_restaurant = {}
             for ridx in active_restaurants:
                 counts = per_restaurant_counts.get(ridx, {})
                 verdict = self._evaluate_verdict(counts)
@@ -1300,6 +1719,7 @@ class ATKDEngine:
                         "verdict": verdict,
                         "stop_reason": "rule_satisfied",
                     }
+                    finalized_now += 1
                     business_id = self.restaurants[ridx].get("business", {}).get("business_id", "")
                     self._log_event(
                         "phase2_stop",
@@ -1313,12 +1733,14 @@ class ATKDEngine:
                     continue
                 review_indices = self._restaurant_review_indices(ridx)
                 rho = self._compute_default_bound(review_indices, counts)
+                rho_by_restaurant[ridx] = rho
                 if rho <= self.config.epsilon:
                     restaurant_verdicts[ridx] = {
                         "verdict": self.default_label or "Default",
                         "stop_reason": "bound",
                         "rho": rho,
                     }
+                    finalized_now += 1
                     business_id = self.restaurants[ridx].get("business", {}).get("business_id", "")
                     self._log_event(
                         "phase2_stop",
@@ -1334,19 +1756,26 @@ class ATKDEngine:
                 still_active.append(ridx)
             active_restaurants = still_active
             self._dump_state("after_stop_check", iteration=iteration)
+            if finalized_now > 0:
+                stall_counter = 0
+            else:
+                stall_counter += 1
 
             if (
-                self.config.gate_discover_period > 0
-                and iteration % self.config.gate_discover_period == 0
+                (self.config.gate_discover_every or self.config.gate_discover_period) > 0
+                and iteration % (self.config.gate_discover_every or self.config.gate_discover_period) == 0
             ):
-                self._pause(f"Before GateDiscover iter={iteration}")
+                self._set_step_prefix(f"Iter {iteration} Step 5/5: GateDiscover")
+                self._pause(f"Iter {iteration} Step 5/5: GateDiscover")
                 await self._gate_discover()
                 # Only scan new gates
                 if self.score_store:
-                    self._pause(f"Before GateScan (discover) iter={iteration}")
+                    self._set_step_prefix(f"Iter {iteration} Step 5/5: GateDiscover Scan")
+                    self._pause(f"Iter {iteration} Step 5/5: GateDiscover Scan")
                     self.scan_gates()
                     self._dump_state("after_gate_scan_discover", save_arrays=True, iteration=iteration)
-                    self._pause(f"Before Calibration (discover) iter={iteration}")
+                    self._set_step_prefix(f"Iter {iteration} Step 5/5: GateDiscover Calibration")
+                    self._pause(f"Iter {iteration} Step 5/5: GateDiscover Calibration")
                     self._recompute_calibration()
                     self._dump_state("after_calibration_discover", iteration=iteration)
 
@@ -1371,6 +1800,9 @@ class ATKDEngine:
             business = restaurant.get("business", {})
             biz_id = business.get("business_id", "")
             verdict = restaurant_verdicts.get(idx, {}).get("verdict", self.default_label)
+            evidence_items = self._collect_evidence_for_restaurant(idx, verdict)
+            stop_reason = restaurant_verdicts.get(idx, {}).get("stop_reason")
+            rho = restaurant_verdicts.get(idx, {}).get("rho")
             result = {
                 "business_id": biz_id,
                 "name": business.get("name", biz_id),
@@ -1379,12 +1811,15 @@ class ATKDEngine:
                 "response": json.dumps(
                     {
                         "verdict": verdict,
-                        "stop_reason": restaurant_verdicts.get(idx, {}).get("stop_reason"),
+                        "stop_reason": stop_reason,
+                        "rho": rho,
                         "policy_id": self.policy_id,
+                        "evidences": evidence_items,
                     }
                 ),
                 "parsed": {
                     "verdict": verdict,
+                    "evidences": evidence_items,
                 },
                 "prompt_tokens": 0,
                 "completion_tokens": 0,
@@ -1410,6 +1845,55 @@ class ATKDEngine:
                 "default_label": self.default_label,
             },
         }
+
+    def _collect_evidence_for_restaurant(self, ridx: int, verdict: str) -> List[Dict[str, Any]]:
+        if verdict == self.default_label:
+            return []
+        rule = next((r for r in self.rules if r.label == verdict), None)
+        if not rule:
+            return []
+        primitive_set = set(rule.primitive_ids)
+        evidence_items: List[Dict[str, Any]] = []
+        for record in self.tag_store.records():
+            if record.review_index >= len(self.review_pool):
+                continue
+            if self.review_pool[record.review_index]["restaurant_index"] != ridx:
+                continue
+            for pid in primitive_set:
+                if record.tags.get(pid, 0) > 0:
+                    ev_list = record.evidence.get(pid, [])
+                    if isinstance(ev_list, dict):
+                        ev_list = [ev_list]
+                    for ev in ev_list:
+                        fields = ev.get("fields", {}) or {}
+                        if not fields:
+                            evidence_items.append(
+                                {
+                                    "review_id": record.review_id,
+                                    "business_id": record.business_id,
+                                    "primitive_id": pid,
+                                    "event_id": ev.get("event_id"),
+                                    "snippet": ev.get("snippet"),
+                                    "span": ev.get("span"),
+                                }
+                            )
+                            continue
+                        for field_id, value in fields.items():
+                            values = value if isinstance(value, list) else [value]
+                            for v in values:
+                                evidence_items.append(
+                                    {
+                                        "review_id": record.review_id,
+                                        "business_id": record.business_id,
+                                        "primitive_id": pid,
+                                        "event_id": ev.get("event_id"),
+                                        "field": field_id,
+                                        "judgement": v,
+                                        "snippet": ev.get("snippet"),
+                                        "span": ev.get("span"),
+                                    }
+                                )
+        return evidence_items
 
     def _aggregate_usage(self) -> Dict[str, Any]:
         total_prompt = sum(u.get("prompt_tokens", 0) for u in self._usage_records)

@@ -10,7 +10,7 @@ from addm.methods.amos.phase2_atkd import (
     Gate,
     GateLibrary,
     ScoreStore,
-    TagRecord,
+    EvidentRecord,
 )
 from addm.llm import LLMService
 
@@ -24,6 +24,7 @@ def test_gate_dedup_and_serialization(tmp_path: Path) -> None:
         polarity="pos",
         query="peanut allergy",
         created_by="baseline",
+        created_iter=0,
     )
     g2 = Gate(
         gate_id="g2",
@@ -32,6 +33,7 @@ def test_gate_dedup_and_serialization(tmp_path: Path) -> None:
         polarity="pos",
         query="peanut allergy",
         created_by="baseline",
+        created_iter=0,
     )
     assert lib.add_gate(g1) is True
     assert lib.add_gate(g2) is False
@@ -46,8 +48,8 @@ def test_gate_dedup_and_serialization(tmp_path: Path) -> None:
 
 def test_score_aggregation_max(tmp_path: Path) -> None:
     score_store = ScoreStore(3, tmp_path)
-    g1 = Gate("g1", ["p1"], "bm25", "pos", "q1", "baseline")
-    g2 = Gate("g2", ["p1"], "bm25", "pos", "q2", "baseline")
+    g1 = Gate("g1", ["p1"], "bm25", "pos", "q1", "baseline", created_iter=0)
+    g2 = Gate("g2", ["p1"], "bm25", "pos", "q2", "baseline", created_iter=0)
     lib = GateLibrary()
     lib.add_gate(g1)
     lib.add_gate(g2)
@@ -61,40 +63,45 @@ def test_score_aggregation_max(tmp_path: Path) -> None:
 
 def test_calibration_recompute_deterministic() -> None:
     engine = CalibrationEngine(num_bins=3, delta=0.05)
-    z_bins = np.array([0, 1, 2])
-    tags = [
-        TagRecord(
+    records = [
+        EvidentRecord(
             review_id="r1",
-            primitive_id="p1",
+            business_id="b1",
             review_text_hash="h1",
-            y=1,
-            evidence_snippets=["x"],
-            fields={"_review_index": 0},
+            prompt_version="v1",
+            review_index=0,
+            evident={"review_id": "r1", "evidents": []},
+            tags={"p1": 1},
+            bins={"p1": 0},
+            evidence={},
             usage={},
             created_at="now",
         ),
-        TagRecord(
+        EvidentRecord(
             review_id="r2",
-            primitive_id="p1",
+            business_id="b1",
             review_text_hash="h2",
-            y=0,
-            evidence_snippets=["y"],
-            fields={"_review_index": 1},
+            prompt_version="v1",
+            review_index=1,
+            evident={"review_id": "r2", "evidents": []},
+            tags={"p1": 0},
+            bins={"p1": 1},
+            evidence={},
             usage={},
             created_at="now",
         ),
     ]
-    engine.recompute("p1", z_bins, tags)
+    engine.recompute("p1", records)
     first = engine.theta_hat["p1"].copy()
-    engine.recompute("p1", z_bins, tags)
+    engine.recompute("p1", records)
     second = engine.theta_hat["p1"].copy()
     assert np.allclose(first, second)
 
 
 def test_incremental_gate_recompute_matches_full(tmp_path: Path) -> None:
     lib = GateLibrary()
-    g1 = Gate("g1", ["p1"], "bm25", "pos", "q1", "baseline")
-    g2 = Gate("g2", ["p1"], "bm25", "pos", "q2", "baseline")
+    g1 = Gate("g1", ["p1"], "bm25", "pos", "q1", "baseline", created_iter=0)
+    g2 = Gate("g2", ["p1"], "bm25", "pos", "q2", "baseline", created_iter=0)
     lib.add_gate(g1)
     lib.add_gate(g2)
 
@@ -103,7 +110,7 @@ def test_incremental_gate_recompute_matches_full(tmp_path: Path) -> None:
     score_store.add_gate_scores("g2", np.array([0.2, 0.1, 0.4]))
     score_store.recompute_for_primitives(["p1"], lib, num_bins=3, gamma=1.0)
 
-    g3 = Gate("g3", ["p1"], "bm25", "pos", "q3", "baseline")
+    g3 = Gate("g3", ["p1"], "bm25", "pos", "q3", "baseline", created_iter=0)
     lib.add_gate(g3)
     score_store.add_gate_scores("g3", np.array([0.5, 0.0, 0.2]))
     score_store.recompute_for_primitives(["p1"], lib, num_bins=3, gamma=1.0)
@@ -162,13 +169,16 @@ def test_default_bound_monotonicity(tmp_path: Path) -> None:
     review_indices = [0, 1]
     rho_before = engine._compute_default_bound(review_indices, counts)
     engine.tag_store.add(
-        TagRecord(
+        EvidentRecord(
             review_id="r1",
-            primitive_id=pid,
+            business_id="b1",
             review_text_hash="h1",
-            y=0,
-            evidence_snippets=[],
-            fields={"_review_index": 0},
+            prompt_version="v1",
+            review_index=0,
+            evident={"review_id": "r1", "evidents": []},
+            tags={pid: 0},
+            bins={pid: 0},
+            evidence={},
             usage={},
             created_at="now",
         )

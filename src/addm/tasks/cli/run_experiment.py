@@ -605,9 +605,16 @@ async def run_experiment(
     delta: float = 0.05,
     gate_init: bool = True,
     gate_discover_period: int = 5,
+    gate_discover_every: Optional[int] = None,
     explore_frac: float = 0.1,
     num_bins: int = 10,
     gamma: float = 1.0,
+    lambda_H: float = 1.0,
+    lambda_L: float = 1.0,
+    lambda_G: float = 1.0,
+    stall_iters: int = 3,
+    min_bin_coverage: int = 5,
+    prompt_version: str = "extract_evident_v1",
     debug: bool = False,
     run_number: Optional[int] = None,
     suppress_output: bool = False,
@@ -641,9 +648,16 @@ async def run_experiment(
         delta: ATKD calibration confidence
         gate_init: ATKD gate initialization on/off
         gate_discover_period: ATKD gate discovery frequency (iterations)
+        gate_discover_every: ATKD gate discovery frequency (new name, overrides period if set)
         explore_frac: ATKD exploration fraction
         num_bins: ATKD calibration bins
         gamma: ATKD negative-gate discount
+        lambda_H: ATKD hunt weight
+        lambda_L: ATKD local dismiss weight
+        lambda_G: ATKD global explore weight
+        stall_iters: ATKD stall iterations before closeout
+        min_bin_coverage: ATKD minimum bin coverage per batch
+        prompt_version: ATKD verifier prompt version
         debug: Enable AMOS Phase 2 stepwise pauses and expanded debug state dumps
         run_number: Explicit run number (1-5) for benchmark mode. If specified:
             - run 1 = ondemand mode (captures latency)
@@ -1075,10 +1089,17 @@ Let's think through this step-by-step:"""
                 delta=delta,
                 gate_init=gate_init,
                 gate_discover_period=gate_discover_period,
+                gate_discover_every=gate_discover_every or gate_discover_period,
                 explore_frac=explore_frac,
                 batch_size=batch_size,
                 num_bins=num_bins,
                 gamma=gamma,
+                lambda_H=lambda_H,
+                lambda_L=lambda_L,
+                lambda_G=lambda_G,
+                stall_iters=stall_iters,
+                min_bin_coverage=min_bin_coverage,
+                prompt_version=prompt_version,
                 pause=debug,
             )
             amos_output = await run_amos_policy(
@@ -1646,9 +1667,16 @@ Let's think through this step-by-step:"""
         "delta": delta,
         "gate_init": gate_init,
         "gate_discover_period": gate_discover_period,
+        "gate_discover_every": gate_discover_every or gate_discover_period,
         "explore_frac": explore_frac,
         "num_bins": num_bins,
         "gamma": gamma,
+        "lambda_H": lambda_H,
+        "lambda_L": lambda_L,
+        "lambda_G": lambda_G,
+        "stall_iters": stall_iters,
+        "min_bin_coverage": min_bin_coverage,
+        "prompt_version": prompt_version,
         "timestamp": run_output["metadata"]["timestamp"],
     }
     with open(output_dir / "run_manifest.json", "w") as f:
@@ -1795,6 +1823,12 @@ def main() -> None:
         help="ATKD: run gate discovery every N iterations (default: 5)",
     )
     parser.add_argument(
+        "--gate_discover_every",
+        type=int,
+        default=None,
+        help="ATKD: gate discovery frequency (overrides --gate_discover_period if set)",
+    )
+    parser.add_argument(
         "--explore_frac",
         type=float,
         default=0.1,
@@ -1811,6 +1845,42 @@ def main() -> None:
         type=float,
         default=1.0,
         help="ATKD: negative gate discount (default: 1.0)",
+    )
+    parser.add_argument(
+        "--lambda_H",
+        type=float,
+        default=1.0,
+        help="ATKD: hunt weight (default: 1.0)",
+    )
+    parser.add_argument(
+        "--lambda_L",
+        type=float,
+        default=1.0,
+        help="ATKD: local dismiss weight (default: 1.0)",
+    )
+    parser.add_argument(
+        "--lambda_G",
+        type=float,
+        default=1.0,
+        help="ATKD: global explore weight (default: 1.0)",
+    )
+    parser.add_argument(
+        "--stall_iters",
+        type=int,
+        default=3,
+        help="ATKD: stall iterations before closeout (default: 3)",
+    )
+    parser.add_argument(
+        "--min_bin_coverage",
+        type=int,
+        default=5,
+        help="ATKD: minimum bin coverage per batch (default: 5)",
+    )
+    parser.add_argument(
+        "--prompt_version",
+        type=str,
+        default="extract_evident_v1",
+        help="ATKD: verifier prompt version (default: extract_evident_v1)",
     )
     parser.add_argument(
         "--mode",
@@ -1945,9 +2015,16 @@ def main() -> None:
                     delta=args.delta,
                     gate_init=args.gate_init,
                     gate_discover_period=args.gate_discover_period,
+                    gate_discover_every=args.gate_discover_every,
                     explore_frac=args.explore_frac,
                     num_bins=args.num_bins,
                     gamma=args.gamma,
+                    lambda_H=args.lambda_H,
+                    lambda_L=args.lambda_L,
+                    lambda_G=args.lambda_G,
+                    stall_iters=args.stall_iters,
+                    min_bin_coverage=args.min_bin_coverage,
+                    prompt_version=args.prompt_version,
                     debug=args.debug,
                     run_number=args.run,
                     suppress_output=True,  # Suppress all output for progress bar
@@ -2045,9 +2122,16 @@ def main() -> None:
                 delta=args.delta,
                 gate_init=args.gate_init,
                 gate_discover_period=args.gate_discover_period,
+                gate_discover_every=args.gate_discover_every,
                 explore_frac=args.explore_frac,
                 num_bins=args.num_bins,
                 gamma=args.gamma,
+                lambda_H=args.lambda_H,
+                lambda_L=args.lambda_L,
+                lambda_G=args.lambda_G,
+                stall_iters=args.stall_iters,
+                min_bin_coverage=args.min_bin_coverage,
+                prompt_version=args.prompt_version,
                 debug=args.debug,
                 run_number=args.run,
             )
