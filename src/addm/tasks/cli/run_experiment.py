@@ -595,7 +595,7 @@ async def run_experiment(
     mode: Optional[str] = None,
     batch_id: Optional[str] = None,
     top_k: int = 20,
-    batch_size: int = 10,
+    batch_size: int = 100,
     phase1_retries: int = 3,
     sample_ids: Optional[List[str]] = None,
     phase: Optional[str] = None,
@@ -1757,8 +1757,8 @@ def main() -> None:
     parser.add_argument(
         "--batch-size",
         type=int,
-        default=10,
-        help="AMOS: Restaurants per driver batch (default: 10).",
+        default=100,
+        help="AMOS: Restaurants per driver batch (default: 100).",
     )
     parser.add_argument(
         "--phase1-retries",

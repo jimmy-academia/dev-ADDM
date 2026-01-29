@@ -193,7 +193,7 @@ class ATKDConfig:
     gate_discover_period: int = 5  # legacy alias
     gate_discover_every: int = 5
     explore_frac: float = 0.1
-    batch_size: int = 10  # restaurants per driver iteration
+    batch_size: int = 100  # restaurants per driver iteration
     verifier_batch_size: int = 32
     num_bins: int = 10
     gamma: float = 1.0
